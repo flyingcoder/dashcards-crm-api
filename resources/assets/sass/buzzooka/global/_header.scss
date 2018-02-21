@@ -1,0 +1,87 @@
+.buzz-header{
+    .logo {
+        display: block;
+        float: left;
+        overflow: hidden;
+        @extend .toggle-transition;
+
+        .logo-lg {
+            display: block;
+            padding: 15px 0;
+        }
+        .logo-mini {
+            display: none;
+        }
+        img{
+            margin-top: 7px;
+            margin-left: 5px;
+        }
+    }
+
+    .menu-toggle{
+        position: absolute;
+        background: $white;
+        width: 30px;
+        height: 30px;
+        left: 211px;
+        top: 30px;
+        border-radius: 50%;
+        border: 1px solid $toggle-border;
+        box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+        svg{
+            position: relative;
+            top: 7px;
+            left: 7px;
+        }
+    }
+
+    .buzz-head{
+        .buzz-search{
+            position: relative;
+            top: 30px;
+            form{
+                padding: 0;
+                margin: 0;
+                .search{
+                    button{
+                        padding: 0;
+                        margin: 0;
+                        padding-right: 10px;
+                    }
+                }
+                input{
+                    width: 400px;
+                }
+                ::placeholder{
+                    color: $fade-text;
+                    font-size: 16px;
+                    letter-spacing: 0.5px;
+                }
+            }
+        }
+        .buzz-nav{
+            position: relative;
+            top: 25px;
+            li{
+                position: relative;
+                list-style: none;
+                display: inline;
+                padding: 0 15px;
+                &:last-child{
+                    top: -15px;
+                    svg{
+                        position: relative;
+                        top: 2px;
+                    }
+                }
+                a{
+                    #user-image{
+                        width: 64px;
+                        margin-right: 25px;
+                        margin-top: -8px;
+                    }
+                }
+            }
+        }
+    }
+}
