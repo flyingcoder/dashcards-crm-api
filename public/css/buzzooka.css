@@ -8973,7 +8973,8 @@ button.close {
 
 .dashboard .db-tasks .box-tabs ul li {
   width: 50%;
-  padding-top: 20px;
+  height: 62px;
+  padding-top: 10px;
   text-align: center;
 }
 
@@ -9275,6 +9276,12 @@ button.close {
   font-family: "lato semibold";
 }
 
+.dashboard .db-client .clients-chart img {
+  position: relative;
+  width: 100%;
+  top: 55px;
+}
+
 .dashboard .db-timer .header-content .timer-info,
 .dashboard .db-timer .header-content .alarm-info {
   height: 245px;
@@ -9295,6 +9302,7 @@ button.close {
 }
 
 .dashboard .db-timer .timer-content ul li {
+  height: 62px;
   width: 50%;
   padding-top: 20px;
   text-align: center;
@@ -9310,6 +9318,8 @@ button.close {
 }
 
 .dashboard .db-timer .timer-content ul li a {
+  border: none;
+  background: none;
   display: inline-block;
   padding: 0 5px;
   vertical-align: middle;
@@ -9580,8 +9590,12 @@ button.close {
 
 .dashboard .db-invoice .invoice-chart .chart {
   width: 100%;
-  height: 100%;
+  height: 223px;
   border-bottom: 1px solid #dce1e5;
+}
+
+.dashboard .db-invoice .invoice-chart .chart img {
+  width: 100%;
 }
 
 .dashboard .db-invoice .invoice-table {
@@ -9603,6 +9617,7 @@ button.close {
 }
 
 .dashboard .db-invoice .invoice-table table tbody tr td .invoice-checkbox {
+  top: 7px;
   width: 20px;
   position: relative;
   margin: 0 0 10px 0;

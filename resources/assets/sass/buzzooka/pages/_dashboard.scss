@@ -130,7 +130,8 @@
                height: 63px;
                li{
                    width: 50%;
-                   padding-top: 20px;
+                   height: 62px;
+                   padding-top: 10px;
                    text-align: center;
                     &:first-child{
                         border-right: $border-buzz;
@@ -399,6 +400,14 @@
             font-size: 29px;
             font-family: $lato-semi;
         }
+        .clients-chart{
+            // TEMPORARY
+                img{
+                    position: relative;
+                    width: 100%;
+                    top: 55px;
+                }
+        }
     }
     .db-timer{
         .header-content{
@@ -419,6 +428,7 @@
             ul{
                 height: 63px;
                 li{
+                    height: 62px;
                     width: 50%;
                     padding-top: 20px;
                     text-align: center;
@@ -430,6 +440,8 @@
                         vertical-align: middle;
                      }
                      a{
+                        border: none;
+                        background: none;
                         display: inline-block;
                         padding: 0 5px;
                         vertical-align: middle;
@@ -659,8 +671,11 @@
             height: 225px;
             .chart{
                 width: 100%;
-                height: 100%;
+                height: 223px;
                 border-bottom: $border-buzz;
+                img{
+                    width: 100%;
+                }
             }
         }
         .invoice-table{
@@ -677,6 +692,7 @@
                                 padding-left: 23px;
                             }
                             .invoice-checkbox {
+                                top: 7px;
                                 width: 20px;
                                 position: relative;
                                 margin: 0 0 10px 0;
