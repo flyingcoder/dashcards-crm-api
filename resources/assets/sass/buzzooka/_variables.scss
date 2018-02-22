@@ -33,6 +33,16 @@ $side-hover: #6a7784;
 $fade-text: #dcdcdc;
 $awesome: #9098a3;
 
+// Table
+$table-head: rgb(127, 145, 168);
+$table-data: rgb(102, 115, 129);
+$progress-bg: rgb(236, 241, 245);
+$progress-value: rgb(59, 88, 158);
+$table-active: rgb(31, 184, 104);
+$table-closed: #ff7f80;
+$table-hold: #ed8566;
+$table-status-text:  rgb(179, 182, 195);
+
 // Color
 $white: #ffffff;
 $black: #000000;
@@ -63,5 +73,11 @@ $tile-border: #dce1e5;
 
 // Border
 $border-buzz: 1px solid $tile-border;
+$body-border: 1px solid rgb(220, 225, 229);
+$section-border: 1px solid rgb(235, 238, 241);
+$table-border: 1px solid rgb(220, 225, 229);
+
+// Box Shadow
+$body-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
 
 

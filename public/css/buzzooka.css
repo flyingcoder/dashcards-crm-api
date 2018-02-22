@@ -6459,7 +6459,7 @@ a.thumbnail.active {
   overflow: hidden;
   height: 19px;
   margin-bottom: 19px;
-  background-color: #f5f5f5;
+  background-color: #ecf1f5;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -8429,6 +8429,48 @@ button.close {
   z-index: 99;
 }
 
+.buzzooka .buzz-content .content-header {
+  height: 84px;
+}
+
+.buzzooka .buzz-content .content-body {
+  height: 1476px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #dce1e5;
+  -webkit-box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+          box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+}
+
+.buzzooka .buzz-content .content-body .buzz-section {
+  margin: 22px;
+  height: 1398px;
+  background-color: #f8f9fb;
+  border: 1px solid #ebeef1;
+}
+
+.buzzooka .buzz-content .content-body .buzz-section .buzz-table {
+  margin: 22px;
+  height: 1352px;
+}
+
+.buzzooka .buzz-content .content-body .buzz-section .buzz-table table {
+  width: 100%;
+}
+
+.buzzooka .buzz-content .content-body .buzz-section .buzz-table table tbody tr {
+  height: 95px;
+  border: 1px solid #dce1e5;
+}
+
+.buzzooka .buzz-content .content-body .buzz-section .buzz-table table tbody tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+.buzzooka .buzz-content .content-body .buzz-section .buzz-table table tbody tr:nth-child(even) {
+  background: #f8f9fb;
+}
+
 .buzzooka .buzz-scrollbar {
   height: 100%;
   width: 100%;
@@ -8657,6 +8699,12 @@ button.close {
 
 .buzzooka .hover-display:hover {
   display: block;
+}
+
+.buzzooka a {
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .buzz-header .logo {
@@ -9762,6 +9810,141 @@ button.close {
 
 .dashboard .slider.round:before {
   border-radius: 50%;
+}
+
+.projects .content-body .buzz-table ul li {
+  width: 50%;
+  height: 56px;
+  background: #f8f9fb;
+  text-align: center;
+}
+
+.projects .content-body .buzz-table ul li:active,
+.projects .content-body .buzz-table ul li:focus,
+.projects .content-body .buzz-table ul li:hover {
+  background: #ffffff;
+}
+
+.projects .content-body .buzz-table ul li a {
+  font-size: 18px;
+  height: 56px;
+  line-height: 1.2;
+  padding-top: 20px;
+  color: #667381;
+  font-family: "lato semibold";
+  text-transform: uppercase;
+}
+
+.projects .content-body .buzz-table ul li a:active,
+.projects .content-body .buzz-table ul li a:focus,
+.projects .content-body .buzz-table ul li a:hover {
+  background: #ffffff;
+}
+
+.projects .content-body .buzz-table .tab-content table th:first-child,
+.projects .content-body .buzz-table .tab-content table td:first-child {
+  text-align: left;
+  padding-left: 40px;
+  width: 15%;
+}
+
+.projects .content-body .buzz-table .tab-content table th:nth-child(2),
+.projects .content-body .buzz-table .tab-content table td:nth-child(2) {
+  width: 10%;
+}
+
+.projects .content-body .buzz-table .tab-content table th:nth-child(3),
+.projects .content-body .buzz-table .tab-content table td:nth-child(3) {
+  width: 13%;
+}
+
+.projects .content-body .buzz-table .tab-content table th:nth-child(5),
+.projects .content-body .buzz-table .tab-content table td:nth-child(5) {
+  text-align: left;
+}
+
+.projects .content-body .buzz-table .tab-content table th:nth-child(6),
+.projects .content-body .buzz-table .tab-content table td:nth-child(6) {
+  width: 15%;
+}
+
+.projects .content-body .buzz-table .tab-content table th:nth-child(7),
+.projects .content-body .buzz-table .tab-content table td:nth-child(7) {
+  text-align: left;
+}
+
+.projects .content-body .buzz-table .tab-content table th:last-child,
+.projects .content-body .buzz-table .tab-content table td:last-child {
+  width: 6%;
+  text-align: left;
+}
+
+.projects .content-body .buzz-table .tab-content table th:last-child a,
+.projects .content-body .buzz-table .tab-content table td:last-child a {
+  padding-right: 10px;
+}
+
+.projects .content-body .buzz-table .tab-content table thead tr {
+  height: 56px;
+  border: 1px solid #dce1e5;
+}
+
+.projects .content-body .buzz-table .tab-content table thead tr th {
+  font-size: 15px;
+  text-align: center;
+  line-height: 1.2;
+  font-family: "lato semibold";
+  color: #7f91a8;
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr td {
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  color: #667381;
+  line-height: 1.2;
+  font-family: "lato semibold";
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr td:nth-child(7) {
+  color: #b3b6c3;
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr .project-progress {
+  height: 11px;
+  background: #ecf1f5;
+  border-radius: 20px;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  margin: 0;
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr .project-progress .progress-bar {
+  background: #3b589e;
+  border-radius: 20px;
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr .project-status {
+  height: 5px;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  margin: 0;
+  margin-top: 3px;
+  width: 60%;
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr .active {
+  background: #1fb868;
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr .closed {
+  background: #ff7f80;
+}
+
+.projects .content-body .buzz-table .tab-content table tbody tr .hold {
+  background: #ed8566;
 }
 
 .navbar-laravel {

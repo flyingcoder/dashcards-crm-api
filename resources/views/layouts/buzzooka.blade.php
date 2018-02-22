@@ -118,8 +118,8 @@
       <aside class="buzz-sidebar">
         <section>
           <ul class="sidebar-menu" data-widget="tree">
-            <li class="sidebar-list active">
-              <a href="#" id="dashboard"> 
+            <li class="sidebar-list">
+              <a href="{{ route ('dashboard') }}" id="dashboard"> 
                   <label class="tab-icon"> 
                     <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                       viewBox="0 0 250 250"
@@ -135,7 +135,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="{{ route ('projects') }}" id="projects"> 
                   <label class="tab-icon"> 
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                        width="62px" height="46px">
@@ -148,7 +148,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="clients"> 
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                     width="39px" height="49px">
@@ -161,7 +161,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="calendar"> 
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg"xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="54px" height="48px">
@@ -174,7 +174,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="templates"> 
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="59px" height="49px">
@@ -187,7 +187,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="forms"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="59px" height="49px">
@@ -200,7 +200,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="invoice"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="54px" height="50px">
@@ -213,7 +213,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="payment"> 
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="72px" height="50px">
@@ -226,7 +226,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="timers"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                       viewBox="0 0 250 250"
@@ -270,7 +270,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="cloud"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="46px" height="49px">
@@ -283,7 +283,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="team"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="63px" height="39px">
@@ -296,7 +296,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="chat"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="39px" height="49px">
@@ -309,7 +309,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="reports"> 
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="60px" height="48px">
@@ -322,7 +322,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="support"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg"xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="41px" height="49px">
@@ -335,7 +335,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="bugs"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="54px" height="49px">
@@ -348,7 +348,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="services"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="59px" height="49px">
@@ -361,7 +361,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="dashboard"> 
+              <a href="#" id="logout"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="58px" height="49px">
