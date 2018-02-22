@@ -148,7 +148,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="clients"> 
+              <a href="{{ route ('clients') }}" id="clients">
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                     width="39px" height="49px">

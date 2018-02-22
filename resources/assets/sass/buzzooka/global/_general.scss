@@ -51,6 +51,7 @@
         background: $white;
         position: relative;
         height: 90px;
+        z-index: 100;
         @extend .buzz-shadow-soft;
 
         .logo {

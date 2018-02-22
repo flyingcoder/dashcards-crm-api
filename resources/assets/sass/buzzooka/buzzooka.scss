@@ -20,8 +20,25 @@
 // Dashboard 
 @import "pages/dashboard";
 
-// Dashboard 
+// Projects 
 @import "pages/projects";
+
+// Project HQ
+@import "project-hq/menu";
+@import "project-hq/overview";
+@import "project-hq/files";
+@import "project-hq/milestones";
+@import "project-hq/tasks";
+@import "project-hq/messages";
+@import "project-hq/invoices";
+@import "project-hq/members";
+@import "project-hq/timers";
+@import "project-hq/reports";
+
+// Clients
+@import "pages/clients";
+
+
 
 .navbar-laravel {
   background-color: #fff;

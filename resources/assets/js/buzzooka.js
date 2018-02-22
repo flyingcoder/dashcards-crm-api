@@ -21,6 +21,8 @@ Vue.component('dashboard', require('./components/dashboard/index.vue'));
 // Projects
 Vue.component('projects', require('./components/projects/index.vue'));
 
+// Clients Temporary on Hq Header
+Vue.component('clients', require('./components/projects/project-hq/index.vue'));
 
 
 const app = new Vue({
