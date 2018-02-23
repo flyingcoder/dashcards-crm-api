@@ -1,0 +1,45 @@
+.buzz-sidebar{
+    .sidebar-menu{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        .sidebar-list{
+            height: 80px;
+            margin-left: 8px;
+            border-radius: 5px 0 0 5px;
+            padding: 15px 0 0 22px;
+
+            &:hover , &:active, &:focus{
+                background: $gray;
+                // background-image: url(/../img/use/layer.png);
+                z-index: 2000;
+                @extend .hover-transition;
+                a{
+                    color: $side-hover;
+                }
+                .tab-icon{ 
+                    fill: $blue;
+                }
+            }
+            a{
+                color: $side-text;
+                font-weight: bold;
+                .menu-name{
+                    position:absolute;
+                    font-size: 16px;
+                    font-family: $lato-semi;
+                    line-height: 1.2;
+                    margin: 15px 0 0 45px;
+                }
+                
+                .tab-icon{
+                    fill: $white;
+                    width: 50px;
+                }
+                img{
+                    width: 50px;
+                }
+            }
+        }
+    }
+}

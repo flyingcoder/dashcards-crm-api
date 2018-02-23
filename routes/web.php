@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Views
+Route::view('dashboard', 'pages.dashboard')->name('dashboard');
