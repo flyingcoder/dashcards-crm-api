@@ -8554,10 +8554,15 @@ button.close {
   text-transform: uppercase;
 }
 
+.buzzooka .box-title {
+  float: left;
+  width: 50%;
+}
+
 .buzzooka .box-options {
   position: relative;
   float: right;
-  top: 14px;
+  top: 15px;
   display: inline-block;
 }
 
@@ -10562,6 +10567,61 @@ button.close {
   letter-spacing: 0.5px;
   color: #b3b6c3;
   font-family: "lato semibold";
+}
+
+.hq-milestones .buzz-box .box-content {
+  height: 408px;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone {
+  margin: 0;
+  border: 1px solid #dce1e5;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-heading {
+  padding: 10px 15px;
+  height: 82px;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-heading a {
+  position: relative;
+  top: 17px;
+  left: 10px;
+  line-height: 1.2;
+  font-size: 20px;
+  font-family: "lato medium";
+  color: #657186;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-collapse ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-collapse ul li {
+  position: relative;
+  height: 53px;
+  border-top: 1px solid #dce1e5;
+  font-size: 19px;
+  font-family: "lato medium";
+  padding: 10px 25px;
+}
+
+.hq-milestones .buzz-box .milestone-footer {
+  margin-top: 15px;
+}
+
+.hq-milestones .buzz-box .milestone-footer a {
+  font-family: "lato semibold";
+  line-height: 1.2;
+  color: #ffffff;
+  border: 1px solid #dce1e5;
+  background: #3b589e;
+  border-radius: 40px;
+  padding: 18px 50px;
+  -webkit-box-shadow: 0px 5px 5px 0px rgba(173, 183, 196, 0.75);
+          box-shadow: 0px 5px 5px 0px rgba(173, 183, 196, 0.75);
 }
 
 .navbar-laravel {

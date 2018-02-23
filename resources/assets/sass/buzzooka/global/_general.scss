@@ -193,10 +193,14 @@
             }
         }
     }
+    .box-title{
+        float: left;
+        width: 50%;
+    }
     .box-options{
         position: relative;
         float: right;
-        top: 14px;
+        top: 15px;
         display: inline-block; 
         .option-item{
             position: relative;
