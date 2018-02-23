@@ -1,125 +1,34 @@
-.dashboard{
-    .dashboard-option{
-        position: relative;
-        overflow: hidden;
-        background: $gray-bg;
-        width: 100%;
-        height: 50px;
-        margin-top: 12px;
-        @extend .buzz-border;
-        .switch-box {
-            float: left;
-            width: 42%;
-            background-color: $gray-bg;
-            .switch{
-                position: relative;
-                display: inline-block;
-                width: 45px;
-                height: 12px;
-                top: 18px;
-                left: 15%;
-                input {
-                    display:none;
-                    &:focus , .slider {
-                        box-shadow: 0 0 1px #2196F3;
-                      }
-                }
-                input:checked + .slider:before {
-                    -webkit-transform: translateX(26px);
-                    -ms-transform: translateX(26px);
-                    transform: translateX(26px);
-                    background-color: $green;
-                }
-                .slider {
-                    position: absolute;
-                    cursor: pointer;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background-color: $gray-toggle;
-                    -webkit-transition: .4s;
-                    transition: .4s;
-                    &:before {
-                        position: absolute;
-                        content: "";
-                        height: 20px;
-                        width: 20px;
-                        left: 0px;
-                        bottom: -4px;
-                        background-color: $gray;
-                        -webkit-transition: .4s;
-                        transition: .4s;
-                      }
-                  }
-            }
-        }
-        .theme-color{
-            position: absolute;
-            width: 42%;
-            height: 100%;
-            background-color: $blue;
-            border-radius: 10px 0 0 10px;
-        }
-        .option-text{
-            float: right;
-            height: 100%;
-            width: 58%;
-            text-align: center;
-            font-family: $lato-semi;
-            font-size: 13px;
-            color: $text;
-            span{
-                position: relative;
-                top: 14px;
-                img{
-                    width: 19px;
-                    height: 10px;
-                }
-            }
-        }
-    }
-    .buzz-tiles{
-        margin-top: 15px;
-        .buzz-tile-content{
+.hq-overview{
+    .overview{
+        table{
             width: 100%;
-            height: 96px;
-            background: $white;
-            @extend .buzz-border;
-
-            .buzz-tile-icon{
-                position: relative;
-                overflow: hidden;
-                float: left;
-                text-align: center;
-                width: 42%;
-                height: 100%;
-                border-radius: 10px 0 0 10px;
-                img{
-                    width: 50px;
-                    margin-top: 21px;
-                }
-                svg{
-                    margin-top: 21px; 
-                }
-            }
-            .buzz-tile-name{
-                position: relative;
-                float: right;
-                text-align: center;
-                width: 58%;
-                height: 100%;
-                background: $white;
-                border-radius: 0 10px 10px 0;
-
-                .buzz-tile-number{
-                    font-size: 30px;
-                    margin-top: 10px;
-                    @extend .tile-info;
-                }
-                .buzz-tile-title{
-                    font-size: 13px;
-                    @extend .tile-info;
+            tr{
+                height: 62px;
+                border-bottom: $table-border;
+                td{
+                    position: relative;
+                    font-size: 16px;
+                    font-family: $lato-semi;
+                    text-align: left;
+                    line-height: 1.2;
+                    color: $table-head;
+                    &:first-child{
+                        text-align: center;
+                        width: 5%;
+                    }
+                    &:nth-child(2){
+                        left: 12px;
+                        width: 35%;
+                        border-right: $table-border;
+                    }
+                    &:last-child{
+                        left: 25px;
+                        font-family: $lato-mid;
+                    }
+                    svg{
+                        margin-left: 15px;
+                        margin-top: 5px;
+                    }
                 }
             }
         }
@@ -386,29 +295,6 @@
             }
         }
     }
-    .db-client{
-        padding: 30px 12px;
-        .name{
-            color: $gray-scroll;
-            line-height: 1;
-            font-size: 16px;
-            font-family: $lato-semi;
-        }
-        .number{
-            color: $blue;
-            line-height: 1;
-            font-size: 29px;
-            font-family: $lato-semi;
-        }
-        .clients-chart{
-            // TEMPORARY
-                img{
-                    position: relative;
-                    width: 100%;
-                    top: 55px;
-                }
-        }
-    }
     .db-timer{
         .header-content{
             .timer-info , .alarm-info{
@@ -507,245 +393,6 @@
             }
         }
     }
-    .db-payment{
-        text-align: center;
-        .payment-info{
-            height: 101px;
-            padding-top: 15px;
-            h5{
-                padding: 0;
-                margin-bottom: -5px;
-                font-size: 16px;
-                color: $gray-payment;
-                font-family: $lato-heavy;
-            }
-            span{
-                padding: 0;
-                margin: 0;
-                font-size: 30px;
-                color: $blue;
-                font-family: $lato-semi;
-            }
-        }
-
-        .payment-graph{
-            height: 221px;
-            .progress{
-                width: 220px;
-                height: 220px;;
-                line-height: 150px;
-                background: none;
-                margin: 0 auto;
-                box-shadow: none;
-                position: relative;
-    
-                &:after{
-                    content: "";
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    border: 7px solid $tile-border;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                }
-    
-                span{
-                    width: 50%;
-                    height: 100%;
-                    overflow: hidden;
-                    position: absolute;
-                    top: 0;
-                    z-index: 1;
-                }
-    
-                .progress-bar{
-                    width: 100%;
-                    height: 100%;
-                    background: none;
-                    border-width: 7px;
-                    border-style: solid;
-                    position: absolute;
-                    top: 0;
-                }
-                
-                .progress-left{
-                    left: 0;
-                    .progress-bar{
-                        left: 100%;
-                        border-top-right-radius: 110px;
-                        border-bottom-right-radius: 110px;
-                        border-left: 0;
-                        -webkit-transform-origin: center left;
-                        transform-origin: center left;
-                    }
-                }
-    
-                .progress-right{
-                    right: 0;
-                    .progress-bar{
-                        left: -100%;
-                        border-top-left-radius: 110px;
-                        border-bottom-left-radius: 110px;
-                        border-right: 0;
-                        -webkit-transform-origin: center right;
-                        transform-origin: center right;
-                        animation: loading-1 1.8s linear forwards;
-                    }
-                }
-    
-                .progress-value{
-                    width: 90%;
-                    height: 90%;
-                    border-radius: 50%;
-                    background: $white;
-                    font-size: 73px;
-                    font-family: $lato-semi;
-                    color: $blue;
-                    line-height: 135px;
-                    text-align: center;
-                    position: absolute;
-                    top: 20%;
-                    left: 5%;
-                }
-            }
-    
-            .blue{
-                .progress-bar{
-                    border-color: $blue-tile-5;
-                }
-                .progress-left{
-                    .progress-bar{
-                        animation: loading-2 1.5s linear forwards 1.8s;
-                    }
-                }
-            } 
-    
-            @keyframes loading-1{
-                0%{
-                    -webkit-transform: rotate(0deg);
-                    transform: rotate(0deg);
-                }
-                100%{
-                    -webkit-transform: rotate(180deg);
-                    transform: rotate(180deg);
-                }
-            }
-            @keyframes loading-2{
-                0%{
-                    -webkit-transform: rotate(0deg);
-                    transform: rotate(0deg);
-                }
-                100%{
-                    -webkit-transform: rotate(90deg);
-                    transform: rotate(90deg);
-                }
-            }
-            @media only screen and (max-width: 990px){
-                .progress{ margin-bottom: 20px; }
-            }
-        }
-    }
-    .db-invoice{
-        .invoice-head{
-            text-align: center;
-            height: 80px;
-            padding-top: 15px;
-            .name{
-                color: $gray-scroll;
-                line-height: 1;
-                font-size: 16px;
-                font-family: $lato-semi;
-            }
-            .number{
-                color: $blue;
-                line-height: 1;
-                font-size: 29px;
-                font-family: $lato-semi;
-            }
-            #last-month{
-                color: $blue-tile-5 !important;
-            }
-        }
-        .invoice-chart{
-            height: 225px;
-            .chart{
-                width: 100%;
-                height: 223px;
-                border-bottom: $border-buzz;
-                img{
-                    width: 100%;
-                }
-            }
-        }
-        .invoice-table{
-            height: 130px;
-            table{
-                width: 100%;
-                tbody{
-                    tr{
-                        height: 43px;
-                        border-bottom: $border-buzz;
-                        td{
-                            &:first-child{
-                                width: 70px;
-                                padding-left: 23px;
-                            }
-                            .invoice-checkbox {
-                                top: 7px;
-                                width: 20px;
-                                position: relative;
-                                margin: 0 0 10px 0;
-
-                                label {
-                                    width: 20px;
-                                    height: 20px;
-                                    cursor: pointer;
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    background: #fff;
-                                    border-radius: 2px;
-                                    border: $border-buzz;
-
-                                    &:after {
-                                        content: '';
-                                        width: 18px;
-                                        height: 8px;
-                                        position: absolute;
-                                        top: 1px;
-                                        left: 5px;
-                                        border: 2px solid #29abef;
-                                        border-top: none;
-                                        border-right: none;
-                                        background: transparent;
-                                        opacity: 0;
-                                        -webkit-transform: rotate(-45deg);
-                                                transform: rotate(-45deg);
-                                      }
-                                  }
-                              }
-
-                              img{
-                                  width: 33px;
-                                  border-radius: 100%;
-                              }
-                              
-                              .invoice-checkbox input[type=checkbox] {
-                                visibility: hidden;
-                              }
-                              .invoice-checkbox input[type=checkbox]:checked + label:after {
-                                opacity: 1;
-                              }
-                              .invoice-checkbox label span {
-                                  padding-left:45px
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
     .db-passbox{
         .passbox-text{
             text-align: center;
@@ -802,13 +449,4 @@
             }
         }
     }
-
-    /* Rounded sliders */
-        .slider.round {
-            border-radius: 34px;
-        }
-        
-        .slider.round:before {
-            border-radius: 50%;
-        }
 }
