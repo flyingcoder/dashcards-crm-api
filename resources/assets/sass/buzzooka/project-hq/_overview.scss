@@ -1,0 +1,452 @@
+.hq-overview{
+    .overview{
+        table{
+            width: 100%;
+            tr{
+                height: 62px;
+                border-bottom: $table-border;
+                td{
+                    position: relative;
+                    font-size: 16px;
+                    font-family: $lato-semi;
+                    text-align: left;
+                    line-height: 1.2;
+                    color: $table-head;
+                    &:first-child{
+                        text-align: center;
+                        width: 5%;
+                    }
+                    &:nth-child(2){
+                        left: 12px;
+                        width: 35%;
+                        border-right: $table-border;
+                    }
+                    &:last-child{
+                        left: 25px;
+                        font-family: $lato-mid;
+                    }
+                    svg{
+                        margin-left: 15px;
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+    }
+    .db-tasks{
+        .box-tabs{
+           ul{
+               height: 63px;
+               li{
+                   width: 50%;
+                   height: 62px;
+                   padding-top: 10px;
+                   text-align: center;
+                    &:first-child{
+                        border-right: $border-buzz;
+                    }
+                    a{
+                        background: none;
+                        border: none;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        font-size: 14px !important;
+                        @extend .buzz-a;
+                    }
+               }
+               li.active{
+                   background: $gray-bg;
+               }
+           }
+           .tasks-option{
+               height: 69px;
+               padding: 22.5px 0;
+               text-align: center;
+               border-bottom: $border-buzz;
+               .option-list{
+                   display: inline-block;
+                   a{
+                       padding: 6px 4px 6px 16px;
+                       border-radius: 20px;
+                       font-size: 13.5px;
+                       font-family: $lato-semi;
+                       color: $text;
+                       background: $white;
+                       border: $border-buzz;
+
+                       &:active, &:hover{
+                        background: $blue-2;
+                        color: $white;
+                        border: 1px solid $blue-2;
+                       }
+
+                       label{
+                            padding: 2px 9px;
+                            margin-left: 15px;
+                            border-radius: 100%;
+                            background: $gray-2;
+                        span{
+                            position: relative;
+                            color: $white;
+                            top: 1px;
+                        }
+                       }
+                   }
+               }
+               .active{
+                   a{
+                        background: $blue-2;
+                        color: $white;
+                        border: 1px solid $blue-2;
+                   }
+               }
+           }
+           .tab-content{
+               .tab-table{
+                   height: 304px;
+                   table{
+                       width: 100%;
+                       thead{
+                           tr{
+                            height: 60px;
+                            border-bottom: $border-buzz;
+                            font-size: 14px;
+                            letter-spacing: 0.5px;
+                            background: $gray-bg;
+                            @extend .page-title;
+                            th{
+                                &:first-child{
+                                    width: 10%;
+                                }
+                                &:nth-child(2){
+                                    width: 18%;
+                                }
+                                &:nth-child(3){
+                                    width: 50%;
+                                }
+                                &:last-child{
+                                    width: 19%;
+                                }
+                            }
+                           }
+                       }
+                       tbody{
+                           tr{
+                               height: 81px;
+                               border-bottom: $border-buzz;
+                               &:hover{
+                                   .hover-display{
+                                       display: table-cell;
+                                   }
+                               }
+                                &:nth-child(odd){
+                                    background: $gray-bg;
+                                }
+                                &:nth-child(even){
+                                    background: $white;
+                                }
+                                .hover-display{
+                                    position: relative;
+                                    left: 15px;
+                                }
+                               td{
+                                   position: relative;
+                                   img{
+                                       width: 55px;
+                                       border-radius: 100%;
+                                   }
+                                   &:first-child{
+                                    width: 10%;
+                                   }
+                                   &:nth-child(2){
+                                    width: 18%;
+                                   }
+                                   &:nth-child(3){
+                                    width: 50%;
+                                    padding-right: 25px;
+                                    @extend .buzz-overflow;
+                                   }
+                                   &:last-child{
+                                       width: 19%;
+                                   }
+                                   
+                               }
+                               .task-project{
+                                    position: relative;
+                                    bottom: 10px;
+                                    font-family: $lato-mid;
+                                    color: $gray-3;
+                                    font-size: 19px;
+                               }
+                               .assigned-project{
+                                    position:absolute;
+                                    display: block;
+                                    color: $gray-4;
+                                    font-size: 11.5px;
+                                    top:40px;
+                               }
+                               .status{
+                                    position: relative;
+                                    top: 5px;
+                                    color: $gray-4;
+                                    font-size: 12px;
+                               }
+                               .progress{
+                                    position: relative;
+                                    top: 5px;
+                                    width: 70%;
+                                    height: 6px;
+                                    border-radius: 20px;
+                               }
+                               .completed{
+                                    background: $green;
+                               }
+                               .pending{
+                                    background: $orange-tile-6;
+                               }
+                               .behind{
+                                    background: $orange-tile-1;
+                               }
+                           }
+                       }
+                   }
+               }
+           }
+        }
+    }
+    .db-timeline{
+        position: relative;
+        .timeline-content{
+            padding: 20px 0;
+            .start{
+                position: relative;
+                height: 15px;
+                width: 15px;
+                left: 30px;
+                top: -10px;
+                z-index: 1;
+                border-radius: 100%;
+                background: $gray-scroll;
+            }
+            .timeline{
+                position: relative;
+                display: inline-block;
+                padding: 10px 20px 0px; 
+                .vertical{
+                    position: relative;
+                    display: inline-block;
+                    width: 5px;
+                    height: 227px;
+                    margin-top: -35px;
+                    margin-left: 15px;
+                    background: $gray-toggle;
+                    // transform: rotate(-90deg);
+                }
+                .icon{
+                    position: absolute;
+                    display: inline-block;
+                    left: 17.5px;
+                    width: 38px;
+                    padding: 6px 10px 8px 11px;
+                    border-radius: 100%;
+                    background: $green;
+                    svg{
+                        position: relative;
+                        top: 4px;
+                    }
+                }
+                .date{
+                    display: inline-block;
+                    vertical-align: top;
+                    color: $gray-4;
+                    line-height: 1.2;
+                    padding: 0 10px;
+                    font-size: 12px;
+                    margin-left: 15px;
+                    margin-top: 5px;
+                }
+                .info{
+                    display: inline-block;
+                    float: right;
+                    vertical-align: top;
+                    width: 70%;
+                    padding: 0 10px 5px 5px;
+                    .title{
+                        color: $gray-3;
+                        font-size: 20px;
+                        font-family: $lato-mid;
+                        line-height: 1.2;
+                    }
+                    .image{
+                        margin-top: 20px;
+                        img{
+                            width: 89px;
+                            padding-right: 5px;
+                        }
+                    }
+                    .type{
+                        color: $gray-4;
+                        margin: 10px;
+                    }
+                    .progress{
+                        height: 5px !important; 
+                    }
+                }
+            }
+        }
+    }
+    .db-timer{
+        .header-content{
+            .timer-info , .alarm-info{
+                height: 245px;
+                background: $blue;
+                font-family: digital 7monoitalic;
+            }
+            .show{
+                display: block;
+            }
+            .hide{
+                display: none;
+            }
+        }
+      
+        .timer-content{
+            ul{
+                height: 63px;
+                li{
+                    height: 62px;
+                    width: 50%;
+                    padding-top: 20px;
+                    text-align: center;
+                     &:first-child{
+                         border-right: $border-buzz;
+                     }
+                     svg{
+                        display: inline-block;
+                        vertical-align: middle;
+                     }
+                     a{
+                        border: none;
+                        background: none;
+                        display: inline-block;
+                        padding: 0 5px;
+                        vertical-align: middle;
+                        font-weight: bold;
+                        font-size: 18px !important;
+                        @extend .buzz-a;
+                     }
+                     label{
+                        position:relative;
+                        top: -2px;
+                        display: inline-block;
+                        vertical-align: initial;
+                        height: 29px;
+                        width: 29px;
+                        border-radius: 100%;
+                        background: $orange-tile-6;
+                        span{
+                            position: relative;
+                            top: 3px;
+                            font-family: $lato-semi;
+                            color: $white;
+                            font-size: 14px;
+                        }
+                     }
+                }
+                li.active{
+                    background: $gray-bg;
+                }
+            }
+            .tab-content{
+                table{
+                    width: 100%;
+                    tbody{
+                        tr{
+                            height: 42px;
+                            border-bottom: $border-buzz;
+                            td{
+                                position: relative;
+                                max-width: 215px;
+                                padding: 0 10px;
+                                font-family: $lato-mid;
+                                color: $gray-3;
+                                img{
+                                    width: 30px;
+                                    border-radius: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+                .alarm-table{
+                    .color{
+                        height: 25px;
+                        width: 25px;
+                        border-radius: 100%;
+                    }
+                    svg{
+                        width: 17px;
+                        margin-top: 7px;
+                        fill: $gray-action;
+                    }
+                }
+            }
+        }
+    }
+    .db-passbox{
+        .passbox-text{
+            text-align: center;
+            color: rgb(0, 167, 229);
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            font-family: $myriad;
+            svg{
+                position: relative;
+            }
+        }
+        .passbox-login{
+            margin-top: 120px;
+            .passbox-text{
+                font-size: 40px;
+                svg{
+                    top: 10px;
+                }
+              }
+            .passbox-form{
+                padding: 10px 110px;
+                form{
+                    width: 100%;
+                    .signup{
+                        float: left;
+                    }
+                    .forgot{
+                        float: right;
+                    }
+                    input{
+                        border: $border-buzz;
+                        border-radius: 10px;
+                        background: $input-bg;
+                        box-shadow: inset 0px 1px 1px 0px rgba(154, 157, 160, 0.35);
+                        height: 50px;
+                        border-radius: 10px;
+                        &::placeholder{
+                            position: relative;
+                            font-size: 50px;
+                            top: 12px;
+                            color: $gray-scroll;
+                        }
+                    }
+                    button{
+                        background: none;
+                        border: none;
+                        margin-top: 10px;
+                        font-size: 13px;
+                        letter-spacing: 0.5px;
+                        color: $gray-scroll;
+                        font-family: $lato-semi;
+                    }
+                }
+            }
+        }
+    }
+}

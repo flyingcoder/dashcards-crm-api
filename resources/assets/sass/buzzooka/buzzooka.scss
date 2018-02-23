@@ -1,0 +1,46 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+// General 
+@import "global/general";
+
+// Header 
+@import "global/header";
+
+// Sidebar 
+@import "global/sidebar";
+
+// Dashboard 
+@import "pages/dashboard";
+
+// Projects 
+@import "pages/projects";
+
+// Project HQ
+@import "project-hq/menu";
+@import "project-hq/overview";
+@import "project-hq/files";
+@import "project-hq/milestones";
+@import "project-hq/tasks";
+@import "project-hq/messages";
+@import "project-hq/invoices";
+@import "project-hq/members";
+@import "project-hq/timers";
+@import "project-hq/reports";
+
+// Clients
+@import "pages/clients";
+
+
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
