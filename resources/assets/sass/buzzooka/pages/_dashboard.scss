@@ -197,7 +197,12 @@
                    height: 304px;
                    table{
                        width: 100%;
-                       thead{
+                       thead, tbody tr {
+                            display:table;
+                            width:100%;
+                            table-layout:fixed;
+                        }
+                        thead{
                            tr{
                             height: 60px;
                             border-bottom: $border-buzz;
@@ -213,15 +218,19 @@
                                     width: 18%;
                                 }
                                 &:nth-child(3){
-                                    width: 50%;
+                                    width: 53%;
                                 }
                                 &:last-child{
+                                    position: relative;
+                                    left: 15px;
                                     width: 19%;
                                 }
                             }
                            }
                        }
                        tbody{
+                        display:block;
+                        height: 243px !important;
                            tr{
                                height: 81px;
                                border-bottom: $border-buzz;
@@ -253,11 +262,12 @@
                                     width: 18%;
                                    }
                                    &:nth-child(3){
-                                    width: 50%;
+                                    width: 53%;
                                     padding-right: 25px;
                                     @extend .buzz-overflow;
                                    }
                                    &:last-child{
+                                       left: 15px;
                                        width: 19%;
                                    }
                                    

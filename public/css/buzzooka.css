@@ -8433,7 +8433,7 @@ button.close {
 }
 
 .buzzooka .buzz-content .content-header {
-  height: 84px;
+  height: 64px;
 }
 
 .buzzooka .buzz-content .content-body {
@@ -9113,6 +9113,13 @@ button.close {
   width: 100%;
 }
 
+.dashboard .db-tasks .box-tabs .tab-content .tab-table table thead,
+.dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead tr {
   height: 60px;
   border-bottom: 1px solid #dce1e5;
@@ -9130,11 +9137,18 @@ button.close {
 }
 
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead tr th:nth-child(3) {
-  width: 50%;
+  width: 53%;
 }
 
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead tr th:last-child {
+  position: relative;
+  left: 15px;
   width: 19%;
+}
+
+.dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody {
+  display: block;
+  height: 243px !important;
 }
 
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody tr {
@@ -9177,11 +9191,12 @@ button.close {
 }
 
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(3) {
-  width: 50%;
+  width: 53%;
   padding-right: 25px;
 }
 
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody tr td:last-child {
+  left: 15px;
   width: 19%;
 }
 
@@ -9965,7 +9980,7 @@ button.close {
 
 .hq-menu {
   margin: 0 -30px;
-  height: 66px;
+  height: 62px;
   background: #ffffff;
   border-bottom: 1px solid #dce1e5;
 }
@@ -9979,7 +9994,7 @@ button.close {
 
 .hq-menu ul li {
   display: inline-block;
-  height: 65px;
+  height: 61px;
   width: 10.8%;
   padding: 18px 0;
   text-align: center;
