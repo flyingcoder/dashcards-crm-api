@@ -44012,6 +44012,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -44321,7 +44323,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("section", { staticClass: "content dashboard" }, [
-    _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "row content-header" }, [
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
@@ -44640,7 +44642,7 @@ var render = function() {
           _c("div", { staticClass: "box-content db-tasks" }, [
             _c("div", { staticClass: "box-tabs", attrs: { id: "task-tabs" } }, [
               _c("ul", { staticClass: "nav nav-tabs" }, [
-                _c("li", { staticClass: "active" }, [
+                _c("li", [
                   _c(
                     "a",
                     {
@@ -44655,7 +44657,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("li", [
+                _c("li", { staticClass: "active" }, [
                   _c(
                     "a",
                     {
@@ -44769,7 +44771,7 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "tab-pane fade tab-table active show in",
+                    staticClass: "tab-pane fade tab-table",
                     attrs: { id: "my-task" }
                   },
                   [
@@ -44853,7 +44855,7 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "tab-pane fade tab-table",
+                    staticClass: "tab-pane fade tab-table active show in",
                     attrs: { id: "all-task" }
                   },
                   [
@@ -44862,6 +44864,10 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "tbody",
+                        {
+                          staticClass: "buzz-scrollbar",
+                          attrs: { id: "buzz-scroll" }
+                        },
                         _vm._l(_vm.filteredTasks, function(t) {
                           return _c("tr", { key: t.id }, [
                             _c("td", [
@@ -46358,13 +46364,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th"),
-      _vm._v(" "),
-      _c("th", [_vm._v(" Assignee ")]),
-      _vm._v(" "),
-      _c("th", [_vm._v(" Project ")]),
-      _vm._v(" "),
-      _c("th", [_vm._v(" Status ")])
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Assignee ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Project ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Status ")])
+      ])
     ])
   },
   function() {
@@ -49556,7 +49564,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__box_option_vue__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__box_option_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__box_option_vue__);
-//
 //
 //
 //

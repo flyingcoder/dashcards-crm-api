@@ -1,0 +1,108 @@
+.hq-members{
+    .member-box{
+        padding-bottom: 30px;
+        .content-body{
+            width: 95%;
+            height: 338px;
+            &:hover{
+                box-shadow: $hover-shadow;
+            }
+        }
+        .pull-center{
+            margin-left: 2.5%;
+        }
+        .member-header{
+            height: 54px;
+            border-radius: 10px 10px 0 0;
+            .member-status{
+                position: absolute;
+                top: 25px;
+                left: 30px;
+                float: left;
+                width: 25px;
+                height: 24px;
+                border-radius: 50%;
+            }
+            .member-position{
+                position: relative;
+                text-align: center;
+                top: 25px;
+                font-size: 20px;
+                color: $member-position;
+                line-height: 1.2;
+                font-family: $lato-semi;
+            }
+            .member-settings{
+                position: relative;
+                right: 15px;
+                bottom: 8px;
+                float: right;
+                svg{
+                    fill: $settings-icon;
+                }
+            }
+        }
+        .member-body{
+            height:205px;
+            text-align: center;
+            .member-image{
+                img{
+                    width: 112px;
+                    border-radius: 50%;
+                }
+            }
+            .member-name{
+                text-align: center;
+                margin-top: 15px;
+                span{
+                    font-size: 20px;
+                    color: $member-position;
+                    line-height: 1.2;
+                    font-family: $lato-semi;
+                }
+            }
+            .member-profile , .member-country{
+                position: relative;
+                margin-top: 10px;
+                span, a{
+                    font-size: 15px;
+                    line-height: 1.2;
+                    color: $member-info;
+                }
+                svg{
+                    margin-right: 6px;
+                    vertical-align: sub;
+                }
+            }
+            .member-profile{
+                float: left;
+                left: 30px;
+            }
+            .member-country{
+                float: right;
+                right: 30px;
+            }
+        }
+        .member-footer{
+            height: 77px;
+            background: $gray-bg;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+                label{
+                    margin-top: 15px;
+                    margin-bottom: 0;
+                    font-size: 15px;
+                    font-family: $lato;
+                    font-weight: 500;
+                    color: $member-position;
+                    line-height: 1.2;
+                }
+                span{
+                    font-size: 20px;
+                    color: $member-position;
+                    line-height: 1.2;
+                    font-family: $lato-semi;
+                }
+        }
+    }
+}
