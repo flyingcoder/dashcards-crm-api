@@ -44030,6 +44030,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -44496,7 +44501,7 @@ var render = function() {
           _c("div", { staticClass: "box-head" }, [
             _c("h1", [_vm._v("Tasks")]),
             _vm._v(" "),
-            _c("div", { staticClass: "box-options" }, [
+            _c("div", { staticClass: "box-options tasks-view" }, [
               _c("div", { staticClass: "option-item list-option" }, [
                 _c("a", { attrs: { href: "#" } }, [
                   _c(
@@ -45616,7 +45621,33 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "box-content db-timer" }, [
-            _vm._m(22),
+            _c("div", { staticClass: "header-content" }, [
+              _vm._m(22),
+              _vm._v(" "),
+              _c("div", { staticClass: "tab-pane fade timer-info show" }, [
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                      width: "514px",
+                      height: "245px"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        fill: "rgb(59, 88, 158)",
+                        d:
+                          "M-0.012,0.001 L514.000,0.001 L514.000,245.003 L-0.012,245.003 L-0.012,0.001 Z"
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "timer-content" }, [
               _c(
@@ -46601,14 +46632,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "header-content" }, [
-      _c("div", { staticClass: "tab-pane fade alarm-info hide" }, [
-        _c("span", [_vm._v("Alarm")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "tab-pane fade timer-info show" }, [
-        _c("span", [_vm._v("Timer")])
-      ])
+    return _c("div", { staticClass: "tab-pane fade alarm-info hide" }, [
+      _c("span", [_vm._v("Alarm")])
     ])
   },
   function() {
@@ -49715,23 +49740,435 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            myProjects: 0,
+            myTasks: 0,
+            myCalendar: 0,
+            myTimer: 0,
+            inbound: 0,
+            outbound: 0,
+            filteredTasks: [],
+            tasks: [{
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Website redesign concept',
+                assigned_to: 'Alan Prodemskie',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user2.png'
+                },
+                project: 'Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                assigned_to: 'Brian Howard',
+                assign_date: '2018-02-22 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'Social media marketing',
+                assigned_to: 'Jimmy Alister',
+                assign_date: '2018-02-22 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Lorem ipsum dolor sit amet',
+                assigned_to: 'Artour Babaev',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 3
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'consectetur adipiscing elit',
+                assigned_to: 'Sumail Hassan',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 4
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'sed do eiusmod tempor',
+                assigned_to: 'Amer Al-Barqawi',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 5
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'incididunt ut labore',
+                assigned_to: 'Saahil Arora',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 6
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'et dolore magna aliqua',
+                assigned_to: 'Clinton Loomis',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 7
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Ut enim ad minim',
+                assigned_to: 'Jacky Mao',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 8
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'quis nostrud exercitation',
+                assigned_to: 'Abed Yusop',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 9
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'ullamco laboris nisi ut',
+                assigned_to: 'Omar Aliwi',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 10
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'aliquip ex ea commodo consequat',
+                assigned_to: 'Clement Ivanov',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 11
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Duis aute irure dolor in reprehenderit',
+                assigned_to: 'Dani Ishutin',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 12
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'in voluptate velit esse',
+                assigned_to: 'Marcel David',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 13
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'cillum dolore eu fugiat',
+                assigned_to: 'Gabriel Toledo',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 14
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'nulla pariatur',
+                assigned_to: 'Fernando Alvarenga',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 15
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Excepteur sint occaecat',
+                assigned_to: 'Epitácio de Melo',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 16
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'cupidatat non proident',
+                assigned_to: 'João Vasconcellos',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 17
+                }
+            }, {
+                assignee: {
+                    image: 'user2.png'
+                },
+                project: 'sunt in culpa qui',
+                assigned_to: 'João Vasconcellos',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 18
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'officia deserunt',
+                assigned_to: 'Olof Kajbjer',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 20
+                }
+            }],
+            taskOption: 'all',
+            taskFilter: 'my',
+            taskCount: {
+                all: 0,
+                completed: 0,
+                pending: 0,
+                behind: 0
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.getCounts();
+        this.getTasks();
+        this.filterTasks('my', 'all');
+    },
 
-  components: {
-    'box-option': __WEBPACK_IMPORTED_MODULE_0__box_option_vue___default.a
-  },
+    methods: {
+        getCounts: function getCounts() {
+            var _this = this;
 
-  data: function data() {
-    return {};
-  },
-  mounted: function mounted() {},
+            axios.get('/api/dashboard/counts').then(function (response) {
+                _this.myProjects = reponse.data.projects;
+                _this.myTasks = reponse.data.tasks;
+                _this.myCalendar = reponse.data.calendars;
+                _this.myTimer = reponse.data.timer;
+                _this.inbound = reponse.data.inbound;
+                _this.outbound = reponse.data.outbound;
+            }).catch(function (error) {
+                if (error.response.status == 500 || error.response.status == 404) {}
+            });
+        },
+        getTasks: function getTasks() {
+            var _this2 = this;
 
-
-  methods: {}
-
+            axios.get('/api/user/tasks').then(function (response) {
+                _this2.tasks = response.data;
+            }).catch(function (error) {
+                if (error.response.status == 500 || error.response.status == 404) {}
+            });
+        },
+        filterTasks: function filterTasks(filter, option) {
+            if (filter == 'my') {
+                if (option == 'all') {
+                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 } });
+                } else {
+                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 }, status: option });
+                }
+                this.taskCount.all = _.filter(this.tasks, { user: { id: 1 } }).length;
+                this.taskCount.completed = _.filter(this.tasks, { user: { id: 1 }, status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.tasks, { user: { id: 1 }, status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.tasks, { user: { id: 1 }, status: 'behind' }).length;
+            } else {
+                if (option == 'all') {
+                    this.filteredTasks = this.tasks;
+                } else {
+                    this.filteredTasks = _.filter(this.tasks, { status: option });
+                }
+                this.taskCount.all = this.tasks.length;
+                this.taskCount.completed = _.filter(this.tasks, { status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.tasks, { status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.tasks, { status: 'behind' }).length;
+            }
+            this.taskFilter = filter;
+            this.taskOption = option;
+        }
+    }
 });
 
 /***/ }),
@@ -50362,10 +50799,381 @@ var render = function() {
           ])
         ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("section", { staticClass: "content hq-tasks" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "buzz-box" }, [
+            _c("div", { staticClass: "box-content" }, [
+              _c(
+                "div",
+                { staticClass: "box-tabs", attrs: { id: "task-tabs" } },
+                [
+                  _c("ul", { staticClass: "nav nav-tabs" }, [
+                    _c("li", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#my-task", "data-toggle": "tab" },
+                          on: {
+                            click: function($event) {
+                              _vm.filterTasks("my", "all")
+                            }
+                          }
+                        },
+                        [_vm._v("My Task")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "active" }, [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#all-task", "data-toggle": "tab" },
+                          on: {
+                            click: function($event) {
+                              _vm.filterTasks("all", "all")
+                            }
+                          }
+                        },
+                        [_vm._v("All Task")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "tasks-option" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "option-list",
+                        class: _vm.taskOption == "all" ? "active" : "",
+                        on: {
+                          click: function($event) {
+                            _vm.filterTasks(_vm.taskFilter, "all")
+                          }
+                        }
+                      },
+                      [
+                        _c("a", [
+                          _vm._v(" All\n                                "),
+                          _c("label", [
+                            _c("span", [
+                              _vm._v(" " + _vm._s(_vm.taskCount.all) + " ")
+                            ])
+                          ])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "option-list",
+                        class: _vm.taskOption == "completed" ? "active" : "",
+                        on: {
+                          click: function($event) {
+                            _vm.filterTasks(_vm.taskFilter, "completed")
+                          }
+                        }
+                      },
+                      [
+                        _c("a", [
+                          _vm._v(
+                            " Completed\n                                "
+                          ),
+                          _c("label", [
+                            _c("span", [
+                              _vm._v(
+                                " " + _vm._s(_vm.taskCount.completed) + " "
+                              )
+                            ])
+                          ])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "option-list",
+                        class: _vm.taskOption == "pending" ? "active" : "",
+                        on: {
+                          click: function($event) {
+                            _vm.filterTasks(_vm.taskFilter, "pending")
+                          }
+                        }
+                      },
+                      [
+                        _c("a", [
+                          _vm._v(" Pending\n                                "),
+                          _c("label", [
+                            _c("span", [
+                              _vm._v(" " + _vm._s(_vm.taskCount.pending) + " ")
+                            ])
+                          ])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "option-list",
+                        class: _vm.taskOption == "behind" ? "active" : "",
+                        on: {
+                          click: function($event) {
+                            _vm.filterTasks(_vm.taskFilter, "behind")
+                          }
+                        }
+                      },
+                      [
+                        _c("a", [
+                          _vm._v(" Behind\n                                "),
+                          _c("label", [
+                            _c("span", [
+                              _vm._v(" " + _vm._s(_vm.taskCount.behind) + " ")
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "tab-content" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade tab-table",
+                        attrs: { id: "my-task" }
+                      },
+                      [
+                        _c("table", [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.filteredTasks, function(t) {
+                              return _c("tr", { key: t.id }, [
+                                _c("td", [
+                                  _c("div", { staticClass: "hover-display" }, [
+                                    _c(
+                                      "svg",
+                                      {
+                                        attrs: {
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          "xmlns:xlink":
+                                            "http://www.w3.org/1999/xlink",
+                                          width: "18px",
+                                          height: "35px"
+                                        }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            "fill-rule": "evenodd",
+                                            fill: "rgb(218, 225, 231)",
+                                            d:
+                                              "M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "buzz-overflow task-project"
+                                    },
+                                    [_vm._v(" " + _vm._s(t.project) + " ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "assigned-project" },
+                                    [
+                                      _vm._v(
+                                        " assigned to " +
+                                          _vm._s(t.assigned_to) +
+                                          " . " +
+                                          _vm._s(t.assign_date) +
+                                          " "
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("span", { staticClass: "status" }, [
+                                    _vm._v(" " + _vm._s(t.status) + " ")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", {
+                                    staticClass: "progress",
+                                    class: t.status
+                                  })
+                                ])
+                              ])
+                            })
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade tab-table active show in",
+                        attrs: { id: "all-task" }
+                      },
+                      [
+                        _c("table", [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            {
+                              staticClass: "buzz-scrollbar",
+                              attrs: { id: "buzz-scroll" }
+                            },
+                            _vm._l(_vm.filteredTasks, function(t) {
+                              return _c("tr", { key: t.id }, [
+                                _c("td", [
+                                  _c("div", { staticClass: "hover-display" }, [
+                                    _c(
+                                      "svg",
+                                      {
+                                        attrs: {
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          "xmlns:xlink":
+                                            "http://www.w3.org/1999/xlink",
+                                          width: "18px",
+                                          height: "35px"
+                                        }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            "fill-rule": "evenodd",
+                                            fill: "rgb(218, 225, 231)",
+                                            d:
+                                              "M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "buzz-overflow task-project"
+                                    },
+                                    [_vm._v(" " + _vm._s(t.project) + " ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "assigned-project" },
+                                    [
+                                      _vm._v(
+                                        " assigned to " +
+                                          _vm._s(t.assigned_to) +
+                                          " . " +
+                                          _vm._s(t.assign_date) +
+                                          " "
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("span", { staticClass: "status" }, [
+                                    _vm._v(" " + _vm._s(t.status) + " ")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", {
+                                    staticClass: "progress",
+                                    class: t.status
+                                  })
+                                ])
+                              ])
+                            })
+                          )
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(2)
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(3)
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Project ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Status ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Project ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Status ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-footer" }, [
+      _c("a", { attrs: { href: "" } }, [_vm._v(" View More ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 " }, [
+      _c("div", { staticClass: "buzz-box" }, [
+        _c("div", { staticClass: "box-content" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-footer" }, [
+          _c("a", { attrs: { href: "" } }, [_vm._v(" View More ")])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

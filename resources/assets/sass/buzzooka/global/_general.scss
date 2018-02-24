@@ -174,33 +174,43 @@
     .buzz-box{
         height: 562px;
         margin-top: 25px;
+        padding: 23px;
         background: $white;
         @extend .buzz-border;
-        .box-head{
-            position: relative;
-            display: block; 
-            height: 68px;
-            margin-top: 0 !important;
-            padding: 0px 23px;
-            h1{
-                display: inline-block;
-            }
-            @extend .page-title;
+    }
+    .box-head{
+        position: relative;
+        display: block; 
+        padding: 0;
+        height: 45px;
+        top: -10px;
+        margin-top: 0 !important;
+        // padding: 0px 23px;
+        h1{
+            font-size: 30px;
+            font-family: $lato-semi !important;
+            display: inline-block;
+            margin: 0;
+            margin-top: 6px;
         }
-        .box-content{
-            height: 436px;
-            margin: 0 23px;
-            border-radius: 0;
-            @extend .buzz-border;
-        }
-        .box-footer{
-            height: 58px;
-            padding-top: 15px;
-            text-align: center;
-            text-transform: uppercase;
-            a{
-                @extend .buzz-a;
-            }
+        @extend .page-title;
+    }
+    .box-content{
+        height: 436px;
+        margin: 0;
+        // margin: 0 23px;
+        border-radius: 0;
+        @extend .buzz-border;
+    }
+    .box-footer{
+        height: 56px;
+        font-size: 13.5px;
+        padding-top: 15px;
+        text-align: center;
+        text-transform: uppercase;
+        font-family: $lato-semi;
+        a{
+            color: $table-data !important;
         }
     }
     .box-title{
@@ -210,7 +220,7 @@
     .box-options{
         position: relative;
         float: right;
-        top: 15px;
+        top: 3px;
         display: inline-block; 
         .option-item{
             position: relative;
@@ -293,6 +303,8 @@
 // Overwrite default
     a{
         text-decoration: none;
+        border: none;
+        box-shadow: none;
     }
     button, input{
         background: none;
@@ -317,9 +329,5 @@
         &:hover{
             display: block;
         }
-    }
-    a{
-        border: none;
-        box-shadow: none;
     }
 }

@@ -1402,7 +1402,7 @@ html {
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: "lato semibold";
   font-size: 12px;
   line-height: 1.6;
   color: #636b6f;
@@ -7499,7 +7499,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Raleway", sans-serif;
+  font-family: "lato semibold";
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -7633,7 +7633,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Raleway", sans-serif;
+  font-family: "lato semibold";
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -8365,7 +8365,9 @@ button.close {
 .buzzooka .dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(3),
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody tr .buzzooka td:nth-child(3),
 .buzzooka .hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(3),
-.hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr .buzzooka td:nth-child(3) {
+.hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr .buzzooka td:nth-child(3),
+.buzzooka .hq-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(2),
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .buzzooka td:nth-child(2) {
   max-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -8437,12 +8439,13 @@ button.close {
 }
 
 .buzzooka .buzz-content .content-header .page-title,
-.buzzooka .buzz-content .content-header .buzz-box .box-head,
-.buzzooka .buzz-box .buzz-content .content-header .box-head,
+.buzzooka .buzz-content .content-header .box-head,
 .buzzooka .buzz-content .content-header .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead tr,
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr,
 .buzzooka .buzz-content .content-header .hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead tr,
-.hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr {
+.hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr,
+.buzzooka .buzz-content .content-header .hq-tasks .box-tabs .tab-content .tab-table table thead tr,
+.hq-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr {
   color: #667381;
   font-weight: bolder;
   font-family: lato semibold;
@@ -8450,12 +8453,13 @@ button.close {
 }
 
 .buzzooka .buzz-content .content-header .page-title h1,
-.buzzooka .buzz-content .content-header .buzz-box .box-head h1,
-.buzzooka .buzz-box .buzz-content .content-header .box-head h1,
+.buzzooka .buzz-content .content-header .box-head h1,
 .buzzooka .buzz-content .content-header .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead tr h1,
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr h1,
 .buzzooka .buzz-content .content-header .hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead tr h1,
-.hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr h1 {
+.hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr h1,
+.buzzooka .buzz-content .content-header .hq-tasks .box-tabs .tab-content .tab-table table thead tr h1,
+.hq-tasks .box-tabs .tab-content .tab-table table thead .buzzooka .buzz-content .content-header tr h1 {
   font-size: 30px;
 }
 
@@ -8538,7 +8542,7 @@ button.close {
 
 .buzzooka .buzz-border,
 .buzzooka .buzz-box,
-.buzzooka .buzz-box .box-content,
+.buzzooka .box-content,
 .buzzooka .box-options .option-item,
 .buzzooka .dashboard .dashboard-option,
 .dashboard .buzzooka .dashboard-option,
@@ -8551,32 +8555,44 @@ button.close {
 .buzzooka .buzz-box {
   height: 562px;
   margin-top: 25px;
+  padding: 23px;
   background: #ffffff;
 }
 
-.buzzooka .buzz-box .box-head {
+.buzzooka .box-head {
   position: relative;
   display: block;
-  height: 68px;
+  padding: 0;
+  height: 45px;
+  top: -10px;
   margin-top: 0 !important;
-  padding: 0px 23px;
 }
 
-.buzzooka .buzz-box .box-head h1 {
+.buzzooka .box-head h1 {
+  font-size: 30px;
+  font-family: "lato semibold" !important;
   display: inline-block;
+  margin: 0;
+  margin-top: 6px;
 }
 
-.buzzooka .buzz-box .box-content {
+.buzzooka .box-content {
   height: 436px;
-  margin: 0 23px;
+  margin: 0;
   border-radius: 0;
 }
 
-.buzzooka .buzz-box .box-footer {
-  height: 58px;
+.buzzooka .box-footer {
+  height: 56px;
+  font-size: 13.5px;
   padding-top: 15px;
   text-align: center;
   text-transform: uppercase;
+  font-family: "lato semibold";
+}
+
+.buzzooka .box-footer a {
+  color: #667381 !important;
 }
 
 .buzzooka .box-title {
@@ -8587,7 +8603,7 @@ button.close {
 .buzzooka .box-options {
   position: relative;
   float: right;
-  top: 15px;
+  top: 3px;
   display: inline-block;
 }
 
@@ -8687,6 +8703,9 @@ button.close {
 
 .buzzooka a {
   text-decoration: none;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .buzzooka button,
@@ -8706,7 +8725,6 @@ button.close {
 }
 
 .buzzooka .buzz-a,
-.buzzooka .buzz-box .box-footer a,
 .buzzooka .dashboard .db-tasks .box-tabs ul li a,
 .dashboard .db-tasks .box-tabs ul li .buzzooka a,
 .buzzooka .dashboard .db-timer .timer-content ul li a,
@@ -8714,7 +8732,9 @@ button.close {
 .buzzooka .hq-overview .db-tasks .box-tabs ul li a,
 .hq-overview .db-tasks .box-tabs ul li .buzzooka a,
 .buzzooka .hq-overview .db-timer .timer-content ul li a,
-.hq-overview .db-timer .timer-content ul li .buzzooka a {
+.hq-overview .db-timer .timer-content ul li .buzzooka a,
+.buzzooka .hq-tasks .box-tabs ul li a,
+.hq-tasks .box-tabs ul li .buzzooka a {
   font-family: "lato semibold";
   color: #667381;
   font-size: 12px;
@@ -8727,12 +8747,6 @@ button.close {
 
 .buzzooka .hover-display:hover {
   display: block;
-}
-
-.buzzooka a {
-  border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
 }
 
 .buzz-header .logo {
@@ -9043,6 +9057,10 @@ button.close {
   font-size: 13px;
 }
 
+.dashboard .tasks-view {
+  top: 0px;
+}
+
 .dashboard .db-tasks .box-tabs ul {
   height: 63px;
 }
@@ -9064,6 +9082,7 @@ button.close {
   font-weight: bold;
   text-transform: uppercase;
   font-size: 14px !important;
+  color: #667381;
 }
 
 .dashboard .db-tasks .box-tabs ul li.active {
@@ -9086,7 +9105,7 @@ button.close {
   border-radius: 20px;
   font-size: 13.5px;
   font-family: "lato semibold";
-  color: #667381;
+  color: #7f91a8;
   background: #ffffff;
   border: 1px solid #dce1e5;
 }
@@ -9135,9 +9154,10 @@ button.close {
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead tr {
   height: 60px;
   border-bottom: 1px solid #dce1e5;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.5px;
   background: #f8f9fb;
+  color: #7f91a8;
 }
 
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table thead tr th:first-child {
@@ -9869,6 +9889,7 @@ button.close {
 }
 
 .projects .content-body .buzz-table ul li a {
+  margin: 0;
   font-size: 18px;
   height: 56px;
   line-height: 1.2;
@@ -10115,6 +10136,10 @@ button.close {
   margin-top: 5px;
 }
 
+.hq-overview .tasks-view {
+  top: 0px;
+}
+
 .hq-overview .db-tasks .box-tabs ul {
   height: 63px;
 }
@@ -10136,6 +10161,7 @@ button.close {
   font-weight: bold;
   text-transform: uppercase;
   font-size: 14px !important;
+  color: #667381;
 }
 
 .hq-overview .db-tasks .box-tabs ul li.active {
@@ -10158,7 +10184,7 @@ button.close {
   border-radius: 20px;
   font-size: 13.5px;
   font-family: "lato semibold";
-  color: #667381;
+  color: #7f91a8;
   background: #ffffff;
   border: 1px solid #dce1e5;
 }
@@ -10197,12 +10223,20 @@ button.close {
   width: 100%;
 }
 
+.hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead,
+.hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead tr {
   height: 60px;
   border-bottom: 1px solid #dce1e5;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.5px;
   background: #f8f9fb;
+  color: #7f91a8;
 }
 
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead tr th:first-child {
@@ -10214,11 +10248,18 @@ button.close {
 }
 
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead tr th:nth-child(3) {
-  width: 50%;
+  width: 53%;
 }
 
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table thead tr th:last-child {
+  position: relative;
+  left: 15px;
   width: 19%;
+}
+
+.hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody {
+  display: block;
+  height: 243px !important;
 }
 
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr {
@@ -10261,11 +10302,12 @@ button.close {
 }
 
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(3) {
-  width: 50%;
+  width: 53%;
   padding-right: 25px;
 }
 
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr td:last-child {
+  left: 15px;
   width: 19%;
 }
 
@@ -10642,13 +10684,249 @@ button.close {
 .hq-milestones .buzz-box .milestone-footer a {
   font-family: "lato semibold";
   line-height: 1.2;
-  color: #ffffff;
+  color: #ffffff !important;
   border: 1px solid #dce1e5;
   background: #3b589e;
   border-radius: 40px;
   padding: 18px 50px;
   -webkit-box-shadow: 0px 5px 5px 0px rgba(173, 183, 196, 0.75);
           box-shadow: 0px 5px 5px 0px rgba(173, 183, 196, 0.75);
+}
+
+.hq-tasks {
+  margin-top: 25px;
+  height: 1475px;
+  background: #ffffff;
+  border: 1px solid #dce1e5;
+  border-radius: 10px;
+}
+
+.hq-tasks .buzz-box {
+  background: none;
+  height: 1473px;
+  margin-top: 0 !important;
+}
+
+.hq-tasks .buzz-box .box-content {
+  height: 1375px !important;
+}
+
+.hq-tasks .buzz-box .box-content ul li a {
+  border: none;
+  background: none;
+}
+
+.hq-tasks .buzz-box .box-content .tab-content table {
+  height: 1245px;
+}
+
+.hq-tasks .buzz-box .box-content .tab-content table tbody {
+  height: 1180px !important;
+}
+
+.hq-tasks .buzz-box .box-footer {
+  padding-top: 25px !important;
+}
+
+.hq-tasks .box-tabs ul {
+  height: 63px;
+}
+
+.hq-tasks .box-tabs ul li {
+  width: 50%;
+  height: 62px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.hq-tasks .box-tabs ul li:first-child {
+  border-right: 1px solid #dce1e5;
+}
+
+.hq-tasks .box-tabs ul li a {
+  background: none;
+  border: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  color: #667381;
+}
+
+.hq-tasks .box-tabs ul li.active {
+  background: #f8f9fb;
+}
+
+.hq-tasks .box-tabs .tasks-option {
+  height: 69px;
+  padding: 22.5px 0;
+  text-align: center;
+  border-bottom: 1px solid #dce1e5;
+}
+
+.hq-tasks .box-tabs .tasks-option .option-list {
+  display: inline-block;
+}
+
+.hq-tasks .box-tabs .tasks-option .option-list a {
+  padding: 6px 4px 6px 16px;
+  border-radius: 20px;
+  font-size: 13.5px;
+  font-family: "lato semibold";
+  color: #7f91a8;
+  background: #ffffff;
+  border: 1px solid #dce1e5;
+}
+
+.hq-tasks .box-tabs .tasks-option .option-list a:active,
+.hq-tasks .box-tabs .tasks-option .option-list a:hover {
+  background: #2b3245;
+  color: #ffffff;
+  border: 1px solid #2b3245;
+}
+
+.hq-tasks .box-tabs .tasks-option .option-list a label {
+  padding: 2px 9px;
+  margin-left: 15px;
+  border-radius: 100%;
+  background: #9095a9;
+}
+
+.hq-tasks .box-tabs .tasks-option .option-list a label span {
+  position: relative;
+  color: #ffffff;
+  top: 1px;
+}
+
+.hq-tasks .box-tabs .tasks-option .active a {
+  background: #2b3245;
+  color: #ffffff;
+  border: 1px solid #2b3245;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table {
+  width: 100%;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table thead,
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table thead tr {
+  height: 60px;
+  border-bottom: 1px solid #dce1e5;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  background: #f8f9fb;
+  color: #7f91a8;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table thead tr th:first-child {
+  width: 10%;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table thead tr th:nth-child(2) {
+  width: 53%;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table thead tr th:last-child {
+  position: relative;
+  left: 15px;
+  width: 19%;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody {
+  display: block;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr {
+  height: 81px;
+  border-bottom: 1px solid #dce1e5;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr:hover .hover-display {
+  display: table-cell;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr:nth-child(odd) {
+  background: #f8f9fb;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr:nth-child(even) {
+  background: #ffffff;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .hover-display {
+  position: relative;
+  left: 15px;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr td {
+  position: relative;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr td img {
+  width: 55px;
+  border-radius: 100%;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr td:first-child {
+  width: 10%;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(2) {
+  width: 53%;
+  padding-right: 25px;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr td:last-child {
+  left: 15px;
+  width: 19%;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .task-project {
+  position: relative;
+  bottom: 10px;
+  font-family: "lato medium";
+  color: #657186;
+  font-size: 19px;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .assigned-project {
+  position: absolute;
+  display: block;
+  color: #bcc2cf;
+  font-size: 11.5px;
+  top: 40px;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .status {
+  position: relative;
+  top: 5px;
+  color: #bcc2cf;
+  font-size: 12px;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .progress {
+  position: relative;
+  top: 5px;
+  width: 70%;
+  height: 6px;
+  border-radius: 20px;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .completed {
+  background: #1fb868;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .pending {
+  background: #ff7f7e;
+}
+
+.hq-tasks .box-tabs .tab-content .tab-table table tbody tr .behind {
+  background: #ed8564;
 }
 
 .hq-members .member-box {

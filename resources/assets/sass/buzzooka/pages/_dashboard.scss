@@ -124,6 +124,9 @@
             }
         }
     }
+    .tasks-view{
+        top: 0px;
+    }
     .db-tasks{
         .box-tabs{
            ul{
@@ -142,6 +145,7 @@
                         font-weight: bold;
                         text-transform: uppercase;
                         font-size: 14px !important;
+                        color: $table-data;
                         @extend .buzz-a;
                     }
                }
@@ -161,7 +165,7 @@
                        border-radius: 20px;
                        font-size: 13.5px;
                        font-family: $lato-semi;
-                       color: $text;
+                       color: $table-head;
                        background: $white;
                        border: $border-buzz;
 
@@ -206,9 +210,10 @@
                            tr{
                             height: 60px;
                             border-bottom: $border-buzz;
-                            font-size: 14px;
+                            font-size: 16px;
                             letter-spacing: 0.5px;
                             background: $gray-bg;
+                            color: $table-head;
                             @extend .page-title;
                             th{
                                 &:first-child{
