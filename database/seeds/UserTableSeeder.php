@@ -17,7 +17,9 @@ class UserTableSeeder extends Seeder
         $user = new User();
         $userBen = $user->create(
         	[
-        		'name' => 'Ben Ten',
+                'username' => 'ross12345',
+                'first_name' => 'Ross',
+        		'last_name' => 'Mosqueda',
         		'email' => 'ross.buzzooka@gmail.com',
                 'image_url' => 'img/members/alfred.png',
         		'password' => bcrypt('buzzadmin2018'),
@@ -36,10 +38,12 @@ class UserTableSeeder extends Seeder
 
         $userBentong = $user->create(
             [
-                'name' => 'Bentong',
-                'email' => 'bentong@buzzooka.com',
+                'username' => 'alvin',
+                'first_name' => 'Alvin',
+                'last_name' => 'Pacot',
+                'email' => 'alvin@buzzooka.com',
                 'image_url' => 'img/members/alfred.png',
-                'password' => bcrypt('buzzadmin2018'),
+                'password' => bcrypt('alvn2018'),
                 'job_title' => 'Client',
                 'telephone' => '123456789'
             ]
