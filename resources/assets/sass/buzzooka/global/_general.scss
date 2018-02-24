@@ -77,8 +77,19 @@
         z-index: 99;
         .content-header{
             height: 64px;
+            .page-title{
+                color: $text;
+                font-weight: bolder;
+                font-family: lato semibold;
+                margin-top: 23px;
+                h1{
+                    font-size: 30px;
+                }
+            }
         }
         .content-body{
+            position: relative;
+            margin-top: 18px;
             height: 1476px;
             background: $white;
             border-radius: 10px;
@@ -289,14 +300,11 @@
         box-shadow: none !important;
     }
 // Customize Class
-    .page-title{
-        color: $text;
-        font-weight: bolder;
-        font-family: lato semibold;
-        margin-top: 23px;
-        h1{
-            font-size: 25px;
-        }
+    .online{
+        background: $online;
+    }
+    .offline{
+        background: $offline;
     }
     .buzz-a{
         font-family: $lato-semi;
