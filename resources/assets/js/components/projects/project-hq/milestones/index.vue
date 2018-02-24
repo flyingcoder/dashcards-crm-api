@@ -53,3 +53,9 @@
         </div>
     </section>
 </template>
+
+<script>
+    import BoxOption from '../../box-option.vue';
+
+    
+</script>

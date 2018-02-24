@@ -256,7 +256,7 @@
                                             <th> Status </th>
                                         </tr>
                                     </thead>
-                                    <tbody  class="buzz-scrollbar" id="buzz-scroll">
+                                    <tbody class="buzz-scrollbar" id="buzz-scroll">
                                         <tr  v-for="t in filteredTasks" :key="t.id">
                                             <td> 
                                                 <div class="hover-display"> 

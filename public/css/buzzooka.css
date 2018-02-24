@@ -8683,6 +8683,16 @@ button.close {
   -webkit-transition-timing-function: ease-in-out;
 }
 
+.buzzooka .transform-transition,
+.buzzooka .hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-heading a i,
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-heading a .buzzooka i {
+  -webkit-transition: transform 0.5s ease;
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+}
+
 .buzzooka .toggle-transition,
 .buzzooka .buzz-header .logo,
 .buzz-header .buzzooka .logo {
@@ -10662,6 +10672,19 @@ button.close {
   color: #657186;
 }
 
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-heading a i {
+  position: relative;
+  top: 20px;
+  right: 30px;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-heading .collapsed i {
+  -webkit-transform: rotate(0deg) !important;
+          transform: rotate(0deg) !important;
+}
+
 .hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-collapse ul {
   list-style: none;
   padding: 0;
@@ -10675,6 +10698,20 @@ button.close {
   font-size: 19px;
   font-family: "lato medium";
   padding: 10px 25px;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-collapse ul li:hover {
+  background: #f8f9fb;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-collapse ul li:hover .milestone-sub-option li {
+  display: inline-block;
+}
+
+.hq-milestones .buzz-box .box-content .milestone-group .milestone .milestone-collapse ul li .milestone-sub-option li {
+  display: none;
+  border-top: none;
+  padding: 0 7px;
 }
 
 .hq-milestones .buzz-box .milestone-footer {

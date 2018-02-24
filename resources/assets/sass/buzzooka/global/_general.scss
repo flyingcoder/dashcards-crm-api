@@ -282,6 +282,11 @@
         -webkit-transition: 200ms;
         -webkit-transition-timing-function: ease-in-out;
     }
+    .transform-transition{
+        -webkit-transition: transform 0.5s ease;
+        -o-transition: transform 0.5s ease;
+        transition: transform 0.5s ease;
+    }
     .toggle-transition{
         -webkit-transition: width 0.3s ease-in-out;
         -o-transition: width 0.3s ease-in-out;
