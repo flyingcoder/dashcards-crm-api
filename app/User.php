@@ -29,11 +29,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'telephone', 'job_title', 'password', 'image_url'
+        'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
 
      protected static $logAttributes = [
-        'name', 'email', 'telephone', 'job_title', 'password', 'image_url'
+         'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
 
     /**

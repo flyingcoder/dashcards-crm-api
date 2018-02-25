@@ -49,6 +49,11 @@
                                     <div class="col-xs-12">
                                         <h2>Your Back Great!</h2>
                                     </div>
+                                    @if ($errors->any())
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first() }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -57,27 +62,15 @@
                                 </div>
                                 <form method="post" action="/login">
                                     {{ csrf_field() }}
-                                   <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                   <div class="form-group{{ $errors->has('login') ? ' has-error' : '' }}">
                                         <div class="col-xs-12">
-                                            <input id="email" type="email" placeholder="Your email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
-                                            @if ($errors->has('email'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('email') }}</strong>
-                                                </span>
-                                            @endif
+                                            <input id="text" type="text" placeholder="Email or username" class="form-control" name="login" required autofocus>
                                         </div>
                                     </div>
                                     <br><br>
                                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                         <div class="col-xs-12">
                                             <input id="password" type="password" placeholder="Your password" class="form-control" name="password" required>
-
-                                            @if ($errors->has('password'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('password') }}</strong>
-                                                </span>
-                                            @endif
                                         </div>
                                     </div>
                                      <div style="text-align: left">
