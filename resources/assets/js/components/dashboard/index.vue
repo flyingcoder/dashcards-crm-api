@@ -212,45 +212,7 @@
                             </div>
                         </div>
                         <div class="tab-content">
-<<<<<<< HEAD
-                            <div class="tab-pane fade tab-table active show in" id="my-task">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th> </th>
-                                        <th> Assignee </th>
-                                        <th> Project </th>
-                                        <th> Status </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <tr  v-for="t in filteredTasks" :key="t.id">
-                                    <td> 
-                                        <div class="hover-display"> 
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            width="18px" height="35px">
-                                            <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
-                                            d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
-                                            </svg> 
-                                        </div> 
-                                    </td>
-                                    <td> <img :src="'img/temporary/' + t.assignee.image"> </td>
-                                    <td> 
-                                        <span class="buzz-overflow task-project"> {{ t.project }} </span>
-                                        <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
-                                    </td>
-                                    <td> 
-                                    <span class="status"> {{ t.status }} </span>
-                                    <div class="progress" :class="t.status"> </div>
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            </div>
-                            <div class="tab-pane fade tab-table" id="all-task">
-=======
                             <div class="tab-pane fade tab-table" id="my-task">
->>>>>>> 9ffb739ce0dbbf74d0ec88760564cfceb3707223
                                 <table>
                                     <thead>
                                         <tr>
@@ -1001,7 +963,7 @@
         inbound: 0,
         outbound: 0,
         filteredTasks:[],
-        tasks: [
+        myTasks: [
                 {
                     assignee: {
                         image: 'user1.png'
@@ -1038,6 +1000,8 @@
                         id: 1
                     }
                 },
+        ],
+    allTasks: [
                 {
                     assignee: {
                         image: 'user1.png'
@@ -1256,7 +1220,8 @@
     },
     mounted(){
         this.getCounts();
-        this.getTasks();
+        this.getMyTasks();
+        this.getAllTasks();
         this.filterTasks('my' , 'all');
     },
     methods:{
@@ -1276,47 +1241,47 @@
                 }
             });
         },
-        getTasks(){
+        getMyTasks(){
             axios.get('/api/user/tasks')
             .then( response => {
-                this.tasks = response.data;
+                this.myTasks = response.data;
             })
             .catch( error => {
                 if(error.response.status == 500 || error.response.status == 404){
 
                 }
             });
-            
+        },
+        getAllTasks(){
+            axios.get('/api/tasks')
+            .then( response => {
+                this.allTasks = response.data;
+            })
+            .catch( error => {
+                if(error.response.status == 500 || error.response.status == 404){
+
+                }
+            });
         },
         filterTasks(filter, option){
             if(filter == 'my'){
-                if(option == 'all'){
-                    this.filteredTasks = _.filter(this.tasks, { user: {id : 1}});
-                }
-                else {
-                    this.filteredTasks = _.filter(this.tasks, { user: {id : 1}, status: option});
-                }
-                this.taskCount.all = _.filter(this.tasks, { user: {id : 1}}).length;
-                this.taskCount.completed = _.filter(this.tasks, {  user: {id : 1}, status: 'completed'}).length;
-                this.taskCount.pending = _.filter(this.tasks, { user: {id : 1}, status: 'pending'}).length;
-                this.taskCount.behind = _.filter(this.tasks, {  user: {id : 1}, status: 'behind'}).length;
+                this.filteredTasks = _.filter(this.myTasks, { status: option });
+                this.taskCount.all = this.myTasks.length;
+                this.taskCount.completed = _.filter(this.myTasks,{ status: 'completed'}).length;
+                this.taskCount.pending = _.filter(this.myTasks, { status: 'pending'}).length;
+                this.taskCount.behind = _.filter(this.myTasks, { status: 'behind'}).length;
             }
             else{
-                if(option == 'all'){
-                    this.filteredTasks = this.tasks;
-                }
-                else {
-                    this.filteredTasks = _.filter(this.tasks, { status: option });
-                }
-                this.taskCount.all = this.tasks.length;
-                this.taskCount.completed = _.filter(this.tasks, { status: 'completed'}).length;
-                this.taskCount.pending = _.filter(this.tasks, { status: 'pending'}).length;
-                this.taskCount.behind = _.filter(this.tasks, { status: 'behind'}).length;
+                this.filteredTasks = _.filter(this.allTasks, { status: option });
+                this.taskCount.all = this.allTasks.length;
+                this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
+                this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
+                this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
             }
             this.taskFilter = filter;
             this.taskOption = option;
             
-        },
+        }
     }
 }
 </script>
