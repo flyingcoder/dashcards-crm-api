@@ -130,6 +130,38 @@
             </div>
         </section>
 
+        <section class="content hq-files">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="buzz-box drop-files">
+                        <div class="drop-files-content">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="89px" height="100px">
+                                <path fill-rule="evenodd"  fill="rgb(230, 230, 230)"
+                                d="M77.345,89.918 L30.568,89.918 C24.310,89.918 19.189,84.757 19.189,78.450 L19.189,12.374 C19.189,6.068 24.310,0.908 30.568,0.908 L69.037,0.908 L69.037,19.564 L88.723,19.838 L88.723,78.450 C88.723,84.757 83.603,89.918 77.345,89.918 ZM73.010,0.908 L73.403,0.908 L88.723,14.729 L88.723,15.398 L73.010,15.398 L73.010,0.908 ZM16.261,78.450 C16.261,82.409 17.870,86.012 20.461,88.625 L20.472,88.635 C23.064,91.244 26.638,92.869 30.568,92.869 L62.994,92.869 L24.737,99.345 C18.565,100.387 12.666,96.153 11.631,89.936 L0.771,24.772 C-0.265,18.551 3.938,12.608 10.109,11.563 L16.382,10.502 C16.303,11.115 16.261,11.740 16.261,12.374 L16.261,78.450 Z"/>
+                            </svg>
+                            <div class="drop-text">
+                                <label>Drop files here <br> <span> Or </span> </label>
+                            </div>
+                            <div class="drop-button">
+                                <button>
+                                    Choose your files
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="buzz-box files">
+                        <div class="files-content">
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 

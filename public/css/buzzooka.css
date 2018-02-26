@@ -10648,6 +10648,46 @@ button.close {
   font-family: "lato semibold";
 }
 
+.hq-files .drop-files {
+  height: 520px;
+}
+
+.hq-files .drop-files .drop-files-content {
+  background: #f8f9fb;
+  height: 465px;
+  margin: 3px 0;
+  text-align: center;
+}
+
+.hq-files .drop-files .drop-files-content svg {
+  margin-top: 100px;
+}
+
+.hq-files .drop-files .drop-files-content .drop-text {
+  margin: 5px;
+}
+
+.hq-files .drop-files .drop-files-content .drop-text label {
+  font-size: 17px;
+  line-height: 1.2;
+  color: #7c7c7c;
+  font-family: "lato semibold";
+  font-weight: 500 !important;
+}
+
+.hq-files .drop-files .drop-files-content .drop-text label span {
+  font-size: 12px;
+}
+
+.hq-files .drop-files .drop-files-content .drop-button button {
+  background: #3b589e;
+  color: #ffffff;
+  font-size: 20px;
+  font-family: "lato semibold";
+  border-radius: 5px;
+  padding: 20px 30px;
+}
+
 .hq-milestones .buzz-box .box-content {
   height: 408px;
 }

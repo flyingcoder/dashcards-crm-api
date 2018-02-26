@@ -1,0 +1,37 @@
+.hq-files{
+    .drop-files{
+        height: 520px;
+        .drop-files-content{
+            background: $gray-bg;
+            height: 465px;
+            margin: 3px 0;
+            text-align: center;
+            svg{
+                margin-top: 100px;
+            }
+            .drop-text{
+                margin: 5px;
+                label{
+                    font-size: 17px;
+                    line-height: 1.2;
+                    color: $drop-text;
+                    font-family: $lato-semi;
+                    font-weight: 500 !important;
+                    span{
+                        font-size: 12px;
+                    }
+                }
+            }
+            .drop-button{
+                button{
+                    background: $blue;
+                    color: $white;
+                    font-size: 20px;
+                    font-family: $lato-semi;
+                    border-radius: 5px;
+                    padding: 20px 30px;
+                }
+            }
+        }
+    }
+}
