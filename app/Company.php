@@ -19,6 +19,29 @@ class Company extends Model
         return $this->hasMany(Team::class);
     }
 
+    public function invoices()
+    {
+        return $this->members()
+                    ->join('invoices', 'invoices.user_id', '=', 'users.id');
+    }
+
+    public function allCompanyInvoices()
+    {
+        return $this->invoices()->get();
+    }
+
+    public function paginatedCompanyInvoices(Request $request)
+    {
+        list($sortName, $sortValue) = parseSearchParam($request);
+
+        $invoices = $this->invoices();
+
+        if($request->has('sort'))
+            $templates->orderBy($sortName, $sortValue);
+
+        return $invoices->paginate($this->paginate);
+    }
+
     public function templates()
     {
         return $this->hasMany(Template::class);

@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\User;
+use App\Invoice;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class InvoicePolicy
@@ -31,7 +32,7 @@ class InvoicePolicy
      */
     public function view(Invoice $invoice)
     {
-        if($invoice->company() != auth()->user()->company())
+        if( $invoice->user->company() != auth()->user()->company() )
             abort(403, 'Invoice not found!');
     }
 
