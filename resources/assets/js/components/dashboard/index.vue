@@ -968,19 +968,8 @@
             inbound: 0,
             outbound: 0,
             filteredTasks:[],
-            tasks: [
-                    {
-                        assignee: {
-                            image: 'user1.png'
-                        },
-                        project: 'Website redesign concept',
-                        assigned_to: 'Alan Prodemskie',
-                        assign_date: '2018-02-21 13:04:18',
-                        status: 'completed',
-                        user: {
-                            id: 1
-                        }
-                    },
+            myTasks: [
+                        
                     {
                         assignee: {
                             image: 'user2.png'
@@ -1009,14 +998,16 @@
                         assignee: {
                             image: 'user1.png'
                         },
-                        project: 'Lorem ipsum dolor sit amet',
-                        assigned_to: 'Artour Babaev',
-                        assign_date: '2018-02-21 13:04:18',
-                        status: 'completed',
+                        project: 'Social media marketing',
+                        assigned_to: 'Jimmy Alister',
+                        assign_date: '2018-02-22 13:04:18',
+                        status: 'pending',
                         user: {
-                            id: 3
+                            id: 1
                         }
                     },
+            ],
+        allTasks: [
                     {
                         assignee: {
                             image: 'user1.png'
@@ -1209,6 +1200,18 @@
                             id: 20
                         }
                     },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'officia deserunt',
+                        assigned_to: 'Olof Kajbjer',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 20
+                        }
+                    },
                 ],
             taskOption: 'all',
             taskFilter: 'my',
@@ -1223,7 +1226,8 @@
         },
         mounted(){
             this.getCounts();
-            this.getTasks();
+            this.getMyTasks();
+            this.getAllTasks();
             this.filterTasks('my' , 'all');
         },
         methods:{
@@ -1243,47 +1247,47 @@
                     }
                 });
             },
-            getTasks(){
+            getMyTasks(){
                 axios.get('/api/user/tasks')
                 .then( response => {
-                    this.tasks = response.data;
+                    this.myTasks = response.data;
                 })
                 .catch( error => {
                     if(error.response.status == 500 || error.response.status == 404){
 
                     }
                 });
-                
+            },
+            getAllTasks(){
+                axios.get('/api/tasks')
+                .then( response => {
+                    this.allTasks = response.data;
+                })
+                .catch( error => {
+                    if(error.response.status == 500 || error.response.status == 404){
+
+                    }
+                });
             },
             filterTasks(filter, option){
                 if(filter == 'my'){
-                    if(option == 'all'){
-                        this.filteredTasks = _.filter(this.tasks, { user: {id : 1}});
-                    }
-                    else {
-                        this.filteredTasks = _.filter(this.tasks, { user: {id : 1}, status: option});
-                    }
-                    this.taskCount.all = _.filter(this.tasks, { user: {id : 1}}).length;
-                    this.taskCount.completed = _.filter(this.tasks, {  user: {id : 1}, status: 'completed'}).length;
-                    this.taskCount.pending = _.filter(this.tasks, { user: {id : 1}, status: 'pending'}).length;
-                    this.taskCount.behind = _.filter(this.tasks, {  user: {id : 1}, status: 'behind'}).length;
+                    this.filteredTasks = _.filter(this.myTasks, { status: option });
+                    this.taskCount.all = this.myTasks.length;
+                    this.taskCount.completed = _.filter(this.myTasks,{ status: 'completed'}).length;
+                    this.taskCount.pending = _.filter(this.myTasks, { status: 'pending'}).length;
+                    this.taskCount.behind = _.filter(this.myTasks, { status: 'behind'}).length;
                 }
                 else{
-                    if(option == 'all'){
-                        this.filteredTasks = this.tasks;
-                    }
-                    else {
-                        this.filteredTasks = _.filter(this.tasks, { status: option });
-                    }
-                    this.taskCount.all = this.tasks.length;
-                    this.taskCount.completed = _.filter(this.tasks, { status: 'completed'}).length;
-                    this.taskCount.pending = _.filter(this.tasks, { status: 'pending'}).length;
-                    this.taskCount.behind = _.filter(this.tasks, { status: 'behind'}).length;
+                    this.filteredTasks = _.filter(this.allTasks, { status: option });
+                    this.taskCount.all = this.allTasks.length;
+                    this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
+                    this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
+                    this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
                 }
                 this.taskFilter = filter;
                 this.taskOption = option;
                 
-            },
+            }
         }
     }
 </script>
