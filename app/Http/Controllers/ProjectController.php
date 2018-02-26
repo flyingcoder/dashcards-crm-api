@@ -23,6 +23,8 @@ class ProjectController extends Controller
         if(!request()->ajax())
             return view('pages.projects', ['projects' => [], 'personal' => false]);
 
+        (new ProjectPolicy())->index($project);
+
         $company = Auth::user()->company();
 
         $result = $company->paginatedCompanyProjects(request());
@@ -130,16 +132,12 @@ class ProjectController extends Controller
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
 
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'Project was successfully added!');
-
-        return back();
+        return response('', 200);
     }
 
     public function myProjects()
     {
-        if(!request()->ajax())
-            return view('pages.projects', ['personal' => true]);
+        (new ProjectPolicy())->index();
 
         return Project::personal(request());
 
@@ -203,25 +201,38 @@ class ProjectController extends Controller
     // }
 
     public function filesCount($project_id){
-              $project = Project::findOrFail($project_id);			
-              $images = $project->getMedia('project.files.images')->count();
-              $videos = $project->getMedia('project.files.videos')->count();
-              $documents = $project->getMedia('project.files.documents')->count();
-			  $others = $project->getMedia('project.files.others')->count();
-			  return response()->json([ 'images' => $images, 
-								'videos' => $videos, 
-								'documents' => $documents, 
-								'others' => $others
-						]);
-		}
+          $project = Project::findOrFail($project_id);			
+          $images = $project->getMedia('project.files.images')->count();
+          $videos = $project->getMedia('project.files.videos')->count();
+          $documents = $project->getMedia('project.files.documents')->count();
+		  $others = $project->getMedia('project.files.others')->count();
+		  return response()->json([ 'images' => $images, 
+							'videos' => $videos, 
+							'documents' => $documents, 
+							'others' => $others
+					]);
+	}
 
+
+    //will return all task of the project
     public function tasks($project_id)
+    {
+        $project = Project::findOrFail($project_id);
+
+        (new ProjectPolicy())->viewTask($project);
+
+        //if user is admin return all task of a project
+        return $project->paginatedProjectTasks(request());
+    }
+
+    //will return all task of the project
+    public function myTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
 
         (new ProjectPolicy())->view($project);
 
-        return $project->paginatedProjectTasks(request());
+        return $project->paginatedProjectMyTasks(request());
     }
 
     public function invoices($project_id){

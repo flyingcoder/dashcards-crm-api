@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Database\Eloquent\Model;
@@ -59,7 +60,7 @@ class Project extends Model implements HasMediaConversions
                       ->join('task_user as tu', 'tu.task_id', '=', 'tasks.id')
                       ->join('users', 'users.id', '=', 'tu.user_id')
                       ->select(
-                        'users.name as assignee',
+                        DB::raw('CONCAT(users.last_name, ", ", users.first_name) AS assignee'),
                         'tasks.*')
                       ->where('tasks.deleted_at', null);
 
@@ -72,6 +73,27 @@ class Project extends Model implements HasMediaConversions
 
         return $tasks->paginate($this->paginate);
         
+    }
+
+    public function paginatedProjectMyTasks(Request $request)
+    {
+        $tasks = $this->tasks()
+                      ->join('task_user as tu', 'tu.task_id', '=', 'tasks.id')
+                      ->join('users', 'users.id', '=', 'tu.user_id')
+                      ->where('users.id', auth()->user()->id)
+                      ->select(
+                        DB::raw('CONCAT(users.last_name, ", ", users.first_name) AS assignee'),
+                        'tasks.*')
+                      ->where('tasks.deleted_at', null);
+
+        if($request->has('sort')) {
+
+            list($sortName, $sortValue) = parseSearchParam($request);
+
+            $tasks->orderBy($sortName, $sortValue);
+        }
+
+        return $tasks->paginate($this->paginate);
     }
     
     public function milestones()
@@ -136,9 +158,9 @@ class Project extends Model implements HasMediaConversions
                     ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
                     ->with('milestones')
                     ->select(
-                        'manager.name as manager_name',
+                        DB::raw('CONCAT(manager.last_name, ", ", manager.first_name) AS manager_name'),
                         'client.image_url as client_image_url',
-                        'client.name as client_name',
+                        DB::raw('CONCAT(client.last_name, ", ", client.first_name) AS client_name'),
                         'projects.*',
                         'services.name as service_name'
                     )->where('projects.deleted_at', null);
