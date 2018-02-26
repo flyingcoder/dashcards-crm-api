@@ -963,7 +963,7 @@
         inbound: 0,
         outbound: 0,
         filteredTasks:[],
-        tasks: [
+        myTasks: [
                 {
                     assignee: {
                         image: 'user1.png'
@@ -1000,6 +1000,8 @@
                         id: 1
                     }
                 },
+        ],
+    allTasks: [
                 {
                     assignee: {
                         image: 'user1.png'
@@ -1218,7 +1220,8 @@
     },
     mounted(){
         this.getCounts();
-        this.getTasks();
+        this.getMyTasks();
+        this.getAllTasks();
         this.filterTasks('my' , 'all');
     },
     methods:{
@@ -1238,47 +1241,47 @@
                 }
             });
         },
-        getTasks(){
+        getMyTasks(){
             axios.get('/api/user/tasks')
             .then( response => {
-                this.tasks = response.data;
+                this.myTasks = response.data;
             })
             .catch( error => {
                 if(error.response.status == 500 || error.response.status == 404){
 
                 }
             });
-            
+        },
+        getAllTasks(){
+            axios.get('/api/tasks')
+            .then( response => {
+                this.allTasks = response.data;
+            })
+            .catch( error => {
+                if(error.response.status == 500 || error.response.status == 404){
+
+                }
+            });
         },
         filterTasks(filter, option){
             if(filter == 'my'){
-                if(option == 'all'){
-                    this.filteredTasks = _.filter(this.tasks, { user: {id : 1}});
-                }
-                else {
-                    this.filteredTasks = _.filter(this.tasks, { user: {id : 1}, status: option});
-                }
-                this.taskCount.all = _.filter(this.tasks, { user: {id : 1}}).length;
-                this.taskCount.completed = _.filter(this.tasks, {  user: {id : 1}, status: 'completed'}).length;
-                this.taskCount.pending = _.filter(this.tasks, { user: {id : 1}, status: 'pending'}).length;
-                this.taskCount.behind = _.filter(this.tasks, {  user: {id : 1}, status: 'behind'}).length;
+                this.filteredTasks = _.filter(this.myTasks, { status: option });
+                this.taskCount.all = this.myTasks.length;
+                this.taskCount.completed = _.filter(this.myTasks,{ status: 'completed'}).length;
+                this.taskCount.pending = _.filter(this.myTasks, { status: 'pending'}).length;
+                this.taskCount.behind = _.filter(this.myTasks, { status: 'behind'}).length;
             }
             else{
-                if(option == 'all'){
-                    this.filteredTasks = this.tasks;
-                }
-                else {
-                    this.filteredTasks = _.filter(this.tasks, { status: option });
-                }
-                this.taskCount.all = this.tasks.length;
-                this.taskCount.completed = _.filter(this.tasks, { status: 'completed'}).length;
-                this.taskCount.pending = _.filter(this.tasks, { status: 'pending'}).length;
-                this.taskCount.behind = _.filter(this.tasks, { status: 'behind'}).length;
+                this.filteredTasks = _.filter(this.allTasks, { status: option });
+                this.taskCount.all = this.allTasks.length;
+                this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
+                this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
+                this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
             }
             this.taskFilter = filter;
             this.taskOption = option;
             
-        },
+        }
     }
 }
 </script>
