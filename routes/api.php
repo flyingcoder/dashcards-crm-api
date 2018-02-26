@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('/', 'ProjectController@index');
 
-  Route::get('personal', 'ProjectController@myProjects');
+  Route::get('mine', 'ProjectController@myProjects');
 
   Route::get('count', 'ProjectController@countProject');
 
@@ -74,6 +74,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/tasks', 'ProjectController@tasks');
 
+  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');
+
   Route::post('new', 'ProjectController@store');
 	Route::post('{id}/edit', 'ProjectController@update');
 
@@ -82,10 +84,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   // Route::get('{id}/overview', 'ProjectController@overview'); 
 
   Route::get('{id}/milestones', 'MilestoneController@projectMilestone');
-  
-  Route::get('{id}/invoices', 'ProjectController@invoices');
 
-  Route::get('{id}/members', 'ProjectController@invoices');
+  Route::get('{id}/members', 'ProjectController@members');
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 

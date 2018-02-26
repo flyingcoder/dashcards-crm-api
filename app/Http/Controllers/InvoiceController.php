@@ -2,14 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Policies\InvoicePolicy;
 use Illuminate\Http\Request;
 use App\Invoice;
 
 class InvoiceController extends Controller
 {
     public function index()
-    {       
-        return view('pages.invoices'); 
+    {
+        (new InvoicePolicy())->index();
+
+        if(!request()->ajax())
+            return view('pages.invoices'); 
+
+        $company = auth()->user()->company();
+
+        return $company->paginatedCompanyInvoices(request());
+    }
+
+    public function invoice($id)
+    {
+        (new InvoicePolicy())->index();
+
+        $invoice = Invoice::findOrFail($id);
+
+        (new InvoicePolicy())->view($invoice);
+
+        return $invoice;
     }
 
     public function form()
@@ -26,11 +45,6 @@ class InvoiceController extends Controller
     {       
         $invoice = Invoice::store(request());
         return $invoice;
-    }
-
-    public function invoice()
-    {       
-        // code
     }
 
     public function update($id)
