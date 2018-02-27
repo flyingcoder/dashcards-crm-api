@@ -34,4 +34,167 @@
             }
         }
     }
+    .files{
+        height: 950px;
+        .files-options{
+            ul{
+                border: none;
+                li{
+                    border: $table-border;
+                    border-radius: 5px;
+                    height : 50px;
+                    text-align: center;
+                    font-family: $lato-mid;
+                    a{
+                        svg{
+                            fill: $file-icon;
+                        }
+                        span{
+                            vertical-align: top;
+                            font-size: 15px;
+                            color: $file-icon;
+                        }
+                        &:hover{
+                            background: none;
+                            border: none;
+                        }
+                    }
+                   
+                    &:hover{
+                        .all{
+                            svg{
+                                fill: $file-all;
+                            }
+                        }
+                        .image{
+                            svg{
+                                fill: $file-image;
+                            }
+                        }
+                        .video{
+                            svg{
+                                fill: $file-video;
+                            }
+                        }
+                        .document{
+                            svg{
+                                fill: $file-document;
+                            }
+                        }
+                        .others{
+                            svg{
+                                fill: $file-others;
+                            }
+                        }
+                    }
+                }
+                .file-type{
+                    margin-right: 1%;
+                    width: 13%;
+                }
+                .view-option{
+                    border: none;
+                    width: 5%;
+                }
+                .add-link{
+                    background: $blue;
+                    button{
+                        font-size: 15px;
+                        color: $white;
+                        line-height: 1.2;
+                        margin-top: 10%;
+                    }
+                }
+            }
+        }
+        .files-content{
+            .tab-table{
+                table{
+                    background: $gray-bg;
+                    border: $table-border;
+                    height: 795px;
+                    thead, tbody{
+                        tr{
+                            border-bottom: $table-border;
+                            th, td{
+                                &:first-child{
+                                    text-align: center !important;
+                                    width: 7%;
+                                }
+                                &:nth-child(2){
+                                    text-align: center !important;
+                                    width: 10%;
+                                }
+                                &:nth-child(3){
+                                    width: 28%;
+                                    padding-left: 15px;
+                                }
+                                &:nth-child(4){
+                                    width: 17%;
+                                    img{
+                                        position: absolute;
+                                        top: 12px;
+                                        left: -70px;
+                                        width: 55px;
+                                        border-radius: 50%;
+                                    }
+                                }
+                                &:nth-child(5){
+                                    width: 18%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            #list-view{
+                margin-top: 15px;
+                height: 858px;
+                @extend .body-scroll;
+                table{
+                    thead{
+                        font-size: 16px;
+                        color: $table-head;
+                        tr{
+                            height: 60px;
+                            th{
+                                text-align: left;
+                            }
+                        }
+                    }
+                    tbody{
+                        height: 735px !important;
+                        tr{
+                            height: 82px;
+                            td{
+                                position: relative;
+                                font-size: 15px;
+                                color: $file-uploadby;
+                                font-family: $lato-mid;
+                                .user-info{
+                                    text-align: left;
+                                    display: inline-block;
+                                    span{
+                                        line-height: 1.2;
+                                    }
+                                    .time{
+                                        font-size: 13px;
+                                        color: $hq-icon;
+                                        font-family: $lato-semi;
+                                    }
+                                }
+                                .table-option{
+                                    list-style: none;
+                                    li{
+                                        padding: 0 6px;
+                                        display: inline-block;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

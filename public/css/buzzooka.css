@@ -8700,6 +8700,12 @@ button.close {
   transition: width 0.3s ease-in-out;
 }
 
+.buzzooka .buzz-shadow,
+.buzzooka .buzz-box {
+  -webkit-box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+          box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+}
+
 .buzzooka .buzz-shadow-soft,
 .buzzooka .buzz-header {
   -webkit-box-shadow: 0px 5px 30px -20px #4f4f4f;
@@ -8757,6 +8763,73 @@ button.close {
 
 .buzzooka .hover-display:hover {
   display: block;
+}
+
+.buzzooka .body-scroll table,
+.buzzooka .hq-files .files .files-content #list-view table,
+.hq-files .files .files-content .buzzooka #list-view table {
+  width: 100%;
+}
+
+.buzzooka .body-scroll table thead,
+.buzzooka .hq-files .files .files-content #list-view table thead,
+.hq-files .files .files-content .buzzooka #list-view table thead,
+.buzzooka .body-scroll table tbody tr,
+.buzzooka .hq-files .files .files-content #list-view table tbody tr,
+.hq-files .files .files-content .buzzooka #list-view table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.buzzooka .body-scroll table tbody,
+.buzzooka .hq-files .files .files-content #list-view table tbody,
+.hq-files .files .files-content .buzzooka #list-view table tbody {
+  display: block;
+}
+
+.buzzooka .table-checkbox {
+  position: relative;
+}
+
+.buzzooka .table-checkbox label {
+  width: 39px;
+  height: 39px;
+  cursor: pointer;
+  position: relative;
+  top: 6px;
+  left: 0;
+  background: #ffffff;
+  border-radius: 2px;
+  border: 1px solid #dce1e5;
+}
+
+.buzzooka .table-checkbox label:after {
+  content: '';
+  position: absolute;
+  width: 32px;
+  height: 12px;
+  top: 8px;
+  left: 3px;
+  border: 2px solid #3b589e;
+  border-top: none;
+  border-right: none;
+  background: transparent;
+  opacity: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.buzzooka .table-checkbox input[type=checkbox] {
+  visibility: hidden;
+}
+
+.buzzooka .table-checkbox input[type=checkbox]:checked + label:after {
+  opacity: 1;
+}
+
+.buzzooka .table-checkbox label span {
+  padding-left: 45px;
 }
 
 .buzz-header .logo {
@@ -10686,6 +10759,195 @@ button.close {
   font-family: "lato semibold";
   border-radius: 5px;
   padding: 20px 30px;
+}
+
+.hq-files .files {
+  height: 950px;
+}
+
+.hq-files .files .files-options ul {
+  border: none;
+}
+
+.hq-files .files .files-options ul li {
+  border: 1px solid #dce1e5;
+  border-radius: 5px;
+  height: 50px;
+  text-align: center;
+  font-family: "lato medium";
+}
+
+.hq-files .files .files-options ul li a svg {
+  fill: #b3b6c3;
+}
+
+.hq-files .files .files-options ul li a span {
+  vertical-align: top;
+  font-size: 15px;
+  color: #b3b6c3;
+}
+
+.hq-files .files .files-options ul li a:hover {
+  background: none;
+  border: none;
+}
+
+.hq-files .files .files-options ul li:hover .all svg {
+  fill: #a085d6;
+}
+
+.hq-files .files .files-options ul li:hover .image svg {
+  fill: #1fb868;
+}
+
+.hq-files .files .files-options ul li:hover .video svg {
+  fill: #ff7f7e;
+}
+
+.hq-files .files .files-options ul li:hover .document svg {
+  fill: #01a7e5;
+}
+
+.hq-files .files .files-options ul li:hover .others svg {
+  fill: #50b4aa;
+}
+
+.hq-files .files .files-options ul .file-type {
+  margin-right: 1%;
+  width: 13%;
+}
+
+.hq-files .files .files-options ul .view-option {
+  border: none;
+  width: 5%;
+}
+
+.hq-files .files .files-options ul .add-link {
+  background: #3b589e;
+}
+
+.hq-files .files .files-options ul .add-link button {
+  font-size: 15px;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-top: 10%;
+}
+
+.hq-files .files .files-content .tab-table table {
+  background: #f8f9fb;
+  border: 1px solid #dce1e5;
+  height: 795px;
+}
+
+.hq-files .files .files-content .tab-table table thead tr,
+.hq-files .files .files-content .tab-table table tbody tr {
+  border-bottom: 1px solid #dce1e5;
+}
+
+.hq-files .files .files-content .tab-table table thead tr th:first-child,
+.hq-files .files .files-content .tab-table table thead tr td:first-child,
+.hq-files .files .files-content .tab-table table tbody tr th:first-child,
+.hq-files .files .files-content .tab-table table tbody tr td:first-child {
+  text-align: center !important;
+  width: 7%;
+}
+
+.hq-files .files .files-content .tab-table table thead tr th:nth-child(2),
+.hq-files .files .files-content .tab-table table thead tr td:nth-child(2),
+.hq-files .files .files-content .tab-table table tbody tr th:nth-child(2),
+.hq-files .files .files-content .tab-table table tbody tr td:nth-child(2) {
+  text-align: center !important;
+  width: 10%;
+}
+
+.hq-files .files .files-content .tab-table table thead tr th:nth-child(3),
+.hq-files .files .files-content .tab-table table thead tr td:nth-child(3),
+.hq-files .files .files-content .tab-table table tbody tr th:nth-child(3),
+.hq-files .files .files-content .tab-table table tbody tr td:nth-child(3) {
+  width: 28%;
+  padding-left: 15px;
+}
+
+.hq-files .files .files-content .tab-table table thead tr th:nth-child(4),
+.hq-files .files .files-content .tab-table table thead tr td:nth-child(4),
+.hq-files .files .files-content .tab-table table tbody tr th:nth-child(4),
+.hq-files .files .files-content .tab-table table tbody tr td:nth-child(4) {
+  width: 17%;
+}
+
+.hq-files .files .files-content .tab-table table thead tr th:nth-child(4) img,
+.hq-files .files .files-content .tab-table table thead tr td:nth-child(4) img,
+.hq-files .files .files-content .tab-table table tbody tr th:nth-child(4) img,
+.hq-files .files .files-content .tab-table table tbody tr td:nth-child(4) img {
+  position: absolute;
+  top: 12px;
+  left: -70px;
+  width: 55px;
+  border-radius: 50%;
+}
+
+.hq-files .files .files-content .tab-table table thead tr th:nth-child(5),
+.hq-files .files .files-content .tab-table table thead tr td:nth-child(5),
+.hq-files .files .files-content .tab-table table tbody tr th:nth-child(5),
+.hq-files .files .files-content .tab-table table tbody tr td:nth-child(5) {
+  width: 18%;
+}
+
+.hq-files .files .files-content #list-view {
+  margin-top: 15px;
+  height: 858px;
+}
+
+.hq-files .files .files-content #list-view table thead {
+  font-size: 16px;
+  color: #7f91a8;
+}
+
+.hq-files .files .files-content #list-view table thead tr {
+  height: 60px;
+}
+
+.hq-files .files .files-content #list-view table thead tr th {
+  text-align: left;
+}
+
+.hq-files .files .files-content #list-view table tbody {
+  height: 735px !important;
+}
+
+.hq-files .files .files-content #list-view table tbody tr {
+  height: 82px;
+}
+
+.hq-files .files .files-content #list-view table tbody tr td {
+  position: relative;
+  font-size: 15px;
+  color: #657186;
+  font-family: "lato medium";
+}
+
+.hq-files .files .files-content #list-view table tbody tr td .user-info {
+  text-align: left;
+  display: inline-block;
+}
+
+.hq-files .files .files-content #list-view table tbody tr td .user-info span {
+  line-height: 1.2;
+}
+
+.hq-files .files .files-content #list-view table tbody tr td .user-info .time {
+  font-size: 13px;
+  color: #bcc2cf;
+  font-family: "lato semibold";
+}
+
+.hq-files .files .files-content #list-view table tbody tr td .table-option {
+  list-style: none;
+}
+
+.hq-files .files .files-content #list-view table tbody tr td .table-option li {
+  padding: 0 6px;
+  display: inline-block;
 }
 
 .hq-milestones .buzz-box .box-content {
