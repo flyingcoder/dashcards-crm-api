@@ -17,6 +17,18 @@
                             font-size: 20px;
                             font-family: $lato-mid;
                             color: $milestone-title;
+                            i{
+                                position: relative;
+                                top: 20px;
+                                right: 30px;
+                                transform: rotate(180deg);
+                                @extend .transform-transition;
+                            }
+                        }
+                        .collapsed{
+                            i{
+                                transform: rotate(0deg) !important;
+                            }
                         }
                     }
                     .milestone-collapse{
@@ -31,6 +43,21 @@
                                 font-size: 19px;
                                 font-family: $lato-mid;
                                 padding: 10px 25px;
+                                &:hover{
+                                    background: $gray-bg;
+                                    .milestone-sub-option{
+                                        li{
+                                            display: inline-block;
+                                        }
+                                    }
+                                }
+                                .milestone-sub-option{
+                                    li{
+                                        display: none;
+                                        border-top: none;
+                                        padding: 0 7px;
+                                    }
+                                }
                             }
                         }
                     }
@@ -42,7 +69,7 @@
             a{
                 font-family: $lato-semi;
                 line-height: 1.2;
-                color: $white;
+                color: $white !important;
                 border: $table-border;
                 background: $blue;
                 border-radius: 40px;

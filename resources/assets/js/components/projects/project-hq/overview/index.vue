@@ -148,7 +148,7 @@
                 <div class="buzz-box">
                     <div class="box-head">
                         <h1>Tasks</h1>
-                        <div class="box-options">
+                        <div class="box-options tasks-view">
                         <div class="option-item list-option">
                             <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px">
@@ -202,114 +202,111 @@
                     <div class="box-content db-tasks">
                         <div class="box-tabs" id="task-tabs">
                         <ul class="nav nav-tabs">
-                            <li class="active">
-                            <a href="#my-task" data-toggle="tab">My Task</a>
-                            </li>
                             <li>
-                            <a href="#all-task" data-toggle="tab">All Task</a>
+                            <a href="#my-task" data-toggle="tab" @click="filterTasks('my', 'all')">My Task</a>
+                            </li>
+                            <li class="active">
+                            <a href="#all-task" data-toggle="tab" @click="filterTasks('all', 'all')">All Task</a>
                             </li>
                         </ul>
                         <div class="tasks-option">
-                            <div class="option-list active">
-                            <a href="#" class="active"> All
-                                <label> <span> 14 </span></label>
+                            <div class="option-list" 
+                            :class="taskOption == 'all' ? 'active' : ''" 
+                            @click="filterTasks(taskFilter, 'all')">
+                            <a> All
+                                <label> <span> {{ taskCount.all }} </span></label>
                             </a>
                             </div>
-                            <div class="option-list">
-                            <a href="#"> Completed
-                                <label> <span> 9 </span></label>
+                            <div class="option-list" 
+                            :class="taskOption == 'completed' ? 'active' : ''"
+                            @click="filterTasks(taskFilter,'completed')">
+                            <a> Completed
+                                <label> <span> {{ taskCount.completed }} </span></label>
                             </a>
                             </div>
-                            <div class="option-list">
-                            <a href="#"> Pending
-                                <label> <span> 3 </span></label>
+                            <div class="option-list" 
+                            :class="taskOption == 'pending' ? 'active' : ''" 
+                            @click="filterTasks(taskFilter, 'pending')">
+                            <a> Pending
+                                <label> <span> {{ taskCount.pending }} </span></label>
                             </a>
                             </div>
-                            <div class="option-list">
-                            <a href="#"> Behind
-                                <label> <span> 2 </span></label>
+                            <div class="option-list" 
+                            :class="taskOption == 'behind' ? 'active' : ''" 
+                            @click="filterTasks(taskFilter, 'behind')">
+                            <a> Behind
+                                <label> <span> {{ taskCount.behind }} </span></label>
                             </a>
                             </div>
                         </div>
                         <div class="tab-content">
-                            <div class="tab-pane fade tab-table active show in" id="my-task">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th> </th>
-                                        <th> Assignee </th>
-                                        <th> Project </th>
-                                        <th> Status </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td> 
-                                            <div class="hover-display"> 
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                width="18px" height="35px">
-                                                <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
-                                                d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
-                                                </svg> 
-                                            </div> 
-                                        </td>
-                                        <td> <img src="img/temporary/user1.png"> </td>
-                                        <td> 
-                                            <span class="buzz-overflow task-project"> Website redesign concept </span>
-                                            <span class="assigned-project"> assigned to Alan Podemskie. 3 hrs ago </span>
-                                        </td>
-                                        <td> 
-                                        <span class="status"> Completed </span>
-                                        <div class="progress completed"> </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> 
-                                            <div class="hover-display"> 
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                width="18px" height="35px">
-                                                <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
-                                                d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
-                                                </svg> 
-                                            </div> 
-                                        </td>
-                                        <td> <img src="img/temporary/user2.png">  </td>
-                                        <td> 
-                                            <span class="buzz-overflow task-project"> Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  </span>
-                                            <span class="assigned-project"> assigned to Brian Howard. 3 hrs ago </span>
-                                        </td>
-                                        <td>
-                                            <span class="status"> Behind </span>
-                                            <div class="progress behind"> </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                    <td> 
-                                        <div class="hover-display"> 
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            width="18px" height="35px">
-                                            <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
-                                            d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
-                                            </svg> 
-                                        </div> 
-                                    </td>
-                                    <td> <img src="img/temporary/user3.png"> </td>
-                                    <td> 
-                                        <span class="buzz-overflow task-project"> Social media marketing </span> 
-                                        <span class="assigned-project"> assigned to Jimmy Alister. 1 day ago </span>
-                                    </td>
-                                    <td> 
-                                        <span class="status"> Pending </span>
-                                        <div class="progress pending"> </div>  
-                                    </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="tab-pane fade tab-table" id="my-task">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th> </th>
+                                            <th> Assignee </th>
+                                            <th> Project </th>
+                                            <th> Status </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  v-for="t in filteredTasks" :key="t.id">
+                                            <td> 
+                                                <div class="hover-display"> 
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    width="18px" height="35px">
+                                                    <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
+                                                    d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
+                                                    </svg> 
+                                                </div> 
+                                            </td>
+                                            <td> <img :src="'img/temporary/' + t.assignee.image"> </td>
+                                            <td> 
+                                                <span class="buzz-overflow task-project"> {{ t.project }} </span>
+                                                <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
+                                            </td>
+                                            <td> 
+                                            <span class="status"> {{ t.status }} </span>
+                                            <div class="progress" :class="t.status"> </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="tab-pane fade tab-table" id="all-task">
-                            <p>
-                                Howdy, I'm in Section 2.
-                            </p>
+                            <div class="tab-pane fade tab-table active show in" id="all-task">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th> </th>
+                                            <th> Assignee </th>
+                                            <th> Project </th>
+                                            <th> Status </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  class="buzz-scrollbar" id="buzz-scroll">
+                                        <tr  v-for="t in filteredTasks" :key="t.id">
+                                            <td> 
+                                                <div class="hover-display"> 
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    width="18px" height="35px">
+                                                    <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
+                                                    d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
+                                                    </svg> 
+                                                </div> 
+                                            </td>
+                                            <td> <img :src="'img/temporary/' + t.assignee.image"> </td>
+                                            <td> 
+                                                <span class="buzz-overflow task-project"> {{ t.project }} </span>
+                                                <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
+                                            </td>
+                                            <td> 
+                                            <span class="status"> {{ t.status }} </span>
+                                            <div class="progress" :class="t.status"> </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         </div>
@@ -737,3 +734,334 @@
         </div>
     </section>
 </template>
+
+<script>
+    export default {
+        data(){
+            return {
+            myProjects: 0,
+            myTasks: 0,
+            myCalendar: 0,
+            myTimer: 0,
+            inbound: 0,
+            outbound: 0,
+            filteredTasks:[],
+            tasks: [
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Website redesign concept',
+                        assigned_to: 'Alan Prodemskie',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 1
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user2.png'
+                        },
+                        project: 'Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                        assigned_to: 'Brian Howard',
+                        assign_date: '2018-02-22 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 1
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'Social media marketing',
+                        assigned_to: 'Jimmy Alister',
+                        assign_date: '2018-02-22 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 1
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Lorem ipsum dolor sit amet',
+                        assigned_to: 'Artour Babaev',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 3
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'consectetur adipiscing elit',
+                        assigned_to: 'Sumail Hassan',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 4
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'sed do eiusmod tempor',
+                        assigned_to: 'Amer Al-Barqawi',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 5
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'incididunt ut labore',
+                        assigned_to: 'Saahil Arora',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 6
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'et dolore magna aliqua',
+                        assigned_to: 'Clinton Loomis',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 7
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Ut enim ad minim',
+                        assigned_to: 'Jacky Mao',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 8
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'quis nostrud exercitation',
+                        assigned_to: 'Abed Yusop',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 9
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'ullamco laboris nisi ut',
+                        assigned_to: 'Omar Aliwi',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 10
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'aliquip ex ea commodo consequat',
+                        assigned_to: 'Clement Ivanov',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 11
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Duis aute irure dolor in reprehenderit',
+                        assigned_to: 'Dani Ishutin',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 12
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'in voluptate velit esse',
+                        assigned_to: 'Marcel David',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 13
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'cillum dolore eu fugiat',
+                        assigned_to: 'Gabriel Toledo',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 14
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'nulla pariatur',
+                        assigned_to: 'Fernando Alvarenga',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 15
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Excepteur sint occaecat',
+                        assigned_to: 'Epitácio de Melo',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 16
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'cupidatat non proident',
+                        assigned_to: 'João Vasconcellos',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 17
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user2.png'
+                        },
+                        project: 'sunt in culpa qui',
+                        assigned_to: 'João Vasconcellos',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 18
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'officia deserunt',
+                        assigned_to: 'Olof Kajbjer',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 20
+                        }
+                    },
+                ],
+            taskOption: 'all',
+            taskFilter: 'my',
+            taskCount:
+                {
+                    all: 0,
+                    completed: 0,
+                    pending: 0,
+                    behind: 0
+                }
+            }
+        },
+        mounted(){
+            this.getCounts();
+            this.getTasks();
+            this.filterTasks('my' , 'all');
+        },
+        methods:{
+            getCounts(){
+                axios.get('/api/dashboard/counts')
+                .then( response => {
+                    this.myProjects = reponse.data.projects;
+                    this.myTasks = reponse.data.tasks;
+                    this.myCalendar = reponse.data.calendars;
+                    this.myTimer = reponse.data.timer;
+                    this.inbound = reponse.data.inbound;
+                    this.outbound = reponse.data.outbound;
+                })
+                .catch( error => {
+                    if(error.response.status == 500 || error.response.status == 404){
+
+                    }
+                });
+            },
+            getTasks(){
+                axios.get('/api/user/tasks')
+                .then( response => {
+                    this.tasks = response.data;
+                })
+                .catch( error => {
+                    if(error.response.status == 500 || error.response.status == 404){
+
+                    }
+                });
+                
+            },
+            filterTasks(filter, option){
+                if(filter == 'my'){
+                    if(option == 'all'){
+                        this.filteredTasks = _.filter(this.tasks, { user: {id : 1}});
+                    }
+                    else {
+                        this.filteredTasks = _.filter(this.tasks, { user: {id : 1}, status: option});
+                    }
+                    this.taskCount.all = _.filter(this.tasks, { user: {id : 1}}).length;
+                    this.taskCount.completed = _.filter(this.tasks, {  user: {id : 1}, status: 'completed'}).length;
+                    this.taskCount.pending = _.filter(this.tasks, { user: {id : 1}, status: 'pending'}).length;
+                    this.taskCount.behind = _.filter(this.tasks, {  user: {id : 1}, status: 'behind'}).length;
+                }
+                else{
+                    if(option == 'all'){
+                        this.filteredTasks = this.tasks;
+                    }
+                    else {
+                        this.filteredTasks = _.filter(this.tasks, { status: option });
+                    }
+                    this.taskCount.all = this.tasks.length;
+                    this.taskCount.completed = _.filter(this.tasks, { status: 'completed'}).length;
+                    this.taskCount.pending = _.filter(this.tasks, { status: 'pending'}).length;
+                    this.taskCount.behind = _.filter(this.tasks, { status: 'behind'}).length;
+                }
+                this.taskFilter = filter;
+                this.taskOption = option;
+                
+            },
+        }
+    }
+</script>

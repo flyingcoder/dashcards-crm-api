@@ -33,6 +33,9 @@
             }
         }
     }
+    .tasks-view{
+        top: 0px;
+    }
     .db-tasks{
         .box-tabs{
            ul{
@@ -51,6 +54,7 @@
                         font-weight: bold;
                         text-transform: uppercase;
                         font-size: 14px !important;
+                        color: $table-data;
                         @extend .buzz-a;
                     }
                }
@@ -70,7 +74,7 @@
                        border-radius: 20px;
                        font-size: 13.5px;
                        font-family: $lato-semi;
-                       color: $text;
+                       color: $table-head;
                        background: $white;
                        border: $border-buzz;
 
@@ -106,13 +110,19 @@
                    height: 304px;
                    table{
                        width: 100%;
-                       thead{
+                       thead, tbody tr {
+                            display:table;
+                            width:100%;
+                            table-layout:fixed;
+                        }
+                        thead{
                            tr{
                             height: 60px;
                             border-bottom: $border-buzz;
-                            font-size: 14px;
+                            font-size: 16px;
                             letter-spacing: 0.5px;
                             background: $gray-bg;
+                            color: $table-head;
                             @extend .page-title;
                             th{
                                 &:first-child{
@@ -122,15 +132,19 @@
                                     width: 18%;
                                 }
                                 &:nth-child(3){
-                                    width: 50%;
+                                    width: 53%;
                                 }
                                 &:last-child{
+                                    position: relative;
+                                    left: 15px;
                                     width: 19%;
                                 }
                             }
                            }
                        }
                        tbody{
+                        display:block;
+                        height: 243px !important;
                            tr{
                                height: 81px;
                                border-bottom: $border-buzz;
@@ -162,11 +176,12 @@
                                     width: 18%;
                                    }
                                    &:nth-child(3){
-                                    width: 50%;
+                                    width: 53%;
                                     padding-right: 25px;
                                     @extend .buzz-overflow;
                                    }
                                    &:last-child{
+                                       left: 15px;
                                        width: 19%;
                                    }
                                    

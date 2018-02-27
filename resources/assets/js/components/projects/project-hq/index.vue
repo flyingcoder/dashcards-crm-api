@@ -129,34 +129,374 @@
                 </div>
             </div>
         </section>
+
+        <section class="content hq-files">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="buzz-box drop-files">
+                        <div class="drop-files-content">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="89px" height="100px">
+                                <path fill-rule="evenodd"  fill="rgb(230, 230, 230)"
+                                d="M77.345,89.918 L30.568,89.918 C24.310,89.918 19.189,84.757 19.189,78.450 L19.189,12.374 C19.189,6.068 24.310,0.908 30.568,0.908 L69.037,0.908 L69.037,19.564 L88.723,19.838 L88.723,78.450 C88.723,84.757 83.603,89.918 77.345,89.918 ZM73.010,0.908 L73.403,0.908 L88.723,14.729 L88.723,15.398 L73.010,15.398 L73.010,0.908 ZM16.261,78.450 C16.261,82.409 17.870,86.012 20.461,88.625 L20.472,88.635 C23.064,91.244 26.638,92.869 30.568,92.869 L62.994,92.869 L24.737,99.345 C18.565,100.387 12.666,96.153 11.631,89.936 L0.771,24.772 C-0.265,18.551 3.938,12.608 10.109,11.563 L16.382,10.502 C16.303,11.115 16.261,11.740 16.261,12.374 L16.261,78.450 Z"/>
+                            </svg>
+                            <div class="drop-text">
+                                <label>Drop files here <br> <span> Or </span> </label>
+                            </div>
+                            <div class="drop-button">
+                                <button>
+                                    Choose your files
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="buzz-box files">
+                        <div class="files-content">
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
-
 
 <script>
     import BoxOption from '../../box-option.vue';
 
-    export default {   
-
+    export default {
         components: {
           'box-option': BoxOption,
-      },
+        },
+        data(){
+            return {
+            myProjects: 0,
+            myTasks: 0,
+            myCalendar: 0,
+            myTimer: 0,
+            inbound: 0,
+            outbound: 0,
+            filteredTasks:[],
+            tasks: [
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Website redesign concept',
+                        assigned_to: 'Alan Prodemskie',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 1
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user2.png'
+                        },
+                        project: 'Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                        assigned_to: 'Brian Howard',
+                        assign_date: '2018-02-22 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 1
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'Social media marketing',
+                        assigned_to: 'Jimmy Alister',
+                        assign_date: '2018-02-22 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 1
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Lorem ipsum dolor sit amet',
+                        assigned_to: 'Artour Babaev',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 3
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'consectetur adipiscing elit',
+                        assigned_to: 'Sumail Hassan',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 4
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'sed do eiusmod tempor',
+                        assigned_to: 'Amer Al-Barqawi',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 5
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'incididunt ut labore',
+                        assigned_to: 'Saahil Arora',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 6
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'et dolore magna aliqua',
+                        assigned_to: 'Clinton Loomis',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 7
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Ut enim ad minim',
+                        assigned_to: 'Jacky Mao',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 8
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'quis nostrud exercitation',
+                        assigned_to: 'Abed Yusop',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 9
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'ullamco laboris nisi ut',
+                        assigned_to: 'Omar Aliwi',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 10
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'aliquip ex ea commodo consequat',
+                        assigned_to: 'Clement Ivanov',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 11
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Duis aute irure dolor in reprehenderit',
+                        assigned_to: 'Dani Ishutin',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 12
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'in voluptate velit esse',
+                        assigned_to: 'Marcel David',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 13
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'cillum dolore eu fugiat',
+                        assigned_to: 'Gabriel Toledo',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 14
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'nulla pariatur',
+                        assigned_to: 'Fernando Alvarenga',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'completed',
+                        user: {
+                            id: 15
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user1.png'
+                        },
+                        project: 'Excepteur sint occaecat',
+                        assigned_to: 'Epitácio de Melo',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 16
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'cupidatat non proident',
+                        assigned_to: 'João Vasconcellos',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 17
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user2.png'
+                        },
+                        project: 'sunt in culpa qui',
+                        assigned_to: 'João Vasconcellos',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'pending',
+                        user: {
+                            id: 18
+                        }
+                    },
+                    {
+                        assignee: {
+                            image: 'user3.png'
+                        },
+                        project: 'officia deserunt',
+                        assigned_to: 'Olof Kajbjer',
+                        assign_date: '2018-02-21 13:04:18',
+                        status: 'behind',
+                        user: {
+                            id: 20
+                        }
+                    },
+                ],
+            taskOption: 'all',
+            taskFilter: 'my',
+            taskCount:
+                {
+                    all: 0,
+                    completed: 0,
+                    pending: 0,
+                    behind: 0
+                }
+            }
+        },
+        mounted(){
+            this.getCounts();
+            this.getTasks();
+            this.filterTasks('my' , 'all');
+        },
+        methods:{
+            getCounts(){
+                axios.get('/api/dashboard/counts')
+                .then( response => {
+                    this.myProjects = reponse.data.projects;
+                    this.myTasks = reponse.data.tasks;
+                    this.myCalendar = reponse.data.calendars;
+                    this.myTimer = reponse.data.timer;
+                    this.inbound = reponse.data.inbound;
+                    this.outbound = reponse.data.outbound;
+                })
+                .catch( error => {
+                    if(error.response.status == 500 || error.response.status == 404){
 
-      data () {
-        return {
+                    }
+                });
+            },
+            getTasks(){
+                axios.get('/api/user/tasks')
+                .then( response => {
+                    this.tasks = response.data;
+                })
+                .catch( error => {
+                    if(error.response.status == 500 || error.response.status == 404){
 
-
+                    }
+                });
+                
+            },
+            filterTasks(filter, option){
+                if(filter == 'my'){
+                    if(option == 'all'){
+                        this.filteredTasks = _.filter(this.tasks, { user: {id : 1}});
+                    }
+                    else {
+                        this.filteredTasks = _.filter(this.tasks, { user: {id : 1}, status: option});
+                    }
+                    this.taskCount.all = _.filter(this.tasks, { user: {id : 1}}).length;
+                    this.taskCount.completed = _.filter(this.tasks, {  user: {id : 1}, status: 'completed'}).length;
+                    this.taskCount.pending = _.filter(this.tasks, { user: {id : 1}, status: 'pending'}).length;
+                    this.taskCount.behind = _.filter(this.tasks, {  user: {id : 1}, status: 'behind'}).length;
+                }
+                else{
+                    if(option == 'all'){
+                        this.filteredTasks = this.tasks;
+                    }
+                    else {
+                        this.filteredTasks = _.filter(this.tasks, { status: option });
+                    }
+                    this.taskCount.all = this.tasks.length;
+                    this.taskCount.completed = _.filter(this.tasks, { status: 'completed'}).length;
+                    this.taskCount.pending = _.filter(this.tasks, { status: 'pending'}).length;
+                    this.taskCount.behind = _.filter(this.tasks, { status: 'behind'}).length;
+                }
+                this.taskFilter = filter;
+                this.taskOption = option;
+                
+            },
         }
-      },
-
-      mounted () {
-        
-
-      },
-
-      methods: {
-
-      }
-
     }
 </script>

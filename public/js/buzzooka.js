@@ -277,7 +277,7 @@ function forEach(obj, fn) {
   }
 
   // Force an array if not already something iterable
-  if (typeof obj !== 'object' && !isArray(obj)) {
+  if (typeof obj !== 'object') {
     /*eslint no-param-reassign:0*/
     obj = [obj];
   }
@@ -890,7 +890,7 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
         status: request.status === 1223 ? 204 : request.status,
         statusText: request.status === 1223 ? 'No Content' : request.statusText,
         headers: responseHeaders,
@@ -31159,8 +31159,6 @@ var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(29);
 var dispatchRequest = __webpack_require__(30);
-var isAbsoluteURL = __webpack_require__(32);
-var combineURLs = __webpack_require__(33);
 
 /**
  * Create a new instance of Axios
@@ -31191,11 +31189,6 @@ Axios.prototype.request = function request(config) {
 
   config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
   config.method = config.method.toLowerCase();
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
 
   // Hook up interceptors middleware
   var chain = [dispatchRequest, undefined];
@@ -31405,6 +31398,15 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 var utils = __webpack_require__(0);
 
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
 /**
  * Parse headers into an object
  *
@@ -31432,7 +31434,14 @@ module.exports = function parseHeaders(headers) {
     val = utils.trim(line.substr(i + 1));
 
     if (key) {
-      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
     }
   });
 
@@ -31688,6 +31697,8 @@ var utils = __webpack_require__(0);
 var transformData = __webpack_require__(31);
 var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(3);
+var isAbsoluteURL = __webpack_require__(32);
+var combineURLs = __webpack_require__(33);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -31706,6 +31717,11 @@ function throwIfCancellationRequested(config) {
  */
 module.exports = function dispatchRequest(config) {
   throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
 
   // Ensure headers exist
   config.headers = config.headers || {};
@@ -43033,7 +43049,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/dashboard/index.vue"
+Component.options.__file = "resources\\assets\\js\\components\\dashboard\\index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43042,9 +43058,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1d953950", Component.options)
+    hotAPI.createRecord("data-v-2ccdf2fa", Component.options)
   } else {
-    hotAPI.reload("data-v-1d953950", Component.options)
+    hotAPI.reload("data-v-2ccdf2fa", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -43060,6 +43076,13 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
 //
 //
 //
@@ -44017,248 +44040,247 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
-        return {
+        var _ref;
+
+        return _ref = {
             myProjects: 0,
             myTasks: 0,
             myCalendar: 0,
             myTimer: 0,
             inbound: 0,
             outbound: 0,
-            filteredTasks: [],
-            tasks: [{
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'Website redesign concept',
-                assigned_to: 'Alan Prodemskie',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
-                user: {
-                    id: 1
-                }
-            }, {
-                assignee: {
-                    image: 'user2.png'
-                },
-                project: 'Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                assigned_to: 'Brian Howard',
-                assign_date: '2018-02-22 13:04:18',
-                status: 'behind',
-                user: {
-                    id: 1
-                }
-            }, {
-                assignee: {
-                    image: 'user3.png'
-                },
-                project: 'Social media marketing',
-                assigned_to: 'Jimmy Alister',
-                assign_date: '2018-02-22 13:04:18',
-                status: 'pending',
-                user: {
-                    id: 1
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'Lorem ipsum dolor sit amet',
-                assigned_to: 'Artour Babaev',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
-                user: {
-                    id: 3
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'consectetur adipiscing elit',
-                assigned_to: 'Sumail Hassan',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'behind',
-                user: {
-                    id: 4
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'sed do eiusmod tempor',
-                assigned_to: 'Amer Al-Barqawi',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'pending',
-                user: {
-                    id: 5
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'incididunt ut labore',
-                assigned_to: 'Saahil Arora',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
-                user: {
-                    id: 6
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'et dolore magna aliqua',
-                assigned_to: 'Clinton Loomis',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'behind',
-                user: {
-                    id: 7
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'Ut enim ad minim',
-                assigned_to: 'Jacky Mao',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'pending',
-                user: {
-                    id: 8
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'quis nostrud exercitation',
-                assigned_to: 'Abed Yusop',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
-                user: {
-                    id: 9
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'ullamco laboris nisi ut',
-                assigned_to: 'Omar Aliwi',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'behind',
-                user: {
-                    id: 10
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'aliquip ex ea commodo consequat',
-                assigned_to: 'Clement Ivanov',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'pending',
-                user: {
-                    id: 11
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'Duis aute irure dolor in reprehenderit',
-                assigned_to: 'Dani Ishutin',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
-                user: {
-                    id: 12
-                }
-            }, {
-                assignee: {
-                    image: 'user3.png'
-                },
-                project: 'in voluptate velit esse',
-                assigned_to: 'Marcel David',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'behind',
-                user: {
-                    id: 13
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'cillum dolore eu fugiat',
-                assigned_to: 'Gabriel Toledo',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'pending',
-                user: {
-                    id: 14
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'nulla pariatur',
-                assigned_to: 'Fernando Alvarenga',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
-                user: {
-                    id: 15
-                }
-            }, {
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'Excepteur sint occaecat',
-                assigned_to: 'Epitácio de Melo',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'behind',
-                user: {
-                    id: 16
-                }
-            }, {
-                assignee: {
-                    image: 'user3.png'
-                },
-                project: 'cupidatat non proident',
-                assigned_to: 'João Vasconcellos',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'pending',
-                user: {
-                    id: 17
-                }
-            }, {
-                assignee: {
-                    image: 'user2.png'
-                },
-                project: 'sunt in culpa qui',
-                assigned_to: 'João Vasconcellos',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'pending',
-                user: {
-                    id: 18
-                }
-            }, {
-                assignee: {
-                    image: 'user3.png'
-                },
-                project: 'officia deserunt',
-                assigned_to: 'Olof Kajbjer',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'behind',
-                user: {
-                    id: 20
-                }
-            }],
-            taskOption: 'all',
-            taskFilter: 'my',
-            taskCount: {
-                all: 0,
-                completed: 0,
-                pending: 0,
-                behind: 0
+            filteredTasks: []
+        }, _defineProperty(_ref, 'myTasks', [{
+            assignee: {
+                image: 'user2.png'
+            },
+            project: 'Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            assigned_to: 'Brian Howard',
+            assign_date: '2018-02-22 13:04:18',
+            status: 'behind',
+            user: {
+                id: 1
             }
-        };
+        }, {
+            assignee: {
+                image: 'user3.png'
+            },
+            project: 'Social media marketing',
+            assigned_to: 'Jimmy Alister',
+            assign_date: '2018-02-22 13:04:18',
+            status: 'pending',
+            user: {
+                id: 1
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'Social media marketing',
+            assigned_to: 'Jimmy Alister',
+            assign_date: '2018-02-22 13:04:18',
+            status: 'pending',
+            user: {
+                id: 1
+            }
+        }]), _defineProperty(_ref, 'allTasks', [{
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'consectetur adipiscing elit',
+            assigned_to: 'Sumail Hassan',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'behind',
+            user: {
+                id: 4
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'sed do eiusmod tempor',
+            assigned_to: 'Amer Al-Barqawi',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'pending',
+            user: {
+                id: 5
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'incididunt ut labore',
+            assigned_to: 'Saahil Arora',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'completed',
+            user: {
+                id: 6
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'et dolore magna aliqua',
+            assigned_to: 'Clinton Loomis',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'behind',
+            user: {
+                id: 7
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'Ut enim ad minim',
+            assigned_to: 'Jacky Mao',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'pending',
+            user: {
+                id: 8
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'quis nostrud exercitation',
+            assigned_to: 'Abed Yusop',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'completed',
+            user: {
+                id: 9
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'ullamco laboris nisi ut',
+            assigned_to: 'Omar Aliwi',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'behind',
+            user: {
+                id: 10
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'aliquip ex ea commodo consequat',
+            assigned_to: 'Clement Ivanov',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'pending',
+            user: {
+                id: 11
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'Duis aute irure dolor in reprehenderit',
+            assigned_to: 'Dani Ishutin',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'completed',
+            user: {
+                id: 12
+            }
+        }, {
+            assignee: {
+                image: 'user3.png'
+            },
+            project: 'in voluptate velit esse',
+            assigned_to: 'Marcel David',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'behind',
+            user: {
+                id: 13
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'cillum dolore eu fugiat',
+            assigned_to: 'Gabriel Toledo',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'pending',
+            user: {
+                id: 14
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'nulla pariatur',
+            assigned_to: 'Fernando Alvarenga',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'completed',
+            user: {
+                id: 15
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'Excepteur sint occaecat',
+            assigned_to: 'Epitácio de Melo',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'behind',
+            user: {
+                id: 16
+            }
+        }, {
+            assignee: {
+                image: 'user3.png'
+            },
+            project: 'cupidatat non proident',
+            assigned_to: 'João Vasconcellos',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'pending',
+            user: {
+                id: 17
+            }
+        }, {
+            assignee: {
+                image: 'user2.png'
+            },
+            project: 'sunt in culpa qui',
+            assigned_to: 'João Vasconcellos',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'pending',
+            user: {
+                id: 18
+            }
+        }, {
+            assignee: {
+                image: 'user3.png'
+            },
+            project: 'officia deserunt',
+            assigned_to: 'Olof Kajbjer',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'behind',
+            user: {
+                id: 20
+            }
+        }, {
+            assignee: {
+                image: 'user1.png'
+            },
+            project: 'officia deserunt',
+            assigned_to: 'Olof Kajbjer',
+            assign_date: '2018-02-21 13:04:18',
+            status: 'behind',
+            user: {
+                id: 20
+            }
+        }]), _defineProperty(_ref, 'taskOption', 'all'), _defineProperty(_ref, 'taskFilter', 'my'), _defineProperty(_ref, 'taskCount', {
+            all: 0,
+            completed: 0,
+            pending: 0,
+            behind: 0
+        }), _ref;
     },
     mounted: function mounted() {
         this.getCounts();
-        this.getTasks();
+        this.getMyTasks();
+        this.getAllTasks();
         this.filterTasks('my', 'all');
     },
 
@@ -44277,36 +44299,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (error.response.status == 500 || error.response.status == 404) {}
             });
         },
-        getTasks: function getTasks() {
+        getMyTasks: function getMyTasks() {
             var _this2 = this;
 
             axios.get('/api/user/tasks').then(function (response) {
-                _this2.tasks = response.data;
+                _this2.myTasks = response.data;
+            }).catch(function (error) {
+                if (error.response.status == 500 || error.response.status == 404) {}
+            });
+        },
+        getAllTasks: function getAllTasks() {
+            var _this3 = this;
+
+            axios.get('/api/tasks').then(function (response) {
+                _this3.allTasks = response.data;
             }).catch(function (error) {
                 if (error.response.status == 500 || error.response.status == 404) {}
             });
         },
         filterTasks: function filterTasks(filter, option) {
             if (filter == 'my') {
-                if (option == 'all') {
-                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 } });
-                } else {
-                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 }, status: option });
-                }
-                this.taskCount.all = _.filter(this.tasks, { user: { id: 1 } }).length;
-                this.taskCount.completed = _.filter(this.tasks, { user: { id: 1 }, status: 'completed' }).length;
-                this.taskCount.pending = _.filter(this.tasks, { user: { id: 1 }, status: 'pending' }).length;
-                this.taskCount.behind = _.filter(this.tasks, { user: { id: 1 }, status: 'behind' }).length;
+                this.filteredTasks = _.filter(this.myTasks, { status: option });
+                this.taskCount.all = this.myTasks.length;
+                this.taskCount.completed = _.filter(this.myTasks, { status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.myTasks, { status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.myTasks, { status: 'behind' }).length;
             } else {
-                if (option == 'all') {
-                    this.filteredTasks = this.tasks;
-                } else {
-                    this.filteredTasks = _.filter(this.tasks, { status: option });
-                }
-                this.taskCount.all = this.tasks.length;
-                this.taskCount.completed = _.filter(this.tasks, { status: 'completed' }).length;
-                this.taskCount.pending = _.filter(this.tasks, { status: 'pending' }).length;
-                this.taskCount.behind = _.filter(this.tasks, { status: 'behind' }).length;
+                this.filteredTasks = _.filter(this.allTasks, { status: option });
+                this.taskCount.all = this.allTasks.length;
+                this.taskCount.completed = _.filter(this.allTasks, { status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.allTasks, { status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.allTasks, { status: 'behind' }).length;
             }
             this.taskFilter = filter;
             this.taskOption = option;
@@ -44480,7 +44503,7 @@ var render = function() {
           _c("div", { staticClass: "box-head" }, [
             _c("h1", [_vm._v("Tasks")]),
             _vm._v(" "),
-            _c("div", { staticClass: "box-options" }, [
+            _c("div", { staticClass: "box-options tasks-view" }, [
               _c("div", { staticClass: "option-item list-option" }, [
                 _c("a", { attrs: { href: "#" } }, [
                   _c(
@@ -45600,7 +45623,33 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "box-content db-timer" }, [
-            _vm._m(22),
+            _c("div", { staticClass: "header-content" }, [
+              _vm._m(22),
+              _vm._v(" "),
+              _c("div", { staticClass: "tab-pane fade timer-info show" }, [
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                      width: "514px",
+                      height: "245px"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        fill: "rgb(59, 88, 158)",
+                        d:
+                          "M-0.012,0.001 L514.000,0.001 L514.000,245.003 L-0.012,245.003 L-0.012,0.001 Z"
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "timer-content" }, [
               _c(
@@ -46585,14 +46634,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "header-content" }, [
-      _c("div", { staticClass: "tab-pane fade alarm-info hide" }, [
-        _c("span", [_vm._v("Alarm")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "tab-pane fade timer-info show" }, [
-        _c("span", [_vm._v("Timer")])
-      ])
+    return _c("div", { staticClass: "tab-pane fade alarm-info hide" }, [
+      _c("span", [_vm._v("Alarm")])
     ])
   },
   function() {
@@ -46916,7 +46959,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1d953950", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2ccdf2fa", module.exports)
   }
 }
 
@@ -46946,7 +46989,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/projects/index.vue"
+Component.options.__file = "resources\\assets\\js\\components\\projects\\index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -46955,9 +46998,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-75258654", Component.options)
+    hotAPI.createRecord("data-v-1a8b2607", Component.options)
   } else {
-    hotAPI.reload("data-v-75258654", Component.options)
+    hotAPI.reload("data-v-1a8b2607", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47540,7 +47583,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/page-header.vue"
+Component.options.__file = "resources\\assets\\js\\components\\page-header.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47549,9 +47592,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4ed8b9c4", Component.options)
+    hotAPI.createRecord("data-v-c8d1f6f8", Component.options)
   } else {
-    hotAPI.reload("data-v-4ed8b9c4", Component.options)
+    hotAPI.reload("data-v-c8d1f6f8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47594,7 +47637,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4ed8b9c4", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-c8d1f6f8", module.exports)
   }
 }
 
@@ -49505,7 +49548,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-75258654", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1a8b2607", module.exports)
   }
 }
 
@@ -49535,7 +49578,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/projects/project-hq/index.vue"
+Component.options.__file = "resources\\assets\\js\\components\\projects\\project-hq\\index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49544,9 +49587,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-38d36624", Component.options)
+    hotAPI.createRecord("data-v-04e6d1ce", Component.options)
   } else {
-    hotAPI.reload("data-v-38d36624", Component.options)
+    hotAPI.reload("data-v-04e6d1ce", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49699,23 +49742,341 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        'box-option': __WEBPACK_IMPORTED_MODULE_0__box_option_vue___default.a
+    },
+    data: function data() {
+        return {
+            myProjects: 0,
+            myTasks: 0,
+            myCalendar: 0,
+            myTimer: 0,
+            inbound: 0,
+            outbound: 0,
+            filteredTasks: [],
+            tasks: [{
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Website redesign concept',
+                assigned_to: 'Alan Prodemskie',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user2.png'
+                },
+                project: 'Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                assigned_to: 'Brian Howard',
+                assign_date: '2018-02-22 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'Social media marketing',
+                assigned_to: 'Jimmy Alister',
+                assign_date: '2018-02-22 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Lorem ipsum dolor sit amet',
+                assigned_to: 'Artour Babaev',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 3
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'consectetur adipiscing elit',
+                assigned_to: 'Sumail Hassan',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 4
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'sed do eiusmod tempor',
+                assigned_to: 'Amer Al-Barqawi',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 5
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'incididunt ut labore',
+                assigned_to: 'Saahil Arora',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 6
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'et dolore magna aliqua',
+                assigned_to: 'Clinton Loomis',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 7
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Ut enim ad minim',
+                assigned_to: 'Jacky Mao',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 8
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'quis nostrud exercitation',
+                assigned_to: 'Abed Yusop',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 9
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'ullamco laboris nisi ut',
+                assigned_to: 'Omar Aliwi',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 10
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'aliquip ex ea commodo consequat',
+                assigned_to: 'Clement Ivanov',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 11
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Duis aute irure dolor in reprehenderit',
+                assigned_to: 'Dani Ishutin',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 12
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'in voluptate velit esse',
+                assigned_to: 'Marcel David',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 13
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'cillum dolore eu fugiat',
+                assigned_to: 'Gabriel Toledo',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 14
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'nulla pariatur',
+                assigned_to: 'Fernando Alvarenga',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 15
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Excepteur sint occaecat',
+                assigned_to: 'Epitácio de Melo',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 16
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'cupidatat non proident',
+                assigned_to: 'João Vasconcellos',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 17
+                }
+            }, {
+                assignee: {
+                    image: 'user2.png'
+                },
+                project: 'sunt in culpa qui',
+                assigned_to: 'João Vasconcellos',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 18
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'officia deserunt',
+                assigned_to: 'Olof Kajbjer',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 20
+                }
+            }],
+            taskOption: 'all',
+            taskFilter: 'my',
+            taskCount: {
+                all: 0,
+                completed: 0,
+                pending: 0,
+                behind: 0
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.getCounts();
+        this.getTasks();
+        this.filterTasks('my', 'all');
+    },
 
-  components: {
-    'box-option': __WEBPACK_IMPORTED_MODULE_0__box_option_vue___default.a
-  },
+    methods: {
+        getCounts: function getCounts() {
+            var _this = this;
 
-  data: function data() {
-    return {};
-  },
-  mounted: function mounted() {},
+            axios.get('/api/dashboard/counts').then(function (response) {
+                _this.myProjects = reponse.data.projects;
+                _this.myTasks = reponse.data.tasks;
+                _this.myCalendar = reponse.data.calendars;
+                _this.myTimer = reponse.data.timer;
+                _this.inbound = reponse.data.inbound;
+                _this.outbound = reponse.data.outbound;
+            }).catch(function (error) {
+                if (error.response.status == 500 || error.response.status == 404) {}
+            });
+        },
+        getTasks: function getTasks() {
+            var _this2 = this;
 
-
-  methods: {}
-
+            axios.get('/api/user/tasks').then(function (response) {
+                _this2.tasks = response.data;
+            }).catch(function (error) {
+                if (error.response.status == 500 || error.response.status == 404) {}
+            });
+        },
+        filterTasks: function filterTasks(filter, option) {
+            if (filter == 'my') {
+                if (option == 'all') {
+                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 } });
+                } else {
+                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 }, status: option });
+                }
+                this.taskCount.all = _.filter(this.tasks, { user: { id: 1 } }).length;
+                this.taskCount.completed = _.filter(this.tasks, { user: { id: 1 }, status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.tasks, { user: { id: 1 }, status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.tasks, { user: { id: 1 }, status: 'behind' }).length;
+            } else {
+                if (option == 'all') {
+                    this.filteredTasks = this.tasks;
+                } else {
+                    this.filteredTasks = _.filter(this.tasks, { status: option });
+                }
+                this.taskCount.all = this.tasks.length;
+                this.taskCount.completed = _.filter(this.tasks, { status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.tasks, { status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.tasks, { status: 'behind' }).length;
+            }
+            this.taskFilter = filter;
+            this.taskOption = option;
+        }
+    }
 });
 
 /***/ }),
@@ -49744,7 +50105,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/box-option.vue"
+Component.options.__file = "resources\\assets\\js\\components\\box-option.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49753,9 +50114,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-11f5b88e", Component.options)
+    hotAPI.createRecord("data-v-3a39d464", Component.options)
   } else {
-    hotAPI.reload("data-v-11f5b88e", Component.options)
+    hotAPI.reload("data-v-3a39d464", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49885,7 +50246,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-11f5b88e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3a39d464", module.exports)
   }
 }
 
@@ -50346,16 +50707,92 @@ var render = function() {
           ])
         ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("section", { staticClass: "content hq-files" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "buzz-box drop-files" }, [
+            _c("div", { staticClass: "drop-files-content" }, [
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                    width: "89px",
+                    height: "100px"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      fill: "rgb(230, 230, 230)",
+                      d:
+                        "M77.345,89.918 L30.568,89.918 C24.310,89.918 19.189,84.757 19.189,78.450 L19.189,12.374 C19.189,6.068 24.310,0.908 30.568,0.908 L69.037,0.908 L69.037,19.564 L88.723,19.838 L88.723,78.450 C88.723,84.757 83.603,89.918 77.345,89.918 ZM73.010,0.908 L73.403,0.908 L88.723,14.729 L88.723,15.398 L73.010,15.398 L73.010,0.908 ZM16.261,78.450 C16.261,82.409 17.870,86.012 20.461,88.625 L20.472,88.635 C23.064,91.244 26.638,92.869 30.568,92.869 L62.994,92.869 L24.737,99.345 C18.565,100.387 12.666,96.153 11.631,89.936 L0.771,24.772 C-0.265,18.551 3.938,12.608 10.109,11.563 L16.382,10.502 C16.303,11.115 16.261,11.740 16.261,12.374 L16.261,78.450 Z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(2)
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "drop-text" }, [
+      _c("label", [
+        _vm._v("Drop files here "),
+        _c("br"),
+        _vm._v(" "),
+        _c("span", [_vm._v(" Or ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "drop-button" }, [
+      _c("button", [
+        _vm._v(
+          "\n                                Choose your files\n                            "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "buzz-box files" }, [
+          _c("div", { staticClass: "files-content" })
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-38d36624", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-04e6d1ce", module.exports)
   }
 }
 

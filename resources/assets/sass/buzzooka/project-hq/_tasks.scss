@@ -1,0 +1,221 @@
+.hq-tasks{
+// Exclusive CSS
+    margin-top: 25px;
+    height: 1475px;
+    background: $white;
+    border: 1px solid $tile-border;
+    border-radius: 10px;
+    .buzz-box{
+        background: none;
+        height: 1473px;
+        margin-top: 0 !important;
+        .box-content{
+            height: 1375px !important;
+            ul{
+                li{
+                    a{
+                        border: none;
+                        background: none;
+                    }
+                }
+            }
+            .tab-content{    
+                table{
+                    height: 1245px;
+                    tbody{
+                        height: 1180px !important;
+                    }
+                }
+            }
+        }
+        .box-footer{
+            padding-top: 25px !important;
+        }
+    }
+
+// Dashboard CSS
+    .box-tabs{
+        ul{
+            height: 63px;
+            li{
+                width: 50%;
+                height: 62px;
+                padding-top: 10px;
+                text-align: center;
+                &:first-child{
+                    border-right: $border-buzz;
+                }
+                a{
+                    background: none;
+                    border: none;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    font-size: 14px !important;
+                    color: $table-data;
+                    @extend .buzz-a;
+                }
+            }
+            li.active{
+                background: $gray-bg;
+            }
+        }
+        .tasks-option{
+            height: 69px;
+            padding: 22.5px 0;
+            text-align: center;
+            border-bottom: $border-buzz;
+            .option-list{
+                display: inline-block;
+                a{
+                    padding: 6px 4px 6px 16px;
+                    border-radius: 20px;
+                    font-size: 13.5px;
+                    font-family: $lato-semi;
+                    color: $table-head;
+                    background: $white;
+                    border: $border-buzz;
+
+                    &:active, &:hover{
+                    background: $blue-2;
+                    color: $white;
+                    border: 1px solid $blue-2;
+                    }
+
+                    label{
+                        padding: 2px 9px;
+                        margin-left: 15px;
+                        border-radius: 100%;
+                        background: $gray-2;
+                    span{
+                        position: relative;
+                        color: $white;
+                        top: 1px;
+                    }
+                    }
+                }
+            }
+            .active{
+                a{
+                    background: $blue-2;
+                    color: $white;
+                    border: 1px solid $blue-2;
+                }
+            }
+        }
+        .tab-content{
+            .tab-table{
+                table{
+                    width: 100%;
+                    thead, tbody tr {
+                        display:table;
+                        width:100%;
+                        table-layout:fixed;
+                    }
+                    thead{
+                        tr{
+                        height: 60px;
+                        border-bottom: $border-buzz;
+                        font-size: 16px;
+                        letter-spacing: 0.5px;
+                        background: $gray-bg;
+                        color: $table-head;
+                        @extend .page-title;
+                        th{
+                            &:first-child{
+                                width: 10%;
+                            }
+                            &:nth-child(2){
+                                width: 53%;
+                            }
+                            &:last-child{
+                                position: relative;
+                                left: 15px;
+                                width: 19%;
+                            }
+                        }
+                        }
+                    }
+                    tbody{
+                        display:block;
+                        // height: 243px !important;
+                        tr{
+                            height: 81px;
+                            border-bottom: $border-buzz;
+                            &:hover{
+                                .hover-display{
+                                    display: table-cell;
+                                }
+                            }
+                            &:nth-child(odd){
+                                background: $gray-bg;
+                            }
+                            &:nth-child(even){
+                                background: $white;
+                            }
+                            .hover-display{
+                                position: relative;
+                                left: 15px;
+                            }
+                            td{
+                                position: relative;
+                                img{
+                                    width: 55px;
+                                    border-radius: 100%;
+                                }
+                                &:first-child{
+                                width: 10%;
+                                }
+                                &:nth-child(2){
+                                width: 53%;
+                                padding-right: 25px;
+                                @extend .buzz-overflow;
+                                }
+                                &:last-child{
+                                    left: 15px;
+                                    width: 19%;
+                                }
+                                
+                            }
+                            .task-project{
+                                position: relative;
+                                bottom: 10px;
+                                font-family: $lato-mid;
+                                color: $gray-3;
+                                font-size: 19px;
+                            }
+                            .assigned-project{
+                                position:absolute;
+                                display: block;
+                                color: $gray-4;
+                                font-size: 11.5px;
+                                top:40px;
+                            }
+                            .status{
+                                position: relative;
+                                top: 5px;
+                                color: $gray-4;
+                                font-size: 12px;
+                            }
+                            .progress{
+                                position: relative;
+                                top: 5px;
+                                width: 70%;
+                                height: 6px;
+                                border-radius: 20px;
+                            }
+                            .completed{
+                                background: $green;
+                            }
+                            .pending{
+                                background: $orange-tile-6;
+                            }
+                            .behind{
+                                background: $orange-tile-1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
