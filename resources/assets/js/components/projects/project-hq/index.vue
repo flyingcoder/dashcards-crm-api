@@ -237,7 +237,7 @@
                         </div>
                         <div class="files-content">
                             <div class="tab-content">
-                                <div class="tab-pane fade tab-table " id="list-view">
+                                <div class="tab-pane fade tab-table" id="list-view">
                                     <table>
                                         <thead>
                                             <tr>
@@ -254,7 +254,7 @@
                                                 <th>  </th>
                                             </tr>
                                         </thead>
-                                        <tbody class="buzz-scrollbar" id="buzz-scroll">
+                                        <tbody id="buzz-scroll">
                                             <tr>
                                                 <td></td>  
                                                 <td> <img src="img/files/image.svg"> </td>  
@@ -486,15 +486,15 @@
                                         <a href="#"> View More </a>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade tab-table active in" id="grid-view">
-                                    <div class="grid-container">
-                                        <div class="file-box">
+                                <div class="tab-pane fade tab-table  active in" id="grid-view">
+                                    <div class="grid-container" id="buzz-scroll">
+                                        <div class="file-box" >
                                             <div class="image-container">
                                                 <img src="img/temporary/sample.png">
                                             </div>
                                             <div class="file-info">
                                                 <img src="img/files/image.svg">
-                                                <span> Webbanner.jpg </span>
+                                                <span> Webbanner.jpg</span>
                                             </div>
                                             <div class="user-info">
                                                 <img src="img/temporary/user1.png">
@@ -512,7 +512,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <img src="img/temporary/user2.png">
-                                                <label> Uploaded by <span> William Stomhson</span> <br> 5hrs ago</label>
+                                                <label> Uploaded by <span> William Stomhson</span> <br> 5hrs ago </label>
                                             </div>
                                             <grid-option></grid-option>
                                         </div>
@@ -665,7 +665,7 @@
                                             </div>
                                             <grid-option></grid-option>
                                         </div>
-                                         <!-- <div class="file-box others">
+                                         <div class="file-box others">
                                             <div class="image-container">
                                                 <img src="img/files/others-bw.svg">
                                             </div>
@@ -678,7 +678,7 @@
                                                 <label> Uploaded by <span> Alan Podemski </span> <br> 5hrs ago</label>
                                             </div>
                                             <grid-option></grid-option>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>

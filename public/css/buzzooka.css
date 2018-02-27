@@ -8366,8 +8366,10 @@ button.close {
 .dashboard .db-tasks .box-tabs .tab-content .tab-table table tbody tr .buzzooka td:nth-child(3),
 .buzzooka .hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(3),
 .hq-overview .db-tasks .box-tabs .tab-content .tab-table table tbody tr .buzzooka td:nth-child(3),
-.buzzooka .hq-files .files .files-content #grid-view .grid-container .file-box .user-info label,
-.hq-files .files .files-content #grid-view .grid-container .file-box .user-info .buzzooka label,
+.buzzooka .hq-files .files .files-content #grid-view .grid-container .file-box .file-info,
+.hq-files .files .files-content #grid-view .grid-container .file-box .buzzooka .file-info,
+.buzzooka .hq-files .files .files-content #grid-view .grid-container .file-box .user-info,
+.hq-files .files .files-content #grid-view .grid-container .file-box .buzzooka .user-info,
 .buzzooka .hq-tasks .box-tabs .tab-content .tab-table table tbody tr td:nth-child(2),
 .hq-tasks .box-tabs .tab-content .tab-table table tbody tr .buzzooka td:nth-child(2) {
   max-width: 0;
@@ -8506,6 +8508,8 @@ button.close {
 }
 
 .buzzooka .buzz-scrollbar,
+.buzzooka .hq-files .files .files-content #list-view table tbody,
+.hq-files .files .files-content #list-view table .buzzooka tbody,
 .buzzooka .hq-files .files .files-content #grid-view .grid-container,
 .hq-files .files .files-content #grid-view .buzzooka .grid-container {
   height: 100%;
@@ -8515,6 +8519,8 @@ button.close {
 }
 
 .buzzooka .buzz-scrollbar .force-overflow,
+.buzzooka .hq-files .files .files-content #list-view table tbody .force-overflow,
+.hq-files .files .files-content #list-view table .buzzooka tbody .force-overflow,
 .buzzooka .hq-files .files .files-content #grid-view .grid-container .force-overflow,
 .hq-files .files .files-content #grid-view .buzzooka .grid-container .force-overflow {
   min-height: 450px;
@@ -10970,13 +10976,12 @@ button.close {
 
 .hq-files .files .files-content #grid-view {
   height: 830px;
-  padding: 25px 0;
   border: 1px solid #dce1e5;
-  background: red;
 }
 
 .hq-files .files .files-content #grid-view .grid-container {
-  background: blue;
+  background: none !important;
+  padding: 10px 0;
 }
 
 .hq-files .files .files-content #grid-view .grid-container .file-box {
@@ -10985,8 +10990,7 @@ button.close {
   height: 246px;
   width: 22%;
   padding: 0;
-  margin-left: 2.25%;
-  margin-bottom: 20px;
+  margin: 10px 0 10px 2.25%;
   border: 1px solid #dce1e5;
 }
 
@@ -11003,6 +11007,7 @@ button.close {
 .hq-files .files .files-content #grid-view .grid-container .file-box .file-info {
   height: 40px;
   padding: 10px;
+  max-width: 100% !important;
 }
 
 .hq-files .files .files-content #grid-view .grid-container .file-box .file-info img {
@@ -11021,13 +11026,14 @@ button.close {
 .hq-files .files .files-content #grid-view .grid-container .file-box .user-info {
   height: 38px;
   padding-left: 10px;
+  max-width: 100% !important;
 }
 
 .hq-files .files .files-content #grid-view .grid-container .file-box .user-info img {
   position: relative;
   width: 30px;
   margin-right: 15px;
-  bottom: 17px;
+  bottom: 8px;
   border-radius: 50%;
 }
 
@@ -11036,7 +11042,6 @@ button.close {
   color: #b3b6c3;
   line-height: 1.2;
   font-family: "lato semibold";
-  max-width: 77% !important;
   margin-top: 5px;
 }
 

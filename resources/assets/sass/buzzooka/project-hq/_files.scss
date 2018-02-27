@@ -171,6 +171,7 @@
                     }
                     tbody{
                         height: 735px !important;
+                        @extend .buzz-scrollbar;
                         tr{
                             height: 82px;
                             td{
@@ -204,11 +205,10 @@
             }
             #grid-view{
                 height: 830px;
-                padding: 25px 0;
                 border: $table-border;
-                background: red;
                 .grid-container{
-                    background: blue;
+                    background: none !important;
+                    padding: 10px 0;
                     @extend .buzz-scrollbar;
                     .file-box{
                         position: relative;
@@ -216,8 +216,7 @@
                         height: 246px;
                         width: 22%;
                         padding: 0;
-                        margin-left: 2.25%;
-                        margin-bottom: 20px;
+                        margin: 10px 0 10px 2.25%;
                         border: $table-border;
                         .image-container{
                             position:relative;
@@ -230,6 +229,8 @@
                         .file-info{
                             height: 40px;
                             padding: 10px;
+                            max-width: 100% !important;
+                            @extend .buzz-overflow;
                             img{
                                 width: 30px;
                                 height: 25px;
@@ -245,11 +246,13 @@
                         .user-info{
                             height: 38px;
                             padding-left: 10px;
+                            @extend .buzz-overflow;
+                            max-width: 100% !important;
                             img{
                                 position: relative;
                                 width: 30px;
                                 margin-right: 15px;
-                                bottom: 17px;
+                                bottom: 8px;
                                 border-radius: 50%;
                             }
                             label{ 
@@ -257,9 +260,7 @@
                                 color: $file-icon;
                                 line-height: 1.2;
                                 font-family: $lato-semi;
-                                max-width: 77% !important;
                                 margin-top: 5px;
-                                @extend .buzz-overflow;
                                 span{
                                     color: $table-data;
                                     

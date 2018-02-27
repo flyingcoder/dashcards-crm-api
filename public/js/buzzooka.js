@@ -51759,81 +51759,74 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "tab-pane fade tab-table ",
+                    staticClass: "tab-pane fade tab-table",
                     attrs: { id: "list-view" }
                   },
                   [
                     _c("table", [
                       _vm._m(2),
                       _vm._v(" "),
-                      _c(
-                        "tbody",
-                        {
-                          staticClass: "buzz-scrollbar",
-                          attrs: { id: "buzz-scroll" }
-                        },
-                        [
-                          _vm._m(3),
+                      _c("tbody", { attrs: { id: "buzz-scroll" } }, [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _vm._m(6),
                           _vm._v(" "),
-                          _vm._m(4),
+                          _vm._m(7),
                           _vm._v(" "),
-                          _vm._m(5),
+                          _vm._m(8),
                           _vm._v(" "),
-                          _c("tr", [
-                            _vm._m(6),
-                            _vm._v(" "),
-                            _vm._m(7),
-                            _vm._v(" "),
-                            _vm._m(8),
-                            _vm._v(" "),
-                            _vm._m(9),
-                            _vm._v(" "),
-                            _vm._m(10),
-                            _vm._v(" "),
-                            _c("td", [_c("tablelist-option")], 1)
-                          ]),
+                          _vm._m(9),
                           _vm._v(" "),
-                          _vm._m(11),
+                          _vm._m(10),
                           _vm._v(" "),
-                          _vm._m(12),
+                          _c("td", [_c("tablelist-option")], 1)
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(11),
+                        _vm._v(" "),
+                        _vm._m(12),
+                        _vm._v(" "),
+                        _vm._m(13),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _vm._m(14),
                           _vm._v(" "),
-                          _vm._m(13),
+                          _vm._m(15),
                           _vm._v(" "),
-                          _c("tr", [
-                            _vm._m(14),
-                            _vm._v(" "),
-                            _vm._m(15),
-                            _vm._v(" "),
-                            _vm._m(16),
-                            _vm._v(" "),
-                            _vm._m(17),
-                            _vm._v(" "),
-                            _vm._m(18),
-                            _vm._v(" "),
-                            _c("td", [_c("tablelist-option")], 1)
-                          ]),
+                          _vm._m(16),
                           _vm._v(" "),
-                          _vm._m(19),
+                          _vm._m(17),
                           _vm._v(" "),
-                          _vm._m(20),
+                          _vm._m(18),
                           _vm._v(" "),
-                          _vm._m(21),
+                          _c("td", [_c("tablelist-option")], 1)
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(19),
+                        _vm._v(" "),
+                        _vm._m(20),
+                        _vm._v(" "),
+                        _vm._m(21),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _vm._m(22),
                           _vm._v(" "),
-                          _c("tr", [
-                            _vm._m(22),
-                            _vm._v(" "),
-                            _vm._m(23),
-                            _vm._v(" "),
-                            _vm._m(24),
-                            _vm._v(" "),
-                            _vm._m(25),
-                            _vm._v(" "),
-                            _vm._m(26),
-                            _vm._v(" "),
-                            _c("td", [_c("tablelist-option")], 1)
-                          ])
-                        ]
-                      )
+                          _vm._m(23),
+                          _vm._v(" "),
+                          _vm._m(24),
+                          _vm._v(" "),
+                          _vm._m(25),
+                          _vm._v(" "),
+                          _vm._m(26),
+                          _vm._v(" "),
+                          _c("td", [_c("tablelist-option")], 1)
+                        ])
+                      ])
                     ]),
                     _vm._v(" "),
                     _vm._m(27)
@@ -51843,191 +51836,213 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "tab-pane fade tab-table active in",
+                    staticClass: "tab-pane fade tab-table  active in",
                     attrs: { id: "grid-view" }
                   },
                   [
-                    _c("div", { staticClass: "grid-container" }, [
-                      _c(
-                        "div",
-                        { staticClass: "file-box" },
-                        [
-                          _vm._m(28),
-                          _vm._v(" "),
-                          _vm._m(29),
-                          _vm._v(" "),
-                          _vm._m(30),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box document" },
-                        [
-                          _vm._m(31),
-                          _vm._v(" "),
-                          _vm._m(32),
-                          _vm._v(" "),
-                          _vm._m(33),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box video" },
-                        [
-                          _vm._m(34),
-                          _vm._v(" "),
-                          _vm._m(35),
-                          _vm._v(" "),
-                          _vm._m(36),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box others" },
-                        [
-                          _vm._m(37),
-                          _vm._v(" "),
-                          _vm._m(38),
-                          _vm._v(" "),
-                          _vm._m(39),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box" },
-                        [
-                          _vm._m(40),
-                          _vm._v(" "),
-                          _vm._m(41),
-                          _vm._v(" "),
-                          _vm._m(42),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box document" },
-                        [
-                          _vm._m(43),
-                          _vm._v(" "),
-                          _vm._m(44),
-                          _vm._v(" "),
-                          _vm._m(45),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box video" },
-                        [
-                          _vm._m(46),
-                          _vm._v(" "),
-                          _vm._m(47),
-                          _vm._v(" "),
-                          _vm._m(48),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box others" },
-                        [
-                          _vm._m(49),
-                          _vm._v(" "),
-                          _vm._m(50),
-                          _vm._v(" "),
-                          _vm._m(51),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box" },
-                        [
-                          _vm._m(52),
-                          _vm._v(" "),
-                          _vm._m(53),
-                          _vm._v(" "),
-                          _vm._m(54),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box document" },
-                        [
-                          _vm._m(55),
-                          _vm._v(" "),
-                          _vm._m(56),
-                          _vm._v(" "),
-                          _vm._m(57),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box video" },
-                        [
-                          _vm._m(58),
-                          _vm._v(" "),
-                          _vm._m(59),
-                          _vm._v(" "),
-                          _vm._m(60),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "file-box others" },
-                        [
-                          _vm._m(61),
-                          _vm._v(" "),
-                          _vm._m(62),
-                          _vm._v(" "),
-                          _vm._m(63),
-                          _vm._v(" "),
-                          _c("grid-option")
-                        ],
-                        1
-                      )
-                    ])
+                    _c(
+                      "div",
+                      {
+                        staticClass: "grid-container",
+                        attrs: { id: "buzz-scroll" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "file-box" },
+                          [
+                            _vm._m(28),
+                            _vm._v(" "),
+                            _vm._m(29),
+                            _vm._v(" "),
+                            _vm._m(30),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box document" },
+                          [
+                            _vm._m(31),
+                            _vm._v(" "),
+                            _vm._m(32),
+                            _vm._v(" "),
+                            _vm._m(33),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box video" },
+                          [
+                            _vm._m(34),
+                            _vm._v(" "),
+                            _vm._m(35),
+                            _vm._v(" "),
+                            _vm._m(36),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box others" },
+                          [
+                            _vm._m(37),
+                            _vm._v(" "),
+                            _vm._m(38),
+                            _vm._v(" "),
+                            _vm._m(39),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box" },
+                          [
+                            _vm._m(40),
+                            _vm._v(" "),
+                            _vm._m(41),
+                            _vm._v(" "),
+                            _vm._m(42),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box document" },
+                          [
+                            _vm._m(43),
+                            _vm._v(" "),
+                            _vm._m(44),
+                            _vm._v(" "),
+                            _vm._m(45),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box video" },
+                          [
+                            _vm._m(46),
+                            _vm._v(" "),
+                            _vm._m(47),
+                            _vm._v(" "),
+                            _vm._m(48),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box others" },
+                          [
+                            _vm._m(49),
+                            _vm._v(" "),
+                            _vm._m(50),
+                            _vm._v(" "),
+                            _vm._m(51),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box" },
+                          [
+                            _vm._m(52),
+                            _vm._v(" "),
+                            _vm._m(53),
+                            _vm._v(" "),
+                            _vm._m(54),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box document" },
+                          [
+                            _vm._m(55),
+                            _vm._v(" "),
+                            _vm._m(56),
+                            _vm._v(" "),
+                            _vm._m(57),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box video" },
+                          [
+                            _vm._m(58),
+                            _vm._v(" "),
+                            _vm._m(59),
+                            _vm._v(" "),
+                            _vm._m(60),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box others" },
+                          [
+                            _vm._m(61),
+                            _vm._v(" "),
+                            _vm._m(62),
+                            _vm._v(" "),
+                            _vm._m(63),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "file-box others" },
+                          [
+                            _vm._m(64),
+                            _vm._v(" "),
+                            _vm._m(65),
+                            _vm._v(" "),
+                            _vm._m(66),
+                            _vm._v(" "),
+                            _c("grid-option")
+                          ],
+                          1
+                        )
+                      ]
+                    )
                   ]
                 )
               ])
@@ -52573,7 +52588,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "file-info" }, [
       _c("img", { attrs: { src: "img/files/image.svg" } }),
       _vm._v(" "),
-      _c("span", [_vm._v(" Webbanner.jpg ")])
+      _c("span", [_vm._v(" Webbanner.jpg")])
     ])
   },
   function() {
@@ -52622,7 +52637,7 @@ var staticRenderFns = [
         _c("span", [_vm._v(" William Stomhson")]),
         _vm._v(" "),
         _c("br"),
-        _vm._v(" 5hrs ago")
+        _vm._v(" 5hrs ago ")
       ])
     ])
   },
@@ -52941,6 +52956,40 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("br"),
         _vm._v(" 1day ago")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "image-container" }, [
+      _c("img", { attrs: { src: "img/files/others-bw.svg" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "file-info" }, [
+      _c("img", { attrs: { src: "img/files/others.svg" } }),
+      _vm._v(" "),
+      _c("span", [_vm._v(" Homepage.php ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "user-info" }, [
+      _c("img", { attrs: { src: "img/temporary/user2.png" } }),
+      _vm._v(" "),
+      _c("label", [
+        _vm._v(" Uploaded by "),
+        _c("span", [_vm._v(" Alan Podemski ")]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" 5hrs ago")
       ])
     ])
   },
