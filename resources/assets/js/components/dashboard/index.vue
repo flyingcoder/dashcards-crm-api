@@ -59,7 +59,7 @@
                         <img src="img/sidebar/templates.svg">
                     </div>
                     <div class="buzz-tile-name">
-                        <div class="buzz-tile-number"> {{ myTasks }} </div>
+                        <div class="buzz-tile-number"> {{ myTasksCount }} </div>
                         <div class="buzz-tile-title"> My Open Task </div>
                     </div>
                     </div>
@@ -957,7 +957,7 @@
     data(){
         return {
         myProjects: 0,
-        myTasks: 0,
+        myTasksCount: 0,
         myCalendar: 0,
         myTimer: 0,
         inbound: 0,
@@ -1265,13 +1265,25 @@
         },
         filterTasks(filter, option){
             if(filter == 'my'){
-                this.filteredTasks = _.filter(this.myTasks, { status: option });
+                if(option == 'all'){
+                    this.filteredTasks = this.myTasks;
+                }
+                else {
+                    this.filteredTasks = _.filter(this.myTasks, { status: option });
+                }
+                
                 this.taskCount.all = this.myTasks.length;
                 this.taskCount.completed = _.filter(this.myTasks,{ status: 'completed'}).length;
                 this.taskCount.pending = _.filter(this.myTasks, { status: 'pending'}).length;
                 this.taskCount.behind = _.filter(this.myTasks, { status: 'behind'}).length;
             }
             else{
+                if(option == 'all'){
+                    this.filteredTasks = this.allTasks;
+                }
+                else {
+                    this.filteredTasks = _.filter(this.allTasks, { status: option });
+                }
                 this.filteredTasks = _.filter(this.allTasks, { status: option });
                 this.taskCount.all = this.allTasks.length;
                 this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
