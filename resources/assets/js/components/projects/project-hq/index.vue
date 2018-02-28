@@ -130,15 +130,18 @@
             </div>
         </section>
 
+        <!-- <members> </members> -->
     </div>
 </template>
 
 <script>
     import BoxOption from '../../box-option.vue';
+    import Members from './members/index.vue';
 
     export default {
         components: {
           'box-option': BoxOption,
+          'members': Members,
         },
         data(){
             return {
