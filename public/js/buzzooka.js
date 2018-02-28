@@ -1105,6 +1105,9 @@ Vue.component('projects', __webpack_require__(42));
 // Clients Temporary on Hq Header
 Vue.component('clients', __webpack_require__(47));
 
+// Payments
+Vue.component('payments', __webpack_require__(68));
+
 var app = new Vue({
   el: '#app'
 });
@@ -52057,6 +52060,194 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-eef36300", module.exports)
   }
 }
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(70)
+/* template */
+var __vue_template__ = __webpack_require__(69)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\payments\\index.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-47acce0c", Component.options)
+  } else {
+    hotAPI.reload("data-v-47acce0c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "content payments" }, [
+    _c("div", { staticClass: "content-header" }, [_c("page-header")], 1),
+    _vm._v(" "),
+    _vm._m(0)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content-body" }, [
+      _c("section", { staticClass: "buzz-section" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12 payment-info" }, [
+            _c("h5", [_vm._v(" Total Earnings ")]),
+            _vm._v(" "),
+            _c("span", [_vm._v(" $100,000 ")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12 payment-graph" }, [
+            _c("div", { staticClass: "progress blue" }, [
+              _c("span", { staticClass: "progress-left" }, [
+                _c("span", { staticClass: "progress-bar" })
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress-right" }, [
+                _c("span", { staticClass: "progress-bar" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress-value" }, [
+                _c("span", [_vm._v(" 75% ")])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6 payment-info" }, [
+            _c("span", [_vm._v(" $75,000 ")]),
+            _vm._v(" "),
+            _c("h5", [_vm._v(" Completed ")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6 payment-info" }, [
+            _c("span", [_vm._v(" $25,000 ")]),
+            _vm._v(" "),
+            _c("h5", [_vm._v(" Remaining ")])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-47acce0c", module.exports)
+  }
+}
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_header_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_header_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__page_header_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+  components: {
+    'page-header': __WEBPACK_IMPORTED_MODULE_0__page_header_vue___default.a
+  },
+
+  data: function data() {
+    return {};
+  },
+  mounted: function mounted() {},
+
+
+  methods: {}
+
+});
 
 /***/ })
 /******/ ]);
