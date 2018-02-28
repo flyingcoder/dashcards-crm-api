@@ -8688,7 +8688,9 @@ button.close {
 .buzzooka .buzz-sidebar .sidebar-menu .sidebar-list:active,
 .buzz-sidebar .sidebar-menu .buzzooka .sidebar-list:active,
 .buzzooka .buzz-sidebar .sidebar-menu .sidebar-list:focus,
-.buzz-sidebar .sidebar-menu .buzzooka .sidebar-list:focus {
+.buzz-sidebar .sidebar-menu .buzzooka .sidebar-list:focus,
+.buzzooka .hq-files .files .files-options ul li a:hover,
+.hq-files .files .files-options ul li .buzzooka a:hover {
   transition: 200ms;
   transition-timing-function: ease-in-out;
   -webkit-transition: 200ms;
@@ -10794,6 +10796,8 @@ button.close {
 
 .hq-files .files .files-options ul li a {
   padding: 12px 0;
+  background: none;
+  border: none;
 }
 
 .hq-files .files .files-options ul li a svg {
@@ -10834,12 +10838,27 @@ button.close {
 
 .hq-files .files .files-options ul .file-type {
   margin-right: 1%;
-  width: 13%;
+  width: 13.39%;
 }
 
 .hq-files .files .files-options ul .view-option {
   border: none;
   width: 5%;
+}
+
+.hq-files .files .files-options ul .view-option a svg,
+.hq-files .files .files-options ul .view-option button svg {
+  fill: #b3b6c3;
+}
+
+.hq-files .files .files-options ul .view-option:hover svg,
+.hq-files .files .files-options ul .view-option:active svg,
+.hq-files .files .files-options ul .view-option:focus svg {
+  fill: #667381;
+}
+
+.hq-files .files .files-options ul .active svg {
+  fill: #667381 !important;
 }
 
 .hq-files .files .files-options ul .add-link {
@@ -10850,7 +10869,65 @@ button.close {
   font-size: 15px;
   color: #ffffff;
   line-height: 1.2;
-  margin-top: 10%;
+  padding-top: 15px;
+}
+
+.hq-files .files .files-options ul .sort-by {
+  position: relative;
+  top: 5px;
+  width: 37px;
+  height: 37px;
+  border: 1px solid #dce1e5;
+  border-radius: 50%;
+}
+
+.hq-files .files .files-options ul .sort-by button {
+  padding: 7px 0;
+}
+
+.hq-files .files .files-options ul .sort-by .dropdown-menu {
+  position: relative;
+  height: 175px;
+  width: 175px;
+  left: -110px;
+  top: 20px;
+  padding: 0;
+  background: #e8eaf6;
+  -webkit-box-shadow: 0px 10px 10px 0px rgba(173, 183, 196, 0.75);
+          box-shadow: 0px 10px 10px 0px rgba(173, 183, 196, 0.75);
+  border: 1px solid #dce1e5;
+}
+
+.hq-files .files .files-options ul .sort-by .dropdown-menu:after {
+  bottom: 100%;
+  right: 30px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: #e8eaf6;
+  border-width: 13px;
+}
+
+.hq-files .files .files-options ul .sort-by .dropdown-menu li {
+  height: 43px;
+  border: none;
+}
+
+.hq-files .files .files-options ul .sort-by .dropdown-menu li:hover {
+  background: #f0f1fb;
+}
+
+.hq-files .files .files-options ul .sort-by .dropdown-menu li a {
+  text-align: left;
+  padding-left: 25px;
+  font-size: 15px;
+  line-height: 1.2;
+  color: #727d92;
+  font-family: "lato semibold";
+  letter-spacing: 0.3px;
 }
 
 .hq-files .files .files-content .tab-table table {
