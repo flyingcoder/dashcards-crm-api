@@ -47,6 +47,25 @@ class ProjectPolicy
     }
 
     /**
+     * Determine whether the rob can view the ben.
+     *
+     * @param  \App\User  $rob
+     * @param  \App\User  $ben
+     * @return mixed
+     */
+    public function viewTask(Project $project)
+    {
+        if(
+            $project->company() != auth()->user()->company() &&
+            !auth()->user()->hasRole('admin|manager') &&
+            auth()->user()->can('view.project-task')
+        ) {
+            abort(403, 'Project Tasks not found!');
+        }
+    }
+
+
+    /**
      * Determine whether the ben can create users.
      *
      * @return mixed

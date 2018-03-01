@@ -9,12 +9,32 @@ use Illuminate\Http\Request;
 class Invoice extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
-        'billed_date', 'due_date', 'notes','project_id'
+        'title', 
+        'name', 
+        'last_name', 
+        'address', 
+        'city', 
+        'state', 
+        'phone', 
+        'zip_code', 
+        'description', 
+        'rate', 
+        'tax', 
+        'quantity', 
+        'billed_date', 
+        'due_date', 
+        'notes',
+        'other_info'
     ];
 
     protected $dates = ['deleted_at'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public static function store(Request $request)
     {
@@ -27,7 +47,6 @@ class Invoice extends Model
             'billed_date' =>request()->billed_date,
             'due_date' =>request()->due_date,
             'notes' =>request()->notes,
-            'project_id' =>request()->project_id,
 
         ]);
         return $invoice;

@@ -20,6 +20,18 @@ class ProjectModelTest extends TestCase
     	$response->assertStatus(200);
     }
 
+    public function testProjectMyTasks()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/1/tasks/mine');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
 
     public function testProject()
     {
@@ -31,6 +43,18 @@ class ProjectModelTest extends TestCase
 
     	//dd($response->content());
     	$response->assertStatus(200);
+    }
+
+    public function testMyProject()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/mine');
+
+        dd($response->content());
+        $response->assertStatus(200);
     }
 
     public function testProjectActivity()

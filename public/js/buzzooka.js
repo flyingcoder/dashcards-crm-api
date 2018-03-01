@@ -89207,6 +89207,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -89219,17 +89224,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             outbound: 0,
             filteredTasks: [],
             myTasks: [{
-                assignee: {
-                    image: 'user1.png'
-                },
-                project: 'Website redesign concept',
-                assigned_to: 'Alan Prodemskie',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
-                user: {
-                    id: 1
-                }
-            }, {
                 assignee: {
                     image: 'user2.png'
                 },
@@ -89251,19 +89245,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 user: {
                     id: 1
                 }
-            }],
-            allTasks: [{
+            }, {
                 assignee: {
                     image: 'user1.png'
                 },
-                project: 'Lorem ipsum dolor sit amet',
-                assigned_to: 'Artour Babaev',
-                assign_date: '2018-02-21 13:04:18',
-                status: 'completed',
+                project: 'Social media marketing',
+                assigned_to: 'Jimmy Alister',
+                assign_date: '2018-02-22 13:04:18',
+                status: 'pending',
                 user: {
-                    id: 3
+                    id: 1
                 }
-            }, {
+            }],
+            allTasks: [{
                 assignee: {
                     image: 'user1.png'
                 },
@@ -89439,6 +89433,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 user: {
                     id: 20
                 }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'officia deserunt',
+                assigned_to: 'Olof Kajbjer',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 20
+                }
             }],
             taskOption: 'all',
             taskFilter: 'my',
@@ -89514,8 +89519,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.taskCount.pending = _.filter(this.allTasks, { status: 'pending' }).length;
                 this.taskCount.behind = _.filter(this.allTasks, { status: 'behind' }).length;
             }
-            this.taskFilter = filter;
-            this.taskOption = option;
         }
     }
 });
@@ -89686,7 +89689,7 @@ var render = function() {
           _c("div", { staticClass: "box-head" }, [
             _c("h1", [_vm._v("Tasks")]),
             _vm._v(" "),
-            _c("div", { staticClass: "box-options" }, [
+            _c("div", { staticClass: "box-options tasks-view" }, [
               _c("div", { staticClass: "option-item list-option" }, [
                 _c("a", { attrs: { href: "#" } }, [
                   _c(
@@ -90806,7 +90809,33 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "box-content db-timer" }, [
-            _vm._m(22),
+            _c("div", { staticClass: "header-content" }, [
+              _vm._m(22),
+              _vm._v(" "),
+              _c("div", { staticClass: "tab-pane fade timer-info show" }, [
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                      width: "514px",
+                      height: "245px"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        fill: "rgb(59, 88, 158)",
+                        d:
+                          "M-0.012,0.001 L514.000,0.001 L514.000,245.003 L-0.012,245.003 L-0.012,0.001 Z"
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "timer-content" }, [
               _c(
@@ -91791,14 +91820,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "header-content" }, [
-      _c("div", { staticClass: "tab-pane fade alarm-info hide" }, [
-        _c("span", [_vm._v("Alarm")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "tab-pane fade timer-info show" }, [
-        _c("span", [_vm._v("Timer")])
-      ])
+    return _c("div", { staticClass: "tab-pane fade alarm-info hide" }, [
+      _c("span", [_vm._v("Alarm")])
     ])
   },
   function() {
@@ -92305,6 +92328,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -92320,14 +92344,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             multipleSelection: [],
             currentPage: 1,
             currentSize: 10,
-            currentTotal: 1
+            total: 1,
+            paginatedMyProjects: [],
+            paginatedAllProjects: []
 
         };
     },
-    mounted: function mounted() {},
+    mounted: function mounted() {
+        this.getMyProjects();
+        this.getAllProjects();
+    },
 
 
     methods: {
+        getMyProjects: function getMyProjects() {
+            var _this = this;
+
+            axios.get('api/projects/mine').then(function (response) {
+                _this.paginatedMyProjects = response.data.data;
+                _this.currentPage = response.data.current_page;
+                _this.total = response.data.total;
+            });
+        },
+        getAllProjects: function getAllProjects() {
+            var _this2 = this;
+
+            axios.get('api/projects').then(function (response) {
+                _this2.paginatedMyProjects = response.data;
+            });
+        },
+
         handleSizeChange: function handleSizeChange(val) {
             this.currentSize = val;
         },
@@ -92456,212 +92502,6 @@ var render = function() {
                 attrs: { id: "all-project" }
               },
               [
-                _c(
-                  "el-row",
-                  [
-                    _c(
-                      "el-table",
-                      {
-                        directives: [
-                          {
-                            name: "loading",
-                            rawName: "v-loading",
-                            value: _vm.isProcessing,
-                            expression: "isProcessing"
-                          }
-                        ],
-                        staticStyle: { width: "100%" },
-                        attrs: {
-                          data: _vm.paginatedProjects,
-                          border: "",
-                          stripe: "",
-                          "empty-text": "No Data Found",
-                          "element-loading-text": "Processing ..."
-                        },
-                        on: {
-                          "sort-change": _vm.handleSortChange,
-                          "selection-change": _vm.handleSelectionChange
-                        }
-                      },
-                      [
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            type: "selection",
-                            width: "45"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            prop: "service",
-                            label: "Code",
-                            "min-width": "180"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            prop: "client",
-                            label: "Name",
-                            "min-width": "180"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            prop: "Project Manager",
-                            label: "Description",
-                            "min-width": "280",
-                            "show-overflow-tooltip": true
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            prop: "Start Date",
-                            label: "Description",
-                            "min-width": "280",
-                            "show-overflow-tooltip": true
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            prop: "Progress",
-                            label: "Description",
-                            "min-width": "280",
-                            "show-overflow-tooltip": true
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            prop: "Time Spent",
-                            label: "Description",
-                            "min-width": "280",
-                            "show-overflow-tooltip": true
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: {
-                            sortable: "",
-                            prop: "Status",
-                            label: "Description",
-                            "min-width": "280",
-                            "show-overflow-tooltip": true
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: { width: "120", fixed: "right" },
-                          scopedSlots: _vm._u([
-                            {
-                              key: "default",
-                              fn: function(scope) {
-                                return [
-                                  _c("a", { attrs: { href: "#" } }, [
-                                    _c(
-                                      "svg",
-                                      {
-                                        attrs: {
-                                          xmlns: "http://www.w3.org/2000/svg",
-                                          "xmlns:xlink":
-                                            "http://www.w3.org/1999/xlink",
-                                          width: "16px",
-                                          height: "16px"
-                                        }
-                                      },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            "fill-rule": "evenodd",
-                                            fill: "rgb(212, 214, 224)",
-                                            d:
-                                              "M9.896,3.854 C9.498,3.455 8.852,3.455 8.453,3.854 L8.093,4.216 L3.043,9.276 L3.044,9.277 L2.885,9.437 C2.885,9.437 2.377,9.948 1.232,13.651 C1.224,13.677 1.216,13.702 1.208,13.729 C1.187,13.795 1.166,13.862 1.146,13.931 C1.127,13.991 1.108,14.053 1.090,14.115 C1.074,14.167 1.058,14.219 1.042,14.272 C1.006,14.393 0.969,14.517 0.932,14.644 C0.849,14.924 0.648,15.554 0.876,15.783 C1.095,16.003 1.731,15.809 2.010,15.726 C2.136,15.689 2.258,15.652 2.379,15.616 C2.434,15.599 2.488,15.583 2.542,15.566 C2.601,15.548 2.659,15.531 2.715,15.513 C2.787,15.491 2.858,15.469 2.928,15.448 C2.948,15.441 2.969,15.435 2.989,15.428 C6.509,14.332 7.140,13.817 7.193,13.770 C7.193,13.769 7.193,13.769 7.194,13.769 C7.196,13.767 7.197,13.766 7.197,13.766 L7.360,13.602 L7.371,13.613 L12.421,8.553 L12.421,8.553 L12.782,8.191 C13.180,7.792 13.180,7.145 12.782,6.746 L9.896,3.854 ZM6.616,13.112 C6.612,13.115 6.606,13.119 6.600,13.123 C6.596,13.125 6.592,13.128 6.588,13.130 C6.583,13.133 6.579,13.136 6.574,13.139 C6.569,13.142 6.565,13.144 6.560,13.147 C6.392,13.248 5.899,13.508 4.702,13.941 C4.563,13.992 4.410,14.046 4.251,14.101 L2.550,12.397 C2.605,12.236 2.659,12.082 2.710,11.941 C3.142,10.738 3.401,10.243 3.501,10.075 C3.504,10.071 3.506,10.068 3.508,10.064 C3.512,10.058 3.515,10.053 3.518,10.048 C3.520,10.044 3.523,10.040 3.525,10.037 C3.529,10.030 3.533,10.024 3.536,10.020 L3.660,9.895 L6.744,12.984 L6.616,13.112 ZM15.668,3.854 L12.782,0.962 C12.383,0.563 11.737,0.563 11.339,0.962 L10.617,1.685 C10.219,2.085 10.219,2.732 10.617,3.131 L13.503,6.023 C13.902,6.422 14.548,6.422 14.946,6.023 L15.668,5.300 C16.066,4.901 16.066,4.253 15.668,3.854 Z"
-                                          }
-                                        })
-                                      ]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("a", { attrs: { href: "#" } }, [
-                                    _c(
-                                      "svg",
-                                      {
-                                        attrs: {
-                                          xmlns: "http://www.w3.org/2000/svg",
-                                          "xmlns:xlink":
-                                            "http://www.w3.org/1999/xlink",
-                                          width: "12px",
-                                          height: "17px"
-                                        }
-                                      },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            "fill-rule": "evenodd",
-                                            fill: "rgb(212, 214, 224)",
-                                            d:
-                                              "M11.348,5.027 L0.975,5.027 C0.692,5.027 0.463,4.792 0.463,4.501 L0.463,2.882 C0.463,2.591 0.692,2.355 0.975,2.355 L3.777,2.355 L3.777,1.262 C3.777,0.971 4.006,0.736 4.288,0.736 L8.035,0.736 C8.317,0.736 8.547,0.971 8.547,1.262 L8.547,2.355 L11.349,2.355 C11.631,2.355 11.860,2.591 11.860,2.882 L11.860,4.501 C11.860,4.792 11.631,5.027 11.348,5.027 ZM7.523,1.789 L4.800,1.789 L4.800,2.355 L7.523,2.355 L7.523,1.789 ZM10.725,16.377 C10.714,16.658 10.488,16.881 10.214,16.881 L2.109,16.881 C1.835,16.881 1.609,16.658 1.598,16.377 L1.174,6.080 L11.150,6.080 L10.725,16.377 ZM4.615,8.221 C4.615,7.931 4.386,7.695 4.104,7.695 C3.821,7.695 3.592,7.931 3.592,8.221 L3.592,14.740 C3.592,15.031 3.821,15.266 4.104,15.266 C4.386,15.266 4.615,15.031 4.615,14.740 L4.615,8.221 ZM6.673,8.221 C6.673,7.931 6.444,7.695 6.162,7.695 C5.879,7.695 5.650,7.931 5.650,8.221 L5.650,14.740 C5.650,15.031 5.879,15.266 6.162,15.266 C6.444,15.266 6.673,15.031 6.673,14.740 L6.673,8.221 ZM8.731,8.221 C8.731,7.931 8.502,7.695 8.219,7.695 C7.937,7.695 7.708,7.931 7.708,8.221 L7.708,14.740 C7.708,15.031 7.937,15.266 8.219,15.266 C8.502,15.266 8.731,15.031 8.731,14.740 L8.731,8.221 Z"
-                                          }
-                                        })
-                                      ]
-                                    )
-                                  ])
-                                ]
-                              }
-                            }
-                          ])
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "el-row",
-                  { staticClass: "text-center" },
-                  [
-                    _c("el-pagination", {
-                      attrs: {
-                        "current-page": _vm.currentPage,
-                        "page-sizes": [10, 20, 50, 100],
-                        "page-size": _vm.currentSize,
-                        layout: "total, sizes, prev, pager, next",
-                        total: _vm.currentTotal
-                      },
-                      on: {
-                        "size-change": _vm.handleSizeChange,
-                        "current-change": _vm.handleCurrentChange,
-                        "update:currentPage": function($event) {
-                          _vm.currentPage = $event
-                        }
-                      }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "tab-pane fade tab-table active show in",
-                attrs: { id: "my-project" }
-              },
-              [
                 _c("table", [
                   _c("thead", [
                     _c("tr", [
@@ -92774,6 +92614,200 @@ var render = function() {
                   ])
                 ])
               ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade tab-table active show in",
+                attrs: { id: "my-project" }
+              },
+              [
+                _c(
+                  "el-table",
+                  {
+                    directives: [
+                      {
+                        name: "loading",
+                        rawName: "v-loading",
+                        value: _vm.isProcessing,
+                        expression: "isProcessing"
+                      }
+                    ],
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      data: _vm.paginatedMyProjects,
+                      border: "",
+                      stripe: "",
+                      "empty-text": "No Data Found",
+                      "element-loading-text": "Processing ..."
+                    },
+                    on: {
+                      "sort-change": _vm.handleSortChange,
+                      "selection-change": _vm.handleSelectionChange
+                    }
+                  },
+                  [
+                    _c("el-table-column", {
+                      attrs: { sortable: "", type: "selection", width: "45" }
+                    }),
+                    _vm._v(" "),
+                    _c("el-table-column", {
+                      attrs: { sortable: "", prop: "service", label: "Service" }
+                    }),
+                    _vm._v(" "),
+                    _c("el-table-column", {
+                      attrs: { sortable: "", prop: "client", label: "Client" }
+                    }),
+                    _vm._v(" "),
+                    _c("el-table-column", {
+                      attrs: {
+                        sortable: "",
+                        prop: "project_manager",
+                        label: "Project Manager",
+                        "show-overflow-tooltip": true
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("el-table-column", {
+                      attrs: {
+                        sortable: "",
+                        prop: "start_date",
+                        label: "Start Date",
+                        "show-overflow-tooltip": true
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "el-table-column",
+                      {
+                        attrs: {
+                          sortable: "",
+                          label: "Progress",
+                          "show-overflow-tooltip": true
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "progress project-progress" },
+                          [
+                            _c("div", {
+                              staticClass: "progress-bar",
+                              staticStyle: { width: "25%" },
+                              attrs: {
+                                role: "progressbar",
+                                "aria-valuenow": "25",
+                                "aria-valuemin": "0",
+                                "aria-valuemax": "100"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("el-table-column", {
+                      attrs: {
+                        sortable: "",
+                        prop: "time_spent",
+                        label: "Time Spent",
+                        "show-overflow-tooltip": true
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("el-table-column", {
+                      attrs: {
+                        sortable: "",
+                        prop: "status",
+                        label: "Status",
+                        "show-overflow-tooltip": true
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("el-table-column", {
+                      attrs: { width: "120", fixed: "right" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function(scope) {
+                            return [
+                              _c("a", { attrs: { href: "#" } }, [
+                                _c(
+                                  "svg",
+                                  {
+                                    attrs: {
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      "xmlns:xlink":
+                                        "http://www.w3.org/1999/xlink",
+                                      width: "16px",
+                                      height: "16px"
+                                    }
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        "fill-rule": "evenodd",
+                                        fill: "rgb(212, 214, 224)",
+                                        d:
+                                          "M9.896,3.854 C9.498,3.455 8.852,3.455 8.453,3.854 L8.093,4.216 L3.043,9.276 L3.044,9.277 L2.885,9.437 C2.885,9.437 2.377,9.948 1.232,13.651 C1.224,13.677 1.216,13.702 1.208,13.729 C1.187,13.795 1.166,13.862 1.146,13.931 C1.127,13.991 1.108,14.053 1.090,14.115 C1.074,14.167 1.058,14.219 1.042,14.272 C1.006,14.393 0.969,14.517 0.932,14.644 C0.849,14.924 0.648,15.554 0.876,15.783 C1.095,16.003 1.731,15.809 2.010,15.726 C2.136,15.689 2.258,15.652 2.379,15.616 C2.434,15.599 2.488,15.583 2.542,15.566 C2.601,15.548 2.659,15.531 2.715,15.513 C2.787,15.491 2.858,15.469 2.928,15.448 C2.948,15.441 2.969,15.435 2.989,15.428 C6.509,14.332 7.140,13.817 7.193,13.770 C7.193,13.769 7.193,13.769 7.194,13.769 C7.196,13.767 7.197,13.766 7.197,13.766 L7.360,13.602 L7.371,13.613 L12.421,8.553 L12.421,8.553 L12.782,8.191 C13.180,7.792 13.180,7.145 12.782,6.746 L9.896,3.854 ZM6.616,13.112 C6.612,13.115 6.606,13.119 6.600,13.123 C6.596,13.125 6.592,13.128 6.588,13.130 C6.583,13.133 6.579,13.136 6.574,13.139 C6.569,13.142 6.565,13.144 6.560,13.147 C6.392,13.248 5.899,13.508 4.702,13.941 C4.563,13.992 4.410,14.046 4.251,14.101 L2.550,12.397 C2.605,12.236 2.659,12.082 2.710,11.941 C3.142,10.738 3.401,10.243 3.501,10.075 C3.504,10.071 3.506,10.068 3.508,10.064 C3.512,10.058 3.515,10.053 3.518,10.048 C3.520,10.044 3.523,10.040 3.525,10.037 C3.529,10.030 3.533,10.024 3.536,10.020 L3.660,9.895 L6.744,12.984 L6.616,13.112 ZM15.668,3.854 L12.782,0.962 C12.383,0.563 11.737,0.563 11.339,0.962 L10.617,1.685 C10.219,2.085 10.219,2.732 10.617,3.131 L13.503,6.023 C13.902,6.422 14.548,6.422 14.946,6.023 L15.668,5.300 C16.066,4.901 16.066,4.253 15.668,3.854 Z"
+                                      }
+                                    })
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("a", { attrs: { href: "#" } }, [
+                                _c(
+                                  "svg",
+                                  {
+                                    attrs: {
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      "xmlns:xlink":
+                                        "http://www.w3.org/1999/xlink",
+                                      width: "12px",
+                                      height: "17px"
+                                    }
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        "fill-rule": "evenodd",
+                                        fill: "rgb(212, 214, 224)",
+                                        d:
+                                          "M11.348,5.027 L0.975,5.027 C0.692,5.027 0.463,4.792 0.463,4.501 L0.463,2.882 C0.463,2.591 0.692,2.355 0.975,2.355 L3.777,2.355 L3.777,1.262 C3.777,0.971 4.006,0.736 4.288,0.736 L8.035,0.736 C8.317,0.736 8.547,0.971 8.547,1.262 L8.547,2.355 L11.349,2.355 C11.631,2.355 11.860,2.591 11.860,2.882 L11.860,4.501 C11.860,4.792 11.631,5.027 11.348,5.027 ZM7.523,1.789 L4.800,1.789 L4.800,2.355 L7.523,2.355 L7.523,1.789 ZM10.725,16.377 C10.714,16.658 10.488,16.881 10.214,16.881 L2.109,16.881 C1.835,16.881 1.609,16.658 1.598,16.377 L1.174,6.080 L11.150,6.080 L10.725,16.377 ZM4.615,8.221 C4.615,7.931 4.386,7.695 4.104,7.695 C3.821,7.695 3.592,7.931 3.592,8.221 L3.592,14.740 C3.592,15.031 3.821,15.266 4.104,15.266 C4.386,15.266 4.615,15.031 4.615,14.740 L4.615,8.221 ZM6.673,8.221 C6.673,7.931 6.444,7.695 6.162,7.695 C5.879,7.695 5.650,7.931 5.650,8.221 L5.650,14.740 C5.650,15.031 5.879,15.266 6.162,15.266 C6.444,15.266 6.673,15.031 6.673,14.740 L6.673,8.221 ZM8.731,8.221 C8.731,7.931 8.502,7.695 8.219,7.695 C7.937,7.695 7.708,7.931 7.708,8.221 L7.708,14.740 C7.708,15.031 7.937,15.266 8.219,15.266 C8.502,15.266 8.731,15.031 8.731,14.740 L8.731,8.221 Z"
+                                      }
+                                    })
+                                  ]
+                                )
+                              ])
+                            ]
+                          }
+                        }
+                      ])
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("el-pagination", {
+                  attrs: {
+                    "current-page": _vm.currentPage,
+                    "page-sizes": [10, 20, 50, 100],
+                    "page-size": _vm.currentSize,
+                    layout: "total, sizes, prev, pager, next",
+                    total: _vm.total
+                  },
+                  on: {
+                    "size-change": _vm.handleSizeChange,
+                    "current-change": _vm.handleCurrentChange,
+                    "update:currentPage": function($event) {
+                      _vm.currentPage = $event
+                    }
+                  }
+                })
+              ],
+              1
             )
           ])
         ])
@@ -93059,23 +93093,341 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        'box-option': __WEBPACK_IMPORTED_MODULE_0__box_option_vue___default.a
+    },
+    data: function data() {
+        return {
+            myProjects: 0,
+            myTasks: 0,
+            myCalendar: 0,
+            myTimer: 0,
+            inbound: 0,
+            outbound: 0,
+            filteredTasks: [],
+            tasks: [{
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Website redesign concept',
+                assigned_to: 'Alan Prodemskie',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user2.png'
+                },
+                project: 'Make a wireframe for a warasadsadwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                assigned_to: 'Brian Howard',
+                assign_date: '2018-02-22 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'Social media marketing',
+                assigned_to: 'Jimmy Alister',
+                assign_date: '2018-02-22 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 1
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Lorem ipsum dolor sit amet',
+                assigned_to: 'Artour Babaev',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 3
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'consectetur adipiscing elit',
+                assigned_to: 'Sumail Hassan',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 4
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'sed do eiusmod tempor',
+                assigned_to: 'Amer Al-Barqawi',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 5
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'incididunt ut labore',
+                assigned_to: 'Saahil Arora',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 6
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'et dolore magna aliqua',
+                assigned_to: 'Clinton Loomis',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 7
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Ut enim ad minim',
+                assigned_to: 'Jacky Mao',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 8
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'quis nostrud exercitation',
+                assigned_to: 'Abed Yusop',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 9
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'ullamco laboris nisi ut',
+                assigned_to: 'Omar Aliwi',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 10
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'aliquip ex ea commodo consequat',
+                assigned_to: 'Clement Ivanov',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 11
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Duis aute irure dolor in reprehenderit',
+                assigned_to: 'Dani Ishutin',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 12
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'in voluptate velit esse',
+                assigned_to: 'Marcel David',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 13
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'cillum dolore eu fugiat',
+                assigned_to: 'Gabriel Toledo',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 14
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'nulla pariatur',
+                assigned_to: 'Fernando Alvarenga',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'completed',
+                user: {
+                    id: 15
+                }
+            }, {
+                assignee: {
+                    image: 'user1.png'
+                },
+                project: 'Excepteur sint occaecat',
+                assigned_to: 'Epitácio de Melo',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 16
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'cupidatat non proident',
+                assigned_to: 'João Vasconcellos',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 17
+                }
+            }, {
+                assignee: {
+                    image: 'user2.png'
+                },
+                project: 'sunt in culpa qui',
+                assigned_to: 'João Vasconcellos',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'pending',
+                user: {
+                    id: 18
+                }
+            }, {
+                assignee: {
+                    image: 'user3.png'
+                },
+                project: 'officia deserunt',
+                assigned_to: 'Olof Kajbjer',
+                assign_date: '2018-02-21 13:04:18',
+                status: 'behind',
+                user: {
+                    id: 20
+                }
+            }],
+            taskOption: 'all',
+            taskFilter: 'my',
+            taskCount: {
+                all: 0,
+                completed: 0,
+                pending: 0,
+                behind: 0
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.getCounts();
+        this.getTasks();
+        this.filterTasks('my', 'all');
+    },
 
-  components: {
-    'box-option': __WEBPACK_IMPORTED_MODULE_0__box_option_vue___default.a
-  },
+    methods: {
+        getCounts: function getCounts() {
+            var _this = this;
 
-  data: function data() {
-    return {};
-  },
-  mounted: function mounted() {},
+            axios.get('/api/dashboard/counts').then(function (response) {
+                _this.myProjects = reponse.data.projects;
+                _this.myTasks = reponse.data.tasks;
+                _this.myCalendar = reponse.data.calendars;
+                _this.myTimer = reponse.data.timer;
+                _this.inbound = reponse.data.inbound;
+                _this.outbound = reponse.data.outbound;
+            }).catch(function (error) {
+                if (error.response.status == 500 || error.response.status == 404) {}
+            });
+        },
+        getTasks: function getTasks() {
+            var _this2 = this;
 
-
-  methods: {}
-
+            axios.get('/api/user/tasks').then(function (response) {
+                _this2.tasks = response.data;
+            }).catch(function (error) {
+                if (error.response.status == 500 || error.response.status == 404) {}
+            });
+        },
+        filterTasks: function filterTasks(filter, option) {
+            if (filter == 'my') {
+                if (option == 'all') {
+                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 } });
+                } else {
+                    this.filteredTasks = _.filter(this.tasks, { user: { id: 1 }, status: option });
+                }
+                this.taskCount.all = _.filter(this.tasks, { user: { id: 1 } }).length;
+                this.taskCount.completed = _.filter(this.tasks, { user: { id: 1 }, status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.tasks, { user: { id: 1 }, status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.tasks, { user: { id: 1 }, status: 'behind' }).length;
+            } else {
+                if (option == 'all') {
+                    this.filteredTasks = this.tasks;
+                } else {
+                    this.filteredTasks = _.filter(this.tasks, { status: option });
+                }
+                this.taskCount.all = this.tasks.length;
+                this.taskCount.completed = _.filter(this.tasks, { status: 'completed' }).length;
+                this.taskCount.pending = _.filter(this.tasks, { status: 'pending' }).length;
+                this.taskCount.behind = _.filter(this.tasks, { status: 'behind' }).length;
+            }
+            this.taskFilter = filter;
+            this.taskOption = option;
+        }
+    }
 });
 
 /***/ }),
@@ -93706,10 +94058,86 @@ var render = function() {
           ])
         ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("section", { staticClass: "content hq-files" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "buzz-box drop-files" }, [
+            _c("div", { staticClass: "drop-files-content" }, [
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                    width: "89px",
+                    height: "100px"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      fill: "rgb(230, 230, 230)",
+                      d:
+                        "M77.345,89.918 L30.568,89.918 C24.310,89.918 19.189,84.757 19.189,78.450 L19.189,12.374 C19.189,6.068 24.310,0.908 30.568,0.908 L69.037,0.908 L69.037,19.564 L88.723,19.838 L88.723,78.450 C88.723,84.757 83.603,89.918 77.345,89.918 ZM73.010,0.908 L73.403,0.908 L88.723,14.729 L88.723,15.398 L73.010,15.398 L73.010,0.908 ZM16.261,78.450 C16.261,82.409 17.870,86.012 20.461,88.625 L20.472,88.635 C23.064,91.244 26.638,92.869 30.568,92.869 L62.994,92.869 L24.737,99.345 C18.565,100.387 12.666,96.153 11.631,89.936 L0.771,24.772 C-0.265,18.551 3.938,12.608 10.109,11.563 L16.382,10.502 C16.303,11.115 16.261,11.740 16.261,12.374 L16.261,78.450 Z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(2)
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "drop-text" }, [
+      _c("label", [
+        _vm._v("Drop files here "),
+        _c("br"),
+        _vm._v(" "),
+        _c("span", [_vm._v(" Or ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "drop-button" }, [
+      _c("button", [
+        _vm._v(
+          "\n                                Choose your files\n                            "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "buzz-box files" }, [
+          _c("div", { staticClass: "files-content" })
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
