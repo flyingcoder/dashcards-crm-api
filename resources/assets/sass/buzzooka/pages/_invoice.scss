@@ -1,0 +1,62 @@
+.invoice{
+    .content-body{
+        height: auto !important;
+        .buzz-section{
+            height: auto !important;
+            padding: 115px 115px 50px 115px;
+            form{
+                .buzz-group{
+                    display: flex;
+                    margin-bottom: 50px;
+                    label{
+                        width: 175px;
+                        font-size: 16px;
+                        padding-top: 15px;
+                        line-height: 2.125;
+                        font-family: $lato-semi;
+                    }
+                    input{
+                        background: $input-bg;
+                        border: $input-border;
+                        border-radius: 5px;
+                        box-shadow: $box-shadow-inset !important;
+                        height: 66px;
+                    }
+                }
+                .invoice-buttons{
+                    width: 100%;
+                    padding-left: 130px;
+                    ul{
+                        padding:0;
+                        li{
+                            display: inline-block;
+                            border-radius: 5px;
+                            width: 31%;
+                            height: 67px;
+                            margin-left: 2%;
+                            background: $blue;
+                            text-align: center;
+                            button, a{
+                                color: $white;
+                                font-size: 24.5px;
+                                line-height: 1.7;
+                                font-family: $lato-mid;
+                                span{
+                                    position: relative;
+                                    top: 12px;
+                                }
+                            }
+                        }
+                        .save{
+                            background: $gray-bg;
+                            border: $input-border;
+                            button{
+                                color: $table-status-text;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1105,6 +1105,9 @@ Vue.component('projects', __webpack_require__(42));
 // Clients Temporary on Hq Header
 Vue.component('clients', __webpack_require__(47));
 
+// Invoices
+Vue.component('invoices', __webpack_require__(71));
+
 // Payments
 Vue.component('payments', __webpack_require__(68));
 
@@ -52189,6 +52192,246 @@ if (false) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_header_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_header_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__page_header_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+  components: {
+    'page-header': __WEBPACK_IMPORTED_MODULE_0__page_header_vue___default.a
+  },
+
+  data: function data() {
+    return {};
+  },
+  mounted: function mounted() {},
+
+
+  methods: {}
+
+});
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(73)
+/* template */
+var __vue_template__ = __webpack_require__(72)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\invoices\\form.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1fe57d9a", Component.options)
+  } else {
+    hotAPI.reload("data-v-1fe57d9a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "content invoice" }, [
+    _c("div", { staticClass: "content-header" }, [_c("page-header")], 1),
+    _vm._v(" "),
+    _vm._m(0)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content-body" }, [
+      _c("section", { staticClass: "buzz-section" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("form", { attrs: { role: "form" } }, [
+              _c("div", { staticClass: "form-group buzz-group" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v(
+                    "\n                                Title\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "email", id: "exampleInputEmail1" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group buzz-group" }, [
+                _c("label", { attrs: { for: "exampleInputPassword1" } }, [
+                  _vm._v(
+                    "\n                               Description\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "password", id: "exampleInputPassword1" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group buzz-group" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v(
+                    "\n                                Rate\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "email", id: "exampleInputEmail1" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group buzz-group" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v(
+                    "\n                                Quantity\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "email", id: "exampleInputEmail1" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group invoice-buttons" }, [
+                _c("ul", [
+                  _c("li", { staticClass: "next" }, [
+                    _c("a", { attrs: { href: "#" } }, [
+                      _c("span", [_vm._v(" Previous ")])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "prev" }, [
+                    _c("a", { attrs: { href: "#" } }, [
+                      _c("span", [_vm._v(" Next ")])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "save" }, [
+                    _c("button", { attrs: { type: "submit" } }, [
+                      _c("span", [_vm._v(" Save ")])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1fe57d9a", module.exports)
+  }
+}
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_header_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_header_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__page_header_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //

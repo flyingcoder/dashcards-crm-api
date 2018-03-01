@@ -3354,7 +3354,7 @@ output {
   color: #f2f1f7;
   background-color: #fbfcfd;
   background-image: none;
-  border: 1px solid #ccc;
+  border: 1px solid 1px solid silver;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -4972,7 +4972,7 @@ tbody.collapse.in {
   color: #f2f1f7;
   text-align: center;
   background-color: #eeeeee;
-  border: 1px solid #ccc;
+  border: 1px solid 1px solid silver;
   border-radius: 4px;
 }
 
@@ -11701,6 +11701,81 @@ button.close {
   color: #42454c;
   line-height: 1.2;
   font-family: "lato semibold";
+}
+
+.invoice .content-body {
+  height: auto !important;
+}
+
+.invoice .content-body .buzz-section {
+  height: auto !important;
+  padding: 115px 115px 50px 115px;
+}
+
+.invoice .content-body .buzz-section form .buzz-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.invoice .content-body .buzz-section form .buzz-group label {
+  width: 175px;
+  font-size: 16px;
+  padding-top: 15px;
+  line-height: 2.125;
+  font-family: "lato semibold";
+}
+
+.invoice .content-body .buzz-section form .buzz-group input {
+  background: #fbfcfd;
+  border: 1px solid silver;
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0px 1px 1px 0px rgba(154, 157, 160, 0.35) !important;
+          box-shadow: inset 0px 1px 1px 0px rgba(154, 157, 160, 0.35) !important;
+  height: 66px;
+}
+
+.invoice .content-body .buzz-section form .invoice-buttons {
+  width: 100%;
+  padding-left: 130px;
+}
+
+.invoice .content-body .buzz-section form .invoice-buttons ul {
+  padding: 0;
+}
+
+.invoice .content-body .buzz-section form .invoice-buttons ul li {
+  display: inline-block;
+  border-radius: 5px;
+  width: 31%;
+  height: 67px;
+  margin-left: 2%;
+  background: #3b589e;
+  text-align: center;
+}
+
+.invoice .content-body .buzz-section form .invoice-buttons ul li button,
+.invoice .content-body .buzz-section form .invoice-buttons ul li a {
+  color: #ffffff;
+  font-size: 24.5px;
+  line-height: 1.7;
+  font-family: "lato medium";
+}
+
+.invoice .content-body .buzz-section form .invoice-buttons ul li button span,
+.invoice .content-body .buzz-section form .invoice-buttons ul li a span {
+  position: relative;
+  top: 12px;
+}
+
+.invoice .content-body .buzz-section form .invoice-buttons ul .save {
+  background: #f8f9fb;
+  border: 1px solid silver;
+}
+
+.invoice .content-body .buzz-section form .invoice-buttons ul .save button {
+  color: #b3b6c3;
 }
 
 .payments .content-body .buzz-section {

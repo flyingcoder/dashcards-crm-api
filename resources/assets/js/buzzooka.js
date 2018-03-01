@@ -24,6 +24,9 @@ Vue.component('projects', require('./components/projects/index.vue'));
 // Clients Temporary on Hq Header
 Vue.component('clients', require('./components/projects/project-hq/index.vue'));
 
+// Invoices
+Vue.component('invoices', require('./components/invoices/form.vue'));
+
 // Payments
 Vue.component('payments', require('./components/payments/index.vue'));
 
