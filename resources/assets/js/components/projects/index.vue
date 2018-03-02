@@ -72,20 +72,20 @@
                             </table>
                         </div>
                         <div class="tab-pane fade tab-table active show in" id="my-project">
-                            <el-table :data="paginatedMyProjects" border stripe empty-text="No Data Found" v-loading="isProcessing" 
+                            <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
                             @sort-change="handleSortChange" element-loading-text="Processing ..." @selection-change="handleSelectionChange" style="width: 100%">
                                 <el-table-column sortable type="selection" width="45"></el-table-column>
                                 <el-table-column sortable prop="service" label="Service"></el-table-column>
                                 <el-table-column sortable prop="client" label="Client"></el-table-column>
-                                <el-table-column sortable prop="project_manager" label="Project Manager" :show-overflow-tooltip="true"></el-table-column>
-                                <el-table-column sortable prop="start_date" label="Start Date" :show-overflow-tooltip="true"></el-table-column>
-                                <el-table-column sortable label="Progress" :show-overflow-tooltip="true">
+                                <el-table-column sortable prop="project_manager" label="Project Manager"></el-table-column>
+                                <el-table-column sortable prop="start_date" label="Start Date" ></el-table-column>
+                                <el-table-column sortable label="Progress">
                                     <div class="progress project-progress"> 
                                         <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </el-table-column>
-                                <el-table-column sortable prop="time_spent" label="Time Spent" :show-overflow-tooltip="true"></el-table-column>
-                                <el-table-column sortable prop="status" label="Status" :show-overflow-tooltip="true"></el-table-column>
+                                <el-table-column sortable prop="time_spent" label="Time Spent"></el-table-column>
+                                <el-table-column sortable prop="status" label="Status"></el-table-column>
                                 <el-table-column width="120" fixed="right">
                                     <template slot-scope="scope">
                                         <a href="#">
