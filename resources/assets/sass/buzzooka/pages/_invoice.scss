@@ -4,6 +4,45 @@
         .buzz-section{
             height: auto !important;
             padding: 115px 115px 50px 115px;
+            .form-progress{
+                .form-prog{
+                    display: inline-block;
+                    vertical-align: top;
+                }
+                .progress{
+                    position: relative;
+                    top: 6px;
+                    width: 46.5%;
+                    height: 4px;
+                    background: $invoice-progress-bg;
+                    box-shadow: none;
+                }
+                .circle{
+                    width: 15px;
+                    height: 15px;
+                    background: $invoice-circle-bg;
+                    border: 2px solid $border-circle;
+                    border-radius: 50%;
+                }
+                .active-progress{
+                    background: $invoice-fill-progress !important;
+                }
+                .active-circle{
+                    background: $table-data !important;
+                }
+            }
+            .form-info{
+                margin: 50px 0;
+                h1{
+                    margin: 0;
+                }
+                p{
+                    line-height: 2.125;
+                    color: $table-data;
+                    font-family: $lato-mid;
+                    font-size: 18px;
+                }
+            }
             form{
                 .buzz-group{
                     display: flex;
@@ -15,7 +54,7 @@
                         line-height: 2.125;
                         font-family: $lato-semi;
                     }
-                    input{
+                    input, select{
                         background: $input-bg;
                         border: $input-border;
                         border-radius: 5px;
@@ -60,3 +99,4 @@
         }
     }
 }
+
