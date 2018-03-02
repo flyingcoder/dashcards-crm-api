@@ -25,6 +25,7 @@ Route::view('settings', 'pages.settings')->name('settings');
 Route::view('supports', 'pages.supports')->name('supports');
 Route::view('timers', 'pages.timers')->name('timers');
 Route::view('payments', 'pages.payments')->name('payments');
+Route::view('invoices', 'pages.invoices')->name('invoices');
 Route::view('project-details', 'pages.project-details')->name('project-details');
 
 Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
@@ -59,11 +60,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'clients'], function () {
 });
 
 // Invoices
-Route::group(['middleware' => 'auth', 'prefix' => 'invoices'], function () {
-	Route::get('/', 'InvoiceController@index')->name('invoices');
-	Route::get('form', 'InvoiceController@form')->name('invoice-form');
-	Route::get('template', 'InvoiceController@template')->name('invoice-template');
-});
+// Route::group(['middleware' => 'auth', 'prefix' => 'invoices'], function () {
+// 	Route::get('/', 'InvoiceController@index')->name('invoices');
+// 	Route::get('form', 'InvoiceController@form')->name('invoice-form');
+// 	Route::get('template', 'InvoiceController@template')->name('invoice-template');
+// });
 
 // Calendar
 Route::group(['middleware' => 'auth', 'prefix' => 'calendar'], function () {

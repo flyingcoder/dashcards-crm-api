@@ -193,7 +193,8 @@ class Company extends Model
         if($request->has('status'))
             $projects->where('status', $request->status);
 
-        $projects->orderBy($sortName, $sortValue);
+        if($request->has('sort'))
+            $projects->orderBy($sortName, $sortValue);
 
         return $projects->paginate($this->paginate);
     }
@@ -207,6 +208,25 @@ class Company extends Model
     public function milestones()
     {
         return $this->hasManyThrough(Milestone::class, Project::class);
+    }
+
+    public function tasks()
+    {
+        return $this->milestones()
+                           ->join('tasks', 'tasks.milestone_id', '=', 'milestones.id')
+                           ->where('tasks.deleted_at', null);
+    }
+
+    public function allCompanyPaginatedTasks(Request $request)
+    {
+        list($sortName, $sortValue) = parseSearchParam($request);
+
+        $tasks = $this->tasks();
+
+        if($request->has('sort'))
+            $tasks->orderBy($sortName, $sortValue);
+
+        return $tasks->paginate($this->paginate);
     }
 
     public function clients()
