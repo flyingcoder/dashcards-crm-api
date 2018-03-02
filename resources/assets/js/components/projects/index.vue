@@ -7,15 +7,15 @@
             <section class="buzz-section">
                 <div class="buzz-table">
                     <ul class="nav nav-tabs">
-                        <li>
+                        <li class="active">
                             <a href="#all-project" data-toggle="tab"> All Project </a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="#my-project" data-toggle="tab"> My Project </a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade tab-table" id="all-project">
+                        <div class="tab-pane fade tab-table active in" id="all-project">
                             <table>
                                 <thead>
                                     <tr>
@@ -455,7 +455,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade tab-table active show in" id="my-project">
+                        <div class="tab-pane fade tab-table" id="my-project">
                             <table>
                                 <thead>
                                     <tr>

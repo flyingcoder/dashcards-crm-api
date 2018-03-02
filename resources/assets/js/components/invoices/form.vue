@@ -7,8 +7,6 @@
             <section class="buzz-section">
                 <div class="row">
                     <div class="col-md-12">
-                        
-
                         <div class="tab-content">
                             <div class="tab-pane fade tab-table active in" id="form-1">
                                 <div class="form-progress">
@@ -172,14 +170,14 @@
                                         <label for="date-from">
                                             Date Billed
                                         </label>
-                                        <input type="text" class="form-control" id="date-from" />
+                                        <input type="text" class="form-control date" id="date-from" />
                                     </div>
 
                                     <div class="form-group buzz-group">
                                         <label for="date-to">
                                             Date Billed
                                         </label>
-                                        <input type="text" class="form-control" id="date-to" />
+                                        <input type="text" class="form-control date" id="date-to" />
                                     </div>
 
                                     <div class="form-group buzz-group">

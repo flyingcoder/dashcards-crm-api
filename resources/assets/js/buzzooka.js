@@ -30,8 +30,14 @@ Vue.component('invoices', require('./components/invoices/form.vue'));
 // Payments
 Vue.component('payments', require('./components/payments/index.vue'));
 
+// Teams
+Vue.component('teams', require('./components/teams/index.vue'));
+
 
 const app = new Vue({
     el: '#app'
 });
+
+// Project Page Date Picker
+$('.date').datetimepicker();
 
