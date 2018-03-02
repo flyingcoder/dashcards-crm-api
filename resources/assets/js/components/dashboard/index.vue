@@ -845,8 +845,8 @@
                                 <tr>
                                 <td>   
                                     <div class="invoice-checkbox">
-                                    <input type="checkbox" value="None" id="one" name="check" checked />
-                                    <label for="one"></label>
+                                        <input type="checkbox" value="None" id="one" name="check" checked />
+                                        <label for="one"></label>
                                     </div>
                                 </td>
                                 <td>  <img src="img/temporary/user1.png">  </td>

@@ -6,8 +6,11 @@
             height: 465px;
             margin: 3px 0;
             text-align: center;
-            svg{
+            img{
                 margin-top: 100px;
+                margin-bottom: 10px;
+                width: 89px;
+                height: 100px;
             }
             .drop-text{
                 margin: 5px;
@@ -30,6 +33,376 @@
                     font-family: $lato-semi;
                     border-radius: 5px;
                     padding: 20px 30px;
+                }
+            }
+        }
+    }
+    .files{
+        height: 950px;
+        .files-options{
+            ul{
+                border: none;
+                li{
+                    border: $table-border;
+                    border-radius: 5px;
+                    height : 50px;
+                    text-align: center;
+                    font-family: $lato-mid;
+                    a{
+                        padding: 12px 0;
+                        background: none;
+                        border: none;
+                        svg{
+                            fill: $file-icon;
+                        }
+                        span{
+                            margin-left: 12px;
+                            vertical-align: top;
+                            font-size: 15px;
+                            color: $file-icon;
+                        }
+                        &:hover{
+                            background: none;
+                            border: none;
+                            @extend .hover-transition;
+                        }
+                    }
+                   
+                    &:hover{
+                        .all{
+                            svg{
+                                fill: $file-all;
+                            }
+                        }
+                        .image{
+                            svg{
+                                fill: $file-image;
+                            }
+                        }
+                        .video{
+                            svg{
+                                fill: $file-video;
+                            }
+                        }
+                        .document{
+                            svg{
+                                fill: $file-document;
+                            }
+                        }
+                        .others{
+                            svg{
+                                fill: $file-others;
+                            }
+                        }
+                    }
+                }
+                .file-type{
+                    margin-right: 1%;
+                    width: 13.39%;
+                }
+                .view-option{
+                    border: none;
+                    width: 5%;
+                    a, button{
+                        svg{
+                            fill: $file-icon;
+                        }
+                    }
+                    &:hover, &:active, &:focus{
+                        svg{
+                            fill: $table-data;
+                        }
+                    }
+                }
+                .active{
+                    svg{
+                        fill: $table-data !important;
+                    }
+                }
+                .add-link{
+                    background: $blue;
+                    button{
+                        font-size: 15px;
+                        color: $white;
+                        line-height: 1.2;
+                        padding-top: 15px;
+                    }
+                }
+                .sort-by{
+                    position: relative;
+                    top: 5px;
+                    width: 37px;
+                    height: 37px;
+                    border: $table-border;
+                    border-radius: 50%;
+                    button{
+                        padding: 7px 0;
+                    }
+                    .dropdown-menu{
+                        position: relative;
+                        height: 175px;
+                        width: 175px;
+                        left: -110px;
+                        top: 20px;
+                        padding: 0;
+                        background: $file-dropdown;
+                        box-shadow: $hover-shadow;
+                        border: $table-border;
+                        &:after{
+                            bottom: 100%;
+                            right: 30px;
+                            border: solid transparent;
+                            content: " ";
+                            height: 0;
+                            width: 0;
+                            position: absolute;
+                            pointer-events: none;
+                            border-bottom-color: $file-dropdown;
+                            border-width: 13px;
+                        }
+                        li{
+                            height: 43px;
+                            border: none;
+                            &:hover{
+                                background: $file-dropdown-bg;
+                            }
+                            a{
+                                text-align: left;
+                                padding-left: 25px;
+                                font-size: 15px;
+                                line-height: 1.2;
+                                color: $file-dropdown-text;
+                                font-family: $lato-semi;
+                                letter-spacing: 0.3px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .files-content{
+            .tab-table{
+                table{
+                    background: $gray-bg;
+                    border: $table-border;
+                    height: 795px;
+                    thead, tbody{
+                        tr{
+                            border-bottom: $table-border;
+                            th, td{
+                                &:first-child{
+                                    text-align: center !important;
+                                    width: 7%;
+                                }
+                                &:nth-child(2){
+                                    text-align: center !important;
+                                    width: 10%;
+                                }
+                                &:nth-child(3){
+                                    width: 28%;
+                                    padding-left: 15px;
+                                }
+                                &:nth-child(4){
+                                    width: 17%;
+                                    img{
+                                        position: absolute;
+                                        top: 12px;
+                                        left: -70px;
+                                        width: 55px;
+                                        border-radius: 50%;
+                                    }
+                                }
+                                &:nth-child(5){
+                                    width: 18%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            #list-view, #grid-view{
+                margin-top: 15px;
+            }
+            #list-view{
+                height: 858px;
+                @extend .body-scroll;
+                table{
+                    thead{
+                        font-size: 16px;
+                        color: $table-head;
+                        tr{
+                            height: 60px;
+                            th{
+                                text-align: left;
+                            }
+                        }
+                    }
+                    tbody{
+                        height: 735px !important;
+                        @extend .buzz-scrollbar;
+                        tr{
+                            height: 82px;
+                            td{
+                                position: relative;
+                                font-size: 15px;
+                                color: $file-uploadby;
+                                font-family: $lato-mid;
+                                .user-info{
+                                    text-align: left;
+                                    display: inline-block;
+                                    span{
+                                        line-height: 1.2;
+                                    }
+                                    .time{
+                                        font-size: 13px;
+                                        color: $hq-icon;
+                                        font-family: $lato-semi;
+                                    }
+                                }
+                                .table-option{
+                                    list-style: none;
+                                    li{
+                                        padding: 0 6px;
+                                        display: inline-block;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            #grid-view{
+                height: 830px;
+                border: $table-border;
+                .grid-container{
+                    background: none !important;
+                    padding: 10px 0;
+                    @extend .buzz-scrollbar;
+                    .file-box{
+                        position: relative;
+                        display: inline-block;
+                        height: 246px;
+                        width: 22%;
+                        padding: 0;
+                        margin: 10px 0 10px 2.25%;
+                        border: $table-border;
+                        .image-container{
+                            position:relative;
+                            height: 167px;
+                            img{
+                                width: 100%;
+                                height: 100%;   
+                            }
+                        }
+                        .file-info{
+                            height: 40px;
+                            padding: 10px;
+                            max-width: 100% !important;
+                            @extend .buzz-overflow;
+                            img{
+                                width: 30px;
+                                height: 25px;
+                                margin-right: 15px;
+                            }
+                            span{ 
+                                font-size: 12px;
+                                color: $table-data;
+                                line-height: 1.2;
+                                font-family: $lato-semi;
+                            }
+                        }
+                        .user-info{
+                            height: 38px;
+                            padding-left: 10px;
+                            @extend .buzz-overflow;
+                            max-width: 100% !important;
+                            img{
+                                position: relative;
+                                width: 30px;
+                                margin-right: 15px;
+                                bottom: 8px;
+                                border-radius: 50%;
+                            }
+                            label{ 
+                                font-size: 12px;
+                                color: $file-icon;
+                                line-height: 1.2;
+                                font-family: $lato-semi;
+                                margin-top: 5px;
+                                span{
+                                    color: $table-data;
+                                    
+                                }
+                            }
+                        }
+                        .grid-option{
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            color: $white;
+                            font-size: 16px;
+                            .dropdown-menu{
+                                width: 123px;
+                                height: 125px;
+                                left: -135px;
+                                top: 32px;
+                                padding: 0;
+                                background: $file-dropdown;
+                                box-shadow: $hover-shadow;
+                                border: $table-border;
+                                &:after{
+                                    bottom: 100%;
+                                    right: 7px;
+                                    border: solid transparent;
+                                    content: " ";
+                                    height: 0;
+                                    width: 0;
+                                    position: absolute;
+                                    pointer-events: none;
+                                    border-bottom-color: $file-dropdown;
+                                    border-width: 9px;
+                                }
+                                li{
+                                    height: 31px;
+                                    &:hover{
+                                        background: $file-dropdown-bg;
+                                    }
+                                    a{
+                                        font-size: 12px;
+                                        color: $file-dropdown-text;
+                                        font-family: $lato-semi;
+                                        line-height: 2.2;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .document, .others{
+                        .image-container{
+                            background: $gray-bg;
+                            padding-top: 40px;
+                            text-align: center;
+                            img, svg{
+                                width: 75px;
+                                height: 85px;
+                            }
+                        }
+                        .grid-option{
+                            color: $file-icon;
+                            &:hover, &:active, &:focus{
+                                color: $table-data;
+                            }
+                        }
+                    }
+                    .video{
+                        .image-container{
+                            a{
+                                position: absolute;
+                                top: 55px;
+                                left: 40%;
+                            }
+                        }
+                    }
                 }
             }
         }

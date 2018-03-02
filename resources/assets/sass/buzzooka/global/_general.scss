@@ -8,7 +8,7 @@
     padding: 0;
     margin: 0;
 
- // Overflow
+ // Text Overflow
     .buzz-overflow{
         max-width: 0;
         overflow: hidden;
@@ -177,6 +177,7 @@
         padding: 23px;
         background: $white;
         @extend .buzz-border;
+        @extend .buzz-shadow;
     }
     .box-head{
         position: relative;
@@ -293,6 +294,10 @@
         transition: width 0.3s ease-in-out;
     }
 // Box Shadow
+    .buzz-shadow{
+        box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+    }
+
     .buzz-shadow-soft{
         -webkit-box-shadow: 0px 5px 30px -20px rgba(79,79,79,1);
         -moz-box-shadow: 0px 5px 30px -20px rgba(79,79,79,1);
@@ -334,5 +339,58 @@
         &:hover{
             display: block;
         }
+    }
+    .body-scroll{
+        table{
+            width: 100%;
+            thead, tbody tr {
+                 display:table;
+                 width:100%;
+                 table-layout:fixed;
+             }
+             tbody{
+                display:block;
+             }
+        }
+    }
+    .table-checkbox{
+        position: relative;
+        label {
+            width: 39px;
+            height: 39px;
+            cursor: pointer;
+            position: relative;
+            top: 6px;
+            left: 0;
+            background: $white;
+            border-radius: 2px;
+            border: $border-buzz;
+
+            &:after {
+                content: '';
+                position: absolute;
+                width: 32px;
+                height: 12px;
+                top: 8px;
+                left: 3px;
+                border: 2px solid $blue;
+                border-top: none;
+                border-right: none;
+                background: transparent;
+                opacity: 0;
+                -webkit-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+                }
+            }
+        }
+
+        .table-checkbox input[type=checkbox] {
+            visibility: hidden;
+        }
+        .table-checkbox input[type=checkbox]:checked + label:after {
+            opacity: 1;
+        }
+        .table-checkbox label span {
+            padding-left:45px
     }
 }

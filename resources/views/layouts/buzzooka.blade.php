@@ -200,7 +200,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="invoice"> 
+              <a href="{{ route ('invoices') }}" id="invoice">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="54px" height="50px">
@@ -213,7 +213,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="payment"> 
+              <a href="{{ route ('payments') }}" id="payments">
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="72px" height="50px">

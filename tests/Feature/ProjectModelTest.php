@@ -53,7 +53,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/mine');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
