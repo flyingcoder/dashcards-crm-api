@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 Route::get('activities', 'ActivityController@index');
 
+Route::get('dashboard/counts', 'DashboardController@counts')->middleware('auth:api');
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/', 'UserController@user');
