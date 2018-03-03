@@ -154,11 +154,11 @@
       methods: {
         getMyProjects(){
             axios.get('api/projects/mine')
-            .then( response => {
-                this.paginatedMyProjects = response.data.data;
-                this.currentPage = response.data.current_page;
-                this.total = response.data.total;
-            })
+                 .then( response => {
+                    this.paginatedMyProjects = response.data.data;
+                    this.currentPage = response.data.current_page;
+                    this.total = response.data.total;
+                 })
         },
         getAllProjects(){
             axios.get('api/projects')
