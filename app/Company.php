@@ -174,9 +174,9 @@ class Company extends Model
                  ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
                  ->with('milestones')
                  ->select(
-                    'manager.name as manager_name',
+                    DB::raw('CONCAT(manager.last_name, ", ", manager.first_name) AS manager_name'),
                     'client.image_url as client_image_url',
-                    'client.name as client_name',
+                    DB::raw('CONCAT(client.last_name, ", ", client.first_name) AS client_name'),
                     'projects.*',
                     'services.name as service_name'
                  )->where('projects.deleted_at', null);
