@@ -41,5 +41,18 @@
                 }
             }
         }
+        .active{
+            background: $gray;
+            z-index: 2000;
+            @extend .hover-transition;
+            a{
+                color: $side-hover;
+            }
+            .tab-icon{ 
+                svg{
+                    fill: $blue;
+                }
+            }
+        }
     }
 }
