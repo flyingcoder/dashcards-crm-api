@@ -15,7 +15,7 @@ class CreateNewTimersTable extends Migration
     {
         Schema::dropIfExists('timers');
         
-        Schema::create('timer', function (Blueprint $table) {
+        Schema::create('timers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('timer_name')->nullable();
             $table->string('description');
@@ -24,6 +24,8 @@ class CreateNewTimersTable extends Migration
             $table->integer('causer_id')->nullable();
             $table->string('causer_type')->nullable();
             $table->text('properties')->nullable();
+            $table->text('action');
+            $table->string('status');
             $table->timestamps();
             $table->softDeletes();
 
@@ -38,6 +40,6 @@ class CreateNewTimersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timer');
+        Schema::dropIfExists('timers');
     }
 }

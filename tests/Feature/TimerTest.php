@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Timer;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TimerTest extends TestCase
@@ -13,12 +13,35 @@ class TimerTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testStartTime()
     {
-    	$timer = new Timer();
+        $user = User::find(1);
+        
+        $data = [
+            'subject_type' => 'App\Company'
+        ];
+        /*
+        $response = $this->actingAs($user, 'api')
+                         ->post('api/timer/pause', $data);
 
-    	dd($timer->start());
+        //dd($response->content());
+        $response->assertStatus(200);*/
+    }
 
-        $this->assertTrue(true);
+    public function testTaskStartTime()
+    {
+        $user = User::find(1);
+        
+        $data = [
+            'subject_type' => 'App\Task',
+            'subject_id' => 1,
+            'description' => 'Task Timer'
+        ];
+        /*
+        $response = $this->actingAs($user, 'api')
+                         ->post('api/timer/stop', $data);
+
+        //dd($response->content());
+        $response->assertStatus(200);*/
     }
 }
