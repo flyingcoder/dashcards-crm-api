@@ -138,6 +138,6 @@ Route::post('avatars', function () {
 });
 
 // Views
-Route::view('dashboard', 'pages.dashboard')->name('dashboard');
-Route::view('projects', 'pages.projects')->name('projects');
-Route::view('clients', 'pages.clients')->name('clients');
+//Route::view('dashboard', 'pages.dashboard')->name('dashboard');
+//Route::view('projects', 'pages.projects')->name('projects');
+//Route::view('clients', 'pages.clients')->name('clients');

@@ -16,7 +16,9 @@ class Timer extends Model
         'subject_type', 
         'causer_id', 
         'causer_type', 
-        'properties'
+        'properties',
+        'action',
+        'status'
     ];
 
     protected $dates = ['deleted_at'];
@@ -29,5 +31,12 @@ class Timer extends Model
     public function causer()
     {
     	$this->morphTo();
+    }
+
+    public static function boot()
+    {
+        Timer::creating(function ($timer) {
+            
+        });
     }
 }

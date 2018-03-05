@@ -27,6 +27,14 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
+
+  Route::post('task/{action}', 'TimerController@taskTimer');
+
+  Route::post('{action}', 'TimerController@timer');
+
+});
+
 // Templates
 Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 

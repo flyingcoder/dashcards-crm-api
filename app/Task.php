@@ -38,6 +38,18 @@ class Task extends Model
         return [$task->save(), $task];
     }
 
+    public function timers()
+    {
+        return $this->morphMany(Timer::class, 'subject');
+    }
+
+    public function lastTimer()
+    {
+        return $this->timers()
+                    ->latest()
+                    ->first();
+    }
+
     public function company()
     {
       return $this->milestone->project->company();

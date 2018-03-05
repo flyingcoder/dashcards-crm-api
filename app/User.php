@@ -68,6 +68,19 @@ class User extends Authenticatable
         return $this->morphMany('Spatie\Activitylog\Models\Activity', 'causer');
     }
 
+    public function timers()
+    {
+        return $this->morphMany(Timer::class, 'causer')
+                    ->where('subject_type', 'App\Company');
+    }
+
+    public function lastTimer()
+    {
+        return $this->timers()
+                    ->latest()
+                    ->first();
+    }
+
     /**
      *
      * Forms relationship
