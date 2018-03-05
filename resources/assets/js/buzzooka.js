@@ -33,6 +33,8 @@ Vue.component('invoices', require('./components/invoices/form.vue'));
 // Payments
 Vue.component('payments', require('./components/payments/index.vue'));
 
+// Teams
+Vue.component('teams', require('./components/teams/index.vue'));
 
 // if(document.getElementById("app-with-routes")) {
 
@@ -66,4 +68,6 @@ Vue.component('payments', require('./components/payments/index.vue'));
 const app = new Vue({
     el: '#app'
 });
+
+
 

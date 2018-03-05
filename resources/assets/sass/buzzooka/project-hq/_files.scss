@@ -38,10 +38,11 @@
         }
     }
     .files{
-        height: 950px;
+        height: 985px;
         .files-options{
             ul{
                 border: none;
+                
                 li{
                     border: $table-border;
                     border-radius: 5px;
@@ -129,52 +130,25 @@
                     }
                 }
                 .sort-by{
-                    position: relative;
-                    top: 5px;
-                    width: 37px;
-                    height: 37px;
-                    border: $table-border;
-                    border-radius: 50%;
-                    button{
-                        padding: 7px 0;
+                    @extend .sort-by;
+                    a{
+                        line-height: 1.5 !important;
                     }
-                    .dropdown-menu{
-                        position: relative;
-                        height: 175px;
-                        width: 175px;
-                        left: -110px;
-                        top: 20px;
-                        padding: 0;
-                        background: $file-dropdown;
-                        box-shadow: $hover-shadow;
-                        border: $table-border;
-                        &:after{
-                            bottom: 100%;
-                            right: 30px;
-                            border: solid transparent;
-                            content: " ";
-                            height: 0;
-                            width: 0;
-                            position: absolute;
-                            pointer-events: none;
-                            border-bottom-color: $file-dropdown;
-                            border-width: 13px;
-                        }
+                }
+                .buzz-dropdown{
+                    .images{
+                        top: 12px;
                         li{
-                            height: 43px;
-                            border: none;
-                            &:hover{
-                                background: $file-dropdown-bg;
-                            }
+                            height: 40px;
+                            width: auto;
                             a{
-                                text-align: left;
-                                padding-left: 25px;
-                                font-size: 15px;
-                                line-height: 1.2;
-                                color: $file-dropdown-text;
+                                font-size: 12px;
                                 font-family: $lato-semi;
-                                letter-spacing: 0.3px;
+                                margin-left: 20px;
                             }
+                        }
+                        &:after{
+                            right: 43% !important;
                         }
                     }
                 }
@@ -222,6 +196,9 @@
             }
             #list-view, #grid-view{
                 margin-top: 15px;
+                .box-footer{
+                    padding-top: 22px !important;
+                }
             }
             #list-view{
                 height: 858px;
@@ -238,7 +215,7 @@
                         }
                     }
                     tbody{
-                        height: 735px !important;
+                        height: 770px !important;
                         @extend .buzz-scrollbar;
                         tr{
                             height: 82px;
@@ -284,7 +261,7 @@
                         height: 246px;
                         width: 22%;
                         padding: 0;
-                        margin: 10px 0 10px 2.25%;
+                        margin: 10px 0 15px 2.25%;
                         border: $table-border;
                         .image-container{
                             position:relative;

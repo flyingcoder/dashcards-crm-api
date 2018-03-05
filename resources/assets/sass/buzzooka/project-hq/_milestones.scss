@@ -78,5 +78,44 @@
             }
         }
     }
+    .add-milestone{
+        position: fixed;
+        right: 20px;
+        bottom: 40px;
+        background: $blue;
+        border: $table-border;
+        border-radius: 40px;
+        box-shadow: $hover-shadow;
+        outline: none;
+        &:hover{
+            span{
+                display: inline;
+            }
+        }
+        span{
+            position: relative;
+            top: 9px;
+            font-size: 18.7px;
+            color: $white;
+            padding: 5px;
+            margin-left: 15px;
+            vertical-align: top;
+            font-family: $lato-semi;
+            letter-spacing: 0.3px;
+            display: none;
+        }
+        button{
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: $table-border;
+            border: none;
+            outline: none;
+            svg{
+                margin:  10px 5px;
+            }
+        }
+        
+    }
 }
   

@@ -1,7 +1,7 @@
 @extends('layouts.buzzooka')
 
-@section('title', 'Projects')
+@section('title', 'Teams')
 
 @section('content')
-    <projects></projects>
+   <teams></teams>
 @endsection

@@ -26,6 +26,7 @@ Route::view('supports', 'pages.supports')->name('supports');
 Route::view('timers', 'pages.timers')->name('timers');
 Route::view('payments', 'pages.payments')->name('payments');
 Route::view('invoices', 'pages.invoices')->name('invoices');
+Route::view('teams', 'pages.teams')->name('teams');
 Route::view('project-details', 'pages.project-details')->name('project-details');
 
 Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
@@ -80,13 +81,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'milestones'], function () {
 
 // ================
 
-// Team
-Route::prefix('teams')->group(function () {
-	Route::get('/', 'TeamController@index')->name('team');
-	Route::get('profile/{id}', 'TeamController@memberProfile')->name('profile');
-	Route::get('new', 'TeamController@save')->name('new-team');
-	Route::post('new', 'TeamController@store')->name('store-team');
-});
+// // Team
+// Route::prefix('teams')->group(function () {
+// 	Route::get('/', 'TeamController@index')->name('team');
+// 	Route::get('profile/{id}', 'TeamController@memberProfile')->name('profile');
+// 	Route::get('new', 'TeamController@save')->name('new-team');
+// 	Route::post('new', 'TeamController@store')->name('store-team');
+// });
 
 // Personal Project
 Route::group(['middleware' => 'auth', 'prefix' => 'personal'], function () {

@@ -1,6 +1,6 @@
 @extends('layouts.buzzooka')
 
-@section('title', 'Dashboard')
+@section('title', 'Invoices')
 
 @section('content')
    <invoices></invoices>
