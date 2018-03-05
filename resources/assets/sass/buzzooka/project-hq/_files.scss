@@ -38,10 +38,11 @@
         }
     }
     .files{
-        height: 950px;
+        height: 985px;
         .files-options{
             ul{
                 border: none;
+                
                 li{
                     border: $table-border;
                     border-radius: 5px;
@@ -128,6 +129,29 @@
                         padding-top: 15px;
                     }
                 }
+                .sort-by{
+                    @extend .sort-by;
+                    a{
+                        line-height: 1.5 !important;
+                    }
+                }
+                .buzz-dropdown{
+                    .images{
+                        top: 12px;
+                        li{
+                            height: 40px;
+                            width: auto;
+                            a{
+                                font-size: 12px;
+                                font-family: $lato-semi;
+                                margin-left: 20px;
+                            }
+                        }
+                        &:after{
+                            right: 43% !important;
+                        }
+                    }
+                }
             }
         }
         .files-content{
@@ -172,6 +196,9 @@
             }
             #list-view, #grid-view{
                 margin-top: 15px;
+                .box-footer{
+                    padding-top: 22px !important;
+                }
             }
             #list-view{
                 height: 858px;
@@ -188,7 +215,7 @@
                         }
                     }
                     tbody{
-                        height: 735px !important;
+                        height: 770px !important;
                         @extend .buzz-scrollbar;
                         tr{
                             height: 82px;
@@ -234,7 +261,7 @@
                         height: 246px;
                         width: 22%;
                         padding: 0;
-                        margin: 10px 0 10px 2.25%;
+                        margin: 10px 0 15px 2.25%;
                         border: $table-border;
                         .image-container{
                             position:relative;

@@ -32,8 +32,8 @@
                                     <span> All </span>
                                 </a>
                             </li>
-                            <li class="file-type">
-                                <a href="#" class="image">
+                            <li class="file-type buzz-dropdown">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle image">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="32px" height="24px">
                                         <path fill-rule="evenodd"
@@ -41,6 +41,14 @@
                                     </svg>
                                     <span> Image </span>
                                 </a>
+                                <ul class="dropdown-menu images">
+                                    <li>
+                                        <a href="#"> All Images </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> For Approval </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="file-type">
                                 <a href="#" class="video">
@@ -101,7 +109,7 @@
                                         d="M19.656,5.594 C18.258,5.594 17.125,4.467 17.125,3.078 C17.125,1.689 18.258,0.562 19.656,0.562 C21.054,0.562 22.187,1.689 22.187,3.078 C22.187,4.467 21.054,5.594 19.656,5.594 ZM11.531,5.594 C10.133,5.594 9.000,4.467 9.000,3.078 C9.000,1.689 10.133,0.562 11.531,0.562 C12.929,0.562 14.062,1.689 14.062,3.078 C14.062,4.467 12.929,5.594 11.531,5.594 ZM3.437,5.594 C2.040,5.594 0.906,4.467 0.906,3.078 C0.906,1.689 2.040,0.562 3.437,0.562 C4.835,0.562 5.969,1.689 5.969,3.078 C5.969,4.467 4.835,5.594 3.437,5.594 Z"/>
                                     </svg>
                                 </button>
-                                    <ul class="dropdown-menu">
+                                <ul class="dropdown-menu">
                                     <li>
                                         <a href="#"> Sort by type </a>
                                     </li>
@@ -120,450 +128,8 @@
                     </div>
                     <div class="files-content">
                         <div class="tab-content">
-                            <div class="tab-pane fade tab-table active in" id="list-view">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th> 
-                                                <div class="table-checkbox">
-                                                    <input type="checkbox" value="None" id="alltype" name="alltype" checked />
-                                                    <label for="alltype"></label>
-                                                </div>
-                                            </th>
-                                            <th> Filetype </th>
-                                            <th> Filename </th>
-                                            <th> Uploaded by </th>
-                                            <th> Project </th>
-                                            <th>  </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="buzz-scroll">
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/image.svg"> </td>  
-                                            <td> <span> Webbanner.jpg </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user1.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                                
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/documents.svg"> </td>  
-                                            <td> <span> Questionnaire.doc </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user2.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/video.svg"> </td>  
-                                            <td> <span> Web Intro.mp4 </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user3.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td> 
-                                                <div class="table-checkbox">
-                                                    <input type="checkbox" value="None" id="one" name="one" checked />
-                                                    <label for="one"></label>
-                                                </div>
-                                            </td>  
-                                            <td> <img src="img/files/others.svg"> </td>  
-                                            <td> <span> Homepage.php </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user2.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                                <list-option></list-option>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/image.svg"> </td>  
-                                            <td> <span> Webbanner.jpg </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user1.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                                
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/documents.svg"> </td>  
-                                            <td> <span> Questionnaire.doc </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user2.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/video.svg"> </td>  
-                                            <td> <span> Web Intro.mp4 </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user3.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="table-checkbox">
-                                                    <input type="checkbox" value="None" id="two" name="two" checked />
-                                                    <label for="two"></label>
-                                                </div>
-                                            </td>  
-                                            <td> <img src="img/files/others.svg"> </td>  
-                                            <td> <span> Homepage.php </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user2.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                                <list-option></list-option>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/image.svg"> </td>  
-                                            <td> <span> Webbanner.jpg </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user1.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                                
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/documents.svg"> </td>  
-                                            <td> <span> Questionnaire.doc </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user2.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td></td>  
-                                            <td> <img src="img/files/video.svg"> </td>  
-                                            <td> <span> Web Intro.mp4 </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user3.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                            </td>  
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="table-checkbox">
-                                                    <input type="checkbox" value="None" id="three" name="three" checked />
-                                                    <label for="three"></label>
-                                                </div>
-                                            </td>  
-                                            <td> <img src="img/files/others.svg"> </td>  
-                                            <td> <span> Homepage.php </span> </td>  
-                                            <td> 
-                                                <div class="user-info">
-                                                    <img src="img/temporary/user2.png">
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="name">Brian Howard</span> <br>
-                                                    <span class="time">uploaded 3hrs ago</span>
-                                                </div>
-                                            </td>  
-                                            <td> <span>XYZ Web Design </span> </td>  
-                                            <td>
-                                                <list-option></list-option>
-                                            </td>  
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="box-footer">
-                                    <a href="#"> View More </a>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade tab-table" id="grid-view">
-                                <div class="grid-container" id="buzz-scroll">
-                                    <div class="file-box" >
-                                        <div class="image-container">
-                                            <img src="img/temporary/sample.png">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/image.svg">
-                                            <span> Webbanner.jpg</span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user1.png">
-                                            <label> Uploaded by <span> Brian Howard </span> <br> 2hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box document">
-                                        <div class="image-container">
-                                            <img src="img/files/documents-bw.svg">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/documents.svg">
-                                            <span> Questionnaire.doc </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user2.png">
-                                            <label> Uploaded by <span> William Stomhson</span> <br> 5hrs ago </label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box video">
-                                        <div class="image-container">
-                                            <img src="img/temporary/sample.png">
-                                            <a href="#">
-                                                <img src="img/files/play-video.svg">
-                                            </a>
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/video.svg">
-                                            <span> Web Intro.mp4 </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user3.png">
-                                            <label> Uploaded by <span> Tommy Jeff </span> <br> 1day ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box others">
-                                        <div class="image-container">
-                                            <img src="img/files/others-bw.svg">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/others.svg">
-                                            <span> Homepage.php </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user2.png">
-                                            <label> Uploaded by <span> Alan Podemski </span> <br> 5hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box">
-                                        <div class="image-container">
-                                            <img src="img/temporary/sample.png">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/image.svg">
-                                            <span> Webbanner.jpg </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user1.png">
-                                            <label> Uploaded by <span> Brian Howard </span> <br> 2hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box document">
-                                        <div class="image-container">
-                                            <img src="img/files/documents-bw.svg">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/documents.svg">
-                                            <span> Questionnaire.doc </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user2.png">
-                                            <label> Uploaded by <span> William Stomhson</span> <br> 5hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box video">
-                                        <div class="image-container">
-                                            <img src="img/temporary/sample.png">
-                                            <a href="#">
-                                                <img src="img/files/play-video.svg">
-                                            </a>
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/video.svg">
-                                            <span> Web Intro.mp4 </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user3.png">
-                                            <label> Uploaded by <span> Tommy Jeff </span> <br> 1day ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box others">
-                                        <div class="image-container">
-                                            <img src="img/files/others-bw.svg">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/others.svg">
-                                            <span> Homepage.php </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user2.png">
-                                            <label> Uploaded by <span> Alan Podemski </span> <br> 5hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box">
-                                        <div class="image-container">
-                                            <img src="img/temporary/sample.png">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/image.svg">
-                                            <span> Webbanner.jpg </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user1.png">
-                                            <label> Uploaded by <span> Brian Howard </span> <br> 2hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box document">
-                                        <div class="image-container">
-                                            <img src="img/files/documents-bw.svg">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/documents.svg">
-                                            <span> Questionnaire.doc </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user2.png">
-                                            <label> Uploaded by <span> William Stomhson</span> <br> 5hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box video">
-                                        <div class="image-container">
-                                            <img src="img/temporary/sample.png">
-                                            <a href="#">
-                                                <img src="img/files/play-video.svg">
-                                            </a>
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/video.svg">
-                                            <span> Web Intro.mp4 </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user3.png">
-                                            <label> Uploaded by <span> Tommy Jeff </span> <br> 1day ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                    <div class="file-box others">
-                                        <div class="image-container">
-                                            <img src="img/files/others-bw.svg">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/others.svg">
-                                            <span> Homepage.php </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user2.png">
-                                            <label> Uploaded by <span> Alan Podemski </span> <br> 5hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                        <div class="file-box others">
-                                        <div class="image-container">
-                                            <img src="img/files/others-bw.svg">
-                                        </div>
-                                        <div class="file-info">
-                                            <img src="img/files/others.svg">
-                                            <span> Homepage.php </span>
-                                        </div>
-                                        <div class="user-info">
-                                            <img src="img/temporary/user2.png">
-                                            <label> Uploaded by <span> Alan Podemski </span> <br> 5hrs ago</label>
-                                        </div>
-                                        <grid-option></grid-option>
-                                    </div>
-                                </div>
-                            </div>
+                            <list-view></list-view>
+                            <grid-view></grid-view>
                         </div>
                     </div>
                 </div>
@@ -573,13 +139,13 @@
 </template>
 
 <script>
-    import ListOption from './list-option.vue';
-    import GridOption from './grid-option.vue';
+    import ListView from './list-view.vue';
+    import GridView from './grid-view.vue';
 
     export default {
         components: {
-          'list-option': ListOption,
-          'grid-option': GridOption,
+          'list-view': ListView,
+          'grid-view': GridView,
         },
         data(){
             return {

@@ -2,7 +2,8 @@
     <div>
         <hq-menu></hq-menu>
 
-        <milestones></milestones>
+        <files></files>
+        <!-- <milestones></milestones> -->
         <!-- <members> </members> -->
         <!-- <profile></profile> -->
     </div>
@@ -12,6 +13,7 @@
     import HQMenu from './hq-menu.vue';
     import PageHeader from '../../page-header.vue';    
     import BoxOption from '../../box-option.vue';
+    import Files from './files/index.vue';
     import Milestones from './milestones/index.vue';
     import Members from './members/index.vue';
     import Profile from '../../teams/profile/index.vue';
@@ -21,6 +23,7 @@
           'hq-menu': HQMenu,
           'page-header': PageHeader,
           'box-option': BoxOption,
+          'files': Files,
           'milestones': Milestones,
           'members': Members,
           'profile': Profile,
