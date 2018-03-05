@@ -170,6 +170,7 @@
             .bottom-profile{
                 margin-top: 24px;
                 height: 730px;
+                @extend .tab-options;
                 .left{
                     padding: 0;
                     width: 61.33333333%;
@@ -531,22 +532,11 @@
                     height: 85px;
                     margin-left: 0.3px;
                     ul{
-                        list-style: none;
-                        border: none;
-                        padding: 0;
-                        margin: 0;
                         li{
                             height: 84px;
-                            text-align: center;;
-                            display: inline-block;
                             border: $table-border;
                             a{
-                                border: none;
-                                background: none;
                                 padding: 25px;
-                                svg{
-                                    fill: $hq-icon;
-                                }
                             }
                             &:hover{
                                 background: $blue;

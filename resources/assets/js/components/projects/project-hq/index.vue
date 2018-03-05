@@ -2,7 +2,7 @@
     <div>
         <hq-menu></hq-menu>
 
-        <members> </members>
+        <!-- <members> </members> -->
         <!-- <profile></profile> -->
     </div>
 </template>

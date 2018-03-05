@@ -1,11 +1,35 @@
 .hq-members{
+    .box-head{
+        height: 86px;
+        padding: 30px 0;
+        @extend .tab-options;
+        .tab-option{
+            float: right;
+            ul{
+                li{
+                    &:hover{
+                        svg{
+                            fill: $table-data;
+                        }
+                    }
+                }
+                .active{
+                    svg{
+                        fill: $table-data;
+                    }
+                }
+            }
+        }
+    }
     .box-body{
+        background: $gray-bg !important;
         @extend .buzz-scrollbar;
         .member-box{
-            padding-bottom: 30px;
+            padding-bottom: 45px;
             .content-body{
                 width: 95%;
-                height: 338px;
+                height: 305px;
+                margin-top: 3px;
                 &:hover{
                     box-shadow: $hover-shadow;
                 }
@@ -14,29 +38,29 @@
                 margin-left: 2.5%;
             }
             .member-header{
-                height: 54px;
+                height: 41px;
                 border-radius: 10px 10px 0 0;
                 .member-status{
                     position: absolute;
                     top: 25px;
-                    left: 30px;
+                    left: 50px;
                     float: left;
-                    width: 25px;
-                    height: 24px;
+                    width: 22px;
+                    height: 22px;
                     border-radius: 50%;
                 }
                 .member-position{
                     position: relative;
                     text-align: center;
                     top: 25px;
-                    font-size: 20px;
+                    font-size: 18px;
                     color: $member-position;
                     line-height: 1.2;
                     font-family: $lato-semi;
                 }
                 .member-settings{
                     position: relative;
-                    right: 15px;
+                    right: 10px;
                     bottom: 8px;
                     float: right;
                     svg{
@@ -84,19 +108,19 @@
                 }
             }
             .member-body{
-                height:205px;
+                height: 193px;
                 text-align: center;
                 .member-image{
                     img{
-                        width: 112px;
+                        width: 105px;
                         border-radius: 50%;
                     }
                 }
                 .member-name{
                     text-align: center;
-                    margin-top: 15px;
+                    margin-top: 12px;
                     span{
-                        font-size: 20px;
+                        font-size: 18px;
                         color: $member-position;
                         line-height: 1.2;
                         font-family: $lato-semi;
@@ -106,9 +130,10 @@
                     position: relative;
                     margin-top: 10px;
                     span, a{
-                        font-size: 15px;
+                        font-size: 14px;
                         line-height: 1.2;
                         color: $member-info;
+                        font-family: $lato-mid; 
                     }
                     svg{
                         margin-right: 6px;
@@ -125,26 +150,30 @@
                 }
             }
             .member-footer{
-                height: 77px;
+                height: 69px;
                 background: $gray-bg;
                 text-align: center;
                 border-radius: 0 0 10px 10px;
                     label{
                         margin-top: 15px;
                         margin-bottom: 0;
-                        font-size: 15px;
+                        font-size: 13.8px;
                         font-family: $lato;
                         font-weight: 500;
                         color: $member-position;
                         line-height: 1.2;
                     }
                     span{
-                        font-size: 20px;
+                        font-size: 18px;
                         color: $member-position;
                         line-height: 1.2;
                         font-family: $lato-semi;
                     }
             }
         }
+    }
+    .box-footer{
+        font-size: 15px !important;
+        padding-top: 1px !important;
     }
 }

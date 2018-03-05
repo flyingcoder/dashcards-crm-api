@@ -128,56 +128,6 @@
                         padding-top: 15px;
                     }
                 }
-                .sort-by{
-                    position: relative;
-                    top: 5px;
-                    width: 37px;
-                    height: 37px;
-                    border: $table-border;
-                    border-radius: 50%;
-                    button{
-                        padding: 7px 0;
-                    }
-                    .dropdown-menu{
-                        position: relative;
-                        height: 175px;
-                        width: 175px;
-                        left: -110px;
-                        top: 20px;
-                        padding: 0;
-                        background: $file-dropdown;
-                        box-shadow: $hover-shadow;
-                        border: $table-border;
-                        &:after{
-                            bottom: 100%;
-                            right: 30px;
-                            border: solid transparent;
-                            content: " ";
-                            height: 0;
-                            width: 0;
-                            position: absolute;
-                            pointer-events: none;
-                            border-bottom-color: $file-dropdown;
-                            border-width: 13px;
-                        }
-                        li{
-                            height: 43px;
-                            border: none;
-                            &:hover{
-                                background: $file-dropdown-bg;
-                            }
-                            a{
-                                text-align: left;
-                                padding-left: 25px;
-                                font-size: 15px;
-                                line-height: 1.2;
-                                color: $file-dropdown-text;
-                                font-family: $lato-semi;
-                                letter-spacing: 0.3px;
-                            }
-                        }
-                    }
-                }
             }
         }
         .files-content{
