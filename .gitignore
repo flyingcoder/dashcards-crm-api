@@ -1,8 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
-/public/js/buzzooka.js
-/public/css/buzzooka.css
+public/js/buzzooka.js
+public/css/buzzooka.css
 /storage/*.key
 /vendor
 /.idea
