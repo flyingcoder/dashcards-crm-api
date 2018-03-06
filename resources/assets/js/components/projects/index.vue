@@ -66,7 +66,10 @@
                         </div>
                         <div role="tabpanel" class="tab-pane fade in" id="my-project">
                             <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
-                            @sort-change="handleSortChange" element-loading-text="Processing ..." @selection-change="handleSelectionChange" style="width: 100%">
+                            @sort-change="handleSortChange" element-loading-text="Processing ..." 
+                            @selection-change="handleSelectionChange" style="width: 100%"
+                            @row-click="rowClick"
+                            >
                                 <el-table-column sortable type="selection" width="45"></el-table-column>
                                 <el-table-column sortable prop="service_name" label="Service"></el-table-column>
                                 <el-table-column sortable prop="client_name" label="Client"></el-table-column>
@@ -179,6 +182,9 @@
             this.multipleSelection.push(val[index].id);
             }
         },
+        rowClick(row, event, col){
+            location = "/projects/" + row.id;
+        }
       }
 
     }
