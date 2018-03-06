@@ -62,28 +62,25 @@
                         height: 66px;
                     }
                 }
-                .invoice-buttons{
-                    width: 100%;
-                    padding-left: 130px;
+                .buzz-form-buttons{
                     ul{
-                        padding:0;
                         li{
-                            display: inline-block;
-                            border-radius: 5px;
-                            width: 31%;
-                            height: 67px;
-                            margin-left: 2%;
                             background: $blue;
-                            text-align: center;
-                            button, a{
+                            height: 67px;
+                            width: 31%;
+                            margin-left: 2%;
+                            a, button{
                                 color: $white;
                                 font-size: 24.5px;
-                                line-height: 1.7;
-                                font-family: $lato-mid;
                                 span{
-                                    position: relative;
                                     top: 12px;
                                 }
+                            }
+                            a{
+                                
+                            }
+                            button{
+
                             }
                         }
                         .save{

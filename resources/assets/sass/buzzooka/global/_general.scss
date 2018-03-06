@@ -142,6 +142,19 @@
             min-height: 450px;
         }
     }
+    .body-scroll{
+        table{
+            width: 100%;
+            thead, tbody tr {
+                 display:table;
+                 width:100%;
+                 table-layout:fixed;
+             }
+             tbody{
+                display:block;
+             }
+        }
+    }
     //Buzz Scroll
         #buzz-scroll::-webkit-scrollbar-track
         {
@@ -349,19 +362,6 @@
             display: block;
         }
     }
-    .body-scroll{
-        table{
-            width: 100%;
-            thead, tbody tr {
-                 display:table;
-                 width:100%;
-                 table-layout:fixed;
-             }
-             tbody{
-                display:block;
-             }
-        }
-    }
     .table-checkbox{
         position: relative;
         label {
@@ -506,6 +506,40 @@
                     color: $file-dropdown-text;
                     font-family: $lato-semi;
                     letter-spacing: 0.3px;
+                }
+            }
+        }
+    }
+// Buzz Addon
+    .buzz-addon{
+        position: relative;
+        img, svg{
+            position: absolute;
+            pointer-events: none;
+            top: 0;
+            right: 15px;
+        }
+    }
+// Form Buttons
+    .buzz-form-buttons{
+        width: 100%;
+        padding-left: 130px;
+        ul{
+            padding:0;
+            li{
+                display: inline-block;
+                border-radius: 5px;
+                text-align: center;
+                background: $gray-bg;
+                border: $input-border;
+                button, a{
+                    line-height: 1.7;
+                    font-family: $lato-mid;
+                    color: $table-status-text;
+                    outline: none;
+                    span{
+                        position: relative;
+                    }
                 }
             }
         }

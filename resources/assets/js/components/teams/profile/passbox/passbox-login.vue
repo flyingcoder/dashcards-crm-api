@@ -13,7 +13,7 @@
             <div class="row">
             <form>
                 <div class="col-md-12">
-                <div class="inner-addon right-addon">
+                <div class="buzz-addon right-addon">
                     <input type="text" class="form-control"  placeholder="••••••">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         width="47px" height="27px">
