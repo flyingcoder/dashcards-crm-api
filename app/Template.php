@@ -26,9 +26,9 @@ class Template extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function paginatedMilestoneTemplate(Request $request)
+    public function milestones()
     {
-        
+        return $this->belongsToMany(Milestone::class);
     }
     
     public function company()
