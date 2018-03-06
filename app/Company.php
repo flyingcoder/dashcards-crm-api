@@ -25,6 +25,11 @@ class Company extends Model
                     ->join('invoices', 'invoices.user_id', '=', 'users.id');
     }
 
+    public function dashboards()
+    {
+        return $this->hasMany(Dashboard::class);
+    }
+
     public function allCompanyInvoices()
     {
         return $this->invoices()->get();
@@ -37,7 +42,7 @@ class Company extends Model
         $invoices = $this->invoices();
 
         if($request->has('sort'))
-            $templates->orderBy($sortName, $sortValue);
+            $invoices->orderBy($sortName, $sortValue);
 
         return $invoices->paginate($this->paginate);
     }
