@@ -20,9 +20,9 @@ class UserTableSeeder extends Seeder
                 'username' => 'ross12345',
                 'first_name' => 'Ross',
         		'last_name' => 'Mosqueda',
-        		'email' => 'ross.buzzooka@gmail.com',
+        		'email' => 'dustin@buzzooka.com',
                 'image_url' => 'img/members/alfred.png',
-        		'password' => bcrypt('buzzadmin2018'),
+        		'password' => bcrypt('12345'),
         		'job_title' => 'Administrator',
         		'telephone' => '123456789'
         	]
