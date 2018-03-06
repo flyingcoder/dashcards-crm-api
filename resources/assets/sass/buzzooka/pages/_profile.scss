@@ -400,11 +400,9 @@
                         }
                     }
                     #passbox{
-                        .passbox-login{
-                            padding-top: 130px;
+                        .passbox-content{
                             height: 563px;
                             .passbox-text{
-                                font-size: 50px;
                                 text-align: center;
                                 color: $passbox;
                                 font-weight: bold;
@@ -414,6 +412,12 @@
                                     position: relative;
                                     top: 5px;
                                 }
+                            }
+                        }
+                        .passbox-login{
+                            padding-top: 130px;
+                            .passbox-text{
+                                font-size: 50px;
                               }
                             .passbox-form{
                                 padding: 10px 110px;
@@ -456,6 +460,130 @@
                                             right: 15px;
                                             pointer-events: none;
                                             top: 25px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .passbox-clients{
+                            .passbox-text{
+                                height: 104px;
+                                font-size: 33px;
+                                padding-top: 20px;
+                            }
+                            .passbox-table{
+                                height: 460px !important;
+                                @extend .buzz-scrollbar;
+                                .passbox-group{
+                                    .clients{
+                                        margin: 0;
+                                        border: $table-border;
+                                        .client-heading{
+                                            height: 106px;
+                                            background: $gray-bg;
+                                            &:hover{
+                                                background: $white;
+                                            }
+                                            a{
+                                                position: relative;
+                                                top: 17px;
+                                                left: 20px;
+                                                line-height: 1.2;
+                                                font-size: 20px;
+                                                font-family: $lato-mid;
+                                                color: $milestone-title;
+                                                img , .user-name, i{
+                                                    display: inline-block;
+                                                    vertical-align: middle;
+                                                }
+                                                img{
+                                                    width: 71px;
+                                                    border-radius: 50%;
+                                                }
+                                                .user-name{
+                                                    position: relative;
+                                                    bottom: 0px;
+                                                    left: 40px;
+                                                    line-height: 0;
+                                                    vertical-align: top;
+                                                    h4{
+                                                        font-size: 26.2px;
+                                                        font-family: $lato-mid;
+                                                    }
+                                                    span{
+                                                        font-size: 15px; 
+                                                        font-family: $lato-semi;
+                                                        color: $hq-icon;
+                                                    }
+                                                }
+                                                i{
+                                                    position: relative;
+                                                    top: 40px;
+                                                    right: 40px;
+                                                    transform: rotate(180deg);
+                                                    @extend .transform-transition;
+                                                }
+                                            }
+                                            .collapsed{
+                                                i{
+                                                    transform: rotate(0deg) !important;
+                                                }
+                                            }
+                                        }
+                                        .client-collapse{
+                                            ul{
+                                                list-style: none;
+                                                padding: 0;
+                                                margin: 0;
+                                                li{
+                                                    position: relative;
+                                                    height: 65px;
+                                                    width: 100%;
+                                                    text-align: left;
+                                                    border-top: $table-border;
+                                                    font-size: 19px;
+                                                    font-family: $lato-mid;
+                                                    background: $white;
+                                                    padding: 5px 30px;
+                                                    &:hover{
+                                                        background: $gray-bg;
+                                                    }
+                                                    .social-info{
+                                                        position: relative;
+                                                        left: 45px;
+                                                        top: 1px;
+                                                        h4{
+                                                            position: relative;
+                                                            top: 4px;
+                                                            font-size: 20.5px;
+                                                            line-height: 0;
+                                                            font-family: $lato-mid;
+                                                            color: $milestone-title;
+                                                        }
+                                                        span{
+                                                            color: $hq-icon;
+                                                            font-size: 15.4px;
+                                                            font-family: $lato-semi;
+                                                            letter-spacing: 0.3px;
+                                                        }
+                                                    }
+                                                    img, .social-info, .passbox-info{
+                                                        display: inline-block;
+                                                        vertical-align: middle;
+                                                    }
+                                                }
+                                            }
+                                            .passbox-option{
+                                                li{
+                                                    position: relative;
+                                                    display: inline;
+                                                    border: none;
+                                                    right: 2px;
+                                                    top: 10px;
+                                                    padding: 5px;
+                                                    background: none;
+                                                }
+                                            }
                                         }
                                     }
                                 }
