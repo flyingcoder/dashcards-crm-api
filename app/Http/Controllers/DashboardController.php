@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Dashboard;
+
 class DashboardController extends Controller
 {
     public function counts() {
@@ -29,5 +31,21 @@ class DashboardController extends Controller
 	        	'outbound' => 0 //replied questionaires
     		];
     	}
+    }
+
+    public function dashitems($id)
+    {
+    	$dashboard = Dashboard::findOrFail($id);
+
+    	return $dashboard->dashitems;
+    }
+
+    public function defaultDashitems()
+    {
+    	$company = auth()->user()->company();
+
+    	$defaultDash = $company->dashboards()->first();
+
+    	return $defaultDash->dashitems;
     }
 }

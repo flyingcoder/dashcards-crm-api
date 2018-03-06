@@ -17,12 +17,12 @@ class UserTableSeeder extends Seeder
         $user = new User();
         $userBen = $user->create(
         	[
-                'username' => 'ross12345',
+                'username' => env('ADMIN_USERNAME', 'ross12345'),
                 'first_name' => 'Ross',
         		'last_name' => 'Mosqueda',
-        		'email' => 'ross.buzzooka@gmail.com',
+        		'email' => env('ADMIN_EMAIL', 'ross.buzzooka@gmail.com'),
                 'image_url' => 'img/members/alfred.png',
-        		'password' => bcrypt('buzzadmin2018'),
+        		'password' => bcrypt(env('ADMIN_PASSWORD', '12345')),
         		'job_title' => 'Administrator',
         		'telephone' => '123456789'
         	]

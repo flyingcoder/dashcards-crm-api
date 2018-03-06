@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTemplatesTable extends Migration
+class CreateDashitemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('templates', function (Blueprint $table) {
+        Schema::create('dashitems', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('company_id');
             $table->string('name');
-            $table->string('status');
-            $table->string('replica_type');
+            $table->string('slug');
+            $table->string('description')->nullable();
+            $table->string('status')->nullable();
+            $table->string('type')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +32,6 @@ class CreateTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('templates');
+        Schema::dropIfExists('dashitems');
     }
 }

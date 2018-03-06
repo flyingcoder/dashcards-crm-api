@@ -36,13 +36,13 @@ Vue.component('payments', require('./components/payments/index.vue'));
 // Teams
 Vue.component('teams', require('./components/teams/index.vue'));
 
-// if(document.getElementById("app-with-routes")) {
+if(document.getElementById("app-with-routes")) {
 
-//   Vue.use(VueRouter);
+  Vue.use(VueRouter);
 
-//   let router = new VueRouter({
-//     routes: [
-//       {path: '/',component: require('./components/projects/project-hq/overview/Index')},
+  let router = new VueRouter({
+    routes: [
+      {path: '/',component: require('./components/projects/project-hq/overview/Index')},
 //       {path: '/files',component: require('./components/projects/project-hq/file/Index')},
 //       {path: '/tasks',component: require('./components/projects/project-hq/task/Index')},
 //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
@@ -58,12 +58,12 @@ Vue.component('teams', require('./components/teams/index.vue'));
 //       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
 //       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
 
-//     ],
-//     linkActiveClass: 'active'
-//   });
+    ],
+    linkActiveClass: 'active'
+  });
 
-//   app['router'] = router;
-// }
+  app['router'] = router;
+}
 
 const app = new Vue({
     el: '#app'

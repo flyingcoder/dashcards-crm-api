@@ -86,8 +86,6 @@ class User extends Authenticatable
      * Forms relationship
      *
      */
-    
-
     public function forms()
     {
         return $this->hasMany(Form::class);

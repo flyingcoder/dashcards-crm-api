@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDashboardsTable extends Migration
+class CreatePivotDashboardDashitem extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,23 @@ class CreateDashboardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('dashboards', function (Blueprint $table) {
+        Schema::create('dashboard_dashitem', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('company_id')
+            $table->integer('dashboard_id')
                   ->unsigned()
                   ->index()
                   ->foreign()
                   ->references("id")
-                  ->on("companies")
+                  ->on("dashboards")
                   ->onDelete("cascade");
-            $table->string('title');
-            $table->string('description');
-            $table->softDeletes();
+            $table->integer('dashitem_id')
+                  ->unsigned()
+                  ->index()
+                  ->foreign()
+                  ->references("id")
+                  ->on("dashitems")
+                  ->onDelete("cascade");
+            $table->integer('order');
             $table->timestamps();
         });
     }
@@ -36,6 +41,6 @@ class CreateDashboardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dashboards');
+        Schema::dropIfExists('dashboard_dashitem');
     }
 }

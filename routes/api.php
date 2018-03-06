@@ -15,8 +15,26 @@ use Illuminate\Http\Request;
 
 Route::get('activities', 'ActivityController@index');
 
-Route::get('dashboard/counts', 'DashboardController@counts')->middleware('auth:api');
 
+//dashitems
+Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitem'], function () {
+  
+  Route::put('{dashboard_id}/order', 'DashitemController@changeOrder');
+
+});
+
+//dashboard
+Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () {
+
+  Route::get('counts', 'DashboardController@counts');
+
+  Route::get('default/dashitems', 'DashboardController@defaultDashitems');
+
+  Route::get('{id}/dashitems', 'DashboardController@dashitems');
+
+});
+
+//users
 Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/', 'UserController@user');
@@ -27,6 +45,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   
 });
 
+//timer
 Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
 
   Route::post('task/{action}', 'TimerController@taskTimer');
