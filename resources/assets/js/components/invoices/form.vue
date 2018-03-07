@@ -6,7 +6,7 @@
         <div class="content-body">
             <section class="buzz-section">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 invoice-form">
                         <div class="tab-content">
                             <div class="tab-pane fade tab-table active in" id="form-1">
                                 <div class="form-progress">
