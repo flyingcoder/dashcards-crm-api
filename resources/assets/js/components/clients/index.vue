@@ -1,5 +1,5 @@
 <template>
-    <section class="content projects">
+    <section class="content clients">
         <div class="content-header">
             <page-header></page-header>
         </div>
@@ -8,15 +8,15 @@
                 <div class="buzz-table">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="#all-project" data-toggle="tab"> All Project </a>
+                            <a href="#all-client" data-toggle="tab"> All Clients </a>
                         </li>
                         <li>
-                            <a href="#my-project" data-toggle="tab"> My Project </a>
+                            <a href="#m-client" data-toggle="tab"> My Clients </a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <all-projects></all-projects>
-                        <my-projects></my-projects>
+                        <all-clients></all-clients>
+                        <my-clients></my-clients>
                     </div>
                 </div>
             </section>
@@ -26,15 +26,15 @@
 
 <script>
     import PageHeader from '../page-header.vue';
-    import AllProjects from './all-projects.vue';
-    import MyProjects from './my-projects.vue';
+    import AllClients from './all-clients.vue';
+    import MyClients from './my-clients.vue';
 
     export default {   
 
         components: {
           'page-header': PageHeader,
-          'all-projects': AllProjects,
-          'my-projects': MyProjects,
+          'all-clients': AllClients,
+          'my-clients': MyClients,
       },
 
       data () {
@@ -46,7 +46,6 @@
         total : 1,
         paginatedMyProjects: [],
         paginatedAllProjects: [],
-
         }
       },
 

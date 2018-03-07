@@ -24,8 +24,8 @@ Vue.component('dashboard', require('./components/dashboard/index.vue'));
 // Projects
 Vue.component('projects', require('./components/projects/index.vue'));
 
-// Clients Temporary on Hq Header
-Vue.component('clients', require('./components/projects/project-hq/index.vue'));
+// Clients
+Vue.component('clients', require('./components/clients/index.vue'));
 
 // Invoices
 Vue.component('invoices', require('./components/invoices/form.vue'));
@@ -36,13 +36,16 @@ Vue.component('payments', require('./components/payments/index.vue'));
 // Teams
 Vue.component('teams', require('./components/teams/index.vue'));
 
+// Testing
+// Vue.component('clients', require('./components/projects/project-hq/index.vue'));
+
 if(document.getElementById("app-with-routes")) {
 
   Vue.use(VueRouter);
 
   let router = new VueRouter({
     routes: [
-      {path: '/',component: require('./components/projects/project-hq/overview/Index')},
+      {path: '/',component: require('./components/projects/project-hq/overview/index')},
 //       {path: '/files',component: require('./components/projects/project-hq/file/Index')},
 //       {path: '/tasks',component: require('./components/projects/project-hq/task/Index')},
 //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
