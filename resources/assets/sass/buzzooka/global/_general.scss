@@ -142,6 +142,19 @@
             min-height: 450px;
         }
     }
+    .body-scroll{
+        table{
+            width: 100%;
+            thead, tbody tr {
+                 display:table;
+                 width:100%;
+                 table-layout:fixed;
+             }
+             tbody{
+                display:block;
+             }
+        }
+    }
     //Buzz Scroll
         #buzz-scroll::-webkit-scrollbar-track
         {
@@ -349,19 +362,6 @@
             display: block;
         }
     }
-    .body-scroll{
-        table{
-            width: 100%;
-            thead, tbody tr {
-                 display:table;
-                 width:100%;
-                 table-layout:fixed;
-             }
-             tbody{
-                display:block;
-             }
-        }
-    }
     .table-checkbox{
         position: relative;
         label {
@@ -506,6 +506,158 @@
                     color: $file-dropdown-text;
                     font-family: $lato-semi;
                     letter-spacing: 0.3px;
+                }
+            }
+        }
+    }
+// Buzz Addon
+    .buzz-addon{
+        position: relative;
+        img, svg{
+            position: absolute;
+            pointer-events: none;
+            top: 0;
+            right: 15px;
+        }
+    }
+// Form Buttons
+    .buzz-form-buttons{
+        width: 100%;
+        padding-left: 130px;
+        ul{
+            padding:0;
+            li{
+                display: inline-block;
+                border-radius: 5px;
+                text-align: center;
+                background: $gray-bg;
+                border: $input-border;
+                button, a{
+                    line-height: 1.7;
+                    font-family: $lato-mid;
+                    color: $table-status-text;
+                    outline: none;
+                    span{
+                        position: relative;
+                    }
+                }
+            }
+        }
+    }
+// Buzz Table
+    .buzz-table{
+        ul{
+            li{
+                width: 50%;
+                height: 56px;
+                background: $gray-bg;
+                text-align: center;
+                &:active, &:focus, &:hover{
+                    background: $white;
+                }
+                a{
+                    margin: 0;
+                    font-size: 18px;
+                    height: 56px;
+                    line-height: 1.2;
+                    padding-top: 20px;
+                    color: $table-data;
+                    font-family: $lato-semi;
+                    text-transform: uppercase;
+                    &:active, &:focus, &:hover{
+                        background: $white;
+                    }
+                }
+            }
+        }
+        .tab-content{
+            table{
+                th, td{
+                    &:first-child{
+                        text-align: left;
+                        padding-left: 40px;
+                        width: 15%;
+                    }
+                    &:nth-child(2){
+                        width: 10%;
+                    }
+                    &:nth-child(3){
+                        width: 13%;
+                    }
+                    &:nth-child(5){
+                        text-align: left;
+                    }
+                    &:nth-child(6){
+                    width: 15%;
+                    }
+                    &:nth-child(7){
+                        text-align: left;
+                    }
+                    &:last-child{
+                        width: 6%;
+                        text-align: left;
+                        a{
+                            padding-right: 10px;
+                        }
+                    }
+                    
+                }
+                thead{
+                    tr{
+                        height: 56px;
+                        border: $table-border;
+                        th{
+                            font-size: 15px;
+                            text-align:  center;
+                            line-height: 1.2;
+                            font-family: $lato-semi;
+                            color: $table-head;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            font-size: 14px;
+                            text-align:  center;
+                            vertical-align: middle;
+                            color: $table-data;
+                            line-height: 1.2;
+                            font-family: $lato-semi;
+                            &:nth-child(7){
+                                color: $table-status-text;
+                            }
+                        }
+                        .project-progress{
+                            height: 11px;
+                            background: $progress-bg;
+                            border-radius: 20px;
+                            border: none;
+                            box-shadow: none;
+                            margin: 0;
+                            .progress-bar{
+                                background: $progress-value;
+                                border-radius: 20px;
+                            }
+                        }
+                        .project-status{
+                            height: 5px;
+                            border: none;
+                            box-shadow: none;
+                            margin: 0;
+                            margin-top: 3px;
+                            width: 60%;
+                        }
+                        .active{
+                            background: $table-active;
+                        }
+                        .closed{
+                            background: $table-closed;
+                        }
+                        .hold{
+                            background: $table-hold;
+                        }
+                    }
                 }
             }
         }

@@ -90,6 +90,7 @@ $hover-shadow: 0px 10px 10px 0px rgba(173, 183, 196, 0.75);
 // Input
     $input-bg: #fbfcfd;
     $input-border: 1px solid rgb(192, 192, 192);
+    $input-border-2: 1px solid rgb(215, 215, 215);
     $box-shadow-inset: inset 0px 1px 1px 0px rgba(154, 157, 160, 0.35);
 // Milestone
     $milestone-title: rgb(101, 113, 134);
@@ -125,3 +126,7 @@ $hover-shadow: 0px 10px 10px 0px rgba(173, 183, 196, 0.75);
     $feed-text: rgb(43, 50, 69);
     $add-photo-bg: rgb(0, 0, 0);
     $social-hover: #313751;
+
+// Passbox
+    $passbox: rgb(0, 167, 229);
+    $passbox-input: rgb(251, 252, 253);

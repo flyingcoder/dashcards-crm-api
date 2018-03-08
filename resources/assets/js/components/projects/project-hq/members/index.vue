@@ -64,9 +64,9 @@
                     <grid-members></grid-members>
                 </div>
             </section>
-                <div class="box-footer">
+            <div class="box-footer">
                     <a href=""> View More </a>
-                </div>
+            </div>
         </div>
     </section>
 </template>
