@@ -16,6 +16,7 @@
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
+        "maddhatter/laravel-fullcalendar": "^1.3",
         "musonza/chat": "^2.0",
         "plank/laravel-metable": "^1.0",
         "pusher/pusher-php-server": "~3.0",
