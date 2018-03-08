@@ -2,95 +2,95 @@
     .content-body{
         height: auto !important;
         .buzz-section{
-            height: auto !important;
-            padding: 115px 115px 50px 115px;
-            .form-progress{
-                .form-prog{
-                    display: inline-block;
-                    vertical-align: top;
+            @extend .buzz-table;
+            .invoice-form{
+                height: auto !important;
+                padding: 115px 115px 50px 115px;
+                .form-progress{
+                    .form-prog{
+                        display: inline-block;
+                        vertical-align: top;
+                    }
+                    .progress{
+                        position: relative;
+                        top: 6px;
+                        width: 46.5%;
+                        height: 4px;
+                        background: $invoice-progress-bg;
+                        box-shadow: none;
+                    }
+                    .circle{
+                        width: 15px;
+                        height: 15px;
+                        background: $invoice-circle-bg;
+                        border: 2px solid $border-circle;
+                        border-radius: 50%;
+                    }
+                    .active-progress{
+                        background: $invoice-fill-progress !important;
+                    }
+                    .active-circle{
+                        background: $table-data !important;
+                    }
                 }
-                .progress{
-                    position: relative;
-                    top: 6px;
-                    width: 46.5%;
-                    height: 4px;
-                    background: $invoice-progress-bg;
-                    box-shadow: none;
-                }
-                .circle{
-                    width: 15px;
-                    height: 15px;
-                    background: $invoice-circle-bg;
-                    border: 2px solid $border-circle;
-                    border-radius: 50%;
-                }
-                .active-progress{
-                    background: $invoice-fill-progress !important;
-                }
-                .active-circle{
-                    background: $table-data !important;
-                }
-            }
-            .form-info{
-                margin: 50px 0;
-                h1{
-                    margin: 0;
-                }
-                p{
-                    line-height: 2.125;
-                    color: $table-data;
-                    font-family: $lato-mid;
-                    font-size: 18px;
-                }
-            }
-            form{
-                .buzz-group{
-                    display: flex;
-                    margin-bottom: 50px;
-                    label{
-                        width: 175px;
-                        font-size: 16px;
-                        padding-top: 15px;
+                .form-info{
+                    margin: 50px 0;
+                    h1{
+                        margin: 0;
+                    }
+                    p{
                         line-height: 2.125;
-                        font-family: $lato-semi;
-                    }
-                    input, select{
-                        background: $input-bg;
-                        border: $input-border;
-                        border-radius: 5px;
-                        box-shadow: $box-shadow-inset !important;
-                        height: 66px;
+                        color: $table-data;
+                        font-family: $lato-mid;
+                        font-size: 18px;
                     }
                 }
-                .invoice-buttons{
-                    width: 100%;
-                    padding-left: 130px;
-                    ul{
-                        padding:0;
-                        li{
-                            display: inline-block;
+                form{
+                    .buzz-group{
+                        display: flex;
+                        margin-bottom: 50px;
+                        label{
+                            width: 175px;
+                            font-size: 16px;
+                            padding-top: 15px;
+                            line-height: 2.125;
+                            font-family: $lato-semi;
+                        }
+                        input, select{
+                            background: $input-bg;
+                            border: $input-border;
                             border-radius: 5px;
-                            width: 31%;
-                            height: 67px;
-                            margin-left: 2%;
-                            background: $blue;
-                            text-align: center;
-                            button, a{
-                                color: $white;
-                                font-size: 24.5px;
-                                line-height: 1.7;
-                                font-family: $lato-mid;
-                                span{
-                                    position: relative;
-                                    top: 12px;
+                            box-shadow: $box-shadow-inset !important;
+                            height: 66px;
+                        }
+                    }
+                    .buzz-form-buttons{
+                        ul{
+                            li{
+                                background: $blue;
+                                height: 67px;
+                                width: 31%;
+                                margin-left: 2%;
+                                a, button{
+                                    color: $white;
+                                    font-size: 24.5px;
+                                    span{
+                                        top: 12px;
+                                    }
+                                }
+                                a{
+                                    
+                                }
+                                button{
+    
                                 }
                             }
-                        }
-                        .save{
-                            background: $gray-bg;
-                            border: $input-border;
-                            button{
-                                color: $table-status-text;
+                            .save{
+                                background: $gray-bg;
+                                border: $input-border;
+                                button{
+                                    color: $table-status-text;
+                                }
                             }
                         }
                     }

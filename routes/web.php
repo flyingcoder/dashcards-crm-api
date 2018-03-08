@@ -23,10 +23,12 @@ Route::view('bugs', 'pages.bugs')->name('bugs');
 Route::view('clouds', 'pages.clouds')->name('clouds');
 Route::view('settings', 'pages.settings')->name('settings');
 Route::view('supports', 'pages.supports')->name('supports');
-Route::view('timers', 'pages.timers')->name('timers');
 Route::view('payments', 'pages.payments')->name('payments');
+Route::view('timers', 'pages.timers')->name('timers');
 Route::view('invoices', 'pages.invoices')->name('invoices');
 Route::view('teams', 'pages.teams')->name('teams');
+Route::view('reports', 'pages.reports')->name('reports');
+Route::view('services', 'pages.services')->name('services');
 Route::view('project-details', 'pages.project-details')->name('project-details');
 
 Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
@@ -44,11 +46,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'template'], function () {
 });
 
 // Services
-Route::group(['middleware' => 'auth', 'prefix' => 'services'], function () {
-	Route::get('/', 'ServiceController@index')->name('services');
-	Route::get('{id}', 'ServiceController@index')->name('service');
-	Route::get('new', 'ServiceController@save')->name('new-service');
-});
+// Route::group(['middleware' => 'auth', 'prefix' => 'services'], function () {
+// 	Route::get('/', 'ServiceController@index')->name('services');
+// 	Route::get('{id}', 'ServiceController@index')->name('service');
+// 	Route::get('new', 'ServiceController@save')->name('new-service');
+// });
 
 // Clients
 Route::group(['middleware' => 'auth', 'prefix' => 'clients'], function () {

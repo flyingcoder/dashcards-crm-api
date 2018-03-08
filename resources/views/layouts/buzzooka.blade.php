@@ -226,7 +226,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="timers"> 
+              <a href="{{ route ('timers') }}" id="timers">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                       viewBox="0 0 250 250"
@@ -309,7 +309,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="reports"> 
+              <a href="{{ route ('reports') }}" id="reports">
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="60px" height="48px">
@@ -348,7 +348,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="services"> 
+              <a href="{{ route ('services') }}" id="services">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="59px" height="49px">

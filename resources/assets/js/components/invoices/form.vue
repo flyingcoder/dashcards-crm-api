@@ -6,7 +6,7 @@
         <div class="content-body">
             <section class="buzz-section">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 invoice-form">
                         <div class="tab-content">
                             <div class="tab-pane fade tab-table active in" id="form-1">
                                 <div class="form-progress">
@@ -54,7 +54,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group invoice-buttons">
+                                    <div class="form-group buzz-form-buttons">
                                         <ul>
                                             <li class="next"> 
                                                 <a href="#" data-toggle="tab" @click="filterTasks('my', 'all')"> <span> Previous </span> </a> 
@@ -138,7 +138,7 @@
                                         <input type="email" class="form-control" id="email" />
                                     </div>
 
-                                    <div class="form-group invoice-buttons">
+                                    <div class="form-group buzz-form-buttons">
                                         <ul>
                                             <li class="next"> 
                                                 <a href="#form-1" data-toggle="tab" @click="filterTasks('my', 'all')"> <span> Previous </span> </a> 
@@ -194,7 +194,7 @@
                                         <input type="text" class="form-control" id="note" />
                                     </div>
 
-                                    <div class="form-group invoice-buttons">
+                                    <div class="form-group buzz-form-buttons">
                                         <ul>
                                             <li class="next"> 
                                                 <a href="#form-2" data-toggle="tab" @click="filterTasks('my', 'all')"> <span> Previous </span> </a> 
@@ -210,7 +210,6 @@
                                 </form>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </section>
