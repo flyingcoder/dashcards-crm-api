@@ -9,9 +9,12 @@ use Kodeine\Acl\Models\Eloquent\Role;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
+    use SoftDeletes;
+    
     protected $paginate = 10;
 
     public function teams()
@@ -28,6 +31,23 @@ class Company extends Model
     public function dashboards()
     {
         return $this->hasMany(Dashboard::class);
+    }
+
+    public function calendars()
+    {
+        return $this->hasMany(Calendar::class);
+    }
+
+    public function allPaginatedCalendar(Request $request)
+    {
+        list($sortName, $sortValue) = parseSearchParam($request);
+
+        $calendars = $this->calendars();
+
+        if($request->has('sort'))
+            $calendars->orderBy($sortName, $sortValue);
+
+        return $calendars->paginate($this->paginate);
     }
 
     public function allCompanyInvoices()
@@ -177,7 +197,6 @@ class Company extends Model
                          ->where('client_pivot.role', '=', 'Client');
                  })
                  ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
-                 ->with('milestones')
                  ->select(
                     DB::raw('CONCAT(manager.last_name, ", ", manager.first_name) AS manager_name'),
                     'client.image_url as client_image_url',
@@ -193,7 +212,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $projects = $this->projects();
+        $projects = $this->projects()->with('milestones');
 
         if($request->has('status'))
             $projects->where('status', $request->status);
@@ -207,6 +226,7 @@ class Company extends Model
     public function allCompanyProjects()
     {
         return $this->projects()
+                    ->with('milestones')
                     ->get();
     }
 
@@ -215,11 +235,26 @@ class Company extends Model
         return $this->hasManyThrough(Milestone::class, Project::class);
     }
 
+    public function milestonesID()
+    {
+        $milestones = $this->milestones;
+
+        $ids = [];
+
+        foreach ($milestones as $value) {
+            $ids[] = $value->id;
+        }
+
+        return $ids;
+    }
+
     public function tasks()
     {
-        return $this->milestones()
-                           ->join('tasks', 'tasks.milestone_id', '=', 'milestones.id')
-                           ->where('tasks.deleted_at', null);
+        $milestones = $this->milestonesID();
+
+        $tasks = Task::whereIn('milestone_id', $milestones);
+
+        return $tasks;
     }
 
     public function allCompanyPaginatedTasks(Request $request)
@@ -231,7 +266,7 @@ class Company extends Model
         if($request->has('sort'))
             $tasks->orderBy($sortName, $sortValue);
 
-        return $tasks->paginate($this->paginate);
+        return $tasks->with('users')->paginate($this->paginate);
     }
 
     public function clients()

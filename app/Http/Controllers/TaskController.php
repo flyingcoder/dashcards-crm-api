@@ -11,11 +11,12 @@ class TaskController extends Controller
 
     public function index()
     {
-        (new TaskPolicy())->index();
+        //(new TaskPolicy())->index();
+        $user = \App\User::first();
 
-        $company = auth()->user()->company();
+        $company = $user->company();
 
-        return $company->paginatedCompanyProjects(request());
+        dd($company->allCompanyPaginatedTasks(request()));
     }
     
     //currently not in use. This is for in house view.

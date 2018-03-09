@@ -7,6 +7,7 @@ $factory->define(App\Project::class, function (Faker $faker) {
        	'service_id' => function () {
        		return factory(App\Service::class)->create()->id;
        	},
+        'company_id' => 1,
        	'location' => $faker->address,
        	'description' => $faker->paragraph,
        	'started_at' => $faker->date($format = 'Y-m-d', $max = 'now'),
