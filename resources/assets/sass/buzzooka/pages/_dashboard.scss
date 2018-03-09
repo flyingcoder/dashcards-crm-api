@@ -7,17 +7,47 @@
         height: 50px;
         margin-top: 12px;
         @extend .buzz-border;
+        .left{
+            width: 42%;
+            float: left;
+            border-right: $section-border;
+            padding-top: 11px;
+        }
+        .right{
+            width: 58%;
+            float: right;
+            font-family: $lato-semi;
+            font-size: 13px;
+            color: $text;
+            span{
+                position: relative;
+                top: 13px;
+                img{
+                    width: 19px;
+                    height: 10px;
+                }
+                svg{
+                    position: relative;
+                    top: 1px;
+                    left: 4px;
+                }
+            }
+        }
+        .left, .right{
+            height: 100%;
+            text-align: center;
+            background: $white;
+        }
         .switch-box {
             float: left;
             width: 42%;
-            background-color: $gray-bg;
+            background-color: $gray-bg !important;
             .switch{
                 position: relative;
                 display: inline-block;
                 width: 45px;
                 height: 12px;
-                top: 18px;
-                left: 15%;
+                top: 8px;
                 input {
                     display:none;
                     &:focus , .slider {
@@ -51,32 +81,21 @@
                         -webkit-transition: .4s;
                         transition: .4s;
                       }
-                  }
+                }
+                .round {
+                    border-radius: 34px;
+                    &:before {
+                        border-radius: 50%;
+                    }
+                }
             }
         }
         .theme-color{
-            position: absolute;
-            width: 42%;
-            height: 100%;
-            background-color: $blue;
+            background-color: $blue !important;
             border-radius: 10px 0 0 10px;
         }
-        .option-text{
-            float: right;
-            height: 100%;
-            width: 58%;
-            text-align: center;
-            font-family: $lato-semi;
-            font-size: 13px;
-            color: $text;
-            span{
-                position: relative;
-                top: 14px;
-                img{
-                    width: 19px;
-                    height: 10px;
-                }
-            }
+        .theme-name{
+            background: $gray-bg;
         }
     }
     .buzz-tiles{
@@ -817,13 +836,4 @@
             }
         }
     }
-
-    /* Rounded sliders */
-        .slider.round {
-            border-radius: 34px;
-        }
-        
-        .slider.round:before {
-            border-radius: 50%;
-        }
 }

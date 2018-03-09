@@ -9,31 +9,39 @@
             <div class="col-md-6">
                 <div class="row">
                 <div class="col-md-4">
+                    <div class="dashboard-option">
+                        <div class="left">
+                            <img src="img/icons/Save.svg" alt="Save">
+                        </div>
+                        <div class="right">
+                            <span> Save </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="dashboard-option">
-                        <div class="switch-box">
+                        <div class="left switch-box">
                             <label class="switch">
                             <input type="checkbox">
                             <span class="slider round"></span>
                             </label>
                         </div>
-                        <div class="option-text bg-white">
+                        <div class="right">
                             <span> Log Off </span> 
                         </div>
-                        </div>
                     </div>
+                </div>
                 <div class="col-md-4">
                     <div class="dashboard-option">
-                    <div class="theme-color"></div>
-                    <div class="option-text">
-                        <span> Theme 
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19px" height="10px">
-                            <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
-                            d="M18.805,0.193 C18.543,-0.065 18.117,-0.065 17.856,0.193 L9.509,8.422 L1.145,0.193 C0.884,-0.065 0.458,-0.065 0.196,0.193 C-0.066,0.451 -0.066,0.869 0.196,1.127 L9.018,9.807 C9.149,9.935 9.312,10.000 9.492,10.000 C9.656,10.000 9.836,9.935 9.967,9.807 L18.788,1.127 C19.067,0.869 19.067,0.451 18.805,0.193 Z"/>
-                        </svg> 
-                        </span>
-                    </div>
+                        <div class="left theme-color"></div>
+                        <div class="right theme-name">
+                            <span> Theme 
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19px" height="10px">
+                                <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
+                                d="M18.805,0.193 C18.543,-0.065 18.117,-0.065 17.856,0.193 L9.509,8.422 L1.145,0.193 C0.884,-0.065 0.458,-0.065 0.196,0.193 C-0.066,0.451 -0.066,0.869 0.196,1.127 L9.018,9.807 C9.149,9.935 9.312,10.000 9.492,10.000 C9.656,10.000 9.836,9.935 9.967,9.807 L18.788,1.127 C19.067,0.869 19.067,0.451 18.805,0.193 Z"/>
+                            </svg> 
+                            </span>
+                        </div>
                     </div>
                 </div>
                 </div>
