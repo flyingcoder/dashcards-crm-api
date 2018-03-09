@@ -16,6 +16,7 @@ class TaskController extends Controller
 
         $company = $user->company();
 
+        //dd($company->allCompanyPaginatedTasks(request()));
         return $company->allCompanyPaginatedTasks(request());
     }
     
