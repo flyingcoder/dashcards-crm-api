@@ -71,7 +71,6 @@
 
       mounted () {
         this.getMyProjects();
-        this.getAllProjects();
 
       },
 
@@ -83,12 +82,6 @@
                     this.currentPage = response.data.current_page;
                     this.total = response.data.total;
                  })
-        },
-        getAllProjects(){
-            axios.get('api/projects')
-            .then( response => {
-                this.paginatedMyProjects = response.data;
-            })
         },
         handleSizeChange: function (val) {
             this.currentSize = val;
@@ -107,7 +100,7 @@
             }
         },
         rowClick(row, event, col){
-            location = "/projects/" + row.id;
+            location = "/project-hq/" + row.id;
         }
       }
 

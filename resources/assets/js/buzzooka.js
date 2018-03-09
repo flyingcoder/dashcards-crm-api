@@ -12,6 +12,12 @@ import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 Vue.use(Element, { locale });
 import VueRouter from 'vue-router';
+
+window.moment = require('moment');
+
+Vue.filter('diffInDays', function(value, start){
+  return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
+})
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -45,8 +51,20 @@ Vue.component('reports', require('./components/reports/index.vue'));
 // Services
 Vue.component('services', require('./components/services/index.vue'));
 
+
+// Project-HQ
+Vue.component('project-hq', require('./components/projects/project-hq/Index'));
+Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
+
+// Common Files
+Vue.component('page-header', require('./components/common/PageHeader.vue'));
+
 // Testing
 // Vue.component('clients', require('./components/projects/project-hq/index.vue'));
+
+let buzzcrm = {
+  el: '#app'
+};
 
 if(document.getElementById("app-with-routes")) {
 
@@ -54,8 +72,8 @@ if(document.getElementById("app-with-routes")) {
 
   let router = new VueRouter({
     routes: [
-      {path: '/',component: require('./components/projects/project-hq/overview/index')},
-//       {path: '/files',component: require('./components/projects/project-hq/file/Index')},
+      {path: '/',component: require('./components/projects/project-hq/overview/Index')},
+      {path: '/files',component: require('./components/projects/project-hq/files/Index')},
 //       {path: '/tasks',component: require('./components/projects/project-hq/task/Index')},
 //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
 //       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
@@ -74,12 +92,10 @@ if(document.getElementById("app-with-routes")) {
     linkActiveClass: 'active'
   });
 
-  app['router'] = router;
+  buzzcrm['router'] = router;
 }
 
-const app = new Vue({
-    el: '#app'
-});
+const app = new Vue(buzzcrm)
 
 
 

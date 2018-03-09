@@ -25,14 +25,12 @@
 </template>
 
 <script>
-    import PageHeader from '../page-header.vue';
     import AllClients from './all-clients.vue';
     import MyClients from './my-clients.vue';
 
     export default {   
 
         components: {
-          'page-header': PageHeader,
           'all-clients': AllClients,
           'my-clients': MyClients,
       },

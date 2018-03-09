@@ -25,14 +25,12 @@
 </template>
 
 <script>
-    import PageHeader from '../page-header.vue';
     import AllReports from './all-reports.vue';
     import MyReports from './my-reports.vue';
 
     export default {   
 
         components: {
-          'page-header': PageHeader,
           'all-reports': AllReports,
           'my-reports': MyReports,
       },

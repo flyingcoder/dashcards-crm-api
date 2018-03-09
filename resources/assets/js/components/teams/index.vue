@@ -75,13 +75,11 @@
 </template>
 
 <script>
-    import PageHeader from '../page-header.vue';
     import ListTeams from './list-teams.vue';
     import GridTeams from './grid-teams.vue';
 
     export default {
         components: {
-            'page-header': PageHeader,
             'list-teams': ListTeams,
             'grid-teams': GridTeams,
         },
