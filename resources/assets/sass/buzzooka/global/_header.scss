@@ -81,9 +81,6 @@
                         margin-top: -8px;
                     }
                 }
-                button{
-
-                }
                 .header-dropdown{
                     height: auto;
                     width: 559px;
@@ -175,6 +172,11 @@
                         height: 238px;
                         border-radius: 10px;
                         margin: 29px 0;
+                        border: 2px solid $template-box;
+                        &:hover{
+                            background: $template-hover;
+                            border: $template-border;
+                        }
                         .template-checkbox{
                             width: 100%;
                             padding: 5px 15px;
