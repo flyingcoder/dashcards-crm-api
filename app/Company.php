@@ -266,7 +266,7 @@ class Company extends Model
         if($request->has('sort'))
             $tasks->orderBy($sortName, $sortValue);
 
-        return $tasks->with('users')->paginate($this->paginate);
+        return $tasks->with('assigned')->paginate($this->paginate);
     }
 
     public function clients()

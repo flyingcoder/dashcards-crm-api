@@ -20,7 +20,6 @@ class CreateTimersTable extends Migration
             $table->timestamp('time');
             $table->string('action');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

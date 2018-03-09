@@ -149,7 +149,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
 
 // Tasks
-Route::group(['prefix' => 'tasks'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'tasks'], function () {
   
   Route::get('/', 'TaskController@index');
 
