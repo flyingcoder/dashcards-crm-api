@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCalendarsTable extends Migration
+class AddCompanyIdToProjectTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,15 @@ class CreateCalendarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('calendars', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::table('projects', function (Blueprint $table) {
             $table->integer('company_id')
                   ->unsigned()
                   ->index()
                   ->foreign()
                   ->references("id")
                   ->on("companies")
-                  ->onDelete("cascade");
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->string('properties')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
+                  ->onDelete("cascade")
+                  ->nullable();
         });
     }
 
@@ -37,6 +32,8 @@ class CreateCalendarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calendars');
+        Schema::table('projects', function (Blueprint $table) {
+            //
+        });
     }
 }
