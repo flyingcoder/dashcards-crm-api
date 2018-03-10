@@ -126,13 +126,14 @@ class ProjectController extends Controller
             'description' => request()->description,
             'started_at' => request()->start_at,
             'end_at' => request()->end_at,
-            'status' => 'Active'
+            'status' => 'Active',
+            'company_id' => auth()->user()->company()->id
         ]);
 
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
 
-        return response('', 200);
+        return response(Project::latest()->first(), 200);
     }
 
     public function myProjects()

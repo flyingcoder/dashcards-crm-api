@@ -15,6 +15,25 @@ use Illuminate\Http\Request;
 
 Route::get('activities', 'ActivityController@index');
 
+//events
+Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
+  
+  Route::get('/', 'EventController@index');
+
+});
+
+//calendars
+Route::group(['middleware' => 'auth:api', 'prefix' => 'calendars'], function () {
+
+  Route::get('/', 'CalendarController@index');
+
+  Route::post('/', 'CalendarController@store');
+
+  Route::get('{id}', 'CalendarController@calendar');
+
+  Route::get('{id}/events', 'CalendarController@events');
+  
+}); 
 
 //dashitems
 Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitem'], function () {
@@ -202,6 +221,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoices'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
 
   Route::post('{id}', 'MilestoneController@store');
+  
   Route::get('select/{id}', 'MilestoneController@selectMilestone');
   
 });

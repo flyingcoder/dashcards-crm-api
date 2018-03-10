@@ -84,6 +84,13 @@
                 margin-top: 23px;
                 h1{
                     font-size: 30px;
+                    .prev-path{
+                        color: $title-path;
+                    }
+                    img{
+                        position: relative;
+                        bottom: 3px;
+                    }
                 }
             }
         }
@@ -402,7 +409,143 @@
         .table-checkbox label span {
             padding-left:45px
     }
-// Tab Options
+// Tab Options & Dropdown
+    .head-page-option{
+        position: relative;
+        float: right;
+        top: 20px;
+        ul{
+            list-style: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            li{
+                text-align: center;;
+                display: inline-block;
+                outline: none;
+                margin-left: 15px;
+                height: 44px;
+                border-radius: 50%;
+                box-shadow: $option-shadow;
+                a, button{
+                    height: 44px;
+                    width: 44px;
+                    border: none;
+                    outline: none;
+                    background: none;
+                    padding: 0;
+                    border: $table-border;
+                    border-radius: 50%;
+                    svg{
+
+                    }
+                }
+                a{
+                    padding-top: 12px;
+                }
+            }
+            .sort{
+                button{
+                    svg{
+                        position: relative;
+                        bottom: 1px;
+                    }
+                }
+                .sort-dropdown{
+                    position: absolute;
+                    height: auto;
+                    width: 175px;
+                    left: -110px;
+                    margin-top: 20px;
+                    padding: 0;
+                    background: $file-dropdown;
+                    box-shadow: $hover-shadow;
+                    border: $table-border;
+                    &:after, &:before{
+                        bottom: 100%;
+                        right: 30px;
+                        border: solid transparent;
+                        content: " ";
+                        height: 0;
+                        width: 0;
+                        position: absolute;
+                        pointer-events: none;
+                        
+                    }
+                    &:after{
+                        border-bottom-color: $file-dropdown;
+                        border-width: 13px;
+                    }
+                    &:before{
+                        border-bottom-color: $table-border-color;
+                        border-width: 14px;
+                        right: 29px;
+                    }
+                    li{
+                        height: 42px;
+                        width: 100%;
+                        border: none;
+                        box-shadow: none;
+                        border-radius: 0;
+                        padding-left: 20px;
+                        margin: 0 !important;
+                        &:hover{
+                            background: $table-hover;
+                            a{
+                                font-family: $lato-semi;
+                            }
+                        }
+                        a{
+                            border: none;
+                            border-radius: 0;
+                            text-align: left;
+                            font-size: 15px;
+                            line-height: 1.5;
+                            color: $file-dropdown-text;
+                            font-family: $lato-mid;
+                            letter-spacing: 0.3px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .add-button{
+        position: relative;
+        border-radius: 40px !important;
+        background: $blue;
+        box-shadow: $add-shadow !important;
+        border: none;
+        outline: none;
+        &:hover{
+            span{
+                display: inline;
+            }
+        }
+        span{
+            position: relative;
+            top: 9px;
+            font-size: 18.7px;
+            color: $white;
+            padding: 5px;
+            margin-left: 15px;
+            vertical-align: top;
+            font-family: $lato-semi;
+            letter-spacing: 0.3px;
+            display: none;
+        }
+        button{
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none !important;
+            outline: none;
+            svg{
+                margin:  10px 5px;
+            }
+        }
+        
+    }
     .tab-options{
         ul{
             list-style: none;

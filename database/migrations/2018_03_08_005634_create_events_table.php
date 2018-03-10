@@ -26,8 +26,8 @@ class CreateEventsTable extends Migration
             $table->integer('all_day');
             $table->date('start');
             $table->date('end');
-            $table->string('description');
-            $table->string('properties');
+            $table->string('description')->nullable();
+            $table->string('properties')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -15,6 +15,8 @@ class Form extends Model
 
     protected $fillable = ['title', 'status', 'questions'];
 
+    protected $dates = ['deleted_at'];
+
     public function sluggable()
     {
         return [

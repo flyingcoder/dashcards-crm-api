@@ -62,7 +62,9 @@ class Task extends Model
 
     public function assigned()
     {
-    	return $this->belongsToMany(User::class);
+    	return $this->belongsToMany(User::class)
+                    ->withTimestamps()
+                    ->withPivot('created_at');
     }
 
     public static function boot()

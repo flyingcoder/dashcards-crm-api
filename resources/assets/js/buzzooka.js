@@ -24,32 +24,33 @@ Vue.filter('diffInDays', function(value, start){
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Dashboard
-Vue.component('dashboard', require('./components/dashboard/index.vue'));
+//  Vue Components Path
+  //  Header
+  Vue.component('buzzheader', require('./components/header/Index.vue'));
 
-// Projects
-Vue.component('projects', require('./components/projects/index.vue'));
+  // Dashboard
+  Vue.component('dashboard', require('./components/dashboard/index.vue'));
 
-// Clients
-Vue.component('clients', require('./components/clients/index.vue'));
+  // Projects
+  Vue.component('projects', require('./components/projects/index.vue'));
 
-// Invoices
-Vue.component('invoices', require('./components/invoices/index.vue'));
+  // Clients
+  Vue.component('clients', require('./components/clients/index.vue'));
 
-// Payments
-Vue.component('payments', require('./components/payments/index.vue'));
+  // Invoices
+  Vue.component('invoices', require('./components/invoices/index.vue'));
 
-// Timers
-Vue.component('timers', require('./components/timers/index.vue'));
+  // Payments
+  Vue.component('payments', require('./components/payments/index.vue'));
 
-// Teams
-Vue.component('teams', require('./components/teams/index.vue'));
+  // Timers
+  Vue.component('timers', require('./components/timers/index.vue'));
 
-// Reports
-Vue.component('reports', require('./components/reports/index.vue'));
+  // Teams
+  Vue.component('teams', require('./components/teams/index.vue'));
 
-// Services
-Vue.component('services', require('./components/services/index.vue'));
+  // Reports
+  Vue.component('reports', require('./components/reports/index.vue'));
 
 
 // Project-HQ
@@ -61,6 +62,19 @@ Vue.component('page-header', require('./components/common/PageHeader.vue'));
 
 // Testing
 // Vue.component('clients', require('./components/projects/project-hq/index.vue'));
+
+// Services
+Vue.component('services', require('./components/services/index.vue'));
+
+
+// Avoid on Closing Templates Dropdown When Clicking Check Boxes
+  $("document").ready(function() {
+    $('.dropdown-menu').on('click', function(e) {
+        if($(this).hasClass('templates')) {
+            e.stopPropagation();
+        }
+    });
+  });
 
 let buzzcrm = {
   el: '#app'

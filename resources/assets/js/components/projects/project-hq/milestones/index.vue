@@ -151,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <div class="add-milestone">
+        <div class="add-button">
             <span> ADD NEW </span>
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
