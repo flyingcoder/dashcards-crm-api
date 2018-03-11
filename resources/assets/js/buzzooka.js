@@ -88,17 +88,17 @@ if(document.getElementById("app-with-routes")) {
     routes: [
       {path: '/',component: require('./components/projects/project-hq/overview/Index')},
       {path: '/files',component: require('./components/projects/project-hq/files/Index')},
-//       {path: '/tasks',component: require('./components/projects/project-hq/task/Index')},
+      {path: '/tasks',component: require('./components/projects/project-hq/tasks/Index')},
 //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
 //       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
-//       {path: '/milestones',component: require('./components/projects/project-hq/milestone/Index')},
+      {path: '/milestones',component: require('./components/projects/project-hq/milestones/Index')},
 //       {path: '/reports',component: require('./components/projects/project-hq/report/Index')},
 
 //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/Index')},
 //       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
 //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
 //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
-//       {path: '/members',component: require('./components/projects/project-hq/member/Index')}
+      {path: '/members',component: require('./components/projects/project-hq/members/Index')}
 //       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
 //       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
 

@@ -26,7 +26,7 @@ export default {
     'timeline': Timeline,
     'task': Task,
     'timer': Timer,
-    'pass-box': Passbox,
+    'pass-box': PassBox,
   },
 }
 </script>

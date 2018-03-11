@@ -4,8 +4,8 @@
           <div class="logo">
             <a href="#">
               <!-- <span class="logo-mini"> <img src="{{ asset('img/logo/buzzooka.png') }}" width="40"> </span> -->
-              <span class="logo-mini"> <img src="img/logo/buzzooka.png}" width="40"> </span>
-              <span class="logo-lg"> <img src="img/logo/buzzooka.png" width="205"> </span>
+              <span class="logo-mini"> <img src="/img/logo/buzzooka.png" width="40"> </span>
+              <span class="logo-lg"> <img src="/img/logo/buzzooka.png" width="205"> </span>
             </a>
           </div>
         <!-- Buzz Menu -->
