@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserLogin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -45,6 +46,7 @@ class LoginController extends Controller
 
         if (auth()->attempt($request->only($field, 'password')))
         {
+            UserLogin::dispatch(auth()->user());
             return redirect($this->redirectTo);
         }
 

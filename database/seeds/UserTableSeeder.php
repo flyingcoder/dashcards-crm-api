@@ -38,12 +38,12 @@ class UserTableSeeder extends Seeder
 
         $userBentong = $user->create(
             [
-                'username' => 'alvin',
+                'username' => 'alvin2',
                 'first_name' => 'Alvin',
                 'last_name' => 'Pacot',
                 'email' => 'alvin@buzzooka.com',
                 'image_url' => 'img/members/alfred.png',
-                'password' => bcrypt('alvn2018'),
+                'password' => bcrypt('alvin2018'),
                 'job_title' => 'Client',
                 'telephone' => '123456789'
             ]
