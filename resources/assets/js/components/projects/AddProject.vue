@@ -13,19 +13,6 @@
              <section class="content">
                     <div class="buzz-modal-header"> {{ title }} </div>
                     <div class="buzz-scrollbar" id="buzz-scroll">
-                        <div class="add-members">
-                            <h4> Add Members </h4>
-                            <img src="img/temporary/user1.png" class="members" alt="user">
-                            <img src="img/temporary/user2.png" class="members" alt="user">
-                            <img src="img/temporary/user3.png" class="members" alt="user">
-                            <button class="members add-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="18px" height="18px">
-                                    <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                                    d="M16.905,9.715 L10.225,9.715 L10.225,17.218 C10.225,17.586 9.859,17.885 9.408,17.885 C8.957,17.885 8.592,17.586 8.592,17.218 L8.592,9.715 L1.092,9.715 C0.724,9.715 0.425,9.349 0.425,8.898 C0.425,8.447 0.724,8.081 1.092,8.081 L8.592,8.081 L8.592,1.397 C8.592,1.029 8.957,0.730 9.408,0.730 C9.859,0.730 10.225,1.029 10.225,1.397 L10.225,8.081 L16.905,8.081 C17.273,8.081 17.572,8.447 17.572,8.898 C17.572,9.349 17.273,9.715 16.905,9.715 Z"/>
-                                </svg>
-                            </button>
-                        </div>
                         <div class="buzz-modal-option">
                             <div class="option">
                                 <button>
@@ -45,28 +32,15 @@
                                     Attachment 
                                 </button>
                             </div>
-                            <div class="option">
-                                <button> 
-                                    <img src="img/icons/modal/more.svg" alt=""> 
-                                    More 
-                                </button>
-                            </div>
-                            <div class="option">
-                                <button> 
-                                    <img src="img/icons/modal/copy.png" alt=""> 
-                                    Copy 
-                                </button>
-                            </div>
-                            <div class="option">
-                                <button> 
-                                    <img src="img/icons/modal/archive.svg" alt=""> 
-                                    Archive 
-                                </button>
-                            </div>
                         </div>
                         <div class="buzz-modal-content">
                             <el-form ref="form" :model="form" label-position="top" v-loading="isProcessing" style="width: 100%">
                                 <div class="form-content row">
+                                    <div class="form-group col-md-12"> 
+                                        <el-form-item>
+                                            <el-input type="text" v-model="name" placeholder="Untitled Project"></el-input>
+                                        </el-form-item>
+                                    </div>
                                     <div class="form-group col-md-12"> 
                                         <el-form-item>
                                             <textarea rows="4" placeholder="Add Description"></textarea>
@@ -79,8 +53,7 @@
                                     </div>
                                     <div class="form-group col-md-12 ">
                                         <div class="buzz-modal-footer">
-                                            <el-button type="primary" v-if="action=='save'" @click="save" class="send border"> Save </el-button>
-                                            <el-button type="primary" v-if="action=='update'" @click="update" class="send border"> Update </el-button>
+                                            <el-button type="primary" class="send border"> Send </el-button>
                                             <el-button type="primary" class="border"> 
                                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                                     width="14px" height="18px">
@@ -118,6 +91,10 @@
                                             </el-button>
                                         </div>
                                     </div>
+                                    <div class="form-buttons">
+                                         <el-button type="primary" class="buzz-button border"> Save </el-button>
+                                         <el-button type="primary" class="buzz-button border"> Cancel </el-button>
+                                    </div>
                                 </div>
                             </el-form>
                         </div>
@@ -129,17 +106,11 @@
 </template>
 
 <script>
-    ClassicEditor
-    .create( document.querySelector( '#editor' ) )
-    .catch( error => {
-        console.error( error );
-    });
-
     export default {
     	data: function () {
         	return {    
         		name: '',
-                title: 'Website Redesign Concept',
+                title: 'Add New Project',
                 action: 'save',
                 id: 0,
                 oldName: '',

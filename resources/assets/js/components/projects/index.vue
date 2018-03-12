@@ -73,13 +73,15 @@
  
     import AllProjects from './AllProjects.vue';
     import MyProjects from './MyProjects.vue';
-    import ProjectModal from './ProjectModal.vue';
+    import AddProject from './AddProject.vue';
+    import SelectedProject from './SelectedProject.vue';
 
     export default {
         components: {
           'all-projects': AllProjects,
           'my-projects': MyProjects,
-          'add-project': ProjectModal,
+          'add-project': AddProject,
+          'selected-project': SelectedProject,
       },
 
       data () {

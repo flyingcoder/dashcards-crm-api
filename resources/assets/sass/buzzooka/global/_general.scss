@@ -823,7 +823,7 @@
                 font-family: $lato-semi;
             }
             .add-members{
-                margin: 25px 0;
+                margin-top: 25px;
                 h4{
                     font-family: $lato-mid;
                     color: $modal-title;
@@ -849,7 +849,7 @@
                 }
             }
             .buzz-modal-option{
-                margin: 0 -10px 25px -10px;
+                margin: 25px -10px 25px -10px;
                 .option{
                     display: inline-block;
                     width: 33%;
@@ -885,17 +885,50 @@
                         margin: 0;
                     }
                 }
-                textarea{
-                    resize: none;
+                .el-input, textarea{
                     width: 100%;
-                    outline: none;
+                    outline: none; 
+                    padding: 0 10px;
                     border: $table-border;
                     border-radius: 8px;
-                    background: $input2-bg !important;
                     box-shadow: $body-shadow;
+                    background: $input2-bg !important;
+                }
+                .el-input{
+                    height: 60px;
+                    margin-bottom: 25px;
+                    input{
+                        height: 60px;
+                        font-size: 23px;
+                    }
+                }
+                textarea{
+                    resize: none;
                     font-size: 15px;
                     font-family: $lato-mid;
-                    padding: 0 10px;
+                }
+                .form-buttons{
+                    text-align: center;
+                    margin-bottom: 25px;
+                    button{
+                        background: $white !important;
+                        width: 130px;
+                        height: 45px;
+                        border: $table-border !important;
+                        border-radius: 5px;
+                        box-shadow: $body-shadow;
+                        &:hover{
+                            background: $input-bg;
+                        }
+                        span{
+                            font-size: 18.1px;
+                            color: $modal-title;
+                            top: 0;
+                            padding: 0;
+                            margin: 0;
+                            display: block;
+                        }
+                    }
                 }
             }
             .buzz-modal-footer{
