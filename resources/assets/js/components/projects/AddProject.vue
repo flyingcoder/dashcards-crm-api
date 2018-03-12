@@ -46,12 +46,18 @@
                                             <textarea rows="4" placeholder="Add Description"></textarea>
                                         </el-form-item>
                                     </div>
-                                    <div class="form-group col-md-12"> 
-                                        <el-form-item label="Add Comment :">
+                                    <div class="form-group col-md-12">
+                                        <ckeditor 
+                                          v-model="form.content" 
+                                          :config="config"
+                                          @blur="onBlur($event)" 
+                                          @focus="onFocus($event)">
+                                        </ckeditor>
+                                        <!-- el-form-item label="Add Comment :">
                                             <textarea rows="4" id="editor"></textarea>
-                                        </el-form-item>
+                                        </el-form-item -->
                                     </div>
-                                    <div class="form-group col-md-12 ">
+                                    <!-- div class="form-group col-md-12 ">
                                         <div class="buzz-modal-footer">
                                             <el-button type="primary" class="send border"> Send </el-button>
                                             <el-button type="primary" class="border"> 
@@ -90,7 +96,7 @@
                                                 </svg>
                                             </el-button>
                                         </div>
-                                    </div>
+                                    </div -->
                                     <div class="form-buttons">
                                          <el-button type="primary" class="buzz-button border"> Save </el-button>
                                          <el-button type="primary" class="buzz-button border"> Cancel </el-button>
@@ -106,7 +112,12 @@
 </template>
 
 <script>
+    import Ckeditor from 'vue-ckeditor2'
+
     export default {
+        components: {
+            Ckeditor
+        },
     	data: function () {
         	return {    
         		name: '',
@@ -117,16 +128,30 @@
                 isProcessing: false,
                 form: {
                     name: '',
+                    content: ''
                 },
         		error: {
         			status: false,
                     message: '',
                     name: [],
-        		}
+        		},
+                config: {
+                    toolbar: [
+                      [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
+                    ],
+                    
+                    height: 500
+                }
         	}
         },
 
         methods: {
+            onBlur (e) {
+                console.log(e)
+            },
+            onFocus (e) {
+                console.log(e)
+            },
             beforeOpen (event) {
                 this.name = ''
                 this.header = 'Add New Service'

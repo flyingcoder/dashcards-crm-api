@@ -6,30 +6,36 @@
  */
 
 require('./bootstrap');
-window.ClassicEditor = require( '@ckeditor/ckeditor5-build-classic' );
+
 window.moment = require('moment');
+
 window.Vue = require('vue');
 
 import Element from 'element-ui';
+
 import locale from 'element-ui/lib/locale/lang/en';
+
 Vue.use(Element, { locale });
 
 import VueRouter from 'vue-router';
 
 import VModal from 'vue-js-modal'
+
 Vue.use(VModal);
 
+//window.CKEDITOR = require( 'ckeditor' );
+
 // Classic Editor
-  ClassicEditor
-  .create( document.querySelector( '#editor' ) )
-  .catch( error => {
-      console.error( error );
-  } );
+//ClassicEditor
+//  .create( document.querySelector( '#editor' ) )
+//  .catch( error => {
+//      console.error( error );
+//} );
 
 // Moment
-  Vue.filter('diffInDays', function(value, start){
-    return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
-  })
+Vue.filter('diffInDays', function(value, start){
+  return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
+})
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
