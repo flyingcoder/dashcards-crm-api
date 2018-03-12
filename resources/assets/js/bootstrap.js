@@ -45,13 +45,20 @@ axios.get('api/user').then( response => {console.log(response)})
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
+import toastr from 'toastr';
 
-// window.Pusher = require('pusher-js');
+import Echo from 'laravel-echo'
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key',
-//     cluster: 'mt1',
-//     encrypted: true
-// });
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '6857db1d25c87cb2e20d',
+    cluster: 'ap1',
+    encrypted: true
+});
+
+window.Echo.channel('user-login').listen('UserLogin', e => {
+	toastr.info(e.user.first_name+' is online!');
+	console.log(e);
+});

@@ -294,7 +294,8 @@
       </div>
       
     </div>
-
+    
+    <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
     <script src="{{ mix('js/buzzooka.js') }}"></script>
     @stack('scripts')
   </body>

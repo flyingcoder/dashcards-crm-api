@@ -23,7 +23,7 @@ class ProjectController extends Controller
         if(!request()->ajax())
             return view('pages.projects', ['projects' => [], 'personal' => false]);
 
-        (new ProjectPolicy())->index($project);
+        (new ProjectPolicy())->index();
 
         $company = Auth::user()->company();
 

@@ -1,5 +1,6 @@
 <?php
 
+//use Illuminate\Support\Facades\Redis;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,6 +12,8 @@
 |
 */
 Route::get('/', function () {
+	//Cache::put('foo', 'bar', 10);
+	//return Cache::get('foo');
 	return view('welcome');
 });
 
