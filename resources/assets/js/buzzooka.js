@@ -6,18 +6,30 @@
  */
 
 require('./bootstrap');
-
+window.ClassicEditor = require( '@ckeditor/ckeditor5-build-classic' );
+window.moment = require('moment');
 window.Vue = require('vue');
+
 import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 Vue.use(Element, { locale });
+
 import VueRouter from 'vue-router';
 
-window.moment = require('moment');
+import VModal from 'vue-js-modal'
+Vue.use(VModal);
 
-Vue.filter('diffInDays', function(value, start){
-  return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
-})
+// Classic Editor
+  ClassicEditor
+  .create( document.querySelector( '#editor' ) )
+  .catch( error => {
+      console.error( error );
+  } );
+
+// Moment
+  Vue.filter('diffInDays', function(value, start){
+    return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
+  })
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -54,17 +66,17 @@ Vue.filter('diffInDays', function(value, start){
 
 
 // Project-HQ
-Vue.component('project-hq', require('./components/projects/project-hq/Index'));
-Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
+  Vue.component('project-hq', require('./components/projects/project-hq/Index'));
+  Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
 
 // Common Files
-Vue.component('page-header', require('./components/common/PageHeader.vue'));
+  Vue.component('page-header', require('./components/common/PageHeader.vue'));
 
 // Testing
 // Vue.component('clients', require('./components/projects/project-hq/index.vue'));
 
 // Services
-Vue.component('services', require('./components/services/index.vue'));
+  Vue.component('services', require('./components/services/index.vue'));
 
 
 // Avoid on Closing Templates Dropdown When Clicking Check Boxes
@@ -110,6 +122,3 @@ if(document.getElementById("app-with-routes")) {
 }
 
 const app = new Vue(buzzcrm)
-
-
-

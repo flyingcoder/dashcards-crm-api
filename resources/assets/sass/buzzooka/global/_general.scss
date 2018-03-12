@@ -74,7 +74,7 @@
         margin-left: 226px;
         // padding: 10px 30px;
         padding: 0px 30px;
-        z-index: 99;
+        z-index: 2000;
         .content-header{
             height: 66px;
             .page-title{
@@ -801,6 +801,184 @@
                             background: $table-hold;
                         }
                     }
+                }
+            }
+        }
+    }
+// V Modal
+    .v--modal{
+        width: 620px !important;
+        height: auto !important;
+        top: 50px !important;
+        left: 30.5% !important;
+        border-radius: 10px;
+        .content{
+            background: $modal-bg;
+            border: $section-border;
+            box-shadow: $body-shadow;
+            padding: 25px 0 0px 25px;
+            .buzz-modal-header{
+                font-size: 23px;
+                color: $modal-title;
+                font-family: $lato-semi;
+            }
+            .add-members{
+                margin-top: 25px;
+                h4{
+                    font-family: $lato-mid;
+                    color: $modal-title;
+                    font-size: 18px;
+                }
+                .members{
+                    width: 41px;
+                    height: 41px;
+                    border: $table-border;
+                    border-radius: 50%;
+                    margin-right: 2px;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+                .add-button{
+                    background: $blue;
+                    margin-left: 10px;
+                    img, svg{
+                        position: relative;
+                        top: 1px;
+                        right: 1px;
+                    }
+                }
+            }
+            .buzz-modal-option{
+                margin: 25px -10px 25px -10px;
+                .option{
+                    display: inline-block;
+                    width: 33%;
+                    padding: 5px 10px;
+                    button{
+                        text-align: left;
+                        width: 100%;
+                        font-size: 17.2px;
+                        font-family: $lato-semi;
+                        color: $modal-title;
+                        background: $white;
+                        border-radius: 5px;
+                        border: $table-border;
+                        box-shadow: $option-shadow;
+                        img, svg{
+                            padding: 0 15px 0 20px;
+                        }
+                    }
+                }
+            }
+            .buzz-modal-content{
+                .form-group{
+                    margin: 0;  
+                    .el-form-item{
+                        margin: 0;
+                        padding: 0;
+                    }
+                    label{
+                        font-size: 18.8px;
+                        font-family: $lato-semi;
+                        color: $modal-title;
+                        padding: 0;
+                        margin: 0;
+                    }
+                }
+                .el-input, textarea{
+                    width: 100%;
+                    outline: none; 
+                    padding: 0 10px;
+                    border: $table-border;
+                    border-radius: 8px;
+                    box-shadow: $body-shadow;
+                    background: $input2-bg !important;
+                }
+                .el-input{
+                    height: 60px;
+                    margin-bottom: 25px;
+                    input{
+                        height: 60px;
+                        font-size: 23px;
+                    }
+                }
+                textarea{
+                    resize: none;
+                    font-size: 15px;
+                    font-family: $lato-mid;
+                }
+                .form-buttons{
+                    text-align: center;
+                    margin-bottom: 25px;
+                    button{
+                        background: $white !important;
+                        width: 130px;
+                        height: 45px;
+                        border: $table-border !important;
+                        border-radius: 5px;
+                        box-shadow: $body-shadow;
+                        &:hover{
+                            background: $input-bg;
+                        }
+                        span{
+                            font-size: 18.1px;
+                            color: $modal-title;
+                            top: 0;
+                            padding: 0;
+                            margin: 0;
+                            display: block;
+                        }
+                    }
+                }
+            }
+            .buzz-modal-footer{
+                display: block;
+                height: 43px;
+                padding: 5px 10px;
+                margin-bottom: 25px;
+                border: $table-border;
+                border-radius: 0 0 8px 8px;
+                box-shadow: $body-shadow;
+                background: $input2-bg !important;
+                button{
+                    position: relative;
+                    height: 100%;
+                    width: 35px;
+                    display: inline-block;
+                    top: 0;
+                    padding: 0;
+                    margin: 0 3px;
+                    span{
+                        position: relative;
+                        top: 0;
+                        margin: 0;
+                        width: 35px;
+                        font-size: 11.3px;
+                        line-height: 1.2;
+                        display: table-caption !important;
+                        color: $table-status-text;
+                        font-family: $lato-mid;
+                    } 
+                    svg{
+                        fill: $modal-icon;
+                        padding: 0;
+                        margin: 0;
+                        &:hover{
+                            fill: $modal-hover;
+                        }
+                    }
+                }
+                .send{
+                    font-size: 11.3px;
+                    width: 70px;
+                    span{
+                        width: 70px;
+                    }
+                }
+                .border{
+                    background: $modal-input;
+                    border-radius: 3px;
+                    border: 1px solid $modal-icon !important;
                 }
             }
         }

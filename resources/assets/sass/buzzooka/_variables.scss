@@ -70,6 +70,13 @@ $navbar-default-bg: #fff;
     $blue-tile-5: #00a7e5;
     $orange-tile-6: #ff7f7e;
 
+// V Modal
+    $modal-bg: #eeeff2;
+    $modal-title: rgb(101, 113, 134);
+    $modal-icon: rgb(188, 194, 207);
+    $modal-hover: rgb(144, 149, 169);
+    $modal-input: rgb(248, 249, 251);
+
 // Header Dropdown
     $header-dropdown-bg: rgb(232, 234, 246);
     $circle-checkbox: #8b94bf;
@@ -77,6 +84,7 @@ $navbar-default-bg: #fff;
     $template-text: rgb(140, 149, 191);
     $template-border: 2px solid rgb(139, 148, 191);;
     $template-hover: rgb(206, 211, 235);
+    $notification-text: rgb(101, 113, 134);
 
 // HQ Menu
     $hq-icon: rgb(188, 194, 207);
@@ -101,6 +109,7 @@ $navbar-default-bg: #fff;
 
 // Input
     $input-bg: #fbfcfd;
+    $input2-bg: rgb(251, 252, 253);
     $input-border: 1px solid rgb(192, 192, 192);
     $input-border-2: 1px solid rgb(215, 215, 215);
     $box-shadow-inset: inset 0px 1px 1px 0px rgba(154, 157, 160, 0.35);
