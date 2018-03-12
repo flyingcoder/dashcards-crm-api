@@ -20,6 +20,18 @@ class TaskTest extends TestCase
 		$this->assertTrue(true);
 	}
 
+    public function testTaskIndex()
+    {
+        $user = User::find(1);
+        
+        $response = $this->actingAs($user, 'api')
+                         ->get('api/tasks');
+
+        //dd($response->exception->validator->messages());
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testTaskStat()
     {
         $user = User::find(1);
@@ -50,12 +62,12 @@ class TaskTest extends TestCase
 	       	'end_at' => Carbon::today()->addDay()
         ];
         
-    	$response = $this->actingAs($user, 'api')
-    					 ->post('api/tasks', $postData);
+    	//$response = $this->actingAs($user, 'api')
+    	//				 ->post('api/tasks', $postData);
 
     	//dd($response->exception->validator->messages());
 
-    	$response->assertStatus(302);
+    	//$response->assertStatus(302);
 
     	//$this->assertTrue(true);
     }
@@ -68,7 +80,7 @@ class TaskTest extends TestCase
         //                 ->delete('api/tasks/2');
 
         //deleted items must not be returned
-        dd($response->content());
+        //dd($response->content());
         $this->assertTrue(true);
     }
 

@@ -59,7 +59,7 @@ class DashitemTest extends TestCase
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
     					 ->put('api/dashitem/1/order', $data);
 
-    	dd($response->content());
+    	//dd($response->content());
     	$response->assertStatus(200);
     }
 }
