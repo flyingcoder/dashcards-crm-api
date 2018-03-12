@@ -61,7 +61,7 @@
                 </div>
                 <div class="tab-content">
                     <list-members></list-members>
-                    <grid-members></grid-members>
+                    <grid-members :project-id="$parent.projectId" :asset="$parent.asset"></grid-members>
                 </div>
             </section>
             <div class="box-footer">
@@ -73,12 +73,13 @@
 
 <script>
     import ListMembers from './list-members.vue';
-    import GridMembers from './grid-members.vue';
+    import GridMembers from './GridMembers.vue';
 
     export default {
         components: {
             'list-members': ListMembers,
             'grid-members': GridMembers,
         },
+        
     }
 </script>

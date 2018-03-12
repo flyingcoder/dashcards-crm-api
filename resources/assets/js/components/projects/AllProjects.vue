@@ -67,20 +67,11 @@
       },
 
       mounted () {
-        this.getMyProjects();
         this.getAllProjects();
 
       },
 
       methods: {
-        getMyProjects(){
-            axios.get('api/projects/mine')
-                 .then( response => {
-                    this.paginatedMyProjects = response.data.data;
-                    this.currentPage = response.data.current_page;
-                    this.total = response.data.total;
-                 })
-        },
         getAllProjects(){
             axios.get('api/projects')
             .then( response => {
@@ -104,7 +95,7 @@
             }
         },
         rowClick(row, event, col){
-            location = "/projects/" + row.id;
+            location = "/project-hq/" + row.id;
         }
       }
 

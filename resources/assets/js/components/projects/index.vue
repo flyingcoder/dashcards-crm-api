@@ -79,14 +79,11 @@
 </template>
 
 <script>
-    import PageHeader from '../page-header.vue';
-    import AllProjects from './all-projects.vue';
-    import MyProjects from './my-projects.vue';
+    import AllProjects from './AllProjects.vue';
+    import MyProjects from './MyProjects.vue';
 
     export default {   
-
         components: {
-          'page-header': PageHeader,
           'all-projects': AllProjects,
           'my-projects': MyProjects,
       },
@@ -103,28 +100,7 @@
 
         }
       },
-
-      mounted () {
-        this.getMyProjects();
-        this.getAllProjects();
-
-      },
-
       methods: {
-        getMyProjects(){
-            axios.get('api/projects/mine')
-                 .then( response => {
-                    this.paginatedMyProjects = response.data.data;
-                    this.currentPage = response.data.current_page;
-                    this.total = response.data.total;
-                 })
-        },
-        getAllProjects(){
-            axios.get('api/projects')
-            .then( response => {
-                this.paginatedMyProjects = response.data;
-            })
-        },
         handleSizeChange: function (val) {
             this.currentSize = val;
         },
@@ -141,9 +117,6 @@
             this.multipleSelection.push(val[index].id);
             }
         },
-        rowClick(row, event, col){
-            location = "/projects/" + row.id;
-        }
       }
 
     }

@@ -138,6 +138,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 
   Route::get('{id}/files', 'MediaController@projectMedia');
+	Route::post('{id}/files','MediaController@projectFileUpload');
 
   Route::post('{id}/links', 'MediaController@addMediaLink');
 

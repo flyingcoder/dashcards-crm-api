@@ -104,13 +104,8 @@
 </template>
 
 <script>
-    import PageHeader from '../page-header.vue';
 
     export default {   
-
-        components: {
-          'page-header': PageHeader,
-      },
 
       data () {
         return {

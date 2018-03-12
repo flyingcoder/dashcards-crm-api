@@ -4,24 +4,15 @@
             <div class="col-md-12">
                 <div class="buzz-box drop-files">
                     <div class="drop-files-content">
-                        <el-upload
-                            class="project-hq-file-upload"
-                            drag
-                            :action="'/api/projects/' + this.$parent.projectId + '/files'"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
-                            multiple>
-                                <img :src="$parent.asset + 'img/files/documents-bw.svg'">
-                                <div class="drop-text">
-                                    <label>Drop files here <br> <span> Or </span> </label>
-                                </div>
-                                <div class="drop-button">
-                                    <button>
-                                        Choose your files
-                                    </button>
-                                </div>
-                        </el-upload>
-                        
+                        <img src="img/files/documents-bw.svg">
+                        <div class="drop-text">
+                            <label>Drop files here <br> <span> Or </span> </label>
+                        </div>
+                        <div class="drop-button">
+                            <button>
+                                Choose your files
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

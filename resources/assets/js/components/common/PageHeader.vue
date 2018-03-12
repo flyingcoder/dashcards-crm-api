@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="page-title">
-                <h1>Dashboard</h1>
+                <h1> {{ title }} </h1>
             </div>
         </div>
         <div class="col-md-6">
@@ -61,5 +61,12 @@
 
 
 <script>
-
+    export default {
+        props: {
+            title: {
+                required: true,
+                type: String
+            }
+        }
+    }
 </script>
