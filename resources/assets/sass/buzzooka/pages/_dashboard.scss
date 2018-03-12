@@ -10,8 +10,9 @@
         .left{
             width: 42%;
             float: left;
-            border-right: $section-border;
             padding-top: 11px;
+            border-right: $section-border;
+            background-color: $gray-bg;
         }
         .right{
             width: 58%;
@@ -41,7 +42,6 @@
         .switch-box {
             float: left;
             width: 42%;
-            background-color: $gray-bg !important;
             .switch{
                 position: relative;
                 display: inline-block;
