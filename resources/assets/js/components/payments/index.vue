@@ -1,7 +1,13 @@
 <template>
     <section class="content payments">
         <div class="content-header">
-            <page-header></page-header>
+           <div class="row">
+                <div class="col-md-12">
+                    <div class="page-title">
+                        <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Payments </span> </h1>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="content-body">
             <section class="buzz-section">
@@ -40,13 +46,8 @@
 </template>
 
 <script>
-    import PageHeader from '../page-header.vue';
 
     export default {   
-
-        components: {
-          'page-header': PageHeader,
-      },
 
       data () {
         return {

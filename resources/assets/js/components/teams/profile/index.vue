@@ -257,8 +257,7 @@
     </section>
 </template>
 
-<script>
-    import PageHeader from '../../page-header.vue';    
+<script> 
     import BoxOption from '../../box-option.vue';
     import TabTasks from './tab-tasks.vue';
     import TabTimer from './tab-timer.vue';
@@ -271,7 +270,6 @@
 
     export default {
         components: {
-          'page-header': PageHeader,
           'box-option': BoxOption,
           'tab-tasks': TabTasks,
           'tab-timer': TabTimer,
