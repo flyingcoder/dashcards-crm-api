@@ -38,27 +38,3 @@ if (token) {
 }
 
 axios.get('api/user').then( response => {console.log(response)})
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-import toastr from 'toastr';
-
-import Echo from 'laravel-echo'
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: '6857db1d25c87cb2e20d',
-    cluster: 'ap1',
-    encrypted: true
-});
-
-window.Echo.channel('user-login').listen('UserLogin', e => {
-	toastr.info(e.user.first_name+' is online!');
-	console.log(e);
-});

@@ -136,13 +136,14 @@ class ProjectController extends Controller
         return response(Project::latest()->first(), 200);
     }
 
+    /*
     public function myProjects()
     {
         (new ProjectPolicy())->index();
 
         return Project::personal(request());
 
-    }
+    }*/
 
     public function countProject()
     {

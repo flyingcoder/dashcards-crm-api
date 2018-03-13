@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\User;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -37,7 +36,6 @@ class UserLogin implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('user-login');
-        //return new PrivateChannel('channel-name');
+        return new PrivateChannel('user.login.'.$this->company->id);
     }
 }

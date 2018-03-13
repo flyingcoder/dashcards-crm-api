@@ -14,3 +14,9 @@
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('user.login.{companyId}', function ($user, $companyId) {
+	if((int) $user->company()->id === (int) $companyId){
+		return $user;
+	}
+});

@@ -18,10 +18,28 @@ class UserModelTest extends TestCase
         $user = User::find(1);
 
     	$response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
     					 ->get('api/user');
 
     	//dd($response->exception->validator->messages());
     	$response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testProjects()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/user/projects');
+
+        dd($response->content());
+        $response->assertStatus(200);
     }
 
     /**
@@ -34,6 +52,7 @@ class UserModelTest extends TestCase
         $user = User::find(1);
 
     	$response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
     					 ->get('api/user/tasks');
 
     	//dd($response->exception->validator->messages());
@@ -50,10 +69,11 @@ class UserModelTest extends TestCase
         $user = User::find(1);
 
     	$response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
     					 ->get('api/user/tasks/count');
 
     	//dd($response->exception->validator->messages());
-    	dd($response->content());
+    	//dd($response->content());
     	$response->assertStatus(200);
     }
 }
