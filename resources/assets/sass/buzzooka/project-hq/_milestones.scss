@@ -1,5 +1,10 @@
 .hq-milestones{
     .buzz-box{
+        .box-title{
+            width: 60% !important;
+            @extend .buzz-overflow;
+            max-width: unset !important;
+        }
         .box-content{
             height: 408px;
             .milestone-group{
@@ -17,6 +22,14 @@
                             font-size: 20px;
                             font-family: $lato-mid;
                             color: $milestone-title;
+                            span{
+                                position: relative;
+                                float: left;
+                                top: 20px;
+                                width: 80%;
+                                @extend .buzz-overflow;
+                                max-width: unset !important;
+                            }
                             i{
                                 position: relative;
                                 top: 20px;
@@ -38,7 +51,7 @@
                             margin: 0;
                             li{
                                 position: relative;
-                                height: 53px;
+                                // height: 53px;
                                 border-top: $table-border;
                                 font-size: 19px;
                                 font-family: $lato-mid;

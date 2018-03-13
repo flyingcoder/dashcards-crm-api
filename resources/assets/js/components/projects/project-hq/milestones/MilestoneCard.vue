@@ -9,15 +9,10 @@
             </div>
             <div class="box-content buzz-scrollbar" id="buzz-scroll">
                 <div class="milestone-group" id="milestone-1">
-                  <div class="milestone"  v-for="t in data.tasks" :key="t.id">
-                        <div class="milestone-heading">
-                            {{ t.title }}
-                        </div>
-                  </div>
-                    <!-- <div class="milestone">
+                    <div class="milestone"  v-for="t in data.tasks" :key="t.id">
                         <div class="milestone-heading">
                             <a href="#milestone-element-1" data-parent="#milestone-1" class="collapsed milestone-title" data-toggle="collapse">
-                                Meta Data
+                                <span> {{ t.title }} </span>  
                                 <i class="pull-right">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="30px" height="14px">
@@ -125,27 +120,6 @@
                                 </ul>
                         </div>
                     </div>
-                    <div class="milestone">
-                        <div class="milestone-heading">
-                            <a href="#milestone-element-2" data-parent="#milestone-1" class="collapsed milestone-title" data-toggle="collapse">
-                                Images
-                                <i class="pull-right">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        width="30px" height="14px">
-                                        <path fill-rule="evenodd"  fill="rgb(179, 182, 195)"
-                                        d="M29.670,0.722 C29.270,0.385 28.620,0.385 28.220,0.722 L15.473,11.468 L2.700,0.722 C2.300,0.385 1.650,0.385 1.250,0.722 C0.850,1.058 0.850,1.605 1.250,1.941 L14.723,13.276 C14.923,13.444 15.173,13.529 15.448,13.529 C15.698,13.529 15.973,13.444 16.172,13.276 L29.645,1.941 C30.070,1.605 30.070,1.058 29.670,0.722 Z"/>
-                                    </svg>
-                                </i>
-                            </a>
-                        </div>
-                        <div id="milestone-element-2" class="collapse milestone-collapse">
-                                <ul>
-                                    <li> Jpg</li>
-                                    <li> Png </li>
-                                    <li> Svg </li>
-                                </ul>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <div class="box-footer milestone-footer">
@@ -156,17 +130,22 @@
 </template>
 
 <script>
- export default {
-    props: ['data'],
-    methods:{
-      addTask(val){
-        this.$emit('addTask', {
-          id: this.data.id,
-          task: val
-        });
-      }
+    import BoxOption from '../../../box-option.vue';
+    
+    export default {
+        components: {
+            'box-option': BoxOption,
+        },
+        props: ['data'],
+        methods:{
+        addTask(val){
+            this.$emit('addTask', {
+            id: this.data.id,
+            task: val
+            });
+        }
+        }
     }
-  }
 </script>
 
 <style>

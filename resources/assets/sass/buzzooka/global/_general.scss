@@ -540,7 +540,9 @@
             border: none !important;
             outline: none;
             svg{
+                position: relative;
                 margin:  10px 5px;
+                top: 2px;
             }
         }
         

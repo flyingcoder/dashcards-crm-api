@@ -17,12 +17,10 @@
 </template>
 
 <script>
-    import BoxOption from '../../../box-option.vue';
     import MilestoneCard from './MilestoneCard';
 
     export default {
         components: {
-          'box-option': BoxOption,
           'milestone-card': MilestoneCard
         },
         data(){
