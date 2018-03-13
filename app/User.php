@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use DB;
 use Plank\Metable\Metable;
 use Kodeine\Acl\Traits\HasRole;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
@@ -126,6 +128,39 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->belongsToMany(Project::class)->withPivot('role');
+    }
+
+    public function userPaginatedProject(Request $request)
+    {
+        list($sortName, $sortValue) = parseSearchParam($request);
+
+        $projects = $this->projects()
+                        ->join('services', 'services.id', '=', 'projects.service_id')
+                        ->join('project_user as manager_pivot', function ($join) {
+                            $join->on('manager_pivot.project_id', '=', 'projects.id')
+                                 ->where('manager_pivot.role', '=', 'Manager');
+                        })
+                        ->join('users as manager', 'manager_pivot.user_id', '=', 'manager.id')
+                        ->join('project_user as client_pivot', function ($join) {
+                            $join->on('client_pivot.project_id', '=', 'projects.id')
+                                 ->where('client_pivot.role', '=', 'Client');
+                        })
+                        ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
+                        ->select(
+                            DB::raw('CONCAT(manager.last_name, ", ", manager.first_name) AS manager_name'),
+                            'client.image_url as client_image_url',
+                            DB::raw('CONCAT(client.last_name, ", ", client.first_name) AS client_name'),
+                            'projects.*',
+                            'services.name as service_name'
+                        )->where('projects.deleted_at', null);
+
+        if($request->has('status'))
+            $projects->where('status', $request->status);
+
+        if($request->has('sort'))
+            $projects->orderBy($sortName, $sortValue);
+
+        return $projects->with('tasks')->paginate($this->paginate);
     }
 
     public function services()

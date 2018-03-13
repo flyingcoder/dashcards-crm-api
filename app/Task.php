@@ -24,6 +24,11 @@ class Task extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     public static function store(Request $request)
     {
         $task = self::create([
@@ -41,6 +46,11 @@ class Task extends Model
     public function timers()
     {
         return $this->morphMany(Timer::class, 'subject');
+    }
+
+    public function totalTime()
+    {
+        
     }
 
     public function lastTimer()
