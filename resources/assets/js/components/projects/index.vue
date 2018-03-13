@@ -70,7 +70,6 @@
 </template>
 
 <script>
- 
     import AllProjects from './AllProjects.vue';
     import MyProjects from './MyProjects.vue';
     import AddProject from './AddProject.vue';

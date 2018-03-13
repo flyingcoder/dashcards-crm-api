@@ -2,15 +2,4 @@
     .content-body{
        @extend .buzz-table;
     }
-    .v--modal{
-        .buzz-scrollbar{
-            height: 450px !important;
-            background: unset;
-            overflow-x: hidden;
-            padding-right: 25px;
-        }
-        .buzz-modal-footer{
-            margin-top: -20px !important;
-        }
-    }
 }
