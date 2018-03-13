@@ -61,6 +61,9 @@ Vue.use(VModal);
   // Teams
   Vue.component('teams', require('./components/teams/index.vue'));
 
+  // Chat
+  Vue.component('chat', require('./components/chat/Index.vue'));
+
   // Reports
   Vue.component('reports', require('./components/reports/index.vue'));
 

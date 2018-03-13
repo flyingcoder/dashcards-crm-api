@@ -1,0 +1,19 @@
+.chat{
+    .buzz-section{
+        padding: 22px 22px 0px 0px; 
+        .left, .right{
+            padding: 0;
+            margin: 0;
+        }
+        .contacts, .message-body{
+            border: $table-border;
+            margin-left: 22px;
+        }
+        .contacts{
+
+        }
+        .message-body{
+           
+        }
+    }
+}

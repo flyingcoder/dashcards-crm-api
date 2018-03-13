@@ -27,6 +27,7 @@ Route::view('payments', 'pages.payments')->name('payments');
 Route::view('timers', 'pages.timers')->name('timers');
 Route::view('invoices', 'pages.invoices')->name('invoices');
 Route::view('teams', 'pages.teams')->name('teams');
+Route::view('chat', 'pages.chat')->name('chat');
 Route::view('reports', 'pages.reports')->name('reports');
 Route::view('services', 'pages.services')->name('services');
 Route::view('project-details', 'pages.project-details')->name('project-details');

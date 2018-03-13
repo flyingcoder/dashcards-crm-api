@@ -8,6 +8,7 @@
             margin-left: 8px;
             border-radius: 5px 0 0 5px;
             padding: 15px 0 0 22px;
+            cursor: pointer;
 
             &:hover , &:active, &:focus{
                 background: $gray;
@@ -19,6 +20,7 @@
                 }
                 .tab-icon{ 
                     fill: $blue;
+                    cursor: pointer;
                 }
             }
             a{
