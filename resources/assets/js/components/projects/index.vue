@@ -84,35 +84,5 @@
           'selected-project': SelectedProject,
       },
 
-      data () {
-        return {
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedMyProjects: [],
-        paginatedAllProjects: [],
-        }
-      },
-      methods: {
-        handleSizeChange: function (val) {
-            this.currentSize = val;
-        },
-        handleCurrentChange: function (val) {
-            this.currentPage = val;
-        },
-        handleSortChange: function (col) {
-            this.orderName = col.prop;
-            this.orderBy = col.order == 'ascending' ? 'asc' : 'desc';
-        },
-        handleSelectionChange: function(val) {
-            this.multipleSelection = [];
-            for (let index in val) {
-            this.multipleSelection.push(val[index].id);
-            }
-        },
-      }
-
     }
 </script>

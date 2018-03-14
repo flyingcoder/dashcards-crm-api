@@ -3,10 +3,10 @@
         <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
         @sort-change="handleSortChange" element-loading-text="Processing ..." 
         @selection-change="handleSelectionChange" style="width: 100%"
-        @row-click="rowClick"
+        @cell-click="rowClick"
         >
             <!-- <el-table-column sortable type="selection" width="45"></el-table-column> -->
-            <el-table-column sortable prop="service_name" label="Service" width="200"></el-table-column>
+            <el-table-column sortable prop="service_name" label="Service"></el-table-column>
             <el-table-column sortable prop="client_name" label="Client"></el-table-column>
             <el-table-column sortable prop="manager_name" label="Project Manager"></el-table-column>
             <el-table-column sortable prop="started_at" label="Start Date" ></el-table-column>
@@ -24,7 +24,7 @@
             </el-table-column>
             <el-table-column fixed="right" label="Test">
                 <template slot-scope="scope">
-                    <a href="#">
+                    <a href="#" @click="edit(scope.row)">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             width="16px" height="16px">
                             <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -76,7 +76,7 @@
 
       methods: {
         getMyProjects(){
-            axios.get('api/projects/mine')
+            axios.get('api/user/projects')
                  .then( response => {
                     this.paginatedMyProjects = response.data.data;
                     this.currentPage = response.data.current_page;
@@ -99,8 +99,11 @@
             this.multipleSelection.push(val[index].id);
             }
         },
-        rowClick(row, event, col){
+        rowClick(row, event, cell, col){
             location = "/project-hq/" + row.id;
+        },
+        edit(data){
+            console.log(data);
         }
       }
 

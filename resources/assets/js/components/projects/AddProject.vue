@@ -13,6 +13,7 @@
              <section class="content">
                     <div class="buzz-modal-header"> {{ title }} </div>
                     <div class="buzz-scrollbar" id="buzz-scroll">
+                    <el-form ref="form" :model="form" label-position="top" v-loading="isProcessing" style="width: 100%">                    
                         <div class="buzz-modal-option">
                             <div class="option">
                                 <button>
@@ -21,11 +22,18 @@
                                 </button>
                             </div>
                             <div class="option">
-                                <button> 
-                                    <img src="img/icons/modal/date.svg" alt=""> 
-                                    Due Date 
-                                </button>
+                                <div class="date-project">
+                                    <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                                    <el-date-picker
+                                    :clearable="false"
+                                    v-model="form.due_date"
+                                    type="date"
+                                    placeholder="Due Date">
+                                    </el-date-picker>
+                                </div>
                             </div>
+                            
+                            
                             <div class="option">
                                 <button> 
                                     <img src="img/icons/modal/attachment.svg" alt=""> 
@@ -34,16 +42,20 @@
                             </div>
                         </div>
                         <div class="buzz-modal-content">
-                            <el-form ref="form" :model="form" label-position="top" v-loading="isProcessing" style="width: 100%">
                                 <div class="form-content row">
                                     <div class="form-group col-md-12"> 
                                         <el-form-item>
-                                            <el-input type="text" v-model="name" placeholder="Untitled Project"></el-input>
+                                            <el-input type="text" v-model="form.name" placeholder="Untitled Project"></el-input>
                                         </el-form-item>
                                     </div>
                                     <div class="form-group col-md-12"> 
                                         <el-form-item>
-                                            <textarea rows="4" placeholder="Add Description"></textarea>
+                                            <ckeditor 
+                                          v-model="form.description" 
+                                          :config="config"
+                                          @blur="onBlur($event)" 
+                                          @focus="onFocus($event)">
+                                        </ckeditor>
                                         </el-form-item>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -98,12 +110,12 @@
                                         </div>
                                     </div -->
                                     <div class="form-buttons">
-                                         <el-button type="primary" class="buzz-button border"> Save </el-button>
-                                         <el-button type="primary" class="buzz-button border"> Cancel </el-button>
+                                         <el-button type="primary" class="buzz-button border" @click="submit"> Save </el-button>
+                                         <el-button type="primary" class="buzz-button border" @click="$modal.hide('add-project')"> Cancel </el-button>
                                     </div>
                                 </div>
-                            </el-form>
-                        </div>
+                            </div>
+                        </el-form>
                     </div>
             </section>
         </modal>
@@ -112,28 +124,25 @@
 </template>
 
 <script>
-    import Ckeditor from 'vue-ckeditor2'
-
     export default {
-        components: {
-            Ckeditor
-        },
     	data: function () {
         	return {    
-        		name: '',
                 title: 'Add New Project',
-                action: 'save',
+                action: 'Save',
                 id: 0,
                 oldName: '',
                 isProcessing: false,
                 form: {
                     name: '',
-                    content: ''
+                    description: '',
+                    due_date: '',
+                    content: '',
                 },
         		error: {
-        			status: false,
-                    message: '',
-                    name: [],
+        			name: [],
+                    description: [],
+                    due_date: [],
+                    content: [],
         		},
                 config: {
                     toolbar: [
@@ -153,22 +162,52 @@
                 console.log(e)
             },
             beforeOpen (event) {
-                this.name = ''
-                this.header = 'Add New Service'
-                this.action = 'save'
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
-                    this.action = 'update';
-                    this.header = 'Edit Service';
+                    this.action = 'Update';
+                    this.header = 'Edit Project';
                     this.id = event.params.data.id;
                     var vm = this;
-                    axios.get('api/services/'+this.id)
-                        .then(function (response) {
-                            console.log(response.data.name)
-                            vm.name = response.data.name
-                            vm.oldName = vm.name;
+                    axios.get('api/projects/'+this.id)
+                        .then( response => {
+                            this.form = response.data;
                         });
                 }
             },
+            submit(){
+                if(this.action == 'Save'){
+                    this.save();
+                }
+                else {
+                    this.update();
+                }
+            },
+            save: function () {
+                this.isProcessing = true;
+                axios.post('/api/projects/new',this.form)
+                .then( response => {
+                    this.isProcessing = false;
+                    swal('Success!', 'Project is saved!', 'success');
+                })
+                .catch ( error => {
+                    this.isProcessing = false;
+                    if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    }
+                })
+            },
+            update: function () {
+                axios.put('/api/projects/'+this.id+'/edit', this.form)
+                .then( response => {
+                    this.isProcessing = false;
+                    swal('Success!', 'Project is updated!', 'success');
+                })
+                .catch ( error => {
+                    if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    }
+                    this.isProcessing = false;        
+                })
+            }
         },
         mounted() {
             
