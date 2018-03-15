@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   Route::get('/tasks', 'UserController@tasks');
 
   Route::get('/tasks/count', 'UserController@countTasks');
+
+  Route::get('/projects', 'UserController@projects');
   
 });
 
@@ -111,8 +113,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('/', 'ProjectController@index');
-
-  Route::get('mine', 'ProjectController@myProjects');
 
   Route::get('count', 'ProjectController@countProject');
 

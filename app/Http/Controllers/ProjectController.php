@@ -23,7 +23,7 @@ class ProjectController extends Controller
         if(!request()->ajax())
             return view('pages.projects', ['projects' => [], 'personal' => false]);
 
-        (new ProjectPolicy())->index($project);
+        (new ProjectPolicy())->index();
 
         $company = Auth::user()->company();
 
@@ -136,13 +136,14 @@ class ProjectController extends Controller
         return response(Project::latest()->first(), 200);
     }
 
+    /*
     public function myProjects()
     {
         (new ProjectPolicy())->index();
 
         return Project::personal(request());
 
-    }
+    }*/
 
     public function countProject()
     {

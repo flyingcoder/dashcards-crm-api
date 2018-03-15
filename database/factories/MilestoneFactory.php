@@ -9,7 +9,6 @@ $factory->define(App\Milestone::class, function (Faker $faker) {
        	},
        	'title' => $faker->realText($maxNbChars = 50, $indexSize = 1),
        	'status' => $faker->randomElement(['in progress', 'done', 'late']),
-       	'percentage' => $faker->randomElement([20, 10, 5]),
        	'started_at' => $faker->date($format = 'Y-m-d', $max = 'now'),
        	'end_at' => $faker->date($format = 'Y-m-d', $max = 'now')
     ];

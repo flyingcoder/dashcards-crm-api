@@ -212,7 +212,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $projects = $this->projects()->with('milestones');
+        $projects = $this->projects()->with('tasks');
 
         if($request->has('status'))
             $projects->where('status', $request->status);

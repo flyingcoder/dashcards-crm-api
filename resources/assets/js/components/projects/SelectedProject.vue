@@ -116,11 +116,11 @@
 </template>
 
 <script>
-    ClassicEditor
-    .create( document.querySelector( '#editor' ) )
-    .catch( error => {
-        console.error( error );
-    });
+    //ClassicEditor
+    //.create( document.querySelector( '#editor' ) )
+    //.catch( error => {
+    //    console.error( error );
+   // });
 
     export default {
     	data: function () {

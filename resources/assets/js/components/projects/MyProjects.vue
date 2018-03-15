@@ -5,7 +5,7 @@
         @selection-change="handleSelectionChange" style="width: 100%"
         @row-click="rowClick"
         >
-            <!-- <el-table-column sortable type="selection" width="45"></el-table-column> -->
+            <el-table-column sortable type="selection" width="45"></el-table-column>
             <el-table-column sortable prop="service_name" label="Service" width="200"></el-table-column>
             <el-table-column sortable prop="client_name" label="Client"></el-table-column>
             <el-table-column sortable prop="manager_name" label="Project Manager"></el-table-column>

@@ -2,7 +2,7 @@
     <div role="tabpanel" class="tab-pane fade in active" id="all-project">
         <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." @selection-change="handleSelectionChange" style="width: 100%">
-            <!-- <el-table-column sortable type="selection"></el-table-column> -->
+            <el-table-column sortable type="selection"></el-table-column>
             <el-table-column sortable prop="service_name" label="Service"></el-table-column>
             <el-table-column prop="client_name" label="Client"></el-table-column>
             <el-table-column prop="manager_name" label="Project Manager"></el-table-column>

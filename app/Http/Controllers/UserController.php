@@ -33,6 +33,11 @@ class UserController extends Controller
 
     }
 
+    public function projects()
+    {
+        return auth()->user()->userPaginatedProject(request());
+    }
+
     public function countTasks()
     {
         return User::findOrFail(request()->user()->id)->tasks->count();
