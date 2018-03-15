@@ -993,4 +993,129 @@
             
         }
     }
+// Vue Tooltip
+    .vue-tooltip.contact-popup{
+        // position: fixed;
+        // top: 32%;
+        // z-index: 2000;
+        // left: 45%;
+        left: -10px !important;
+        height: 262px;
+        width: 357px;
+        max-width: 357px !important;
+        background: $white;
+        border: $table-border;
+        box-shadow: $hover-shadow;
+        border-radius: 10px;
+        padding: 0 !important;
+        .tooltip-arrow{
+            border-width: 12px 12px 12px 0 !important;
+            left: -12px !important;
+            border-right-color: $white !important; 
+        }
+        .top-tip{
+            height: 120px;
+            padding: 15px 15px 0 20px;
+            .user-image{
+                width: 107px !important;
+                height: 106px !important;
+            }
+            .user-info{
+                margin-left: 20px;
+                width: 190px;
+                img{
+                    width: unset !important;
+                    height: unset !important;
+                    border: unset !important;
+                    border-radius: unset !important;
+                }
+                h4{
+                    font-size: 17.8px;
+                    font-family: lato heavy;
+                    color: $chat-tip-name;
+                    line-height: 1.2;
+                    margin: 0;
+                }
+                .position{
+                    font-size: 12px;
+                    color: $chat-position;
+                    line-height: 1.2;
+                    letter-spacing: 0.3px;
+                }
+                .email, .location{
+                    margin-top: 3px;
+                    @extend .buzz-overflow;
+                    max-width: 100% !important;
+                    span{
+                        position: relative;
+                        margin-left: 10px;
+                        top: 2px;
+                        font-size: 13.5px;
+                        color: $chat-position;
+                        font-family: $lato-mid;
+                    }
+                }
+            }
+            .user-image, .user-info{
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+        .middle-tip{
+            height: 70px;
+            line-height: 5;
+            padding: 0 15px 0 20px;
+            ul{
+                li{
+                    padding: 0 8px !important;
+                    a{
+                        span{
+                            margin-left: 5px;
+                            font-size: 14px;
+                            color: $chat-position;
+                            font-family: $lato-mid;
+                        }
+                        svg, span{
+                            vertical-align: middle;
+                        }
+                    }
+                }
+            }
+        }
+        .bottom-tip{
+            height: 70px;
+            border-top: $table-border;
+            padding: 12px 0;
+            ul{
+                li{
+                    width: 49.5%;
+                    text-align: center;
+                    line-height: 1;
+                    label{
+                        margin: 0;
+                        font-size: 13.6px;
+                        color:  $chat-tip-name;
+                        line-height: 1.2;
+                    }
+                    span{
+                        position: relative;
+                        top: 3px;
+                        font-size: 23.4px;
+                        font-family: $lato-heavy;
+                        color: $chat-tip-name;
+                    }
+                }
+            }
+        }
+        ul{
+            height: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            li{
+                display: inline-block;
+                border: none !important;
+                height: 100% !important;
+            }
+        }
+    }
 }

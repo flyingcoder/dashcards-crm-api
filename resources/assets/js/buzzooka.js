@@ -10,6 +10,10 @@ window.ClassicEditor = require( '@ckeditor/ckeditor5-build-classic' );
 window.moment = require('moment');
 window.Vue = require('vue');
 
+import Vue from 'vue';
+import Tooltip from 'vue-directive-tooltip';
+Vue.use(Tooltip);
+
 import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 Vue.use(Element, { locale });

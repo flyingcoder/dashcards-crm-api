@@ -29,6 +29,9 @@
                         width: 78%;
                         @extend .buzz-overflow;
                         max-width: 78% !important;
+                        span{
+                            margin-left: 20px;
+                        }
                     }
                     button{
                         position: absolute;
@@ -51,11 +54,20 @@
                     border-radius: 50%;
                     border: $table-border;
                 }
+                .image, .name{
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+                .image{
+                    width: 40%;
+                }
                 .name{
+                    width: 55%;
                     color:  $modal-title;
                     font-size: 12.2px;
                     font-family: $lato-semi;
-                    margin-left: 15px;
+                    @extend .buzz-overflow;
+                    max-width: 100% !important;
                 }
                 ul{
                     list-style: none;
@@ -68,8 +80,6 @@
                         height: 77px;
                         border-bottom: $table-border;
                         padding: 7px 10px;
-                        @extend .buzz-overflow;
-                        max-width: 100% !important;
                         a{
                             .online, .offline{
                                 position: absolute;
