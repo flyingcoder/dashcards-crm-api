@@ -1,5 +1,9 @@
 <template>
     <div role="tabpanel" class="tab-pane fade in" id="my-project">
+        <el-tooltip placement="top">
+  <div slot="content">multiple lines<br/>second line</div>
+  <el-button>Top center</el-button>
+</el-tooltip>
         <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
         @sort-change="handleSortChange" element-loading-text="Processing ..." 
         @selection-change="handleSelectionChange" style="width: 100%"

@@ -17,7 +17,6 @@
             margin-left: 5px;
         }
     }
-
     .menu-toggle{
         position: absolute;
         background: $white;
@@ -34,7 +33,6 @@
             left: 7px;
         }
     }
-
     .buzz-head{
         .buzz-search{
             position: relative;
@@ -83,15 +81,6 @@
                 }
                 button{
                     padding: 0;
-                }
-                .header-dropdown{
-                    height: auto;
-                    width: 559px;
-                    top: 35px;
-                    background: $header-dropdown-bg;
-                    border: $body-border;
-                    box-shadow: $body-shadow;
-                    z-index: 5896;
                 }
                 .templates{
                     padding: 20px 30px 30px;
@@ -205,68 +194,79 @@
                         }
                     }
                 }
-                .notifications{
-                    height: 900px;
-                    left: -260px;
-                    padding: 0;
-                    margin: 0;
-                    overflow-x: hidden;
-                    li{
-                        padding: 0;
-                        top: 0 !important;
-                        a{
-                            position: relative;
-                            height: 93px;
-                            width: 100%;
-                            padding: 10px 30px 10px 35px;
-                            margin: 0;
-                            border: $table-border;
-                            &:hover{
-                                background: $gray-bg;
-                            }
-                            .image{
-                                img{
-                                    position: absolute;
-                                }
-                                .user-image{
-                                    width: 71px;
-                                }
-                                .type-image{
-                                    bottom: 7px;
-                                    left: 80px
-                                }
-                            }
-                            .info{
-                                position: relative;
-                                left: 100px;
-                                p{
-                                    font-size: 17px;
-                                    color: $notification-text;
-                                    font-family: $lato-semi;
-                                    width: 400px;
-                                    margin: 0;
-                                    line-height: 1.2;
-                                    padding-top: 7px;
-                                    max-width: 100% !important;
-                                    white-space: normal !important;
-                                    .action{
-                                        font-size: 17px;
-                                        font-family: $lato-mid;
-                                        color: $notification-text;
-                                    }
-                                }
-                                .date{
-                                    position: relative;
-                                    top: 5px;
-                                    font-size: 13px;
-                                    color: $title-path;
-                                }
-                            }
-                            .image , .info{
-                                display: inline;
-                            }
+            }
+        }
+    }
+}
+.buzzooka{
+    .header-dropdown{
+        height: auto;
+        width: 559px;
+        top: 90px !important;
+        background: $header-dropdown-bg;
+        border: $body-border;
+        box-shadow: $body-shadow;
+        z-index: 5896;
+    }
+    .header-notifications{
+        height: 900px;
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+        li{
+            position: relative;
+            padding: 0;
+            top: 0 !important;
+            height: 93px !important;
+            border: $table-border;
+            padding: 10px 30px 10px 35px;
+            width: 100%;
+            margin: 0;
+            &:hover{
+                background: $gray-bg;
+            }
+            a{
+                .image{
+                    img{
+                        position: absolute;
+                    }
+                    .user-image{
+                        width: 71px;
+                    }
+                    .type-image{
+                        bottom: 7px;
+                        left: 80px
+                    }
+                }
+                .info{
+                    position: relative;
+                    left: 100px;
+                    p{
+                        font-size: 17px;
+                        color: $notification-text;
+                        font-family: $lato-semi;
+                        width: 400px;
+                        margin: 0;
+                        line-height: 1.2;
+                        padding-top: 7px;
+                        max-width: 100% !important;
+                        white-space: normal !important;
+                        .action{
+                            font-size: 17px;
+                            font-family: $lato-mid;
+                            color: $notification-text;
                         }
                     }
+                    .date{
+                        position: relative;
+                        bottom: 5px;
+                        font-size: 13px;
+                        color: $title-path;
+                    }
+                }
+                .image , .info{
+                    display: inline-block;
+                    vertical-align: top;
                 }
             }
         }
