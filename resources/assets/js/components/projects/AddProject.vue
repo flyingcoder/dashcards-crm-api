@@ -110,7 +110,7 @@
                                         </div>
                                     </div -->
                                     <div class="form-buttons">
-                                         <el-button type="primary" class="buzz-button border" @click="submit"> Save </el-button>
+                                         <el-button type="primary" class="buzz-button border" @click="submit"> {{ action }} </el-button>
                                          <el-button type="primary" class="buzz-button border" @click="$modal.hide('add-project')"> Cancel </el-button>
                                     </div>
                                 </div>

@@ -84,7 +84,7 @@ Vue.component('page-header', require('./components/common/PageHeader.vue'));
 // Vue.component('clients', require('./components/projects/project-hq/index.vue'));
 
 // Services
-Vue.component('services', require('./components/services/index.vue'));
+Vue.component('services', require('./components/services/Index.vue'));
 
 
 // Avoid on Closing Templates Dropdown When Clicking Check Boxes
