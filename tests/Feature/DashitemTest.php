@@ -19,14 +19,14 @@ class DashitemTest extends TestCase
         $user = User::find(1);
 
         $data = [
-            'dashitem_id' => [1,2,3]
+            'dashitem_id' => [1,2,3,4]
         ];
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/dashboard/default/dashitems', $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

@@ -8,6 +8,8 @@ use App\Dashboard;
 
 use App\Dashitem;
 
+use Illuminate\Database\QueryException;
+
 class DashboardController extends Controller
 {
     public function addDashitems()
@@ -19,9 +21,10 @@ class DashboardController extends Controller
         request()->validate([
             'dashitem_id' => 'required|array'
         ]);
-        
+
         foreach (request()->dashitem_id as $k => $id) {
-            $defaultDash->dashitems()->attach($id, ['order' => $k+1]);
+            if(!$defaultDash->dashitems->contains($id))
+                $defaultDash->dashitems()->attach($id, ['order' => $k+1]);
         }
 
         return $defaultDash->dashitems;
