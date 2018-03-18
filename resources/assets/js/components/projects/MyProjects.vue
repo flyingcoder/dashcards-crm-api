@@ -4,19 +4,20 @@
         @sort-change="handleSortChange" element-loading-text="Processing ..." 
         @selection-change="handleSelectionChange" style="width: 100%"
         @row-click="rowClick"
+        :header-cell-style="TableColumnClass"
         >
-            <!-- <el-table-column sortable type="selection" width="45"></el-table-column> -->
-            <el-table-column sortable prop="service_name" label="Service" width="200"></el-table-column>
-            <el-table-column sortable prop="client_name" label="Client"></el-table-column>
-            <el-table-column sortable prop="manager_name" label="Project Manager"></el-table-column>
-            <el-table-column sortable prop="started_at" label="Start Date" ></el-table-column>
-            <el-table-column sortable label="Progress">
+            <el-table-column sortable type="selection" width="50"></el-table-column>
+            <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
+            <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
+            <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
+            <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
+            <el-table-column sortable label="Progress" width="150">
                 <div class="progress project-progress"> 
                     <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </el-table-column>
-            <el-table-column sortable prop="time_spent" label="Time Spent"></el-table-column>
-            <el-table-column sortable label="Status">
+            <el-table-column prop="time_spent" label="Time Spent" width="100"></el-table-column>
+            <el-table-column sortable label="Status" width="100">
                 <template slot-scope="scope">
                     <span class="status"> {{ scope.row.status }} </span>
                     <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
@@ -82,6 +83,14 @@
                     this.currentPage = response.data.current_page;
                     this.total = response.data.total;
                  })
+        },
+        TableColumnClass({column, rowIndex}){
+            if (rowIndex === 10) {
+            return 'second';
+            } else if (rowIndex === 3) {
+            return 'success-row';
+            }
+            return '';
         },
         handleSizeChange: function (val) {
             this.currentSize = val;

@@ -1,5 +1,13 @@
 .hq-milestones{
     .buzz-box{
+        .box-title{
+            width: 60% !important;
+            @extend .buzz-overflow;
+            max-width: unset !important;
+            h1{
+                font-size: 28px !important;
+            }
+        }
         .box-content{
             height: 408px;
             .milestone-group{
@@ -9,36 +17,63 @@
                     .milestone-heading{
                         padding: 10px 15px;
                         height: 82px;
+                        &:hover{
+                            .milestone-sub-option{
+                                li{
+                                    display: inline-block;
+                                }
+                            }
+                        }
                         a{
                             position: relative;
                             top: 17px;
-                            left: 10px;
                             line-height: 1.2;
                             font-size: 20px;
                             font-family: $lato-mid;
                             color: $milestone-title;
-                            i{
+                            span{
                                 position: relative;
+                                float: left;
                                 top: 20px;
-                                right: 30px;
-                                transform: rotate(180deg);
-                                @extend .transform-transition;
+                                width: 80%;
+                                @extend .buzz-overflow;
+                                max-width: unset !important;
+                            }
+                            // i{
+                            //     position: relative;
+                            //     top: 20px;
+                            //     right: 30px;
+                            //     transform: rotate(180deg);
+                            //     @extend .transform-transition;
+                            // }
+                        }
+                        .milestone-sub-option{
+                            list-style: none;
+                            text-align: center;
+                            padding: 0;
+                            margin: 0;
+                            li{
+                                position: relative;
+                                width: 6%;
+                                top: 2px;
+                                left: 5px;
+                                display: none;
                             }
                         }
-                        .collapsed{
-                            i{
-                                transform: rotate(0deg) !important;
-                            }
-                        }
+                        // .collapsed{
+                        //     i{
+                        //         transform: rotate(0deg) !important;
+                        //     }
+                        // }
                     }
-                    .milestone-collapse{
+                   /* .milestone-collapse{
                         ul{
                             list-style: none;
                             padding: 0;
                             margin: 0;
                             li{
                                 position: relative;
-                                height: 53px;
+                                // height: 53px;
                                 border-top: $table-border;
                                 font-size: 19px;
                                 font-family: $lato-mid;
@@ -60,7 +95,7 @@
                                 }
                             }
                         }
-                    }
+                    } */
                 }
             }
         }

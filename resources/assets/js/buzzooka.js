@@ -11,6 +11,10 @@ window.moment = require('moment');
 
 window.Vue = require('vue');
 
+import Vue from 'vue';
+import Tooltip from 'vue-directive-tooltip';
+Vue.use(Tooltip);
+
 import Element from 'element-ui';
 
 import locale from 'element-ui/lib/locale/lang/en';
@@ -67,9 +71,11 @@ Vue.component('timers', require('./components/timers/index.vue'));
 // Teams
 Vue.component('teams', require('./components/teams/index.vue'));
 
-// Reports
-Vue.component('reports', require('./components/reports/index.vue'));
+// Chat
+  Vue.component('chat', require('./components/chat/Index.vue'));
 
+// Reports
+  Vue.component('reports', require('./components/reports/index.vue'));
 
 // Project-HQ
 Vue.component('project-hq', require('./components/projects/project-hq/Index'));

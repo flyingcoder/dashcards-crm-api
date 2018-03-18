@@ -26,6 +26,7 @@ export default {
     'timeline': Timeline,
     'task': Task,
     'timer': Timer,
+    'calendar': Calendar,
     'pass-box': PassBox,
   },
 }

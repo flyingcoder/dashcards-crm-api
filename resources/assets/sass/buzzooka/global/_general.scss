@@ -8,6 +8,10 @@
     padding: 0;
     margin: 0;
 
+    .second{
+        width: 50%;
+    }
+
 // Text Overflow
     .buzz-overflow{
         max-width: 0;
@@ -74,7 +78,6 @@
         margin-left: 226px;
         // padding: 10px 30px;
         padding: 0px 30px;
-        z-index: 2000;
         .content-header{
             height: 66px;
             .page-title{
@@ -142,7 +145,7 @@
     .buzz-scrollbar{
         height: 100%;
         width: 100%;
-        background: #F5F5F5;
+        background: #F5F5F5 !important;
         overflow-y: auto;
         .force-overflow
         {
@@ -162,23 +165,20 @@
              }
         }
     }
-    //Buzz Scroll
-        #buzz-scroll::-webkit-scrollbar-track
-        {
+    //Buzz Scroll ID
+        #buzz-scroll::-webkit-scrollbar-track{
             // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-            background-color: $gray-toggle;
-            border-radius: 10px;
+            background-color: $gray-toggle !important;
+            border-radius: 10px !important;
         }
 
-        #buzz-scroll::-webkit-scrollbar
-        {
-            width: 12px;
-            border-radius: 10px;
-            background-color: $gray-toggle;
+        #buzz-scroll::-webkit-scrollbar{
+            width: 12px !important;
+            border-radius: 10px !important;
+            background-color: $gray-toggle !important;
         }
 
-        #buzz-scroll::-webkit-scrollbar-thumb
-        {
+        #buzz-scroll::-webkit-scrollbar-thumb{
             border-radius: 10px;
             background: $gray-scroll;
             // background-image: -webkit-gradient(linear,
@@ -187,6 +187,22 @@
             //     color-stop(0.44, rgb(122,153,217)),
             //     color-stop(0.72, rgb(73,125,189)),
             //     color-stop(0.86, rgb(28,58,148)));
+        }
+    // Buzz Scroll Class
+        .buzz-scroll::-webkit-scrollbar-track{
+            background-color: $gray-toggle !important;
+            border-radius: 10px !important;
+        }
+
+        .buzz-scroll::-webkit-scrollbar{
+            width: 12px !important;
+            border-radius: 10px !important;
+            background-color: $gray-toggle !important;
+        }
+
+        .buzz-scroll::-webkit-scrollbar-thumb{
+            border-radius: 10px;
+            background: $gray-scroll;
         }
 // Tiles
     .tile-info{
@@ -349,6 +365,7 @@
         background: none;
         border: none;
         box-shadow: none !important;
+        outline: none;
     }
 // Customize Class
     .online{
@@ -444,87 +461,30 @@
                     padding-top: 12px;
                 }
             }
-            .sort{
-                button{
-                    svg{
-                        position: relative;
-                        bottom: 1px;
-                    }
-                }
-                .sort-dropdown{
-                    position: absolute;
-                    height: auto;
-                    width: 175px;
-                    left: -110px;
-                    margin-top: 20px;
-                    padding: 0;
-                    background: $file-dropdown;
-                    box-shadow: $hover-shadow;
-                    border: $table-border;
-                    &:after, &:before{
-                        bottom: 100%;
-                        right: 30px;
-                        border: solid transparent;
-                        content: " ";
-                        height: 0;
-                        width: 0;
-                        position: absolute;
-                        pointer-events: none;
-                        
-                    }
-                    &:after{
-                        border-bottom-color: $file-dropdown;
-                        border-width: 13px;
-                    }
-                    &:before{
-                        border-bottom-color: $table-border-color;
-                        border-width: 14px;
-                        right: 29px;
-                    }
-                    li{
-                        height: 42px;
-                        width: 100%;
-                        border: none;
-                        box-shadow: none;
-                        border-radius: 0;
-                        padding-left: 20px;
-                        margin: 0 !important;
-                        &:hover{
-                            background: $table-hover;
-                            a{
-                                font-family: $lato-semi;
-                            }
-                        }
-                        a{
-                            border: none;
-                            border-radius: 0;
-                            text-align: left;
-                            font-size: 15px;
-                            line-height: 1.5;
-                            color: $file-dropdown-text;
-                            font-family: $lato-mid;
-                            letter-spacing: 0.3px;
-                        }
-                    }
-                }
-            }
+            
         }
     }
     .add-button{
         position: relative;
+        width: 44px;
         border-radius: 40px !important;
         background: $blue;
         box-shadow: $add-shadow !important;
         border: none;
         outline: none;
+        -webkit-transition: width 0.2s;
+        transition: width 0.2s;
         &:hover{
+            width: 170px;
             span{
                 display: inline;
             }
         }
         span{
-            position: relative;
-            top: 9px;
+            position: absolute;
+            display: none;
+            left: 0;
+            top: 4px;
             font-size: 18.7px;
             color: $white;
             padding: 5px;
@@ -532,7 +492,6 @@
             vertical-align: top;
             font-family: $lato-semi;
             letter-spacing: 0.3px;
-            display: none;
         }
         button{
             width: 44px;
@@ -541,7 +500,9 @@
             border: none !important;
             outline: none;
             svg{
-                margin:  10px 5px;
+                position: absolute;
+                top: 12px;
+                right: 12px;
             }
         }
         
@@ -601,6 +562,72 @@
                 }
             }
         }
+    }
+    .sort{
+        button{
+            svg{
+                position: relative;
+                bottom: 1px;
+            }
+        }
+    }
+    .sort-dropdown{
+        position: absolute;
+        height: auto;
+        width: 175px;
+        left: -110px;
+        margin-top: 20px;
+        padding: 0;
+        background: $file-dropdown;
+        box-shadow: $hover-shadow;
+        border: $table-border;
+        &:after, &:before{
+            bottom: 100%;
+            right: 30px;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        &:after{
+            border-bottom-color: $file-dropdown;
+            border-width: 13px;
+        }
+        &:before{
+            border-bottom-color: $table-border-color;
+            border-width: 14px;
+            right: 29px;
+        }
+        li{
+            height: 42px;
+            width: 100%;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding-left: 20px;
+            margin: 0 !important;
+            &:hover{
+                background: $table-hover;
+                a{
+                    font-family: $lato-semi;
+                }
+            }
+            a{
+                border: none;
+                border-radius: 0;
+                text-align: left;
+                font-size: 15px;
+                line-height: 3;
+                color: $file-dropdown-text;
+                font-family: $lato-mid;
+                letter-spacing: 0.3px;
+            }
+        }
+    }
+    .el-popper .popper__arrow::after{
+        display: none !important;
     }
     .sort-by{
         position: relative;
@@ -714,92 +741,38 @@
             }
         }
         .tab-content{
-            table{
-                th, td{
-                    &:first-child{
-                        text-align: left;
-                        padding-left: 40px;
-                        width: 15%;
-                    }
-                    &:nth-child(2){
-                        width: 10%;
-                    }
-                    &:nth-child(3){
-                        width: 13%;
-                    }
-                    &:nth-child(5){
-                        text-align: left;
-                    }
-                    &:nth-child(6){
-                    width: 15%;
-                    }
-                    &:nth-child(7){
-                        text-align: left;
-                    }
-                    &:last-child{
-                        width: 6%;
-                        text-align: left;
-                        a{
-                            padding-right: 10px;
-                        }
-                    }
-                    
-                }
-                thead{
-                    tr{
-                        height: 56px;
-                        border: $table-border;
-                        th{
-                            font-size: 15px;
-                            text-align:  center;
-                            line-height: 1.2;
-                            font-family: $lato-semi;
-                            color: $table-head;
-                        }
+            thead{
+                tr{
+                    height: 56px;
+                    border: $table-border;
+                    th{
+                        font-size: 15px;
+                        text-align:  center;
+                        line-height: 1.2;
+                        font-family: $lato-semi;
+                        color: $table-head;
+                        vertical-align: middle;
                     }
                 }
-                tbody{
-                    tr{
-                        td{
-                            font-size: 14px;
-                            text-align:  center;
-                            vertical-align: middle;
-                            color: $table-data;
-                            line-height: 1.2;
-                            font-family: $lato-semi;
-                            &:nth-child(7){
-                                color: $table-status-text;
-                            }
-                        }
-                        .project-progress{
-                            height: 11px;
-                            background: $progress-bg;
-                            border-radius: 20px;
-                            border: none;
-                            box-shadow: none;
-                            margin: 0;
-                            .progress-bar{
-                                background: $progress-value;
-                                border-radius: 20px;
-                            }
-                        }
-                        .project-status{
-                            height: 5px;
-                            border: none;
-                            box-shadow: none;
-                            margin: 0;
-                            margin-top: 3px;
-                            width: 60%;
-                        }
-                        .active{
-                            background: $table-active;
-                        }
-                        .closed{
-                            background: $table-closed;
-                        }
-                        .hold{
-                            background: $table-hold;
-                        }
+            }
+            tbody{
+                tr{
+                    td{
+                        font-size: 14px;
+                        text-align:  center;
+                        vertical-align: middle;
+                        color: $table-data;
+                        line-height: 1.2;
+                        font-family: $lato-semi;
+                    }
+                    .active{
+                        background: $table-active;
+                    }
+                    .closed{
+                        background: $table-closed;
+                    }
+                    .hold{
+                        background: $table-hold;
                     }
                 }
             }
@@ -931,10 +904,17 @@
                     }
                 }
             }
+            .buzz-scrollbar{
+                height: 450px !important;
+                background: none;
+                overflow-x: hidden;
+                padding-right: 25px;
+            }
             .buzz-modal-footer{
                 display: block;
                 height: 43px;
                 padding: 5px 10px;
+                margin-top: -20px !important;
                 margin-bottom: 25px;
                 border: $table-border;
                 border-radius: 0 0 8px 8px;
@@ -980,6 +960,132 @@
                     border-radius: 3px;
                     border: 1px solid $modal-icon !important;
                 }
+            }
+            
+        }
+    }
+// Vue Tooltip
+    .vue-tooltip.contact-popup{
+        // position: fixed;
+        // top: 32%;
+        // z-index: 2000;
+        // left: 45%;
+        left: -10px !important;
+        height: 262px;
+        width: 357px;
+        max-width: 357px !important;
+        background: $white;
+        border: $table-border;
+        box-shadow: $hover-shadow;
+        border-radius: 10px;
+        padding: 0 !important;
+        .tooltip-arrow{
+            border-width: 12px 12px 12px 0 !important;
+            left: -12px !important;
+            border-right-color: $white !important; 
+        }
+        .top-tip{
+            height: 120px;
+            padding: 15px 15px 0 20px;
+            .user-image{
+                width: 107px !important;
+                height: 106px !important;
+            }
+            .user-info{
+                margin-left: 20px;
+                width: 190px;
+                img{
+                    width: unset !important;
+                    height: unset !important;
+                    border: unset !important;
+                    border-radius: unset !important;
+                }
+                h4{
+                    font-size: 17.8px;
+                    font-family: lato heavy;
+                    color: $chat-tip-name;
+                    line-height: 1.2;
+                    margin: 0;
+                }
+                .position{
+                    font-size: 12px;
+                    color: $chat-position;
+                    line-height: 1.2;
+                    letter-spacing: 0.3px;
+                }
+                .email, .location{
+                    margin-top: 3px;
+                    @extend .buzz-overflow;
+                    max-width: 100% !important;
+                    span{
+                        position: relative;
+                        margin-left: 10px;
+                        top: 2px;
+                        font-size: 13.5px;
+                        color: $chat-position;
+                        font-family: $lato-mid;
+                    }
+                }
+            }
+            .user-image, .user-info{
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+        .middle-tip{
+            height: 70px;
+            line-height: 5;
+            padding: 0 15px 0 20px;
+            ul{
+                li{
+                    padding: 0 8px !important;
+                    a{
+                        span{
+                            margin-left: 5px;
+                            font-size: 14px;
+                            color: $chat-position;
+                            font-family: $lato-mid;
+                        }
+                        svg, span{
+                            vertical-align: middle;
+                        }
+                    }
+                }
+            }
+        }
+        .bottom-tip{
+            height: 70px;
+            border-top: $table-border;
+            padding: 12px 0;
+            ul{
+                li{
+                    width: 49.5%;
+                    text-align: center;
+                    line-height: 1;
+                    label{
+                        margin: 0;
+                        font-size: 13.6px;
+                        color:  $chat-tip-name;
+                        line-height: 1.2;
+                    }
+                    span{
+                        position: relative;
+                        top: 3px;
+                        font-size: 23.4px;
+                        font-family: $lato-heavy;
+                        color: $chat-tip-name;
+                    }
+                }
+            }
+        }
+        ul{
+            height: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            li{
+                display: inline-block;
+                border: none !important;
+                height: 100% !important;
             }
         }
     }
