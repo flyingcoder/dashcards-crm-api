@@ -202,7 +202,7 @@
               </a>
             </li>
             <li class="sidebar-list">
-              <a href="#" id="chat"> 
+              <a href="{{ route ('chat') }}" id="chat">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="39px" height="49px">
@@ -280,7 +280,6 @@
                   <span class="menu-name">Logout</span>
                   <span class="pull-right-container"></span>
                 </a>
-
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>

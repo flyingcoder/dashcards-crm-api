@@ -11,6 +11,7 @@
 
         <modal name="add-service" transition="nice-modal-fade" @before-open="beforeOpen">
              <section class="content">
+<<<<<<< HEAD
                     <div class="buzz-modal-header"> {{ title }} </div>
                     <div class="buzz-scrollbar" id="buzz-scroll">
                       <el-form ref="form" :model="form" label-position="top" v-loading="isProcessing" style="width: 100%">                    
@@ -25,6 +26,9 @@
                           </div>
                       </el-form>
                     </div>
+=======
+
+>>>>>>> 44016273f2c6c6376361391488b4efd68aa854c6
             </section>
         </modal>
     </li>
@@ -32,6 +36,7 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 
     export default {
 
@@ -39,6 +44,14 @@
         	return {    
                 title: 'Add New Service',
                 action: 'Save',
+=======
+    export default {
+    	data: function () {
+        	return {    
+        		name: '',
+                title: 'Add New Project',
+                action: 'save',
+>>>>>>> 44016273f2c6c6376361391488b4efd68aa854c6
                 id: 0,
                 oldName: '',
                 isProcessing: false,
@@ -46,6 +59,7 @@
                     name: '',
                 },
         		error: {
+<<<<<<< HEAD
         			name: [],
         		},
                 config: {
@@ -55,11 +69,18 @@
                     
                     height: 500
                 }
+=======
+        			status: false,
+                    message: '',
+                    name: [],
+        		}
+>>>>>>> 44016273f2c6c6376361391488b4efd68aa854c6
         	}
         },
 
         methods: {
             beforeOpen (event) {
+<<<<<<< HEAD
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
                     this.header = 'Edit Service';
@@ -107,6 +128,26 @@
                 })
             }
         },
+=======
+                this.name = ''
+                this.header = 'Add New Service'
+                this.action = 'save'
+                if(typeof event.params != 'undefined' && event.params.action == 'update') {
+                    this.action = 'update';
+                    this.header = 'Edit Service';
+                    this.id = event.params.data.id;
+                    var vm = this;
+                    axios.get('api/services/'+this.id)
+                        .then(function (response) {
+                            console.log(response.data.name)
+                            vm.name = response.data.name
+                            vm.oldName = vm.name;
+                        });
+                }
+            },
+        },
+
+>>>>>>> 44016273f2c6c6376361391488b4efd68aa854c6
         mounted() {
             
         }
