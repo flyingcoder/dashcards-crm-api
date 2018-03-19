@@ -1,16 +1,70 @@
 .projects{
     .content-body{
        @extend .buzz-table;
-    }
-    .v--modal{
-        .buzz-scrollbar{
-            height: 450px !important;
-            background: unset;
-            overflow-x: hidden;
-            padding-right: 25px;
-        }
-        .buzz-modal-footer{
-            margin-top: -20px !important;
-        }
+       .tab-content{
+            table{
+                th, td{
+                    &:nth-child(2), &:nth-child(5), &:nth-child(6), &:nth-child(6), &:nth-child(8) {
+                        text-align: left !important;
+                    }
+                    &:first-child{
+
+                    }
+                    &:nth-child(2){
+
+                    }
+                    &:nth-child(3){
+
+                    }
+                    &:nth-child(4){
+
+                    }
+                    &:nth-child(5){
+
+                    }
+                    &:nth-child(6){
+
+                    }
+                    &:nth-child(7){
+
+                    }
+                    &:nth-child(8){
+
+                    }
+                    &:last-child{
+
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            &:nth-child(7){
+                                color: $table-status-text;
+                            }
+                        }
+                        .project-progress{
+                            height: 11px;
+                            background: $progress-bg;
+                            border-radius: 20px;
+                            border: none;
+                            box-shadow: none;
+                            margin: 0;
+                            .progress-bar{
+                                background: $progress-value;
+                                border-radius: 20px;
+                            }
+                        }
+                        .project-status{
+                            height: 5px;
+                            border: none;
+                            box-shadow: none;
+                            margin: 0;
+                            margin-top: 3px;
+                            width: 60%;
+                        }
+                    }
+                }
+            }
+       }
     }
 }
