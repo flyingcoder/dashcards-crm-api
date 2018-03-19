@@ -12,10 +12,10 @@
                     </span>
                     <el-tabs type="border-card" class="event-option">
                         <el-tab-pane label="Today">
-                            Today
+                            <list-today></list-today>
                         </el-tab-pane>
                         <el-tab-pane label="All">
-                            All
+                            <list-all></list-all>
                         </el-tab-pane>
                     </el-tabs>
                 </el-tab-pane>
@@ -29,7 +29,9 @@
                     </span>
                     <el-tabs type="border-card" class="event-option">
                         <el-tab-pane label="Today">
+                             <transition name="el-fade-in">
                             <grid-today></grid-today>
+                             </transition>
                         </el-tab-pane>
                         <el-tab-pane label="All">
                             <grid-all></grid-all>
@@ -44,11 +46,15 @@
 <script>
     import GridToday from './GridToday.vue';
     import GridAll from './GridAll.vue';
+    import ListToday from './ListToday.vue';
+    import ListAll from './ListAll.vue';
 
     export default {
         components: {
           'grid-today': GridToday,
           'grid-all': GridAll,
+          'list-today': ListToday,
+          'list-all': ListAll,
       },
     }
 </script>

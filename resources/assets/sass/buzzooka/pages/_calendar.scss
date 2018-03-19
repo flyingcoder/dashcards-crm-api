@@ -1,4 +1,10 @@
 .buzz-calendar{
+    .content-body{
+        height: 880px !important;
+    }
+    .buzz-section{
+        height: 830px !important;
+    }
     .left-calendar{
         padding: 20px 0 20px 20px;
         margin: 0;
@@ -322,4 +328,20 @@
         }
     }
 // List View
+    .right-calendar{
+        .el-table{
+            margin-top: 12px;
+            background: none;
+            border: $table-border;
+            tr{
+                border: $table-border;
+            }
+            th, tr{
+                background: none !important;
+            }
+            .el-table__empty-block{
+                height: 630px;
+            }
+        }
+    }
 }

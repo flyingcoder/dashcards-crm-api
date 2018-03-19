@@ -61,6 +61,7 @@ Vue.component('clients', require('./components/clients/index.vue'));
 
 // Calendar
 Vue.component('events', require('./components/calendar/Index.vue'));
+Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Invoices
 Vue.component('invoices', require('./components/invoices/index.vue'));

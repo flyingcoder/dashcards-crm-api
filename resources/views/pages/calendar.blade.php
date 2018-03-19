@@ -14,6 +14,7 @@
                 <div class="col-md-6">
                     <div class="head-page-option">
                         <ul class="nav nav-tabs">
+                            <add-event></add-event>
                             <li class="sort">
                                  <el-dropdown trigger="click" placement="bottom">
                                     <el-button size="small" class="el-dropdown-link">
@@ -25,13 +26,10 @@
                                     </el-button>
                                     <el-dropdown-menu slot="dropdown" class="sort-dropdown">
                                         <el-dropdown-item>
-                                            <a href="#"> Sort by Date </a>
-                                        </el-dropdown-item>
-                                        <el-dropdown-item>
                                             <a href="#"> Sort by Events </a>
                                         </el-dropdown-item>
                                         <el-dropdown-item>
-                                            <a href="#"> Sort by Client </a>
+                                            <a href="#"> Sort by Date </a>
                                         </el-dropdown-item>
                                     </el-dropdown-menu>  
                                 </el-dropdown>
@@ -91,13 +89,3 @@
         </div>
     </section>
 @endsection
-
-<script>
-  export default {
-    data() {
-      return {
-        checked: true
-      };
-    }
-  };
-</script>

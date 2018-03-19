@@ -1,5 +1,5 @@
 <template>
-    <div class="event">
+    <div class="event ">
         <h3> All Events </h3>
         <div class="event-box">
             <div class="box-head">
