@@ -10,7 +10,7 @@
         .left{
             width: 42%;
             float: left;
-            padding-top: 11px;
+            line-height: 4;
             border-right: $section-border;
             background-color: $gray-bg;
         }
@@ -88,6 +88,9 @@
                         border-radius: 50%;
                     }
                 }
+            }
+            .el-switch.is-checked .el-switch__core{
+                background: $green !important;
             }
         }
         .theme-color{

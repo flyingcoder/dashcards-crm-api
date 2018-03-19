@@ -1,0 +1,325 @@
+.buzz-calendar{
+    .left-calendar{
+        padding: 20px 0 20px 20px;
+        margin: 0;
+        .calendar-button{
+            padding: 0 10px 25px;
+            margin: 0;
+            .el-button{
+                padding: 0;
+                margin: 0 6px;
+                text-align: center;
+                width: 45.99%;
+                height: 50px;
+                background: $blue;
+                color: $white;
+                font-size: 17px;
+            }
+        }
+        .calendar-content{
+            padding: 20px;
+            border: $table-border;
+            border-radius: 8px;
+            border: $body-border;
+            box-shadow: $body-shadow;
+            .today{
+                text-align: center;
+                .image{
+                    background: $blue;
+                    width: 56px;
+                    border-radius: 5px;
+                    img{
+                        width: 46px;
+                        height: 42px;
+                        margin-top: 10px;
+                    }
+                }
+                .text{
+                    padding-top: 3px;
+                    h3{
+                        font-size: 24px;
+                        color: $table-data;
+                        margin: 0;
+                        text-align: left;
+                    }
+                    span{
+                        font-size: 17.46px;
+                        color: $event-time;
+                    }
+                }
+                .image, .text{
+                    height: 58px;
+                    margin: 0 7px;
+                    vertical-align: middle;
+                    display: inline-block;
+                }
+            }
+            #calendar{
+                .fc-toolbar{
+                    padding-top: 30px;
+                }
+                .fc-center{
+                    h2{
+                        font-size: 18.5px;
+                        color: $table-data;
+                    }
+                }
+                .fc-right , .fc-left{
+                    span{
+                        font-size: 19px;
+                        vertical-align: unset;
+                        color: $table-data;
+                    }
+                }
+                .fc-widget-content , .fc-widget-header{
+                    border: none !important;
+                    min-height: unset !important;
+                    font-size: 14px;
+                    font-family: $lato-semi;
+                    line-height: 2.4;
+                    color: $table-data;
+                }
+                .fc-scroller{
+                    height: auto !important;
+                    overflow: unset !important;
+                }
+                .fc-basic-view .fc-day-number, .fc-basic-view .fc-week-number{
+                    padding: 0 15px !important; 
+                    font-size: 14px;
+                    font-family: $lato-semi;
+                    line-height: 3;
+                    color: $table-data;
+                }
+            }
+            .event-list{
+                padding-right: 0;
+                span{
+                    position: relative;
+                    bottom: 3px;
+                    left: 7px;
+                }
+            }
+            .event-list, .calendar-list{
+                h3{
+                    font-size: 15.7px;
+                    color:  $table-data;
+                }
+            }
+            ul{
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                li{
+                    @extend .buzz-overflow;
+                    max-width: 100% !important;
+                    line-height: 2;
+                    .event-item{
+                        height: 18px;
+                        width: 18px;
+                        border-radius: 50%;
+                    }
+                    span{
+                        font-size: 14px;
+                        color: $title-path;
+                        font-family: $lato-mid;
+                    }
+                    label, span{
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+    }
+// Grid View
+    .right-calendar{
+        padding: 10px;
+        margin: 0;
+        .tab-calendar{
+            h3{
+                position: absolute;
+                left: 30px;
+                top: 15px;
+                font-size: 19.72px;
+                color: $table-data;
+                float: left;
+            }
+            .el-tabs--border-card{
+                background: unset;
+                border: 0;
+                box-shadow: unset;
+                .el-tabs__header{
+                    position: absolute !important;
+                    top: 25px;
+                    right: 200px;
+                    height: 50px;
+                    background: none;
+                    border: none;
+                    padding: 5px 10px;
+                    .el-tabs__item{
+                        font-size: 19px;
+                        color: $calendar-tab-text;
+                        border-radius: 6px;
+                        border: none;
+                    }
+                    .el-tabs__item.is-active{
+                        color: $table-data;
+                        background: none;
+                        border: none;
+                        svg{
+                            fill:  $table-data;
+                        }
+                    }
+                }
+                .el-tabs__content{
+                    position: unset !important;
+                    padding: 37px 0 !important;
+                    width: 100%;
+                }
+            }
+            .view-option{
+                .option{
+                    svg{
+                        fill: $table-status-text;
+                    }
+                    &:hover{
+                        svg{
+                            fill: $table-data;
+                        }
+                    }
+                }
+                .event-option{
+                    .el-tabs__header{
+                        background: $calendar-tab;
+                        top: 20px !important;
+                        right: 20px !important;
+                        border-radius: 6px;
+                        border: $table-border;
+                        .el-tabs__item.is-active{
+                            color: $table-data;
+                            background: $white;
+                        }
+                    }
+                }
+            }
+        }
+        .event{
+            margin: 0;
+            .event-box{
+                float: left;
+                width: 46.95%;
+                height: 345px;
+                border: $table-border;
+                padding: 0 20px;
+                margin: 10px;
+                border-radius: 8px;
+                border: $body-border;
+                box-shadow: $body-shadow;
+                .box-head{
+                    height: 52px;
+                    top: 0;
+                    h2, button{
+                        display: inline-block;
+                    }
+                    h2{
+                        font-size: 19.3px;
+                        color:  $table-data;
+                        line-height: 2.8;
+                        margin: 0;
+                    }
+                    .head-buttons{
+                        position: absolute;
+                        right: -12px;
+                        top: 12px;
+                        button{
+                           margin: 0 3px;
+                            svg{
+                                fill: $action;
+                            }
+                            &:hover{
+                                svg{
+                                    fill: $action-hover;
+                                }
+                            }
+                        }
+                        .calendar-add{
+                            position: relative;
+                            top: -8px;
+                            width: 26px;
+                            height: 27px;
+                            background: $green;
+                            border-radius: 50%;
+                            img{
+                                position: relative;
+                                left: 1px;
+                            }
+                        }
+                    }
+                }
+                .box-content{
+                    position: relative;
+                    text-align: center;
+                    height: 231px;
+                    .event-item{
+                        position: absolute;
+                        left: 15px;
+                        top: 15px;
+                        width: 23px;
+                        height: 23px;
+                        border-radius: 50%;
+                    }
+                    .event-time{
+                        font-size: 16.95px;
+                        color: $event-time;
+                        font-family: $lato m;
+                        letter-spacing: 0.3px;
+                        padding-top: 30px;
+                    }
+                    .event-name{
+                        font-size: 20.3px;
+                        color: $table-data;
+                        font-family: $lato-semi;
+                        @extend .buzz-overflow;
+                    }
+                    .event-member{
+                        position: relative;
+                        height: 80px;
+                        li{
+                            position: relative;
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            display: inline-block;
+                            img{
+                                position: relative;
+                                width: 57px;
+                                top: 15px;
+                                border-radius: 50%;
+                                border: $table-border;
+                            }
+                        }
+                    }
+                    .join{
+                        margin-top: 10px;
+                        height: 35px;
+                        color: $white;
+                        padding: 0 8%;
+                        font-size: 16.95px;
+                        border-radius: 3px;
+                        &:hover{
+                            background: $white;
+                        }
+                    }
+                }
+                .box-footer{
+                    height: 62px;
+                    a{
+                        font-size: 10.46px;
+                        color:  $table-data;
+                        line-height: 3;
+                    }
+                }   
+            }
+        }
+    }
+// List View
+}
