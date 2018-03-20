@@ -1,191 +1,66 @@
 <template>
-    <div class="box-content db-tasks">
-        <div class="box-tabs" id="task-tabs">
-        <ul class="nav nav-tabs">
-            <li>
-            <a href="#my-task" data-toggle="tab" @click="filterTasks('my', 'all')">My Task</a>
-            </li>
-            <li class="active">
-            <a href="#all-task" data-toggle="tab" @click="filterTasks('all', 'all')">All Task</a>
-            </li>
-        </ul>
-        <div class="tasks-option">
-            <div class="option-list" 
-            :class="taskOption == 'all' ? 'active' : ''" 
-            @click="filterTasks(taskFilter, 'all')">
-            <a> All
-                <label> <span> {{ taskCount.all }} </span></label>
-            </a>
-            </div>
-            <div class="option-list" 
-            :class="taskOption == 'completed' ? 'active' : ''"
-            @click="filterTasks(taskFilter,'completed')">
-            <a> Completed
-                <label> <span> {{ taskCount.completed }} </span></label>
-            </a>
-            </div>
-            <div class="option-list" 
-            :class="taskOption == 'pending' ? 'active' : ''" 
-            @click="filterTasks(taskFilter, 'pending')">
-            <a> Pending
-                <label> <span> {{ taskCount.pending }} </span></label>
-            </a>
-            </div>
-            <div class="option-list" 
-            :class="taskOption == 'behind' ? 'active' : ''" 
-            @click="filterTasks(taskFilter, 'behind')">
-            <a> Behind
-                <label> <span> {{ taskCount.behind }} </span></label>
-            </a>
-            </div>
+  <el-tabs type="card" @tab-click="handleClick" class="view-option">
+    <el-tab-pane>
+         <span slot="label">
+             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px">
+                <path fill-rule="evenodd"
+                d="M20.316,21.182 L6.462,21.182 C6.017,21.182 5.656,20.819 5.656,20.371 C5.656,19.924 6.017,19.561 6.462,19.561 L20.316,19.561 C20.761,19.561 21.122,19.924 21.122,20.371 C21.122,20.819 20.761,21.182 20.316,21.182 ZM6.462,1.005 L20.316,1.005 C20.761,1.005 21.122,1.368 21.122,1.815 C21.122,2.262 20.761,2.625 20.316,2.625 L6.462,2.625 C6.017,2.625 5.656,2.262 5.656,1.815 C5.656,1.368 6.017,1.005 6.462,1.005 ZM6.462,13.432 L20.316,13.432 C20.761,13.432 21.122,13.795 21.122,14.243 C21.122,14.690 20.761,15.053 20.316,15.053 L6.462,15.053 C6.017,15.053 5.656,14.690 5.656,14.243 C5.656,13.795 6.017,13.432 6.462,13.432 ZM6.462,7.133 L20.316,7.133 C20.761,7.133 21.122,7.496 21.122,7.944 C21.122,8.392 20.761,8.754 20.316,8.754 L6.462,8.754 C6.017,8.754 5.656,8.392 5.656,7.944 C5.656,7.496 6.017,7.133 6.462,7.133 ZM1.627,0.004 C2.531,0.004 3.264,0.741 3.264,1.650 C3.264,2.559 2.531,3.297 1.627,3.297 C0.723,3.297 -0.009,2.559 -0.009,1.650 C-0.009,0.741 0.723,0.004 1.627,0.004 ZM1.627,6.133 C2.531,6.133 3.264,6.870 3.264,7.779 C3.264,8.688 2.531,9.425 1.627,9.425 C0.723,9.425 -0.009,8.688 -0.009,7.779 C-0.009,6.870 0.723,6.133 1.627,6.133 ZM1.627,18.561 C2.531,18.561 3.264,19.298 3.264,20.207 C3.264,21.115 2.531,21.852 1.627,21.852 C0.723,21.852 -0.009,21.115 -0.009,20.207 C-0.009,19.298 0.723,18.561 1.627,18.561 ZM1.627,12.432 C2.531,12.432 3.264,13.169 3.264,14.078 C3.264,14.987 2.531,15.724 1.627,15.724 C0.723,15.724 -0.009,14.987 -0.009,14.078 C-0.009,13.169 0.723,12.432 1.627,12.432 Z"/>
+            </svg>
+         </span>
+         <div class="box-content">
+            <el-tabs type="border-card" class="task-option">
+                <el-tab-pane label="All Task">
+                    <list-alltask></list-alltask>
+                </el-tab-pane>
+                <el-tab-pane label="My Task">
+                    <list-mytask></list-mytask>
+                </el-tab-pane>
+            </el-tabs>
         </div>
-        <div class="tab-content">
-            <div class="tab-pane fade tab-table" id="my-task">
-                <table>
-                    <thead>
-                        <tr>
-                            <th> </th>
-                            <th> Assignee </th>
-                            <th> Project </th>
-                            <th> Status </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr  v-for="t in filteredTasks" :key="t.id">
-                            <td> 
-                                <div class="hover-display"> 
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="18px" height="35px">
-                                    <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
-                                    d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
-                                    </svg> 
-                                </div> 
-                            </td>
-                            <td> <img :src="'img/temporary/' + t.assignee.image"> </td>
-                            <td> 
-                                <span class="buzz-overflow task-project"> {{ t.project }} </span>
-                                <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
-                            </td>
-                            <td> 
-                            <span class="status"> {{ t.status }} </span>
-                            <div class="progress" :class="t.status"> </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade tab-table active show in" id="all-task">
-                <table>
-                    <thead>
-                        <tr>
-                            <th> </th>
-                            <th> Assignee </th>
-                            <th> Project </th>
-                            <th> Status </th>
-                        </tr>
-                    </thead>
-                    <tbody class="buzz-scrollbar" id="buzz-scroll">
-                        <tr  v-for="t in filteredTasks" :key="t.id">
-                            <td> 
-                                <div class="hover-display"> 
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="18px" height="35px">
-                                    <path fill-rule="evenodd"  fill="rgb(218, 225, 231)"
-                                    d="M15.000,21.000 C13.343,21.000 12.000,19.657 12.000,18.000 C12.000,16.343 13.343,15.000 15.000,15.000 C16.657,15.000 18.000,16.343 18.000,18.000 C18.000,19.657 16.657,21.000 15.000,21.000 ZM15.000,6.000 C13.343,6.000 12.000,4.657 12.000,3.000 C12.000,1.343 13.343,-0.000 15.000,-0.000 C16.657,-0.000 18.000,1.343 18.000,3.000 C18.000,4.657 16.657,6.000 15.000,6.000 ZM3.000,35.000 C1.343,35.000 -0.000,33.657 -0.000,32.000 C-0.000,30.343 1.343,29.000 3.000,29.000 C4.657,29.000 6.000,30.343 6.000,32.000 C6.000,33.657 4.657,35.000 3.000,35.000 ZM3.000,21.000 C1.343,21.000 -0.000,19.657 -0.000,18.000 C-0.000,16.343 1.343,15.000 3.000,15.000 C4.657,15.000 6.000,16.343 6.000,18.000 C6.000,19.657 4.657,21.000 3.000,21.000 ZM3.000,6.000 C1.343,6.000 -0.000,4.657 -0.000,3.000 C-0.000,1.343 1.343,-0.000 3.000,-0.000 C4.657,-0.000 6.000,1.343 6.000,3.000 C6.000,4.657 4.657,6.000 3.000,6.000 ZM15.000,29.000 C16.657,29.000 18.000,30.343 18.000,32.000 C18.000,33.657 16.657,35.000 15.000,35.000 C13.343,35.000 12.000,33.657 12.000,32.000 C12.000,30.343 13.343,29.000 15.000,29.000 Z"/>
-                                    </svg> 
-                                </div> 
-                            </td>
-                            <td> <img :src="'img/temporary/' + t.assignee.image"> </td>
-                            <td> 
-                                <span class="buzz-overflow task-project"> {{ t.project }} </span>
-                                <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
-                            </td>
-                            <td> 
-                            <span class="status"> {{ t.status }} </span>
-                            <div class="progress" :class="t.status"> </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    </el-tab-pane>
+    <el-tab-pane>
+         <span slot="label">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="22px">
+                <path fill-rule="evenodd"
+                d="M24.376,21.275 C23.991,21.661 23.463,21.901 22.883,21.901 L16.223,21.901 C15.643,21.901 15.115,21.661 14.732,21.276 L14.729,21.273 C14.346,20.888 14.108,20.357 14.108,19.774 L14.108,14.303 C14.108,13.720 14.346,13.189 14.729,12.803 L14.732,12.800 C15.115,12.415 15.643,12.175 16.223,12.175 L22.883,12.175 C23.463,12.175 23.991,12.415 24.376,12.802 L24.377,12.800 C24.760,13.186 24.998,13.718 24.998,14.303 L24.998,19.774 C24.998,20.359 24.760,20.891 24.377,21.276 L24.376,21.275 ZM23.387,14.303 C23.387,14.165 23.330,14.038 23.238,13.946 L23.238,13.943 C23.149,13.853 23.023,13.797 22.883,13.797 L16.223,13.797 C16.085,13.797 15.959,13.853 15.868,13.943 L15.865,13.946 C15.776,14.038 15.720,14.164 15.720,14.303 L15.720,19.774 C15.720,19.912 15.776,20.039 15.865,20.131 L15.868,20.134 C15.959,20.224 16.085,20.280 16.223,20.280 L22.883,20.280 C23.023,20.280 23.149,20.224 23.238,20.134 L23.238,20.131 C23.330,20.038 23.387,19.912 23.387,19.774 L23.387,14.303 ZM16.223,0.020 L22.883,0.020 C23.463,0.020 23.991,0.260 24.376,0.646 L24.377,0.644 C24.760,1.029 24.998,1.562 24.998,2.147 L24.998,7.617 C24.998,8.203 24.760,8.736 24.377,9.121 L24.376,9.119 C23.991,9.505 23.463,9.745 22.883,9.745 L16.223,9.745 C15.643,9.745 15.115,9.505 14.732,9.121 L14.729,9.118 C14.346,8.732 14.108,8.201 14.108,7.617 L14.108,2.147 C14.108,1.564 14.346,1.033 14.729,0.647 L14.732,0.644 C15.115,0.259 15.643,0.020 16.223,0.020 ZM15.720,7.617 C15.720,7.756 15.776,7.883 15.865,7.975 L15.868,7.978 C15.959,8.068 16.085,8.124 16.223,8.124 L22.883,8.124 C23.023,8.124 23.149,8.068 23.238,7.978 L23.238,7.975 C23.330,7.882 23.387,7.756 23.387,7.617 L23.387,2.147 C23.387,2.009 23.330,1.882 23.238,1.790 L23.238,1.787 C23.149,1.697 23.023,1.641 22.883,1.641 L16.223,1.641 C16.085,1.641 15.959,1.697 15.868,1.787 L15.865,1.790 C15.776,1.882 15.720,2.008 15.720,2.147 L15.720,7.617 ZM1.496,12.885 C1.879,12.501 2.407,12.261 2.987,12.261 L9.647,12.261 C10.227,12.261 10.756,12.501 11.140,12.887 L11.142,12.885 C11.525,13.270 11.762,13.803 11.762,14.388 L11.762,19.858 C11.762,20.444 11.525,20.976 11.142,21.361 L11.140,21.360 C10.756,21.746 10.227,21.986 9.647,21.986 L2.987,21.986 C2.407,21.986 1.879,21.747 1.496,21.361 L1.493,21.358 C1.111,20.973 0.872,20.442 0.872,19.858 L0.872,14.388 C0.872,13.805 1.111,13.274 1.493,12.888 L1.496,12.885 ZM2.484,19.858 C2.484,19.998 2.540,20.124 2.629,20.216 L2.632,20.219 C2.724,20.309 2.849,20.365 2.987,20.365 L9.647,20.365 C9.787,20.365 9.913,20.309 10.002,20.219 L10.002,20.216 C10.094,20.124 10.151,19.997 10.151,19.858 L10.151,14.388 C10.151,14.250 10.094,14.123 10.002,14.031 L10.002,14.028 C9.913,13.938 9.787,13.882 9.647,13.882 L2.987,13.882 C2.849,13.882 2.724,13.938 2.632,14.028 L2.629,14.031 C2.540,14.123 2.484,14.250 2.484,14.388 L2.484,19.858 ZM0.872,2.232 C0.872,1.649 1.111,1.118 1.493,0.732 L1.496,0.729 C1.879,0.345 2.407,0.105 2.987,0.105 L9.647,0.105 C10.227,0.105 10.756,0.345 11.140,0.731 L11.142,0.729 C11.525,1.114 11.762,1.647 11.762,2.232 L11.762,7.702 C11.762,8.288 11.525,8.820 11.142,9.206 L11.140,9.204 C10.756,9.590 10.227,9.830 9.647,9.830 L2.987,9.830 C2.407,9.830 1.879,9.591 1.496,9.206 L1.493,9.202 C1.111,8.817 0.872,8.286 0.872,7.702 L0.872,2.232 ZM2.484,7.702 C2.484,7.842 2.540,7.968 2.629,8.060 L2.632,8.063 C2.724,8.153 2.849,8.209 2.987,8.209 L9.647,8.209 C9.787,8.209 9.913,8.153 10.002,8.063 L10.002,8.060 C10.094,7.968 10.151,7.841 10.151,7.702 L10.151,2.232 C10.151,2.094 10.094,1.967 10.002,1.875 L10.002,1.872 C9.913,1.782 9.787,1.726 9.647,1.726 L2.987,1.726 C2.849,1.726 2.724,1.782 2.632,1.872 L2.629,1.875 C2.540,1.967 2.484,2.094 2.484,2.232 L2.484,7.702 Z"/>
+            </svg>
+         </span>
+         <div class="box-content">
+            <el-tabs type="border-card" class="task-option">
+                <el-tab-pane label="All Task">
+                    <grid-alltask></grid-alltask>
+                </el-tab-pane>
+                <el-tab-pane label="My Task">
+                    <grid-mytask></grid-mytask>
+                </el-tab-pane>
+            </el-tabs>
         </div>
-        </div>
-    </div>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
-    export default {
-        data(){
-            return {
-                filteredTasks:[],
-                myTasks: [],
-                allTasks: [],
-                taskOption: 'all',
-                taskFilter: 'my',
-                taskCount:{
-                    all: 0,
-                    completed: 0,
-                    pending: 0,
-                    behind: 0
-                }
-            }
-        },
-        mounted(){
-            this.getMyTasks();
-            this.getAllTasks();
-            this.filterTasks('my' , 'all');
-        },
-        methods:{
-            getMyTasks(){
-                axios.get('/api/user/tasks')
-                .then( response => {
-                    this.myTasks = response.data;
-                })
-                .catch( error => {
-                    if(error.response.status == 500 || error.response.status == 404){
+    import ListAllTask from './ListAllTask.vue';
+    import ListMyTask from './ListMyTask.vue';
+    import GridAllTask from './GridAllTask.vue';
+    import GridMyTask from './GridMyTask.vue';
 
-                    }
-                });
-            },
-            getAllTasks(){
-                axios.get('/api/tasks')
-                .then( response => {
-                    this.allTasks = response.data;
-                })
-                .catch( error => {
-                    if(error.response.status == 500 || error.response.status == 404){
+  export default {
+      components: {
+            'list-alltask': ListAllTask,
+            'list-mytask': ListMyTask,
+            'grid-alltask': GridAllTask,
+            'grid-mytask': GridMyTask,
+        },
+    data() {
+      return {
 
-                    }
-                });
-            },
-            filterTasks(filter, option){
-                if(filter == 'my'){
-                    if(option == 'all'){
-                        this.filteredTasks = this.myTasks;
-                    }
-                    else {
-                        this.filteredTasks = _.filter(this.myTasks, { status: option });
-                    }
-                    
-                    this.taskCount.all = this.myTasks.length;
-                    this.taskCount.completed = _.filter(this.myTasks,{ status: 'completed'}).length;
-                    this.taskCount.pending = _.filter(this.myTasks, { status: 'pending'}).length;
-                    this.taskCount.behind = _.filter(this.myTasks, { status: 'behind'}).length;
-                }
-                else{
-                    if(option == 'all'){
-                        this.filteredTasks = this.allTasks;
-                    }
-                    else {
-                        this.filteredTasks = _.filter(this.allTasks, { status: option });
-                    }
-                    this.filteredTasks = _.filter(this.allTasks, { status: option });
-                    this.taskCount.all = this.allTasks.length;
-                    this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
-                    this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
-                    this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
-                }
-            }
-        }
+      };
+    },
+    methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+      }
     }
+  };
 </script>

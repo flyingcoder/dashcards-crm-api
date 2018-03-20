@@ -150,7 +150,318 @@
         top: 0px;
     }
     .db-tasks{
-        .box-tabs{
+        .view-option{
+            box-shadow: none;
+            border: none;
+            .el-tabs__header{
+                position: absolute;
+                top: 15px;
+                right: 190px;
+                border: none;
+            }
+            .el-tabs__item{
+                span{
+                    svg{
+                        fill:  $action-hover;
+                    }
+                }
+                &:hover{
+                    svg{
+                        fill: $option-hover;
+                    }
+                }
+            }
+            .el-tabs__item.is-active{
+                svg{
+                    fill: $option-hover;
+                }
+            }
+            .el-tabs__nav, .el-tabs__item{
+                border: none;
+                padding: 2px 10px;
+            }
+        }
+        .box-content{
+            .task-option{
+                box-shadow: none;
+                border: none;
+                .el-tabs__header{
+                    position: unset !important;
+                }
+                .el-tabs__nav{
+                    padding: 0;
+                    width: 100%;
+                    height: 63px;
+                }
+                .el-tabs__item{
+                    width: 50%;
+                    height: 63px;
+                    text-align: center;
+                    font-size: 16px !important;
+                    color: $table-data;
+                    line-height: 4;
+                    padding: 0;
+                }
+                .el-tabs__content{
+                    padding: 0 !important;
+                }
+                // .el-tabs__item.is-focus{
+                //     box-shadow: none;
+                // }
+            }
+            .tab-content{
+                .tasks-status{
+                    height: 69px;
+                    padding: 22.5px 0;
+                    text-align: center;
+                    border-bottom: $border-buzz;
+                    .option-list{
+                        display: inline-block;
+                        a{
+                            padding: 6px 4px 6px 16px;
+                            border-radius: 20px;
+                            font-size: 13.5px;
+                            font-family: $lato-semi;
+                            color: $table-head;
+                            background: $white;
+                            border: $border-buzz;
+     
+                            &:active, &:hover{
+                             background: $blue-2;
+                             color: $white;
+                             border: 1px solid $blue-2;
+                            }
+     
+                            label{
+                                 padding: 2px 9px;
+                                 margin-left: 15px;
+                                 border-radius: 100%;
+                                 background: $gray-2;
+                             span{
+                                 position: relative;
+                                 color: $white;
+                                 top: 1px;
+                             }
+                            }
+                        }
+                    }
+                    .active{
+                        a{
+                             background: $blue-2;
+                             color: $white;
+                             border: 1px solid $blue-2;
+                        }
+                    }
+                }
+            }
+            .list{
+                .tab-table{
+                    height: 304px;
+                    table{
+                        width: 100%;
+                        thead, tbody tr {
+                             display:table;
+                             width:100%;
+                             table-layout:fixed;
+                         }
+                         thead{
+                            tr{
+                             height: 60px;
+                             border-bottom: $border-buzz;
+                             font-size: 16px;
+                             letter-spacing: 0.5px;
+                             background: $gray-bg;
+                             color: $table-head;
+                             @extend .page-title;
+                             th{
+                                 &:first-child{
+                                     width: 10%;
+                                 }
+                                 &:nth-child(2){
+                                     width: 18%;
+                                 }
+                                 &:nth-child(3){
+                                     width: 53%;
+                                 }
+                                 &:last-child{
+                                     position: relative;
+                                     left: 15px;
+                                     width: 19%;
+                                 }
+                             }
+                            }
+                        }
+                        tbody{
+                         display:block;
+                         height: 243px !important;
+                            tr{
+                                height: 81px;
+                                border-bottom: $border-buzz;
+                                &:hover{
+                                    .hover-display{
+                                        display: table-cell;
+                                    }
+                                }
+                                 &:nth-child(odd){
+                                     background: $gray-bg;
+                                 }
+                                 &:nth-child(even){
+                                     background: $white;
+                                 }
+                                 .hover-display{
+                                     position: relative;
+                                     left: 15px;
+                                 }
+                                td{
+                                    position: relative;
+                                    img{
+                                        width: 55px;
+                                        border-radius: 100%;
+                                    }
+                                    &:first-child{
+                                     width: 10%;
+                                    }
+                                    &:nth-child(2){
+                                     width: 18%;
+                                    }
+                                    &:nth-child(3){
+                                     width: 53%;
+                                     padding-right: 25px;
+                                     @extend .buzz-overflow;
+                                    }
+                                    &:last-child{
+                                        left: 15px;
+                                        width: 19%;
+                                    }
+                                    
+                                }
+                                .task-project{
+                                     position: relative;
+                                     bottom: 10px;
+                                     font-family: $lato-mid;
+                                     color: $gray-3;
+                                     font-size: 19px;
+                                }
+                                .assigned-project{
+                                     position:absolute;
+                                     display: block;
+                                     color: $gray-4;
+                                     font-size: 11.5px;
+                                     top:40px;
+                                }
+                                .status{
+                                     position: relative;
+                                     top: 5px;
+                                     color: $gray-4;
+                                     font-size: 12px;
+                                }
+                                .progress{
+                                     position: relative;
+                                     top: 5px;
+                                     width: 70%;
+                                     height: 6px;
+                                     border-radius: 20px;
+                                }
+                                .completed{
+                                     background: $green;
+                                }
+                                .pending{
+                                     background: $orange-tile-6;
+                                }
+                                .behind{
+                                     background: $orange-tile-1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .grid{
+                .tab-grid{
+                    width: 100%;
+                    height: 304px !important;
+                    padding: 5px 5px;
+                    border-bottom: $table-border;
+                    @extend .buzz-scrollbar;
+                    .task-box{
+                        margin: 1.9% 1.3%;
+                        width: 30.3%;
+                        height: 130px;
+                        text-align: center;
+                        border: $table-border;
+                        background: $white;
+                        display: inline-block;
+                        .title{
+                            padding-top: 10px;
+                            line-height: 1.2;
+                            height: 60px;
+                            font-size: 15px;
+                            color:  $milestone-title;
+                            font-family: $lato-mid;
+                        }
+                        .time{
+                            height: 40px;
+                            font-size: 12px;
+                            color: $hq-icon;
+                            line-height: 2;
+                            font-family: $lato-mid;
+                            letter-spacing: 0.3px;
+                            // @extend .buzz-overflow;
+                        }
+                        .status{
+                            line-height: 2.1;
+                            height: 30px;
+                            font-size: 14px;
+                            color: $white;
+                            font-family: $lato-mid;
+                        }
+                        .completed{
+                            background: $green;
+                        }
+                        .behind{
+                            background: $orange-tile-6;
+                        }
+                        .pending{
+                            background: $orange-tile-1;
+                        }
+                    }
+                }
+                .all{
+                    .title{
+                        height: 50px !important;
+                    }
+                    .time{
+                        width: 65% !important;
+                        text-align: left;
+                        height: 50px !important;
+                        line-height: unset !important;
+                            .name, .date{
+                                position: relative;
+                                width: 100%;
+                                @extend .buzz-overflow;
+                            }
+                            .name{
+                                top: -5px;
+                            }
+                            .date{
+                                top: -10px;
+                            }      
+                    }
+                    .image{
+                        float: left;
+                        img{
+                            width: 40px;
+                        }
+                    }
+                    .image, .time{
+                        vertical-align: middle;
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+        
+       /* .box-tabs{
            ul{
                height: 63px;
                li{
@@ -175,7 +486,7 @@
                    background: $gray-bg;
                }
            }
-           .tasks-option{
+           .tasks-status{
                height: 69px;
                padding: 22.5px 0;
                text-align: center;
@@ -219,128 +530,8 @@
                }
            }
            .tab-content{
-               .tab-table{
-                   height: 304px;
-                   table{
-                       width: 100%;
-                       thead, tbody tr {
-                            display:table;
-                            width:100%;
-                            table-layout:fixed;
-                        }
-                        thead{
-                           tr{
-                            height: 60px;
-                            border-bottom: $border-buzz;
-                            font-size: 16px;
-                            letter-spacing: 0.5px;
-                            background: $gray-bg;
-                            color: $table-head;
-                            @extend .page-title;
-                            th{
-                                &:first-child{
-                                    width: 10%;
-                                }
-                                &:nth-child(2){
-                                    width: 18%;
-                                }
-                                &:nth-child(3){
-                                    width: 53%;
-                                }
-                                &:last-child{
-                                    position: relative;
-                                    left: 15px;
-                                    width: 19%;
-                                }
-                            }
-                           }
-                       }
-                       tbody{
-                        display:block;
-                        height: 243px !important;
-                           tr{
-                               height: 81px;
-                               border-bottom: $border-buzz;
-                               &:hover{
-                                   .hover-display{
-                                       display: table-cell;
-                                   }
-                               }
-                                &:nth-child(odd){
-                                    background: $gray-bg;
-                                }
-                                &:nth-child(even){
-                                    background: $white;
-                                }
-                                .hover-display{
-                                    position: relative;
-                                    left: 15px;
-                                }
-                               td{
-                                   position: relative;
-                                   img{
-                                       width: 55px;
-                                       border-radius: 100%;
-                                   }
-                                   &:first-child{
-                                    width: 10%;
-                                   }
-                                   &:nth-child(2){
-                                    width: 18%;
-                                   }
-                                   &:nth-child(3){
-                                    width: 53%;
-                                    padding-right: 25px;
-                                    @extend .buzz-overflow;
-                                   }
-                                   &:last-child{
-                                       left: 15px;
-                                       width: 19%;
-                                   }
-                                   
-                               }
-                               .task-project{
-                                    position: relative;
-                                    bottom: 10px;
-                                    font-family: $lato-mid;
-                                    color: $gray-3;
-                                    font-size: 19px;
-                               }
-                               .assigned-project{
-                                    position:absolute;
-                                    display: block;
-                                    color: $gray-4;
-                                    font-size: 11.5px;
-                                    top:40px;
-                               }
-                               .status{
-                                    position: relative;
-                                    top: 5px;
-                                    color: $gray-4;
-                                    font-size: 12px;
-                               }
-                               .progress{
-                                    position: relative;
-                                    top: 5px;
-                                    width: 70%;
-                                    height: 6px;
-                                    border-radius: 20px;
-                               }
-                               .completed{
-                                    background: $green;
-                               }
-                               .pending{
-                                    background: $orange-tile-6;
-                               }
-                               .behind{
-                                    background: $orange-tile-1;
-                               }
-                           }
-                       }
-                   }
-               }
            }
-        }
+        } */
     }
     .db-timeline{
         position: relative;
