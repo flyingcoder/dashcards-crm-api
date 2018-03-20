@@ -2,7 +2,7 @@
     <div class="tab-content grid">
         <task-status></task-status>
         <div class="tab-grid all" id="buzz-scroll">
-            <div class="task-box">
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -17,8 +17,8 @@
                 <div class="status completed">
                     Completed
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -33,8 +33,8 @@
                 <div class="status pending">
                     Pending
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -49,8 +49,8 @@
                 <div class="status behind">
                     Behind
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -65,8 +65,8 @@
                 <div class="status pending">
                     Pending
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -81,8 +81,8 @@
                 <div class="status completed">
                     Completed
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -97,8 +97,8 @@
                 <div class="status pending">
                     Pending
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -113,8 +113,8 @@
                 <div class="status behind">
                     Behind
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -129,8 +129,8 @@
                 <div class="status pending">
                     Pending
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -145,8 +145,8 @@
                 <div class="status completed">
                     Completed
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -161,8 +161,8 @@
                 <div class="status pending">
                     Pending
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -177,8 +177,8 @@
                 <div class="status behind">
                     Behind
                 </div>
-            </div>
-            <div class="task-box">
+            </button>
+            <button class="task-box">
                 <div class="title">
                     Website Redesign Concept
                 </div>
@@ -193,7 +193,7 @@
                 <div class="status pending">
                     Pending
                 </div>
-            </div>
+            </button>
         </div>
     </div>
 </template>
