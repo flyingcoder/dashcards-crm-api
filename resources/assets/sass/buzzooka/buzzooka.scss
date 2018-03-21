@@ -77,6 +77,9 @@
 // Toastr
 @import "~toastr/toastr.scss";
 
+// Full Calendar
+@import "~fullcalendar/dist/fullcalendar.min.css";
+
 // General 
 @import "global/general";
 
@@ -106,6 +109,9 @@
 
 // Clients
 @import "pages/clients";
+
+// Calendar
+@import "pages/calendar";
 
 // Invoice
 @import "pages/invoice";

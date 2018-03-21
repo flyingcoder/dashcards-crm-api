@@ -14,7 +14,7 @@
 
 // Text Overflow
     .buzz-overflow{
-        max-width: 0;
+        max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -39,6 +39,55 @@
     }
     .orange-6{
         background: $orange-tile-6;
+    }
+    .default{
+        background: $default;
+        border: 1px solid  $default;
+        &:hover{
+            color: $default !important;
+        }
+    }
+    .event-1{
+        background: $event-1; 
+        border: 1px solid  $event-1; 
+        &:hover{
+            color: $event-1 !important; 
+        }
+    }
+    .event-2{
+        background: $event-2; 
+        border: 1px solid  $event-2; 
+        &:hover{
+            color: $event-2 !important;
+        }
+    }
+    .event-3{
+        background: $event-3; 
+        border: 1px solid  $event-3; 
+        &:hover{
+            color: $event-3 !important;
+        }
+    }
+    .event-4{
+        background: $event-4; 
+        border: 1px solid $event-4; 
+        &:hover{
+            color: $event-4 !important; 
+        }
+    }
+    .event-5{
+        background: $event-5; 
+        border: 1px solid  $event-5; 
+        &:hover{
+            color: $event-5 !important;
+        }
+    }
+    .event-6{
+        background: $event-6; 
+        border: 1px solid  $event-6; 
+        &:hover{
+            color: $event-6 !important;
+        }
     }
 
 // Sidebar
@@ -145,7 +194,7 @@
     .buzz-scrollbar{
         height: 100%;
         width: 100%;
-        background: #F5F5F5 !important;
+        background: #F5F5F5 ;
         overflow-y: auto;
         .force-overflow
         {
@@ -217,6 +266,7 @@
     }
 // Buzz Box
     .buzz-box{
+        position: relative;
         height: 562px;
         margin-top: 25px;
         padding: 23px;

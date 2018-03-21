@@ -118,29 +118,93 @@
             color:  $table-status-text;
             letter-spacing: 0.2px;
         }
+        .all-template{
+            margin-top: 26px;
+            top: 20px;
+            .template-checkbox{
+                position: relative;
+                height: 70px;
+                label {
+                    width: 45px;
+                    height: 45px;
+                    cursor: pointer;
+                    position: relative;
+                    top: 6px;
+                    left: 0;
+                    background: $circle-checkbox;
+                    border-radius: 50%;
+                    border: $border-buzz;
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        width: 25px;
+                        height: 10px;
+                        top: 14px;
+                        left: 9px;
+                        border: 3px solid $white;
+                        border-top: none;
+                        border-right: none;
+                        background: transparent;
+                        opacity: 0;
+                        -webkit-transform: rotate(-45deg);
+                        transform: rotate(-45deg);
+                        }
+                    }
+    
+                    input[type=checkbox] {
+                        visibility: hidden;
+                        position: absolute;
+                    }
+                    input[type=checkbox]:checked + label:after {
+                        opacity: 1;
+                    }
+                    label span {
+                        padding-left:45px
+                } 
+            }
+            label{
+                vertical-align: middle;
+            }
+            span{
+                position: relative;
+                left: 15px;
+                top: 7px;
+                color: $table-data;
+                font-size: 20px;
+                font-family: $lato-mid;
+            }
+        }
         .template-box{
             background: $template-box;
             text-align: center;
             width: 237px;
             height: 238px;
             border-radius: 10px;
-            margin: 29px 0;
+            margin: 15px 0;
             border: 2px solid $template-box;
             &:hover{
                 background: $template-hover;
                 border: $template-border;
             }
             .template-checkbox{
+                position: relative;
+                height: 60px;
                 width: 100%;
                 padding: 5px 15px;
-                label{
+                label, svg{
                     float: right;
+                }
+                svg{
+                    display: none;
                 }
             }
             .template-image{
                 height: 100px;
-                img{
+                img, svg{
                     margin-top: 15px;
+                }
+                svg{
+                    fill: $template-icon;
                 }
             }
             .template-name{
@@ -154,60 +218,19 @@
                 }
             }
         }
-        .template-checkbox{
-            position: relative;
-            height: 70px;
-            label {
-                width: 45px;
-                height: 45px;
-                cursor: pointer;
-                position: relative;
-                top: 6px;
-                left: 0;
-                background: $circle-checkbox;
-                border-radius: 50%;
-                border: $border-buzz;
-                &:after {
-                    content: '';
-                    position: absolute;
-                    width: 25px;
-                    height: 10px;
-                    top: 14px;
-                    left: 9px;
-                    border: 3px solid $white;
-                    border-top: none;
-                    border-right: none;
-                    background: transparent;
-                    opacity: 0;
-                    -webkit-transform: rotate(-45deg);
-                    transform: rotate(-45deg);
-                    }
+        .active{
+            background: $white !important;
+            .template-checkbox{
+                svg{
+                    display: block !important;
                 }
-
-                input[type=checkbox] {
-                    visibility: hidden;
-                    position: absolute;
-                }
-                input[type=checkbox]:checked + label:after {
-                    opacity: 1;
-                }
-                label span {
-                    padding-left:45px
             }
-        }
-        .all-template{
-            margin-top: 26px;
-            top: 20px;
-            label{
-                vertical-align: middle;
-            }
-            span{
-                position: relative;
-                left: 15px;
-                top: 7px;
-                color: $table-data;
-                font-size: 20px;
-                font-family: $lato-mid;
+            .template-image, .template-name{
+                svg, h3{
+                    fill: $blue !important;
+                    color: $blue !important;
+                    font-family: $lato-semi !important;
+                }
             }
         }
     }
