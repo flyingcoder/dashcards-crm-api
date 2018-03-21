@@ -43,7 +43,6 @@ class Project extends Model implements HasMediaConversions
               ->sharpen(10);
     }
     
-    
     public function service()
     {
     	return $this->belongsTo(Service::class);
@@ -140,6 +139,7 @@ class Project extends Model implements HasMediaConversions
         return $this->belongsToMany(User::class)->wherePivot('role', 'Manager');
     }
 
+    //not being used as of the moment reffer to api/user/projects
     public static function personal(Request $request)
     {
         list($sortName, $sortValue)  = parseSearchParam(request());

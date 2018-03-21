@@ -29,80 +29,72 @@ class DashitemSeeder extends Seeder
         	'name' => 'Tasks',
         	'slug' => 'tasks',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($tasks, ['order' => 1]);
+        //$buzzdash->dashitems()->attach($tasks, ['order' => 1]);
 
         $timeline = $dashitem->create([
         	'name' => 'Timeline',
         	'slug' => 'timeline',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($timeline, ['order' => 2]);
+        //$buzzdash->dashitems()->attach($timeline, ['order' => 2]);
 
         $client = $dashitem->create([
         	'name' => 'Client',
         	'slug' => 'client',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($client, ['order' => 3]);
+        //$buzzdash->dashitems()->attach($client, ['order' => 3]);
 
         $timer = $dashitem->create([
         	'name' => 'Timer',
         	'slug' => 'timer',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($timer, ['order' => 4]);
+        //$buzzdash->dashitems()->attach($timer, ['order' => 4]);
 
         $payment = $dashitem->create([
         	'name' => 'Payment',
         	'slug' => 'payment',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($payment, ['order' => 5]);
+        //$buzzdash->dashitems()->attach($payment, ['order' => 5]);
 
         $invoice = $dashitem->create([
         	'name' => 'Invoice',
         	'slug' => 'invoice',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($invoice, ['order' => 6]);
+        //$buzzdash->dashitems()->attach($invoice, ['order' => 6]);
 
         $calendar = $dashitem->create([
         	'name' => 'Calendar',
         	'slug' => 'calendar',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($calendar, ['order' => 7]);
+        //$buzzdash->dashitems()->attach($calendar, ['order' => 7]);
 
         $passbox = $dashitem->create([
         	'name' => 'Passbox',
         	'slug' => 'passbox',
         	'description' => '',
-        	'status' => 'show',
         	'type' => '',
         ]);
 
-        $buzzdash->dashitems()->attach($passbox, ['order' => 8]);
+        //$buzzdash->dashitems()->attach($passbox, ['order' => 8]);
     }
 }

@@ -48,11 +48,6 @@ class Task extends Model
         return $this->morphMany(Timer::class, 'subject');
     }
 
-    public function totalTime()
-    {
-        
-    }
-
     public function lastTimer()
     {
         return $this->timers()

@@ -37,11 +37,11 @@ class TimerTest extends TestCase
             'subject_id' => 1,
             'description' => 'Task Timer'
         ];
-        /*
+        
         $response = $this->actingAs($user, 'api')
-                         ->post('api/timer/stop', $data);
+                         ->post('api/timer/back', $data);
 
         //dd($response->content());
-        $response->assertStatus(200);*/
+        $response->assertStatus(200);
     }
 }
