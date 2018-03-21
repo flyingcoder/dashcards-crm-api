@@ -24,8 +24,10 @@ Vue.use(Element, { locale });
 import VueRouter from 'vue-router';
 
 import VModal from 'vue-js-modal'
-
 Vue.use(VModal);
+
+import Ckeditor from 'vue-ckeditor2'
+Vue.use(Ckeditor);
 
 //window.CKEDITOR = require( 'ckeditor' );
 
@@ -54,10 +56,14 @@ Vue.component('buzzheader', require('./components/header/Index.vue'));
 Vue.component('dashboard', require('./components/dashboard/index.vue'));
 
 // Projects
-Vue.component('projects', require('./components/projects/index.vue'));
+Vue.component('projects', require('./components/projects/Index'));
 
 // Clients
 Vue.component('clients', require('./components/clients/index.vue'));
+
+// Calendar
+Vue.component('events', require('./components/calendar/Index.vue'));
+Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Invoices
 Vue.component('invoices', require('./components/invoices/index.vue'));
@@ -99,6 +105,79 @@ $("document").ready(function() {
       }
   });
 });
+
+// Full Calendar 
+    var date = new Date(),
+    d = date.getDate(),
+    m = date.getMonth(),
+    y = date.getFullYear(),
+    started,
+    categoryClass;
+
+    var calendar = $('#calendar').fullCalendar({
+      header: {
+        left: 'prev',
+        center: 'title',
+        right: 'next'
+      },
+/* 
+      selectable: true,
+      selectHelper: true,
+      select: function(start, end, allDay) {
+
+        $('#fc_create').click();
+        started = start;
+        ended = end;
+
+        $(".addNote").on("click", function() {
+          var title = $("#note").val();
+          if (end) {
+            ended = end;
+          }
+
+          categoryClass = $("#event_type").val();
+
+          if (title) {
+            calendar.fullCalendar('renderEvent', {
+                title: title,
+                start: started,
+                end: end,
+                allDay: allDay
+              },
+              true // make the event "stick"
+            );
+          }
+
+          $('#note').val('');
+
+          calendar.fullCalendar('unselect');
+
+          $('.cancel').click();
+
+          return false;
+        });
+      },
+      eventClick: function(calEvent, jsEvent, view) {
+        $('#fc_edit').click();
+        $('#noteEdit').val(calEvent.title);
+
+        categoryClass = $("#event_type").val();
+
+        $(".save").on("click", function() {
+          calEvent.title = $("#noteEdit").val();
+
+          calendar.fullCalendar('updateEvent', calEvent);
+          $('.cancel2').click();
+        });
+
+        calendar.fullCalendar('unselect');
+      },
+      editable: true,
+      events: [{
+        title: 'Start Date',
+        start: new Date(y, m, 1)
+      }] */
+    });
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -176,3 +255,9 @@ if(document.getElementById("app-with-routes")) {
 }
 
 const app = new Vue(buzzcrm)
+
+
+
+/* Full Calendar 
+  
+*/

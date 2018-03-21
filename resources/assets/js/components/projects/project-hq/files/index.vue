@@ -7,7 +7,7 @@
                         <el-upload
                             class="project-hq-file-upload"
                             drag
-                            :action="'/api/projects/' + this.$parent.projectId + '/files'"
+                            :action="'/project-hq/' + this.$parent.projectId + '/files'"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             multiple>

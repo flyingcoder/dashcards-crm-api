@@ -62,6 +62,7 @@ $navbar-default-bg: #fff;
     $green: #1fb868;
     $online: #23bd6b;
     $offline: #bfbfbf;
+    $red: rgb(255, 127, 126);
 
     $orange-tile-1: #ed8564;
     $green-tile-2: #50b4aa;
@@ -69,6 +70,11 @@ $navbar-default-bg: #fff;
     $green-tile-4: #1fb868;
     $blue-tile-5: #00a7e5;
     $orange-tile-6: #ff7f7e;
+
+// Action
+    $action: rgb(212, 214, 224);
+    $action-hover: rgb(179, 182, 195);
+    $option-hover: rgb(114, 126, 138);
 
 // V Modal
     $modal-bg: #eeeff2;
@@ -80,6 +86,7 @@ $navbar-default-bg: #fff;
 // Header Dropdown
     $header-dropdown-bg: rgb(232, 234, 246);
     $circle-checkbox: #8b94bf;
+    $template-icon: rgb(139, 148, 191);
     $template-box: #ced3eb;
     $template-text: rgb(140, 149, 191);
     $template-border: 2px solid rgb(139, 148, 191);;
@@ -158,3 +165,14 @@ $navbar-default-bg: #fff;
     $chat-name: rgb(101, 113, 134);
     $chat-tip-name: rgb(66, 69, 76);
     $chat-position: rgb(188, 194, 207);
+// Calendar
+    $default: #9daab2;
+    $event-1: #a085d5;
+    $event-2: #ff7f7e;
+    $event-3: #1fb868;
+    $event-4: #00a7e5;
+    $event-5: #ed8564;
+    $event-6: #50b4aa;
+    $calendar-tab: #ededf2;
+    $calendar-tab-text: rgb(173, 175, 177);
+    $event-time: rgb(188, 194, 207);

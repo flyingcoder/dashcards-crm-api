@@ -23,6 +23,7 @@ Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]
 
 // sidebar pages
 Route::view('bugs', 'pages.bugs')->name('bugs');
+Route::view('calendar', 'pages.calendar')->name('calendar');
 Route::view('clouds', 'pages.clouds')->name('clouds');
 Route::view('settings', 'pages.settings')->name('settings');
 Route::view('supports', 'pages.supports')->name('supports');
