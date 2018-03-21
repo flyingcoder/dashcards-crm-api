@@ -126,6 +126,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}', 'ProjectController@project');
 
+  Route::get('{id}/timer', 'ProjectController@timer');
+
   Route::delete('{id}/delete', 'ProjectController@delete');
 
   Route::get('{id}/tasks', 'ProjectController@tasks');
