@@ -18,7 +18,6 @@ class CreateDashitemsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('description')->nullable();
-            $table->string('status')->nullable();
             $table->string('type')->nullable();
             $table->softDeletes();
             $table->timestamps();

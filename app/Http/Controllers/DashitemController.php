@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Dashboard;
+use App\Dashitem;
 
 class DashitemController extends Controller
 {
+    public function index()
+    {
+        return Dashitem::all();
+    }
+
     public function changeOrder($dashboard_id)
     {
     	$dashboard = Dashboard::findOrFail($dashboard_id);

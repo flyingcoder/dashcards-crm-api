@@ -26,7 +26,7 @@ class RemoveColumnMilestoneTable extends Migration
     public function down()
     {
         Schema::table('milestones', function (Blueprint $table) {
-            //
+            $table->integer('percentage');
         });
     }
 }

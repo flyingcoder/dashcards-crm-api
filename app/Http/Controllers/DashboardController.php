@@ -6,8 +6,30 @@ use Illuminate\Http\Request;
 
 use App\Dashboard;
 
+use App\Dashitem;
+
+use Illuminate\Database\QueryException;
+
 class DashboardController extends Controller
 {
+    public function addDashitems()
+    {
+        $company = auth()->user()->company();
+
+        $defaultDash = $company->dashboards()->first();
+
+        request()->validate([
+            'dashitem_id' => 'required|array'
+        ]);
+
+        foreach (request()->dashitem_id as $k => $id) {
+            if(!$defaultDash->dashitems->contains($id))
+                $defaultDash->dashitems()->attach($id, ['order' => $k+1]);
+        }
+
+        return $defaultDash->dashitems;
+    }
+
     public function counts() {
 
     	$company = auth()->user()->company();
@@ -31,6 +53,24 @@ class DashboardController extends Controller
 	        	'outbound' => 0 //replied questionaires
     		];
     	}
+    }
+
+    public function hideAllDashitem()
+    {
+        $company = auth()->user()->company();
+
+        $defaultDash = $company->dashboards()->first();
+
+        return $defaultDash->dashitems()->detach();
+    }
+
+    public function hideDashitem($id)
+    {
+        $company = auth()->user()->company();
+
+        $defaultDash = $company->dashboards()->first();
+
+        return $defaultDash->dashitems()->detach($id);
     }
 
     public function dashitems($id)

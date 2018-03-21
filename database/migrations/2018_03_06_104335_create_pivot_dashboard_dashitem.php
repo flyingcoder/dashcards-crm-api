@@ -14,7 +14,6 @@ class CreatePivotDashboardDashitem extends Migration
     public function up()
     {
         Schema::create('dashboard_dashitem', function (Blueprint $table) {
-            $table->increments('id');
             $table->integer('dashboard_id')
                   ->unsigned()
                   ->index()
@@ -30,7 +29,7 @@ class CreatePivotDashboardDashitem extends Migration
                   ->on("dashitems")
                   ->onDelete("cascade");
             $table->integer('order');
-            $table->timestamps();
+            $table->primary(['dashboard_id', 'dashitem_id']);
         });
     }
 

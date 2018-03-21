@@ -8,6 +8,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testTotalTime()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/1/timer');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testProjectTasks()
     {
     	$user = User::find(1);
@@ -43,18 +55,6 @@ class ProjectModelTest extends TestCase
 
     	//dd($response->content());
     	$response->assertStatus(200);
-    }
-
-    public function testMyProject()
-    {
-        $user = User::find(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/mine');
-
-        //dd($response->content());
-        $response->assertStatus(200);
     }
 
     public function testProjectActivity()
