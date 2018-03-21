@@ -50,6 +50,9 @@ Vue.filter('diffInDays', function(value, start){
 //  Header
 Vue.component('buzzheader', require('./components/header/Index.vue'));
 
+//  Sidebar
+Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
+
 // Dashboard
 Vue.component('dashboard', require('./components/dashboard/index.vue'));
 
