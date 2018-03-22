@@ -92,7 +92,7 @@ Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
 Vue.component('page-header', require('./components/common/PageHeader.vue'));
 
 // Testing
-// Vue.component('clients', require('./components/projects/project-hq/index.vue'));
+Vue.component('settings', require('./components/settings/Index.vue'));
 
 // Services
 Vue.component('services', require('./components/services/index.vue'));
@@ -226,34 +226,51 @@ let buzzcrm = {
   }
 };
 
-if(document.getElementById("app-with-routes")) {
+// Settings
+  if(document.getElementById("settings-routes")) {
 
-  Vue.use(VueRouter);
+    Vue.use(VueRouter);
 
-  let router = new VueRouter({
-    routes: [
-      {path: '/',component: require('./components/projects/project-hq/overview/Index')},
-      {path: '/files',component: require('./components/projects/project-hq/files/Index')},
-      {path: '/tasks',component: require('./components/projects/project-hq/tasks/Index')},
-//       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
-//       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
-      {path: '/milestones',component: require('./components/projects/project-hq/milestones/Index')},
-//       {path: '/reports',component: require('./components/projects/project-hq/report/Index')},
+    let router = new VueRouter({
+      routes: [
+        // {path: '/',component: require('./components/settings/General.vue')},
+      ],
+      linkActiveClass: 'active'
+    });
 
-//       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/Index')},
-//       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
-//       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
-//       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
-      {path: '/members',component: require('./components/projects/project-hq/members/Index')}
-//       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
-//       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
+    buzzcrm['router'] = router;
+  }
 
-    ],
-    linkActiveClass: 'active'
-  });
 
-  buzzcrm['router'] = router;
-}
+// Project HQ
+  if(document.getElementById("app-with-routes")) {
+
+    Vue.use(VueRouter);
+
+    let router = new VueRouter({
+      routes: [
+        {path: '/',component: require('./components/projects/project-hq/overview/Index')},
+        {path: '/files',component: require('./components/projects/project-hq/files/Index')},
+        {path: '/tasks',component: require('./components/projects/project-hq/tasks/Index')},
+  //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
+  //       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
+        {path: '/milestones',component: require('./components/projects/project-hq/milestones/Index')},
+  //       {path: '/reports',component: require('./components/projects/project-hq/report/Index')},
+
+  //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/Index')},
+  //       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
+  //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
+  //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
+        {path: '/members',component: require('./components/projects/project-hq/members/Index')}
+  //       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
+  //       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
+
+      ],
+      linkActiveClass: 'active'
+    });
+
+    buzzcrm['router'] = router;
+  }
 
 const app = new Vue(buzzcrm)
 

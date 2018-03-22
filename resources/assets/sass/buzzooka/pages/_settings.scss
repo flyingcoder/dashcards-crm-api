@@ -1,0 +1,80 @@
+.settings{
+    .settings-menu{
+        margin: 0 -30px 12px;
+        height: 62px;
+        background: $white;
+        border-bottom: $body-border;
+        ul{
+            padding: 0px;
+            margin: 0;
+            list-style: none;
+            display: block;
+            li{
+                display: inline-block;
+                height: 61px;
+                width: 9.81%;
+                padding-top: 20px;
+                line-height: 1;
+                text-align: center;
+                vertical-align: middle;
+                span{
+                    font-family: $lato-mid;
+                    font-size: 15.4px;
+                    color: $hq-icon;
+                    line-height: 1.2;
+                }
+                &:hover{
+                    background: $hq-menu-bg;
+                    span{
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+    .content-body{
+        .buzz-section{
+            padding: 40px;
+            .el-form{
+                .el-form-item{
+                    label{
+                        font-size: 23px;
+                        line-height: 55px !important;;
+                        padding: 0 40px 0 0 !important;
+                    }
+                    .el-form-item__content{
+                        margin-left: 330px !important;
+                        .el-input{
+                            height: 64px;
+                            font-size: 23px;
+                        }
+                        .el-select{
+                            .el-input{
+                                .el-input__suffix{
+                                    width: 70px;
+                                    i{
+                                        font-size: 30px !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .buzz-form-button{
+                    .el-form-item__content{
+                        margin-left: 0px !important;
+                        .el-button{
+                            height: 64px;
+                           font-size: 23px;
+                        }
+                    }
+                }
+                .line-2{
+                    label{
+                        line-height: 30px !important;
+                    }
+                }
+            }
+        }
+    }
+}
