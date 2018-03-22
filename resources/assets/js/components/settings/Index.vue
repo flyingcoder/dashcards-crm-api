@@ -1,7 +1,7 @@
 <template>
     <section class="content settings">
         <settings-menu></settings-menu>
-        <invoice></invoice>
+        <PaymentMethods></PaymentMethods>
         <!-- <section>
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
@@ -12,12 +12,12 @@
 
 <script>
     import SettingsMenu from './SettingsMenu.vue';
-    import Invoice from './Invoice.vue';
+    import PaymentMethods from './PaymentMethods.vue';
 
     export default {
         components: {
           'settings-menu': SettingsMenu,
-          'invoice': Invoice,
+          'PaymentMethods': PaymentMethods,
       },
       props: ['asset'],
       
