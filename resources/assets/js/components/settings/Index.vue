@@ -1,7 +1,7 @@
 <template>
     <section class="content settings">
         <settings-menu></settings-menu>
-        <company></company>
+        <invoice></invoice>
         <!-- <section>
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
@@ -12,12 +12,12 @@
 
 <script>
     import SettingsMenu from './SettingsMenu.vue';
-    import Company from './Company.vue';
+    import Invoice from './Invoice.vue';
 
     export default {
         components: {
           'settings-menu': SettingsMenu,
-          'company': Company,
+          'invoice': Invoice,
       },
       props: ['asset'],
       
