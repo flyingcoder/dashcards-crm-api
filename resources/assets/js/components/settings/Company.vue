@@ -1,5 +1,5 @@
 <template>
-    <section class="content company-details">
+    <section class="content company">
         <div class="content-header">
             <div class="row">
                 <div class="col-md-12">

@@ -34,7 +34,6 @@
     }
     .content-body{
         .buzz-section{
-            padding: 40px;
             .el-form{
                 .el-form-item{
                     label{
@@ -73,6 +72,79 @@
                     label{
                         line-height: 30px !important;
                     }
+                }
+            }
+        }
+    }
+    .general, .company, .invoice, .bank, .cash, .paypal{
+        .buzz-section{
+            padding: 40px;
+        }
+    }
+    .updates{
+        .buzz-section{
+            padding: 35px 20px;
+            .text-version{
+                background: $modal-input;
+                border: $table-border;
+                height: 61px;
+                padding: 0 10px;
+                color: $table-head;
+                font-size: 15.2px;
+                line-height: 4;
+            }
+            .number-version{
+                background: $white;
+                border: $table-border;
+                height: 100px;
+                padding: 0 10px;
+                color: $table-head;
+                font-size: 15.2px;
+                line-height: 6;
+                text-indent: 25px;
+            }
+            .updates-info{
+                margin-top: 15px;
+                background: $white;
+                border: $table-border;
+                height: 328px;
+                padding: 10px;
+                h2{
+                    color: $table-head;
+                }
+                .dashed {
+                    margin: 0;
+                    padding: 0;
+                    list-style-type: none;
+                    li {
+                        color:  $table-head;
+                        font-size: 21px;
+                        line-height: 1.2;
+                        font-family: $lato;
+                        font-weight: 400;
+                        span{ 
+                            font-family: $lato-semi;
+                        }
+                        &:before {
+                            content: "-";
+                            margin-right: 5px;
+                        }
+                    }
+                }
+                h3{
+                    font-size: 24px;
+                    font-family: $lato;
+                    font-weight: 100;
+                    color: $warning;
+                }
+                button{
+                    background: $form-button;
+                    border-radius: 5px;
+                    height: 66px;
+                    font-size: 21px;
+                    color: $white;
+                    padding: 15px;
+                    margin-top: 15px;
                 }
             }
         }

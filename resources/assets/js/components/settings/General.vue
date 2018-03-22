@@ -1,5 +1,5 @@
 <template>
-    <section class="content general-settings">
+    <section class="content general">
         <div class="content-header">
             <div class="row">
                 <div class="col-md-12">

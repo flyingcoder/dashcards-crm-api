@@ -18,10 +18,21 @@
                             <router-link to="/" >  <span> Invoices </span> </router-link>
                         </div>
                     </li>
-                    <li>
-                        <div class="menu payment-settings">
-                            <router-link to="/" > <span> Payment Methods </span> </router-link>
-                        </div>
+                    <li class="sort">
+                        <el-dropdown placement="bottom" class="menu payment-settings">
+                            <router-link to="/" size="small" class="el-dropdown-link"> <span> Payment Methods </span> </router-link>
+                            <el-dropdown-menu slot="dropdown" class="sort-dropdown">
+                                <el-dropdown-item>
+                                    <a href="#"> Cash </a>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <a href="#"> Bank Transfer </a>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <a href="#"> Paypal </a>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>  
+                        </el-dropdown>
                     </li>
                     <li>
                         <div class="menu email-settings">
