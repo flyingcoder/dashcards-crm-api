@@ -776,12 +776,14 @@
                             font-family: $lato-mid;
                             color: $input-text;
                             padding: 0 15px 0 20px;
+                            box-shadow: $body-shadow !important;
                             @extend .buzz-matrix;
                         }
                     }
                     .el-select{
                         width: 100%;
                         .el-input{
+                            box-shadow: $body-shadow !important;
                             .el-input__suffix{
                                 right: 0 !important;
                                 background: $form-caret-bg;
