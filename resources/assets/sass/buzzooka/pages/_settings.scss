@@ -81,7 +81,7 @@
             padding: 40px;
         }
     }
-    .support, .updates{
+    .support, .cron, .updates{
         .buzz-section{
             padding: 35px 20px;
         }
@@ -137,6 +137,50 @@
                         font-size: 14px;
                         color: $table-data;
                     }
+                }
+            }
+        }
+    }
+    .cron{
+        .el-input{
+            margin-bottom: 30px;
+            input{
+                border:  $input-border;
+                background: $white;
+                border-radius: 5px;
+                box-shadow:  $box-shadow-inset;
+                height: 64px;
+                color: $cron-input;
+                font-size: 17px;
+            }
+        }
+        .cron-info{
+            background: $white;
+            border: $table-border;
+            padding: 20px;
+            .tip1, .tip2{
+                padding: 10px;
+                background: $cron-job;
+                color: $cron-text;
+                border: 1px solid $cron-border;
+                font-family: $lato;
+                font-size: 13px;
+                font-weight: 400;
+                i,svg{
+                    margin-right: 5px;
+                }
+            }
+            .tip3{
+                padding: 10px;
+                background: $cron-warning;
+                color: $cron-text2;
+                border: 1px solid $cron-border2;
+                font-family: $lato;
+                font-size: 13px;
+                font-weight: 400;
+                i,svg{
+                    margin-right: 5px;
+                    color: $cron-info;
                 }
             }
         }
