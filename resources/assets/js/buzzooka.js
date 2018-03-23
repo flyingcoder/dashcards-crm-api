@@ -24,7 +24,6 @@ Vue.use(Element, { locale });
 import VueRouter from 'vue-router';
 
 import VModal from 'vue-js-modal'
-
 Vue.use(VModal);
 
 //window.CKEDITOR = require( 'ckeditor' );

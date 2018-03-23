@@ -29,11 +29,11 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      input: 'http://buzzmanager.ca/crmproject1/admin/cronjobs/general/AHusEwFd8HDg630sk'
+    export default {
+        data() {
+            return {
+            input: 'http://buzzmanager.ca/crmproject1/admin/cronjobs/general/AHusEwFd8HDg630sk'
+            }
+        }
     }
-  }
-}
 </script>

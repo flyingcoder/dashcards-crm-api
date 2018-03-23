@@ -42,33 +42,33 @@
 </template>
 
 <script>
-  export default {
-    data() {
-        return {
-            confirmDelete: false,
-            tableData: [
-                {
-                name: 'General Support',
-                support: '0',
-                }, 
-                {
-                name: 'Support 02',
-                support: '5',
-                }, 
-                {
-                name: 'Support 03',
-                support: '3',
-                }, 
-            ]
+    export default {
+        data() {
+            return {
+                confirmDelete: false,
+                tableData: [
+                    {
+                    name: 'General Support',
+                    support: '0',
+                    }, 
+                    {
+                    name: 'Support 02',
+                    support: '5',
+                    }, 
+                    {
+                    name: 'Support 03',
+                    support: '3',
+                    }, 
+                ]
+            }
+        },
+        methods: {
+        handleEdit(index, row) {
+            console.log(index, row);
+        },
+        handleDelete(index, row) {
+            console.log(index, row);
         }
-    },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
+        }
     }
-  }
 </script>

@@ -81,7 +81,7 @@
             padding: 40px;
         }
     }
-    .support, .cron, .updates{
+    .support, .cron, .db-backup, .updates{
         .buzz-section{
             padding: 35px 20px;
         }
@@ -181,6 +181,62 @@
                 i,svg{
                     margin-right: 5px;
                     color: $cron-info;
+                }
+            }
+        }
+    }
+    .db-backup{
+        .db-loader{
+            text-align: center;
+            padding: 20px 0 70px;
+            h3{
+                margin-top: 40px;
+                font-size: 20px;
+                color: $file-dropdown-text;
+                font-family: $lato;
+                letter-spacing: 0.3px;
+                font-style: italic;
+            }
+        }
+        .el-table{
+            border: $table-border;
+            .el-table__row{
+                height: 95px !important;
+                .el-button{
+                    margin: 0 10px 0 0 !important;
+                    font-size: 15px;
+                    height: 50px;
+                    padding: 0 4%;
+                    &:hover{
+                        opacity: 0.8;
+                    }
+                    span{
+                        position: relative;
+                        top: 2px;
+                    }
+                    img{
+                        margin-right: 5px;
+                    }
+                }
+            }
+            thead{
+                tr{
+                    th{
+                        background: $gray-bg;
+                    }
+                }
+            }
+            tr{
+                th, td{
+                    padding-left: 20px;
+                }
+                th{
+                    color:  $table-head;
+                    font-size: 15px;
+                }
+                td{
+                    font-size: 14px;
+                    color: $table-data;
                 }
             }
         }

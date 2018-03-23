@@ -1,7 +1,7 @@
 <template>
     <section class="content settings">
         <settings-menu></settings-menu>
-        <Cron></Cron>
+        <DbBackup></DbBackup>
         <!-- <section>
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
@@ -12,12 +12,12 @@
 
 <script>
     import SettingsMenu from './SettingsMenu.vue';
-    import Cron from './Cron.vue';
+    import DbBackup from './DbBackup.vue';
 
     export default {
         components: {
           'settings-menu': SettingsMenu,
-          'Cron': Cron,
+          'DbBackup': DbBackup,
       },
       props: ['asset'],
       
