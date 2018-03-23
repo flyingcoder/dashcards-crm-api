@@ -8,10 +8,6 @@
     padding: 0;
     margin: 0;
 
-    .second{
-        width: 50%;
-    }
-
 // Text Overflow
     .buzz-overflow{
         max-width: 100%;
@@ -19,7 +15,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
 
 // Pre Define Backgrounds
     .orange-1{
@@ -88,6 +83,18 @@
         &:hover{
             color: $event-6 !important;
         }
+    }
+    .action-move{
+        background: $action-move;
+        color: $white;
+    }
+    .action-delete{
+        background: $action-delete;
+        color: $white;
+    }
+    .action-edit{
+        background: $action-edit;
+        color: $white;
     }
 
 // Sidebar
@@ -740,30 +747,100 @@
             right: 15px;
         }
     }
-// Form Buttons
-    .buzz-form-buttons{
-        width: 100%;
-        padding-left: 130px;
-        ul{
-            padding:0;
-            li{
-                display: inline-block;
-                border-radius: 5px;
-                text-align: center;
-                background: $gray-bg;
-                border: $input-border;
-                button, a{
-                    line-height: 1.7;
+// Buzz Form
+   .buzz-form{
+       .buzz-matrix{
+        -moz-transform: matrix( 0.99975854331901,0,0,0.99274363952381,0,0);
+        -webkit-transform: matrix( 0.99975854331901,0,0,0.99274363952381,0,0);
+        -ms-transform: matrix( 0.99975854331901,0,0,0.99274363952381,0,0);
+       }
+    // Vue Form
+        .el-form{
+            .el-form-item{
+                margin-bottom: 25px !important;
+                label{
                     font-family: $lato-mid;
-                    color: $table-status-text;
-                    outline: none;
-                    span{
-                        position: relative;
+                    color: $input-text;
+                    font-weight: unset;
+                }
+                .el-form-item__content{
+                    .el-input{
+                        border: $input-border;
+                        width: 100%;
+                        box-shadow: $box-shadow-inset;
+                        background: $white;
+                        border-radius: 5px;
+                        input{
+                            height: 100%;
+                            width: 100%;
+                            font-family: $lato-mid;
+                            color: $input-text;
+                            padding: 0 15px 0 20px;
+                            @extend .buzz-matrix;
+                        }
+                    }
+                    .el-select{
+                        width: 100%;
+                        .el-input{
+                            .el-input__suffix{
+                                right: 0 !important;
+                                background: $form-caret-bg;
+                                border-left: $input-border;
+                                border-radius: 0 5px 5px 0;
+                                i{
+                                    color: $form-caret-color;
+                                    width: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .buzz-form-button{
+                float: right !important;
+                .el-button{
+                    background: $form-button;
+                    border-radius: 5px;
+                    line-height: 1.2;
+                    color: $white;
+                    font-family: $lato-mid;
+                    @extend .buzz-matrix;
+                    &:hover{
+                        background: $form-button-hover;
+                    }
+                }
+                .el-button+.el-button {
+                    margin-left: 20px;
+                }
+            }
+        }
+    // Custom Form
+        .custom-form{
+            .buzz-form-buttons{
+                width: 100%;
+                padding-left: 130px;
+                ul{
+                    padding:0;
+                    li{
+                        display: inline-block;
+                        border-radius: 5px;
+                        text-align: center;
+                        background: $gray-bg;
+                        border: $input-border;
+                        button, a{
+                            line-height: 1.7;
+                            font-family: $lato-mid;
+                            color: $table-status-text;
+                            outline: none;
+                            span{
+                                position: relative;
+                            }
+                        }
                     }
                 }
             }
         }
-    }
+   } 
 // Buzz Table
     .buzz-table{
         ul{
@@ -1139,4 +1216,31 @@
             }
         }
     }
+// Vue Popup
+    // Settings Support
+        .popup-text-department{
+            padding: 15px;
+            text-align: center;
+            color:  $table-data;
+            font-size: 15px;
+        }
+        .popup-deparment-button{
+            padding: 5px;
+            margin:0;
+            width: 100%;
+            text-align: center;
+            button{
+                width: 45%;
+                border: $input-border;
+                border-radius: -3px;
+                background:  $modal-input;
+                color: $action-hover;
+                font-size: 15px;
+                &:hover{
+                    border: 1px solid  $action-hover;
+                    color:  $table-data;
+                }
+            }
+        }
+// New
 }

@@ -1,0 +1,253 @@
+.settings{
+    .settings-menu{
+        margin: 0 -30px 12px;
+        height: 62px;
+        background: $white;
+        border-bottom: $body-border;
+        ul{
+            padding: 0px;
+            margin: 0;
+            list-style: none;
+            display: block;
+            li{
+                display: inline-block;
+                height: 61px;
+                width: 9.81%;
+                padding-top: 20px;
+                line-height: 1;
+                text-align: center;
+                vertical-align: middle;
+                span{
+                    font-family: $lato-mid;
+                    font-size: 15.4px;
+                    color: $hq-icon;
+                    line-height: 1.2;
+                }
+                &:hover{
+                    background: $hq-menu-bg;
+                    span{
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+    .content-body{
+        .buzz-section{
+            .el-form{
+                .el-form-item{
+                    label{
+                        font-size: 23px;
+                        line-height: 55px !important;;
+                        padding: 0 40px 0 0 !important;
+                    }
+                    .el-form-item__content{
+                        margin-left: 330px !important;
+                        .el-input{
+                            height: 64px;
+                            font-size: 23px;
+                        }
+                        .el-select{
+                            .el-input{
+                                .el-input__suffix{
+                                    width: 70px;
+                                    i{
+                                        font-size: 30px !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .buzz-form-button{
+                    .el-form-item__content{
+                        margin-left: 0px !important;
+                        .el-button{
+                            height: 64px;
+                           font-size: 23px;
+                        }
+                    }
+                }
+                .line-2{
+                    label{
+                        line-height: 30px !important;
+                    }
+                }
+            }
+        }
+    }
+    .general, .company, .invoice, .bank, .cash, .paypal{
+        .buzz-section{
+            padding: 40px;
+        }
+    }
+    .support, .cron, .updates{
+        .buzz-section{
+            padding: 35px 20px;
+        }
+    }
+    .support{
+        .el-tabs__nav{
+            width: 100%;
+            height: 61px;
+            .el-tabs__item{
+                width: 50%;
+                text-align: center;
+                height: 100%;
+                font-size: 18px;
+                color: $table-data;
+                line-height: 3.3;
+                text-transform: uppercase;
+                &:hover {
+                    color: $table-data;
+                }
+            }
+        }
+        .el-tabs__content{
+            padding: 0 !important;
+            .el-table{
+                .el-table__row{
+                    height: 95px !important;
+                    .el-button{
+                        margin: 0 10px 0 0 !important;
+                        font-size: 15px;
+                        height: 50px;
+                        padding: 0 2%;
+                        &:hover{
+                            opacity: 0.8;
+                        }
+                        span{
+                            position: relative;
+                            top: 3px;
+                        }
+                        img{
+                            margin-right: 2px;
+                        }
+                    }
+                }
+                tr{
+                    th, td{
+                        padding-left: 20px;
+                    }
+                    th{
+                        color:  $table-head;
+                        font-size: 15px;
+                    }
+                    td{
+                        font-size: 14px;
+                        color: $table-data;
+                    }
+                }
+            }
+        }
+    }
+    .cron{
+        .el-input{
+            margin-bottom: 30px;
+            input{
+                border:  $input-border;
+                background: $white;
+                border-radius: 5px;
+                box-shadow:  $box-shadow-inset;
+                height: 64px;
+                color: $cron-input;
+                font-size: 17px;
+            }
+        }
+        .cron-info{
+            background: $white;
+            border: $table-border;
+            padding: 20px;
+            .tip1, .tip2{
+                padding: 10px;
+                background: $cron-job;
+                color: $cron-text;
+                border: 1px solid $cron-border;
+                font-family: $lato;
+                font-size: 13px;
+                font-weight: 400;
+                i,svg{
+                    margin-right: 5px;
+                }
+            }
+            .tip3{
+                padding: 10px;
+                background: $cron-warning;
+                color: $cron-text2;
+                border: 1px solid $cron-border2;
+                font-family: $lato;
+                font-size: 13px;
+                font-weight: 400;
+                i,svg{
+                    margin-right: 5px;
+                    color: $cron-info;
+                }
+            }
+        }
+    }
+    .updates{
+        .text-version{
+            background: $modal-input;
+            border: $table-border;
+            height: 61px;
+            padding: 0 10px;
+            color: $table-head;
+            font-size: 15.2px;
+            line-height: 4;
+        }
+        .number-version{
+            background: $white;
+            border: $table-border;
+            height: 100px;
+            padding: 0 10px;
+            color: $table-head;
+            font-size: 15.2px;
+            line-height: 6;
+            text-indent: 25px;
+        }
+        .updates-info{
+            margin-top: 15px;
+            background: $white;
+            border: $table-border;
+            height: 328px;
+            padding: 10px;
+            h2{
+                color: $table-head;
+            }
+            .dashed {
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                li {
+                    color:  $table-head;
+                    font-size: 21px;
+                    line-height: 1.2;
+                    font-family: $lato;
+                    font-weight: 400;
+                    span{ 
+                        font-family: $lato-semi;
+                    }
+                    &:before {
+                        content: "-";
+                        margin-right: 5px;
+                    }
+                }
+            }
+            h3{
+                font-size: 24px;
+                font-family: $lato;
+                font-weight: 100;
+                color: $warning;
+            }
+            button{
+                background: $form-button;
+                border-radius: 5px;
+                height: 66px;
+                font-size: 21px;
+                color: $white;
+                padding: 15px;
+                margin-top: 15px;
+            }
+        }
+    }
+}
