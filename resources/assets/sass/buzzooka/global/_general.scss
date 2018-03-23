@@ -84,6 +84,18 @@
             color: $event-6 !important;
         }
     }
+    .action-move{
+        background: $action-move;
+        color: $white;
+    }
+    .action-delete{
+        background: $action-delete;
+        color: $white;
+    }
+    .action-edit{
+        background: $action-edit;
+        color: $white;
+    }
 
 // Sidebar
     .buzz-sidebar{
@@ -1204,4 +1216,31 @@
             }
         }
     }
+// Vue Popup
+    // Settings Support
+        .popup-text-department{
+            padding: 15px;
+            text-align: center;
+            color:  $table-data;
+            font-size: 15px;
+        }
+        .popup-deparment-button{
+            padding: 5px;
+            margin:0;
+            width: 100%;
+            text-align: center;
+            button{
+                width: 45%;
+                border: $input-border;
+                border-radius: -3px;
+                background:  $modal-input;
+                color: $action-hover;
+                font-size: 15px;
+                &:hover{
+                    border: 1px solid  $action-hover;
+                    color:  $table-data;
+                }
+            }
+        }
+// New
 }

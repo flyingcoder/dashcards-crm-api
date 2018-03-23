@@ -1,7 +1,7 @@
 <template>
     <section class="content settings">
         <settings-menu></settings-menu>
-        <Updates></Updates>
+        <Support></Support>
         <!-- <section>
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
@@ -12,12 +12,12 @@
 
 <script>
     import SettingsMenu from './SettingsMenu.vue';
-    import Updates from './Updates.vue';
+    import Support from './Supports/Support.vue';
 
     export default {
         components: {
           'settings-menu': SettingsMenu,
-          'Updates': Updates,
+          'Support': Support,
       },
       props: ['asset'],
       

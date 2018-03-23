@@ -1,5 +1,5 @@
  <template>
-    <section class="content support-settings">
+    <section class="content support">
         <div class="content-header">
             <div class="row">
                 <div class="col-md-6">
@@ -39,8 +39,36 @@
         </div>
         <div class="content-body">
             <section class="buzz-section">
-
-             </section>
+                <el-tabs type="border-card">
+                    <el-tab-pane label="Settings Home">
+                        <settingsHome></settingsHome>
+                    </el-tab-pane>
+                    <el-tab-pane label="Departments">
+                        <departments></departments>
+                    </el-tab-pane>
+                </el-tabs>
+            </section>
         </div>
     </section>
 </template>
+
+<script>
+    import SettingsHome from './SettingsHome.vue';
+    import Departments from './Departments.vue';
+
+    export default {
+        components: {
+          'settingsHome': SettingsHome,
+          'departments': Departments,
+      },
+      props: ['asset'],
+      
+      data () {
+
+      },
+      methods: {
+
+      }
+        
+    }
+</script>
