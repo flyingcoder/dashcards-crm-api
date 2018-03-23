@@ -1,7 +1,7 @@
 <template>
     <section class="content settings">
         <settings-menu></settings-menu>
-        <DbBackup></DbBackup>
+        <FormFields></FormFields>
         <!-- <section>
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
@@ -12,12 +12,12 @@
 
 <script>
     import SettingsMenu from './SettingsMenu.vue';
-    import DbBackup from './DbBackup.vue';
+    import FormFields from './FormFields.vue';
 
     export default {
         components: {
           'settings-menu': SettingsMenu,
-          'DbBackup': DbBackup,
+          'FormFields': FormFields,
       },
       props: ['asset'],
       

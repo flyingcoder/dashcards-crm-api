@@ -81,7 +81,7 @@
             padding: 40px;
         }
     }
-    .support, .cron, .db-backup, .updates{
+    .support, .form-fields, .cron, .db-backup, .updates{
         .buzz-section{
             padding: 35px 20px;
         }
@@ -136,6 +136,71 @@
                     td{
                         font-size: 14px;
                         color: $table-data;
+                    }
+                }
+            }
+        }
+    }
+    .form-fields{
+        h2{
+            margin: 0;
+            font-size: 25px;
+            color: $table-data;
+            font-family: $lato;
+        }
+        .client{
+            height: 460px !important;
+        }
+        .project{
+            height: 650px !important;
+        }
+        table{
+            width: 100%;
+            margin-top: 30px;
+            tr{
+                border: $table-border;
+                th{
+                    height: 57px;
+                    font-size: 15px;
+                    color: $table-head;
+                }
+                td{
+                    height: 95px;
+                }
+                th,td{
+                    padding: 0 25px;
+                }
+            }
+            .el-input{
+                border: $input-border;
+                width: 100%;
+                box-shadow: $box-shadow-inset;
+                background: $white;
+                border-radius: 5px;
+                height: 52px;
+                input{
+                    height: 100%;
+                    width: 100%;
+                    font-family: $lato-mid;
+                    color: $input-text;
+                    padding: 0 15px 0 20px;
+                    @extend .buzz-matrix;
+                }
+            }
+            .el-select{
+                width: 100%;
+                .el-input{
+                    .el-input__suffix{
+                        right: 0 !important;
+                        background: $form-caret-bg;
+                        border-left: $input-border;
+                        border-radius: 0 5px 5px 0;
+                        width: 55px;
+                        i{
+                            color: $form-caret-color;
+                            width: 100%;
+                            font-size: 30px !important;
+                        }
                     }
                 }
             }

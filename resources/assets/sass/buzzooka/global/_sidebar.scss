@@ -11,8 +11,7 @@
             cursor: pointer;
 
             &:hover , &:active, &:focus{
-                background: $gray;
-                // background-image: url(/../img/use/layer.png);
+                background: $body-bg;
                 z-index: 2000;
                 @extend .hover-transition;
                 a{
@@ -44,7 +43,7 @@
             }
         }
         .active{
-            background: $gray;
+            background: $body-bg;
             z-index: 2000;
             @extend .hover-transition;
             a{
