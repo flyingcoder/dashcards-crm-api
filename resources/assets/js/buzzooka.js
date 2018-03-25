@@ -26,6 +26,9 @@ import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
 Vue.use(VModal);
 
+import Ckeditor from 'vue-ckeditor2'
+Vue.use(Ckeditor);
+
 //window.CKEDITOR = require( 'ckeditor' );
 
 // Classic Editor
@@ -56,7 +59,7 @@ Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 Vue.component('dashboard', require('./components/dashboard/index.vue'));
 
 // Projects
-Vue.component('projects', require('./components/projects/index.vue'));
+Vue.component('projects', require('./components/projects/Index'));
 
 // Clients
 Vue.component('clients', require('./components/clients/index.vue'));

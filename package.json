@@ -20,17 +20,17 @@
         "jquery": "^3.3.1",
         "laravel-mix": "^1.7.2",
         "lodash": "^4.17.5",
-        "vue": "^2.5.15",
+        "vue": "^2.5.16",
         "vue-events": "^3.1.0",
         "vuetable-2": "^1.7.5"
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "github:ckeditor/ckeditor5-build-classic",
         "bootstrap-vue": "^2.0.0-rc.2",
-        "ckeditor": "^4.8.0",
+        "ckeditor": "^4.9.0",
         "dragula": "^3.7.2",
         "dropzone": "^5.4.0",
-        "element-ui": "^2.2.1",
+        "element-ui": "^2.2.2",
         "fastclick": "^1.0.6",
         "font-awesome": "^4.7.0",
         "font-awesome-animation": "^0.1.0",
@@ -55,7 +55,7 @@
         "vue-loading-template": "^0.1.7",
         "vue-quill-editor": "^3.0.5",
         "vue-router": "^3.0.1",
-        "vue-template-compiler": "^2.5.15",
+        "vue-template-compiler": "^2.5.16",
         "vuejs-datepicker": "^0.9.29"
     }
 }

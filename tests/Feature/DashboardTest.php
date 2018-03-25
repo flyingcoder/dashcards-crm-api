@@ -9,6 +9,31 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DashboardTest extends TestCase
 {
+
+    public function testDeleteAllDashitem()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/dashboard/default/dashitems/1');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testDeleteDashitem()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/dashboard/default/dashitems');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     /**
      * A basic test example.
      *

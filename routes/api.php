@@ -36,8 +36,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'calendars'], function () 
 }); 
 
 //dashitems
-Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitem'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitems'], function () {
   
+  Route::get('/', 'DashitemController@index');
+
   Route::put('{dashboard_id}/order', 'DashitemController@changeOrder');
 
 });
@@ -48,6 +50,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () 
   Route::get('counts', 'DashboardController@counts');
 
   Route::get('default/dashitems', 'DashboardController@defaultDashitems');
+
+  Route::post('default/dashitems', 'DashboardController@addDashitems');
+
+  Route::delete('default/dashitems', 'DashboardController@hideAllDashitem');
+
+  Route::delete('default/dashitems/{id}', 'DashboardController@hideDashitem');
 
   Route::get('{id}/dashitems', 'DashboardController@dashitems');
 
@@ -117,6 +125,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('count', 'ProjectController@countProject');
 
   Route::get('{id}', 'ProjectController@project');
+
+  Route::get('{id}/timer', 'ProjectController@timer');
 
   Route::delete('{id}/delete', 'ProjectController@delete');
 

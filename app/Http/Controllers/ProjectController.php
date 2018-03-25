@@ -32,6 +32,40 @@ class ProjectController extends Controller
         return $result;
     }
 
+    public function timer($id)
+    {
+        $project = Project::findOrFail($id);
+
+        (new ProjectPolicy())->view($project);
+
+        $tasks = $this->tasks;
+
+        $proj_total_sec = 0;
+
+        foreach ($tasks as $key => $task) {
+
+            $lastTimer = $task->lastTimer();
+
+            if(is_null($lastTimer->properties) && $lastTimer->action == 'start'){
+
+                $start = Carbon::parse($lastTimer->created_at);
+
+                $end = Carbon::now();
+
+                $task_total_sec = (int) $end->diffInSeconds($start);
+
+                $proj_total_sec = $proj_total_sec + $task_total_sec;
+
+            } else if(is_null($lastTimer->properties) && $lastTimer->action == 'back') {
+                //this is a bit problem as of now I don't want to continue
+                $lastTimer->properties
+
+            }
+        }
+
+        return gmdate("H:i:s", $proj_total_sec);
+    }
+
     public function save()
     {
         (new ProjectPolicy())->create();

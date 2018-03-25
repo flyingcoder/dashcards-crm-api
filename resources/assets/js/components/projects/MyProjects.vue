@@ -25,7 +25,7 @@
             </el-table-column>
             <el-table-column fixed="right" label="Test">
                 <template slot-scope="scope">
-                    <a href="#">
+                    <a href="#" @click="edit(scope.row)">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             width="16px" height="16px">
                             <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -77,7 +77,7 @@
 
       methods: {
         getMyProjects(){
-            axios.get('api/projects/mine')
+            axios.get('api/user/projects')
                  .then( response => {
                     this.paginatedMyProjects = response.data.data;
                     this.currentPage = response.data.current_page;
@@ -108,8 +108,11 @@
             this.multipleSelection.push(val[index].id);
             }
         },
-        rowClick(row, event, col){
+        rowClick(row, event, cell, col){
             location = "/project-hq/" + row.id;
+        },
+        edit(data){
+            console.log(data);
         }
       }
 

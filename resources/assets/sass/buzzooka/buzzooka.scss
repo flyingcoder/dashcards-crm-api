@@ -30,6 +30,50 @@
       }
   }
 
+.date-project {
+  color: #657186;
+  background: #ffffff;
+  border-radius: 5px;
+  font-family: "lato semibold";
+  height: 44px;
+  position: relative;
+  .button-icon {
+    position: absolute;
+    top: 12px;
+    left: 20px;
+  }
+
+  input {
+    font-size: 17.2px;
+    width: 100%;
+    Cursor: pointer;
+  }
+
+  span {
+    display: none !important;
+  }
+
+  input::placeholder {
+    color: #657186;
+  }
+
+  .el-date-editor--date{
+    width: 100%;
+    
+  }
+
+  .el-input__icon.el-icon-date {
+    display: none;
+  }
+  
+  .el-input__inner {
+    height: 44px !important;
+    padding-left: 60px !important;
+    padding-right: 0px !important ;
+  }
+}
+
+
 // Toastr
 @import "~toastr/toastr.scss";
 
