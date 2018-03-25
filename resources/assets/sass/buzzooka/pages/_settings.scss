@@ -42,7 +42,6 @@
                         padding: 0 40px 0 0 !important;
                     }
                     .el-form-item__content{
-                        margin-left: 330px !important;
                         .el-input{
                             height: 64px;
                             font-size: 23px;
@@ -79,6 +78,11 @@
     .general, .company, .invoice, .bank, .cash, .paypal{
         .buzz-section{
             padding: 40px;
+            .el-form-item{
+                .el-form-item__content{
+                    margin-left: 330px !important;
+                }
+            }
         }
     }
     .support, .form-fields, .cron, .db-backup, .updates{
@@ -86,23 +90,57 @@
             padding: 35px 20px;
         }
     }
-    .support{
-        .el-tabs__nav{
-            width: 100%;
-            height: 61px;
-            .el-tabs__item{
-                width: 50%;
-                text-align: center;
-                height: 100%;
-                font-size: 18px;
-                color: $table-data;
-                line-height: 3.3;
-                text-transform: uppercase;
-                &:hover {
-                    color: $table-data;
+    .email-templates{
+        .buzz-section{
+            padding: 20px;
+            .el-tabs--border-card{
+                box-shadow: none;
+                border: none;
+            }
+            .buzz-form{
+                margin-left: 30px !important;
+            }
+        }
+        .el-tabs__item{
+            margin: 0;
+            border: $table-border;
+        }
+        .el-tabs__content{
+            background: $gray-bg;
+            padding: 30px 0 0 0  !important;
+            .el-tabs__item{ //Sidebar
+                width: 100% !important;
+                height: 80px !important;
+                background: $white;
+                letter-spacing: 0.5px;
+                line-height: 4.5 !important;
+                padding: 0 30px !important;
+            }
+            .el-tabs__active-bar{
+                display: none;
+            }
+            .el-tabs__content{ //Content Form
+                padding: 0 !important;
+                .el-input{
+                    input{
+                        border:  $input-border;
+                    }
+                }
+                .el-textarea{
+                    margin-top: 5px;
+                    textarea{
+                        border:  $input-border;
+                    }
                 }
             }
         }
+        .el-tabs__nav-wrap{
+            &:after{
+                display: none;
+            }
+        }
+    }
+    .support{
         .el-tabs__content{
             padding: 0 !important;
             .el-table{
@@ -140,6 +178,24 @@
                 }
             }
         }
+    }
+    .email-templates, .support{
+        .el-tabs__nav{
+            width: 100%;
+            height: 61px;
+            .el-tabs__item{
+                width: 50%;
+                text-align: center;
+                height: 100%;
+                font-size: 18px;
+                color: $table-data;
+                line-height: 3.3;
+                text-transform: uppercase;
+                &:hover {
+                    color: $table-data;
+                }
+            }
+        } 
     }
     .form-fields{
         h2{
@@ -373,4 +429,5 @@
             }
         }
     }
+
 }
