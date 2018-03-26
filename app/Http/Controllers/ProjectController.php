@@ -58,7 +58,7 @@ class ProjectController extends Controller
 
             } else if(is_null($lastTimer->properties) && $lastTimer->action == 'back') {
                 //this is a bit problem as of now I don't want to continue
-                $lastTimer->properties
+                $lastTimer->properties;
 
             }
         }

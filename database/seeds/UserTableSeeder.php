@@ -29,6 +29,20 @@ class UserTableSeeder extends Seeder
         );
         $userBen->assignRole('admin');
 
+        $userdust = $user->create(
+        	[
+                'username' => env('ADMIN_USERNAME', 'dustin12345'),
+                'first_name' => 'Ross',
+        		'last_name' => 'Mosqueda',
+        		'email' => env('ADMIN_EMAIL', 'dustin@gmail.com'),
+                'image_url' => 'img/members/alfred.png',
+        		'password' => bcrypt(env('ADMIN_PASSWORD', '12345')),
+        		'job_title' => 'Administrator',
+        		'telephone' => '123456789'
+        	]
+        );
+        $userdust->assignRole('admin');
+
         App\Team::create([
             'name' => 'Clients',
             'description' => 'Clients team of seed company',

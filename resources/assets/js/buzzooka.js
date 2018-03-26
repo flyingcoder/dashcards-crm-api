@@ -56,7 +56,7 @@ Vue.component('buzzheader', require('./components/header/Index.vue'));
 Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 
 // Dashboard
-Vue.component('dashboard', require('./components/dashboard/index.vue'));
+Vue.component('dashboard', require('./components/dashboard/Index'));
 
 // Projects
 Vue.component('projects', require('./components/projects/Index'));
@@ -84,7 +84,7 @@ Vue.component('teams', require('./components/teams/index.vue'));
   Vue.component('chat', require('./components/chat/Index.vue'));
 
 // Reports
-  Vue.component('reports', require('./components/reports/index.vue'));
+  Vue.component('reports', require('./components/reports/Index'));
 
 // Project-HQ
 Vue.component('project-hq', require('./components/projects/project-hq/Index'));
@@ -97,7 +97,7 @@ Vue.component('page-header', require('./components/common/PageHeader.vue'));
 Vue.component('settings', require('./components/settings/Index.vue'));
 
 // Services
-Vue.component('services', require('./components/services/index.vue'));
+Vue.component('services', require('./components/services/Index'));
 
 
 // Avoid on Closing Templates Dropdown When Clicking Check Boxes

@@ -11,7 +11,20 @@
 
         <modal name="add-service" transition="nice-modal-fade" @before-open="beforeOpen">
              <section class="content">
-
+                    <div class="buzz-modal-header"> {{ title }} </div>
+                    <div class="buzz-scrollbar" id="buzz-scroll">
+                      <el-form ref="form" :model="form" label-position="top" v-loading="isProcessing" style="width: 100%">                    
+                          <div class="buzz-modal-content">
+                              <el-form-item>
+                                  <el-input type="text" v-model="form.name" placeholder="Service Name"></el-input>
+                              </el-form-item>
+                              <div class="form-buttons">
+                                  <el-button type="primary" class="buzz-button border" @click="submit"> {{ action }} </el-button>
+                                  <el-button type="primary" class="buzz-button border" @click="$modal.hide('add-service')"> Cancel </el-button>
+                              </div>
+                          </div>
+                      </el-form>
+                    </div>
             </section>
         </modal>
     </li>
@@ -19,12 +32,13 @@
 </template>
 
 <script>
+
     export default {
+
     	data: function () {
         	return {    
-        		name: '',
-                title: 'Add New Project',
-                action: 'save',
+                title: 'Add New Service',
+                action: 'Save',
                 id: 0,
                 oldName: '',
                 isProcessing: false,
@@ -32,33 +46,67 @@
                     name: '',
                 },
         		error: {
-        			status: false,
-                    message: '',
-                    name: [],
-        		}
+        			name: [],
+        		},
+                config: {
+                    toolbar: [
+                      [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
+                    ],
+                    
+                    height: 500
+                }
         	}
         },
 
         methods: {
             beforeOpen (event) {
-                this.name = ''
-                this.header = 'Add New Service'
-                this.action = 'save'
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
-                    this.action = 'update';
+                    this.action = 'Update';
                     this.header = 'Edit Service';
                     this.id = event.params.data.id;
                     var vm = this;
-                    axios.get('api/services/'+this.id)
-                        .then(function (response) {
-                            console.log(response.data.name)
-                            vm.name = response.data.name
-                            vm.oldName = vm.name;
+                    axios.get('api/service/'+this.id)
+                        .then( response => {
+                            this.form = response.data;
                         });
                 }
             },
+            submit(){
+                if(this.action == 'Save'){
+                    this.save();
+                }
+                else {
+                    this.update();
+                }
+            },
+            save: function () {
+                this.isProcessing = true;
+                axios.post('/api/services',this.form)
+                .then( response => {
+                    this.isProcessing = false;
+                    swal('Success!', 'Service is saved!', 'success');
+                })
+                .catch ( error => {
+                    this.isProcessing = false;
+                    if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    }
+                })
+            },
+            update: function () {
+                axios.put('/api/services/'+this.id+'/edit', this.form)
+                .then( response => {
+                    this.isProcessing = false;
+                    swal('Success!', 'Service is updated!', 'success');
+                })
+                .catch ( error => {
+                    if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    }
+                    this.isProcessing = false;        
+                })
+            }
         },
-
         mounted() {
             
         }

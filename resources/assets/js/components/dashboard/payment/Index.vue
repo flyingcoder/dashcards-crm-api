@@ -31,3 +31,28 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return {
+            payment: []
+        }
+    },
+    mounted(){
+        this.getPayment();
+    },
+    methods:{
+        getPayment(){
+            axios.get('/api/payments')
+            .then( response => {
+                this.payment = response.data;
+            })
+            .catch( error => {
+                if(error.response.status == 500 || error.response.status == 404){
+
+                }
+            });
+        },
+    }
+}
+</script>
