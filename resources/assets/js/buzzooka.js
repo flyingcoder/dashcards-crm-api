@@ -56,7 +56,7 @@ Vue.component('buzzheader', require('./components/header/Index.vue'));
 Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 
 // Dashboard
-Vue.component('dashboard', require('./components/dashboard/index.vue'));
+Vue.component('dashboard', require('./components/dashboard/Index'));
 
 // Projects
 Vue.component('projects', require('./components/projects/Index'));
