@@ -72,8 +72,8 @@
 </template>
 
 <script>
-    import AllClients from './all-clients.vue';
-    import MyClients from './my-clients.vue';
+    import AllClients from './AllClients.vue';
+    import MyClients from './MyClients.vue';
 
     export default {   
 

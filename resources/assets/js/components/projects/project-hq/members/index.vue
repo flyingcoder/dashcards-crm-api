@@ -60,19 +60,19 @@
                     </div>
                 </div>
                 <div class="tab-content">
-                    <list-members></list-members>
+                    <list-members :project-id="$parent.projectId" :asset="$parent.asset"></list-members>
                     <grid-members :project-id="$parent.projectId" :asset="$parent.asset"></grid-members>
                 </div>
             </section>
             <div class="box-footer">
-                    <a href=""> View More </a>
+                <a href=""> View More </a>
             </div>
         </div>
     </section>
 </template>
 
 <script>
-    import ListMembers from './list-members.vue';
+    import ListMembers from './ListMembers.vue';
     import GridMembers from './GridMembers.vue';
 
     export default {

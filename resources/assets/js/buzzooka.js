@@ -62,23 +62,23 @@ Vue.component('dashboard', require('./components/dashboard/Index'));
 Vue.component('projects', require('./components/projects/Index'));
 
 // Clients
-Vue.component('clients', require('./components/clients/index.vue'));
+Vue.component('clients', require('./components/clients/Index.vue'));
 
 // Calendar
 Vue.component('events', require('./components/calendar/Index.vue'));
 Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Invoices
-Vue.component('invoices', require('./components/invoices/index.vue'));
+Vue.component('invoices', require('./components/invoices/Index.vue'));
 
 // Payments
-Vue.component('payments', require('./components/payments/index.vue'));
+Vue.component('payments', require('./components/payments/Index.vue'));
 
 // Timers
-Vue.component('timers', require('./components/timers/index.vue'));
+Vue.component('timers', require('./components/timers/Index.vue'));
 
 // Teams
-Vue.component('teams', require('./components/teams/index.vue'));
+Vue.component('teams', require('./components/teams/Index.vue'));
 
 // Chat
   Vue.component('chat', require('./components/chat/Index.vue'));

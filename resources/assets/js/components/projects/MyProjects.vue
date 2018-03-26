@@ -6,7 +6,7 @@
             @selection-change="handleSelectionChange" style="width: 100%"
             @cell-click="rowClick"
             >
-                <el-table-column sortable type="selection" width="50"></el-table-column>
+                <el-table-column type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
                 <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
                 <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
@@ -53,14 +53,19 @@
             </el-pagination>
         </div>
         <div v-else> 
-            insert empty table here
+            <EmptyProjects></EmptyProjects>
         </div>
     </div>
 </template>
 
 
 <script>
-    export default {   
+    import EmptyProjects from './EmptyProjects.vue';
+
+    export default { 
+        components: {
+          'EmptyProjects': EmptyProjects,
+      },  
       data () {
         return {
         isProcessing: false,
@@ -69,16 +74,11 @@
         currentSize: 10,
         total : 1,
         paginatedMyProjects: [],
-        paginatedAllProjects: [],
-
         }
       },
-
       mounted () {
         this.getMyProjects();
-
       },
-
       methods: {
         getMyProjects(){
             axios.get('api/user/projects')
@@ -119,6 +119,5 @@
             console.log(data);
         }
       }
-
     }
 </script>

@@ -1,29 +1,28 @@
 <template>
-    <div role="tabpanel" class="tab-pane fade in active" id="all-project">
-        <div v-if="paginatedAllProjects.length >= 1">
-            <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
+    <div class="tab-pane fade" id="list-view">
+        <div v-if="members.length >= 1"> 
+            <el-table :data="members" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
             @selection-change="handleSelectionChange" style="width: 100%"
-            @cell-click="rowClick"
             >
                 <el-table-column sortable type="selection" width="60"></el-table-column>
-                <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
-                <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
-                <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
-                <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
-                <el-table-column sortable label="Progress" width="150">
-                    <div class="progress project-progress"> 
-                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </el-table-column>
-                <el-table-column prop="time_spent" label="Time Spent" width="100"></el-table-column>
-                <el-table-column sortable label="Status">
+                <el-table-column sortable label="Member" width="250">
                     <template slot-scope="scope">
-                        <span class="status"> {{ scope.row.status }} </span>
-                        <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
+                        <span> 
+                             <img class="user-image" :src="asset + '' + scope.row.image_url">
+                            {{ scope.row.first_name + " " + scope.row.last_name }} 
+                        </span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="Test">
+                <el-table-column label="Position" width="150">
+                    <template slot-scope="scope">
+                        <span> {{ scope.row.pivot.role }} </span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="member_location" label="Location"  width="150"></el-table-column>
+                <el-table-column sortable prop="total_hours" label="Total Hours" width="130"></el-table-column>
+                <el-table-column sortable prop="project_assigned" label="Project Assigned" width="150"></el-table-column>
+                <el-table-column fixed="right">
                     <template slot-scope="scope">
                         <a href="#" @click="edit(scope.row)">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -53,62 +52,53 @@
             </el-pagination>
         </div>
         <div v-else> 
-            <EmptyProjects></EmptyProjects>
-        </div>
+            Empty Table
+        </div> 
     </div>
 </template>
 
 
 <script>
-    import EmptyProjects from './EmptyProjects.vue';
-
-    export default {   
-        components: {
-          'EmptyProjects': EmptyProjects,
-      },
-      data () {
-        return {
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedAllProjects: [],
-        }
-      },
-
-      mounted () {
-        this.getAllProjects();
-      },
-
-      methods: {
-        getAllProjects(){
-            axios.get('api/projects')
-            .then( response => {
-                this.paginatedAllProjects = response.data.data;
-                this.currentPage = response.data.current_page;
-                this.total = response.data.total;
-            })
-        },
-        handleSizeChange: function (val) {
-            this.currentSize = val;
-        },
-        handleCurrentChange: function (val) {
-            this.currentPage = val;
-        },
-        handleSortChange: function (col) {
-            this.orderName = col.prop;
-            this.orderBy = col.order == 'ascending' ? 'asc' : 'desc';
-        },
-        handleSelectionChange: function(val) {
-            this.multipleSelection = [];
-            for (let index in val) {
-            this.multipleSelection.push(val[index].id);
+    export default {
+        props:['projectId','asset'],
+        data(){
+            return {
+                isProcessing: false,
+                multipleSelection: [],
+                currentPage: 1,
+                currentSize: 10,
+                total : 1,
+                members: [],
             }
         },
-        rowClick(row, event, col){
-            location = "/project-hq/" + row.id;
+        methods: {
+            getMembers(){
+                axios.get('/api/projects/' + this.projectId + '/members')
+                .then( response => {
+                    this.members = response.data.data;
+                    this.currentPage = response.data.current_page;
+                    this.total = response.data.total;
+                })
+            },
+            handleSizeChange: function (val) {
+                this.currentSize = val;
+            },
+            handleCurrentChange: function (val) {
+                this.currentPage = val;
+            },
+            handleSortChange: function (col) {
+                this.orderName = col.prop;
+                this.orderBy = col.order == 'ascending' ? 'asc' : 'desc';
+            },
+            handleSelectionChange: function(val) {
+                this.multipleSelection = [];
+                for (let index in val) {
+                this.multipleSelection.push(val[index].id);
+                }
+            },
+        },
+        mounted(){
+            this.getMembers();
         }
-      }
     }
 </script>

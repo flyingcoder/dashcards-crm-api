@@ -1,31 +1,29 @@
 <template>
-    <div role="tabpanel" class="tab-pane fade in active" id="all-project">
-        <div v-if="paginatedAllProjects.length >= 1">
-            <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
-            @sort-change="handleSortChange" element-loading-text="Processing ..." 
-            @selection-change="handleSelectionChange" style="width: 100%"
-            @cell-click="rowClick"
-            >
-                <el-table-column sortable type="selection" width="60"></el-table-column>
-                <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
-                <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
-                <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
-                <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
-                <el-table-column sortable label="Progress" width="150">
+    <div role="tabpanel" class="tab-pane fade active in" id="all-client">
+        <div v-if="paginatedAllClients.length >= 1">
+            <el-table :data="paginatedAllClients" stripe empty-text="No Data Found" v-loading="isProcessing" 
+                @sort-change="handleSortChange" element-loading-text="Processing ..." 
+                @selection-change="handleSelectionChange" style="width: 100%"
+                @cell-click="rowClick"
+                >
+                <el-table-column sortable prop="client_name" label="Client"></el-table-column>
+                <el-table-column prop="service_name" label="Service"></el-table-column>
+                <el-table-column sortable prop="started_at" label="Start Date"></el-table-column>
+                <el-table-column sortable label="Progress">
                     <div class="progress project-progress"> 
                         <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </el-table-column>
-                <el-table-column prop="time_spent" label="Time Spent" width="100"></el-table-column>
+                <el-table-column sortable prop="time_spent" label="Time Spent"></el-table-column>
                 <el-table-column sortable label="Status">
                     <template slot-scope="scope">
                         <span class="status"> {{ scope.row.status }} </span>
                         <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="Test">
+                <el-table-column fixed="right" label="" class="icon">
                     <template slot-scope="scope">
-                        <a href="#" @click="edit(scope.row)">
+                        <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="16px" height="16px">
                                 <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -53,19 +51,13 @@
             </el-pagination>
         </div>
         <div v-else> 
-            <EmptyProjects></EmptyProjects>
+            insert empty table here
         </div>
     </div>
 </template>
 
-
 <script>
-    import EmptyProjects from './EmptyProjects.vue';
-
     export default {   
-        components: {
-          'EmptyProjects': EmptyProjects,
-      },
       data () {
         return {
         isProcessing: false,
@@ -73,19 +65,19 @@
         currentPage: 1,
         currentSize: 10,
         total : 1,
-        paginatedAllProjects: [],
+        paginatedAllClients: [],
         }
       },
 
       mounted () {
-        this.getAllProjects();
+        this.paginatedAllClients();
       },
 
       methods: {
-        getAllProjects(){
-            axios.get('api/projects')
+        paginatedAllClients(){
+            axios.get('api/clients')
             .then( response => {
-                this.paginatedAllProjects = response.data.data;
+                this.paginatedAllClients = response.data.data;
                 this.currentPage = response.data.current_page;
                 this.total = response.data.total;
             })
@@ -107,8 +99,9 @@
             }
         },
         rowClick(row, event, col){
-            location = "/project-hq/" + row.id;
+            location = "/api/clients" + row.id;
         }
       }
+
     }
 </script>

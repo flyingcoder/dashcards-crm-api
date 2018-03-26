@@ -120,7 +120,7 @@ import AddService from './AddService'
 
       methods: {
         getServices(){
-            axios.get('api/services/')
+            axios.get('api/services')
             .then( response => {
                 this.paginatedServices = response.data.data;
                 this.currentPage = response.data.current_page;

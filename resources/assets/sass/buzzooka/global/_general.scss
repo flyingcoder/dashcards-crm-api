@@ -524,6 +524,7 @@
     .add-button{
         position: relative;
         width: 44px;
+        height: 43px;
         border-radius: 40px !important;
         background: $blue;
         box-shadow: $add-shadow !important;
@@ -844,68 +845,151 @@
         }
    } 
 // Buzz Table
-    .buzz-table{
-        ul{
-            li{
-                width: 50%;
-                height: 56px;
-                background: $gray-bg;
-                text-align: center;
-                &:active, &:focus, &:hover{
-                    background: $white;
-                }
-                a{
-                    margin: 0;
-                    font-size: 18px;
+    // Normal Table
+        .buzz-table{
+            ul{
+                border: $table-border;
+                padding-bottom: 1px;
+                li{
+                    width: 50%;
                     height: 56px;
-                    line-height: 1.2;
-                    padding-top: 20px;
-                    color: $table-data;
-                    font-family: $lato-semi;
-                    text-transform: uppercase;
+                    background: $gray-bg;
+                    text-align: center;
                     &:active, &:focus, &:hover{
                         background: $white;
+                    }
+                    a{
+                        margin: 0;
+                        font-size: 18px;
+                        height: 56px;
+                        line-height: 1.2;
+                        padding-top: 20px;
+                        color: $table-data;
+                        font-family: $lato-semi;
+                        text-transform: uppercase;
+                        &:active, &:focus, &:hover{
+                            background: $white;
+                        }
+                    }
+                }
+            }
+            .tab-content{
+                thead{
+                    tr{
+                        height: 56px;
+                        border: $table-border;
+                        th{
+                            font-size: 15px;
+                            text-align:  center;
+                            line-height: 1.2;
+                            font-family: $lato-semi;
+                            color: $table-head;
+                            vertical-align: middle;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            font-size: 14px;
+                            text-align:  center;
+                            vertical-align: middle;
+                            color: $table-data;
+                            line-height: 1.2;
+                            font-family: $lato-semi;
+                        }
+                        .active{
+                            background: $table-active;
+                        }
+                        .closed{
+                            background: $table-closed;
+                        }
+                        .hold{
+                            background: $table-hold;
+                        }
                     }
                 }
             }
         }
-        .tab-content{
-            thead{
+    // Element UI Table
+        .el-table{
+            border: $table-border;
+            .el-table__header{
                 tr{
-                    height: 56px;
-                    border: $table-border;
-                    th{
-                        font-size: 15px;
-                        text-align:  center;
-                        line-height: 1.2;
-                        font-family: $lato-semi;
+                    .cell{
                         color: $table-head;
-                        vertical-align: middle;
-                    }
+                        .el-checkbox__inner{
+                            width: 30px;
+                            height: 30px;
+                        }
+                    } 
                 }
             }
             tbody{
                 tr{
                     td{
-                        font-size: 14px;
-                        text-align:  center;
-                        vertical-align: middle;
-                        color: $table-data;
-                        line-height: 1.2;
-                        font-family: $lato-semi;
-                    }
-                    .active{
-                        background: $table-active;
-                    }
-                    .closed{
-                        background: $table-closed;
-                    }
-                    .hold{
-                        background: $table-hold;
+                        .cell{
+                            text-transform: capitalize;
+                            color: $table-data;
+                            @extend .buzz-overflow;
+                            .user-image{
+                                width: 50px;
+                                border-radius: 50%;
+                                margin-right: 20px;
+                            }
+                            .el-checkbox__inner{
+                                width: 30px;
+                                height: 30px;
+                            }
+                        }
+                        &:last-child{
+                            a, button{
+                                padding: 10px;
+                            }
+                        }
                     }
                 }
             }
         }
+        .el-pagination{
+            width: 90%;
+            position: absolute;
+            bottom: 30px;
+            .btn-prev{
+                position: absolute;
+                right: 10%;
+            }
+            .el-pager{
+                position: absolute;
+                right: 5%;
+            }
+            .btn-next{
+                position: absolute;
+                right: 0;
+            }
+        }
+    .empty-table{
+        text-align: center;
+        margin-top: 25%;
+        .empty-icon{
+            width: 182px;
+            height: 135px;
+        }
+        .empty-button{
+            .add{
+                height: 53px;
+                font-size: 13px;
+                color: $white;
+                text-transform: uppercase;
+                background: $blue;
+                border: $table-border;
+                border-radius: 30px;
+                box-shadow: $add-shadow !important;
+                margin-top: 30px;
+                padding: 0 20px;
+                letter-spacing: 0.5px;
+            }
+        }  
     }
 // V Modal
     .v--modal{
@@ -959,6 +1043,7 @@
                     button{
                         text-align: left;
                         width: 100%;
+                        height: 44px;
                         font-size: 17.2px;
                         font-family: $lato-semi;
                         color: $modal-title;
@@ -1093,132 +1178,7 @@
             
         }
     }
-// Vue Tooltip
-    .vue-tooltip.contact-popup{
-        // position: fixed;
-        // top: 32%;
-        // z-index: 2000;
-        // left: 45%;
-        left: -10px !important;
-        height: 262px;
-        width: 357px;
-        max-width: 357px !important;
-        background: $white;
-        border: $table-border;
-        box-shadow: $hover-shadow;
-        border-radius: 10px;
-        padding: 0 !important;
-        .tooltip-arrow{
-            border-width: 12px 12px 12px 0 !important;
-            left: -12px !important;
-            border-right-color: $white !important; 
-        }
-        .top-tip{
-            height: 120px;
-            padding: 15px 15px 0 20px;
-            .user-image{
-                width: 107px !important;
-                height: 106px !important;
-            }
-            .user-info{
-                margin-left: 20px;
-                width: 190px;
-                img{
-                    width: unset !important;
-                    height: unset !important;
-                    border: unset !important;
-                    border-radius: unset !important;
-                }
-                h4{
-                    font-size: 17.8px;
-                    font-family: lato heavy;
-                    color: $chat-tip-name;
-                    line-height: 1.2;
-                    margin: 0;
-                }
-                .position{
-                    font-size: 12px;
-                    color: $chat-position;
-                    line-height: 1.2;
-                    letter-spacing: 0.3px;
-                }
-                .email, .location{
-                    margin-top: 3px;
-                    @extend .buzz-overflow;
-                    max-width: 100% !important;
-                    span{
-                        position: relative;
-                        margin-left: 10px;
-                        top: 2px;
-                        font-size: 13.5px;
-                        color: $chat-position;
-                        font-family: $lato-mid;
-                    }
-                }
-            }
-            .user-image, .user-info{
-                display: inline-block;
-                vertical-align: middle;
-            }
-        }
-        .middle-tip{
-            height: 70px;
-            line-height: 5;
-            padding: 0 15px 0 20px;
-            ul{
-                li{
-                    padding: 0 8px !important;
-                    a{
-                        span{
-                            margin-left: 5px;
-                            font-size: 14px;
-                            color: $chat-position;
-                            font-family: $lato-mid;
-                        }
-                        svg, span{
-                            vertical-align: middle;
-                        }
-                    }
-                }
-            }
-        }
-        .bottom-tip{
-            height: 70px;
-            border-top: $table-border;
-            padding: 12px 0;
-            ul{
-                li{
-                    width: 49.5%;
-                    text-align: center;
-                    line-height: 1;
-                    label{
-                        margin: 0;
-                        font-size: 13.6px;
-                        color:  $chat-tip-name;
-                        line-height: 1.2;
-                    }
-                    span{
-                        position: relative;
-                        top: 3px;
-                        font-size: 23.4px;
-                        font-family: $lato-heavy;
-                        color: $chat-tip-name;
-                    }
-                }
-            }
-        }
-        ul{
-            height: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            li{
-                display: inline-block;
-                border: none !important;
-                height: 100% !important;
-            }
-        }
-    }
-// Vue Popup
+// Vue Popupover
     // Settings Support
         .popup-text-department{
             padding: 15px;
@@ -1244,5 +1204,165 @@
                 }
             }
         }
+    // Chat
+        .chat-popover-content{
+            // left: -10px !important;
+            // height: 262px;
+            // width: 357px;
+            // max-width: 357px !important;
+            // background: $white;
+            // border: $table-border;
+            // box-shadow: $hover-shadow;
+            // border-radius: 10px;
+            // padding: 0 !important;
+            .tooltip-arrow{
+                border-width: 12px 12px 12px 0 !important;
+                left: -12px !important;
+                border-right-color: $white !important; 
+            }
+            .top-tip{
+                height: 120px;
+                padding: 15px 15px 0 20px;
+                .user-image{
+                    width: 107px !important;
+                    height: 106px !important;
+                }
+                .user-info{
+                    margin-left: 20px;
+                    width: 190px;
+                    img{
+                        width: unset !important;
+                        height: unset !important;
+                        border: unset !important;
+                        border-radius: unset !important;
+                    }
+                    h4{
+                        font-size: 17.8px;
+                        font-family: lato heavy;
+                        color: $chat-tip-name;
+                        line-height: 1.2;
+                        margin: 0;
+                    }
+                    .position{
+                        font-size: 12px;
+                        color: $chat-position;
+                        line-height: 1.2;
+                        letter-spacing: 0.3px;
+                    }
+                    .email, .location{
+                        margin-top: 3px;
+                        @extend .buzz-overflow;
+                        max-width: 100% !important;
+                        span{
+                            position: relative;
+                            margin-left: 10px;
+                            top: 2px;
+                            font-size: 13.5px;
+                            color: $chat-position;
+                            font-family: $lato-mid;
+                        }
+                    }
+                }
+                .user-image, .user-info{
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+            .middle-tip{
+                height: 70px;
+                line-height: 5;
+                padding: 0 15px 0 20px;
+                ul{
+                    li{
+                        padding: 0 8px !important;
+                        a{
+                            span{
+                                margin-left: 5px;
+                                font-size: 14px;
+                                color: $chat-position;
+                                font-family: $lato-mid;
+                            }
+                            svg, span{
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+            }
+            .bottom-tip{
+                height: 70px;
+                border-top: $table-border;
+                padding: 12px 0;
+                ul{
+                    li{
+                        width: 49.5%;
+                        text-align: center;
+                        line-height: 1;
+                        label{
+                            margin: 0;
+                            font-size: 13.6px;
+                            color:  $chat-tip-name;
+                            line-height: 1.2;
+                        }
+                        span{
+                            position: relative;
+                            top: 3px;
+                            font-size: 23.4px;
+                            font-family: $lato-heavy;
+                            color: $chat-tip-name;
+                        }
+                    }
+                }
+            }
+            ul{
+                height: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                li{
+                    display: inline-block;
+                    border: none !important;
+                    height: 100% !important;
+                }
+            }
+        }
 // New
+}
+
+.el-checkbox__inner{
+    &:after {
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        content: "";
+        border: 2px solid $white;
+        height: 17px;
+        left: 12px;
+        top: 3px;
+        width: 4px;
+        border-left: 0;
+        border-top: 0;
+        position: absolute;
+        -webkit-transform: rotate(45deg) scaleY(0);
+        transform: rotate(45deg) scaleY(0);
+        -webkit-transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+        transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+        transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+        transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms, -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+        transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms,-webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+        -webkit-transform-origin: center;
+        transform-origin: center;
+    }
+}
+.el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    &:before{
+        content: '';
+        position: absolute;
+        display: block;
+        background-color: #fff;
+        height: 5px;
+        -webkit-transform: scale(.5);
+        transform: scale(.5);
+        left: 0;
+        right: 0;
+        top: 13px;
+    }
 }
