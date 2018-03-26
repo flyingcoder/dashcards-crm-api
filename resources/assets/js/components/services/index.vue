@@ -50,11 +50,11 @@
         </div>
         <div class="content-body">
             <section class="buzz-section">
-                <div class="buzz-table">
-                     <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
+                <div class="buzz-table" v-if="paginatedServices.length >= 1">
+                     <el-table :data="paginatedServices" stripe empty-text="No Data Found" v-loading="isProcessing" 
                         @sort-change="handleSortChange" element-loading-text="Processing ..." 
                         @selection-change="handleSelectionChange" style="width: 100%"
-                        @row-click="rowClick">
+                        >
                             <el-table-column sortable type="selection" width="45"></el-table-column>
                             <el-table-column sortable prop="service_name" label="Service" width="200"></el-table-column>
                             <el-table-column sortable prop="created_by" label="Created By"></el-table-column>
@@ -89,72 +89,61 @@
                         :total="total">
                     </el-pagination>
                 </div>
+                <div v-else> 
+                    insert empty table here
+                </div>
             </section>
         </div>
     </section>
 </template>
 
 <script>
-    import AddService from './AddService.vue';
-
+import AddService from './AddService'
     export default {   
-        components: {
-            'add-service': AddService,
+      components: {
+        'add-service': AddService
+      },
+      data () {
+        return {
+        isProcessing: false,
+        multipleSelection: [],
+        currentPage: 1,
+        currentSize: 10,
+        total : 1,
+        paginatedServices: [],
+        }
+      },
+
+      mounted () {
+        this.getServices();
+      },
+
+      methods: {
+        getServices(){
+            axios.get('api/services')
+            .then( response => {
+                this.paginatedServices = response.data.data;
+                this.currentPage = response.data.current_page;
+                this.total = response.data.total;
+            })
         },
-
-        data () {
-            return {
-            isProcessing: false,
-            multipleSelection: [],
-            currentPage: 1,
-            currentSize: 10,
-            total : 1,
-            paginatedMyProjects: [],
-            paginatedAllProjects: [],
-            }
+        handleSizeChange: function (val) {
+            this.currentSize = val;
         },
-
-        mounted () {
-            this.getMyProjects();
-            this.getAllProjects();
-
+        handleCurrentChange: function (val) {
+            this.currentPage = val;
         },
-
-        methods: {
-            getMyProjects(){
-                axios.get('api/projects/mine')
-                    .then( response => {
-                        this.paginatedMyProjects = response.data.data;
-                        this.currentPage = response.data.current_page;
-                        this.total = response.data.total;
-                    })
-            },
-            getAllProjects(){
-                axios.get('api/projects')
-                .then( response => {
-                    this.paginatedMyProjects = response.data;
-                })
-            },
-            handleSizeChange: function (val) {
-                this.currentSize = val;
-            },
-            handleCurrentChange: function (val) {
-                this.currentPage = val;
-            },
-            handleSortChange: function (col) {
-                this.orderName = col.prop;
-                this.orderBy = col.order == 'ascending' ? 'asc' : 'desc';
-            },
-            handleSelectionChange: function(val) {
+        handleSortChange: function (col) {
+            this.orderName = col.prop;
+            this.orderBy = col.order == 'ascending' ? 'asc' : 'desc';
+        },
+        handleSelectionChange: function(val) {
                 this.multipleSelection = [];
                 for (let index in val) {
                 this.multipleSelection.push(val[index].id);
-                }
-            },
-            rowClick(row, event, col){
-                location = "/projects/" + row.id;
             }
-        }
+        },
+      }
 
     }
 </script>

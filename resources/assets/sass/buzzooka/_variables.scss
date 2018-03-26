@@ -49,7 +49,7 @@ $navbar-default-bg: #fff;
     $black: #000000;
     $blue: #3b589e;
     $blue-2: #2b3245;
-    $gray: #f2f1f7;
+    $gray: #242329;
     $gray-2: #9095a9;
     $gray-3: #657186;
     $gray-4: #bcc2cf;
@@ -63,6 +63,7 @@ $navbar-default-bg: #fff;
     $online: #23bd6b;
     $offline: #bfbfbf;
     $red: rgb(255, 127, 126);
+    $warning: rgb(255, 0, 0);
 
     $orange-tile-1: #ed8564;
     $green-tile-2: #50b4aa;
@@ -75,6 +76,9 @@ $navbar-default-bg: #fff;
     $action: rgb(212, 214, 224);
     $action-hover: rgb(179, 182, 195);
     $option-hover: rgb(114, 126, 138);
+    $action-move: #a186d3;
+    $action-delete: #ff7f7e;
+    $action-edit: #1fb868;
 
 // V Modal
     $modal-bg: #eeeff2;
@@ -114,12 +118,17 @@ $navbar-default-bg: #fff;
     $option-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
     $add-shadow: 0px 5px 5px 0px rgba(173, 183, 196, 0.75);
 
-// Input
+// Form
+    $input-text: rgb(102, 115, 129);
     $input-bg: #fbfcfd;
     $input2-bg: rgb(251, 252, 253);
     $input-border: 1px solid rgb(192, 192, 192);
     $input-border-2: 1px solid rgb(215, 215, 215);
     $box-shadow-inset: inset 0px 1px 1px 0px rgba(154, 157, 160, 0.35);
+    $form-button: rgb(59, 88, 158);
+    $form-button-hover: rgb(76, 105, 174);
+    $form-caret-bg: rgb(241, 241, 247);
+    $form-caret-color: rgb(192, 192, 192);
 
 // Milestone
     $milestone-title: rgb(101, 113, 134);
@@ -176,3 +185,13 @@ $navbar-default-bg: #fff;
     $calendar-tab: #ededf2;
     $calendar-tab-text: rgb(173, 175, 177);
     $event-time: rgb(188, 194, 207);
+
+// Cron
+    $cron-input: rgb(166, 173, 181);
+    $cron-warning: #f2dede;
+    $cron-job: #d9edf7;
+    $cron-text: #3080ab;
+    $cron-text2: #cc7a7a;
+    $cron-info: #524f51;
+    $cron-border: #b2e5ee;
+    $cron-border2: #edd2d5;

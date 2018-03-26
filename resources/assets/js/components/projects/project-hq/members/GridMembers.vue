@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="member-image">
-                                        <img :src="asset + '' + m.image_url">
+                                    <img :src="asset + '' + m.image_url">
                                 </div>
                                 <div class="member-name">
                                     <span> {{ m.first_name + " " + m.last_name }} </span>

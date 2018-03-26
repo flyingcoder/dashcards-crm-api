@@ -52,36 +52,39 @@ Vue.filter('diffInDays', function(value, start){
 //  Header
 Vue.component('buzzheader', require('./components/header/Index.vue'));
 
+//  Sidebar
+Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
+
 // Dashboard
-Vue.component('dashboard', require('./components/dashboard/index.vue'));
+Vue.component('dashboard', require('./components/dashboard/Index'));
 
 // Projects
 Vue.component('projects', require('./components/projects/Index'));
 
 // Clients
-Vue.component('clients', require('./components/clients/index.vue'));
+Vue.component('clients', require('./components/clients/Index.vue'));
 
 // Calendar
 Vue.component('events', require('./components/calendar/Index.vue'));
 Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Invoices
-Vue.component('invoices', require('./components/invoices/index.vue'));
+Vue.component('invoices', require('./components/invoices/Index.vue'));
 
 // Payments
-Vue.component('payments', require('./components/payments/index.vue'));
+Vue.component('payments', require('./components/payments/Index.vue'));
 
 // Timers
-Vue.component('timers', require('./components/timers/index.vue'));
+Vue.component('timers', require('./components/timers/Index.vue'));
 
 // Teams
-Vue.component('teams', require('./components/teams/index.vue'));
+Vue.component('teams', require('./components/teams/Index.vue'));
 
 // Chat
   Vue.component('chat', require('./components/chat/Index.vue'));
 
 // Reports
-  Vue.component('reports', require('./components/reports/index.vue'));
+  Vue.component('reports', require('./components/reports/Index'));
 
 // Project-HQ
 Vue.component('project-hq', require('./components/projects/project-hq/Index'));
@@ -91,10 +94,10 @@ Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
 Vue.component('page-header', require('./components/common/PageHeader.vue'));
 
 // Testing
-// Vue.component('clients', require('./components/projects/project-hq/index.vue'));
+Vue.component('settings', require('./components/settings/Index.vue'));
 
 // Services
-Vue.component('services', require('./components/services/index.vue'));
+Vue.component('services', require('./components/services/Index'));
 
 
 // Avoid on Closing Templates Dropdown When Clicking Check Boxes
@@ -225,34 +228,51 @@ let buzzcrm = {
   }
 };
 
-if(document.getElementById("app-with-routes")) {
+// Settings
+  if(document.getElementById("settings-routes")) {
 
-  Vue.use(VueRouter);
+    Vue.use(VueRouter);
 
-  let router = new VueRouter({
-    routes: [
-      {path: '/',component: require('./components/projects/project-hq/overview/Index')},
-      {path: '/files',component: require('./components/projects/project-hq/files/Index')},
-      {path: '/tasks',component: require('./components/projects/project-hq/tasks/Index')},
-//       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
-//       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
-      {path: '/milestones',component: require('./components/projects/project-hq/milestones/Index')},
-//       {path: '/reports',component: require('./components/projects/project-hq/report/Index')},
+    let router = new VueRouter({
+      routes: [
+        // {path: '/',component: require('./components/settings/General.vue')},
+      ],
+      linkActiveClass: 'active'
+    });
 
-//       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/Index')},
-//       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
-//       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
-//       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
-      {path: '/members',component: require('./components/projects/project-hq/members/Index')}
-//       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
-//       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
+    buzzcrm['router'] = router;
+  }
 
-    ],
-    linkActiveClass: 'active'
-  });
 
-  buzzcrm['router'] = router;
-}
+// Project HQ
+  if(document.getElementById("app-with-routes")) {
+
+    Vue.use(VueRouter);
+
+    let router = new VueRouter({
+      routes: [
+        {path: '/',component: require('./components/projects/project-hq/overview/Index')},
+        {path: '/files',component: require('./components/projects/project-hq/files/Index')},
+        {path: '/tasks',component: require('./components/projects/project-hq/tasks/Index')},
+  //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
+  //       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
+        {path: '/milestones',component: require('./components/projects/project-hq/milestones/Index')},
+  //       {path: '/reports',component: require('./components/projects/project-hq/report/Index')},
+
+  //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/Index')},
+  //       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
+  //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
+  //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
+        {path: '/members',component: require('./components/projects/project-hq/members/Index')}
+  //       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
+  //       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
+
+      ],
+      linkActiveClass: 'active'
+    });
+
+    buzzcrm['router'] = router;
+  }
 
 const app = new Vue(buzzcrm)
 

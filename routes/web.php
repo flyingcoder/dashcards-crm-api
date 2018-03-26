@@ -34,6 +34,7 @@ Route::view('teams', 'pages.teams')->name('teams');
 Route::view('chat', 'pages.chat')->name('chat');
 Route::view('reports', 'pages.reports')->name('reports');
 Route::view('services', 'pages.services')->name('services');
+Route::view('settings', 'pages.settings')->name('settings');
 Route::view('project-details', 'pages.project-details')->name('project-details');
 
 Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
