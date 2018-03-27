@@ -1,6 +1,6 @@
 <template>
     <div role="tabpanel" class="tab-pane fade" id="my-client">
-        <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
+        <el-table :data="paginatedMyClients" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." @selection-change="handleSelectionChange" style="width: 100%">
             <el-table-column sortable prop="client_name" label="Client"></el-table-column>
             <el-table-column prop="service_name" label="Service"></el-table-column>
@@ -47,3 +47,55 @@
         </el-pagination>
     </div>
 </template>
+<script>
+    export default {   
+      data () {
+        return {
+            isProcessing: false,
+            multipleSelection: [],
+            currentPage: 1,
+            currentSize: 10,
+            total : 1,
+            paginatedMyClients: [],
+        }
+      },
+
+      mounted () {
+        this.getMyClients();
+      },
+
+      methods: {
+        bars(h,{column,$index}){
+
+        },
+        getMyClients(){
+            axios.get('api/user/clients')
+            .then( response => {
+                this.paginatedMyClients = response.data.data;
+                this.currentPage = response.data.current_page;
+                this.total = response.data.total;
+            })
+        },
+        handleSizeChange: function (val) {
+            this.currentSize = val;
+        },
+        handleCurrentChange: function (val) {
+            this.currentPage = val;
+        },
+        handleSortChange: function (col) {
+            this.orderName = col.prop;
+            this.orderBy = col.order == 'ascending' ? 'asc' : 'desc';
+        },
+        handleSelectionChange: function(val) {
+            this.multipleSelection = [];
+            for (let index in val) {
+            this.multipleSelection.push(val[index].id);
+            }
+        },
+        rowClick(row, event, col){
+            location = "/api/clients" + row.id;
+        }
+      }
+
+    }
+</script>

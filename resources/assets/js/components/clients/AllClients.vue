@@ -21,7 +21,7 @@
                         <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="" class="icon">
+                <el-table-column fixed="right" render-header="bars" class="icon">
                     <template slot-scope="scope">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -60,21 +60,24 @@
     export default {   
       data () {
         return {
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedAllClients: [],
+            isProcessing: false,
+            multipleSelection: [],
+            currentPage: 1,
+            currentSize: 10,
+            total : 1,
+            paginatedAllClients: [],
         }
       },
 
       mounted () {
-        this.paginatedAllClients();
+        this.getAllClients();
       },
 
       methods: {
-        paginatedAllClients(){
+        bars(h,{column,$index}){
+
+        },
+        getAllClients(){
             axios.get('api/clients')
             .then( response => {
                 this.paginatedAllClients = response.data.data;

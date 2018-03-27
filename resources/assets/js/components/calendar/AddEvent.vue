@@ -113,64 +113,74 @@
 <script>
     import Ckeditor from 'vue-ckeditor2'
 
-    export default {
-        components: {
-            Ckeditor
-        },
-    	data: function () {
-        	return {    
-        		name: '',
-                title: 'Add New Project',
-                action: 'save',
-                id: 0,
-                oldName: '',
-                isProcessing: false,
-                form: {
-                    name: '',
-                    content: ''
-                },
-        		error: {
-        			status: false,
-                    message: '',
-                    name: [],
-        		},
-                config: {
-                    toolbar: [
-                      [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
-                    ],
-                    
-                    height: 500
-                }
-        	}
-        },
-
-        methods: {
-            onBlur (e) {
-                console.log(e)
+export default {
+    data: function () {
+        return {    
+            title: 'Add New Event',
+            action: 'Save',
+            id: 0,
+            oldName: '',
+            isProcessing: false,
+            form: {
+                name: '',
             },
-            onFocus (e) {
-                console.log(e)
-            },
-            beforeOpen (event) {
-                this.name = ''
-                this.header = 'Add New Service'
-                this.action = 'save'
-                if(typeof event.params != 'undefined' && event.params.action == 'update') {
-                    this.action = 'update';
-                    this.header = 'Edit Service';
-                    this.id = event.params.data.id;
-                    var vm = this;
-                    axios.get('api/services/'+this.id)
-                        .then(function (response) {
-                            console.log(response.data.name)
-                            vm.name = response.data.name
-                            vm.oldName = vm.name;
-                        });
-                }
-            },
-        },
-        mounted() {
-            
+            error: {
+                name: [],
+            },  
         }
+    },
+
+    methods: {
+        beforeOpen (event) {
+            if(typeof event.params != 'undefined' && event.params.action == 'update') {
+                this.action = 'Update';
+                this.header = 'Edit Event';
+                this.id = event.params.data.id;
+                var vm = this;
+                axios.get('api/event/'+this.id)
+                    .then( response => {
+                        this.form = response.data;
+                    });
+            }
+        },
+        submit(){
+            if(this.action == 'Save'){
+                this.save();
+            }
+            else {
+                this.update();
+            }
+        },
+        save: function () {
+            this.isProcessing = true;
+            axios.post('/api/event/new',this.form)
+            .then( response => {
+                this.isProcessing = false;
+                swal('Success!', 'Event is saved!', 'success');
+            })
+            .catch ( error => {
+                this.isProcessing = false;
+                if(error.response.status == 422){
+                this.errors = error.response.data.errors;
+                }
+            })
+        },
+        update: function () {
+            axios.put('/api/event/'+this.id+'/edit', this.form)
+            .then( response => {
+                this.isProcessing = false;
+                swal('Success!', 'Event is updated!', 'success');
+            })
+            .catch ( error => {
+                if(error.response.status == 422){
+                this.errors = error.response.data.errors;
+                }
+                this.isProcessing = false;        
+            })
+        }
+    },
+    mounted() {
+        
     }
+}
 </script>

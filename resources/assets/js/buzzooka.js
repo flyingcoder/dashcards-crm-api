@@ -62,14 +62,14 @@ Vue.component('dashboard', require('./components/dashboard/Index'));
 Vue.component('projects', require('./components/projects/Index'));
 
 // Clients
-Vue.component('clients', require('./components/clients/Index.vue'));
+Vue.component('clients', require('./components/clients/Index'));
 
 // Calendar
 Vue.component('events', require('./components/calendar/Index.vue'));
 Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Invoices
-Vue.component('invoices', require('./components/invoices/Index.vue'));
+Vue.component('invoices', require('./components/invoices/Index'));
 
 // Payments
 Vue.component('payments', require('./components/payments/Index.vue'));

@@ -80,60 +80,6 @@
         components: {
           'all-clients': AllClients,
           'my-clients': MyClients,
-      },
-
-      data () {
-        return {
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedMyProjects: [],
-        paginatedAllProjects: [],
-        }
-      },
-
-      mounted () {
-        this.getMyProjects();
-        this.getAllProjects();
-
-      },
-
-      methods: {
-        getMyProjects(){
-            axios.get('api/projects/mine')
-                 .then( response => {
-                    this.paginatedMyProjects = response.data.data;
-                    this.currentPage = response.data.current_page;
-                    this.total = response.data.total;
-                 })
-        },
-        getAllProjects(){
-            axios.get('api/projects')
-            .then( response => {
-                this.paginatedMyProjects = response.data;
-            })
-        },
-        handleSizeChange: function (val) {
-            this.currentSize = val;
-        },
-        handleCurrentChange: function (val) {
-            this.currentPage = val;
-        },
-        handleSortChange: function (col) {
-            this.orderName = col.prop;
-            this.orderBy = col.order == 'ascending' ? 'asc' : 'desc';
-        },
-        handleSelectionChange: function(val) {
-            this.multipleSelection = [];
-            for (let index in val) {
-            this.multipleSelection.push(val[index].id);
-            }
-        },
-        rowClick(row, event, col){
-            location = "/projects/" + row.id;
-        }
       }
 
     }
