@@ -11,7 +11,7 @@
             </button>
         </div>
 
-       <modal name="add-project" transition="nice-modal-fade" @before-open="beforeOpen">
+        <modal name="add-project" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
@@ -120,7 +120,6 @@
             </section>
         </modal>
     </li>
-
 </template>
 
 

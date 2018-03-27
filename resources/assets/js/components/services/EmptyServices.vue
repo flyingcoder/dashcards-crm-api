@@ -1,17 +1,13 @@
 <template>
-    <li>
-        <div class="add-button">
-            <span> ADD NEW </span>
-            <button  @click="$modal.show('add-service')">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    width="20px" height="20px">
-                    <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                    d="M18.852,10.789 L11.590,10.789 L11.590,19.039 C11.590,19.444 11.193,19.773 10.703,19.773 C10.212,19.773 9.815,19.444 9.815,19.039 L9.815,10.789 L1.663,10.789 C1.262,10.789 0.937,10.387 0.937,9.892 C0.937,9.395 1.262,8.993 1.663,8.993 L9.815,8.993 L9.815,1.645 C9.815,1.240 10.212,0.911 10.703,0.911 C11.193,0.911 11.590,1.240 11.590,1.645 L11.590,8.993 L18.852,8.993 C19.252,8.993 19.577,9.395 19.577,9.892 C19.577,10.387 19.252,10.789 18.852,10.789 Z"/>
-                </svg>
+    <div class="empty-table">
+        <img class="empty-icon" src="img/icons/empty/services.svg">
+        <div class="empty-button">
+            <button class="add"  @click="$modal.show('add-service_page')">
+                Add New Service
             </button>
         </div>
 
-        <modal name="add-service" transition="nice-modal-fade" @before-open="beforeOpen">
+        <modal name="add-service_page" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
@@ -47,14 +43,14 @@
                             <el-form-item  class="form-buttons">
                                 <el-button @click="submitForm('servicesForm')">Save</el-button>
                                 <!-- <el-button @click="resetForm('servicesForm')">Reset</el-button> -->
-                                <el-button @click="$modal.hide('add-service')">Cancel</el-button>
+                                <el-button @click="$modal.hide('add-service_page')">Cancel</el-button>
                             </el-form-item>
                         </div>
                     </el-form>
                 </div>
             </section>
         </modal>
-    </li>
+    </div>
 </template>
 
 <script>
@@ -88,6 +84,7 @@
                 }
         	}
         },
+
         methods: {
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {

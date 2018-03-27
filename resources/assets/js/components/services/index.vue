@@ -90,7 +90,7 @@
                     </el-pagination>
                 </div>
                 <div v-else> 
-                    insert empty table here
+                    <EmptyServices></EmptyServices>
                 </div>
             </section>
         </div>
@@ -98,10 +98,13 @@
 </template>
 
 <script>
-import AddService from './AddService'
+    import AddService from './AddService.vue';
+    import EmptyServices from './EmptyServices.vue';
+
     export default {   
       components: {
-        'add-service': AddService
+        'add-service': AddService,
+        'EmptyServices': EmptyServices
       },
       data () {
         return {
