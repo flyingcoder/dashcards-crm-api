@@ -1,5 +1,5 @@
 <template>
-    <div role="tabpanel" class="tab-pane fade in active" id="all-project">
+    <div class="All-Projects">
         <div v-if="paginatedAllProjects.length >= 1">
             <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 

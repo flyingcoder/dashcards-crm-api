@@ -2,7 +2,7 @@
     <li>
         <div class="add-button">
             <span> ADD NEW </span>
-            <button  @click="$modal.show('add-project')">
+            <button  @click="$modal.show('add-client')">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="20px" height="20px">
                     <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
@@ -11,41 +11,16 @@
             </button>
         </div>
 
-       <modal name="add-project" transition="nice-modal-fade" @before-open="beforeOpen">
+        <modal name="add-client" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
                 <el-form ref="form" :model="form" label-position="top" v-loading="isProcessing" style="width: 100%">                    
-                    <div class="buzz-modal-option">
-                        <div class="option">
-                            <button>
-                                <img src="img/icons/modal/members.png" alt=""> 
-                                Members 
-                            </button>
-                        </div>
-                        <div class="option">
-                            <div class="date-project">
-                                <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
-                                <el-date-picker
-                                :clearable="false"
-                                v-model="form.due_date"
-                                type="date"
-                                placeholder="Due Date">
-                                </el-date-picker>
-                            </div>
-                        </div>
-                        <div class="option">
-                            <button> 
-                                <img src="img/icons/modal/attachment.svg" alt=""> 
-                                Attachment 
-                            </button>
-                        </div>
-                    </div>
                     <div class="buzz-modal-content">
                             <div class="form-content row">
                                 <div class="form-group col-md-12"> 
                                     <el-form-item>
-                                        <el-input type="text" v-model="form.name" placeholder="Untitled Project"></el-input>
+                                        <el-input type="text" v-model="form.name" placeholder="Client Name"></el-input>
                                     </el-form-item>
                                 </div>
                                 <div class="form-group col-md-12"> 
@@ -111,7 +86,7 @@
                                 </div -->
                                 <div class="form-buttons">
                                         <el-button type="primary" class="buzz-button border" @click="submit"> {{ action }} </el-button>
-                                        <el-button type="primary" class="buzz-button border" @click="$modal.hide('add-project')"> Cancel </el-button>
+                                        <el-button type="primary" class="buzz-button border" @click="$modal.hide('add-client')"> Cancel </el-button>
                                 </div>
                             </div>
                         </div>
@@ -120,15 +95,13 @@
             </section>
         </modal>
     </li>
-
 </template>
-
 
 <script>
     export default {
     	data: function () {
         	return {    
-                title: 'Add New Project',
+                title: 'Add New Client',
                 action: 'Save',
                 id: 0,
                 oldName: '',
@@ -136,13 +109,11 @@
                 form: {
                     name: '',
                     description: '',
-                    due_date: '',
                     content: '',
                 },
         		error: {
         			name: [],
                     description: [],
-                    due_date: [],
                     content: [],
         		},
                 config: {
@@ -165,10 +136,10 @@
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
-                    this.header = 'Edit Project';
+                    this.header = 'Edit Client';
                     this.id = event.params.data.id;
                     var vm = this;
-                    axios.get('api/projects/'+this.id)
+                    axios.get('api/clients/'+this.id)
                         .then( response => {
                             this.form = response.data;
                         });
@@ -184,10 +155,10 @@
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/projects/new',this.form)
+                axios.post('/api/clients/new',this.form)
                 .then( response => {
                     this.isProcessing = false;
-                    swal('Success!', 'Project is saved!', 'success');
+                    swal('Success!', 'Client is saved!', 'success');
                 })
                 .catch ( error => {
                     this.isProcessing = false;
@@ -197,10 +168,10 @@
                 })
             },
             update: function () {
-                axios.put('/api/projects/'+this.id+'/edit', this.form)
+                axios.put('/api/clients/'+this.id+'/edit', this.form)
                 .then( response => {
                     this.isProcessing = false;
-                    swal('Success!', 'Project is updated!', 'success');
+                    swal('Success!', 'Client is updated!', 'success');
                 })
                 .catch ( error => {
                     if(error.response.status == 422){
