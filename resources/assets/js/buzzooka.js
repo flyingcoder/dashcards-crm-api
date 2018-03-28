@@ -26,6 +26,9 @@ import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
 Vue.use(VModal);
 
+import FullCalendar from 'vue-full-calendar'
+Vue.use(FullCalendar);
+
 import Ckeditor from 'vue-ckeditor2'
 Vue.use(Ckeditor);
 
