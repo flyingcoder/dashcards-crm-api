@@ -105,6 +105,7 @@
         min-height: 100%;
         width: 226px;
         z-index: 100;
+        @extend .toggle-transition;
     }
 // Header
     .buzz-header{
@@ -134,6 +135,7 @@
         margin-left: 226px;
         // padding: 10px 30px;
         padding: 0px 30px;
+        @extend .margin-transition;
         .content-header{
             height: 66px;
             .page-title{
@@ -391,9 +393,14 @@
         transition: transform 0.5s ease;
     }
     .toggle-transition{
-        -webkit-transition: width 0.3s ease-in-out;
-        -o-transition: width 0.3s ease-in-out;
-        transition: width 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease !important;
+		-moz-transition: all 0.3s ease !important;
+		transition: all 0.3s ease !important;
+    }
+    .margin-transition{
+        -webkit-transition: margin 0.4s ease;
+		-moz-transition: margin 0.4s ease;
+		transition: margin 0.4s ease;
     }
 // Box Shadow
     .buzz-shadow{

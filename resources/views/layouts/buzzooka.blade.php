@@ -23,7 +23,7 @@
 
       <aside class="buzz-sidebar">
         <section>
-          <ul class="sidebar-menu" data-widget="tree">
+          <ul class="sidebar-menu" data-widget="tree" id="buzz-sidemenu">
             <li class="sidebar-list {{ (Request::is('dashboard/*') || Request::is('dashboard')  ? 'active' : '') }}">
               <a href="{{ route ('dashboard') }}" id="dashboard"> 
                   <label class="tab-icon"> 
