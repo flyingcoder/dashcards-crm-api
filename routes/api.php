@@ -174,6 +174,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'tasks'], function () {
 
   Route::put('{id}', 'TaskController@update');
 
+  Route::get('{id}/comments', 'TaskController@comments');
+
+  Route::post('{id}/comments', 'TaskController@addComments');
+
 });
 
 // Forms
