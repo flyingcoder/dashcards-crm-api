@@ -1,5 +1,5 @@
 <template>
-  <div class="buzz-box">
+  <div class="buzz-box" v-loading="loading">
     <div class="box-head">
       <h1>Project Overview</h1>
       <div class="box-options">
@@ -158,7 +158,8 @@ export default {
         ],
         service:{
           name: ''
-        }
+        },
+        loading: true
       },
     }
   },
@@ -169,6 +170,7 @@ export default {
     overview(){
       axios.get('/api/projects/'+ this.projectId)
       .then( response => {
+        this.loading = false;
         this.projectOverview = response.data;
       })
     },

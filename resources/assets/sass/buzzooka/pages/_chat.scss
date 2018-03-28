@@ -79,8 +79,8 @@
                         position: relative;
                         height: 77px;
                         border-bottom: $table-border;
-                        padding: 7px 10px;
-                        a{
+                        padding: 7px 0px;
+                        a, button{
                             .online, .offline{
                                 position: absolute;
                                 bottom: 10px;
@@ -91,6 +91,12 @@
                                 border-radius: 50%;
                             }
                         }
+                        button{
+                            padding: 0 !important;
+                        }
+                    }
+                    .el-popover{
+                        background: red !important; 
                     }
                 }
             }

@@ -24,7 +24,7 @@
       <aside class="buzz-sidebar">
         <section>
           <ul class="sidebar-menu" data-widget="tree">
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('dashboard/*') || Request::is('dashboard')  ? 'active' : '') }}">
               <a href="{{ route ('dashboard') }}" id="dashboard"> 
                   <label class="tab-icon"> 
                     <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
@@ -40,7 +40,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('projects/*') || Request::is('projects')  ? 'active' : '') }}">
               <a href="{{ route ('projects') }}" id="projects"> 
                   <label class="tab-icon"> 
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -53,7 +53,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('clients/*') || Request::is('clients')  ? 'active' : '') }}">
               <a href="{{ route ('clients') }}" id="clients">
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -66,7 +66,7 @@
                 <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('calendar/*') || Request::is('calendar')  ? 'active' : '') }}">
               <a href="{{ route ('calendar') }}" id="buzz-calendar">
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg"xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -79,7 +79,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('templates/*') || Request::is('templates')  ? 'active' : '') }}">
               <a href="#" id="templates"> 
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -92,7 +92,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('forms/*') || Request::is('forms')  ? 'active' : '') }}">
               <a href="#" id="forms"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -105,7 +105,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('invoices/*') || Request::is('invoices')  ? 'active' : '') }}">
               <a href="{{ route ('invoices') }}" id="invoice">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -118,7 +118,7 @@
                 <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('payments/*') || Request::is('payments')  ? 'active' : '') }}">
               <a href="{{ route ('payments') }}" id="payments">
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -131,7 +131,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('timers/*') || Request::is('timers')  ? 'active' : '') }}">
               <a href="{{ route ('timers') }}" id="timers">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
@@ -175,7 +175,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('cloud/*') || Request::is('cloud')  ? 'active' : '') }}">
               <a href="#" id="cloud"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -188,7 +188,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('teams/*') || Request::is('teams')  ? 'active' : '') }}">
               <a href="{{ route ('teams') }}" id="teams">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -201,7 +201,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('chat/*') || Request::is('chat')  ? 'active' : '') }}">
               <a href="{{ route ('chat') }}" id="chat">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -214,7 +214,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('reports/*') || Request::is('reports')  ? 'active' : '') }}">
               <a href="{{ route ('reports') }}" id="reports">
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -227,7 +227,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('support/*') || Request::is('support')  ? 'active' : '') }}">
               <a href="#" id="support"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg"xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -240,8 +240,8 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
-              <a href="#" id="bugs"> 
+            <li class="sidebar-list {{ (Request::is('bugs/*') || Request::is('bugs')  ? 'active' : '') }}">
+              <a href="{{ route ('settings') }}" id="bugs">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="54px" height="49px">
@@ -253,7 +253,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('services/*') || Request::is('services')  ? 'active' : '') }}">
               <a href="{{ route ('services') }}" id="services">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -266,7 +266,7 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list">
+            <li class="sidebar-list {{ (Request::is('logout/*') || Request::is('logout')  ? 'active' : '') }}">
                 <a href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">

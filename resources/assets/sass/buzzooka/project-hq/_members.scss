@@ -1,7 +1,7 @@
 .hq-members{
     .box-head{
         height: 86px;
-        padding: 30px 0;
+        padding: 30px 1%;
         @extend .tab-options;
         .tab-option{
             float: right;
@@ -23,6 +23,7 @@
     }
     .box-body{
         background: $gray-bg !important;
+        padding-left: 1%;
         @extend .buzz-scrollbar;
         .member-box{
             padding-bottom: 45px;
@@ -57,6 +58,7 @@
                     color: $member-position;
                     line-height: 1.2;
                     font-family: $lato-semi;
+                    text-transform: capitalize;
                 }
                 .member-settings{
                     position: relative;
@@ -111,6 +113,7 @@
                 height: 193px;
                 text-align: center;
                 .member-image{
+                    height: 105px;
                     img{
                         width: 105px;
                         border-radius: 50%;

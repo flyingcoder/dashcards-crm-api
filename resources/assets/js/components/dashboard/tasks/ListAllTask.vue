@@ -1,6 +1,7 @@
 <template>
     <div class="tab-content list">
-        <task-status></task-status>
+        <task-status v-on:filterTasks="filterTasks" :all="taskCount.all"
+        :behind="taskCount.behind" :pending="taskCount.pending" :completed="taskCount.completed"></task-status>
         <div class="tab-table">
             <table>
                 <thead>
@@ -48,10 +49,7 @@
         data(){
             return {
                 filteredTasks:[],
-                myTasks: [],
                 allTasks: [],
-                taskOption: 'all',
-                taskFilter: 'my',
                 taskCount:{
                     all: 0,
                     completed: 0,
@@ -61,22 +59,10 @@
             }
         },
         mounted(){
-            this.getMyTasks();
             this.getAllTasks();
             this.filterTasks('my' , 'all');
         },
         methods:{
-            getMyTasks(){
-                axios.get('/api/user/tasks')
-                .then( response => {
-                    this.myTasks = response.data;
-                })
-                .catch( error => {
-                    if(error.response.status == 500 || error.response.status == 404){
-
-                    }
-                });
-            },
             getAllTasks(){
                 axios.get('/api/tasks')
                 .then( response => {
@@ -88,33 +74,19 @@
                     }
                 });
             },
-            filterTasks(filter, option){
-                if(filter == 'my'){
-                    if(option == 'all'){
-                        this.filteredTasks = this.myTasks;
-                    }
-                    else {
-                        this.filteredTasks = _.filter(this.myTasks, { status: option });
-                    }
-                    
-                    this.taskCount.all = this.myTasks.length;
-                    this.taskCount.completed = _.filter(this.myTasks,{ status: 'completed'}).length;
-                    this.taskCount.pending = _.filter(this.myTasks, { status: 'pending'}).length;
-                    this.taskCount.behind = _.filter(this.myTasks, { status: 'behind'}).length;
+            filterTasks(option){
+                if(option == 'all'){
+                    this.filteredTasks = this.allTasks;
                 }
-                else{
-                    if(option == 'all'){
-                        this.filteredTasks = this.allTasks;
-                    }
-                    else {
-                        this.filteredTasks = _.filter(this.allTasks, { status: option });
-                    }
+                else {
                     this.filteredTasks = _.filter(this.allTasks, { status: option });
-                    this.taskCount.all = this.allTasks.length;
-                    this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
-                    this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
-                    this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
                 }
+                this.filteredTasks = _.filter(this.allTasks, { status: option });
+                this.taskCount.all = this.allTasks.length;
+                this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
+                this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
+                this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
+
             }
         }
     }
