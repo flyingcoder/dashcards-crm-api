@@ -20,6 +20,32 @@ class TaskTest extends TestCase
 		$this->assertTrue(true);
 	}
 
+    public function testTaskComment()
+    {
+        $user = User::find(1);
+        
+        $response = $this->actingAs($user, 'api')
+                         ->get('api/tasks/1/comments');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testTaskAddComments()
+    {
+        $user = User::find(1);
+
+        $data = [
+            'body' => 'This is a comment'
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->post('api/tasks/1/comments', $data);
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testTaskIndex()
     {
         $user = User::find(1);
@@ -28,7 +54,7 @@ class TaskTest extends TestCase
                          ->get('api/tasks');
 
         //dd($response->exception->validator->messages());
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

@@ -9,7 +9,7 @@ return [
      * Channel: private-mc-chat-conversation.2, 
      * Event: Musonza\Chat\Messages\MessageWasSent 
      */
-    'broadcasts'            => false,
+    'broadcasts'            => true,
 
     /*
      * If set to true, this will use Laravel notifications table to store each
