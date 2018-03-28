@@ -37,5 +37,3 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-
-axios.get('api/user').then( response => {console.log(response)})

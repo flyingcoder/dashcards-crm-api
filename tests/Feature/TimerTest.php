@@ -15,17 +15,17 @@ class TimerTest extends TestCase
      */
     public function testStartTime()
     {
-        $user = User::find(1);
+        $user = User::find(4);
         
         $data = [
             'subject_type' => 'App\Company'
         ];
-        /*
+        
         $response = $this->actingAs($user, 'api')
-                         ->post('api/timer/pause', $data);
+                         ->post('api/timer/start', $data);
 
         //dd($response->content());
-        $response->assertStatus(200);*/
+        $response->assertStatus(200);
     }
 
     public function testTaskStartTime()
