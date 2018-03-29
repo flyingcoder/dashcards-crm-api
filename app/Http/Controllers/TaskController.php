@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use App\Comment;
 use App\Project;
 use App\Policies\TaskPolicy;
 
@@ -18,6 +19,33 @@ class TaskController extends Controller
 
         //dd($company->allCompanyPaginatedTasks(request()));
         return $company->allCompanyPaginatedTasks(request());
+    }
+
+    public function comments($id)
+    {
+        $task = Task::findOrFail($id);
+
+        return $task->comments->load(['causer']);
+    }
+
+    public function addComments($id)
+    {
+        $task = Task::findOrFail($id);
+
+        request()->validate([
+            'body' => 'required'
+        ]);
+
+        $comment = new Comment([ 
+            'body' => request()->body,
+            'causer_id' => auth()->user()->id,
+            'causer_type' => 'App\User'
+        ]);
+
+        $task->comments()->save($comment);
+
+        return response(200);
+
     }
     
     //currently not in use. This is for in house view.
