@@ -1066,14 +1066,14 @@
                 }
             }
             .buzz-modal-option{
-                margin: 25px -10px 25px -10px;
+                margin: 25px -10px 0px -10px;
                 .option{
                     display: inline-block;
-                    width: 33%;
+                    width: 100%;
                     padding: 5px 10px;
-                    button{
+                    .option-item{
                         text-align: left;
-                        width: 100%;
+                        width: 31%;
                         height: 44px;
                         font-size: 17.2px;
                         font-family: $lato-semi;
@@ -1105,20 +1105,63 @@
                 }
                 .el-form-item{
                     margin-bottom: 25px;
-                    .el-input, textarea{
+                    h3{
+                        margin: 0;
+                        margin-bottom: 10px;
+                    }
+                    .el-input, .el-select, textarea{
                         width: 100%;
-                        outline: none; 
+                        outline: none;
                         padding: 0 10px;
                         border: $table-border;
                         border-radius: 8px;
                         box-shadow: $body-shadow;
                         background: $input2-bg !important;
                     }
+                    .el-select{
+                        padding: 0 !important;
+                    }
                     .el-input{
                         height: 60px;
                         input{
                             height: 60px;
                             font-size: 23px;
+                        }
+                    }
+                    .ckeditor{
+                        .head-page-option{
+                            padding-top: unset;
+                            ul{
+                                li{
+                                    a, button{
+                                        height: unset;
+                                        width: unset;
+                                        border: unset;
+                                        background: unset;
+                                    }
+                                }
+                            }
+                        }
+                        .cke_top{
+                            position: absolute;
+                            bottom: 0;
+                            background: none;
+                            .cke_toolgroup{
+                               a{
+                                   padding-top: 0 !important;
+                                   height: auto !important;
+                                   width: auto !important;
+                                   background: none;
+                                   border: none !important;
+                                   margin-right: 5px !important;
+                               } 
+                            }
+                        }
+                        .cke_contents{
+                            height: 165px !important;
+                        }
+                        .cke_bottom{
+                            display: none !important;
                         }
                     }
                     textarea{

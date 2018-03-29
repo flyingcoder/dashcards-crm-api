@@ -37,6 +37,9 @@
     font-family: "lato semibold";
     height: 44px;
     position: relative;
+    img{
+      padding: 0 !important;
+    }
     .button-icon {
       position: absolute;
       top: 12px;
