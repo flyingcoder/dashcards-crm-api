@@ -25,7 +25,7 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        return $task->comments;
+        return $task->comments->load(['causer']);
     }
 
     public function addComments($id)
