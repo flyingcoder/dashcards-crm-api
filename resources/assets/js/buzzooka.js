@@ -41,7 +41,19 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 
 // Moment
   Vue.filter('diffInDays', function(value, start){
-    return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
+    var totalSeconds = Math.abs(Date.parse(value) - Date.parse(start));
+    
+    var hours = (totalSeconds / 1000) / 3600;
+    var minutes = ((totalSeconds / 1000) / 60) % 60;
+    var seconds = ((totalSeconds / 1000) % 3600) % 60;
+
+    return Math.ceil(hours) + 'HRS ' + Math.ceil(minutes) + 'MINS ' + Math.ceil(seconds) + 'SECS';
+    // return totalSeconds / 3600;
+    // return moment.duration(Date.parse(value) - Date.parse(start)).asHours();
+  })
+
+  Vue.filter('formatHuman', function(value) {
+    return moment(value).format("MMMM DD, YYYY")
   })
 /**
  * Next, we will create a fresh Vue application instance and attach it to

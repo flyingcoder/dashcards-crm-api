@@ -79,7 +79,7 @@
                         <td>
                             <span> Client </span>  
                         </td>    
-                        <td> {{ projectOverview.client[0].name }} </td>
+                        <td> {{ projectOverview.client[0].first_name + ' ' + projectOverview.client[0].last_name }} </td>
                         </tr>
                         <tr>
                         <td> 
@@ -92,7 +92,7 @@
                         <td>
                             <span> Start Date </span>
                         </td>
-                        <td> {{ projectOverview.started_at }} </td>
+                        <td> {{ projectOverview.started_at | formatHuman }} </td>
                         </tr>
                         <tr>
                         <td> 
@@ -105,7 +105,7 @@
                         <td>
                             <span> End Date </span>
                         </td>
-                        <td>{{ projectOverview.end_at }}</td>
+                        <td>{{ projectOverview.end_at | formatHuman }}</td>
                         </tr>
                         <tr>
                         <td> 
@@ -132,7 +132,7 @@
                         <td>
                             <span> Created On </span>
                         </td>
-                        <td> {{ projectOverview.created_at }} </td>
+                        <td> {{ projectOverview.created_at | formatHuman }} </td>
                         </tr>
                     </tbody>
                 </table>

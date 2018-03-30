@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 // Services
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
-	Route::get('/', 'ServiceController@index');
+	Route::get('/', 'ServiceController@index'); // projects
 
   Route::post('/', 'ServiceController@store');
 
@@ -122,24 +122,24 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('/', 'ProjectController@index');
 
-  Route::get('count', 'ProjectController@countProject');
+  Route::post('new', 'ProjectController@store');
+  
+  Route::post('{id}/edit', 'ProjectController@update');
+  
+  Route::delete('{id}/delete', 'ProjectController@delete');
 
   Route::get('{id}', 'ProjectController@project');
-
-  Route::get('{id}/timer', 'ProjectController@timer');
-
-  Route::delete('{id}/delete', 'ProjectController@delete');
 
   Route::get('{id}/tasks', 'ProjectController@tasks');
 
   Route::get('{id}/tasks/mine', 'ProjectController@myTasks');
 
-  Route::post('new', 'ProjectController@store');
-	Route::post('{id}/edit', 'ProjectController@update');
-
-
   // not used
   // Route::get('{id}/overview', 'ProjectController@overview'); 
+
+  Route::get('count', 'ProjectController@countProject');
+
+  Route::get('{id}/timer', 'ProjectController@timer');
 
   Route::get('{id}/milestones', 'MilestoneController@projectMilestone');
 
@@ -192,7 +192,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 // Clients
 Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
-	Route::get('/', 'ClientController@index');
+	Route::get('/', 'ClientController@index'); // project
 
   Route::delete('{id}/delete', 'ClientController@delete');
 

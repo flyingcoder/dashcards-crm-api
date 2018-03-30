@@ -24,7 +24,9 @@
                                          <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
                                         <el-date-picker
                                             :clearable="false"
-                                            v-model="form.due_date"
+                                            format="yyyy-MM-dd"
+                                            value-format="yyyy-MM-dd"
+                                            v-model="form.end_at"
                                             type="date"
                                             placeholder="Due Date">
                                         </el-date-picker>
@@ -40,7 +42,7 @@
                             <el-form-item>
                                 <el-select v-model="form.client" clearable placeholder="Select Client">
                                     <el-option
-                                    v-for="item in client_options"
+                                    v-for="item in clients"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -50,7 +52,7 @@
                             <el-form-item>
                                 <el-select v-model="form.service" clearable placeholder="Select Service">
                                     <el-option
-                                    v-for="item in service_options"
+                                    v-for="item in services"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -87,7 +89,7 @@
                                 </ckeditor>
                             </el-form-item> -->
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('form')">Save</el-button>
+                                <el-button @click="submit">Save</el-button>
                                 <el-button @click="$modal.hide('add-project')">Cancel</el-button>
                             </el-form-item>
                         </div>
@@ -100,12 +102,13 @@
 
 
 <script>
-    import Ckeditor from 'vue-ckeditor2';
+
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
 
     export default {
-         components: { 
-            Ckeditor,
-        },
     	data: function () {
         	return {    
                 title: 'Add New Project',
@@ -114,58 +117,27 @@
                 oldName: '',
                 isProcessing: false,
                 form: {
-                    name: '',
+                    title: '',
                     description: '',
                     comment: '',
-                    due_date: '',
+                    end_at: '',
+                    start_at: yyyy + '-' + mm + '-' + dd,
                     content: '',
-                    client: '',
-                    service: '',
+                    client_id: 1,
+                    service_id: 1,
                 },
-                client_options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                    }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                    }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                    }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                    }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
-                service_options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                    }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                    }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                    }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                    }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
+                clients: [],
+                services: [],
         		error: {
-        			name: [],
+        			title: [],
                     description: [],
-                    due_date: [],
+                    comment: [],
+                    end_at: [],
+                    start_at: [],
                     content: [],
+                    client_id: [],
+                    service_id: [],
         		},
-                config: {
-                    toolbar: [
-                      [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
-                    ],
-                    height: 500
-                }
         	}
         },
 
@@ -222,10 +194,23 @@
                     }
                     this.isProcessing = false;        
                 })
+            },
+            getClients(){
+                axios.get('api/clients')
+                .then( response => {
+                    console.info(response.data);
+                })
+            },
+            getServices(){
+                axios.get('api/services')
+                .then( response => {
+                    console.info(response.data);
+                })
             }
         },
         mounted() {
-            
+            this.getClients();
+            this.getServices();
         }
     }
 </script>

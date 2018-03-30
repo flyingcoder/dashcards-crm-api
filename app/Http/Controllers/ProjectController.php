@@ -174,12 +174,12 @@ class ProjectController extends Controller
             'service_id' => 'required|exists:services,id',
             'start_at' => 'required|date',
             'end_at' => 'required|date',
-            'location' => 'required',
+            // 'location' => 'required',
             'description' => 'required'
         ]);
 
         $project = Project::create([
-            'location' => request()->location,
+            // 'location' => request()->location,
             'service_id' => request()->service_id,
             'description' => request()->description,
             'started_at' => request()->start_at,
