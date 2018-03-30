@@ -79,8 +79,8 @@
                                 </ckeditor>
                             </el-form-item>
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('servicesForm')">Save</el-button>
-                                <el-button @click="$modal.hide('add-service')">Cancel</el-button>
+                                <el-button @click="submitForm('form')">Save</el-button>
+                                <el-button @click="$modal.hide('add-project')">Cancel</el-button>
                             </el-form-item>
                         </div>
                     </el-form>

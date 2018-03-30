@@ -83,5 +83,10 @@
           'AddProject': AddProject,
           'SelectedProject': SelectedProject,
       },
+      mounted () {
+      },
+      methods: {
+         
+      }
     }
 </script>

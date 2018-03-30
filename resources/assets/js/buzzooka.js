@@ -8,28 +8,19 @@
 require('./bootstrap');
 
 window.moment = require('moment');
-
 window.Vue = require('vue');
-
-import Vue from 'vue';
-import Tooltip from 'vue-directive-tooltip';
-Vue.use(Tooltip);
+window.swal  = require('sweetalert2')
 
 import Element from 'element-ui';
-
 import locale from 'element-ui/lib/locale/lang/en';
+import VueRouter from 'vue-router';
+import VModal from 'vue-js-modal'
+import FullCalendar from 'vue-full-calendar'
+import Ckeditor from 'vue-ckeditor2'
 
 Vue.use(Element, { locale });
-
-import VueRouter from 'vue-router';
-
-import VModal from 'vue-js-modal'
 Vue.use(VModal);
-
-import FullCalendar from 'vue-full-calendar'
 Vue.use(FullCalendar);
-
-import Ckeditor from 'vue-ckeditor2'
 Vue.use(Ckeditor);
 
 //window.CKEDITOR = require( 'ckeditor' );
