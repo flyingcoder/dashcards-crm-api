@@ -20,3 +20,9 @@ Broadcast::channel('user.login.{companyId}', function ($user, $companyId) {
 		return $user;
 	}
 });
+
+Broadcast::channel('comment.{taskId}', function ($comment, $taskId) {
+	if((int) $comment->commentable->id === (int) $taskId){
+		return $comment;
+	}
+});

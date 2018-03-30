@@ -3,21 +3,23 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\User;
+use App\Events\NewCommentCreated;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class EventTest extends TestCase
 {
-    public function testIndex()
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testNewCommentEvent()
     {
-        $user = User::find(1);
+        Event::fake();
 
-    	$response = $this->actingAs($user, 'api')
-    					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-    					 ->get('api/events');
-
-    	dd($response->content());
-    	$response->assertStatus(200);
+        Event::assertDispatched(NewCommentCreated::class, 1);
     }
 }
