@@ -52,7 +52,7 @@
         <div class="row buzz-tiles">
             <div class="col-md-6">
                 <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4" v-if="!isNaN(myProjects)">
                     <div class="buzz-tile-content">
                     <div class="buzz-tile-icon orange-1">
                         <img src="img/sidebar/projects.svg">
@@ -74,7 +74,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" v-if="!isNaN(myCalendar)">
                     <div class="buzz-tile-content">
                     <div class="buzz-tile-icon purple-3">
                         <img src="img/sidebar/calendar.svg">
@@ -89,7 +89,7 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4" v-if="!isNaN(myTimer)">
                         <div class="buzz-tile-content">
                             <div class="buzz-tile-icon green-4">
                                 <img src="img/sidebar/timer.svg">
@@ -100,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" v-if="!isNaN(inbound)">
                         <div class="buzz-tile-content">
                         <div class="buzz-tile-icon blue-5">
                         <img src="img/sidebar/templates.svg">
@@ -111,7 +111,7 @@
                         </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" v-if="!isNaN(outbound)">
                         <div class="buzz-tile-content">
                         <div class="buzz-tile-icon orange-6">
                             <img src="img/sidebar/calendar.svg">
@@ -128,7 +128,7 @@
         <div class="row">
             <div class="col-md-6">
             <!-- Tasks -->
-                <div class="buzz-box db-tasks">
+                <div class="buzz-box db-tasks" v-if="isEnable('tasks')">
                     <div class="box-head">
                         <h1>Tasks</h1>
                         <div class="box-options tasks-view">
@@ -141,7 +141,7 @@
                     </div>
                 </div>
             <!-- Client -->
-                <div class="buzz-box">
+                <div class="buzz-box" v-if="isEnable('client')">
                     <div class="box-head">
                         <h1>Clients</h1>
                         <box-options></box-options>
@@ -152,8 +152,8 @@
                     </div>
                 </div>
             <!-- Payment -->
-                <div class="buzz-box">
-                    <div class="box-head">
+                <div class="buzz-box" v-if="isEnable('payment')">
+                    <div class="box-head"  >
                         <h1>Payment</h1>
                         <box-options></box-options>
                     </div>
@@ -163,7 +163,7 @@
                     </div>
                 </div>
             <!-- Calendar -->
-                <div class="buzz-box">
+                <div class="buzz-box"  v-if="isEnable('calendar')">
                     <div class="box-head">
                         <h1>Calendar</h1>
                         <box-options></box-options>
@@ -176,7 +176,7 @@
             </div>
             <div class="col-md-6">
             <!-- Timeline -->
-                 <div class="buzz-box">
+                 <div class="buzz-box"  v-if="isEnable('timeline')">
                     <div class="box-head">
                         <h1>Timeline</h1>
                         <box-options></box-options>
@@ -187,19 +187,19 @@
                     </div>
                 </div>
             <!-- Timer -->
-                <div class="buzz-box">
-                    <div class="box-head">
+                <div class="buzz-box"  v-if="isEnable('timer')">
+                    <div class="box-head" >
                         <h1>Timer</h1>
                         <box-options></box-options>
                     </div>
-                    <timer></timer>
+                    <!-- <timer></timer> -->
                     <div class="box-footer">
                         <a href=""> View More </a>
                     </div>
                 </div>
             <!-- Invoice -->
-                <div class="buzz-box">
-                    <div class="box-head">
+                <div class="buzz-box"  v-if="isEnable('invoice')">
+                    <div class="box-head" >
                         <h1>Invoice</h1>
                         <box-options></box-options>
                     </div>
@@ -209,7 +209,7 @@
                     </div>
                 </div>
             <!-- Passbox -->    
-                <div class="buzz-box">
+                <div class="buzz-box" v-if="isEnable('passbox')">
                     <div class="box-head">
                         <h1>Pass Box</h1>
                         <box-options></box-options>
@@ -257,27 +257,45 @@
                 inbound: 0,
                 outbound: 0,
                 value1: true,
+                defaultItems: []
             }
         },
             mounted(){
                 this.getCounts();
+                this.getDefault();
             },
             methods:{
+                isEnable(slug){
+                    let dashitem = _.find(this.defaultItems, { 'slug' : slug});
+                    if(dashitem){
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                    
+                },
+                getDefault(){
+                    axios.get('/api/dashboard/default/dashitems')
+                    .then( response => {
+                        this.defaultItems = response.data;
+                    })
+                },
                 getCounts(){
                     axios.get('/api/dashboard/counts')
                     .then( response => {
-                        this.myProjects = reponse.data.projects;
-                        this.myTasks = reponse.data.tasks;
-                        this.myCalendar = reponse.data.calendars;
-                        this.myTimer = reponse.data.timer;
-                        this.inbound = reponse.data.inbound;
-                        this.outbound = reponse.data.outbound;
+                        this.myProjects = response.data.projects;
+                        this.myTasks = response.data.tasks;
+                        this.myCalendar = response.data.calendars;
+                        this.myTimer = response.data.timer;
+                        this.inbound = response.data.inbound;
+                        this.outbound = response.data.outbound;
                     })
-                    .catch( error => {
-                        if(error.response.status == 500 || error.response.status == 404){
+                    // .catch( error => {
+                    //     // if(error.response.status == 500 || error.response.status == 404){
 
-                        }
-                    });
+                    //     // }
+                    // });
                 },
             }
     }

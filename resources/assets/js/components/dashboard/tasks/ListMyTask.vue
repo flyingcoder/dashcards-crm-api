@@ -1,6 +1,6 @@
 <template>
     <div class="tab-content list">
-        <task-status v-on:filterTasks="filterTasks" :all="taskCount.all"
+        <task-status v-on:filterTasks="filterTasks" :task-option="taskOption" :all="taskCount.all"
         :behind="taskCount.behind" :pending="taskCount.pending" :completed="taskCount.completed"></task-status>
         <div class="tab-table">
             <table>
@@ -54,18 +54,19 @@
                     completed: 0,
                     pending: 0,
                     behind: 0
-                }
+                },
+                taskOption: 'all'
             }
         },
         mounted(){
             this.getMyTasks();
-            this.filterTasks('my' , 'all');
         },
         methods:{
             getMyTasks(){
                 axios.get('/api/user/tasks')
                 .then( response => {
                     this.myTasks = response.data;
+                    this.filterTasks('all');
                 })
                 .catch( error => {
                     if(error.response.status == 500 || error.response.status == 404){
@@ -74,6 +75,7 @@
                 });
             },
             filterTasks( option){
+                this.taskOption = option;
                 if(option == 'all'){
                     this.filteredTasks = this.myTasks;
                 }

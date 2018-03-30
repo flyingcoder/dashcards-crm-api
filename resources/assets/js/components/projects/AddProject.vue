@@ -49,22 +49,20 @@
                                     </el-form-item>
                                 </div>
                                 <div class="form-group col-md-12"> 
-                                    <el-form-item>
-                                        <ckeditor 
-                                        v-model="form.description" 
-                                        :config="config"
-                                        @blur="onBlur($event)" 
-                                        @focus="onFocus($event)">
-                                    </ckeditor>
+                                    <el-form-item label="Add Description">
+                                        <quill-editor v-model="form.description"
+                                        ref="myQuillEditor"
+                                        >
+                                    </quill-editor>
                                     </el-form-item>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <ckeditor 
-                                        v-model="form.content" 
-                                        :config="config"
-                                        @blur="onBlur($event)" 
-                                        @focus="onFocus($event)">
-                                    </ckeditor>
+                                    <el-form-item label="Add Comment">
+                                        <quill-editor v-model="form.comment"
+                                                        ref="myQuillEditor"
+                                                        >
+                                        </quill-editor>
+                                    </el-form-item>
                                     <!-- el-form-item label="Add Comment :">
                                         <textarea rows="4" id="editor"></textarea>
                                     </el-form-item -->

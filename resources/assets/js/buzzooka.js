@@ -26,8 +26,14 @@ import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
 Vue.use(VModal);
 
-import Ckeditor from 'vue-ckeditor2'
-Vue.use(Ckeditor);
+import VueQuillEditor from 'vue-quill-editor'
+
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 //window.CKEDITOR = require( 'ckeditor' );
 

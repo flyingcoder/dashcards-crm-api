@@ -83,7 +83,7 @@
 
       methods: {
         renderHeader(h,{column,$index}){
-            
+            return h('img', { attrs: { src: '../../../img/icons/Save.svg'}  });
         },
         getAllProjects(){
             axios.get('api/projects')
