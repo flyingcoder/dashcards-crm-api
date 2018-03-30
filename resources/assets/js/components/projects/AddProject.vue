@@ -57,7 +57,15 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item>
+                            <el-form-item label="Add Description">
+                                <quill-editor v-model="form.description" ref="myQuillEditor">
+                                </quill-editor>
+                            </el-form-item>
+                            <el-form-item label="Add Comment">
+                                <quill-editor v-model="form.comment" ref="myQuillEditor">
+                                </quill-editor>
+                            </el-form-item>
+                            <!-- <el-form-item>
                                 <ckeditor 
                                     v-model="form.description" 
                                     :config="config"
@@ -77,7 +85,7 @@
                                     @blur="onBlur($event)" 
                                     @focus="onFocus($event)">
                                 </ckeditor>
-                            </el-form-item>
+                            </el-form-item> -->
                             <el-form-item  class="form-buttons">
                                 <el-button @click="submitForm('form')">Save</el-button>
                                 <el-button @click="$modal.hide('add-project')">Cancel</el-button>
