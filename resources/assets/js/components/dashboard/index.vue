@@ -214,7 +214,9 @@
                         <h1>Pass Box</h1>
                         <box-options></box-options>
                     </div>
-                    <passbox></passbox>
+                    <div class="box-content db-passbox">
+                        <passbox></passbox>
+                    </div>
                     <div class="box-footer">
                         <a href=""> View More </a>
                     </div>
@@ -233,7 +235,7 @@
     import Timeline from './timeline/Index.vue';
     import Timer from './timer/Index.vue';
     import Invoice from './invoice/Index.vue';
-    import Passbox from './passbox/passbox-login.vue';
+    import Passbox from './passbox/passbox-client.vue';
 
     export default {
         components: {

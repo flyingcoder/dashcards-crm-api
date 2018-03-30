@@ -1135,6 +1135,7 @@
             font-family: $myriad;
             svg{
                 position: relative;
+                top: 5px;
             }
         }
         .passbox-login{
@@ -1146,7 +1147,7 @@
                 }
               }
             .passbox-form{
-                padding: 10px 110px;
+                padding: 10px 90px;
                 form{
                     width: 100%;
                     .signup{
@@ -1156,16 +1157,17 @@
                         float: right;
                     }
                     input{
-                        border: $border-buzz;
+                        height: 56px;
+                        border: $input-border-2;
                         border-radius: 10px;
                         background: $input-bg;
-                        box-shadow: inset 0px 1px 1px 0px rgba(154, 157, 160, 0.35);
-                        height: 50px;
+                        box-shadow: $box-shadow-inset;
                         border-radius: 10px;
                         &::placeholder{
                             position: relative;
-                            font-size: 50px;
-                            top: 12px;
+                            font-size: 30px;
+                            letter-spacing: 5px;
+                            top: 7px;
                             color: $gray-scroll;
                         }
                     }
@@ -1177,6 +1179,139 @@
                         letter-spacing: 0.5px;
                         color: $gray-scroll;
                         font-family: $lato-semi;
+                    }
+                    .buzz-addon {
+                        img, svg{
+                            top: 18px !important;
+                        }
+                    }
+                }
+            }
+        }
+        .passbox-clients{
+            .passbox-text{
+                line-height: 4.5;
+                height: 82px;
+                font-size: 25px;
+            }
+            .passbox-table{
+                height: 350px !important;
+                background: $white !important;
+                @extend .buzz-scrollbar;
+                .passbox-group{
+                    .clients{
+                        margin: 0;
+                        border: $table-border;
+                        .client-heading{
+                            height: 80px;
+                            background: $gray-bg;
+                            &:hover{
+                                background: $white;
+                            }
+                            a{
+                                position: relative;
+                                top: 10px;
+                                left: 20px;
+                                line-height: 1.2;
+                                font-size: 20px;
+                                font-family: $lato-mid;
+                                color: $milestone-title;
+                                img , .user-name, i{
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                }
+                                img{
+                                    width: 61px;
+                                    border-radius: 50%;
+                                }
+                                .user-name{
+                                    position: relative;
+                                    bottom: 0px;
+                                    left: 40px;
+                                    line-height: 0;
+                                    vertical-align: top;
+                                    h4{
+                                        font-size: 20px;
+                                        font-family: $lato-mid;
+                                    }
+                                    span{
+                                        font-size: 13px; 
+                                        font-family: $lato-semi;
+                                        color: $hq-icon;
+                                    }
+                                }
+                                i{
+                                    position: relative;
+                                    top: 30px;
+                                    right: 40px;
+                                    transform: rotate(180deg);
+                                    @extend .transform-transition;
+                                }
+                            }
+                            .collapsed{
+                                i{
+                                    transform: rotate(0deg) !important;
+                                }
+                            }
+                        }
+                        .client-collapse{
+                            ul{
+                                list-style: none;
+                                padding: 0;
+                                margin: 0;
+                                li{
+                                    position: relative;
+                                    height: 65px;
+                                    width: 100%;
+                                    text-align: left;
+                                    border-top: $table-border;
+                                    font-size: 19px;
+                                    font-family: $lato-mid;
+                                    background: $white;
+                                    padding: 5px 30px;
+                                    &:hover{
+                                        background: $gray-bg;
+                                    }
+                                    .social-info{
+                                        position: relative;
+                                        left: 45px;
+                                        top: 1px;
+                                        h4{
+                                            position: relative;
+                                            top: 4px;
+                                            font-size: 18.5px;
+                                            line-height: 0;
+                                            font-family: $lato-mid;
+                                            color: $milestone-title;
+                                        }
+                                        span{
+                                            color: $hq-icon;
+                                            font-size: 13.4px;
+                                            font-family: $lato-semi;
+                                            letter-spacing: 0.3px;
+                                        }
+                                    }
+                                    img, .social-info, .passbox-info{
+                                        width: 50px;
+                                        position: relative;
+                                        top: 4px;
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                    }
+                                }
+                            }
+                            .passbox-option{
+                                li{
+                                    position: relative;
+                                    display: inline;
+                                    border: none;
+                                    right: 2px;
+                                    top: 15px;
+                                    padding: 5px;
+                                    background: none;
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -241,7 +241,7 @@
               </a>
             </li>
             <li class="sidebar-list {{ (Request::is('bugs/*') || Request::is('bugs')  ? 'active' : '') }}">
-              <a href="{{ route ('settings') }}" id="bugs">
+              <a href="{{ route ('bugs') }}" id="bugs">
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="54px" height="49px">

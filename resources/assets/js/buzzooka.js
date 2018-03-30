@@ -88,7 +88,7 @@ Vue.filter('diffInDays', function(value, start){
     Vue.component('page-header', require('./components/common/PageHeader.vue'));  
 
 // Testing
-Vue.component('settings', require('./components/settings/Index.vue'));
+  Vue.component('profile', require('./components/teams/profile/index.vue'));
 
 // Services
   Vue.component('services', require('./components/services/Index'));
