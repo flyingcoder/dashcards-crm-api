@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'calendars'], function () 
 //dashitems
 Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitems'], function () {
   
-  Route::get('/', 'DashitemController@index');
+  Route::get('/', 'DashitemController@index'); // dashboard/index
 
   Route::put('{dashboard_id}/order', 'DashitemController@changeOrder');
 
@@ -47,17 +47,17 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitems'], function () 
 //dashboard
 Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () {
 
-  Route::get('counts', 'DashboardController@counts');
+  Route::get('counts', 'DashboardController@counts'); // template
 
-  Route::get('default/dashitems', 'DashboardController@defaultDashitems');
+  Route::get('default/dashitems', 'DashboardController@defaultDashitems'); // template
 
-  Route::post('default/dashitems', 'DashboardController@addDashitems');
+  Route::post('default/dashitems', 'DashboardController@addDashitems'); // template
 
-  Route::delete('default/dashitems', 'DashboardController@hideAllDashitem');
+  Route::delete('default/dashitems', 'DashboardController@hideAllDashitem'); // template
 
-  Route::delete('default/dashitems/{id}', 'DashboardController@hideDashitem');
+  Route::delete('default/dashitems/{id}', 'DashboardController@hideDashitem'); 
 
-  Route::get('{id}/dashitems', 'DashboardController@dashitems');
+  Route::get('{id}/dashitems', 'DashboardController@dashitems'); 
 
 });
 

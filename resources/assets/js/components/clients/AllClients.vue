@@ -1,12 +1,12 @@
 <template>
-    <div role="tabpanel" class="tab-pane fade active in" id="all-client">
+    <div class="All-Clients">
         <div v-if="paginatedAllClients.length >= 1">
             <el-table :data="paginatedAllClients" stripe empty-text="No Data Found" v-loading="isProcessing" 
                 @sort-change="handleSortChange" element-loading-text="Processing ..." 
                 @selection-change="handleSelectionChange" style="width: 100%"
                 @cell-click="rowClick"
                 >
-                <el-table-column sortable prop="client_name" label="Client"></el-table-column>
+                <!-- <el-table-column sortable prop="client_name" label="Client"></el-table-column>
                 <el-table-column prop="service_name" label="Service"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date"></el-table-column>
                 <el-table-column sortable label="Progress">
@@ -21,7 +21,7 @@
                         <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="" class="icon">
+                <el-table-column fixed="right" render-header="bars" class="icon">
                     <template slot-scope="scope">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -38,7 +38,7 @@
                             </svg>
                         </a>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
             <el-pagination
                 @size-change="handleSizeChange"
@@ -51,30 +51,38 @@
             </el-pagination>
         </div>
         <div v-else> 
-            insert empty table here
+            <EmptyClients></EmptyClients>
         </div>
     </div>
 </template>
 
 <script>
+    import EmptyClients from './EmptyClients.vue';
+
     export default {   
+        components: {
+          'EmptyClients': EmptyClients,
+      }, 
       data () {
         return {
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedAllClients: [],
+            isProcessing: false,
+            multipleSelection: [],
+            currentPage: 1,
+            currentSize: 10,
+            total : 1,
+            paginatedAllClients: [],
         }
       },
 
       mounted () {
-        this.paginatedAllClients();
+        this.getAllClients();
       },
 
       methods: {
-        paginatedAllClients(){
+        bars(h,{column,$index}){
+
+        },
+        getAllClients(){
             axios.get('api/clients')
             .then( response => {
                 this.paginatedAllClients = response.data.data;
@@ -102,6 +110,5 @@
             location = "/api/clients" + row.id;
         }
       }
-
     }
 </script>

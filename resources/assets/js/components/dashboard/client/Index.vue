@@ -23,28 +23,28 @@
         </div>
     </div>
 </template>
-<script>
-export default {
-    data(){
-        return {
-            client: [],
-        }
-    },
-    mounted(){
-        this.getClient();
-    },
-    methods:{
-        getClient(){
-            axios.get('/api/client')
-            .then( response => {
-                this.client = response.data;
-            })
-            .catch( error => {
-                if(error.response.status == 500 || error.response.status == 404){
+// <script>
+// export default {
+//     data(){
+//         return {
+//             client: [],
+//         }
+//     },
+//     mounted(){
+//         this.getClient();
+//     },
+//     methods:{
+//         getClient(){
+//             axios.get('/api/client')
+//             .then( response => {
+//                 this.client = response.data;
+//             })
+//             .catch( error => {
+//                 if(error.response.status == 500 || error.response.status == 404){
 
-                }
-            });
-        },
-    }
-}
-</script>
+//                 }
+//             });
+//         },
+//     }
+// }
+// </script>

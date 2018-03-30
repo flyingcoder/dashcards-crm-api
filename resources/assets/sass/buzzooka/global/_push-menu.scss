@@ -1,0 +1,46 @@
+.sidebar-collapse{
+    .logo{
+        width: 110px !important;
+        @extend .toggle-transition;
+        .logo-mini{
+            position: relative; 
+            display: block;
+            left: 25px;
+            top: 22px;
+            img{
+                width: 57px;
+                height: 33px;
+            }
+        }
+        .logo-lg{
+            display: none;
+        }
+    }
+    .menu-toggle{
+        left: 95px !important;
+        @extend .toggle-transition;
+        .collapse{
+            display: block;
+            svg{
+                left: 3.5px !important;
+            }
+        }
+        .expand{
+            display: none;
+        }
+    }
+    .buzz-sidebar{
+        width: 110px !important;
+        @extend .toggle-transition;
+        .sidebar-menu{
+            .menu-name{
+                display: none;
+                @extend .toggle-transition;
+            }
+        }
+    }
+    .buzz-content, .buzz-head{
+        margin-left: 116px !important;
+        @extend .margin-transition;
+    }   
+}

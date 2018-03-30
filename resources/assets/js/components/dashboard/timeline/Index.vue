@@ -64,27 +64,27 @@
     </div>
 </template>
 <script>
-export default {
-    data(){
-        return {
-            timeline: [],
-        }
-    },
-    mounted(){
-        this.getTimeline();
-    },
-    methods:{
-        getTimeline(){
-            axios.get('/api/timeline')
-            .then( response => {
-                this.timeline = response.data;
-            })
-            .catch( error => {
-                if(error.response.status == 500 || error.response.status == 404){
+// export default {
+//     data(){
+//         return {
+//             timeline: [],
+//         }
+//     },
+//     mounted(){
+//         this.getTimeline();
+//     },
+//     methods:{
+//         getTimeline(){
+//             axios.get('/api/timeline')
+//             .then( response => {
+//                 this.timeline = response.data;
+//             })
+//             .catch( error => {
+//                 if(error.response.status == 500 || error.response.status == 404){
 
-                }
-            });
-        },
-    }
-}
-</script>
+//                 }
+//             });
+//         },
+//     }
+// }
+// </script>
