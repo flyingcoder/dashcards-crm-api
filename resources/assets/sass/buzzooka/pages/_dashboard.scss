@@ -1188,12 +1188,14 @@
                 }
             }
         }
-        .passbox-clients{
+        .passbox-clients, .passbox-edit{
             .passbox-text{
-                line-height: 4.5;
-                height: 82px;
+                line-height: 4;
+                height: 80px;
                 font-size: 25px;
             }
+        }
+        .passbox-clients{
             .passbox-table{
                 height: 350px !important;
                 background: $white !important;
@@ -1318,6 +1320,92 @@
                     }
                 }
             }
+        }
+        .passbox-edit-form{
+            height: 352px !important;
+            background: $white;
+            .el-form{
+                padding: 0 30px;
+                .el-form-item{
+                    margin-bottom: 5px;
+                    .el-input{
+                        input{
+                            background: $passbox-input;
+                            border: $section-border;
+                            border-radius: 5px;
+                            box-shadow: $box-shadow-inset !important;
+                            height: 40px; 
+                        }
+                    }
+                    .el-form-item__error{
+                        font-size: 10px;
+                        padding-top: 0;
+                        line-height: 0.1;
+                    }
+                    .el-select{
+                        width: 100%;
+                    }
+                }
+                .buzz-form-buttons{
+                    margin-left: 25px;
+                    button{
+                        border: $table-border;
+                        box-shadow: $option-shadow;
+                        background: $input2-bg;
+                        border-radius: 5px;
+                        height: 38px;
+                    }
+                }  
+            }
+            /* form{
+                padding: 15px 55px;
+                .buzz-group{
+                    display: flex;
+                    label{
+                        width: 125px;
+                        font-size: 12px;
+                        padding-top: 8px;
+                        line-height: 2.125;
+                        font-family: $lato-semi;
+                        color: $table-status-text;
+                    }
+                    input, select{
+                        background: $passbox-input;
+                        border: $section-border;
+                        border-radius: 5px;
+                        box-shadow: $box-shadow-inset !important;
+                        height: 40px;
+                    }
+                }
+                .buzz-addon{
+                    img,svg{
+                        top: 15px;
+                    }
+                }
+                .select{
+                    img, svg{
+                        top: 20px;
+                    }
+                }
+                .buzz-form-buttons{
+                    ul{
+                        li{
+                            height: 52px;
+                            width: 45%;
+                            border-color:  $passbox-input;
+                            box-shadow: $body-shadow;
+                            margin-right: 15px;
+                            a, button{
+                                span{
+                                    font-size: 20.63px;
+                                    line-height: 2.5;
+                                    color: $table-data;
+                                }
+                            }
+                        }
+                    }
+                }
+            } */
         }
     }
 }

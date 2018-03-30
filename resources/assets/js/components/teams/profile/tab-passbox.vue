@@ -1,8 +1,8 @@
 <template>
     <div class="tab-pane fade active in" id="passbox">
         <!-- <passbox-login></passbox-login> -->
-        <passbox-clients></passbox-clients>
-        <!-- <passbox-edit></passbox-edit> -->
+        <!-- <passbox-clients></passbox-clients> -->
+        <passbox-edit></passbox-edit>
 
         <div class="box-footer">
             <a href=""> View More </a>

@@ -235,7 +235,7 @@
     import Timeline from './timeline/Index.vue';
     import Timer from './timer/Index.vue';
     import Invoice from './invoice/Index.vue';
-    import Passbox from './passbox/passbox-client.vue';
+    import Passbox from './passbox/passbox-edit.vue';
 
     export default {
         components: {
