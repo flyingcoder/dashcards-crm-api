@@ -1,7 +1,7 @@
-*
-!.htaccess
-!index.php
-!favicon.ico
-!mix-manifest.json
-!robots.txt
-!.gitignore
+#*
+#!.htaccess
+#!index.php
+#!favicon.ico
+#!mix-manifest.json
+#!robots.txt
+#!.gitignore
