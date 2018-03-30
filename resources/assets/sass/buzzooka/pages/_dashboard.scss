@@ -1238,6 +1238,7 @@
                                         font-size: 13px; 
                                         font-family: $lato-semi;
                                         color: $hq-icon;
+                                        letter-spacing: 0.5px;
                                     }
                                 }
                                 i{
@@ -1261,7 +1262,7 @@
                                 margin: 0;
                                 li{
                                     position: relative;
-                                    height: 65px;
+                                    height: 53px;
                                     width: 100%;
                                     text-align: left;
                                     border-top: $table-border;
@@ -1278,23 +1279,25 @@
                                         top: 1px;
                                         h4{
                                             position: relative;
-                                            top: 4px;
-                                            font-size: 18.5px;
+                                            top: 2px;
+                                            font-size: 16px;
                                             line-height: 0;
                                             font-family: $lato-mid;
                                             color: $milestone-title;
                                         }
                                         span{
+                                            position: relative;
+                                            bottom: 8px;
                                             color: $hq-icon;
-                                            font-size: 13.4px;
+                                            font-size: 12px;
                                             font-family: $lato-semi;
-                                            letter-spacing: 0.3px;
+                                            letter-spacing: 0.5px;
                                         }
                                     }
                                     img, .social-info, .passbox-info{
-                                        width: 50px;
+                                        width: 40px;
                                         position: relative;
-                                        top: 4px;
+                                        bottom: 2px;
                                         display: inline-block;
                                         vertical-align: middle;
                                     }
@@ -1306,7 +1309,7 @@
                                     display: inline;
                                     border: none;
                                     right: 2px;
-                                    top: 15px;
+                                    top: 10px;
                                     padding: 5px;
                                     background: none;
                                 }
