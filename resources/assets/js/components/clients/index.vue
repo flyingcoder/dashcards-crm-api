@@ -46,10 +46,10 @@
                 <div class="buzz-table">
                     <el-tabs type="border-card">
                         <el-tab-pane label="All Clients">
-                            <AllClients></AllClients>
+                            <all-clients></all-clients>
                         </el-tab-pane>
                         <el-tab-pane label="My Clients">
-                            <MyClients></MyClients>
+                            <my-clients></my-clients>
                         </el-tab-pane>
                     </el-tabs>
                     <!-- <ul class="nav nav-tabs">
@@ -78,9 +78,10 @@
     export default {   
 
         components: {
-          'AddClient': AddClient,
-          'AllClients': AllClients,
-          'MyClients': MyClients,
-      },
+          'all-clients': AllClients,
+          'my-clients': MyClients,
+          'add-client': AddClient,
+      }
+
     }
 </script>

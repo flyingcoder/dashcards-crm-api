@@ -13,15 +13,18 @@
                         <h1> Data Boxes </h1>
                         <div class="all-template">
                             <div class="template-checkbox">
-                                <input type="checkbox" value="none" id="all" name="check" checked="checked">
+                                <input type="checkbox" value="none" id="all" name="check"
+                                :checked="checkAll"
+                                @change="addAll"
+                                >
                                 <label for="all"></label>
                                 <span> Add All Data Box </span >
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <button class="template-box" v-bind:class="{ active: showTaskBox }"
-                            v-on:click="showTaskBox = !showTaskBox">
+                        <button class="template-box" v-bind:class="isActive('tasks')"
+                            v-on:click="addRemoveDashitem('tasks')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -44,8 +47,8 @@
                                 <h3> Task </h3>
                             </div>
                         </button>
-                        <button class="template-box" v-bind:class="{ active: showClientBox }"
-                            v-on:click="showClientBox = !showClientBox">
+                        <button class="template-box" v-bind:class="isActive('client')"
+                            v-on:click="addRemoveDashitem('client')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -66,8 +69,8 @@
                                 <h3> Client </h3>
                             </div>
                         </button>
-                        <button class="template-box" v-bind:class="{ active: showPaymentBox }"
-                            v-on:click="showPaymentBox = !showPaymentBox">
+                        <button class="template-box" v-bind:class="isActive('payment')"
+                            v-on:click="addRemoveDashitem('payment')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -88,8 +91,8 @@
                                 <h3> Payment </h3>
                             </div>
                         </button>
-                        <button class="template-box" v-bind:class="{ active: showCalendarBox }"
-                            v-on:click="showCalendarBox = !showCalendarBox">
+                        <button class="template-box" v-bind:class="isActive('calendar')"
+                            v-on:click="addRemoveDashitem('calendar')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -112,8 +115,8 @@
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <button class="template-box" v-bind:class="{ active: showTimelineBox }"
-                            v-on:click="showTimelineBox = !showTimelineBox">
+                        <button class="template-box" v-bind:class="isActive('timeline')"
+                            v-on:click="addRemoveDashitem('timeline')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -134,8 +137,8 @@
                                 <h3> Timeline </h3>
                             </div>
                         </button>
-                        <button class="template-box" v-bind:class="{ active: showTimerBox }"
-                            v-on:click="showTimerBox = !showTimerBox">
+                        <button class="template-box" v-bind:class="isActive('timer')"
+                            v-on:click="addRemoveDashitem('timer')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -158,8 +161,8 @@
                                 <h3> Timer </h3>
                             </div>
                         </button>
-                        <button class="template-box" v-bind:class="{ active: showInvoiceBox }"
-                            v-on:click="showInvoiceBox = !showInvoiceBox">
+                        <button class="template-box" v-bind:class="isActive('invoice')"
+                           v-on:click="addRemoveDashitem('invoice')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -180,8 +183,8 @@
                                 <h3> Invoice </h3>
                             </div>
                         </button>
-                        <button class="template-box" v-bind:class="{ active: showPassboxBox }"
-                            v-on:click="showPassboxBox = !showPassboxBox">
+                        <button class="template-box" v-bind:class="isActive('passbox')"
+                            v-on:click="addRemoveDashitem('passbox')">
                             <div class="template-checkbox">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="45px" height="44px">
@@ -204,10 +207,10 @@
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <button class="reset-template"> Reset Default </button>
+                        <button class="reset-template" @click="reset"> Reset Default </button>
                     </div>
                     <div class="col-md-6">
-                        <button class="save-template"> Save </button>
+                        <button class="save-template" @click="save"> Save </button>
                     </div>
                 </div>
             </el-dropdown-menu>
@@ -219,18 +222,97 @@
     export default {
       data () {
         return {
-            showTaskBox: false,
-            showClientBox: false,
-            showPaymentBox: false,
-            showCalendarBox: false,
-            showTimelineBox: false,
-            showTimerBox: false,
-            showInvoiceBox: false,
-            showPassboxBox: false,
+            form: {
+                dashitem_id: []
+            },
+            dashitems: []
         }
       },
+      computed: {
+          checkAll(){
+              if(this.dashitems.length == this.form.dashitem_id.length){
+                  return 'checked'
+              }
+              else{
+                  return false
+              }
+          }
+      },
+      mounted(){
+          this.getDashitems();
+          this.getDefault();
+      },
       methods: {
-
+        getDashitems(){
+            axios.get('/api/dashitems')
+            .then( response => {
+                this.dashitems = response.data;
+            })
+        },
+        getDefault(){
+            axios.get('/api/dashboard/default/dashitems')
+            .then( response => {
+                let self = this;
+                response.data.forEach(function(e){
+                    self.form.dashitem_id.push(e.id); 
+                })
+                  
+            })
+        },
+        save(){
+            axios.post('/api/dashboard/default/dashitems', this.form)
+            .then( response => {
+                 console.info(response.data);            
+            })
+        },
+        reset(){
+            axios.delete('/api/dashboard/default/dashitems', this.form)
+            .then( response => {
+                 this.form.dashitem_id = [];        
+            })
+        },
+        isActive(slug){
+            let dashitem = _.find(this.dashitems, { 'slug' : slug});
+            if(dashitem){
+                if(_.indexOf(this.form.dashitem_id, dashitem.id) > -1){
+                    return 'active';
+                }
+            }
+            else {
+                return 'inactive';
+            }
+            
+        },
+        addRemoveDashitem(slug){
+            let dashitem = _.find(this.dashitems, { 'slug' : slug});
+            let index = _.indexOf(this.form.dashitem_id, dashitem.id)
+            if(dashitem){
+                if(index != -1){
+                    this.form.dashitem_id.splice(index, 1);
+                }
+                else {
+                    this.form.dashitem_id.push(dashitem.id)
+                }
+            }
+            else {
+                return false;
+            }
+            
+        },
+        addAll(){
+            let self = this;
+            if(self.checkAll == false){
+                this.dashitems.forEach(function(e){
+                    let index = _.indexOf(self.form.dashitem_id, e.id)
+                    if( index == -1 ){
+                        self.form.dashitem_id.push(e.id);
+                    }
+                })
+            }
+            else {
+                self.form.dashitem_id == [];
+            }
+        }
       }
 
     }

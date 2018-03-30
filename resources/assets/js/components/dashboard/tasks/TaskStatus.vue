@@ -34,7 +34,7 @@
 
 <script>
     export default {
-        props:[ ['all'],['completed'],['pending'],['behind'] ],
+        props:[ 'all','completed','pending','behind','taskOption' ],
         methods: {
             filterTasks(filter) {
                 this.$emit('filterTasks',filter);

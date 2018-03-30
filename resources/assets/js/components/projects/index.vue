@@ -83,10 +83,11 @@
           'AddProject': AddProject,
           'SelectedProject': SelectedProject,
       },
-      mounted () {
-      },
-      methods: {
-         
-      }
+        mounted(){
+            axios.get('api/user')
+            .then( response => {
+                console.info(response.data);
+            })
+        }
     }
 </script>

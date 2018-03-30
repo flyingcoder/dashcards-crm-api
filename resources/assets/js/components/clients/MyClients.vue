@@ -75,12 +75,15 @@
       },
 
       mounted () {
-          this.getMyClients();
+        this.getMyClients();
       },
 
       methods: {
+        bars(h,{column,$index}){
+
+        },
         getMyClients(){
-            axios.get('api/clients')
+            axios.get('api/user/clients')
             .then( response => {
                 this.paginatedMyClients = response.data.data;
                 this.currentPage = response.data.current_page;

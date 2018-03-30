@@ -17,11 +17,18 @@ import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
 import FullCalendar from 'vue-full-calendar'
 import Ckeditor from 'vue-ckeditor2'
+import VueQuillEditor from 'vue-quill-editor'
+// Require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 Vue.use(Element, { locale });
 Vue.use(VModal);
 Vue.use(FullCalendar);
 Vue.use(Ckeditor);
+Vue.use(VModal);
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 //window.CKEDITOR = require( 'ckeditor' );
 
@@ -33,9 +40,9 @@ Vue.use(Ckeditor);
 //} );
 
 // Moment
-Vue.filter('diffInDays', function(value, start){
-  return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
-})
+  Vue.filter('diffInDays', function(value, start){
+    return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
+  })
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
