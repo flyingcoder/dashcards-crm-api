@@ -15,8 +15,8 @@ import Tasks from './Tasks.vue'
 import Comments from './Comments.vue'
 export default {
     components: {
-        Tasks: 'tasks',
-        Comments: 'comments'
+        'tasks': Tasks ,
+        'comments': Comments 
     },
     data(){
         return {

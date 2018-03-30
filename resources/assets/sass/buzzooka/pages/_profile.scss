@@ -461,6 +461,13 @@
                                 }
                             }
                         }
+                        .passbox-clients, .passbox-edit{
+                            .passbox-text{
+                                height: 104px;
+                                font-size: 33px;
+                                padding-top: 20px;
+                            }
+                        }
                         .passbox-clients{
                             .passbox-table{
                                 height: 460px !important;
@@ -631,13 +638,6 @@
                                         }
                                     }
                                 }
-                            }
-                        }
-                        .passbox-clients, .passbox-edit{
-                            .passbox-text{
-                                height: 104px;
-                                font-size: 33px;
-                                padding-top: 20px;
                             }
                         }
                     }

@@ -10,7 +10,7 @@
                 <div class="col-md-6">
                     <div class="head-page-option">
                         <ul class="nav nav-tabs">
-                            <add-project></add-project>
+                            <AddProject></AddProject>
                             <li class="sort">
                                  <el-dropdown trigger="click" placement="bottom">
                                     <el-button size="small" class="el-dropdown-link">
@@ -44,7 +44,15 @@
         <div class="content-body">
             <section class="buzz-section">
                 <div class="buzz-table">
-                    <ul class="nav nav-tabs">
+                    <el-tabs type="border-card">
+                        <el-tab-pane label="All Projects">
+                            <AllProjects></AllProjects>
+                        </el-tab-pane>
+                        <el-tab-pane label="My Projects">
+                            <MyProjects></MyProjects>
+                        </el-tab-pane>
+                    </el-tabs>
+                    <!-- <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="#all-project" data-toggle="tab"> All Project </a>
                         </li>
@@ -55,7 +63,7 @@
                     <div class="tab-content">
                         <all-projects></all-projects>
                         <my-projects></my-projects>
-                    </div>
+                    </div> -->
                 </div>
             </section>
         </div>
@@ -63,18 +71,23 @@
 </template>
 
 <script>
+    import AddProject from './AddProject.vue';
     import AllProjects from './AllProjects.vue';
     import MyProjects from './MyProjects.vue';
-    import AddProject from './AddProject.vue';
     import SelectedProject from './SelectedProject.vue';
 
     export default {
         components: {
-          'all-projects': AllProjects,
-          'my-projects': MyProjects,
-          'add-project': AddProject,
-          'selected-project': SelectedProject,
+          'AllProjects': AllProjects,
+          'MyProjects': MyProjects,
+          'AddProject': AddProject,
+          'SelectedProject': SelectedProject,
       },
-
+        mounted(){
+            axios.get('api/user')
+            .then( response => {
+                console.info(response.data);
+            })
+        }
     }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div role="tabpanel" class="tab-pane fade in" id="my-project">
+    <div class="My-Projects">
         <div v-if="paginatedMyProjects.length >= 1">        
             <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
@@ -23,7 +23,7 @@
                         <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="Test">
+                <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <a href="#" @click="edit(scope.row)">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -80,6 +80,9 @@
         this.getMyProjects();
       },
       methods: {
+        renderHeader(h,{column,$index}){
+            return h('img', { attrs: { src: '../../../img/action/delete.svg'}  });
+        },
         getMyProjects(){
             axios.get('api/user/projects')
                  .then( response => {

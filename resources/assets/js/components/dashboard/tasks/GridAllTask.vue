@@ -1,6 +1,6 @@
 <template>
     <div class="tab-content grid">
-        <task-status v-on:filterTasks="filterTasks" :all="taskCount.all"
+        <task-status v-on:filterTasks="filterTasks" :task-option="taskOption" :all="taskCount.all"
         :behind="taskCount.behind" :pending="taskCount.pending" :completed="taskCount.completed"></task-status>
         <div class="tab-grid all" id="buzz-scroll">
             <button class="task-box">
@@ -215,18 +215,19 @@
                     completed: 0,
                     pending: 0,
                     behind: 0
-                }
+                },
+                taskOption: 'all'
             }
         },
         mounted(){
             this.getAllTasks();
-            this.filterTasks('my' , 'all');
         },
         methods:{
             getAllTasks(){
                 axios.get('/api/tasks')
                 .then( response => {
                     this.allTasks = response.data;
+                    this.filterTasks('all');
                 })
                 .catch( error => {
                     if(error.response.status == 500 || error.response.status == 404){
@@ -235,17 +236,17 @@
                 });
             },
             filterTasks(option){
+                this.taskOption = option;
                 if(option == 'all'){
-                    this.filteredTasks = this.allTasks;
+                    this.filteredTasks = this.allTasks.data;
                 }
                 else {
-                    this.filteredTasks = _.filter(this.allTasks, { status: option });
+                    this.filteredTasks = _.filter(this.allTasks.data, { status: option });
                 }
-                this.filteredTasks = _.filter(this.allTasks, { status: option });
-                this.taskCount.all = this.allTasks.length;
-                this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
-                this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
-                this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
+                this.taskCount.all = this.allTasks.data.length;
+                this.taskCount.completed = _.filter(this.allTasks.data, { status: 'completed'}).length;
+                this.taskCount.pending = _.filter(this.allTasks.data, { status: 'pending'}).length;
+                this.taskCount.behind = _.filter(this.allTasks.data, { status: 'behind'}).length;
 
             }
         }

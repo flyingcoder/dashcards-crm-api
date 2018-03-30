@@ -8,26 +8,27 @@
 require('./bootstrap');
 
 window.moment = require('moment');
-
 window.Vue = require('vue');
-
-import Vue from 'vue';
-import Tooltip from 'vue-directive-tooltip';
-Vue.use(Tooltip);
+window.swal  = require('sweetalert2')
 
 import Element from 'element-ui';
-
 import locale from 'element-ui/lib/locale/lang/en';
+import VueRouter from 'vue-router';
+import VModal from 'vue-js-modal'
+import FullCalendar from 'vue-full-calendar'
+import Ckeditor from 'vue-ckeditor2'
+import VueQuillEditor from 'vue-quill-editor'
+// Require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 Vue.use(Element, { locale });
-
-import VueRouter from 'vue-router';
-
-import VModal from 'vue-js-modal'
 Vue.use(VModal);
-
-import Ckeditor from 'vue-ckeditor2'
+Vue.use(FullCalendar);
 Vue.use(Ckeditor);
+Vue.use(VModal);
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 //window.CKEDITOR = require( 'ckeditor' );
 
@@ -39,9 +40,9 @@ Vue.use(Ckeditor);
 //} );
 
 // Moment
-Vue.filter('diffInDays', function(value, start){
-  return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
-})
+  Vue.filter('diffInDays', function(value, start){
+    return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
+  })
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50,35 +51,35 @@ Vue.filter('diffInDays', function(value, start){
 
 //  Vue Components Path
 //  Header
-Vue.component('buzzheader', require('./components/header/Index.vue'));
+  Vue.component('buzzheader', require('./components/header/Index.vue'));
 
 //  Sidebar
-Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
+  Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 
 // Dashboard
-Vue.component('dashboard', require('./components/dashboard/Index'));
+  Vue.component('dashboard', require('./components/dashboard/Index'));
 
 // Projects
-Vue.component('projects', require('./components/projects/Index'));
+  Vue.component('projects', require('./components/projects/Index'));
 
 // Clients
-Vue.component('clients', require('./components/clients/Index.vue'));
+  Vue.component('clients', require('./components/clients/Index.vue'));
 
 // Calendar
-Vue.component('events', require('./components/calendar/Index.vue'));
-Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
+  Vue.component('events', require('./components/calendar/Index.vue'));
+  Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Invoices
-Vue.component('invoices', require('./components/invoices/Index.vue'));
+  Vue.component('invoices', require('./components/invoices/Index.vue'));
 
 // Payments
-Vue.component('payments', require('./components/payments/Index.vue'));
+  Vue.component('payments', require('./components/payments/Index.vue'));
 
 // Timers
-Vue.component('timers', require('./components/timers/Index.vue'));
+  Vue.component('timers', require('./components/timers/Index.vue'));
 
 // Teams
-Vue.component('teams', require('./components/teams/Index.vue'));
+  Vue.component('teams', require('./components/teams/Index.vue'));
 
 // Chat
   Vue.component('chat', require('./components/chat/Index.vue'));
@@ -87,27 +88,35 @@ Vue.component('teams', require('./components/teams/Index.vue'));
   Vue.component('reports', require('./components/reports/Index'));
 
 // Project-HQ
-Vue.component('project-hq', require('./components/projects/project-hq/Index'));
-Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
+  Vue.component('project-hq', require('./components/projects/project-hq/Index'));
+  Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
 
 // Common Files
-Vue.component('page-header', require('./components/common/PageHeader.vue'));
+    Vue.component('page-header', require('./components/common/PageHeader.vue'));  
 
 // Testing
-Vue.component('settings', require('./components/settings/Index.vue'));
+  Vue.component('profile', require('./components/teams/profile/index.vue'));
 
 // Services
-Vue.component('services', require('./components/services/Index'));
+  Vue.component('services', require('./components/services/Index'));
 
+// Push menu
+
+  $(document).ready(function(){
+    $("#toggleBuzzMenu").click(function(){
+      console.log('Test!!');
+        $("body").toggleClass("sidebar-collapse");
+    });
+  });
 
 // Avoid on Closing Templates Dropdown When Clicking Check Boxes
-$("document").ready(function() {
-  $('.dropdown-menu').on('click', function(e) {
-      if($(this).hasClass('templates')) {
-          e.stopPropagation();
-      }
+  $("document").ready(function() {
+    $('.dropdown-menu').on('click', function(e) {
+        if($(this).hasClass('templates')) {
+            e.stopPropagation();
+        }
+    });
   });
-});
 
 // Full Calendar 
     var date = new Date(),
@@ -275,9 +284,3 @@ let buzzcrm = {
   }
 
 const app = new Vue(buzzcrm)
-
-
-
-/* Full Calendar 
-  
-*/
