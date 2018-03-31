@@ -81,7 +81,7 @@
       },
       methods: {
         renderHeader(h,{column,$index}){
-            return h('img', { attrs: { src: '../../../img/action/delete.svg'}  });
+            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
         getMyProjects(){
             axios.get('api/user/projects')
