@@ -302,6 +302,7 @@
                     line-height: 1.2;
                     margin-left: 15px;
                     vertical-align: middle;
+                    font-family: $lato;
                 }
             }
             .date{
@@ -429,6 +430,7 @@
                         font-size: 15px;
                         margin: 0;
                         margin-bottom: 1px;
+                        font-family: $lato;
                     }
                     span{
                         font-size: 12px;
@@ -494,7 +496,6 @@
                     }
                 }
             }
-              
             .el-textarea{
                 width: 84% !important;
                 margin: 10px 0 0 5px;
