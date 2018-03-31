@@ -18,9 +18,9 @@
                     <el-form :model="taskForm" ref="taskForm" v-loading="isProcessing">
                         <el-tabs type="card">
                             <el-tab-pane>
-                                <div slot="label" class="text-option">
+                                <div slot="label" class="text-option task-option">
                                     <div class="left">
-                                        <img src="img/icons/task/text.png" alt="icon">
+                                        <img src="/img/icons/task/text.png" alt="icon">
                                     </div>
                                     <div class="right">
                                         Text
@@ -29,14 +29,15 @@
                                 <text-task></text-task>
                             </el-tab-pane>
                             <el-tab-pane label="Video">
-                                <div slot="label" class="text-option">
+                                <div slot="label" class="video-option task-option">
                                     <div class="left">
-                                        <img src="img/icons/task/video.svg" alt="icon">
+                                        <img src="/img/icons/task/video.svg" alt="icon">
                                     </div>
-                                    <div class="right" @click="construction">
+                                    <div class="right">
                                         Video
                                     </div>
                                 </div>
+                                <video-task></video-task>
                             </el-tab-pane>
                         </el-tabs>
                     </el-form>
@@ -87,7 +88,7 @@
             construction: function () {
                 swal({
                     title: 'Coming Soon!',
-                    imageUrl: 'img/temporary/construction.jpg',
+                    imageUrl: '/img/temporary/construction.jpg',
                     imageWidth: 400,
                     imageHeight: 200,
                     imageAlt: 'Custom image',

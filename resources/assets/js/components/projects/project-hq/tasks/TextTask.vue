@@ -2,10 +2,10 @@
     <div>
         <div class="buzz-modal-option">
             <el-form-item  class="option">
-                <el-button class="option-item"> <img src="img/icons/modal/members.png" alt="">  Members </el-button>
+                <el-button class="option-item"> <img src="/img/icons/modal/members.png" alt="">  Members </el-button>
                 <el-button class="option-item">
                     <div class="date-project">
-                            <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                            <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
                         <el-date-picker
                             :clearable="false"
                             v-model="taskForm.due_date"
@@ -14,7 +14,7 @@
                         </el-date-picker>
                     </div>
                 </el-button>
-                <el-button class="option-item"> <img src="img/icons/modal/attachment.svg" alt=""> Attachment </el-button>
+                <el-button class="option-item"> <img src="/img/icons/modal/attachment.svg" alt=""> Attachment </el-button>
             </el-form-item>
         </div>
         <div class="buzz-modal-content">
