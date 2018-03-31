@@ -143,7 +143,7 @@ class Company extends Model
                         'services.id as id',
                         'services.name as service_name', 
                         'services.created_at as service_created_at',
-                        'member.name as user_name');
+                        DB::raw('CONCAT(member.last_name, ", ", member.first_name) AS name'));
     }
 
     public function paginatedCompanyServices(Request $request)
