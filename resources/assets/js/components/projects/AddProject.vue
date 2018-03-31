@@ -15,7 +15,7 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form :model="form" ref="form" label-position="top" v-loading="isProcessing" style="width: 100%">
+                    <el-form :model="projectForm" :rules="rules" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                         <div class="buzz-modal-option">
                             <el-form-item  class="option">
                                 <el-button class="option-item"> <img src="img/icons/modal/members.png" alt="">  Members </el-button>
@@ -24,7 +24,7 @@
                                          <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
                                         <el-date-picker
                                             :clearable="false"
-                                            v-model="form.due_date"
+                                            v-model="projectForm.due_date"
                                             type="date"
                                             placeholder="Due Date">
                                         </el-date-picker>
@@ -34,11 +34,11 @@
                             </el-form-item>
                         </div>
                         <div class="buzz-modal-content">
-                            <el-form-item>
-                                <el-input type="text" v-model="form.name" placeholder="Untitled Project"></el-input>
+                            <el-form-item prop="name">
+                                <el-input type="text" v-model="projectForm.name" placeholder="Untitled Project"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-select v-model="form.client" clearable placeholder="Select Client">
+                                <el-select v-model="projectForm.client" clearable placeholder="Select Client">
                                     <el-option
                                     v-for="item in client_options"
                                     :key="item.value"
@@ -48,7 +48,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item>
-                                <el-select v-model="form.service" clearable placeholder="Select Service">
+                                <el-select v-model="projectForm.service" clearable placeholder="Select Service">
                                     <el-option
                                     v-for="item in service_options"
                                     :key="item.value"
@@ -58,11 +58,11 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="Add Description">
-                                <quill-editor v-model="form.description" ref="myQuillEditor">
+                                <quill-editor v-model="projectForm.description" ref="myQuillEditor">
                                 </quill-editor>
                             </el-form-item>
                             <el-form-item label="Add Comment">
-                                <quill-editor v-model="form.comment" ref="myQuillEditor">
+                                <quill-editor v-model="projectForm.comment" ref="myQuillEditor">
                                 </quill-editor>
                             </el-form-item>
                             <!-- <el-form-item>
@@ -87,7 +87,7 @@
                                 </ckeditor>
                             </el-form-item> -->
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('form')">Save</el-button>
+                                <el-button @click="submitForm('projectForm')">Save</el-button>
                                 <el-button @click="$modal.hide('add-project')">Cancel</el-button>
                             </el-form-item>
                         </div>
@@ -100,12 +100,7 @@
 
 
 <script>
-    import Ckeditor from 'vue-ckeditor2';
-
     export default {
-         components: { 
-            Ckeditor,
-        },
     	data: function () {
         	return {    
                 title: 'Add New Project',
@@ -113,7 +108,7 @@
                 id: 0,
                 oldName: '',
                 isProcessing: false,
-                form: {
+                projectForm: {
                     name: '',
                     description: '',
                     comment: '',
@@ -121,6 +116,11 @@
                     content: '',
                     client: '',
                     service: '',
+                },
+                rules: {
+                    name: [
+                        { required: true, message: 'Please input Project Name', trigger: 'change' },
+                    ],
                 },
                 client_options: [{
                     value: 'Option1',
@@ -184,21 +184,29 @@
                     var vm = this;
                     axios.get('api/projects/'+this.id)
                         .then( response => {
-                            this.form = response.data;
+                            this.projectForm = response.data;
                         });
                 }
             },
             submit(){
-                if(this.action == 'Save'){
-                    this.save();
-                }
-                else {
-                    this.update();
-                }
+                this.$refs[projectForm].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                        if(this.action == 'Save'){
+                            this.save();
+                        }
+                        else {
+                            this.update();
+                        }
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/projects/new',this.form)
+                axios.post('/api/projects/new',this.projectForm)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is saved!', 'success');
@@ -211,7 +219,7 @@
                 })
             },
             update: function () {
-                axios.put('/api/projects/'+this.id+'/edit', this.form)
+                axios.put('/api/projects/'+this.id+'/edit', this.projectForm)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is updated!', 'success');
