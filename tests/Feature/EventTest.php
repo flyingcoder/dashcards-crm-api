@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Events\NewCommentCreated;
+use App\Events\NewTaskCommentCreated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,6 +20,6 @@ class EventTest extends TestCase
     {
         Event::fake();
 
-        Event::assertDispatched(NewCommentCreated::class, 1);
+        Event::assertDispatched(NewTaskCommentCreated::class, 1);
     }
 }

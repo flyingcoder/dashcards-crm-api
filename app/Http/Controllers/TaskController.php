@@ -6,7 +6,7 @@ use App\Task;
 use App\Comment;
 use App\Project;
 use App\Policies\TaskPolicy;
-use App\Events\NewCommentCreated;
+use App\Events\NewTaskCommentCreated;
 
 class TaskController extends Controller
 {
@@ -45,7 +45,7 @@ class TaskController extends Controller
 
         $new_comment = $task->comments()->save($comment);
 
-        NewCommentCreated::dispatch($task, $new_comment);
+        NewTaskCommentCreated::dispatch($task, $new_comment);
 
         return $new_comment;
 

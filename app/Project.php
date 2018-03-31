@@ -27,6 +27,11 @@ class Project extends Model implements HasMediaConversions
         'location', 'started_at', 'service_id', 'end_at', 'description', 'status'
     ];
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     protected $dates = ['deleted_at'];
 
     /**
