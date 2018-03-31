@@ -373,15 +373,69 @@
             }
         }
         .options{
-            button{
-                width: 30%;
-                height: 42px;
-                margin-right: 2.5%;
-                font-size: 15px;
-                font-family: $lato-mid;
-                color: $action-hover;
-                border: $table-border;
-                border-radius: 3px;
+            ul{
+                list-style: none;
+                padding: 0;
+                li{
+                    display: inline-block;
+                    width: 30%;
+                    height: 42px;
+                    margin-right: 2.5%;
+                    border: $table-border;
+                    border-radius: 3px;
+                    button{
+                        width: 100%;
+                        height: 100%;
+                        text-align: center;
+                        color: $action-hover;
+                        font-family: $lato-mid;
+                        font-size: 15px;
+                    }
+                    .timer-btn{
+                        width: 30%;
+                        background: $green;
+                        border-radius: 3px 0 0 3px;
+                    }
+                    .timer-btn, .hrs, .mins, .secs, .divider{
+                        display: inline-block;
+                    }
+                    .hrs, .mins, .secs, .divider{
+                        position: relative;
+                        vertical-align: text-bottom;
+                        text-align: center;
+                        font-size: 17px;
+                        color: $action-hover;
+                        bottom: 2px;
+                        small{
+                            position: absolute;
+                            font-size: 12px;
+                            top: 20px;
+                            font-family: $lato;
+                        }
+                    }
+                    .hrs{
+                        width: 19.3%;
+                        small{
+                            left: 6px;
+                        }
+                    }
+                    .mins{
+                        width: 19.3%;
+                        small{
+                            left: 7px;
+                        }
+                    }
+                    .secs{
+                        width: 19.3%;
+                        small{
+                            left: 10px;
+                        }
+                    }
+                    .divider{
+                        border-left: $table-border;
+                        margin: 0;
+                    }
+                }
             }
         }
         .task-decription{
