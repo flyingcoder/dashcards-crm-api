@@ -21,7 +21,7 @@ Broadcast::channel('user.login.{companyId}', function ($user, $companyId) {
 	}
 });
 
-Broadcast::channel('comment.{taskId}', function ($comment, $taskId) {
+Broadcast::channel('comment.task.{taskId}', function ($comment, $taskId) {
 	if((int) $comment->commentable->id === (int) $taskId){
 		return $comment;
 	}

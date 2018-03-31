@@ -165,6 +165,29 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function addComments($id)
+    {
+        $project = Project::findOrFail($id);
+
+        request()->validate([
+            'body' => 'required'
+        ]);
+
+        $comment = new Comment([ 
+            'body' => request()->body,
+            'causer_id' => auth()->user()->id,
+            'causer_type' => 'App\User'
+        ]);
+
+        $new_comment = $project->comments()->save($comment);
+
+        //to be created
+        //NewProjectCommentCreated::dispatch($project, $new_comment);
+
+        return $new_comment;
+
+    }
+
     public function store()
     {
         (new ProjectPolicy())->create();
@@ -188,10 +211,23 @@ class ProjectController extends Controller
             'company_id' => auth()->user()->company()->id
         ]);
 
+        if(request()->has('comment')){
+
+            $comment = new Comment([ 
+                'body' => request()->comment,
+                'causer_id' => auth()->user()->id,
+                'causer_type' => 'App\User'
+            ]);
+
+            $new_comment = $project->comments()->save($comment);
+        }
+
+
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
 
         return response(Project::latest()->first(), 200);
+        }
     }
 
     /*

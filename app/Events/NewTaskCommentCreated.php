@@ -12,7 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewCommentCreated
+class NewTaskCommentCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -39,6 +39,6 @@ class NewCommentCreated
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('comment.'.$this->task->id);
+        return new PrivateChannel('comment.task.'.$this->task->id);
     }
 }
