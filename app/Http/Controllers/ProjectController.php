@@ -165,6 +165,13 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function comments($id)
+    {
+        $project = Project::findOrFail($id);
+
+        return $project->comments->load(['causer']);
+    }
+
     public function addComments($id)
     {
         $project = Project::findOrFail($id);
