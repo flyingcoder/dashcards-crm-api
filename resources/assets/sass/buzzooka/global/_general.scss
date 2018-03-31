@@ -262,6 +262,7 @@
 
         .buzz-scroll::-webkit-scrollbar{
             width: 12px !important;
+            height: 8px !important;
             border-radius: 10px !important;
             background-color: $gray-toggle !important;
         }
