@@ -8,6 +8,13 @@
     padding: 0;
     margin: 0;
 
+    .underconstruction{
+        text-align: center;
+        button{
+            font-size: 20px;
+        }
+    }
+
 // Text Overflow
     .buzz-overflow{
         max-width: 100%;
@@ -205,6 +212,7 @@
         width: 100%;
         background: #F5F5F5 ;
         overflow-y: auto;
+        overflow-x: hidden;
         .force-overflow
         {
             min-height: 450px;
@@ -329,7 +337,7 @@
         display: inline-block; 
         .option-item{
             position: relative;
-            display: inline-block;
+            display: inline-block;      
             border-radius: 100%;
             height: 35px;
             width: 35px;
@@ -929,6 +937,11 @@
                             height: 30px;
                         }
                     } 
+                    th{
+                        &:last-child{
+                            text-align: center;
+                        }
+                    }
                 }
             }
             tbody{
@@ -949,8 +962,9 @@
                             }
                         }
                         &:last-child{
+                            text-align: center;
                             a, button{
-                                padding: 10px;
+                                padding: 10px 5px;
                             }
                         }
                     }
@@ -1073,6 +1087,8 @@
                     padding: 5px 10px;
                     .option-item{
                         text-align: left;
+                        vertical-align: middle;
+                        padding: 0;
                         width: 31%;
                         height: 44px;
                         font-size: 17.2px;

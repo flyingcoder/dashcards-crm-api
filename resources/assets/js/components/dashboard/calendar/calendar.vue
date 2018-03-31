@@ -2,21 +2,25 @@
      <div class="box-content db-calendar">
         <div class="row">
             <div class="col-md-7">
-                <FullCalendar></FullCalendar>
+                <!-- <FullCalendar></FullCalendar> -->
             </div>
             <div class="col-md-5">
-            Right
+
             </div>
         </div>
+        <under-construction></under-construction>
     </div>
 </template>
 
 
 <script>
-    import { FullCalendar } from 'vue-full-calendar'
+    // import { FullCalendar } from 'vue-full-calendar'
+    import UnderConstruction from '../../UnderConstruction.vue';
+
     export default {
         components: {
-            FullCalendar,
+            // FullCalendar,
+            'under-construction': UnderConstruction,
             },
             data() {
                 return {

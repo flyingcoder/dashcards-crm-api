@@ -8,26 +8,30 @@
                 <comments></comments>
             </div>
         </div>
+        <add-task></add-task>
     </section>
 </template>
+
 <script>
-import Tasks from './Tasks.vue'
-import Comments from './Comments.vue'
-export default {
-    components: {
-        'tasks': Tasks ,
-        'comments': Comments 
-    },
-    data(){
-        return {
-            taksId : 0,
+    import Tasks from './Tasks.vue'
+    import Comments from './Comments.vue'
+    import AddTask from './AddTask.vue'
+    export default {
+        components: {
+            'tasks': Tasks ,
+            'comments': Comments,
+            'add-task': AddTask,
+        },
+        data(){
+            return {
+                taksId : 0,
+            }
+        },
+        methods:{
+            clickTask(val){
+                this.taksId = val.id;
+            }
         }
-    },
-    methods:{
-        clickTask(val){
-            this.taksId = val.id;
-        }
+    
     }
-  
-}
 </script>
