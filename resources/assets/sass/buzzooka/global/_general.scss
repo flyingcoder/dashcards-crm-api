@@ -1147,39 +1147,6 @@
                     .el-form-item__label{
                         font-size: 17px !important;
                     }
-                    .quill-editor{
-                        .ql-toolbar{
-                            position: absolute;
-                            bottom: 0;
-                            z-index: 1;
-                            margin: 10px;
-                            background: none;
-                            border: none;
-                            .ql-formats{
-                                padding: 5px;
-                                margin: 0 5px 0 0;
-                                border: $table-border;
-                                border-radius: 5px;
-                                background: $gray-bg;
-                                button{
-                                    height: 17px !important;
-                                    width: 17px !important;
-                                }
-                                .ql-picker-label{
-                                    height: unset !important;
-                                    top: -10px;
-                                }
-                            }
-                        }
-                        .ql-container{
-                            background: $white;
-                            .ql-editor{
-                                height: 100px !important;
-                                margin-bottom: 100px;
-                            }
-                        }
-                        
-                    }
                     .ckeditor{
                         .head-page-option{
                             padding-top: unset;
@@ -1452,6 +1419,39 @@
                 }
             }
         }
+// Quill Editor
+    .quill-editor{
+        .ql-toolbar{
+            position: absolute;
+            bottom: 0;
+            z-index: 1;
+            margin: 10px;
+            background: none;
+            border: none;
+            .ql-formats{
+                padding: 5px;
+                margin: 0 5px 0 0;
+                border: $table-border;
+                border-radius: 5px;
+                background: $gray-bg;
+                button{
+                    height: 17px !important;
+                    width: 17px !important;
+                }
+                .ql-picker-label{
+                    height: unset !important;
+                    top: -10px;
+                }
+            }
+        }
+        .ql-container{
+            background: $white;
+            .ql-editor{
+                height: 100px !important;
+                margin-bottom: 100px;
+            }
+        }
+    }
 // New
 }
 
