@@ -134,8 +134,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/tasks/mine', 'ProjectController@myTasks');
 
-  Route::post('new', 'ProjectController@store');
-	Route::post('{id}/edit', 'ProjectController@update');
+  Route::post('/', 'ProjectController@store');
+
+	Route::put('{id}/edit', 'ProjectController@update');
 
 
   // not used

@@ -296,9 +296,12 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        return $this->clients()
-                    ->orderBy($sortName, $sortValue)
-                    ->paginate(10);
+        $clients = $this->clients();
+
+        if($request->has('sort'))
+            $clients->orderBy($sortName, $sortValue);
+
+        return $clients->paginate(10);
     }
 
     public function timeline()
