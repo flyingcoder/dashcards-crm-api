@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="underconstruction">
         <button class="btn" @click="construction">Click me!</button>
     </div>
 </template>

@@ -2,13 +2,13 @@
   <section class="content hq-overview">
     <div class="col-md-6">
       <project-overview :project-id="$parent.projectId"></project-overview>
-      <task :project-id="$parent.projectId"></task>
-      <calendar></calendar>
+      <!-- <task :project-id="$parent.projectId"></task>
+      <calendar></calendar> -->
     </div>
     <div class="col-md-6">
       <timeline></timeline>
-      <timer></timer>
-      <pass-box></pass-box>
+      <!-- <timer></timer>
+      <pass-box></pass-box> -->
     </div>
   </section>
 </template>

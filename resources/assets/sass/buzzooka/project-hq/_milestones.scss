@@ -113,15 +113,14 @@
             }
         }
     }
+    .milestone-form{
+        margin-top: 20px;
+    }
     .add-button{
         position: fixed !important;
         right: 20px !important;
         bottom: 40px !important;
         box-shadow: $hover-shadow !important;
-        button{
-            width: 46px !important;
-            height: 46px !important;
-        }
     }
 }
   
