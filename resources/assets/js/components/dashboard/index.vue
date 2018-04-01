@@ -228,13 +228,13 @@
 
 <script>
     import BoxOptions from './box-options.vue';
-    import Tasks from './tasks/Index.vue';
-    import Client from './client/Index.vue';
-    import Payment from './payment/Index.vue';
+    import Tasks from './tasks/index.vue';
+    import Client from './client/index.vue';
+    import Payment from './payment/index.vue';
     import Calendar from './calendar/calendar.vue';
-    import Timeline from './timeline/Index.vue';
-    import Timer from './timer/Index.vue';
-    import Invoice from './invoice/Index.vue';
+    import Timeline from './timeline/index.vue';
+    import Timer from './timer/index.vue';
+    import Invoice from './invoice/index.vue';
     import Passbox from './passbox/passbox-edit.vue';
 
     export default {
