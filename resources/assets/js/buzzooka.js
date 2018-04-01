@@ -77,7 +77,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('invoices', require('./components/invoices/index.vue'));
 
 // Payments
-  Vue.component('payments', require('./components/payments/Index.vue'));
+  Vue.component('payments', require('./components/payments/index.vue'));
 
 // Timers
   Vue.component('timers', require('./components/timers/Index.vue'));
