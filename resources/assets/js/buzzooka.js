@@ -55,7 +55,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 
 // Dashboard
-  Vue.component('dashboard', require('./components/dashboard/Index.vue'));
+  Vue.component('dashboard', require('./components/dashboard/index.vue'));
 
 // Projects
   Vue.component('projects', require('./components/projects/Index.vue'));
