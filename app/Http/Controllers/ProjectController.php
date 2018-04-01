@@ -8,6 +8,7 @@ use App\Task;
 use App\Team;
 use App\Service;
 use App\Project;
+use App\Comment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Policies\ProjectPolicy;
@@ -134,7 +135,7 @@ class ProjectController extends Controller
             'description' => 'required'
         ]);
 
-        $project->title = request()->title
+        $project->title = request()->title;
         $project->location = request()->location;
         $project->service_id = request()->service_id;
         $project->description = request()->description;
