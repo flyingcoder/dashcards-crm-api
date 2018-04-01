@@ -24,18 +24,20 @@ Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]
 // sidebar pages
 Route::view('bugs', 'pages.bugs')->name('bugs');
 Route::view('calendar', 'pages.calendar')->name('calendar');
-Route::view('clouds', 'pages.clouds')->name('clouds');
-Route::view('settings', 'pages.settings')->name('settings');
-Route::view('supports', 'pages.supports')->name('supports');
+Route::view('templates', 'pages.templates')->name('templates');
+Route::view('buzz-forms', 'pages.forms')->name('buzz-forms');
+Route::view('invoices', 'pages.invoices')->name('invoices');
 Route::view('payments', 'pages.payments')->name('payments');
 Route::view('timers', 'pages.timers')->name('timers');
-Route::view('invoices', 'pages.invoices')->name('invoices');
+Route::view('cloud', 'pages.cloud')->name('cloud');
 Route::view('teams', 'pages.teams')->name('teams');
 Route::view('chat', 'pages.chat')->name('chat');
 Route::view('reports', 'pages.reports')->name('reports');
-Route::view('services', 'pages.services')->name('services');
-Route::view('settings', 'pages.settings')->name('settings');
+Route::view('supports', 'pages.supports')->name('supports');
 Route::view('bugs', 'pages.bugs')->name('bugs');
+Route::view('services', 'pages.services')->name('services');
+
+Route::view('settings', 'pages.settings')->name('settings');
 Route::view('project-details', 'pages.project-details')->name('project-details');
 
 Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');

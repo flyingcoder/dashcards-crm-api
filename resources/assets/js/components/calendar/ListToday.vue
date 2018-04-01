@@ -9,7 +9,7 @@
             <el-table-column sortable prop="date" label="Date" width="115"></el-table-column>
             <el-table-column prop="time" label="Time" width="100"></el-table-column>
             <el-table-column prop="members" label="Members" width="100"></el-table-column>
-            <el-table-column fixed="right" label="Test" class="icon">
+            <el-table-column fixed="right" :render-header="renderHeader">
                 <template slot-scope="scope">
                     <a href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -61,6 +61,9 @@
       },
 
       methods: {
+        renderHeader(h,{column,$index}){
+            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
+        },
         handleSizeChange: function (val) {
             this.currentSize = val;
         },

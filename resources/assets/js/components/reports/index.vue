@@ -10,16 +10,7 @@
                 <div class="col-md-6">
                     <div class="head-page-option">
                         <ul class="nav nav-tabs">
-                            <li class="add-button">
-                                <span> ADD NEW </span>
-                                <button>
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        width="20px" height="20px">
-                                        <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                                        d="M18.852,10.789 L11.590,10.789 L11.590,19.039 C11.590,19.444 11.193,19.773 10.703,19.773 C10.212,19.773 9.815,19.444 9.815,19.039 L9.815,10.789 L1.663,10.789 C1.262,10.789 0.937,10.387 0.937,9.892 C0.937,9.395 1.262,8.993 1.663,8.993 L9.815,8.993 L9.815,1.645 C9.815,1.240 10.212,0.911 10.703,0.911 C11.193,0.911 11.590,1.240 11.590,1.645 L11.590,8.993 L18.852,8.993 C19.252,8.993 19.577,9.395 19.577,9.892 C19.577,10.387 19.252,10.789 18.852,10.789 Z"/>
-                                    </svg>
-                                </button>
-                            </li>
+                            <add-reports></add-reports>
                             <li class="sort">
                                 <button data-toggle="dropdown" class="dropdown-toggle">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -59,32 +50,28 @@
         </div>
         <div class="content-body">
             <section class="buzz-section">
-                <div class="buzz-table">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#all-reports" data-toggle="tab"> All Clients </a>
-                        </li>
-                        <li>
-                            <a href="#my-reports" data-toggle="tab"> My Clients </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
+                <el-tabs type="border-card">
+                    <el-tab-pane label="All Reports">
                         <all-reports></all-reports>
+                    </el-tab-pane>
+                    <el-tab-pane label="My Reports">
                         <my-reports></my-reports>
-                    </div>
-                </div>
+                    </el-tab-pane>
+                </el-tabs>
             </section>
         </div>
     </section>
 </template>
 
 <script>
-    import AllReports from './all-reports.vue';
-    import MyReports from './my-reports.vue';
+    import AddReports from './AddReports.vue';
+    import AllReports from './AllReports.vue';
+    import MyReports from './MyReports.vue';
 
     export default {   
 
         components: {
+          'add-reports': AddReports,
           'all-reports': AllReports,
           'my-reports': MyReports,
       },
@@ -96,31 +83,30 @@
         currentPage: 1,
         currentSize: 10,
         total : 1,
-        paginatedMyProjects: [],
-        paginatedAllProjects: [],
-
+        paginatedMyReports: [],
+        paginatedAllReports: [],
         }
       },
 
       mounted () {
-        this.getMyProjects();
-        this.getAllProjects();
+        this.getMyReports();
+        this.getAllReports();
 
       },
 
       methods: {
-        getMyProjects(){
-            axios.get('api/projects/mine')
+        getMyReports(){
+            axios.get('api/reports/mine')
                  .then( response => {
-                    this.paginatedMyProjects = response.data.data;
+                    this.paginatedMyReports = response.data.data;
                     this.currentPage = response.data.current_page;
                     this.total = response.data.total;
                  })
         },
-        getAllProjects(){
-            axios.get('api/projects')
+        getAllReports(){
+            axios.get('api/reports')
             .then( response => {
-                this.paginatedMyProjects = response.data;
+                this.paginatedMyReports = response.data;
             })
         },
         handleSizeChange: function (val) {
@@ -140,7 +126,7 @@
             }
         },
         rowClick(row, event, col){
-            location = "/projects/" + row.id;
+            location = "/reports/" + row.id;
         }
       }
 

@@ -63,7 +63,7 @@
                             <el-table-column sortable prop="time_start" label="Time Start"></el-table-column>
                             <el-table-column sortable prop="time_end" label="Time End"></el-table-column>
                             <el-table-column sortable prop="time_spent" label="Time Spent"></el-table-column>
-                            <el-table-column fixed="right" label="Icon">
+                            <el-table-column fixed="right" :render-header="renderHeader">
                                 <template slot-scope="scope">
                                     <a href="#">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -107,31 +107,15 @@
         currentPage: 1,
         currentSize: 10,
         total : 1,
-        paginatedMyProjects: [],
-        paginatedAllProjects: [],
         }
       },
 
       mounted () {
-        this.getMyProjects();
-        this.getAllProjects();
-
       },
 
       methods: {
-        getMyProjects(){
-            axios.get('api/projects/mine')
-                 .then( response => {
-                    this.paginatedMyProjects = response.data.data;
-                    this.currentPage = response.data.current_page;
-                    this.total = response.data.total;
-                 })
-        },
-        getAllProjects(){
-            axios.get('api/projects')
-            .then( response => {
-                this.paginatedMyProjects = response.data;
-            })
+        renderHeader(h,{column,$index}){
+            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
         handleSizeChange: function (val) {
             this.currentSize = val;
