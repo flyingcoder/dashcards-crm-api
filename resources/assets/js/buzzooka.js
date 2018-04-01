@@ -80,13 +80,13 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('payments', require('./components/payments/index.vue'));
 
 // Timers
-  Vue.component('timers', require('./components/timers/Index.vue'));
+  Vue.component('timers', require('./components/timers/index.vue'));
 
 // Cloud
   Vue.component('cloud', require('./components/cloud/Index.vue'));
 
 // Teams
-  Vue.component('teams', require('./components/teams/Index.vue'));
+  Vue.component('teams', require('./components/teams/index.vue'));
 
 // Chat
   Vue.component('chat', require('./components/chat/Index.vue'));
@@ -101,7 +101,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('bugs', require('./components/bugs/Index.vue'));
 
 // Services
-  Vue.component('services', require('./components/services/Index.vue'));
+  Vue.component('services', require('./components/services/index.vue'));
 
 // Project-HQ
   Vue.component('project-hq', require('./components/projects/project-hq/Index.vue'));
