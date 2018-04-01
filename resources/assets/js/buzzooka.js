@@ -74,7 +74,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('buzz-forms', require('./components/forms/Index.vue'));
 
 // Invoices
-  Vue.component('invoices', require('./components/invoices/Index.vue'));
+  Vue.component('invoices', require('./components/invoices/index.vue'));
 
 // Payments
   Vue.component('payments', require('./components/payments/Index.vue'));
