@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 // Services
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
-	Route::get('/', 'ServiceController@index'); // projects
+	Route::get('/', 'ServiceController@index'); // projects //error
 
   Route::post('/', 'ServiceController@store');
 
@@ -120,19 +120,19 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 // Projects
 Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
-  Route::get('/', 'ProjectController@index');
+  Route::get('/', 'ProjectController@index');// project
 
-  Route::post('new', 'ProjectController@store');
+  Route::post('new', 'ProjectController@store');// project
   
-  Route::post('{id}/edit', 'ProjectController@update');
+  Route::post('{id}/edit', 'ProjectController@update');// project
   
   Route::delete('{id}/delete', 'ProjectController@delete');
 
   Route::get('{id}', 'ProjectController@project');
 
-  Route::get('{id}/tasks', 'ProjectController@tasks');
+  Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
-  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');
+  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 
   // not used
   // Route::get('{id}/overview', 'ProjectController@overview'); 
@@ -143,12 +143,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/milestones', 'MilestoneController@projectMilestone');
 
-  Route::get('{id}/members', 'ProjectController@members');
+  Route::get('{id}/members', 'ProjectController@members');// project-hq
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 
-  Route::get('{id}/files', 'MediaController@projectMedia');
-	Route::post('{id}/files','MediaController@projectFileUpload');
+  Route::get('{id}/files', 'MediaController@projectMedia');// project-hq
+	Route::post('{id}/files','MediaController@projectFileUpload');// project-hq
 
   Route::post('{id}/links', 'MediaController@addMediaLink');
 
