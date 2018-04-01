@@ -15,7 +15,6 @@ import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
-//import FullCalendar from 'vue-full-calendar'
 import Ckeditor from 'vue-ckeditor2'
 import VueQuillEditor from 'vue-quill-editor'
 // Require styles
@@ -25,7 +24,6 @@ import 'quill/dist/quill.bubble.css'
 
 Vue.use(Element, { locale });
 Vue.use(VModal);
-Vue.use(FullCalendar);
 Vue.use(Ckeditor);
 Vue.use(VModal);
 Vue.use(VueQuillEditor, /* { default global options } */)
@@ -146,7 +144,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
         center: 'title',
         right: 'next'
       },
-/* 
+    /* 
       selectable: true,
       selectHelper: true,
       select: function(start, end, allDay) {
