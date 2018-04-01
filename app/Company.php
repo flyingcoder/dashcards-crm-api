@@ -143,7 +143,7 @@ class Company extends Model
                         'services.id as id',
                         'services.name as service_name', 
                         'services.created_at as service_created_at',
-                        'member.name as user_name');
+                        DB::raw('CONCAT(member.last_name, ", ", member.first_name) AS name'));
     }
 
     public function paginatedCompanyServices(Request $request)
@@ -296,9 +296,12 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        return $this->clients()
-                    ->orderBy($sortName, $sortValue)
-                    ->paginate(10);
+        $clients = $this->clients();
+
+        if($request->has('sort'))
+            $clients->orderBy($sortName, $sortValue);
+
+        return $clients->paginate(10);
     }
 
     public function timeline()

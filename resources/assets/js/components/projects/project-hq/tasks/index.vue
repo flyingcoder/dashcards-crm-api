@@ -5,7 +5,7 @@
                 <tasks :project-id="$parent.projectId" v-on:clickTask="clickTask"></tasks>
             </div>
             <div class="col-md-6 ">
-                <comments></comments>
+                <task-info></task-info>
             </div>
         </div>
         <add-task></add-task>
@@ -14,12 +14,12 @@
 
 <script>
     import Tasks from './Tasks.vue'
-    import Comments from './Comments.vue'
+    import TaskInfo from './TaskInfo.vue'
     import AddTask from './AddTask.vue'
     export default {
         components: {
             'tasks': Tasks ,
-            'comments': Comments,
+            'task-info': TaskInfo,
             'add-task': AddTask,
         },
         data(){

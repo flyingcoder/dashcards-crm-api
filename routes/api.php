@@ -130,7 +130,17 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}', 'ProjectController@project');
 
+<<<<<<< HEAD
   Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
+=======
+  Route::post('/', 'ProjectController@store');
+
+  Route::put('{id}/edit', 'ProjectController@update');
+
+  Route::post('{id}/comments', 'ProjectController@addComments');
+
+	Route::get('{id}/comments', 'ProjectController@comments');
+>>>>>>> 0751e4a92b7a1a2b184e5f24556052f09d9cdf0f
 
   Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 
