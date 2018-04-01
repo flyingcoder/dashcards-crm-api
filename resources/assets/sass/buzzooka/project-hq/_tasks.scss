@@ -380,6 +380,7 @@
                     display: inline-block;
                     width: 30%;
                     height: 42px;
+                    padding: 0;
                     margin-right: 2.5%;
                     border: $table-border;
                     border-radius: 3px;
@@ -393,11 +394,45 @@
                     }
                     .timer-btn{
                         width: 30%;
-                        background: $green;
                         border-radius: 3px 0 0 3px;
+                        img, svg{
+                            position:relative;
+                            top: 6px;
+                        }
+                        .onPlay, .onPause{
+                            height: 100%;
+                            width: 100%;
+                            border-radius: 3px 0 0 3px;
+                        }
+                        .onPlay{
+                            display: none;
+                            background: $green;
+                            img{
+                                width: 10px;
+                                height: 12px;
+                            }
+                        }
+                        .onPause{
+                            display: block;
+                            background:  $file-video;
+                            img{
+                                width: 7px;
+                                height: 13px;
+                            }
+                        }
+                    }
+                    .play{
+                        .onPause{
+                            display: none !important;
+                        }
+                        .onPlay{
+                            display: block !important;
+                        }
                     }
                     .timer-btn, .hrs, .mins, .secs, .divider{
                         display: inline-block;
+                        vertical-align: top;
+                        padding: 0;                        
                     }
                     .hrs, .mins, .secs, .divider{
                         position: relative;
@@ -413,20 +448,20 @@
                             font-family: $lato;
                         }
                     }
-                    .hrs{
+                    .hrs, .mins, .secs{
                         width: 19.3%;
+                    }
+                    .hrs{
                         small{
                             left: 6px;
                         }
                     }
                     .mins{
-                        width: 19.3%;
                         small{
                             left: 7px;
                         }
                     }
                     .secs{
-                        width: 19.3%;
                         small{
                             left: 10px;
                         }

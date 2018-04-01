@@ -52,12 +52,16 @@
                             <button> Task Completed </button>
                         </li>
                         <li>
-                            <button class="timer-btn"> 
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="10px" height="12px">
-                                    <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                                    d="M0.569,11.942 C0.255,11.942 0.000,11.690 0.000,11.379 L0.000,1.512 C0.000,1.201 0.255,0.949 0.569,0.949 L9.810,6.023 C9.810,6.023 10.237,6.446 9.810,6.868 C9.384,7.291 0.569,11.942 0.569,11.942 Z"/>
-                                </svg>  
+                            <button class="timer-btn"
+                                v-bind:class="{ play: timerToggle }"
+                                v-on:click="timerToggle = !timerToggle"
+                                >
+                                <span class="onPause">
+                                     <img src="/img/icons/task/pause.svg" alt="pause">
+                                </span>
+                                <span class="onPlay"> 
+                                     <img src="/img/icons/task/play.svg" alt="play">
+                                </span>
                             </button>
                             <div class="hrs">
                                 3
@@ -145,11 +149,11 @@
     </div>
 </template>
 
-
 <script>
     export default {
     	data: function () {
         	return {    
+                timerToggle: false,
                 action: 'Save',
                 id: 0,
                 oldName: '',

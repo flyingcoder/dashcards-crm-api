@@ -101,7 +101,6 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('services', require('./components/services/Index'));
 
 // Push menu
-
   $(document).ready(function(){
     $("#toggleBuzzMenu").click(function(){
       console.log('Test!!');
