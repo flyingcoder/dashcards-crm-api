@@ -45,8 +45,8 @@
     </div>
 </template>
 <script>
-import Alarm from './Alarm.vue'
-import Timer from './Timer.vue'
+import Alarm from './Alarm.vue';
+import Timer from './Timer.vue';
 export default {
     components:{
         Alarm : 'alarm',
