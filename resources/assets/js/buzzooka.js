@@ -49,7 +49,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 
 //  Vue Components Path
 //  Header
-  Vue.component('buzzheader', require('./components/header/Index.vue'));
+  Vue.component('buzzheader', require('./components/header/index.vue'));
 
 //  Sidebar
   Vue.component('buzzsidebar', require('./components/sidebar/index.vue'));
