@@ -4,4 +4,5 @@
 
 @section('content')
    <profile></profile>
+   <!-- <bugs></bugs> -->
 @endsection

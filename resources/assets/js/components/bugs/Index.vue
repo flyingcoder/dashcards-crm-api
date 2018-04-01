@@ -1,16 +1,16 @@
 <template>
-    <section class="content clients">
+    <section class="content projects">
         <div class="content-header">
-             <div class="row">
+            <div class="row">
                 <div class="col-md-6">
                     <div class="page-title">
-                        <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Clients </span> </h1>
+                        <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Bugs </span> </h1>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="head-page-option">
                         <ul class="nav nav-tabs">
-                            <add-client></add-client>
+                            <AddProject></AddProject>
                             <li class="sort">
                                  <el-dropdown trigger="click" placement="bottom">
                                     <el-button size="small" class="el-dropdown-link">
@@ -22,9 +22,6 @@
                                     </el-button>
                                     <el-dropdown-menu slot="dropdown" class="sort-dropdown">
                                         <el-dropdown-item>
-                                            <a href="#"> Sort by Client </a>
-                                        </el-dropdown-item>
-                                        <el-dropdown-item>
                                             <a href="#"> Sort by Service </a>
                                         </el-dropdown-item>
                                         <el-dropdown-item>
@@ -33,55 +30,26 @@
                                         <el-dropdown-item>
                                             <a href="#"> Sort by Progress </a>
                                         </el-dropdown-item>
+                                        <el-dropdown-item>
+                                            <a href="#"> Sort by Status </a>
+                                        </el-dropdown-item>
                                     </el-dropdown-menu>  
                                 </el-dropdown>
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="content-body">
             <section class="buzz-section">
-                <div class="buzz-table">
-                    <el-tabs type="border-card">
-                        <el-tab-pane label="All Clients">
-                            <all-clients></all-clients>
-                        </el-tab-pane>
-                        <el-tab-pane label="My Clients">
-                            <my-clients></my-clients>
-                        </el-tab-pane>
-                    </el-tabs>
-                    <!-- <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#all-clients" data-toggle="tab"> All Clients </a>
-                        </li>
-                        <li>
-                            <a href="#my-clients" data-toggle="tab"> My Clients </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <all-clients></all-clients>
-                        <my-clients></my-clients>
-                    </div> -->
+                <div class="">
+                    <div class="text-center">
+                        <img src="/img/temporary/construction.jpg" alt="icon" width="560px">
+                    </div>
+                    <h1 class="text-center"> Coming Soon!!</h1>
                 </div>
             </section>
         </div>
     </section>
 </template>
-
-<script>
-    import AddClient from './AddClient.vue';
-    import AllClients from './AllClients.vue';
-    import MyClients from './MyClients.vue';
-
-    export default {   
-
-        components: {
-          'all-clients': AllClients,
-          'my-clients': MyClients,
-          'add-client': AddClient,
-      }
-
-    }
-</script>

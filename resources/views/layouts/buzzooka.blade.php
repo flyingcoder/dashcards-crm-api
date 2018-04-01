@@ -80,7 +80,7 @@
               </a>
             </li>
             <li class="sidebar-list {{ (Request::is('templates/*') || Request::is('templates')  ? 'active' : '') }}">
-              <a href="#" id="templates"> 
+              <a href="{{ route ('templates') }}" id="templates"> 
                 <label class="tab-icon"> 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="59px" height="49px">
@@ -92,8 +92,8 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list {{ (Request::is('forms/*') || Request::is('forms')  ? 'active' : '') }}">
-              <a href="#" id="forms"> 
+            <li class="sidebar-list {{ (Request::is('buzz-forms/*') || Request::is('buzz-forms')  ? 'active' : '') }}">
+              <a href="{{ route ('buzz-forms') }}" id="buzz-forms"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="59px" height="49px">
@@ -176,7 +176,7 @@
               </a>
             </li>
             <li class="sidebar-list {{ (Request::is('cloud/*') || Request::is('cloud')  ? 'active' : '') }}">
-              <a href="#" id="cloud"> 
+              <a href="{{ route ('cloud') }}" id="cloud"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="46px" height="49px">
@@ -227,8 +227,8 @@
                   <span class="pull-right-container"></span>
               </a>
             </li>
-            <li class="sidebar-list {{ (Request::is('support/*') || Request::is('support')  ? 'active' : '') }}">
-              <a href="#" id="support"> 
+            <li class="sidebar-list {{ (Request::is('supports/*') || Request::is('supports')  ? 'active' : '') }}">
+              <a href="{{ route ('supports') }}"id="supports"> 
                 <label class="tab-icon">
                   <svg xmlns="http://www.w3.org/2000/svg"xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="41px" height="49px">

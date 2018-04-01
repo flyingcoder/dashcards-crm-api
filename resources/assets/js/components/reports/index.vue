@@ -7,7 +7,7 @@
                         <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Reports </span> </h1>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="head-page-option">
                         <ul class="nav nav-tabs">
                             <li class="add-button">
@@ -54,33 +54,20 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="content-body">
             <section class="buzz-section">
-                <div class="buzz-table">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#all-reports" data-toggle="tab"> All Clients </a>
-                        </li>
-                        <li>
-                            <a href="#my-reports" data-toggle="tab"> My Clients </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <all-reports></all-reports>
-                        <my-reports></my-reports>
-                    </div>
-                </div>
+                
             </section>
         </div>
     </section>
 </template>
 
 <script>
-    import AllReports from './all-reports.vue';
-    import MyReports from './my-reports.vue';
+    import AllReports from './AllReports.vue';
+    import MyReports from './MyReports.vue';
 
     export default {   
 
