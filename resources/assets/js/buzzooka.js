@@ -58,13 +58,13 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('dashboard', require('./components/dashboard/index.vue'));
 
 // Projects
-  Vue.component('projects', require('./components/projects/Index.vue'));
+  Vue.component('projects', require('./components/projects/index.vue'));
 
 // Clients
-  Vue.component('clients', require('./components/clients/Index.vue'));
+  Vue.component('clients', require('./components/clients/index.vue'));
 
 // Calendar
-  Vue.component('events', require('./components/calendar/Index.vue'));
+  Vue.component('events', require('./components/calendar/index.vue'));
   Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Templates
