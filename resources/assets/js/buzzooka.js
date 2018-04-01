@@ -286,9 +286,9 @@ let buzzcrm = {
   //       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
   //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
   //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
-        {path: '/members',component: require('./components/projects/project-hq/members/Index')}
+        {path: '/members',component: require('./components/projects/project-hq/members/Index')},
   //       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
-  //       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
+        {path: '/reports',component: require('./components/projects/project-hq/reports/Index')},
 
       ],
       linkActiveClass: 'active'
