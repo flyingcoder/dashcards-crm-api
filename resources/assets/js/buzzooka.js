@@ -15,7 +15,7 @@ import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
-import FullCalendar from 'vue-full-calendar'
+//import FullCalendar from 'vue-full-calendar'
 import Ckeditor from 'vue-ckeditor2'
 import VueQuillEditor from 'vue-quill-editor'
 // Require styles
