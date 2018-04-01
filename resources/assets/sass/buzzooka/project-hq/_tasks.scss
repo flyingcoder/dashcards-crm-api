@@ -10,6 +10,7 @@
         height: 1473px;
         margin-top: 0 !important;
         .box-content{
+            position: relative;
             height: 1375px !important;
             ul{
                 li{
@@ -284,21 +285,12 @@
         }
     }
     .selected-task{
-        .el-progress-bar{
-            position: relative;
-            top: -5px;
-            padding: 0;
-            transform: rotate(180deg);
-            .el-progress-bar__inner{
-                background: $blue;
-            }
-        }
+        padding: 10px 0 20px 20px;
         .task-head{
             height: 70px;
-            border-bottom: $section-border;
+            padding-right: 20px;
             .user-info{
                 vertical-align: top;
-                margin-left: 5px;
                 img{
                     width: 41px;
                     border-radius: 50%;
@@ -308,8 +300,9 @@
                     font-size: 14.93px;
                     color: $chat-name;
                     line-height: 1.2;
-                    margin: 3px;
+                    margin-left: 15px;
                     vertical-align: middle;
+                    font-family: $lato;
                 }
             }
             .date{
@@ -379,44 +372,218 @@
                 display: none;
             }
         }
-        .task-decription{
-            height: 287px !important;
-            background: $white !important;
-            padding: 20px 0 20px 50px;
-            @extend .buzz-scrollbar;
-            @extend .buzz-scroll;
-            .options{
-                button{
+        .options{
+            ul{
+                list-style: none;
+                padding: 0;
+                li{
+                    display: inline-block;
                     width: 30%;
                     height: 42px;
+                    padding: 0;
                     margin-right: 2.5%;
-                    font-size: 15px;
-                    font-family: $lato-mid;
-                    color: $action-hover;
                     border: $table-border;
                     border-radius: 3px;
+                    button{
+                        width: 100%;
+                        height: 100%;
+                        text-align: center;
+                        color: $action-hover;
+                        font-family: $lato-mid;
+                        font-size: 15px;
+                    }
+                    .timer-btn{
+                        width: 30%;
+                        border-radius: 3px 0 0 3px;
+                        img, svg{
+                            position:relative;
+                            top: 6px;
+                        }
+                        .onPlay, .onPause{
+                            height: 100%;
+                            width: 100%;
+                            border-radius: 3px 0 0 3px;
+                        }
+                        .onPlay{
+                            display: none;
+                            background: $green;
+                            img{
+                                width: 10px;
+                                height: 12px;
+                            }
+                        }
+                        .onPause{
+                            display: block;
+                            background:  $file-video;
+                            img{
+                                width: 7px;
+                                height: 13px;
+                            }
+                        }
+                    }
+                    .play{
+                        .onPause{
+                            display: none !important;
+                        }
+                        .onPlay{
+                            display: block !important;
+                        }
+                    }
+                    .timer-btn, .hrs, .mins, .secs, .divider{
+                        display: inline-block;
+                        vertical-align: top;
+                        padding: 0;                        
+                    }
+                    .hrs, .mins, .secs, .divider{
+                        position: relative;
+                        vertical-align: text-bottom;
+                        text-align: center;
+                        font-size: 17px;
+                        color: $action-hover;
+                        bottom: 2px;
+                        small{
+                            position: absolute;
+                            font-size: 12px;
+                            top: 20px;
+                            font-family: $lato;
+                        }
+                    }
+                    .hrs, .mins, .secs{
+                        width: 19.3%;
+                    }
+                    .hrs{
+                        small{
+                            left: 6px;
+                        }
+                    }
+                    .mins{
+                        small{
+                            left: 7px;
+                        }
+                    }
+                    .secs{
+                        small{
+                            left: 10px;
+                        }
+                    }
+                    .divider{
+                        border-left: $table-border;
+                        margin: 0;
+                    }
                 }
             }
+        }
+        .task-decription{
+            height: 980px !important;
+            background: $white !important;
+            padding: 0px 20px 20px 60px;
+            margin-top: 20px;
+            @extend .buzz-scrollbar;
+            @extend .buzz-scroll;
             .title{
                 color:  $milestone-title;
                 font-family: $lato-mid;
                 line-height: 1.2;
                 letter-spacing: 0.3px;
+                font-size: 20px;
+                margin: 0;
+                margin-bottom: 20px;
             }
             .description{
                 font-size: 15px;
                 color: $table-data;
                 font-family: $lato-mid;
                 letter-spacing: 0.3px;
+                margin-bottom: 0;
+            }
+            .comment{
+                margin-bottom: 25px;
+                .member-img, .comment-info{
+                    display: inline-block;
+                }
+                .member-img{
+                    position: relative;
+                    left: -60px;
+                    width: 41px;
+                    height: 41px;
+                    border-radius: 50%;
+                    border: $table-border;
+                }
+                .comment-info{
+                    position: relative;
+                    top: 10px;
+                    left: -45px;
+                    margin-bottom: 5px;
+                    h4{
+                        color:  $chat-name;
+                        font-size: 15px;
+                        margin: 0;
+                        margin-bottom: 1px;
+                        font-family: $lato;
+                    }
+                    span{
+                        font-size: 12px;
+                        color: $member-info;
+                    }
+                }
+                .comment-text{
+                    margin-top: 20px;
+                    p{
+                        font-size: 15px;
+                        font-family: initial;
+                        color: $table-data;
+                    }
+                }
+                .comment-img{
+                    margin-top: 20px;
+                    overflow: auto;
+                    white-space: nowrap;
+                    ul{
+                        list-style: none;
+                        padding: 0;
+                        width: 350px;
+                        li{
+                            display: inline-block;
+                            margin-right: 10px;
+                            img{
+                                width: 90px;
+                            }
+                        }
+                    }
+                }
             }
         }
         .task-comment{
             height: 65px;
-            border-top: $table-border;
-            img{
-                float:left;
+            margin-top: 20px;
+            margin-right: 20px;
+            .avatar{
+                position: absolute;
                 width: 41px;
                 margin: 10px;
+                z-index: 1;
+            }
+            .quill-editor{
+                .ql-container{
+                    padding-left: 50px;
+                    height: 215px;
+                    border: $table-border;
+                    border-radius: 5px;
+                    .ql-editor{
+                        line-height: 1;
+                        height: 150px !important;
+                        margin-bottom: 50px;
+                    }
+                }
+                .ql-toolbar{
+                    margin: 10px 0;
+                    .ql-formats{
+                        padding: 0 !important;
+                    }
+                    .ql-picker-label{
+                        top: 0 !important;
+                    }
+                }
             }
             .el-textarea{
                 width: 84% !important;

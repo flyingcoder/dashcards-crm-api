@@ -6,7 +6,7 @@
                 @selection-change="handleSelectionChange" style="width: 100%"
                 @cell-click="rowClick"
                 >
-                <!-- <el-table-column sortable prop="client_name" label="Client"></el-table-column>
+                <el-table-column sortable prop="client_name" label="Client"></el-table-column>
                 <el-table-column prop="service_name" label="Service"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date"></el-table-column>
                 <el-table-column sortable label="Progress">
@@ -21,7 +21,7 @@
                         <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="" class="icon">
+                <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -38,7 +38,7 @@
                             </svg>
                         </a>
                     </template>
-                </el-table-column> -->
+                </el-table-column>
             </el-table>
             <el-pagination
                 @size-change="handleSizeChange"
@@ -79,8 +79,8 @@
       },
 
       methods: {
-        bars(h,{column,$index}){
-
+        renderHeader(h,{column,$index}){
+            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
         getMyClients(){
             axios.get('api/user/clients')

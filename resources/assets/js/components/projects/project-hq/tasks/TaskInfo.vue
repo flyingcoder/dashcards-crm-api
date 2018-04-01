@@ -22,7 +22,7 @@
                     </div>
                     <div class="selected-option">
                         <ul class="nav nav-tabs">
-                            <li>
+                            <!-- <li>
                                 <button class="attachment">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="19px" height="20px">
@@ -30,7 +30,7 @@
                                         d="M4.719,19.998 C3.453,19.998 2.266,19.478 1.377,18.534 C0.487,17.590 -0.003,16.331 -0.003,14.988 C-0.003,13.645 0.487,12.386 1.377,11.442 L11.153,1.071 C12.551,-0.412 14.725,-0.345 16.208,1.228 C17.691,2.802 17.755,5.107 16.357,6.591 L7.172,16.334 C6.310,17.249 4.906,17.251 4.043,16.334 C3.180,15.419 3.180,13.929 4.043,13.014 L10.264,6.414 C10.474,6.191 10.814,6.191 11.024,6.414 C11.233,6.637 11.233,6.997 11.024,7.220 L4.802,13.820 C4.359,14.291 4.359,15.057 4.802,15.528 C5.247,15.999 5.969,15.998 6.413,15.528 L15.597,5.785 C16.562,4.761 16.499,3.148 15.449,2.034 C14.398,0.920 12.878,0.853 11.913,1.877 L2.136,12.248 C1.450,12.977 1.071,13.950 1.071,14.988 C1.071,16.027 1.450,17.000 2.136,17.728 C2.823,18.457 3.740,18.858 4.719,18.858 C5.698,18.858 6.615,18.457 7.302,17.728 L17.078,7.357 C17.288,7.134 17.628,7.134 17.838,7.357 C18.047,7.580 18.047,7.940 17.838,8.163 L8.061,18.534 C7.172,19.478 5.985,19.998 4.719,19.998 Z"/>
                                     </svg>
                                 </button>
-                            </li>
+                            </li> -->
                             <li>
                                 <button class="sort">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -40,39 +40,104 @@
                                     </svg>
                                 </button>
                             </li>
-                            <li>
-                                <button class="selected-close">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        width="13px" height="14px">
-                                        <path fill-rule="evenodd"  fill="rgb(179, 182, 195)"
-                                        d="M12.738,12.781 C12.404,13.114 11.863,13.114 11.529,12.781 L6.498,7.770 L1.466,12.781 C1.132,13.114 0.591,13.114 0.257,12.781 C-0.078,12.448 -0.078,11.908 0.257,11.576 L5.288,6.565 L0.257,1.555 C-0.078,1.222 -0.078,0.682 0.257,0.350 C0.591,0.017 1.132,0.017 1.466,0.350 L6.498,5.360 L11.529,0.350 C11.863,0.017 12.404,0.017 12.738,0.350 C13.072,0.682 13.072,1.222 12.738,1.555 L7.707,6.565 L12.738,11.576 C13.072,11.908 13.072,12.448 12.738,12.781 Z"/>
-                                    </svg>
-                                </button>
-                            </li>
                         </ul>
                     </div>
                 </div>
+                <div class="options">
+                    <ul>
+                        <li>
+                            <button>  Web Design </button>
+                        </li>
+                        <li>
+                            <button> Task Completed </button>
+                        </li>
+                        <li>
+                            <button class="timer-btn"
+                                v-bind:class="{ play: timerToggle }"
+                                v-on:click="timerToggle = !timerToggle"
+                                >
+                                <span class="onPause">
+                                     <img src="/img/icons/task/pause.svg" alt="pause">
+                                </span>
+                                <span class="onPlay"> 
+                                     <img src="/img/icons/task/play.svg" alt="play">
+                                </span>
+                            </button>
+                            <div class="hrs">
+                                3
+                                <small> HR </small>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="mins">
+                                45
+                                <small> M </small>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="secs">
+                                10
+                                <small> S </small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <div class="task-decription">
-                    <div class="options">
-                        <button>
-                            Project Name
-                        </button>
-                        <button>
-                            Web Design
-                        </button>
-                        <button>
-                            Task Completed
-                        </button>
-                    </div>
                     <h2 class="title">
                         Make a wireframe for a XYZ new website.
                     </h2>
                     <p class="description"> 
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet laboriosam blanditiis exercitationem alias commodi soluta, libero necessitatibus earum temporibus. Suscipit itaque distinctio maiores adipisci quas. Sit in amet recusandae illum?
+                        Lorem ipsum dolor sit amet, mei legere cetero in, pro te ornatus  
+                        atomorum. Rationibus constituto eos an, qui ut veri essent iisque. 
+                        Ius legendos philosophia ea. Eam ex saperet vivendo, mei cu idque 
+                        persecuti dissentiunt, modo erant dolore vis ei. Nec id vero 
+                        maluisset. <br> <br>
+
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                        enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                        culpa qui officia deserunt mollit anim id est laborum.  <br> <br>
+
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+                        enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        nisi ut aliquip ex ea commodo consequat.  <br> <br>
                     </p>
+                    <div class="comment">
+                        <img src="/img/temporary/user1.png" alt="user" class="member-img">
+                        <div class="comment-info">
+                            <h4> Alan Podemski </h4>
+                            <span> Uploaded files 3 hrs ago </span>
+                        </div>
+                        <div class="comment-img buzz-scroll">
+                            <ul>
+                                <li> <img src="/img/temporary/word.png" alt=""> </li>
+                                <li> <img src="/img/temporary/word.png" alt=""> </li>
+                                <li> <img src="/img/temporary/word.png" alt=""> </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <img src="/img/temporary/user2.png" alt="user" class="member-img">
+                        <div class="comment-info">
+                            <h4> Brian Howard </h4>
+                            <span> Uploaded files 1 hr ago </span>
+                        </div>
+                        <div class="comment-text">
+                            <p> I attached the images for actual design concept . :) </p>
+                        </div>
+                        <div class="comment-img buzz-scroll">
+                            <ul>
+                                <li> <img src="/img/temporary/five.png" alt="img"> </li>
+                                <li> <img src="/img/temporary/four.png" alt="img"> </li>
+                                <li> <img src="/img/temporary/seven.png" alt="img"> </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="task-comment">
-                    <img src="/img/temporary/user1.png" alt="user">
+                    <img src="/img/temporary/user1.png" alt="user" class="avatar">
                     <quill-editor v-model="comment" ref="myQuillEditor">
                     </quill-editor>
                 </div>
@@ -84,11 +149,11 @@
     </div>
 </template>
 
-
 <script>
     export default {
     	data: function () {
         	return {    
+                timerToggle: false,
                 action: 'Save',
                 id: 0,
                 oldName: '',

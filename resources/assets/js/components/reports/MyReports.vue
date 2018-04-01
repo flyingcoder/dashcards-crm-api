@@ -1,26 +1,16 @@
 <template>
-    <div class="All-Clients">
-        <div v-if="paginatedAllClients.length >= 1">
-            <el-table :data="paginatedAllClients" stripe empty-text="No Data Found" v-loading="isProcessing" 
+    <div class="My-Reports">
+        <div v-if="paginatedMyReports.length >= 1">
+            <el-table :data="paginatedMyReports" stripe empty-text="No Data Found" v-loading="isProcessing" 
                 @sort-change="handleSortChange" element-loading-text="Processing ..." 
                 @selection-change="handleSelectionChange" style="width: 100%"
                 @cell-click="rowClick"
                 >
-                <el-table-column sortable prop="client_name" label="Client"></el-table-column>
-                <el-table-column prop="service_name" label="Service"></el-table-column>
-                <el-table-column sortable prop="started_at" label="Start Date"></el-table-column>
-                <el-table-column sortable label="Progress">
-                    <div class="progress project-progress"> 
-                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </el-table-column>
-                <el-table-column sortable prop="time_spent" label="Time Spent"></el-table-column>
-                <el-table-column sortable label="Status">
-                    <template slot-scope="scope">
-                        <span class="status"> {{ scope.row.status }} </span>
-                        <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
-                    </template>
-                </el-table-column>
+                <el-table-column sortable type="selection" width="60"></el-table-column>
+                <el-table-column sortable prop="report_id" label="Report ID"></el-table-column>
+                <el-table-column sortable prop="title" label="Title"></el-table-column>
+                <el-table-column sortable prop="user" label="User"></el-table-column>
+                <el-table-column sortable prop="date" label="Date"></el-table-column>
                 <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <a href="#">
@@ -51,17 +41,17 @@
             </el-pagination>
         </div>
         <div v-else> 
-            <EmptyClients></EmptyClients>
+            <empty-reports></empty-reports>
         </div>
     </div>
 </template>
 
 <script>
-    import EmptyClients from './EmptyClients.vue';
+    import EmptyReports from './EmptyReports.vue';
 
     export default {   
         components: {
-          'EmptyClients': EmptyClients,
+          'empty-reports': EmptyReports,
       }, 
       data () {
         return {
@@ -70,22 +60,22 @@
             currentPage: 1,
             currentSize: 10,
             total : 1,
-            paginatedAllClients: [],
+            paginatedMyReports: [],
         }
       },
 
       mounted () {
-        this.getAllClients();
+        this.getMyReports();
       },
 
       methods: {
         renderHeader(h,{column,$index}){
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
-        getAllClients(){
-            axios.get('api/clients')
+        getMyReports(){
+            axios.get('api/reports')
             .then( response => {
-                this.paginatedAllClients = response.data.data;
+                this.paginatedMyReports = response.data.data;
                 this.currentPage = response.data.current_page;
                 this.total = response.data.total;
             })
