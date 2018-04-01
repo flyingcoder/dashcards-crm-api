@@ -52,66 +52,66 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('buzzheader', require('./components/header/Index.vue'));
 
 //  Sidebar
-  Vue.component('buzzsidebar', require('./components/sidebar/index.vue'));
+  Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 
 // Dashboard
-  Vue.component('dashboard', require('./components/dashboard/index'));
+  Vue.component('dashboard', require('./components/dashboard/Index'));
 
 // Projects
-  Vue.component('projects', require('./components/projects/index'));
+  Vue.component('projects', require('./components/projects/Index'));
 
 // Clients
-  Vue.component('clients', require('./components/clients/index.vue'));
+  Vue.component('clients', require('./components/clients/Index.vue'));
 
 // Calendar
-  Vue.component('events', require('./components/calendar/index.vue'));
+  Vue.component('events', require('./components/calendar/Index.vue'));
   Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
 // Templates
-  Vue.component('templates', require('./components/templates/index.vue'));
+  Vue.component('templates', require('./components/templates/Index.vue'));
 
 // Forms
-  Vue.component('buzz-forms', require('./components/forms/index.vue'));
+  Vue.component('buzz-forms', require('./components/forms/Index.vue'));
 
 // Invoices
-  Vue.component('invoices', require('./components/invoices/index.vue'));
+  Vue.component('invoices', require('./components/invoices/Index.vue'));
 
 // Payments
-  Vue.component('payments', require('./components/payments/index.vue'));
+  Vue.component('payments', require('./components/payments/Index.vue'));
 
 // Timers
-  Vue.component('timers', require('./components/timers/index.vue'));
+  Vue.component('timers', require('./components/timers/Index.vue'));
 
 // Cloud
-  Vue.component('cloud', require('./components/cloud/index.vue'));
+  Vue.component('cloud', require('./components/cloud/Index.vue'));
 
 // Teams
-  Vue.component('teams', require('./components/teams/index.vue'));
+  Vue.component('teams', require('./components/teams/Index.vue'));
 
 // Chat
-  Vue.component('chat', require('./components/chat/index.vue'));
+  Vue.component('chat', require('./components/chat/Index.vue'));
 
 // Reports
-  Vue.component('reports', require('./components/reports/index.vue'));
+  Vue.component('reports', require('./components/reports/Index.vue'));
 
 // Supports
-  Vue.component('supports', require('./components/supports/index.vue'));
+  Vue.component('supports', require('./components/supports/Index.vue'));
 
 // Bugs
-  Vue.component('bugs', require('./components/bugs/index.vue'));
+  Vue.component('bugs', require('./components/bugs/Index.vue'));
 
 // Services
-  Vue.component('services', require('./components/services/index'));
+  Vue.component('services', require('./components/services/Index'));
 
 // Project-HQ
-  Vue.component('project-hq', require('./components/projects/project-hq/index'));
+  Vue.component('project-hq', require('./components/projects/project-hq/Index'));
   Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
 
 // Common Files
     Vue.component('page-header', require('./components/common/PageHeader.vue'));  
 
 // Testing
-  Vue.component('profile', require('./components/teams/profile/index.vue'));
+  Vue.component('profile', require('./components/teams/profile/Index.vue'));
 
 // Push menu
   $(document).ready(function(){
