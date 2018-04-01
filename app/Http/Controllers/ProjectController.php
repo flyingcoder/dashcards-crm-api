@@ -33,6 +33,20 @@ class ProjectController extends Controller
         return $result;
     }
 
+    public function updateStatus($id)
+    {
+        $project = Project::findOrFail($id);
+
+        (new ProjectPolicy())->update($project);
+
+        $project->status = request()->status;
+
+        $project->save();
+
+        return response($project, 200);
+
+    }
+
     public function timer($id)
     {
         $project = Project::findOrFail($id);
@@ -106,10 +120,12 @@ class ProjectController extends Controller
 
     public function update($id)
     {
+        $project = Project::findOrFail($id);
 
         (new ProjectPolicy())->update($project);
 
         request()->validate([
+            'title' => 'required',
             'client_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:services,id',
             'start_at' => 'required|date',
@@ -118,8 +134,7 @@ class ProjectController extends Controller
             'description' => 'required'
         ]);
 
-        $project = Project::findOrFail($id);
-
+        $project->title = request()->title
         $project->location = request()->location;
         $project->service_id = request()->service_id;
         $project->description = request()->description;
@@ -133,10 +148,10 @@ class ProjectController extends Controller
 
         $project->save();
 
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'Project was successfully updated!');
+        //request()->session()->flash('message.level', 'success');
+        //request()->session()->flash('message.content', 'Project was successfully updated!');
 
-        return back();
+        return response($project, 200);
     }
 
     public function delete($id)
@@ -200,6 +215,7 @@ class ProjectController extends Controller
         (new ProjectPolicy())->create();
 
         request()->validate([
+            'title' => 'required',
             'client_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:services,id',
             'start_at' => 'required|date',
@@ -209,6 +225,7 @@ class ProjectController extends Controller
         ]);
 
         $project = Project::create([
+            'title' => request()->title,
             'location' => request()->location,
             'service_id' => request()->service_id,
             'description' => request()->description,
@@ -234,7 +251,6 @@ class ProjectController extends Controller
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
 
         return response(Project::latest()->first(), 200);
-        }
     }
 
     /*
