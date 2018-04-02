@@ -26,6 +26,18 @@ class ServiceModelTest extends TestCase
         $response->assertStatus(200);*/
     }
 
+    public function testIndexAll()
+    {
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/services?all=true');
+        
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testIndex()
     {
         $user = User::findOrFail(1);
@@ -34,7 +46,7 @@ class ServiceModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/services');
         
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

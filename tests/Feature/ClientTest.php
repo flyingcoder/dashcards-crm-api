@@ -17,6 +17,18 @@ class ClientTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/clients');
 
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testClientsAll()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/clients?all=true');
+
         dd($response->content());
         $response->assertStatus(200);
     }
