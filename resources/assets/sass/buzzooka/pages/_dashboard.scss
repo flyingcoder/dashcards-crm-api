@@ -806,10 +806,79 @@
     }
     .db-timer{
         .header-content{
+            background: $blue;
+            color: $white;
             .timer-info , .alarm-info{
                 height: 245px;
                 background: $blue;
                 font-family: digital 7monoitalic;
+            }
+            .timer-info{
+                .tab-content{
+                    height: 100%;
+                    width: 100%;
+                    padding: 20px;
+                    .date{
+                        text-align: center;
+                        span{
+                            font-size: 20px;
+                            // font-style: italic;
+                        }
+                    }
+                    .time{
+                        position: relative;
+                        text-align: center;
+                        height: 75px;
+                        h1{
+                            font-size: 60px;
+                            margin: 0;
+                            line-height: 1.2;
+                            span{
+                                position: absolute;
+                                top: 10px;
+                                font-size: 15px;
+                            }
+                        }
+                    }
+                    .counter{
+                        .hrsToday, .hrsTotal{
+                            position: relative;
+                            display: inline-block;
+                            margin: 0;
+                            padding: 0;
+                            h6{
+                                font-size: 9.5px;
+                                letter-spacing: 0.5px;
+                            }
+                            .time-item{
+                                display: inline-block;
+                                label{
+                                    font-size: 32px;
+                                    border: $time-border;
+                                    padding: 0 10px;
+                                    border-radius: 5px;
+                                    margin-right: 3px;
+                                    &:last-child{
+                                        margin-right: 0 !important;
+                                    }
+                                }
+                                span{
+                                    position: absolute;
+                                    font-size: 12px;
+                                    bottom: -15px;
+                                    margin-left: 6%;
+                                    text-transform: uppercase;
+                                }
+                            }
+                        }
+                        .hrsToday{
+                            float: left;
+                        }
+                        .hrsTotal{
+                            float: right;
+                        }
+                    }
+                }
             }
             .show{
                 display: block;

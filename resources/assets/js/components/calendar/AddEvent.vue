@@ -162,6 +162,7 @@
 <script>
     export default {
     	data: function () {
+         
         	return {    
                 alarmToggle: false,
                 title: 'Add New Event',
@@ -202,7 +203,7 @@
                 },
                 members: [{
                     value: 'Ross Mosqueda',
-                    label: 'Ross Mosqueda'
+                    label: 'Ross Mosqueda',
                     }, {
                     value: 'Klent',
                     label: 'Klent'
@@ -352,6 +353,9 @@
         },
 
         methods: {
+            renderHeader(h,{column,$index}){
+            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
+        },
             onBlur (e) {
                 console.log(e)
             },
