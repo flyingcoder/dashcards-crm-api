@@ -4,6 +4,7 @@ namespace App;
 
 use Auth;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,8 @@ class Project extends Model implements HasMediaConversions
 
     protected $paginate = 10;
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = [
         'location', 'started_at', 'service_id', 'end_at', 'description', 'status'
     ];
@@ -32,7 +35,84 @@ class Project extends Model implements HasMediaConversions
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    protected $dates = ['deleted_at'];
+    public function progress()
+    {
+        /*
+        $percentage = 0;
+        foreach ($this->milestone as $key => $value) {
+            $percentage = $value->percentage + $percentage;
+        }
+        return $percentage;
+        */
+
+        $tasks = $this->tasks();
+
+        $all = $tasks->count();
+
+        $done = $tasks->where('tasks.status', 'closed')->count();
+
+        $percentage = 0;
+        
+        if($all != 0)
+            $percentage = round(($done/$all)*100, 2);
+
+        return $percentage;
+    }
+
+    public function totalTime()
+    {
+        $project = $this;
+
+        $tasks = $project->tasks;
+
+        $proj_total_sec = 0;
+
+        foreach ($tasks as $key => $task) {
+
+            $lastTimer = $task->lastTimer();    
+
+            $con = is_object($lastTimer);
+
+            if($con && $lastTimer->action == "start"){
+
+                $start = Carbon::parse($lastTimer->created_at);
+
+                $end = Carbon::now();
+
+                $task_total_sec = (int) $end->diffInSeconds($start);
+
+                $proj_total_sec = $proj_total_sec + $task_total_sec;
+
+            } else if($con && $lastTimer->action == 'back') {
+                
+                $open_timers = $task->timers()
+                                ->where('status', 'open');
+
+                $last_pause_timer = $open_timers->where('action', 'pause')
+                                                ->latest()
+                                                ->first();
+
+                if(empty($last_pause_timer)) //this will not be empty but in case
+                    return response('No pause action before back!', 500);
+
+                $start = Carbon::parse($last_pause_timer->created_at);
+
+                $last_pause_timer = json_decode($last_pause_timer->properties);
+
+                $end = Carbon::now();
+
+                $task_total_sec = (int) $end->diffInSeconds($start);
+
+                //added the start to pause total
+                $task_total_sec = $task_total_sec + $last_pause_timer->total_seconds;
+
+                //sum up to other task total timer
+                $proj_total_sec = $proj_total_sec + $task_total_sec;
+            }
+        }
+
+        return gmdate("H:i:s", $proj_total_sec);
+    }
 
     /**
      *
@@ -109,15 +189,6 @@ class Project extends Model implements HasMediaConversions
         return $this->hasMany(Invoice::class);
     }
 
-    public function progress()
-    {
-        $percentage = 0;
-        foreach ($this->milestone as $key => $value) {
-            $percentage = $value->percentage + $percentage;
-        }
-        return $percentage;
-    }
-
     public function company()
     {
         return $this->manager->first()->company();
@@ -145,6 +216,7 @@ class Project extends Model implements HasMediaConversions
     }
 
     //not being used as of the moment reffer to api/user/projects
+    /*
     public static function personal(Request $request)
     {
         list($sortName, $sortValue)  = parseSearchParam(request());
@@ -177,7 +249,7 @@ class Project extends Model implements HasMediaConversions
             $projects->orderBy($sortName, $sortValue);
         
         return $projects->paginate(10);
-    }
+    }*/
 
     /**
      *

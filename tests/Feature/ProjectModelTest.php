@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\User;
+use App\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
@@ -23,13 +24,21 @@ class ProjectModelTest extends TestCase
             'description' => 'required',
             'comment' => 'test comment'
         ];
-
+        /*
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/projects', $data);
 
         //dd($response->content());
-        $response->assertStatus(200);
+        $response->assertStatus(200);*/
+    }
+
+    public function testProjectProgress()
+    {
+        $project = Project::findOrFail(1);
+
+        //dd($project->progress());
+        $this->assertTrue(is_numeric($project->progress()));
     }
 
 
@@ -68,6 +77,18 @@ class ProjectModelTest extends TestCase
 
     	//dd($response->content());
     	$response->assertStatus(200);
+    }
+
+    public function testProjects()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects');
+
+        dd($response->content());
+        $response->assertStatus(200);
     }
 
     public function testProjectActivity()

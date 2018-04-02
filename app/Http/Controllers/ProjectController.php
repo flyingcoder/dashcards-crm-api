@@ -54,55 +54,7 @@ class ProjectController extends Controller
 
         (new ProjectPolicy())->view($project);
 
-        $tasks = $project->tasks;
-
-        $proj_total_sec = 0;
-
-        foreach ($tasks as $key => $task) {
-
-            $lastTimer = $task->lastTimer();    
-
-            $con = is_object($lastTimer);
-
-            if($con && $lastTimer->action == "start"){
-
-                $start = Carbon::parse($lastTimer->created_at);
-
-                $end = Carbon::now();
-
-                $task_total_sec = (int) $end->diffInSeconds($start);
-
-                $proj_total_sec = $proj_total_sec + $task_total_sec;
-
-            } else if($con && $lastTimer->action == 'back') {
-                
-                $open_timers = $task->timers()
-                                ->where('status', 'open');
-
-                $last_pause_timer = $open_timers->where('action', 'pause')
-                                                ->latest()
-                                                ->first();
-
-                if(empty($last_pause_timer)) //this will not be empty but in case
-                    return response('No pause action before back!', 500);
-
-                $start = Carbon::parse($last_pause_timer->created_at);
-
-                $last_pause_timer = json_decode($last_pause_timer->properties);
-
-                $end = Carbon::now();
-
-                $task_total_sec = (int) $end->diffInSeconds($start);
-
-                //added the start to pause total
-                $task_total_sec = $task_total_sec + $last_pause_timer->total_seconds;
-
-                //sum up to other task total timer
-                $proj_total_sec = $proj_total_sec + $task_total_sec;
-            }
-        }
-
-        return gmdate("H:i:s", $proj_total_sec);
+        return $project->totalTime();
     }
 
     public function save()

@@ -25,6 +25,9 @@ class ClientController extends Controller
 
         $result = $company->paginatedCompanyClients(request());
 
+        if(request()->has('all') && request()->all == true)
+            $result = $company->clients()->get();
+
         return $result;
     }
 
