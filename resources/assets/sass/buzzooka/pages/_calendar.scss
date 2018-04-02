@@ -136,7 +136,35 @@
             }
         }
     }
-// Grid View
+    .more{
+        span{
+            position: absolute;
+            width: 125px;
+            right: 3px;
+            top: 30px;
+            font-size: 15px;
+        }
+        li{
+            img{
+                display: none;
+            }
+            &:first-child, &:nth-child(2), &:nth-child(3){
+                img{
+                    display: inline-block;
+                }
+            }
+            &:first-child{
+                left: -25px;
+            }
+            &:nth-child(2){
+                left: -50px;
+            }
+            &:nth-child(3){
+                left: -75px;
+            }
+        }
+    }
+// Grid Viewa
     .right-calendar{
         padding: 10px;
         margin: 0;
@@ -256,7 +284,8 @@
                             border-radius: 50%;
                             img{
                                 position: relative;
-                                left: 1px;
+                                left: 0.5px;
+                                bottom: 2px;
                             }
                         }
                     }
@@ -341,6 +370,93 @@
             }
             .el-table__empty-block{
                 height: 630px;
+            }
+        }
+    }
+}
+
+.buzzooka{
+    .time-option-dropdown{
+        width: 175px;
+        margin: 0 !important;
+        padding: 0;
+        .text{
+            position: relative;
+            top: 5px;
+            margin-left: 18px;
+            span{
+                color: $modal-title;
+                font-size: 12px;
+                font-weight: bold;
+                font-family: $lato;
+            }
+            .hour{
+                margin-right: 32px
+            }
+        }
+        .el-form-item{
+            position: relative;
+            bottom: 5px;
+            margin-bottom: 0;
+            .el-select{
+                width: 28%;
+                margin-left: 6px;
+                .el-input{
+                    input{
+                        padding: 0 !important;
+                        border: $input-border;
+                        font-size: 9.5px;
+                        color: $table-data;
+                        text-indent: 4px;
+                        background: $white;
+                        box-shadow: $box-shadow-inset;
+                        height: 21px;
+                        &::placeholder{
+                            color: $table-data;
+                        }
+                    }
+                    .el-input__suffix{
+                        right: 0;
+                        .el-input__icon{
+                            position:relative;
+                            top: 3px;
+                            height: 21px;
+                            border: $input-border;
+                            background: $form-caret-bg;
+                            border-radius: 3px;
+                        }
+                    }
+                }
+            }
+        }  
+        .add-alarm{
+            text-align: center;
+            .alarm-btn, .save-alarm{
+                padding: 15px;
+                width: 70%;
+                font-size: 14px;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                box-shadow: $box-shadow-inset !important;
+            }
+            .alarm-btn{
+                background: $orange-tile-6;
+                color: $white;
+            }
+            .set-alarm{
+                display: none;
+            }
+            .save-alarm{
+                color: $table-data;
+                border: $table-border;
+            }
+        }
+        .showForm{
+            .set-alarm{
+                display: block !important;
+            }
+            .alarm-btn{
+                display: none;
             }
         }
     }

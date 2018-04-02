@@ -130,6 +130,13 @@ Vue.use(VueQuillEditor, /* { default global options } */)
     });
   });
 
+// Toggle Offline and Online Status
+  $(document).ready(function() {
+    $('#switch-btn').click(function() {
+        $('#switch-status').toggleClass('offline');
+    });
+  });
+
 // Full Calendar 
     var date = new Date(),
     d = date.getDate(),

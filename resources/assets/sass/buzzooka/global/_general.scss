@@ -42,53 +42,111 @@
     .orange-6{
         background: $orange-tile-6;
     }
-    .default{
-        background: $default;
-        border: 1px solid  $default;
-        &:hover{
-            color: $default !important;
+    .events{
+        .default{
+            background: $default;
+        }
+        .event-1{
+            background: $event-1; 
+        }
+        .event-2{
+            background: $event-2; 
+        }
+        .event-3{
+            background: $event-3; 
+        }
+        .event-4{
+            background: $event-4; 
+        }
+        .event-5{
+            background: $event-5; 
+        }
+        .event-6{
+            background: $event-6; 
         }
     }
     .event-1{
-        background: $event-1; 
-        border: 1px solid  $event-1; 
-        &:hover{
-            color: $event-1 !important; 
+        .event-item, .join{
+            background: $event-1; 
+            border: 1px solid  $event-1; 
+            &:hover{
+                color: $event-1 !important; 
+            }
+        }
+        .more{
+            span{
+                color: $event-1;
+            }
         }
     }
     .event-2{
-        background: $event-2; 
-        border: 1px solid  $event-2; 
-        &:hover{
-            color: $event-2 !important;
+        .event-item, .join{
+            background: $event-2; 
+            border: 1px solid  $event-2; 
+            &:hover{
+                color: $event-2 !important; 
+            }
+        }
+        .more{
+            span{
+                color: $event-2;
+            }
         }
     }
     .event-3{
-        background: $event-3; 
-        border: 1px solid  $event-3; 
-        &:hover{
-            color: $event-3 !important;
+        .event-item, .join{
+            background: $event-3; 
+            border: 1px solid  $event-3; 
+            &:hover{
+                color: $event-3 !important; 
+            }
+        }
+        .more{
+            span{
+                color: $event-3;
+            }
         }
     }
     .event-4{
-        background: $event-4; 
-        border: 1px solid $event-4; 
-        &:hover{
-            color: $event-4 !important; 
+        .event-item, .join{
+            background: $event-4; 
+            border: 1px solid  $event-4; 
+            &:hover{
+                color: $event-4 !important; 
+            }
+        }
+        .more{
+            span{
+                color: $event-4;
+            }
         }
     }
     .event-5{
-        background: $event-5; 
-        border: 1px solid  $event-5; 
-        &:hover{
-            color: $event-5 !important;
+        .event-item, .join{
+            background: $event-5; 
+            border: 1px solid  $event-5; 
+            &:hover{
+                color: $event-5 !important; 
+            }
+        }
+        .more{
+            span{
+                color: $event-5;
+            }
         }
     }
     .event-6{
-        background: $event-6; 
-        border: 1px solid  $event-6; 
-        &:hover{
-            color: $event-6 !important;
+        .event-item, .join{
+            background: $event-6; 
+            border: 1px solid  $event-6; 
+            &:hover{
+                color: $event-6 !important; 
+            }
+        }
+        .more{
+            span{
+                color: $event-6;
+            }
         }
     }
     .action-move{
@@ -860,6 +918,18 @@
             }
         }
    } 
+   .buzz-form2{
+       margin-top: 20px;
+       .el-form{
+            .el-form-item{
+                margin-bottom: 15px !important;
+                label{
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+       }
+   }
 // Buzz Table
     // Normal Table
         .buzz-table{
@@ -1080,17 +1150,18 @@
                     }
                 }
             }
-            .buzz-modal-option{
+            .modal-options{
                 margin: 25px -10px 0px -10px;
                 .option{
                     display: inline-block;
                     width: 100%;
                     padding: 5px 10px;
                     .option-item{
-                        text-align: left;
                         vertical-align: middle;
+                        display: inline-block;
                         padding: 0;
                         width: 31%;
+                        margin-right: 16.5px;
                         height: 44px;
                         font-size: 17.2px;
                         font-family: $lato-semi;
@@ -1099,8 +1170,74 @@
                         border-radius: 5px;
                         border: $table-border;
                         box-shadow: $option-shadow;
-                        img, svg{
+                        .button-icon{
+                            position: absolute;
+                            top: 12px;
                             padding: 0 15px 0 20px;
+                        }
+                        .el-button, .el-input__inner{
+                            width: 100% !important;
+                            height: 44px;
+                            font-size: 17px;
+                            font-family: $lato-semi;
+                            color: $modal-title;
+                            margin: 0;
+                            padding: 0;
+                            padding-left: 45px;
+                            border: none;
+                            text-align: center;
+                            &::placeholder{
+                                color: $table-data;
+                            }
+                        }
+                        .date-option{
+                            img{
+                                top: 14px;
+                            }
+                            input{
+                                color: $red;
+                            }
+                            .el-input__icon.el-icon-date {
+                                display: none;
+                            }
+                        }
+                        .time-option{
+                            img{
+                                top: 10px;
+                            }
+                        }
+                        .member-option, .time-option{
+                            .button-icon{
+                                left: 0;
+                            }
+                        }
+                        .member-option, .date-option, .time-option{
+                            width: 100%;
+                            .el-date-editor{
+                                width: 100% !important;
+                            }
+                        }
+                        &:last-child{
+                            margin: 0 !important;
+                        }
+                    }
+                    .file-upload{
+                        .button-icon{
+                            top: 15px;
+                        }
+                        .el-upload{
+                            width: 100%;
+                        }
+                        .el-upload-list__item{
+                            margin: 0;
+                            box-shadow:none;
+                            border-radius: unset;
+                            .el-upload-list__item-name{
+                                width: 100%;
+                                padding: 0;
+                                margin: 0;
+                                border: none;
+                            }
                         }
                     }
                 }

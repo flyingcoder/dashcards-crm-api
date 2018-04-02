@@ -20,16 +20,18 @@
                 </div>
                 <div class="col-md-4">
                     <div class="dashboard-option">
-                        <div class="left switch-box">
-                            <!-- <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                            </label> -->
-                            <el-switch v-model="value1"> </el-switch>
-                        </div>
-                        
-                        <div class="right">
-                            <span> Log On </span> 
+                        <div class="switch-box" id="switch-status">
+                             <div class="left">
+                                 <!-- <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                                </label> -->
+                                <el-switch v-model="logStatus" id="switch-btn"> </el-switch>
+                            </div>
+                            <div class="right">
+                                <span class="logon"> Log On </span> 
+                                <span class="logoff"> Log Off </span> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,6 +254,7 @@
 
         data(){
             return {
+                logStatus: true,
                 myProjects: 0,
                 myTasksCount: 0,
                 myCalendar: 0,
