@@ -40,57 +40,73 @@
             background: $white;
         }
         .switch-box {
-            float: left;
-            width: 42%;
-            .switch{
-                position: relative;
-                display: inline-block;
-                width: 45px;
-                height: 12px;
-                top: 8px;
-                input {
-                    display:none;
-                    &:focus , .slider {
-                        box-shadow: 0 0 1px #2196F3;
-                      }
-                }
-                input:checked + .slider:before {
-                    -webkit-transform: translateX(26px);
-                    -ms-transform: translateX(26px);
-                    transform: translateX(26px);
-                    background-color: $green;
-                }
-                .slider {
-                    position: absolute;
-                    cursor: pointer;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background-color: $gray-toggle;
-                    -webkit-transition: .4s;
-                    transition: .4s;
-                    &:before {
+            .left{
+                width: 42%;
+                /*.switch{
+                    position: relative;
+                    display: inline-block;
+                    width: 45px;
+                    height: 12px;
+                    top: 8px;
+                    input {
+                        display:none;
+                        &:focus , .slider {
+                            box-shadow: 0 0 1px #2196F3;
+                          }
+                    }
+                    input:checked + .slider:before {
+                        -webkit-transform: translateX(26px);
+                        -ms-transform: translateX(26px);
+                        transform: translateX(26px);
+                        background-color: $green;
+                    }
+                    .slider {
                         position: absolute;
-                        content: "";
-                        height: 20px;
-                        width: 20px;
-                        left: 0px;
-                        bottom: -4px;
-                        background-color: $gray;
+                        cursor: pointer;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: $gray-toggle;
                         -webkit-transition: .4s;
                         transition: .4s;
-                      }
-                }
-                .round {
-                    border-radius: 34px;
-                    &:before {
-                        border-radius: 50%;
+                        &:before {
+                            position: absolute;
+                            content: "";
+                            height: 20px;
+                            width: 20px;
+                            left: 0px;
+                            bottom: -4px;
+                            background-color: $gray;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                          }
                     }
+                    .round {
+                        border-radius: 34px;
+                        &:before {
+                            border-radius: 50%;
+                        }
+                    }
+                } */
+                .el-switch.is-checked .el-switch__core{
+                    background: $green !important;
                 }
             }
-            .el-switch.is-checked .el-switch__core{
-                background: $green !important;
+            .right{
+                .logoff{
+                    display: none;
+                }
+            }
+        }
+        .offline{
+            .right{
+                .logoff{
+                    display: inline-block;
+                }
+                .logon{
+                    display: none;
+                }
             }
         }
         .theme-color{
