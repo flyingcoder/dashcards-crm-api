@@ -15,7 +15,6 @@ import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
-import FullCalendar from 'vue-full-calendar'
 import Ckeditor from 'vue-ckeditor2'
 import VueQuillEditor from 'vue-quill-editor'
 // Require styles
@@ -25,7 +24,6 @@ import 'quill/dist/quill.bubble.css'
 
 Vue.use(Element, { locale });
 Vue.use(VModal);
-Vue.use(FullCalendar);
 Vue.use(Ckeditor);
 Vue.use(VModal);
 Vue.use(VueQuillEditor, /* { default global options } */)
@@ -69,13 +67,13 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 
 // Dashboard
-  Vue.component('dashboard', require('./components/dashboard/Index'));
+  Vue.component('dashboard', require('./components/dashboard/index.vue'));
 
 // Projects
-  Vue.component('projects', require('./components/projects/Index'));
+  Vue.component('projects', require('./components/projects/index.vue'));
 
 // Clients
-  Vue.component('clients', require('./components/clients/Index.vue'));
+  Vue.component('clients', require('./components/clients/index.vue'));
 
 // Calendar
   Vue.component('events', require('./components/calendar/Index.vue'));
@@ -88,25 +86,25 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('buzz-forms', require('./components/forms/Index.vue'));
 
 // Invoices
-  Vue.component('invoices', require('./components/invoices/Index.vue'));
+  Vue.component('invoices', require('./components/invoices/index.vue'));
 
 // Payments
-  Vue.component('payments', require('./components/payments/Index.vue'));
+  Vue.component('payments', require('./components/payments/index.vue'));
 
 // Timers
-  Vue.component('timers', require('./components/timers/Index.vue'));
+  Vue.component('timers', require('./components/timers/index.vue'));
 
 // Cloud
   Vue.component('cloud', require('./components/cloud/Index.vue'));
 
 // Teams
-  Vue.component('teams', require('./components/teams/Index.vue'));
+  Vue.component('teams', require('./components/teams/index.vue'));
 
 // Chat
   Vue.component('chat', require('./components/chat/Index.vue'));
 
 // Reports
-  Vue.component('reports', require('./components/reports/Index.vue'));
+  Vue.component('reports', require('./components/reports/index.vue'));
 
 // Supports
   Vue.component('supports', require('./components/supports/Index.vue'));
@@ -115,11 +113,11 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('bugs', require('./components/bugs/Index.vue'));
 
 // Services
-  Vue.component('services', require('./components/services/Index'));
+  Vue.component('services', require('./components/services/index.vue'));
 
 // Project-HQ
-  Vue.component('project-hq', require('./components/projects/project-hq/Index'));
-  Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu'));
+  Vue.component('project-hq', require('./components/projects/project-hq/index.vue'));
+  Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu.vue'));
 
 // Common Files
     Vue.component('page-header', require('./components/common/PageHeader.vue'));  
@@ -158,7 +156,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
         center: 'title',
         right: 'next'
       },
-/* 
+    /* 
       selectable: true,
       selectHelper: true,
       select: function(start, end, allDay) {
@@ -286,21 +284,21 @@ let buzzcrm = {
 
     let router = new VueRouter({
       routes: [
-        {path: '/',component: require('./components/projects/project-hq/overview/Index')},
-        {path: '/files',component: require('./components/projects/project-hq/files/Index')},
-        {path: '/tasks',component: require('./components/projects/project-hq/tasks/Index')},
+        {path: '/',component: require('./components/projects/project-hq/overview/index.vue')},
+        {path: '/files',component: require('./components/projects/project-hq/files/index.vue')},
+        {path: '/tasks',component: require('./components/projects/project-hq/tasks/index.vue')},
   //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
   //       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
-        {path: '/milestones',component: require('./components/projects/project-hq/milestones/Index')},
-  //       {path: '/reports',component: require('./components/projects/project-hq/report/Index')},
+        {path: '/milestones',component: require('./components/projects/project-hq/milestones/index.vue')},
+  //       {path: '/reports',component: require('./components/projects/project-hq/report/index.vue')},
 
-  //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/Index')},
-  //       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
-  //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
+  //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/index.vue')},
+  //       {path: '/messages',component: require('./components/projects/project-hq/message/index.vue')},
+  //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/index.vue')},
   //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
-        {path: '/members',component: require('./components/projects/project-hq/members/Index')},
-  //       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
-        {path: '/reports',component: require('./components/projects/project-hq/reports/Index')},
+        {path: '/members',component: require('./components/projects/project-hq/members/index.vue')},
+  //       // {path: '/timers',component: require('./components/projects/project-hq/timers/index.vue')},
+        {path: '/reports',component: require('./components/projects/project-hq/reports/index.vue')},
 
       ],
       linkActiveClass: 'active'

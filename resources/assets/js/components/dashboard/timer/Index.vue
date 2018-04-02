@@ -45,12 +45,12 @@
     </div>
 </template>
 <script>
-import Alarm from './Alarm.vue'
-import Timer from './Timer.vue'
+import Alarm from './Alarm.vue';
+import timer from './timer.vue';
 export default {
     components:{
-        Alarm : 'alarm',
-        Timer : 'timer'
+        'alarm': Alarm,
+        'timer': timer,
     }
 }
 </script>

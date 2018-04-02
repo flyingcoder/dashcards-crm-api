@@ -134,7 +134,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::post('{id}/comments', 'ProjectController@addComments');
 
-	Route::get('{id}/comments', 'ProjectController@comments');
+  Route::get('{id}/comments', 'ProjectController@comments');
+
+	Route::put('{id}/status', 'ProjectController@updateStatus');
 
   Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 

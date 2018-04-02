@@ -15,7 +15,7 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form :model="form" :rules="rules" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
+                    <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                         <div class="buzz-modal-option">
                             <el-form-item  class="option">
                                 <el-button class="option-item"> <img src="img/icons/modal/members.png" alt="">  Members </el-button>
@@ -89,7 +89,7 @@
                                 </ckeditor>
                             </el-form-item> -->
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submit"> {{ actions }}</el-button>
+                                <el-button @click="submit"> {{ action }}</el-button>
                                 <el-button @click="$modal.hide('add-project')">Cancel</el-button>
                             </el-form-item>
                         </div>
@@ -142,12 +142,6 @@ var yyyy = today.getFullYear();
         },
 
         methods: {
-            onBlur (e) {
-                console.log(e)
-            },
-            onFocus (e) {
-                console.log(e)
-            },
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
