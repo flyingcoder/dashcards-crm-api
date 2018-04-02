@@ -121,18 +121,13 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('/', 'ProjectController@index');// project
-
-  Route::post('new', 'ProjectController@store');// project
-  
-  Route::post('{id}/edit', 'ProjectController@update');// project
-  
+    
   Route::delete('{id}/delete', 'ProjectController@delete');
 
   Route::get('{id}', 'ProjectController@project');
 
-<<<<<<< HEAD
   Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
-=======
+
   Route::post('/', 'ProjectController@store');
 
   Route::put('{id}/edit', 'ProjectController@update');
@@ -140,7 +135,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::post('{id}/comments', 'ProjectController@addComments');
 
 	Route::get('{id}/comments', 'ProjectController@comments');
->>>>>>> 0751e4a92b7a1a2b184e5f24556052f09d9cdf0f
 
   Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 

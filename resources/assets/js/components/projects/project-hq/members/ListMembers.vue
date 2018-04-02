@@ -22,7 +22,7 @@
                 <el-table-column prop="member_location" label="Location"  width="150"></el-table-column>
                 <el-table-column sortable prop="total_hours" label="Total Hours" width="130"></el-table-column>
                 <el-table-column sortable prop="project_assigned" label="Project Assigned" width="150"></el-table-column>
-                <el-table-column fixed="right">
+                <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -72,6 +72,9 @@
                     this.currentPage = response.data.current_page;
                     this.total = response.data.total;
                 })
+            },
+            renderHeader(h,{column,$index}){
+                return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
             },
             handleSizeChange: function (val) {
                 this.currentSize = val;

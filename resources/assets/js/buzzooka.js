@@ -81,6 +81,12 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('events', require('./components/calendar/Index.vue'));
   Vue.component('add-event', require('./components/calendar/AddEvent.vue'));
 
+// Templates
+  Vue.component('templates', require('./components/templates/Index.vue'));
+
+// Forms
+  Vue.component('buzz-forms', require('./components/forms/Index.vue'));
+
 // Invoices
   Vue.component('invoices', require('./components/invoices/Index.vue'));
 
@@ -90,6 +96,9 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 // Timers
   Vue.component('timers', require('./components/timers/Index.vue'));
 
+// Cloud
+  Vue.component('cloud', require('./components/cloud/Index.vue'));
+
 // Teams
   Vue.component('teams', require('./components/teams/Index.vue'));
 
@@ -97,7 +106,16 @@ Vue.use(VueQuillEditor, /* { default global options } */)
   Vue.component('chat', require('./components/chat/Index.vue'));
 
 // Reports
-  Vue.component('reports', require('./components/reports/Index'));
+  Vue.component('reports', require('./components/reports/Index.vue'));
+
+// Supports
+  Vue.component('supports', require('./components/supports/Index.vue'));
+
+// Bugs
+  Vue.component('bugs', require('./components/bugs/Index.vue'));
+
+// Services
+  Vue.component('services', require('./components/services/Index'));
 
 // Project-HQ
   Vue.component('project-hq', require('./components/projects/project-hq/Index'));
@@ -109,11 +127,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 // Testing
   Vue.component('profile', require('./components/teams/profile/index.vue'));
 
-// Services
-  Vue.component('services', require('./components/services/Index'));
-
 // Push menu
-
   $(document).ready(function(){
     $("#toggleBuzzMenu").click(function(){
       console.log('Test!!');
@@ -284,9 +298,9 @@ let buzzcrm = {
   //       {path: '/messages',component: require('./components/projects/project-hq/message/Index')},
   //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/Index')},
   //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
-        {path: '/members',component: require('./components/projects/project-hq/members/Index')}
+        {path: '/members',component: require('./components/projects/project-hq/members/Index')},
   //       // {path: '/timers',component: require('./components/projects/project-hq/timers/Index')},
-  //       //{path: '/reports',component: require('./components/projects/project-hq/report/Index')};
+        {path: '/reports',component: require('./components/projects/project-hq/reports/Index')},
 
       ],
       linkActiveClass: 'active'

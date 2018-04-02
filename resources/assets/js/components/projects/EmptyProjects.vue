@@ -7,7 +7,7 @@
             </button>
         </div>
 
-        <modal name="add-project" transition="nice-modal-fade" @before-open="beforeOpen">
+        <modal name="add-project_page" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
@@ -83,8 +83,13 @@
                                 </ckeditor>
                             </el-form-item> -->
                             <el-form-item  class="form-buttons">
+<<<<<<< HEAD
                                 <el-button @click="submit">Save</el-button>
                                 <el-button @click="$modal.hide('add-project')">Cancel</el-button>
+=======
+                                <el-button @click="submitForm('projectForm')">Save</el-button>
+                                <el-button @click="$modal.hide('add-project_page')">Cancel</el-button>
+>>>>>>> 3d2b1fece7526e8b7a40cc59c44d951190834760
                             </el-form-item>
                         </div>
                     </el-form>
