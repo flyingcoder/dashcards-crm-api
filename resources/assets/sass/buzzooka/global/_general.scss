@@ -860,6 +860,18 @@
             }
         }
    } 
+   .buzz-form2{
+       margin-top: 20px;
+       .el-form{
+            .el-form-item{
+                margin-bottom: 15px !important;
+                label{
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+       }
+   }
 // Buzz Table
     // Normal Table
         .buzz-table{
@@ -1102,6 +1114,30 @@
                         img, svg{
                             padding: 0 15px 0 20px;
                         }
+                    }
+                    .file-upload{
+                        float: right;
+                        button{
+                            width: 100%;
+                            border: none;
+                            font-size: 17px;
+                            font-family: $lato-semi;
+                            color: $modal-title;
+                        }
+                        .el-upload-list__item{
+                            margin: 0;
+                            box-shadow:none;
+                            border-radius: unset;
+                            .el-upload-list__item-name{
+                                width: 100%;
+                                padding: 0;
+                                margin: 0;
+                                border: none;
+                            }
+                        }
+                    }
+                    .el-button+.el-button{
+                        margin-left: 17px !important;
                     }
                 }
             }

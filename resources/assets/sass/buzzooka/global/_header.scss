@@ -87,8 +87,45 @@
                     padding: 0;
                     background: none;
                 }
-                .el-badge{
-                    vertical-align: unset;
+                .el-dropdown{
+                    .el-badge{
+                        vertical-align: unset;
+                        .el-badge__content{
+                            width: 33px;
+                            height: 32px;
+                            border-radius: 50%;
+                            padding-top: 5px;
+                            font-size: 13px;
+                        }
+                    }
+                    button{
+                        svg{
+                            fill: $table-data;
+                        }
+                        &:hover{
+                            svg{
+                                fill: $blue;
+                            }
+                        }
+                    }
+                }
+                .email-badge{
+                    .el-badge__content{
+                        top: 1px !important;
+                        right: 15px !important;
+                    }
+                }
+                .notif-badge{
+                    .el-badge__content{
+                        top: 5px !important;
+                        right: 20px !important;
+                    }
+                }
+                .chat-badge{
+                    .el-badge__content{
+                        top: 4px !important;
+                        right: 12px !important;
+                    }
                 }
             }
         }

@@ -6,6 +6,7 @@
                 @selection-change="handleSelectionChange" style="width: 100%"
                 @cell-click="rowClick"
                 >
+                <el-table-column sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="client_name" label="Client"></el-table-column>
                 <el-table-column prop="service_name" label="Service"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date"></el-table-column>
