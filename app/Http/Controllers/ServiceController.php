@@ -34,6 +34,9 @@ class ServiceController extends Controller
 
         $result = $company->paginatedCompanyServices(request());
 
+        if(request()->has('all') && request()->all == true)
+            $result = $company->servicesList();
+
         return $result;
 
         

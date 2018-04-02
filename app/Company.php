@@ -220,7 +220,15 @@ class Company extends Model
         if($request->has('sort'))
             $projects->orderBy($sortName, $sortValue);
 
-        return $projects->paginate($this->paginate);
+        $data = $projects->paginate($this->paginate);
+
+        $data->map(function ($project) {
+            $project['total_time'] = $project->totalTime();
+            $project['progress'] = $project->progress();
+            return $project;
+        });
+
+        return $data;
     }
 
     public function allCompanyProjects()
