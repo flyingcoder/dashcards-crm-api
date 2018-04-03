@@ -314,11 +314,11 @@ let buzzcrm = {
   //       {path: '/reports',component: require('./components/projects/project-hq/report/index.vue')},
 
   //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/index.vue')},
-  //       {path: '/messages',component: require('./components/projects/project-hq/message/index.vue')},
-  //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/index.vue')},
+        {path: '/messages',component: require('./components/projects/project-hq/messages/index.vue')},
+        {path: '/invoices',component: require('./components/projects/project-hq/invoices/index.vue')},
   //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
         {path: '/members',component: require('./components/projects/project-hq/members/index.vue')},
-  //       // {path: '/timers',component: require('./components/projects/project-hq/timers/index.vue')},
+        {path: '/timer',component: require('./components/projects/project-hq/timer/index.vue')},
         {path: '/reports',component: require('./components/projects/project-hq/reports/index.vue')},
 
       ],
