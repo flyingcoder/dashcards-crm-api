@@ -1,17 +1,32 @@
 <template>
      <div class="box-content db-timer">
         <div class="header-content">
-            <div class="tab-pane fade alarm-info hide">
+            <!-- <div class="tab-pane fade alarm-info hide">
                 <span>Alarm</span>
-            </div>
-            <div class="tab-pane fade timer-info show">
-                <svg 
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="514px" height="245px">
-                <path fill-rule="evenodd"  fill="rgb(59, 88, 158)"
-                d="M-0.012,0.001 L514.000,0.001 L514.000,245.003 L-0.012,245.003 L-0.012,0.001 Z"/>
-                </svg>
+            </div> -->
+            <div class="timer-info">
+                <div class="tab-content">
+                    <div class="date">
+                        <span> SAT JAN 13, 2018</span>
+                    </div>
+                    <div class="time">
+                        <h1> 05:52:03 <span>PM</span> </h1>
+                    </div>
+                    <div class="counter">
+                        <div class="hrsToday">
+                            <h6> HRS OF WORK TODAY </h6>
+                            <div class="time-item"> <label> 8 </label> <span>hrs</span> </div>
+                            <div class="time-item"> <label> 56 </label> <span>mins</span> </div>
+                            <div class="time-item"> <label> 21 </label> <span>sec</span> </div>
+                        </div>
+                        <div class="hrsTotal">
+                            <h6> TOTAL HRS OF WORK </h6>
+                            <div class="time-item"> <label> 1,384 </label> <span>hrs</span> </div>
+                            <div class="time-item"> <label> 56 </label> <span>mins</span> </div>
+                            <div class="time-item"> <label> 21 </label> <span>sec</span> </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="timer-content">

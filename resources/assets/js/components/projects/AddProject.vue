@@ -18,10 +18,20 @@
                     <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                         <div class="buzz-modal-option">
                             <el-form-item  class="option">
-                                <el-button class="option-item"> <img src="img/icons/modal/members.png" alt="">  Members </el-button>
-                                <el-button class="option-item">
-                                    <div class="date-project">
-                                         <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                                <div class="option-item"> 
+                                     <el-dropdown trigger="click" placement="bottom" class="member-option">
+                                        <el-button size="small" class="el-dropdown-link"> 
+                                            <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
+                                            Members 
+                                        </el-button>
+                                        <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
+                                           
+                                        </el-dropdown-menu>
+                                    </el-dropdown>
+                                </div>
+                                <div class="option-item">
+                                    <div class="date-option">
+                                        <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
                                         <el-date-picker
                                             :clearable="false"
                                             format="yyyy-MM-dd"
@@ -31,8 +41,23 @@
                                             placeholder="Due Date">
                                         </el-date-picker>
                                     </div>
-                                </el-button>
-                                 <el-button class="option-item"> <img src="img/icons/modal/attachment.svg" alt=""> Attachment </el-button>
+                                </div>
+                                <div class="option-item">
+                                    <div class="file-upload">
+                                        <img src="img/icons/modal/attachment.svg" alt="" class="button-icon"> 
+                                        <el-upload
+                                            class=""
+                                            ref="upload"
+                                            action=""
+                                            :auto-upload="false">
+                                            <el-button slot="trigger">
+                                                Attachment 
+                                            </el-button>
+                                            <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button> -->
+                                            <!-- <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div> -->
+                                        </el-upload>
+                                    </div>
+                                </div>
                             </el-form-item>
                         </div>
                         <div class="buzz-modal-content">
@@ -100,7 +125,6 @@
     </li>
 </template>
 
-
 <script>
 
 var today = new Date();
@@ -150,12 +174,12 @@ var yyyy = today.getFullYear();
                     var vm = this;
                     axios.get('api/projects/'+this.id)
                         .then( response => {
-                            this.projectForm = response.data;
+                            this.form = response.data;
                         });
                 }
             },
             submit(){
-                this.$refs[projectForm].validate((valid) => {
+                this.$refs[form].validate((valid) => {
                     if (valid) {
                         alert('submit!');
                         if(this.action == 'Save'){
@@ -172,7 +196,7 @@ var yyyy = today.getFullYear();
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/projects/new',this.projectForm)
+                axios.post('/api/projects/new',this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is saved!', 'success');
@@ -185,7 +209,7 @@ var yyyy = today.getFullYear();
                 })
             },
             update: function () {
-                axios.put('/api/projects/'+this.id+'/edit', this.projectForm)
+                axios.put('/api/projects/'+this.id+'/edit', this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is updated!', 'success');

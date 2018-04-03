@@ -26,7 +26,17 @@
                                         </el-date-picker>
                                     </div>
                                 </el-button>
-                                 <el-button class="option-item"> <img src="img/icons/modal/attachment.svg" alt=""> Attachment </el-button>
+                                <el-upload
+                                    class="option-item file-upload"
+                                    ref="upload"
+                                    action=""
+                                    :auto-upload="false">
+                                    <el-button slot="trigger">
+                                        <img src="img/icons/modal/attachment.svg" alt="">  Attachment 
+                                    </el-button>
+                                    <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button> -->
+                                    <!-- <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div> -->
+                                </el-upload>
                             </el-form-item>
                         </div>
                         <div class="buzz-modal-content">
@@ -84,7 +94,7 @@
                             </el-form-item> -->
                             <el-form-item  class="form-buttons">
                                 <el-button @click="submit">Save</el-button>
-                                <el-button @click="$modal.hide('add-project')">Cancel</el-button>
+                                <el-button @click="$modal.hide('add-project_page')">Cancel</el-button>
                             </el-form-item>
                         </div>
                     </el-form>
@@ -93,7 +103,6 @@
         </modal>
     </div>
 </template>
-
 
 <script>
     export default {
@@ -169,12 +178,12 @@
                     var vm = this;
                     axios.get('api/projects/'+this.id)
                         .then( response => {
-                            this.projectForm = response.data;
+                            this.form = response.data;
                         });
                 }
             },
             submit(){
-                this.$refs[projectForm].validate((valid) => {
+                this.$refs[form].validate((valid) => {
                     if (valid) {
                         alert('submit!');
                         if(this.action == 'Save'){
@@ -191,7 +200,7 @@
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/projects/new',this.projectForm)
+                axios.post('/api/projects/new',this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is saved!', 'success');
@@ -204,7 +213,7 @@
                 })
             },
             update: function () {
-                axios.put('/api/projects/'+this.id+'/edit', this.projectForm)
+                axios.put('/api/projects/'+this.id+'/edit', this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is updated!', 'success');

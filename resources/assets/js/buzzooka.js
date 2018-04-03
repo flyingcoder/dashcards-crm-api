@@ -148,6 +148,21 @@ Vue.component('avatar',Avatar)
     });
   });
 
+  $("document").ready(function() {
+    $('.el-select-dropdown__item').on('click', function(e) {
+        if($('.el-dropdown-menu').hasClass('member-option-dropdown')) {
+            e.stopPropagation();
+        }
+    });
+  });
+
+// Toggle Offline and Online Status
+  $(document).ready(function() {
+    $('#switch-btn').click(function() {
+        $('#switch-status').toggleClass('offline');
+    });
+  });
+
 // Full Calendar 
     var date = new Date(),
     d = date.getDate(),

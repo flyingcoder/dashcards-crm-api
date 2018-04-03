@@ -6,6 +6,7 @@
                 @selection-change="handleSelectionChange" style="width: 100%"
                 @cell-click="rowClick"
                 >
+                <el-table-column sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable label="Client">
                     <template slot-scope="scope">
                         <avatar :username="scope.row.first_name + ' ' + scope.row.last_name" 

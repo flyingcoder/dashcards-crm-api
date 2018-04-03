@@ -40,57 +40,73 @@
             background: $white;
         }
         .switch-box {
-            float: left;
-            width: 42%;
-            .switch{
-                position: relative;
-                display: inline-block;
-                width: 45px;
-                height: 12px;
-                top: 8px;
-                input {
-                    display:none;
-                    &:focus , .slider {
-                        box-shadow: 0 0 1px #2196F3;
-                      }
-                }
-                input:checked + .slider:before {
-                    -webkit-transform: translateX(26px);
-                    -ms-transform: translateX(26px);
-                    transform: translateX(26px);
-                    background-color: $green;
-                }
-                .slider {
-                    position: absolute;
-                    cursor: pointer;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background-color: $gray-toggle;
-                    -webkit-transition: .4s;
-                    transition: .4s;
-                    &:before {
+            .left{
+                width: 42%;
+                /*.switch{
+                    position: relative;
+                    display: inline-block;
+                    width: 45px;
+                    height: 12px;
+                    top: 8px;
+                    input {
+                        display:none;
+                        &:focus , .slider {
+                            box-shadow: 0 0 1px #2196F3;
+                          }
+                    }
+                    input:checked + .slider:before {
+                        -webkit-transform: translateX(26px);
+                        -ms-transform: translateX(26px);
+                        transform: translateX(26px);
+                        background-color: $green;
+                    }
+                    .slider {
                         position: absolute;
-                        content: "";
-                        height: 20px;
-                        width: 20px;
-                        left: 0px;
-                        bottom: -4px;
-                        background-color: $gray;
+                        cursor: pointer;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: $gray-toggle;
                         -webkit-transition: .4s;
                         transition: .4s;
-                      }
-                }
-                .round {
-                    border-radius: 34px;
-                    &:before {
-                        border-radius: 50%;
+                        &:before {
+                            position: absolute;
+                            content: "";
+                            height: 20px;
+                            width: 20px;
+                            left: 0px;
+                            bottom: -4px;
+                            background-color: $gray;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                          }
                     }
+                    .round {
+                        border-radius: 34px;
+                        &:before {
+                            border-radius: 50%;
+                        }
+                    }
+                } */
+                .el-switch.is-checked .el-switch__core{
+                    background: $green !important;
                 }
             }
-            .el-switch.is-checked .el-switch__core{
-                background: $green !important;
+            .right{
+                .logoff{
+                    display: none;
+                }
+            }
+        }
+        .offline{
+            .right{
+                .logoff{
+                    display: inline-block;
+                }
+                .logon{
+                    display: none;
+                }
             }
         }
         .theme-color{
@@ -790,10 +806,79 @@
     }
     .db-timer{
         .header-content{
+            background: $blue;
+            color: $white;
             .timer-info , .alarm-info{
                 height: 245px;
                 background: $blue;
                 font-family: digital 7monoitalic;
+            }
+            .timer-info{
+                .tab-content{
+                    height: 100%;
+                    width: 100%;
+                    padding: 20px;
+                    .date{
+                        text-align: center;
+                        span{
+                            font-size: 20px;
+                            // font-style: italic;
+                        }
+                    }
+                    .time{
+                        position: relative;
+                        text-align: center;
+                        height: 75px;
+                        h1{
+                            font-size: 60px;
+                            margin: 0;
+                            line-height: 1.2;
+                            span{
+                                position: absolute;
+                                top: 10px;
+                                font-size: 15px;
+                            }
+                        }
+                    }
+                    .counter{
+                        .hrsToday, .hrsTotal{
+                            position: relative;
+                            display: inline-block;
+                            margin: 0;
+                            padding: 0;
+                            h6{
+                                font-size: 9.5px;
+                                letter-spacing: 0.5px;
+                            }
+                            .time-item{
+                                display: inline-block;
+                                label{
+                                    font-size: 32px;
+                                    border: $time-border;
+                                    padding: 0 10px;
+                                    border-radius: 5px;
+                                    margin-right: 3px;
+                                    &:last-child{
+                                        margin-right: 0 !important;
+                                    }
+                                }
+                                span{
+                                    position: absolute;
+                                    font-size: 12px;
+                                    bottom: -15px;
+                                    margin-left: 6%;
+                                    text-transform: uppercase;
+                                }
+                            }
+                        }
+                        .hrsToday{
+                            float: left;
+                        }
+                        .hrsTotal{
+                            float: right;
+                        }
+                    }
+                }
             }
             .show{
                 display: block;

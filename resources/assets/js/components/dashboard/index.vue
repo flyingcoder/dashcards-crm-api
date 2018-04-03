@@ -20,16 +20,18 @@
                 </div>
                 <div class="col-md-4">
                     <div class="dashboard-option">
-                        <div class="left switch-box">
-                            <!-- <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                            </label> -->
-                            <el-switch v-model="value1"> </el-switch>
-                        </div>
-                        
-                        <div class="right">
-                            <span> Log On </span> 
+                        <div class="switch-box" id="switch-status">
+                             <div class="left">
+                                 <!-- <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                                </label> -->
+                                <el-switch v-model="logStatus" id="switch-btn"> </el-switch>
+                            </div>
+                            <div class="right">
+                                <span class="logon"> Log On </span> 
+                                <span class="logoff"> Log Off </span> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -52,13 +54,15 @@
         <div class="row buzz-tiles">
             <div class="col-md-6">
                 <div class="row">
-                <div class="col-md-4" v-if="!isNaN(myProjects)">
+                <!-- <div class="col-md-4" v-if="!isNaN(myProjects)"> -->
+                 <div class="col-md-4">
                     <div class="buzz-tile-content">
                     <div class="buzz-tile-icon orange-1">
                         <img src="img/sidebar/projects.svg">
                     </div>
                     <div class="buzz-tile-name">
-                        <div class="buzz-tile-number"> {{ myProjects }} </div>
+                        <!-- <div class="buzz-tile-number"> {{ myProjects }} </div> -->
+                        <div class="buzz-tile-number"> 30 </div>
                         <div class="buzz-tile-title"> My Projects </div>
                     </div>
                     </div>
@@ -69,18 +73,21 @@
                         <img src="img/sidebar/templates.svg">
                     </div>
                     <div class="buzz-tile-name">
-                        <div class="buzz-tile-number"> {{ myTasksCount }} </div>
+                        <!-- <div class="buzz-tile-number"> {{ myTasksCount }} </div> -->
+                        <div class="buzz-tile-number"> 50 </div>
                         <div class="buzz-tile-title"> My Open Task </div>
                     </div>
                     </div>
                 </div>
-                <div class="col-md-4" v-if="!isNaN(myCalendar)">
+                <!-- <div class="col-md-4" v-if="!isNaN(myCalendar)"> -->
+                <div class="col-md-4">
                     <div class="buzz-tile-content">
                     <div class="buzz-tile-icon purple-3">
                         <img src="img/sidebar/calendar.svg">
                     </div>
                     <div class="buzz-tile-name">
-                        <div class="buzz-tile-number"> {{ myCalendar }} </div>
+                        <!-- <div class="buzz-tile-number"> {{ myCalendar }} </div> -->
+                        <div class="buzz-tile-number"> 06 </div>
                         <div class="buzz-tile-title">My Calendar </div>
                     </div>
                     </div>
@@ -89,35 +96,41 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-4" v-if="!isNaN(myTimer)">
+                    <!-- <div class="col-md-4" v-if="!isNaN(myTimer)"> -->
+                    <div class="col-md-4">
                         <div class="buzz-tile-content">
                             <div class="buzz-tile-icon green-4">
                                 <img src="img/sidebar/timer.svg">
                             </div>
                             <div class="buzz-tile-name">
-                                <div class="buzz-tile-number"> {{ myTimer }} </div>
+                                <!-- <div class="buzz-tile-number"> {{ myTimer }} </div> -->
+                                <div class="buzz-tile-number"> 24 </div>
                                 <div class="buzz-tile-title"> My Timer </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" v-if="!isNaN(inbound)">
+                    <!-- <div class="col-md-4" v-if="!isNaN(inbound)"> -->
+                    <div class="col-md-4">
                         <div class="buzz-tile-content">
                         <div class="buzz-tile-icon blue-5">
                         <img src="img/sidebar/templates.svg">
                         </div>
                         <div class="buzz-tile-name">
-                            <div class="buzz-tile-number"> {{ inbound }} </div>
+                            <!-- <div class="buzz-tile-number"> {{ inbound }} </div> -->
+                            <div class="buzz-tile-number"> 45 </div>
                             <div class="buzz-tile-title"> Inbound </div>
                         </div>
                         </div>
                     </div>
-                    <div class="col-md-4" v-if="!isNaN(outbound)">
+                    <!-- <div class="col-md-4" v-if="!isNaN(outbound)"> -->
+                    <div class="col-md-4">
                         <div class="buzz-tile-content">
                         <div class="buzz-tile-icon orange-6">
                             <img src="img/sidebar/calendar.svg">
                         </div>
                         <div class="buzz-tile-name">
-                            <div class="buzz-tile-number"> {{ outbound }} </div>
+                            <!-- <div class="buzz-tile-number"> {{ outbound }} </div> -->
+                            <div class="buzz-tile-number"> 36 </div>
                             <div class="buzz-tile-title"> Outbound </div>
                         </div>
                         </div>
@@ -129,6 +142,7 @@
             <div class="col-md-6">
             <!-- Tasks -->
                 <div class="buzz-box db-tasks" v-if="isEnable('tasks')">
+                <!-- <div class="buzz-box db-tasks"> -->
                     <div class="box-head">
                         <h1>Tasks</h1>
                         <div class="box-options tasks-view">
@@ -142,6 +156,7 @@
                 </div>
             <!-- Client -->
                 <div class="buzz-box" v-if="isEnable('client')">
+                <!-- <div class="buzz-box"> -->
                     <div class="box-head">
                         <h1>Clients</h1>
                         <box-options></box-options>
@@ -153,6 +168,7 @@
                 </div>
             <!-- Payment -->
                 <div class="buzz-box" v-if="isEnable('payment')">
+                <!-- <div class="buzz-box"> -->
                     <div class="box-head"  >
                         <h1>Payment</h1>
                         <box-options></box-options>
@@ -164,6 +180,7 @@
                 </div>
             <!-- Calendar -->
                 <div class="buzz-box"  v-if="isEnable('calendar')">
+                <!-- <div class="buzz-box"> -->
                     <div class="box-head">
                         <h1>Calendar</h1>
                         <box-options></box-options>
@@ -177,6 +194,7 @@
             <div class="col-md-6">
             <!-- Timeline -->
                  <div class="buzz-box"  v-if="isEnable('timeline')">
+                 <!-- <div class="buzz-box"> -->
                     <div class="box-head">
                         <h1>Timeline</h1>
                         <box-options></box-options>
@@ -188,17 +206,19 @@
                 </div>
             <!-- Timer -->
                 <div class="buzz-box"  v-if="isEnable('timer')">
+                <!-- <div class="buzz-box"> -->
                     <div class="box-head" >
                         <h1>Timer</h1>
                         <box-options></box-options>
                     </div>
-                    <!-- <timer></timer> -->
+                    <timer></timer>
                     <div class="box-footer">
                         <a href=""> View More </a>
                     </div>
                 </div>
             <!-- Invoice -->
                 <div class="buzz-box"  v-if="isEnable('invoice')">
+                <!-- <div class="buzz-box"> -->
                     <div class="box-head" >
                         <h1>Invoice</h1>
                         <box-options></box-options>
@@ -210,6 +230,7 @@
                 </div>
             <!-- Passbox -->    
                 <div class="buzz-box" v-if="isEnable('passbox')">
+                <!-- <div class="buzz-box"> -->
                     <div class="box-head">
                         <h1>Pass Box</h1>
                         <box-options></box-options>
@@ -252,6 +273,7 @@
 
         data(){
             return {
+                logStatus: true,
                 myProjects: 0,
                 myTasksCount: 0,
                 myCalendar: 0,

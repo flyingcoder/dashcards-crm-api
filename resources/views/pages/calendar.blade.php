@@ -62,14 +62,14 @@
                         <div class="row">
                             <div class="col-md-6 event-list">
                                 <h3> Events </h3> 
-                                <ul>
-                                <li> <label class="event-item default"></label> <span>Default</span></li>
-                                <li> <label class="event-item event-1"></label> <span>Ranking Report</span></li>
-                                <li> <label class="event-item event-2"></label> <span>Video Marketing</span></li>
-                                <li> <label class="event-item event-3"></label> <span>Local SEO</span></li>
-                                <li> <label class="event-item event-4"></label> <span>Social Post</span></li>
-                                <li> <label class="event-item event-5"></label> <span>Report Files</span></li>
-                                <li> <label class="event-item event-6"></label> <span>Others</span></li>
+                                <ul class="events">
+                                    <li> <label class="event-item default"></label> <span>Default</span></li>
+                                    <li> <label class="event-item event-1"></label> <span>Ranking Report</span></li>
+                                    <li> <label class="event-item event-2"></label> <span>Video Marketing</span></li>
+                                    <li> <label class="event-item event-3"></label> <span>Local SEO</span></li>
+                                    <li> <label class="event-item event-4"></label> <span>Social Post</span></li>
+                                    <li> <label class="event-item event-5"></label> <span>Report Files</span></li>
+                                    <li> <label class="event-item event-6"></label> <span>Others</span></li>
                                 </ul>
                             </div>
                             <div class="col-md-6 calendar-list">
