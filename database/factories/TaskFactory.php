@@ -10,7 +10,7 @@ $factory->define(App\Task::class, function (Faker $faker) {
        	'title' => $faker->realText($maxNbChars = 50, $indexSize = 1),
        	'description' => $faker->paragraph,
        	'started_at' => $faker->date($format = 'Y-m-d', $max = 'now'),
-       	'status' => $faker->randomElement(['urgent', 'open', 'closed', 'invalid']),
+       	'status' => $faker->randomElement(['open', 'completed', 'behind', 'pending']),
        	'end_at' => $faker->date($format = 'Y-m-d', $max = 'now')
     ];
 });
