@@ -44,8 +44,8 @@
                 <div class="col-md-4 left-calendar">
                     <div class="row">
                         <div class="col-md-12 calendar-button">
-                            <el-button type="primary" plain>Add Event</el-button>
-                            <el-button type="primary" plain>Customize Event</el-button>
+                            <el-button type="primary" plain @click="$modal.show('add-event')">Add Event</el-button>
+                            <el-button type="primary" plain  @click="$modal.show('custom-event')">Customize Event</el-button>
                         </div>
                     </div>
                     <div class="calendar-content">
@@ -89,3 +89,16 @@
         </div>
     </section>
 @endsection
+
+
+<script>
+    import AddEvent from './AddEvent.vue';
+    import AddCustomEvent from './AddCustomEvent.vue';
+
+    export default {
+        components: {
+            'add-event': AddEvent,
+            'add-custom': AddCustomEvent,
+        },
+    }
+</script>

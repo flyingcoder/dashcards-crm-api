@@ -7,9 +7,9 @@
                         <el-upload
                             class="project-hq-file-upload"
                             drag
-                            :action="'/project-hq/' + this.$parent.projectId + '/files'"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
+                            action=""
+                            :http-request="submit"
+                            :before-upload="beforeImport"
                             multiple>
                                 <img :src="$parent.asset + 'img/files/documents-bw.svg'">
                                 <div class="drop-text">
@@ -93,7 +93,7 @@
                                 <button>Add Link</button>
                             </li>
                             <li class="view-option active">
-                                <a href="#list-view" data-toggle="tab" @click="filterTasks('my', 'all')">
+                                <a href="#list-view" data-toggle="tab">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="22px" height="23px">
                                         <path fill-rule="evenodd"
@@ -102,7 +102,7 @@
                                 </a>
                             </li>
                             <li class="view-option">
-                                <a href="#grid-view" data-toggle="tab" @click="filterTasks('all', 'all')">
+                                <a href="#grid-view" data-toggle="tab">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="25px" height="23px">
                                         <path fill-rule="evenodd"
@@ -137,7 +137,7 @@
                     </div>
                     <div class="files-content">
                         <div class="tab-content">
-                            <list-view></list-view>
+                            <list-view :files="files"></list-view>
                             <grid-view></grid-view>
                         </div>
                     </div>
@@ -148,8 +148,8 @@
 </template>
 
 <script>
-    import ListView from './list-view.vue';
-    import GridView from './grid-view.vue';
+    import ListView from './ListView.vue';
+    import GridView from './GridView.vue';
 
     export default {
         components: {
@@ -158,7 +158,34 @@
         },
         data(){
             return {
+                form: [],
+                isProcessing: false,
+                files: []
             }
+        },
+        mounted(){
+            this.form = new FormData()
+            this.getFiles();
+        },
+        methods: {
+            getFiles(){
+            axios.get('/api/projects/' + this.$parent.projectId + '/files')
+                .then( response => {
+                    this.files = response.data.data;
+                })
+            },
+            submit () {
+                this.isProcessing = true;
+                axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
+                .then (response => {
+                this.isProcessing = false;
+                }) .catch (error => {
+                });
+            },
+            beforeImport(file) {
+                this.form.append('file', file);
+                return true;
+            },
         }
     }
 </script>

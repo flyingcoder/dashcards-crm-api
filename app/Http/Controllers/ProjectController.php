@@ -173,7 +173,7 @@ class ProjectController extends Controller
             'service_id' => 'required|exists:services,id',
             'start_at' => 'required|date',
             'end_at' => 'required|date',
-            'location' => 'required',
+            // 'location' => 'required',
             'description' => 'required'
         ]);
 

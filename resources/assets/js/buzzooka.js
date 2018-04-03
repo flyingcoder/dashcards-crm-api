@@ -17,6 +17,7 @@ import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
 import Ckeditor from 'vue-ckeditor2'
 import VueQuillEditor from 'vue-quill-editor'
+import Avatar from 'vue-avatar'
 // Require styles
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -27,7 +28,7 @@ Vue.use(VModal);
 Vue.use(Ckeditor);
 Vue.use(VModal);
 Vue.use(VueQuillEditor, /* { default global options } */)
-
+Vue.component('avatar',Avatar)
 //window.CKEDITOR = require( 'ckeditor' );
 
 // Classic Editor
@@ -39,7 +40,24 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 
 // Moment
   Vue.filter('diffInDays', function(value, start){
-    return moment.duration(Date.parse(value) - Date.parse(start)).humanize();
+    var totalSeconds = Math.abs(Date.parse(value) - Date.parse(start));
+    
+    var hours = (totalSeconds / 1000) / 3600;
+    var minutes = ((totalSeconds / 1000) / 60) % 60;
+    var seconds = ((totalSeconds / 1000) % 3600) % 60;
+
+    return Math.ceil(hours) + 'HRS ' + Math.ceil(minutes) + 'MINS ' + Math.ceil(seconds) + 'SECS';
+    // return totalSeconds / 3600;
+    // return moment.duration(Date.parse(value) - Date.parse(start)).asHours();
+  })
+
+  Vue.filter('formatHuman', function(value) {
+    return moment(value).format("MMMM DD, YYYY")
+  })
+
+  Vue.filter('momentAgo', function(value){
+      var hours = (Math.abs(Date.parse(value) - Date.now()) / 1000) /3600;
+      return moment.duration(hours, 'hours').humanize();
   })
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -113,11 +131,16 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 // Testing
   Vue.component('profile', require('./components/teams/profile/index.vue'));
 
-// Push menu
+
   $(document).ready(function(){
+  // Push menu
     $("#toggleBuzzMenu").click(function(){
       console.log('Test!!');
         $("body").toggleClass("sidebar-collapse");
+    });
+  // Offline and Online Status
+    $('#switch-btn').click(function() {
+      $('#switch-status').toggleClass('offline');
     });
   });
 
@@ -135,13 +158,6 @@ Vue.use(VueQuillEditor, /* { default global options } */)
         if($('.el-dropdown-menu').hasClass('member-option-dropdown')) {
             e.stopPropagation();
         }
-    });
-  });
-
-// Toggle Offline and Online Status
-  $(document).ready(function() {
-    $('#switch-btn').click(function() {
-        $('#switch-status').toggleClass('offline');
     });
   });
 
@@ -296,11 +312,11 @@ let buzzcrm = {
   //       {path: '/reports',component: require('./components/projects/project-hq/report/index.vue')},
 
   //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/index.vue')},
-  //       {path: '/messages',component: require('./components/projects/project-hq/message/index.vue')},
-  //       {path: '/invoices',component: require('./components/projects/project-hq/invoice/index.vue')},
+        {path: '/messages',component: require('./components/projects/project-hq/messages/index.vue')},
+        {path: '/invoices',component: require('./components/projects/project-hq/invoices/index.vue')},
   //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
         {path: '/members',component: require('./components/projects/project-hq/members/index.vue')},
-  //       // {path: '/timers',component: require('./components/projects/project-hq/timers/index.vue')},
+        {path: '/timer',component: require('./components/projects/project-hq/timer/index.vue')},
         {path: '/reports',component: require('./components/projects/project-hq/reports/index.vue')},
 
       ],
