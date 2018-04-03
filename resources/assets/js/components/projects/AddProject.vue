@@ -16,27 +16,25 @@
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
                     <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
-                        <div class="buzz-modal-option">
+                        <div class="modal-options">
                             <el-form-item  class="option">
                                 <div class="option-item"> 
-                                     <el-dropdown trigger="click" placement="bottom" class="member-option">
+                                        <el-dropdown trigger="click" placement="bottom" class="member-option">
                                         <el-button size="small" class="el-dropdown-link"> 
                                             <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
                                             Members 
                                         </el-button>
                                         <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
-                                           
+                                            
                                         </el-dropdown-menu>
                                     </el-dropdown>
                                 </div>
                                 <div class="option-item">
                                     <div class="date-option">
-                                        <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                                        <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
                                         <el-date-picker
                                             :clearable="false"
-                                            format="yyyy-MM-dd"
-                                            value-format="yyyy-MM-dd"
-                                            v-model="form.end_at"
+                                            v-model="form.due_date"
                                             type="date"
                                             placeholder="Due Date">
                                         </el-date-picker>
@@ -44,7 +42,7 @@
                                 </div>
                                 <div class="option-item">
                                     <div class="file-upload">
-                                        <img src="img/icons/modal/attachment.svg" alt="" class="button-icon"> 
+                                        <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
                                         <el-upload
                                             class=""
                                             ref="upload"
@@ -53,8 +51,6 @@
                                             <el-button slot="trigger">
                                                 Attachment 
                                             </el-button>
-                                            <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button> -->
-                                            <!-- <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div> -->
                                         </el-upload>
                                     </div>
                                 </div>
