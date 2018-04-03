@@ -291,7 +291,7 @@
                              @extend .page-title;
                              th{
                                  &:first-child{
-                                     width: 10%;
+                                    //  width: 45px;
                                  }
                                  &:nth-child(2){
                                      width: 18%;
@@ -318,24 +318,24 @@
                                         display: table-cell;
                                     }
                                 }
-                                 &:nth-child(odd){
-                                     background: $gray-bg;
-                                 }
-                                 &:nth-child(even){
-                                     background: $white;
-                                 }
-                                 .hover-display{
-                                     position: relative;
-                                     left: 15px;
-                                 }
+                                &:nth-child(odd){
+                                    background: $gray-bg;
+                                }
+                                &:nth-child(even){
+                                    background: $white;
+                                }
+                                .hover-display{
+                                    position: relative;
+                                    left: 15px;
+                                }
                                 td{
                                     position: relative;
                                     img{
                                         width: 55px;
-                                        border-radius: 100%;
+                                        border-radius: 50%;
                                     }
                                     &:first-child{
-                                     width: 10%;
+                                        // width: 45px;
                                     }
                                     &:nth-child(2){
                                      width: 18%;

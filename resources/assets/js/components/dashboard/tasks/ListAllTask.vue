@@ -24,6 +24,7 @@
                             </div> 
                         </td>
                         <!-- <td> <img :src="'/' + t.assignee[0].image_url"> </td> -->
+                        <td> <img src="/img/temporary/user1.png"> </td>
                         <td> 
                             <span class="buzz-overflow task-project"> {{ t.title }} </span>
                             <span class="assigned-project"> assigned to {{
