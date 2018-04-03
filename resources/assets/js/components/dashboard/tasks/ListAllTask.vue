@@ -23,10 +23,13 @@
                                 </svg> 
                             </div> 
                         </td>
-                        <!-- <td> <img :src="'img/temporary/' + t.assignee.image"> </td> -->
+                        <!-- <td> <img :src="'/' + t.assignee[0].image_url"> </td> -->
                         <td> 
-                            <span class="buzz-overflow task-project"> {{ t.project }} </span>
-                            <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
+                            <span class="buzz-overflow task-project"> {{ t.title }} </span>
+                            <span class="assigned-project"> assigned to {{
+                                 t.assigned == null ? '' :
+                                 t.assigned[0].first_name + ' ' + t.assigned[0].last_name 
+                                 }}. {{ t.created_at | momentAgo}} </span>
                         </td>
                         <td> 
                         <span class="status"> {{ t.status }} </span>

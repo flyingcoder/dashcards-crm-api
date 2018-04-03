@@ -17,6 +17,7 @@ import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
 import Ckeditor from 'vue-ckeditor2'
 import VueQuillEditor from 'vue-quill-editor'
+import Avatar from 'vue-avatar'
 // Require styles
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -27,7 +28,7 @@ Vue.use(VModal);
 Vue.use(Ckeditor);
 Vue.use(VModal);
 Vue.use(VueQuillEditor, /* { default global options } */)
-
+Vue.component('avatar',Avatar)
 //window.CKEDITOR = require( 'ckeditor' );
 
 // Classic Editor
@@ -52,6 +53,11 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 
   Vue.filter('formatHuman', function(value) {
     return moment(value).format("MMMM DD, YYYY")
+  })
+
+  Vue.filter('momentAgo', function(value){
+      var hours = (Math.abs(Date.parse(value) - Date.now()) / 1000) /3600;
+      return moment.duration(hours, 'hours').humanize();
   })
 /**
  * Next, we will create a fresh Vue application instance and attach it to
