@@ -244,10 +244,12 @@
                 </div>
             </div>
         </div>
+        <add-shortcut></add-shortcut>
     </section>
 </template>
 
 <script>
+    import AddShortcut from './AddShortcut.vue';
     import BoxOptions from './box-options.vue';
     import Tasks from './tasks/Index.vue';
     import Client from './client/Index.vue';
@@ -260,6 +262,7 @@
 
     export default {
         components: {
+            'add-shortcut': AddShortcut,
             'box-options': BoxOptions,
             'tasks': Tasks,
             'client': Client,

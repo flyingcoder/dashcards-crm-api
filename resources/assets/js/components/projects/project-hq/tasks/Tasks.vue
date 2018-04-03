@@ -192,7 +192,3 @@ mounted(){
   }
 }
 </script>
-
-<style>
-
-</style>
