@@ -1,5 +1,5 @@
 <template>
-  <div class="buzz-box" v-loading="loading">
+  <div class="buzz-box">
     <div class="box-head">
       <h1>Project Overview</h1>
       <div class="box-options">
@@ -79,7 +79,7 @@
                         <td>
                             <span> Client </span>  
                         </td>    
-                        <td> {{ projectOverview.client[0].name }} </td>
+                        <td> {{ projectOverview.client[0].first_name + ' ' + projectOverview.client[0].last_name }} </td>
                         </tr>
                         <tr>
                         <td> 
@@ -92,7 +92,7 @@
                         <td>
                             <span> Start Date </span>
                         </td>
-                        <td> {{ projectOverview.started_at }} </td>
+                        <td> {{ projectOverview.started_at | formatHuman }} </td>
                         </tr>
                         <tr>
                         <td> 
@@ -105,7 +105,7 @@
                         <td>
                             <span> End Date </span>
                         </td>
-                        <td>{{ projectOverview.end_at }}</td>
+                        <td>{{ projectOverview.end_at | formatHuman }}</td>
                         </tr>
                         <tr>
                         <td> 
@@ -132,7 +132,7 @@
                         <td>
                             <span> Created On </span>
                         </td>
-                        <td> {{ projectOverview.created_at }} </td>
+                        <td> {{ projectOverview.created_at | formatHuman }} </td>
                         </tr>
                     </tbody>
                 </table>
@@ -159,7 +159,6 @@ export default {
         service:{
           name: ''
         },
-        loading: true
       },
     }
   },
@@ -170,7 +169,6 @@ export default {
     overview(){
       axios.get('/api/projects/'+ this.projectId)
       .then( response => {
-        this.loading = false;
         this.projectOverview = response.data;
       })
     },

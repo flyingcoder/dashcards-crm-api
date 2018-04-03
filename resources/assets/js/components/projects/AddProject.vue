@@ -15,8 +15,8 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form :model="form" :rules="rules" ref="form" label-position="top" v-loading="isProcessing" style="width: 100%">
-                        <div class="modal-options">
+                    <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
+                        <div class="buzz-modal-option">
                             <el-form-item  class="option">
                                 <div class="option-item"> 
                                      <el-dropdown trigger="click" placement="bottom" class="member-option">
@@ -34,7 +34,9 @@
                                         <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
                                         <el-date-picker
                                             :clearable="false"
-                                            v-model="form.due_date"
+                                            format="yyyy-MM-dd"
+                                            value-format="yyyy-MM-dd"
+                                            v-model="form.end_at"
                                             type="date"
                                             placeholder="Due Date">
                                         </el-date-picker>
@@ -65,7 +67,7 @@
                             <el-form-item>
                                 <el-select v-model="form.client" clearable placeholder="Select Client">
                                     <el-option
-                                    v-for="item in client_options"
+                                    v-for="item in clients"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -75,7 +77,7 @@
                             <el-form-item>
                                 <el-select v-model="form.service" clearable placeholder="Select Service">
                                     <el-option
-                                    v-for="item in service_options"
+                                    v-for="item in services"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -191,7 +193,7 @@
                                 </div>
                             </el-form-item>
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('form')">Save</el-button>
+                                <el-button @click="submit"> {{ action }}</el-button>
                                 <el-button @click="$modal.hide('add-project')">Cancel</el-button>
                             </el-form-item>
                         </div>
@@ -203,6 +205,12 @@
 </template>
 
 <script>
+
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+
     export default {
     	data: function () {
         	return {    
@@ -214,73 +222,31 @@
                 oldName: '',
                 isProcessing: false,
                 form: {
-                    name: '',
+                    title: '',
                     description: '',
                     comment: '',
-                    due_date: '',
+                    end_at: '',
+                    start_at: yyyy + '-' + mm + '-' + dd,
                     content: '',
-                    client: '',
-                    service: '',
+                    client_id: 1,
+                    service_id: 1,
                 },
-                rules: {
-                    name: [
-                        { required: true, message: 'Please input Project Name', trigger: 'change' },
-                    ],
-                },
-                client_options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                    }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                    }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                    }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                    }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
-                service_options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                    }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                    }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                    }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                    }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
+                clients: [],
+                services: [],
         		error: {
-        			name: [],
+        			title: [],
                     description: [],
-                    due_date: [],
+                    comment: [],
+                    end_at: [],
+                    start_at: [],
                     content: [],
+                    client_id: [],
+                    service_id: [],
         		},
-                config: {
-                    toolbar: [
-                      [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
-                    ],
-                    height: 500
-                }
         	}
         },
 
         methods: {
-            onBlur (e) {
-                console.log(e)
-            },
-            onFocus (e) {
-                console.log(e)
-            },
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
@@ -335,10 +301,23 @@
                     }
                     this.isProcessing = false;        
                 })
+            },
+            getClients(){
+                axios.get('api/clients')
+                .then( response => {
+                    console.info(response.data);
+                })
+            },
+            getServices(){
+                axios.get('api/services')
+                .then( response => {
+                    console.info(response.data);
+                })
             }
         },
         mounted() {
-            
+            this.getClients();
+            this.getServices();
         }
     }
 </script>

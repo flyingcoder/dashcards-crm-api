@@ -11,7 +11,7 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form :model="form" :rules="rules" ref="form" label-position="top" v-loading="isProcessing" style="width: 100%">
+                    <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                         <div class="buzz-modal-option">
                             <el-form-item  class="option">
                                 <el-button class="option-item"> <img src="img/icons/modal/members.png" alt="">  Members </el-button>
@@ -40,7 +40,7 @@
                             </el-form-item>
                         </div>
                         <div class="buzz-modal-content">
-                            <el-form-item prop="name">
+                            <el-form-item>
                                 <el-input type="text" v-model="form.name" placeholder="Untitled Project"></el-input>
                             </el-form-item>
                             <el-form-item>
@@ -172,7 +172,7 @@
                                 </div>
                             </el-form-item>
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('form')">Save</el-button>
+                                <el-button @click="submit">Save</el-button>
                                 <el-button @click="$modal.hide('add-project_page')">Cancel</el-button>
                             </el-form-item>
                         </div>
@@ -202,11 +202,6 @@
                     content: '',
                     client: '',
                     service: '',
-                },
-                rules: {
-                    name: [
-                        { required: true, message: 'Please input Project Name', trigger: 'change' },
-                    ],
                 },
                 client_options: [{
                     value: 'Option1',
@@ -256,12 +251,6 @@
         },
 
         methods: {
-            onBlur (e) {
-                console.log(e)
-            },
-            onFocus (e) {
-                console.log(e)
-            },
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';

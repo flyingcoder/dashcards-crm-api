@@ -84,10 +84,7 @@
           'SelectedProject': SelectedProject,
       },
         mounted(){
-            axios.get('api/user')
-            .then( response => {
-                console.info(response.data);
-            })
+
         }
     }
 </script>

@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 // Services
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
-	Route::get('/', 'ServiceController@index');
+	Route::get('/', 'ServiceController@index'); // projects //error
 
   Route::post('/', 'ServiceController@store');
 
@@ -120,19 +120,13 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 // Projects
 Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
-  Route::get('/', 'ProjectController@index');
-
-  Route::get('count', 'ProjectController@countProject');
+  Route::get('/', 'ProjectController@index');// project
+    
+  Route::delete('{id}/delete', 'ProjectController@delete');
 
   Route::get('{id}', 'ProjectController@project');
 
-  Route::get('{id}/timer', 'ProjectController@timer');
-
-  Route::delete('{id}/delete', 'ProjectController@delete');
-
-  Route::get('{id}/tasks', 'ProjectController@tasks');
-
-  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');
+  Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
   Route::post('/', 'ProjectController@store');
 
@@ -144,18 +138,23 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
 	Route::put('{id}/status', 'ProjectController@updateStatus');
 
+  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 
   // not used
   // Route::get('{id}/overview', 'ProjectController@overview'); 
 
+  Route::get('count', 'ProjectController@countProject');
+
+  Route::get('{id}/timer', 'ProjectController@timer');
+
   Route::get('{id}/milestones', 'MilestoneController@projectMilestone');
 
-  Route::get('{id}/members', 'ProjectController@members');
+  Route::get('{id}/members', 'ProjectController@members');// project-hq
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 
-  Route::get('{id}/files', 'MediaController@projectMedia');
-	Route::post('{id}/files','MediaController@projectFileUpload');
+  Route::get('{id}/files', 'MediaController@projectMedia');// project-hq
+	Route::post('{id}/files','MediaController@projectFileUpload');// project-hq
 
   Route::post('{id}/links', 'MediaController@addMediaLink');
 
@@ -199,7 +198,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 // Clients
 Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
-	Route::get('/', 'ClientController@index');
+	Route::get('/', 'ClientController@index'); // project
 
   Route::delete('{id}/delete', 'ClientController@delete');
 
