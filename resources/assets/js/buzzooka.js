@@ -27,8 +27,8 @@ Vue.use(Element, { locale });
 Vue.use(VModal);
 Vue.use(Ckeditor);
 Vue.use(VModal);
-Vue.use(VueQuillEditor, /* { default global options } */)
-Vue.component('avatar',Avatar)
+Vue.use(VueQuillEditor, /* { default global options } */);
+Vue.component('avatar',Avatar);
 //window.CKEDITOR = require( 'ckeditor' );
 
 // Classic Editor
