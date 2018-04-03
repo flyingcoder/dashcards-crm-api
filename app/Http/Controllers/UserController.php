@@ -33,6 +33,17 @@ class UserController extends Controller
 
     }
 
+    /*
+    public function clients(Request $request)
+    {
+        $clients = auth()->user()->paginatedClients();
+
+        if(request()->has('all') && request()->all == true)
+            $clients = auth()->user()->clients()->get();
+
+        return $clients;
+    }*/
+
     public function projects()
     {
         return auth()->user()->userPaginatedProject(request());

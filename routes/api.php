@@ -71,6 +71,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   Route::get('/tasks/count', 'UserController@countTasks');
 
   Route::get('/projects', 'UserController@projects');
+
+  Route::get('/clients', 'UserController@clients');
   
 });
 
