@@ -15,7 +15,7 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar task-form" id="buzz-scroll">
-                    <el-form :model="taskForm" ref="taskForm" v-loading="isProcessing">
+                    <el-form :model="form" ref="form" v-loading="isProcessing">
                         <el-tabs type="card">
                             <el-tab-pane>
                                 <div slot="label" class="text-option task-option">
@@ -60,14 +60,16 @@
           'under-construction': UnderConstruction,
          },
     	data() {
-        	return {   
+        	return { 
+                descriptionEditor: false,
+                commentEditor: false,
                 labelPosition: 'left', 
                 title: 'Add New Task',
                 action: 'Save',
                 id: 0,
                 oldName: '',
                 isProcessing: false,
-                taskForm: {
+                form: {
                     title: '',
                     percentage: '',
                     started_at: '',
@@ -109,12 +111,12 @@
                     var vm = this;
                     axios.get('api/tasks/'+this.id)
                         .then( response => {
-                            this.taskForm = response.data;
+                            this.form = response.data;
                         });
                 }
             },
             submit(){
-                this.$refs[taskForm].validate((valid) => {
+                this.$refs[form].validate((valid) => {
                     if (valid) {
                         alert('submit!');
                     } else {
@@ -125,7 +127,7 @@
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/tasks/new',this.taskForm)
+                axios.post('/api/tasks/new',this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Task is saved!', 'success');
@@ -138,7 +140,7 @@
                 })
             },
             update: function () {
-                axios.put('/api/tasks/'+this.id+'/edit', this.taskForm)
+                axios.put('/api/tasks/'+this.id+'/edit', this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Task is updated!', 'success');

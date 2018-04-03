@@ -557,6 +557,18 @@
         .table-checkbox label span {
             padding-left:45px
     }
+    .custom-event{
+        border: $table-border !important;
+        border-radius: 8px !important;
+        box-shadow: $body-shadow !important;
+        background: $input2-bg !important;
+
+        float: right;
+        font-size: 18px;
+        color: $modal-title;
+        height: 60px !important;
+        width: 31% !important;
+    }
 // Tab Options & Dropdown
     .head-page-option{
         position: relative;
@@ -593,6 +605,25 @@
                 }
             }
             
+        }
+    }
+    .add-shortcut{
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        width: 44px;
+        height: 43px;
+        border-radius: 40px !important;
+        background: $blue;
+        box-shadow: $add-shadow !important;
+        border: none;
+        outline: none;
+        -webkit-transition: width 0.2s;
+        transition: width 0.2s;
+        svg{
+            position: absolute;
+            top: 12px;
+            right: 12px;
         }
     }
     .add-button{
@@ -637,7 +668,6 @@
                 right: 12px;
             }
         }
-        
     }
     .tab-options{
         ul{
@@ -1357,57 +1387,58 @@
                 overflow-x: hidden;
                 padding-right: 25px;
             }
-            .buzz-modal-footer{
-                display: block;
-                height: 43px;
-                padding: 5px 10px;
-                margin-top: -20px !important;
-                margin-bottom: 25px;
-                border: $table-border;
-                border-radius: 0 0 8px 8px;
-                box-shadow: $body-shadow;
-                background: $input2-bg !important;
-                button{
-                    position: relative;
-                    height: 100%;
-                    width: 35px;
-                    display: inline-block;
-                    top: 0;
-                    padding: 0;
-                    margin: 0 3px;
-                    span{
-                        position: relative;
-                        top: 0;
-                        margin: 0;
-                        width: 35px;
-                        font-size: 11.3px;
-                        line-height: 1.2;
-                        display: table-caption !important;
-                        color: $table-status-text;
-                        font-family: $lato-mid;
-                    } 
-                    svg{
-                        fill: $modal-icon;
-                        padding: 0;
-                        margin: 0;
-                        &:hover{
-                            fill: $modal-hover;
-                        }
-                    }
-                }
-                .send{
-                    font-size: 11.3px;
-                    width: 70px;
-                    span{
-                        width: 70px;
-                    }
-                }
-                .border{
-                    background: $modal-input;
-                    border-radius: 3px;
-                    border: 1px solid $modal-icon !important;
+        }
+    }
+    // .buzz-modal-footer{
+    .field-options{
+        display: block;
+        height: 43px;
+        padding: 5px 10px;
+        border: $table-border;
+        border-top: none !important;
+        border-radius: 0 0 8px 8px;
+        box-shadow: $body-shadow;
+        background: $input2-bg !important;
+        button{
+            position: relative;
+            height: 100%;
+            width: 35px;
+            display: inline-block;
+            top: 0;
+            border: none;
+            padding: 0;
+            margin: 0 3px;
+            span{
+                position: relative;
+                top: 0;
+                margin: 0;
+                width: 35px;
+                font-size: 11.3px;
+                line-height: 1.2;
+                display: table-caption !important;
+                color: $table-status-text;
+                font-family: $lato-mid;
+            } 
+            svg{
+                fill: $modal-icon;
+                padding: 0;
+                margin: 0;
+                &:hover{
+                    fill: $modal-hover;
                 }
             }
+        }
+        .send{
+            font-size: 11.3px;
+            width: 70px;
+            span{
+                width: 70px;
+            }
+        }
+        .border{
+            background: $modal-input;
+            border-radius: 3px;
+            border: 1px solid $modal-icon !important;
         }
     }
 // Vue Popupover
@@ -1561,9 +1592,9 @@
     .quill-editor{
         .ql-toolbar{
             position: absolute;
-            bottom: 0;
+            bottom: 40px;
+            left: 15px;
             z-index: 1;
-            margin: 10px;
             background: none;
             border: none;
             .ql-formats{
@@ -1584,10 +1615,22 @@
         }
         .ql-container{
             background: $white;
+            border: $table-border;
             .ql-editor{
-                height: 100px !important;
-                margin-bottom: 100px;
+                // height: 100px !important;
+                // margin-bottom: 100px;
             }
+        }
+    }
+    .add-description, .add-comment{
+        height: 200px !important;
+        .ql-toolbar{
+            display: none;
+        }
+    }
+    .showEditor{
+        .ql-toolbar{
+            display: block !important;
         }
     }
 // New

@@ -35,10 +35,15 @@
     }
     .task-form{
         margin-top: 20px;
+        .el-tabs__header{
+            border-bottom: none !important;
+            margin: 0 !important;
+        }
         .el-tabs{
             .el-tabs__nav{
                 height: 62px;
                 width: 100%;
+                border: none !important;
                 .el-tabs__item{
                     width: 45%;
                     height: 60px;
@@ -92,6 +97,9 @@
                 }
             }
         }
+        .add-description, .add-comment{
+            margin-top: 50px !important;
+        }
     }
     .add-button{
         position: fixed !important;
@@ -99,6 +107,7 @@
         bottom: 40px !important;
         box-shadow: $hover-shadow !important;
     }
+
 // Dashboard CSS
     .box-tabs{
         ul{
@@ -565,18 +574,18 @@
             }
             .quill-editor{
                 .ql-container{
-                    padding-left: 50px;
                     height: 215px;
                     border: $table-border;
                     border-radius: 5px;
                     .ql-editor{
                         line-height: 1;
-                        height: 150px !important;
+                        height: 170px !important;
                         margin-bottom: 50px;
+                        text-indent: 45px;
                     }
                 }
                 .ql-toolbar{
-                    margin: 10px 0;
+                    margin: 10px;
                     .ql-formats{
                         padding: 0 !important;
                     }
@@ -585,20 +594,11 @@
                     }
                 }
             }
-            .el-textarea{
-                width: 84% !important;
-                margin: 10px 0 0 5px;
-                textarea{
-                    padding: 12px;
-                    font-family: $lato-mid;
-                    font-size: 12px;
-                    color: $table-status-text;
-                    text-indent: 5px;
-                    &:focus{
-                        border-color: $table-border-color;
-                    }
-                }
+            .field-options{
+                position: relative;
+                bottom: 28px;
+                border-top: $table-border !important;
             }
-        }
+        } 
     }
 }

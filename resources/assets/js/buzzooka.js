@@ -131,11 +131,16 @@ Vue.component('avatar',Avatar)
 // Testing
   Vue.component('profile', require('./components/teams/profile/index.vue'));
 
-// Push menu
+
   $(document).ready(function(){
+  // Push menu
     $("#toggleBuzzMenu").click(function(){
       console.log('Test!!');
         $("body").toggleClass("sidebar-collapse");
+    });
+  // Offline and Online Status
+    $('#switch-btn').click(function() {
+      $('#switch-status').toggleClass('offline');
     });
   });
 
@@ -153,13 +158,6 @@ Vue.component('avatar',Avatar)
         if($('.el-dropdown-menu').hasClass('member-option-dropdown')) {
             e.stopPropagation();
         }
-    });
-  });
-
-// Toggle Offline and Online Status
-  $(document).ready(function() {
-    $('#switch-btn').click(function() {
-        $('#switch-status').toggleClass('offline');
     });
   });
 
