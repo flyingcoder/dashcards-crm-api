@@ -6,19 +6,5 @@
                 Add New Project
             </button>
         </div>
-
-        <add-project></add-project>
     </div>
 </template>
-
-<script>
-    import AddProject from './AddProject.vue';
-    export default {
-        components: {
-          'add-project': AddProject,
-      },
-        mounted(){
-
-        }
-    }
-</script>

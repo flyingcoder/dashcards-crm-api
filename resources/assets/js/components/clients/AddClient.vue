@@ -1,61 +1,48 @@
 <template>
-    <li>
-        <div class="add-button">
-            <span> ADD NEW </span>
-            <button  @click="$modal.show('add-client')">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    width="20px" height="20px">
-                    <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                    d="M18.852,10.789 L11.590,10.789 L11.590,19.039 C11.590,19.444 11.193,19.773 10.703,19.773 C10.212,19.773 9.815,19.444 9.815,19.039 L9.815,10.789 L1.663,10.789 C1.262,10.789 0.937,10.387 0.937,9.892 C0.937,9.395 1.262,8.993 1.663,8.993 L9.815,8.993 L9.815,1.645 C9.815,1.240 10.212,0.911 10.703,0.911 C11.193,0.911 11.590,1.240 11.590,1.645 L11.590,8.993 L18.852,8.993 C19.252,8.993 19.577,9.395 19.577,9.892 C19.577,10.387 19.252,10.789 18.852,10.789 Z"/>
-                </svg>
-            </button>
-        </div>
-
-        <modal name="add-client" transition="nice-modal-fade" @before-open="beforeOpen">
-            <section class="content">
-                <div class="buzz-modal-header"> {{ title }} </div>
-                <div class="buzz-scrollbar buzz-form2" id="buzz-scroll">
-                    <el-form ref="form" :model="form" :rules="rules" label-position="top" v-loading="isProcessing" style="width: 100%">                    
-                        <div class="buzz-modal-content">
-                            <el-form-item label="Full Name" prop="name">
-                                <el-input type="text" v-model="form.name" placeholder="Full Name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="Company Name" prop="company_name">
-                                <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="Contact Number" prop="contact_no">
-                                <el-input type="text" v-model="form.contact_no" placeholder="Contact Number"></el-input>
-                            </el-form-item>
-                            <el-form-item label="Email" prop="email">
-                                <el-input type="text" v-model="form.email" placeholder="Email"></el-input>
-                            </el-form-item>
-                            <el-form-item label="Password" prop="pass">
-                                <el-input type="password" v-model="form.pass" auto-complete="off"></el-input>
-                            </el-form-item>
-                            <el-form-item label="Confirm" prop="checkPass">
-                                <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
-                            </el-form-item>
-                            <el-form-item label="Client Status">
-                                <el-select v-model="form.status" clearable placeholder="Client Status">
-                                    <el-option
-                                    v-for="item in status"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item  class="form-buttons">
-                                <el-button type="primary" @click="submitForm('form')">Save</el-button>
-                                <!-- <el-button @click="resetForm('form')">Reset</el-button> -->
-                                  <el-button @click="$modal.hide('add-client')">Cancel</el-button>
-                            </el-form-item>
-                        </div>
-                    </el-form>
-                </div>
-            </section>
-        </modal>
-    </li>
+    <modal name="add-client" transition="nice-modal-fade" @before-open="beforeOpen">
+        <section class="content">
+            <div class="buzz-modal-header"> {{ title }} </div>
+            <div class="buzz-scrollbar buzz-form2" id="buzz-scroll">
+                <el-form ref="form" :model="form" :rules="rules" label-position="top" v-loading="isProcessing" style="width: 100%">                    
+                    <div class="buzz-modal-content">
+                        <el-form-item label="Full Name" prop="name">
+                            <el-input type="text" v-model="form.name" placeholder="Full Name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Company Name" prop="company_name">
+                            <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Contact Number" prop="contact_no">
+                            <el-input type="text" v-model="form.contact_no" placeholder="Contact Number"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Email" prop="email">
+                            <el-input type="text" v-model="form.email" placeholder="Email"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Password" prop="pass">
+                            <el-input type="password" v-model="form.pass" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Confirm" prop="checkPass">
+                            <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Client Status">
+                            <el-select v-model="form.status" clearable placeholder="Client Status">
+                                <el-option
+                                v-for="item in status"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item  class="form-buttons">
+                            <el-button type="primary" @click="submitForm('form')">Save</el-button>
+                            <!-- <el-button @click="resetForm('form')">Reset</el-button> -->
+                                <el-button @click="$modal.hide('add-client')">Cancel</el-button>
+                        </el-form-item>
+                    </div>
+                </el-form>
+            </div>
+        </section>
+    </modal>
 </template>
 
 <script>
