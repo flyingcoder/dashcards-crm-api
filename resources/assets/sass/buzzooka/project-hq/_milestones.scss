@@ -5,7 +5,7 @@
             @extend .buzz-overflow;
             max-width: unset !important;
             h1{
-                font-size: 28px !important;
+                font-size: 20px !important;
             }
         }
         .box-content{
@@ -34,7 +34,7 @@
                             span{
                                 position: relative;
                                 float: left;
-                                top: 20px;
+                                top: 17px;
                                 width: 80%;
                                 @extend .buzz-overflow;
                                 max-width: unset !important;
