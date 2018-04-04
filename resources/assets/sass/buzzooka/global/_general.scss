@@ -569,6 +569,22 @@
         height: 60px !important;
         width: 31% !important;
     }
+    .button-options{
+        float: right;
+        ul{
+            border: none !important;
+            li{
+                margin-right: 20px;
+                button{
+                    font-size: 15px;
+                    background: $blue;
+                    padding: 10px 15px;
+                    color: $white;
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
 // Tab Options & Dropdown
     .head-page-option{
         position: relative;
@@ -948,18 +964,6 @@
             }
         }
    } 
-   .buzz-form2{
-       margin-top: 20px;
-       .el-form{
-            .el-form-item{
-                margin-bottom: 15px !important;
-                label{
-                    margin: 0;
-                    padding: 0;
-                }
-            }
-       }
-   }
 // Buzz Table
     // Normal Table
         .buzz-table{
@@ -1140,6 +1144,7 @@
 // V Modal
     .v--modal{
         width: 620px !important;
+        min-height: 300px;
         height: auto !important;
         top: 50px !important;
         left: 30.5% !important;
@@ -1153,6 +1158,7 @@
                 font-size: 23px;
                 color: $modal-title;
                 font-family: $lato-semi;
+                margin-bottom: 20px;
             }
             .add-members{
                 margin-top: 25px;
@@ -1181,7 +1187,7 @@
                 }
             }
             .modal-options{
-                margin: 25px -10px 0px -10px;
+                margin: 0px -10px;
                 .option{
                     display: inline-block;
                     width: 100%;

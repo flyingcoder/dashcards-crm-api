@@ -1,20 +1,20 @@
 <template>
-    <section class="content hq-reports">
+    <section class="content Reports">
         <div class="content-body">
             <section class="buzz-section">
-                <div class="button-options">
+                <div class="head-page-option">
                     <ul class="nav nav-tabs">
                         <li>
-                            <button @click="$modal.show('add-report')">
-                                New Report
+                            <button @click="$modal.show('add-link')">
+                                Add Link
                             </button>
                         </li>
                         <li>
-                            <button @click="$modal.show('add-from-template')">
-                                Add From Template
+                            <button>
+                                Save
                             </button>
                         </li>
-                        <!-- <li class="sort">
+                        <li class="sort">
                                 <el-dropdown trigger="click" placement="bottom">
                                 <el-button size="small" class="el-dropdown-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -38,32 +38,23 @@
                                     </el-dropdown-item>
                                 </el-dropdown-menu>  
                             </el-dropdown>
-                        </li> -->
+                        </li>
                     </ul>
                 </div>
-                <div class="buzz-table">
-                    <reports></reports>
-                </div>
             </section>
+            <add-link></add-link>
         </div>
-        <add-report></add-report>
-        <add-from-template></add-from-template>
     </section>
 </template>
 
 
 <script>
-
-    import AddReport from './AddReport.vue';
-    import AddFromTemplate from './AddFromTemplate.vue';
-    import Reports from './Reports.vue';
+    import AddLink from './AddLink.vue';
 
     export default {
         props:['projectId','asset'],
         components: {
-            'add-report': AddReport,
-            'add-from-template': AddFromTemplate,
-            'reports': Reports,
+            'add-link': AddLink,
          },
         data(){
             return {

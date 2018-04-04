@@ -2,7 +2,7 @@
     <modal name="add-client" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content">
             <div class="buzz-modal-header"> {{ title }} </div>
-            <div class="buzz-scrollbar buzz-form2" id="buzz-scroll">
+            <div class="buzz-scrollbar" id="buzz-scroll">
                 <el-form ref="form" :model="form" :rules="rules" label-position="top" v-loading="isProcessing" style="width: 100%">                    
                     <div class="buzz-modal-content">
                         <el-form-item label="Full Name" prop="name">
