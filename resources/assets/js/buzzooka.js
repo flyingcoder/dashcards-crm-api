@@ -56,7 +56,7 @@ Vue.component('avatar',Avatar);
   })
 
   Vue.filter('momentAgo', function(value){
-      var hours = (Math.abs(Date.parse(value) - Date.now()) / 1000) /3600;
+      var hours = ((Math.abs(Date.parse(value) - Date.now()) / 1000) /3600) * -1;
       return moment.duration(hours, 'hours').humanize();
   })
 /**
