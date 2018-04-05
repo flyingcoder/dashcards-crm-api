@@ -37,7 +37,7 @@
         margin-top: 20px;
         .el-tabs__header{
             border-bottom: none !important;
-            margin: 0 !important;
+            margin: 0 0 20px !important;
         }
         .el-tabs{
             .el-tabs__nav{
@@ -595,9 +595,58 @@
                 }
             }
             .field-options{
+                display: block;
                 position: relative;
                 bottom: 28px;
                 border-top: $table-border !important;
+                height: 43px;
+                padding: 5px 10px;
+                border: $table-border;
+                border-top: none !important;
+                border-radius: 0 0 8px 8px;
+                box-shadow: $body-shadow;
+                background: $input2-bg !important;
+                button{
+                    position: relative;
+                    height: 100%;
+                    width: 35px;
+                    display: inline-block;
+                    top: 0;
+                    border: none;
+                    padding: 0;
+                    margin: 0 3px;
+                    span{
+                        position: relative;
+                        top: 0;
+                        margin: 0;
+                        width: 35px;
+                        font-size: 11.3px;
+                        line-height: 1.2;
+                        display: table-caption !important;
+                        color: $table-status-text;
+                        font-family: $lato-mid;
+                    } 
+                    svg{
+                        fill: $modal-icon;
+                        padding: 0;
+                        margin: 0;
+                        &:hover{
+                            fill: $modal-hover;
+                        }
+                    }
+                }
+                .send{
+                    font-size: 11.3px;
+                    width: 70px;
+                    span{
+                        width: 70px;
+                    }
+                }
+                .border{
+                    background: $modal-input;
+                    border-radius: 3px;
+                    border: 1px solid $modal-icon !important;
+                }
             }
         } 
     }

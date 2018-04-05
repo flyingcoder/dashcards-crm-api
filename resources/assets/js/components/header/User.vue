@@ -1,7 +1,7 @@
 <template>
     <li>
         <a href="#">
-            <img src="img/temporary/user.png" id="user-image">
+            <img src="/img/temporary/user.png" id="user-image">
             <span>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40px" height="17px">
                 <path fill-rule="evenodd"  fill="rgb(103, 116, 130)"
