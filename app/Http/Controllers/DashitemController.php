@@ -29,4 +29,31 @@ class DashitemController extends Controller
 
     	return $item_sequence;
     }
+
+    public function visibility($dashboard_id)
+    {
+        $dashboard = Dashboard::findOrFail($dashboard_id);
+
+        $item_sequence = request()->item_sequence;
+
+        if($dashboard->dashitems->count() != 0){
+            foreach ($dashboard->dashitems as $key => $item) {
+                foreach ($item_sequence as $key => $seq) {
+                    if($item->slug == $seq['slug'] && $item->pivot->order != $seq['visible']){
+                        $dashboard->dashitems()->updateExistingPivot($item->id, ['visible' => $seq['visible']]);
+                    }
+                }
+            }
+        } else {
+            foreach ($item_sequence as $key => $item) {
+                $dashitem = Dashitem::where('slug', $item['slug'])->first();
+                $dashboard->dashitems()->attach($dashitem, [
+                        'visible' => $item['visible'], 
+                        'order' => $key+1
+                    ]);
+            }
+        }
+
+        return $item_sequence;
+    }
 }

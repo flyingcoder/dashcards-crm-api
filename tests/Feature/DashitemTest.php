@@ -95,4 +95,58 @@ class DashitemTest extends TestCase
     	//dd($response->content());
     	$response->assertStatus(200);
     }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testDashboardVisibility()
+    {
+        $user = User::find(1);
+
+        $data = [
+            'item_sequence' => [
+                [
+                    'slug' => 'calendar',
+                    'visible' => 0
+                ],
+                [
+                    'slug' => 'tasks',
+                    'visible' => 1
+                ],
+                [
+                    'slug' => 'timeline',
+                    'visible' => 1
+                ],
+                [
+                    'slug' => 'passbox',
+                    'visible' => 1
+                ],
+                [
+                    'slug' => 'timer',
+                    'visible' => 1
+                ],
+                [
+                    'slug' => 'clients',
+                    'visible' => 1
+                ],
+                [
+                    'slug' => 'payment',
+                    'visible' => 1
+                ],
+                [
+                    'slug' => 'invoice',
+                    'visible' => 0
+                ]
+            ]
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put('api/dashitems/1/visibility', $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
 }
