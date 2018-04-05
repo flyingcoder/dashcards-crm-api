@@ -1,4 +1,29 @@
 .teams{
+    .head-page-option{
+        ul{
+            li{
+                svg{
+                    fill: $table-head;
+                }
+                &:hover{
+                    svg{
+                        fill: $table-data;
+                    }
+                }
+            }
+            .view{
+                box-shadow: none !important;
+                a{
+                    border: none !important;
+                }
+            }
+            .active{
+                svg{
+                    fill: $table-data;
+                }
+            }
+        }
+    }
     .box-head{
         height: 86px;
         padding: 30px 0;
@@ -22,7 +47,9 @@
         }
     }
     .box-body{
+        height: 1475px !important;
         background: $gray-bg !important;
+        margin-top: 20px !important;
         @extend .buzz-scrollbar;
         .member-box{
             padding-bottom: 45px;
