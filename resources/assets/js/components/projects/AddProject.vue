@@ -22,11 +22,7 @@
                                     <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
                                     <el-date-picker
                                         :clearable="false"
-<<<<<<< HEAD
-                                        v-model="form.due_date"
-=======
                                         v-model="form.end_at"
->>>>>>> de9995446b70ea4f62a589c2d5965627efd4ee65
                                         type="date"
                                         placeholder="Due Date">
                                     </el-date-picker>
@@ -55,34 +51,20 @@
                         <el-form-item>
                             <el-select v-model="form.client" clearable placeholder="Select Client">
                                 <el-option
-<<<<<<< HEAD
-                                v-for="item in clients"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-=======
                                 v-for="c in clients"
                                 :key="c.id"
                                 :label="c.company_name"
                                 :value="c.id">
->>>>>>> de9995446b70ea4f62a589c2d5965627efd4ee65
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item>
                             <el-select v-model="form.service" clearable placeholder="Select Service">
                                 <el-option
-<<<<<<< HEAD
-                                v-for="item in services"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-=======
                                 v-for="s in services"
                                 :key="s.id"
                                 :label="s.name"
                                 :value="s.id">
->>>>>>> de9995446b70ea4f62a589c2d5965627efd4ee65
                                 </el-option>
                             </el-select>
                         </el-form-item>
