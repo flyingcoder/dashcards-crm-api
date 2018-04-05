@@ -101,7 +101,7 @@ class DashitemTest extends TestCase
      *
      * @return void
      */
-    public function testDashboard()
+    public function testDashboardVisibility()
     {
         $user = User::find(1);
 
@@ -109,35 +109,35 @@ class DashitemTest extends TestCase
             'item_sequence' => [
                 [
                     'slug' => 'calendar',
-                    'visible' => true
+                    'visible' => 0
                 ],
                 [
                     'slug' => 'tasks',
-                    'visible' => true
+                    'visible' => 1
                 ],
                 [
                     'slug' => 'timeline',
-                    'visible' => true
+                    'visible' => 1
                 ],
                 [
                     'slug' => 'passbox',
-                    'visible' => true
+                    'visible' => 1
                 ],
                 [
                     'slug' => 'timer',
-                    'visible' => false
+                    'visible' => 1
                 ],
                 [
                     'slug' => 'clients',
-                    'visible' => false
+                    'visible' => 1
                 ],
                 [
                     'slug' => 'payment',
-                    'visible' => false
+                    'visible' => 1
                 ],
                 [
                     'slug' => 'invoice',
-                    'visible' => false
+                    'visible' => 0
                 ]
             ]
         ];
@@ -146,7 +146,7 @@ class DashitemTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put('api/dashitems/1/visibility', $data);
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 }
