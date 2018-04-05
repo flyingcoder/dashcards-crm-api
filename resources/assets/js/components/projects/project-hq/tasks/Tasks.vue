@@ -51,7 +51,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr  v-for="t in filteredTasks" :key="t.id">
+                        <tr  v-for="t in filteredTasks" :key="t.id" @click="clickTask(t)">
                             <td> 
                                 <div class="hover-display"> 
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -62,8 +62,11 @@
                                 </div> 
                             </td>
                             <td> 
-                                <span class="buzz-overflow task-project"> {{ t.project }} </span>
-                                <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
+                                <span class="buzz-overflow task-project"> {{ t.title }} </span>
+                                <span class="assigned-project"> assigned to {{
+                                    t.assigned == null ? '' :
+                                    t.assigned[0].first_name + ' ' + t.assigned[0].last_name 
+                                    }}. {{ t.created_at | momentAgo}} </span>
                             </td>
                             <td> 
                             <span class="status"> {{ t.status }} </span>
@@ -73,17 +76,18 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade tab-table active show in" id="all-task">
+            <div class="tab-pane fade tab-table active show in" id="all-task" >
                 <table>
                     <thead>
                         <tr>
                             <th> </th>
+                            <th> Assignee </th>
                             <th> Project </th>
                             <th> Status </th>
                         </tr>
                     </thead>
                     <tbody class="buzz-scrollbar" id="buzz-scroll">
-                        <tr  v-for="t in filteredTasks" :key="t.id">
+                        <tr  v-for="t in filteredTasks" :key="t.id" @click="clickTask(t)">
                             <td> 
                                 <div class="hover-display"> 
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -93,9 +97,14 @@
                                     </svg> 
                                 </div> 
                             </td>
+                            <!-- <td> <img :src="'/' + t.assignee[0].image_url"> </td> -->
+                            <td> <img src="/img/temporary/user1.png"> </td>
                             <td> 
-                                <span class="buzz-overflow task-project"> {{ t.project }} </span>
-                                <span class="assigned-project"> assigned to {{ t.assigned_to }} . {{ t.assign_date }} </span>
+                                <span class="buzz-overflow task-project"> {{ t.title }} </span>
+                                <span class="assigned-project"> assigned to {{
+                                    t.assigned == null ? '' :
+                                    t.assigned[0].first_name + ' ' + t.assigned[0].last_name 
+                                    }}. {{ t.created_at | momentAgo}} </span>
                             </td>
                             <td> 
                             <span class="status"> {{ t.status }} </span>
@@ -135,13 +144,13 @@ export default {
 mounted(){
       this.getMyTasks();
       this.getAllTasks();
-      this.filterTasks('my' , 'all');
   },
   methods:{
-      getMyTasks(){
+      getAllTasks(){
           axios.get('/api/projects/' + this.projectId + '/tasks')
           .then( response => {
-              this.myTasks = response.data.data;
+            this.allTasks = response.data.data;   
+            this.filterTasks('all' , 'all');   
           })
           .catch( error => {
               if(error.response.status == 500 || error.response.status == 404){
@@ -149,11 +158,12 @@ mounted(){
               }
           });
       },
-      getAllTasks(){
+      
+      getMyTasks(){
           axios.get('/api/projects/' + this.projectId + '/tasks/mine')
           .then( response => {
+            this.myTasks = response.data.data;              
               
-              this.allTasks = response.data.data;
           })
           .catch( error => {
               if(error.response.status == 500 || error.response.status == 404){
@@ -162,6 +172,8 @@ mounted(){
           });
       },
       filterTasks(filter, option){
+          this.taskOption = option;
+          this.taskFilter = filter;
           if(filter == 'my'){
               if(option == 'all'){
                   this.filteredTasks = this.myTasks;
@@ -177,17 +189,21 @@ mounted(){
           }
           else{
               if(option == 'all'){
-                  this.filteredTasks = this.allTasks;
+                  this.filteredTasks = this.allTasks;                                                             
               }
               else {
                   this.filteredTasks = _.filter(this.allTasks, { status: option });
               }
-              this.filteredTasks = _.filter(this.allTasks, { status: option });
               this.taskCount.all = this.allTasks.length;
               this.taskCount.completed = _.filter(this.allTasks, { status: 'completed'}).length;
               this.taskCount.pending = _.filter(this.allTasks, { status: 'pending'}).length;
               this.taskCount.behind = _.filter(this.allTasks, { status: 'behind'}).length;
           }
+      },
+      clickTask(val){
+          this.$emit('clickTask', {
+            task: val
+            });
       }
   }
 }

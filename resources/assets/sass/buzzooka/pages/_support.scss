@@ -1,0 +1,136 @@
+.support{
+    .advanced-supp{
+        padding: 30px;
+        text-align: center;
+        height: 470px;
+        width: 100%;
+        background: $advanced-bg;
+        h1{
+            margin: 0;
+            padding: 60px 0;
+            font-family: $lato;
+            font-weight: 300;
+            color: $black;
+            span{
+                font-weight: 500;
+            }
+        }
+        .el-autocomplete{
+            width: 55%;
+            input{
+                border: $support-border;
+                border-radius: 5px;
+                background-color: $white;
+                box-shadow:  $support-inset;
+                height: 64px;
+                font-size: 25px;
+                &::placeholder{
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+    .helpSupport{
+        position: relative;
+        height: 1060px;
+        background: $white;
+        margin: 0 20px;
+        padding: 30px;
+        bottom: 135px;
+        text-align: center;
+        h1{
+            margin: 0;
+            font-family: $lato;
+            font-weight: 600;
+            color: $support-text;
+        }
+        .support-info{
+            padding-top: 80px;
+            h3{
+                margin: 30px 0 20px;
+                color: $support-text;
+                font-size: 21px;
+            }
+            p{
+                font-size: 16px;
+                color: $table-data;
+            }
+        }
+        .browse-article{
+            padding: 30px 0 80px;
+            a{
+                font-size: 16px;
+                color: $support-text;
+            }
+        }
+        .apidocs{
+            text-align: left;
+            height: auto;
+            background: $apidocs-bg;
+            margin: 0 5.5%;
+            padding: 25px 40px;
+            border: $build-border;
+            border-radius: 5px;
+            h3{
+                margin: 15px 0 20px;
+                color: $support-text;
+                font-size: 22px;
+            }
+            p{
+                margin-bottom: 30px;
+                color: $table-data;
+                font-size: 14px;
+            }
+            img{
+                position:relative;
+                top: 20px;
+                right: 20px;
+            }
+            .reg-btn{
+                border-radius: 5px;
+                background-color: $support-text;
+                color: $white;
+            }
+            button{
+                font-size: 14px;
+                height: 45px;
+                color: $support-text;
+                padding: 0 20px;
+            }
+        }
+        .support-options{
+            ul{
+                list-style:none;
+                margin: 50px 0;
+                padding: 0;
+                li{
+                    display: inline-block;
+                    margin: 15px 20px;
+                    a{
+                        .icon-container{
+                            background:  $supp-icon-bg;
+                            border-radius: 50%;
+                            width: 80px;
+                            height: 80px;
+                            padding: 20px;
+                        }
+                        svg{
+                            fill: $support-icon;
+                        }
+                        h6{
+                            font-size: 14px;
+                            color: $table-data;
+                            margin-top: 20px;
+                        }
+                    }
+                    &:hover{
+                        svg,h6{
+                            color: $support-text;
+                            fill: $support-text;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@
                 <tasks :project-id="$parent.projectId" v-on:clickTask="clickTask"></tasks>
             </div>
             <div class="col-md-6 ">
-                <task-info></task-info>
+                <task-info :task="task"></task-info>
             </div>
         </div>
         <add-task></add-task>
@@ -24,13 +24,14 @@
         },
         data(){
             return {
-                taksId : 0,
+                task : [],
             }
         },
         methods:{
             clickTask(val){
-                this.taksId = val.id;
-            }
+                this.task = val.task;
+            },
+            
         }
     
     }
