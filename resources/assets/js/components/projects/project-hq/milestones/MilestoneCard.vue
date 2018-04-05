@@ -9,7 +9,7 @@
             </div>
             <div class="box-content buzz-scrollbar" id="buzz-scroll">
                 <div class="milestone-group" id="milestone-1">
-                    <div class="milestone"  v-for="t in data.tasks" :key="t.id">
+                    <div class="milestone"  v-for="t in data.tasks" :key="t.id" @click="showTask">
                         <div class="milestone-heading">
                             <a href="#milestone-element-1" data-parent="#milestone-1" class="collapsed milestone-title" data-toggle="collapse">
                                 <span> {{ t.title }} </span>  
@@ -51,24 +51,39 @@
                 <a href="#"> Add New </a>
             </div>
         </div>
+        <modal name="comments" transition="nice-modal-fade">
+            <section class="content">
+                <task-info :task="task"></task-info>
+            </section>
+        </modal>
     </div>
 </template>
 
 <script>
     import BoxOption from '../../../box-option.vue';
-    
+    import TaskInfo from '../tasks/TaskInfo.vue'
     export default {
         components: {
             'box-option': BoxOption,
+            'task-info': TaskInfo,
         },
         props: ['data'],
+        data(){
+            return {
+                task: []
+            }
+        },
         methods:{
-        addTask(val){
-            this.$emit('addTask', {
-            id: this.data.id,
-            task: val
-            });
-        }
+            addTask(val){
+                this.$emit('addTask', {
+                id: this.data.id,
+                task: val
+                });
+            },
+            showTask(val){
+                this.task = val;
+                this.$modal.show('comments');
+            }
         }
     }
 </script>
