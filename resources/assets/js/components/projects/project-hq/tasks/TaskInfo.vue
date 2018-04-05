@@ -201,7 +201,7 @@
                 id: 0,
                 oldName: '',
                 isProcessing: false,
-                comment: '',
+                comments: '',
                 form: {
                     body: ''
                 },
@@ -218,7 +218,7 @@
             addComments(){
                 axios.post('/api/tasks/' + this.task.id + '/comments', this.form)
                 .then( response => {
-                    console.info(response.data)
+                    this.getComments()
                 })
                 .catch( error => {
                     if(error.response.status == 500 || error.response.status == 404){
@@ -229,7 +229,7 @@
             getComments(){
                 axios.get('/api/tasks/' + this.task.id + '/comments')
                 .then( response => {
-                    console.info(response.data)
+                    this.comments = response.data;
                     this.isShow = true;
                 })
                 .catch( error => {
