@@ -55,7 +55,6 @@
                 <alarm></alarm>
                 <timer></timer>
             </div>
-            
         </div>
     </div>
 </template>

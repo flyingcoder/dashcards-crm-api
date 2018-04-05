@@ -2,4 +2,28 @@
     .content-body{
        @extend .buzz-table;
     }
+    .tabs{
+        position: relative;
+        .timer-tabs{
+            position: absolute;
+            width: 96%;
+            height: 60px;
+            top: 108px;
+            margin: 0 23px;
+            z-index: 100;
+            li{
+                text-align: center;
+                width: 50%;
+                height: 100%;
+                @extend .buzz-matrix;
+                a{
+                    padding-top: 15px;
+                    color: $table-data;
+                    letter-spacing: 0.5px;
+                    font-size: 18px;
+                    height: 100%;
+                }
+            }
+        }
+    }
 }
