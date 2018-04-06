@@ -44,6 +44,70 @@ class UserController extends Controller
         return $clients;
     }*/
 
+    public function getMeta($key)
+    {
+        $company = auth()->user()->company();
+
+        return $company->getMeta($key);
+    }
+
+    public function addPaypalDetails()
+    {
+        $company = auth()->user()->company();
+
+        $company->setMeta('paypal-details', [
+            'gateway_active' => request()->gateway_active,
+            'paypal_email_address' => request()->paypal_email_address,
+            'currency' => request()->currency,
+            'paypal_ipn' => request()->paypal_ipn,
+        ]);
+
+        return $company;
+    }
+
+    public function addBankTransferDetails()
+    {
+        $company = auth()->user()->company();
+
+        $company->setMeta('bank-transfer-details', [
+            'gateway_active' => request()->gateway_active,
+            'payment_instructions' => request()->payment_instructions
+        ]);
+
+        return $company;
+    }
+
+    public function addInvoiceSettings()
+    {
+        $company = auth()->user()->company();
+
+        $company->setMeta('invoice-settings', [
+            'allow_partial_payment' => request()->allow_partial_payment,
+            'email_overdue_reminder' => request()->email_overdue_reminder,
+            'notes' => request()->notes
+        ]);
+
+        return $company;
+    }
+
+    public function addCompanyDetails()
+    {
+        $company = auth()->user()->company();
+
+        $company->setMeta('details', [
+            'address_line' => request()->address_line,
+            'city' => request()->city,
+            'state' => request()->state,
+            'zip_code' => request()->zip_code,
+            'country' => request()->country,
+            'telephone' => request()->telephone,
+            'from_name' => request()->from_name,
+            'email_signature' => request()->email_signature
+        ]);
+
+        return $company;
+    }
+
     public function projects()
     {
         return auth()->user()->userPaginatedProject(request());

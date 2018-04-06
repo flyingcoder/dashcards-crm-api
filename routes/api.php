@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
 
 Route::get('activities', 'ActivityController@index');
 
+//company
+Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
+  Route::get('/', 'CompanyController@index');
+});
+
 //events
 Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
   
@@ -42,6 +47,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitems'], function () 
 
   Route::put('{dashboard_id}/order', 'DashitemController@changeOrder');
 
+  Route::put('{dashboard_id}/visibility', 'DashitemController@visibility');
+
 });
 
 //dashboard
@@ -65,6 +72,18 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/', 'UserController@user');
+
+  Route::get('/company/{key}', 'UserController@getMeta');
+
+  Route::post('/company/details', 'UserController@addCompanyDetails');
+
+  Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
+
+  Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
+
+  Route::post('/company/bank-transfer-details', 'UserController@addBankTransferDetails');
+
+  Route::post('/company/paypal-details', 'UserController@addPaypalDetails');
 
   Route::get('/tasks', 'UserController@tasks');
 
