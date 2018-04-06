@@ -11,6 +11,7 @@
             <el-tabs type="border-card" class="task-option">
                 <el-tab-pane label="All Task">
                     <list-alltask></list-alltask>
+                    <!-- <task-selected></task-selected> -->
                 </el-tab-pane>
                 <el-tab-pane label="My Task">
                     <list-mytask></list-mytask>
@@ -44,6 +45,7 @@
     import ListMyTask from './ListMyTask.vue';
     import GridAllTask from './GridAllTask.vue';
     import GridMyTask from './GridMyTask.vue';
+    import TaskSelected from './TaskSelected.vue';
 
   export default {
       components: {
@@ -51,6 +53,7 @@
             'list-mytask': ListMyTask,
             'grid-alltask': GridAllTask,
             'grid-mytask': GridMyTask,
+            'task-selected': TaskSelected,
         },
     data() {
       return {

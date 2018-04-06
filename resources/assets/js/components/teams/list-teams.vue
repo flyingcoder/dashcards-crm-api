@@ -11,9 +11,9 @@
                 <el-table-column sortable prop="location" label="Location"></el-table-column>
                 <el-table-column sortable prop="total_hours" label="Total Hours"></el-table-column>
                 <el-table-column sortable prop="assigned_project" label="Assigned Project"></el-table-column>
-                <el-table-column fixed="right" label="Icon">
+                <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
-                        <a href="#">
+                        <a href="#" @click="edit(scope.row)">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="16px" height="16px">
                                 <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -65,6 +65,9 @@
       },
 
       methods: {
+        renderHeader(h,{column,$index}){
+            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
+        },
         getMyProjects(){
             axios.get('api/projects/mine')
                  .then( response => {

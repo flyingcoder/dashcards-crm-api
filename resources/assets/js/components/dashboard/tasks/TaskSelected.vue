@@ -16,7 +16,7 @@
                     v-model="value1"
                     format="MM dd, yyyy"
                     type="date"
-                    placeholder="">
+                    placeholder="March 15, 2018">
                 </el-date-picker>
             </div>
             <div class="selected-option">

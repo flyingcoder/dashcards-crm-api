@@ -259,6 +259,8 @@
     import Timer from './timer/Index.vue';
     import Invoice from './invoice/Index.vue';
     import Passbox from './passbox/passbox-edit.vue';
+    // import Passbox from './passbox/passbox-client.vue'; 
+    // import Passbox from './passbox/passbox-login.vue';
 
     export default {
         components: {
