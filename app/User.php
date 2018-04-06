@@ -173,6 +173,7 @@ class User extends Authenticatable
         return $this->teams()->first()->company;
     }
 
+    /*
     public static function boot()
     {
 
@@ -208,5 +209,5 @@ class User extends Authenticatable
                 }
             }
         });
-    }
+    }*/
 }
