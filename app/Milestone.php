@@ -60,6 +60,7 @@ class Milestone extends Model
     	return $this->hasMany(Task::class);
     }
 
+    /*
     public static function boot()
     {
 
@@ -95,5 +96,5 @@ class Milestone extends Model
                 }
             }
         });
-    }
+    }*/
 }

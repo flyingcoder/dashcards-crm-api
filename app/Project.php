@@ -257,7 +257,7 @@ class Project extends Model implements HasMediaConversions
      *
      */
     
-
+    /*
     public static function boot()
     {
         if(!is_null(Auth::user())) {
@@ -295,5 +295,5 @@ class Project extends Model implements HasMediaConversions
                 }
             }
         });
-    }
+    }*/
 }
