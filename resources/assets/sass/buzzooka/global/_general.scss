@@ -1640,6 +1640,9 @@
             background: $white;
             border: $table-border;
             .ql-editor{
+                &:before{
+                    font-style: normal !important;
+                }
                 // height: 100px !important;
                 // margin-bottom: 100px;
             }

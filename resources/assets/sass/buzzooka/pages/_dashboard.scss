@@ -276,43 +276,38 @@
                     table{
                         width: 100%;
                         thead, tbody tr {
-                             display:table;
-                             width:100%;
-                             table-layout:fixed;
-                         }
-                         thead{
+                            display:table;
+                            width:100%;
+                            table-layout:fixed;
+                        }
+                        thead{
                             tr{
-                             height: 60px;
-                             border-bottom: $border-buzz;
-                             font-size: 16px;
-                             letter-spacing: 0.5px;
-                             background: $gray-bg;
-                             color: $table-head;
-                             @extend .page-title;
-                             th{
-                                 &:first-child{
-                                    //  width: 45px;
-                                 }
-                                 &:nth-child(2){
-                                     width: 18%;
-                                 }
-                                 &:nth-child(3){
-                                     width: 53%;
-                                 }
-                                 &:last-child{
-                                     position: relative;
-                                     left: 15px;
-                                     width: 19%;
-                                 }
-                             }
+                                height: 60px;
+                                border-bottom: $border-buzz;
+                                font-size: 16px;
+                                letter-spacing: 0.5px;
+                                background: $gray-bg;
+                                color: $table-head;
+                                @extend .page-title;
+                                th{
+                                    &:first-child{
+                                        width: 50px;
+                                    }
+                                    &:last-child{
+                                        position: relative;
+                                        left: 15px;
+                                        width: 19%;
+                                    }
+                                }
                             }
                         }
                         tbody{
-                         display:block;
-                         height: 243px !important;
+                            display:block;
+                            height: 243px !important;
                             tr{
                                 height: 81px;
                                 border-bottom: $border-buzz;
+                                cursor: pointer;
                                 &:hover{
                                     .hover-display{
                                         display: table-cell;
@@ -324,69 +319,66 @@
                                 &:nth-child(even){
                                     background: $white;
                                 }
-                                .hover-display{
-                                    position: relative;
-                                    left: 15px;
-                                }
                                 td{
                                     position: relative;
-                                    img{
-                                        width: 55px;
-                                        border-radius: 50%;
-                                    }
                                     &:first-child{
-                                        // width: 45px;
-                                    }
-                                    &:nth-child(2){
-                                     width: 18%;
-                                    }
-                                    &:nth-child(3){
-                                     width: 53%;
-                                     padding-right: 25px;
-                                     @extend .buzz-overflow;
+                                        width: 50px;
                                     }
                                     &:last-child{
                                         left: 15px;
                                         width: 19%;
                                     }
-                                    
                                 }
-                                .task-project{
-                                     position: relative;
-                                     bottom: 10px;
-                                     font-family: $lato-mid;
-                                     color: $gray-3;
-                                     font-size: 19px;
-                                }
-                                .assigned-project{
-                                     position:absolute;
-                                     display: block;
-                                     color: $gray-4;
-                                     font-size: 11.5px;
-                                     top:40px;
+                                .hover-display{
+                                    position: relative;
+                                    left: 15px;
                                 }
                                 .status{
-                                     position: relative;
-                                     top: 5px;
-                                     color: $gray-4;
-                                     font-size: 12px;
+                                    position: relative;
+                                    top: 5px;
+                                    color: $gray-4;
+                                    font-size: 12px;
+                                    text-transform: capitalize;
                                 }
                                 .progress{
-                                     position: relative;
-                                     top: 5px;
-                                     width: 70%;
-                                     height: 6px;
-                                     border-radius: 20px;
+                                    position: relative;
+                                    top: 5px;
+                                    width: 60px;
+                                    height: 6px;
+                                    border-radius: 20px;
                                 }
                                 .completed{
-                                     background: $green;
+                                    background: $green;
                                 }
                                 .pending{
-                                     background: $orange-tile-6;
+                                    background: $orange-tile-6;
                                 }
                                 .behind{
-                                     background: $orange-tile-1;
+                                    background: $orange-tile-1;
                                 }
+                            }
+                        }
+                        .assignee{
+                            width: 90px;
+                            img{
+                                width: 55px;
+                                border-radius: 100%;
+                            }
+                        }
+                        .projects{
+                            .task-project{
+                                position: relative;
+                                bottom: 10px;
+                                font-family: $lato-mid;
+                                color: $gray-3;
+                                font-size: 19px;
+                            }
+                            .assigned-project{
+                                position:absolute;
+                                display: block;
+                                color: $gray-4;
+                                font-size: 11.5px;
+                                top:40px;
                             }
                         }
                     }
@@ -478,8 +470,6 @@
             }
             .selected-task{
                 .el-progress-bar{
-                    position: relative;
-                    top: -5px;
                     padding: 0;
                     transform: rotate(180deg);
                     .el-progress-bar__inner{
@@ -487,54 +477,65 @@
                     }
                 }
                 .task-head{
-                    height: 70px;
-                    border-bottom: $section-border;
+                    height: 60px;
+                    padding: 8px 15px 5px 10px;
+                    border-bottom: $table-border;
                     .user-info{
-                        vertical-align: top;
-                        margin-left: 5px;
-                        img{
-                            width: 41px;
-                            border-radius: 50%;
-                            border: $table-border;
-                        }
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                    .avatar{
+                        width: 41px !important;
+                        height: 41px !important;
+                        border-radius: 50%;
+                        border: $table-border;
                         span{
-                            font-size: 14.93px;
-                            color: $chat-name;
-                            line-height: 1.2;
-                            margin: 3px;
-                            vertical-align: middle;
+                            position: relative;
+                            font-size: 16px;
+                            bottom: 7px;
                         }
+                    }
+                    .name{
+                        width: 60% !important;
+                        font-size: 14.93px;
+                        color: $chat-name;
+                        line-height: 1.2;
+                        margin-left: 15px;
+                        font-family: $lato; 
+                        @extend .buzz-overflow;
                     }
                     .date{
                         position: relative;
-                        width: 155px;
-                        margin-left: 2%;
-                        svg, img{
-                            position: absolute;
-                            top: 10px;
-                            left: 15px;
+                        padding: 0;
+                        svg, img, span{
+                            display: inline-block;
+                            vertical-align: middle;
+                            height: 41px;
+                            line-height: 41px;
                         }
-                        input{
-                            width: 155px;
-                            padding: 0 !important;
-                            text-align: center;
-                            text-indent: 25px;
-                            color: $red;
-                            font-family: $lato-mid;
-                            &:focus{
-                                border: $table-border;
-                            }
+                        svg, img{
+                            position: relative;
+                            top: 10px;
+                            margin-right: 10px;
+                        }
+                        span{
+                            font-family: $lato;
+                            color: $chat-name;
+                            font-size: 15px;
+                            color:  $red;
                         }
                     }
                     .selected-option{
                         position: relative;
-                        float: right;
                         border: none;
+                        padding: 0;
                         ul{
                             border: none;
+                            float: right;
                             li{
-                                width: 39px;
-                                height: 39px;
+                                top: 2px;
+                                width: 35px;
+                                height: 35px;
                                 border-radius: 50%;
                                 border: $table-border;
                                 margin-right: 7px;
@@ -543,162 +544,306 @@
                                         position: relative;
                                     }
                                 }
-                                .attachment{
-                                    svg{
-                                        top: 7px;
-                                        left: 3px;
-                                    }
-                                }
                                 .sort{
                                     svg{
-                                        top: 5px;
-                                        left: 2px;
+                                        top: 4px;
+                                        left: 0px;
                                     }
                                 }
                                 .selected-close{
                                     svg{
-                                        top: 11px;
-                                        left: 6px;
+                                        top: 8.5px;
+                                        left: 4px;
                                     }
                                 }
                             }
                         }
                     }
-                    .user-info, .date, .selected-option{
-                        display: inline-block;
-                        margin-top: 12px;
-                    }
-                    .el-input__icon{
-                        display: none;
+                }
+                .options{
+                    ul{
+                        list-style: none;
+                        padding: 0;
+                        li{
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: 30%;
+                            height: 42px;
+                            padding: 0;
+                            margin-right: 2.5%;
+                            border: $table-border;
+                            border-radius: 3px;
+                            button{
+                                width: 100%;
+                                height: 100%;
+                                text-align: center;
+                                label, span{
+                                    color: $action-hover;
+                                    font-family: $lato-mid;
+                                    font-size: 15px;
+                                    font-weight: unset;
+                                    line-height: 38px;
+                                    @extend .buzz-overflow;
+                                }
+                            }
+                            .status{
+                                text-transform: capitalize;
+                            }
+                            .timer-btn{
+                                width: 30%;
+                                border-radius: 3px 0 0 3px;
+                                img, svg{
+                                    position:relative;
+                                    top: 0;
+                                }
+                                .onPlay, .onPause{
+                                    height: 100%;
+                                    width: 100%;
+                                    border-radius: 3px 0 0 3px;
+                                }
+                                .onPlay{
+                                    display: none;
+                                    background: $green;
+                                    img{
+                                        width: 10px;
+                                        height: 12px;
+                                    }
+                                }
+                                .onPause{
+                                    display: block;
+                                    background:  $file-video;
+                                    img{
+                                        width: 7px;
+                                        height: 13px;
+                                    }
+                                }
+                            }
+                            .play{
+                                .onPause{
+                                    display: none !important;
+                                }
+                                .onPlay{
+                                    display: block !important;
+                                }
+                            }
+                            .timer-btn, .hrs, .mins, .secs, .divider{
+                                display: inline-block;
+                                vertical-align: top;
+                                padding: 0;                        
+                            }
+                            .hrs, .mins, .secs, .divider{
+                                position: relative;
+                                vertical-align: text-bottom;
+                                text-align: center;
+                                font-size: 17px;
+                                color: $action-hover;
+                                bottom: 2px;
+                                small{
+                                    position: absolute;
+                                    font-size: 12px;
+                                    top: 20px;
+                                    font-family: $lato;
+                                }
+                            }
+                            .hrs, .mins, .secs{
+                                width: 19.3%;
+                            }
+                            .hrs{
+                                small{
+                                    left: 6px;
+                                }
+                            }
+                            .mins{
+                                small{
+                                    left: 7px;
+                                }
+                            }
+                            .secs{
+                                small{
+                                    left: 10px;
+                                }
+                            }
+                            .divider{
+                                border-left: $table-border;
+                                margin: 0;
+                            }
+                        }
                     }
                 }
                 .task-decription{
-                    height: 287px !important;
+                    height: 220px !important;
                     background: $white !important;
-                    padding: 20px 0 20px 50px;
+                    padding: 0px 20px 20px 60px;
+                    margin-top: 20px;
                     @extend .buzz-scrollbar;
                     @extend .buzz-scroll;
-                    .options{
-                        button{
-                            width: 30%;
-                            height: 42px;
-                            margin-right: 2.5%;
-                            font-size: 15px;
-                            font-family: $lato-mid;
-                            color: $action-hover;
-                            border: $table-border;
-                            border-radius: 3px;
-                        }
-                    }
                     .title{
                         color:  $milestone-title;
                         font-family: $lato-mid;
                         line-height: 1.2;
                         letter-spacing: 0.3px;
+                        font-size: 20px;
+                        margin: 0;
+                        margin-bottom: 20px;
                     }
                     .description{
                         font-size: 15px;
                         color: $table-data;
                         font-family: $lato-mid;
                         letter-spacing: 0.3px;
+                        margin-bottom: 20px;
                     }
-                }
-                .task-comment{
-                    height: 65px;
-                    border-top: $table-border;
-                    img{
-                        float:left;
-                        width: 41px;
-                        margin: 10px;
-                    }
-                    .el-textarea{
-                        width: 84% !important;
-                        margin: 10px 0 0 5px;
-                        textarea{
-                            padding: 12px;
-                            font-family: $lato-mid;
-                            font-size: 12px;
-                            color: $table-status-text;
-                            text-indent: 5px;
-                            &:focus{
-                                border-color: $table-border-color;
+                    .comment{
+                        margin-bottom: 20px;
+                        .member-img, .comment-info{
+                            display: inline-block;
+                        }
+                        .member-img{
+                            position: relative;
+                            left: -60px;
+                            width: 41px;
+                            height: 41px;
+                            border-radius: 50%;
+                            border: $table-border;
+                        }
+                        .comment-info{
+                            position: relative;
+                            top: 10px;
+                            left: -45px;
+                            margin-bottom: 5px;
+                            h4{
+                                color:  $chat-name;
+                                font-size: 15px;
+                                margin: 0;
+                                margin-bottom: 1px;
+                                font-family: $lato;
+                            }
+                            span{
+                                font-size: 12px;
+                                color: $member-info;
+                            }
+                        }
+                        .comment-text{
+                            margin-top: 20px;
+                            p{
+                                font-size: 15px;
+                                font-family: initial;
+                                color: $table-data;
+                            }
+                        }
+                        .comment-img{
+                            margin-top: 20px;
+                            overflow: auto;
+                            white-space: nowrap;
+                            ul{
+                                list-style: none;
+                                padding: 0;
+                                width: 350px;
+                                li{
+                                    display: inline-block;
+                                    margin-right: 10px;
+                                    img{
+                                        width: 90px;
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                .task-comment{
+                    height: 65px;
+                    .avatar{
+                        position: absolute;
+                        width: 41px;
+                        margin: 10px;
+                        z-index: 1;
+                    }
+                    .quill-editor{
+                        .ql-container{
+                            height: 60px;
+                            border: $table-border;
+                            border-radius: 5px;
+                            
+                            background: $gray-bg;
+                            .ql-editor{
+                                line-height: 1.2;
+                                height: 40px !important;
+                                // margin-bottom: 50px;
+                                padding: 10px 10px 0;
+                                margin: 10px 20px 0 60px;
+                                background: $white;
+                                &:before{
+                                    left: 70px !important;
+                                }
+                            }
+                        }
+                        .ql-toolbar{
+                            margin: 10px;
+                            .ql-formats{
+                                padding: 0 !important;
+                            }
+                            .ql-picker-label{
+                                top: 0 !important;
+                            }
+                        }
+                    }
+                    .field-options{
+                        display: block;
+                        position: relative;
+                        bottom: 28px;
+                        border-top: $table-border !important;
+                        height: 43px;
+                        padding: 5px 10px;
+                        border: $table-border;
+                        border-top: none !important;
+                        border-radius: 0 0 8px 8px;
+                        box-shadow: $body-shadow;
+                        background: $input2-bg !important;
+                        button{
+                            position: relative;
+                            height: 100%;
+                            width: 35px;
+                            display: inline-block;
+                            top: 0;
+                            border: none;
+                            padding: 0;
+                            margin: 0 3px;
+                            span{
+                                position: relative;
+                                top: 0;
+                                margin: 0;
+                                width: 35px;
+                                font-size: 11.3px;
+                                line-height: 1.2;
+                                display: table-caption !important;
+                                color: $table-status-text;
+                                font-family: $lato-mid;
+                            } 
+                            svg{
+                                fill: $modal-icon;
+                                padding: 0;
+                                margin: 0;
+                                &:hover{
+                                    fill: $modal-hover;
+                                }
+                            }
+                        }
+                        .send{
+                            font-size: 11.3px;
+                            width: 70px;
+                            span{
+                                width: 70px;
+                            }
+                        }
+                        .border{
+                            background: $modal-input;
+                            border-radius: 3px;
+                            border: 1px solid $modal-icon !important;
+                        }
+                    }
+                } 
             }
         }
-       /* .box-tabs{
-           ul{
-               height: 63px;
-               li{
-                   width: 50%;
-                   height: 62px;
-                   padding-top: 10px;
-                   text-align: center;
-                    &:first-child{
-                        border-right: $border-buzz;
-                    }
-                    a{
-                        background: none;
-                        border: none;
-                        font-weight: bold;
-                        text-transform: uppercase;
-                        font-size: 14px !important;
-                        color: $table-data;
-                        @extend .buzz-a;
-                    }
-               }
-               li.active{
-                   background: $gray-bg;
-               }
-           }
-           .tasks-status{
-               height: 69px;
-               padding: 22.5px 0;
-               text-align: center;
-               border-bottom: $border-buzz;
-               .option-list{
-                   display: inline-block;
-                   a{
-                       padding: 6px 4px 6px 16px;
-                       border-radius: 20px;
-                       font-size: 13.5px;
-                       font-family: $lato-semi;
-                       color: $table-head;
-                       background: $white;
-                       border: $border-buzz;
-
-                       &:active, &:hover{
-                        background: $blue-2;
-                        color: $white;
-                        border: 1px solid $blue-2;
-                       }
-
-                       label{
-                            padding: 2px 9px;
-                            margin-left: 15px;
-                            border-radius: 100%;
-                            background: $gray-2;
-                        span{
-                            position: relative;
-                            color: $white;
-                            top: 1px;
-                        }
-                       }
-                   }
-               }
-               .active{
-                   a{
-                        background: $blue-2;
-                        color: $white;
-                        border: 1px solid $blue-2;
-                   }
-               }
-           }
-           .tab-content{
-           }
-        } */
     }
     .db-timeline{
         position: relative;

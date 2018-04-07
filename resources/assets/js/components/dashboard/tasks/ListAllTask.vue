@@ -7,7 +7,7 @@
                 <thead>
                     <tr>
                         <th> </th>
-                        <th> Assignee </th>
+                        <th class="assignee"> Assignee </th>
                         <th> Project </th>
                         <th> Status </th>
                     </tr>
@@ -24,9 +24,9 @@
                             </div> 
                         </td>
                         <!-- <td> <img :src="'/' + t.assignee[0].image_url"> </td> -->
-                        <td> <img src="/img/temporary/user1.png"> </td>
-                        <td> 
-                            <span class="buzz-overflow task-project"> {{ t.title }} </span>
+                        <td class="assignee"> <img src="/img/temporary/user1.png"> </td>
+                        <td class="projects">
+                            <div class="buzz-overflow task-project"> {{ t.title }} </div>
                             <span class="assigned-project"> assigned to {{
                                  t.assigned == null ? '' :
                                  t.assigned[0].first_name + ' ' + t.assigned[0].last_name 

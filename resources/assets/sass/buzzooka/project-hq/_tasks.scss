@@ -113,6 +113,7 @@
                 width: 50%;
                 height: 62px;
                 padding-top: 10px;
+                background: $gray-bg;
                 text-align: center;
                 &:first-child{
                     border-right: $border-buzz;
@@ -128,7 +129,7 @@
                 }
             }
             li.active{
-                background: $gray-bg;
+                background: $white;
             }
         }
         .tasks-option{
@@ -185,34 +186,31 @@
                     }
                     thead{
                         tr{
-                        height: 60px;
-                        border-bottom: $border-buzz;
-                        font-size: 16px;
-                        letter-spacing: 0.5px;
-                        background: $gray-bg;
-                        color: $table-head;
-                        @extend .page-title;
-                        th{
-                            &:first-child{
-                                width: 10%;
+                            height: 60px;
+                            border-bottom: $border-buzz;
+                            font-size: 16px;
+                            letter-spacing: 0.5px;
+                            background: $gray-bg;
+                            color: $table-head;
+                            @extend .page-title;
+                            th{
+                                &:first-child{
+                                    width: 50px;
+                                }
+                                &:last-child{
+                                    position: relative;
+                                    left: 15px;
+                                    width: 19%;
+                                }
                             }
-                            &:nth-child(2){
-                                width: 53%;
-                            }
-                            &:last-child{
-                                position: relative;
-                                left: 15px;
-                                width: 19%;
-                            }
-                        }
                         }
                     }
                     tbody{
                         display:block;
-                        // height: 243px !important;
                         tr{
                             height: 81px;
                             border-bottom: $border-buzz;
+                            cursor: pointer;
                             &:hover{
                                 .hover-display{
                                     display: table-cell;
@@ -224,54 +222,31 @@
                             &:nth-child(even){
                                 background: $white;
                             }
-                            .hover-display{
-                                position: relative;
-                                left: 15px;
-                            }
                             td{
                                 position: relative;
-                                img{
-                                    width: 55px;
-                                    border-radius: 100%;
-                                }
                                 &:first-child{
-                                width: 10%;
-                                }
-                                &:nth-child(2){
-                                width: 53%;
-                                padding-right: 25px;
-                                @extend .buzz-overflow;
+                                    width: 50px;
                                 }
                                 &:last-child{
                                     left: 15px;
                                     width: 19%;
                                 }
-                                
                             }
-                            .task-project{
+                            .hover-display{
                                 position: relative;
-                                bottom: 10px;
-                                font-family: $lato-mid;
-                                color: $gray-3;
-                                font-size: 19px;
-                            }
-                            .assigned-project{
-                                position:absolute;
-                                display: block;
-                                color: $gray-4;
-                                font-size: 11.5px;
-                                top:40px;
+                                left: 15px;
                             }
                             .status{
                                 position: relative;
                                 top: 5px;
                                 color: $gray-4;
                                 font-size: 12px;
+                                text-transform: capitalize;
                             }
                             .progress{
                                 position: relative;
                                 top: 5px;
-                                width: 70%;
+                                width: 60px;
                                 height: 6px;
                                 border-radius: 20px;
                             }
@@ -284,6 +259,29 @@
                             .behind{
                                 background: $orange-tile-1;
                             }
+                        }
+                    }
+                    .assignee{
+                        width: 90px;
+                        img{
+                            width: 55px;
+                            border-radius: 100%;
+                        }
+                    }
+                    .projects{
+                        .task-project{
+                            position: relative;
+                            bottom: 10px;
+                            font-family: $lato-mid;
+                            color: $gray-3;
+                            font-size: 19px;
+                        }
+                        .assigned-project{
+                            position:absolute;
+                            display: block;
+                            color: $gray-4;
+                            font-size: 11.5px;
+                            top:40px;
                         }
                     }
                 }
