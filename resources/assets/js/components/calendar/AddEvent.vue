@@ -220,6 +220,7 @@
         },
     	data: function () {
         	return {    
+                alarmToggle: false,
                 descriptionEditor: false,
                 title: 'Add New Event',
                 action: 'Save',

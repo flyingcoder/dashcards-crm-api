@@ -31,10 +31,11 @@
         svg{
             position: relative;
             top: 5.5px;
-            left: 0.5px;
-        }
-        .collapse{
-            display: none;
+            left: 1.5px;
+            -ms-transform: rotate(180deg); /* IE 9 */
+            -webkit-transform: rotate(180deg); /* Safari 3-8 */
+            transform: rotate(180deg);
+            @extend .toggle-transition;
         }
     }
     .buzz-head{

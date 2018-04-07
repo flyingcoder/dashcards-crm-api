@@ -15,7 +15,7 @@
         }
     }
 
-// Text Overflow
+// Buzz Overflow
     .buzz-overflow{
         max-width: 100%;
         overflow: hidden;
@@ -23,7 +23,7 @@
         white-space: nowrap;
     }
 
-// Pre Define Backgrounds
+// Pre Define Backgrounds 
     .orange-1{
         background: $orange-tile-1;
     }
@@ -159,6 +159,18 @@
     }
     .action-edit{
         background: $action-edit;
+        color: $white;
+    }
+    .on-review{
+        background: $orange-tile-1;
+        color: $white;
+    }
+    .fixed{
+        background: $green;
+        color: $white;
+    }
+    .moderation{
+        background:  $orange-tile-6;
         color: $white;
     }
 
@@ -375,9 +387,13 @@
         @extend .buzz-border;
     }
     .box-footer{
+        position: absolute;
+        width: 100%;
         height: 56px;
+        bottom: 0;
+        left: 0;
+        line-height: 4;
         font-size: 13.5px;
-        padding-top: 15px;
         text-align: center;
         text-transform: uppercase;
         font-family: $lato-semi;
@@ -1624,6 +1640,9 @@
             background: $white;
             border: $table-border;
             .ql-editor{
+                &:before{
+                    font-style: normal !important;
+                }
                 // height: 100px !important;
                 // margin-bottom: 100px;
             }

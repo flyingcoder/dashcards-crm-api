@@ -22,7 +22,7 @@
                                     <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
                                     <el-date-picker
                                         :clearable="false"
-                                        v-model="form.due_date"
+                                        v-model="form.end_at"
                                         type="date"
                                         placeholder="Due Date">
                                     </el-date-picker>
@@ -51,20 +51,20 @@
                         <el-form-item>
                             <el-select v-model="form.client" clearable placeholder="Select Client">
                                 <el-option
-                                v-for="item in clients"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                v-for="c in clients"
+                                :key="c.id"
+                                :label="c.company_name"
+                                :value="c.id">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item>
                             <el-select v-model="form.service" clearable placeholder="Select Service">
                                 <el-option
-                                v-for="item in services"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                v-for="s in services"
+                                :key="s.id"
+                                :label="s.name"
+                                :value="s.id">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -243,24 +243,16 @@ var yyyy = today.getFullYear();
                 }
             },
             submit(){
-                this.$refs[form].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                        if(this.action == 'Save'){
-                            this.save();
-                        }
-                        else {
-                            this.update();
-                        }
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+                if(this.action == 'Save'){
+                    this.save();
+                }
+                else {
+                    this.update();
+                }
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/projects/new',this.form)
+                axios.post('/api/projects/',this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is saved!', 'success');
@@ -286,17 +278,18 @@ var yyyy = today.getFullYear();
                 })
             },
             getClients(){
-                axios.get('api/clients')
+                axios.get('api/clients?all=true')
                 .then( response => {
-                    console.info(response.data);
+                    this.clients = response.data
                 })
             },
             getServices(){
-                axios.get('api/services')
+                axios.get('api/services?all=true')
                 .then( response => {
-                    console.info(response.data);
+                    this.services = response.data
                 })
-            }
+            },
+            
         },
         mounted() {
             this.getClients();

@@ -29,9 +29,6 @@
                 }
             }
         }
-        .box-footer{
-            padding-top: 25px !important;
-        }
     }
     .task-form{
         margin-top: 20px;
@@ -116,6 +113,7 @@
                 width: 50%;
                 height: 62px;
                 padding-top: 10px;
+                background: $gray-bg;
                 text-align: center;
                 &:first-child{
                     border-right: $border-buzz;
@@ -131,7 +129,7 @@
                 }
             }
             li.active{
-                background: $gray-bg;
+                background: $white;
             }
         }
         .tasks-option{
@@ -188,34 +186,31 @@
                     }
                     thead{
                         tr{
-                        height: 60px;
-                        border-bottom: $border-buzz;
-                        font-size: 16px;
-                        letter-spacing: 0.5px;
-                        background: $gray-bg;
-                        color: $table-head;
-                        @extend .page-title;
-                        th{
-                            &:first-child{
-                                width: 10%;
+                            height: 60px;
+                            border-bottom: $border-buzz;
+                            font-size: 16px;
+                            letter-spacing: 0.5px;
+                            background: $gray-bg;
+                            color: $table-head;
+                            @extend .page-title;
+                            th{
+                                &:first-child{
+                                    width: 50px;
+                                }
+                                &:last-child{
+                                    position: relative;
+                                    left: 15px;
+                                    width: 19%;
+                                }
                             }
-                            &:nth-child(2){
-                                width: 53%;
-                            }
-                            &:last-child{
-                                position: relative;
-                                left: 15px;
-                                width: 19%;
-                            }
-                        }
                         }
                     }
                     tbody{
                         display:block;
-                        // height: 243px !important;
                         tr{
                             height: 81px;
                             border-bottom: $border-buzz;
+                            cursor: pointer;
                             &:hover{
                                 .hover-display{
                                     display: table-cell;
@@ -227,54 +222,31 @@
                             &:nth-child(even){
                                 background: $white;
                             }
-                            .hover-display{
-                                position: relative;
-                                left: 15px;
-                            }
                             td{
                                 position: relative;
-                                img{
-                                    width: 55px;
-                                    border-radius: 100%;
-                                }
                                 &:first-child{
-                                width: 10%;
-                                }
-                                &:nth-child(2){
-                                width: 53%;
-                                padding-right: 25px;
-                                @extend .buzz-overflow;
+                                    width: 50px;
                                 }
                                 &:last-child{
                                     left: 15px;
                                     width: 19%;
                                 }
-                                
                             }
-                            .task-project{
+                            .hover-display{
                                 position: relative;
-                                bottom: 10px;
-                                font-family: $lato-mid;
-                                color: $gray-3;
-                                font-size: 19px;
-                            }
-                            .assigned-project{
-                                position:absolute;
-                                display: block;
-                                color: $gray-4;
-                                font-size: 11.5px;
-                                top:40px;
+                                left: 15px;
                             }
                             .status{
                                 position: relative;
                                 top: 5px;
                                 color: $gray-4;
                                 font-size: 12px;
+                                text-transform: capitalize;
                             }
                             .progress{
                                 position: relative;
                                 top: 5px;
-                                width: 70%;
+                                width: 60px;
                                 height: 6px;
                                 border-radius: 20px;
                             }
@@ -289,6 +261,29 @@
                             }
                         }
                     }
+                    .assignee{
+                        width: 90px;
+                        img{
+                            width: 55px;
+                            border-radius: 100%;
+                        }
+                    }
+                    .projects{
+                        .task-project{
+                            position: relative;
+                            bottom: 10px;
+                            font-family: $lato-mid;
+                            color: $gray-3;
+                            font-size: 19px;
+                        }
+                        .assigned-project{
+                            position:absolute;
+                            display: block;
+                            color: $gray-4;
+                            font-size: 11.5px;
+                            top:40px;
+                        }
+                    }
                 }
             }
         }
@@ -299,49 +294,58 @@
             height: 70px;
             padding-right: 20px;
             .user-info{
-                vertical-align: top;
-                img{
-                    width: 41px;
-                    border-radius: 50%;
-                    border: $table-border;
-                }
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .avatar{
+                width: 41px !important;
+                height: 41px !important;
+                border-radius: 50%;
+                border: $table-border;
                 span{
-                    font-size: 14.93px;
-                    color: $chat-name;
-                    line-height: 1.2;
-                    margin-left: 15px;
-                    vertical-align: middle;
-                    font-family: $lato;
+                    position: relative;
+                    font-size: 16px;
+                    bottom: 7px;
                 }
+            }
+            .name{
+                width: 65% !important;
+                font-size: 14.93px;
+                color: $chat-name;
+                line-height: 1.2;
+                margin-left: 15px;
+                font-family: $lato; 
+                @extend .buzz-overflow;
             }
             .date{
                 position: relative;
-                width: 155px;
-                margin-left: 2%;
-                svg, img{
-                    position: absolute;
-                    top: 10px;
-                    left: 15px;
+                padding: 0;
+                svg, img, span{
+                    display: inline-block;
+                    vertical-align: middle;
+                    height: 41px;
+                    line-height: 41px;
                 }
-                input{
-                    width: 155px;
-                    padding: 0 !important;
-                    text-align: center;
-                    text-indent: 25px;
-                    color: $red;
-                    font-family: $lato-mid;
-                    &:focus{
-                        border: $table-border;
-                    }
+                svg, img{
+                    position: relative;
+                    top: 10px;
+                    margin-right: 10px;
+                }
+                span{
+                    font-family: $lato;
+                    color: $chat-name;
+                    font-size: 15px;
+                    color:  $red;
                 }
             }
             .selected-option{
                 position: relative;
-                float: right;
                 border: none;
                 ul{
                     border: none;
                     li{
+                        float: right;
+                        top: 2px;
                         width: 39px;
                         height: 39px;
                         border-radius: 50%;
@@ -352,33 +356,14 @@
                                 position: relative;
                             }
                         }
-                        .attachment{
-                            svg{
-                                top: 7px;
-                                left: 3px;
-                            }
-                        }
                         .sort{
                             svg{
                                 top: 5px;
                                 left: 2px;
                             }
                         }
-                        .selected-close{
-                            svg{
-                                top: 11px;
-                                left: 6px;
-                            }
-                        }
                     }
                 }
-            }
-            .user-info, .date, .selected-option{
-                display: inline-block;
-                margin-top: 12px;
-            }
-            .el-input__icon{
-                display: none;
             }
         }
         .options{
@@ -387,6 +372,7 @@
                 padding: 0;
                 li{
                     display: inline-block;
+                    vertical-align: middle;
                     width: 30%;
                     height: 42px;
                     padding: 0;
@@ -397,16 +383,24 @@
                         width: 100%;
                         height: 100%;
                         text-align: center;
-                        color: $action-hover;
-                        font-family: $lato-mid;
-                        font-size: 15px;
+                        label, span{
+                            color: $action-hover;
+                            font-family: $lato-mid;
+                            font-size: 15px;
+                            font-weight: unset;
+                            line-height: 38px;
+                            @extend .buzz-overflow;
+                        }
+                    }
+                    .status{
+                        text-transform: capitalize;
                     }
                     .timer-btn{
                         width: 30%;
                         border-radius: 3px 0 0 3px;
                         img, svg{
                             position:relative;
-                            top: 6px;
+                            top: 0;
                         }
                         .onPlay, .onPause{
                             height: 100%;
@@ -503,10 +497,10 @@
                 color: $table-data;
                 font-family: $lato-mid;
                 letter-spacing: 0.3px;
-                margin-bottom: 0;
+                margin-bottom: 20px;
             }
             .comment{
-                margin-bottom: 25px;
+                margin-bottom: 20px;
                 .member-img, .comment-info{
                     display: inline-block;
                 }
