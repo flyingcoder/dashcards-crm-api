@@ -1,5 +1,5 @@
 <template>
-    <modal name="selected-project" transition="nice-modal-fade" @before-open="beforeOpen">
+    <modal name="edit-project" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
@@ -116,12 +116,6 @@
 </template>
 
 <script>
-    //ClassicEditor
-    //.create( document.querySelector( '#editor' ) )
-    //.catch( error => {
-    //    console.error( error );
-   // });
-
     export default {
     	data: function () {
         	return {    

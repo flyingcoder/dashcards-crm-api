@@ -874,6 +874,18 @@
             }
         }
     }
+    .member-dropdown{
+        
+    }
+    .member-dropdown.active{
+        // display: block !important;
+        // position: fixed;  
+        // top: 188px;
+        // left: 416px;
+    }
+    .member-option{
+        background-repeat: no-repeat;
+    }
 // Buzz Addon
     .buzz-addon{
         position: relative;

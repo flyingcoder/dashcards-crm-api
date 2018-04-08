@@ -6,14 +6,28 @@
                 <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                     <div class="modal-options">
                         <el-form-item  class="option">
-                            <div class="option-item"> 
-                                    <el-dropdown trigger="click" placement="bottom" class="member-option">
+                            <div class="option-item members-btn"> 
+                                <el-dropdown trigger="click" placement="bottom" class="member-option">
                                     <el-button size="small" class="el-dropdown-link"> 
                                         <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
-                                        Members 
+                                        <span> Members </span> 
                                     </el-button>
-                                    <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
-                                        
+                                    <el-dropdown-menu slot="dropdown" class="member-dropdown" id="member-dropdown">
+                                        <!-- v-bind:class="{ active: showMembers }" -->
+                                        <div class="member-content">
+                                            <el-select v-model="form.member" multiple filterable placeholder="Select a Member">
+                                                <el-option
+                                                v-for="item in members"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value"
+                                               
+                                                class="member-option">
+                                                 <!-- v-on:click="showMembers = !showMembers" -->
+                                                    <!-- <label class="member-image"> <img src="/img/temporary/user1.png"> </label> -->
+                                                </el-option>
+                                            </el-select>
+                                        </div>
                                     </el-dropdown-menu>
                                 </el-dropdown>
                             </div>
@@ -197,6 +211,7 @@ var yyyy = today.getFullYear();
     export default {
     	data: function () {
         	return {    
+                showMembers: false,
                 descriptionEditor: false,
                 commentEditor: false,
                 title: 'Add New Project',
@@ -208,6 +223,7 @@ var yyyy = today.getFullYear();
                     title: '',
                     description: '',
                     comment: '',
+                    member: '',
                     end_at: '',
                     start_at: yyyy + '-' + mm + '-' + dd,
                     content: '',
@@ -216,6 +232,22 @@ var yyyy = today.getFullYear();
                 },
                 clients: [],
                 services: [],
+                members: [{
+                    value: 'Option1',
+                    label: 'Option1'
+                    }, {
+                    value: 'Option2',
+                    label: 'Option2'
+                    }, {
+                    value: 'Option3',
+                    label: 'Option3'
+                    }, {
+                    value: 'Option4',
+                    label: 'Option4'
+                    }, {
+                    value: 'Option5',
+                    label: 'Option5'
+                }],
         		error: {
         			title: [],
                     description: [],
@@ -289,7 +321,6 @@ var yyyy = today.getFullYear();
                     this.services = response.data
                 })
             },
-            
         },
         mounted() {
             this.getClients();

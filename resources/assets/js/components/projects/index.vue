@@ -86,14 +86,12 @@
     import AddProject from './AddProject.vue';
     import AllProjects from './AllProjects.vue';
     import MyProjects from './MyProjects.vue';
-    import SelectedProject from './SelectedProject.vue';
 
     export default {
         components: {
           'add-project': AddProject,
           'AllProjects': AllProjects,
           'MyProjects': MyProjects,
-          'SelectedProject': SelectedProject,
       },
         mounted(){
 
