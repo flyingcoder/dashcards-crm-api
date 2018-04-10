@@ -11,13 +11,13 @@
         <!-- Buzz Menu -->
             <div class="menu-toggle">
               <button class="sidebar-toggle" id="toggleBuzzMenu">
-                  <span class="expand"> 
+                  <!-- <span class="expand"> 
                       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="13px">
                         <path fill-rule="evenodd"  fill="rgb(144, 152, 163)"
                         d="M12.694,7.806 L1.306,7.806 C0.585,7.806 -0.000,7.221 -0.000,6.500 C-0.000,5.779 0.585,5.194 1.306,5.194 L12.694,5.194 C13.415,5.194 14.000,5.779 14.000,6.500 C14.000,7.221 13.415,7.806 12.694,7.806 ZM12.694,2.612 L1.306,2.612 C0.585,2.612 -0.000,2.027 -0.000,1.306 C-0.000,0.585 0.585,-0.000 1.306,-0.000 L12.694,-0.000 C13.415,-0.000 14.000,0.585 14.000,1.306 C14.000,2.027 13.415,2.612 12.694,2.612 ZM1.306,10.388 L12.694,10.388 C13.415,10.388 14.000,10.973 14.000,11.694 C14.000,12.415 13.415,13.000 12.694,13.000 L1.306,13.000 C0.585,13.000 -0.000,12.415 -0.000,11.694 C-0.000,10.973 0.585,10.388 1.306,10.388 Z"/>
                     </svg>
-                  </span>
-                  <span class="collapse">
+                  </span> -->
+                  <span class="icon">
                       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             width="8px" height="15px">
                             <path fill-rule="evenodd"  fill="rgb(144, 152, 163)"

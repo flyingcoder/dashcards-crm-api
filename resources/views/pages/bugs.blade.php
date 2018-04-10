@@ -3,6 +3,5 @@
 @section('title', 'Bugs')
 
 @section('content')
-   <profile></profile>
-   <!-- <bugs></bugs> -->
+   <bugs></bugs>
 @endsection

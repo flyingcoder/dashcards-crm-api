@@ -1,0 +1,398 @@
+.bugs{
+    .topicsReview{
+        background: $advanced-bg;
+        text-align: center;
+        height: 470px;
+        width: 100%;
+        padding: 0 20px;
+        h1, h2{
+            font-family: $lato;
+            font-weight: 300;
+            color: $black;
+            span{
+                font-weight: 500;
+            }
+        }   
+        h1{
+            margin: 0;
+            padding: 35px 0 55px;
+        }
+        h2{
+            text-align: left;
+            font-style: italic;
+            span{
+                font-style: unset;
+            }
+        }
+        .el-select, .el-input{
+            input{
+                border: $support-border;
+                border-radius: 5px;
+                background-color: $white;
+                box-shadow:  $support-inset;
+                height: 64px;
+                font-size: 25px;
+                &::placeholder{
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+    .bugs-content{
+        position: relative;
+        bottom: 200px;
+        margin: 0 20px;
+    }
+    .selected-bugs{
+        position: absolute;
+        margin-right: 20px;
+        border-radius: 9px;
+        background: $white;
+        padding: 10px 0 20px 20px;
+        .user-info{
+            vertical-align: top;
+            img{
+                width: 41px;
+                border-radius: 50%;
+                border: $table-border;
+            }
+            span{
+                font-size: 14.93px;
+                color: $chat-name;
+                line-height: 1.2;
+                margin-left: 15px;
+                vertical-align: middle;
+                font-family: $lato;
+            }
+        }
+        .status{
+            padding: 0;
+            .el-tag{
+                border: none;
+            }
+        }
+        .bug-head{
+            height: 70px;
+            padding-right: 20px;
+            .bug-path{
+                line-height: 5;
+                font-size: 13px;
+                color: $chat-name;
+                span{
+                    color: $support-text;
+                }
+            }
+            .selected-option{
+                position: relative;
+                float: right;
+                border: none;
+                ul{
+                    border: none;
+                    li{
+                        width: 39px;
+                        height: 39px;
+                        border-radius: 50%;
+                        border: $table-border;
+                        margin-right: 7px;
+                        button{
+                            svg{
+                                position: relative;
+                            }
+                        }
+                        .attachment{
+                            svg{
+                                top: 7px;
+                                left: 3px;
+                            }
+                        }
+                        .sort{
+                            svg{
+                                top: 5px;
+                                left: 2px;
+                            }
+                        }
+                        .selected-close{
+                            svg{
+                                top: 11px;
+                                left: 6px;
+                            }
+                        }
+                    }
+                }
+            }
+            .user-info, .selected-option{
+                display: inline-block;
+                margin-top: 12px;
+            }
+        }
+        .options{
+            ul{
+                list-style: none;
+                padding: 0;
+                li{
+                    display: inline-block;
+                    width: 30%;
+                    height: 42px;
+                    padding: 0;
+                    margin-right: 2.5%;
+                    border: $table-border;
+                    border-radius: 3px;
+                    button{
+                        width: 100%;
+                        height: 100%;
+                        text-align: center;
+                        color: $action-hover;
+                        font-family: $lato-mid;
+                        font-size: 15px;
+                    }
+                    .timer-btn{
+                        width: 30%;
+                        border-radius: 3px 0 0 3px;
+                        img, svg{
+                            position:relative;
+                            top: 6px;
+                        }
+                        .onPlay, .onPause{
+                            height: 100%;
+                            width: 100%;
+                            border-radius: 3px 0 0 3px;
+                        }
+                        .onPlay{
+                            display: none;
+                            background: $green;
+                            img{
+                                width: 10px;
+                                height: 12px;
+                            }
+                        }
+                        .onPause{
+                            display: block;
+                            background:  $file-video;
+                            img{
+                                width: 7px;
+                                height: 13px;
+                            }
+                        }
+                    }
+                    .play{
+                        .onPause{
+                            display: none !important;
+                        }
+                        .onPlay{
+                            display: block !important;
+                        }
+                    }
+                    .timer-btn, .hrs, .mins, .secs, .divider{
+                        display: inline-block;
+                        vertical-align: top;
+                        padding: 0;                        
+                    }
+                    .hrs, .mins, .secs, .divider{
+                        position: relative;
+                        vertical-align: text-bottom;
+                        text-align: center;
+                        font-size: 17px;
+                        color: $action-hover;
+                        bottom: 2px;
+                        small{
+                            position: absolute;
+                            font-size: 12px;
+                            top: 20px;
+                            font-family: $lato;
+                        }
+                    }
+                    .hrs, .mins, .secs{
+                        width: 19.3%;
+                    }
+                    .hrs{
+                        small{
+                            left: 6px;
+                        }
+                    }
+                    .mins{
+                        small{
+                            left: 7px;
+                        }
+                    }
+                    .secs{
+                        small{
+                            left: 10px;
+                        }
+                    }
+                    .divider{
+                        border-left: $table-border;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+        .bug-decription{
+            height: 700px !important;
+            background: $white !important;
+            padding: 0px 20px 20px 60px;
+            margin-top: 20px;
+            @extend .buzz-scrollbar;
+            @extend .buzz-scroll;
+            .title{
+                color:  $milestone-title;
+                font-family: $lato-mid;
+                line-height: 1.2;
+                letter-spacing: 0.3px;
+                font-size: 20px;
+                margin: 0;
+                margin-bottom: 20px;
+            }
+            .description{
+                font-size: 15px;
+                color: $table-data;
+                font-family: $lato-mid;
+                letter-spacing: 0.3px;
+                margin-bottom: 0;
+            }
+            .comment{
+                margin-bottom: 25px;
+                .member-img, .comment-info{
+                    display: inline-block;
+                }
+                .member-img{
+                    position: relative;
+                    left: -60px;
+                    width: 41px;
+                    height: 41px;
+                    border-radius: 50%;
+                    border: $table-border;
+                }
+                .comment-info{
+                    position: relative;
+                    top: 10px;
+                    left: -45px;
+                    margin-bottom: 5px;
+                    h4{
+                        color:  $chat-name;
+                        font-size: 15px;
+                        margin: 0;
+                        margin-bottom: 1px;
+                        font-family: $lato;
+                    }
+                    span{
+                        font-size: 12px;
+                        color: $member-info;
+                    }
+                }
+                .comment-text{
+                    margin-top: 20px;
+                    p{
+                        font-size: 15px;
+                        font-family: initial;
+                        color: $table-data;
+                    }
+                }
+                .comment-img{
+                    margin-top: 20px;
+                    overflow: auto;
+                    white-space: nowrap;
+                    ul{
+                        list-style: none;
+                        padding: 0;
+                        width: 350px;
+                        li{
+                            display: inline-block;
+                            margin-right: 10px;
+                            img{
+                                width: 90px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .bug-comment{
+            height: 65px;
+            margin-top: 20px;
+            margin-right: 20px;
+            .avatar{
+                position: absolute;
+                width: 41px;
+                margin: 10px;
+                z-index: 1;
+            }
+            .quill-editor{
+                .ql-container{
+                    height: 215px;
+                    border: $table-border;
+                    border-radius: 5px;
+                    .ql-editor{
+                        line-height: 1;
+                        height: 170px !important;
+                        margin-bottom: 50px;
+                        text-indent: 45px;
+                    }
+                }
+                .ql-toolbar{
+                    margin: 10px;
+                    bottom: 70px !important;
+                    .ql-formats{
+                        padding: 0 !important;
+                    }
+                    .ql-picker-label{
+                        top: 0 !important;
+                    }
+                }
+            }
+            .field-options{
+                display: block;
+                position: relative;
+                bottom: 28px;
+                border-top: $table-border !important;
+                height: 43px;
+                padding: 5px 10px;
+                border: $table-border;
+                border-top: none !important;
+                border-radius: 0 0 8px 8px;
+                box-shadow: $body-shadow;
+                background: $input2-bg !important;
+                button{
+                    position: relative;
+                    height: 100%;
+                    width: 35px;
+                    display: inline-block;
+                    top: 0;
+                    border: none;
+                    padding: 0;
+                    margin: 0 3px;
+                    span{
+                        position: relative;
+                        top: 0;
+                        margin: 0;
+                        width: 35px;
+                        font-size: 11.3px;
+                        line-height: 1.2;
+                        display: table-caption !important;
+                        color: $table-status-text;
+                        font-family: $lato-mid;
+                    } 
+                    svg{
+                        fill: $modal-icon;
+                        padding: 0;
+                        margin: 0;
+                        &:hover{
+                            fill: $modal-hover;
+                        }
+                    }
+                }
+                .send{
+                    font-size: 11.3px;
+                    width: 70px;
+                    span{
+                        width: 70px;
+                    }
+                }
+                .border{
+                    background: $modal-input;
+                    border-radius: 3px;
+                    border: 1px solid $modal-icon !important;
+                }
+            }
+        } 
+    }
+}

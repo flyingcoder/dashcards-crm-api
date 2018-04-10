@@ -22,16 +22,16 @@
                                 </svg> 
                             </div> 
                         </td>
-                        <td> 
-                            <span class="buzz-overflow task-project"> {{ t.title }} </span>
+                        <td class="projects">  
+                            <div class="buzz-overflow task-project"> {{ t.title }} </div>
                             <span class="assigned-project"> assigned to {{
                                  t.assigned == null ? '' :
                                  t.assigned[0].first_name + ' ' + t.assigned[0].last_name 
                                  }}. {{ t.created_at | momentAgo}} </span>
                         </td>
                         <td> 
-                        <span class="status"> {{ t.status }} </span>
-                        <div class="progress" :class="t.status"> </div>
+                            <span class="status"> {{ t.status }} </span>
+                            <div class="progress" :class="t.status"> </div>
                         </td>
                     </tr>
                 </tbody>
@@ -39,7 +39,6 @@
         </div>
     </div>
 </template>
-
 
 <script>
   import TaskStatus from './TaskStatus.vue';

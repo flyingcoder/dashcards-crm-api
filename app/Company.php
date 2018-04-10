@@ -6,6 +6,7 @@ use DB;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Kodeine\Acl\Models\Eloquent\Role;
+use Plank\Metable\Metable;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
@@ -13,7 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,
+        Metable;
     
     protected $paginate = 10;
 
