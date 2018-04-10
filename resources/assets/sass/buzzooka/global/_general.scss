@@ -1101,6 +1101,15 @@
                             }
                         }
                     }
+                    .active{
+                        background: $table-active;
+                    }
+                    .closed{
+                        background: $table-closed;
+                    }
+                    .hold{
+                        background: $table-hold;
+                    }
                 }
             }
         }
