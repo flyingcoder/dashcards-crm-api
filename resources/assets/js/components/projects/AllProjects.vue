@@ -8,21 +8,22 @@
 
                 <el-table-column sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
-                <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
+                <el-table-column prop="client_image_url" label="Client" width="85">
+                    <template slot-scope="scope">
+                        <img :src="scope.row.client_image_url" style="width: 70px">
+                    </template>
+                </el-table-column>
                 <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
                 <el-table-column sortable label="Progress" width="150">
-                    <!-- <div class="progress project-progress"> 
-                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> -->
                     <template slot-scope="scope">
-                        <!-- <div class="progress project-progress"> 
-                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div> -->
                         <el-progress :text-inside="true" :stroke-width="18" :percentage="0"></el-progress>
                     </template>
                 </el-table-column>
-                <el-table-column prop="time_spent" label="Time Spent" width="100"></el-table-column>
+                <el-table-column label="Time Spent" width="100">
+                    <template slot-scope="scope">
+                    </template>
+                </el-table-column>
                 <el-table-column sortable label="Status">
                     <template slot-scope="scope">
                         <span class="status"> {{ scope.row.status }} </span>
