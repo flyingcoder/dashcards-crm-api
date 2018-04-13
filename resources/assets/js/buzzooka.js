@@ -9,7 +9,8 @@ require('./bootstrap');
 
 window.moment = require('moment');
 window.Vue = require('vue');
-window.swal  = require('sweetalert2')
+window.swal  = require('sweetalert2');
+window.VueColor = require('vue-color');
 
 import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
@@ -22,6 +23,7 @@ import Avatar from 'vue-avatar'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import Photoshop from 'vue-color'
 
 Vue.use(Element, { locale });
 Vue.use(VModal);

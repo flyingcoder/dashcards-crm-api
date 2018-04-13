@@ -55,26 +55,28 @@
         <div class="content-body">
             <section class="buzz-section">
                 <div class="buzz-table">
-                    <el-tabs type="border-card">
+                    <!-- <el-tabs type="border-card">
                         <el-tab-pane label="All Projects">
-                            <AllProjects></AllProjects>
+                            <transition name="fade">
+                                <AllProjects></AllProjects>
+                            </transition>
                         </el-tab-pane>
                         <el-tab-pane label="My Projects">
                             <MyProjects></MyProjects>
                         </el-tab-pane>
-                    </el-tabs>
-                    <!-- <ul class="nav nav-tabs">
-                        <li class="active">
+                    </el-tabs> -->
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item active">
                             <a href="#all-project" data-toggle="tab"> All Project </a>
                         </li>
-                        <li>
+                        <li class="nav-item">
                             <a href="#my-project" data-toggle="tab"> My Project </a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <all-projects></all-projects>
-                        <my-projects></my-projects>
-                    </div> -->
+                        <AllProjects></AllProjects>
+                        <MyProjects></MyProjects>
+                    </div>
                 </div>
             </section>
         </div>
@@ -86,14 +88,12 @@
     import AddProject from './AddProject.vue';
     import AllProjects from './AllProjects.vue';
     import MyProjects from './MyProjects.vue';
-    import SelectedProject from './SelectedProject.vue';
 
     export default {
         components: {
           'add-project': AddProject,
           'AllProjects': AllProjects,
           'MyProjects': MyProjects,
-          'SelectedProject': SelectedProject,
       },
         mounted(){
 
