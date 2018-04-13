@@ -4,23 +4,30 @@
             <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
             @selection-change="handleSelectionChange" style="width: 100%"
-            @cell-click="rowClick"
-            >
+            @cell-click="rowClick">
+
                 <el-table-column sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
-                <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
+                <el-table-column prop="client_image_url" label="Client" width="85">
+                    <template slot-scope="scope">
+                        <img :src="scope.row.client_image_url" style="width: 70px">
+                    </template>
+                </el-table-column>
                 <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
                 <el-table-column sortable label="Progress" width="150">
-                    <div class="progress project-progress"> 
-                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
+                    <template slot-scope="scope">
+                        <el-progress :text-inside="true" :stroke-width="18" :percentage="0"></el-progress>
+                    </template>
                 </el-table-column>
-                <el-table-column prop="time_spent" label="Time Spent" width="100"></el-table-column>
+                <el-table-column label="Time Spent" width="100">
+                    <template slot-scope="scope">
+                    </template>
+                </el-table-column>
                 <el-table-column sortable label="Status">
                     <template slot-scope="scope">
                         <span class="status"> {{ scope.row.status }} </span>
-                        <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
+                        <!-- <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div> -->
                     </template>
                 </el-table-column>
                 <el-table-column fixed="right" :render-header="renderHeader">
@@ -72,6 +79,7 @@
       },
       data () {
         return {
+        testCount: '',
         isProcessing: false,
         multipleSelection: [],
         currentPage: 1,
@@ -83,8 +91,9 @@
 
       mounted () {
         this.getAllProjects();
+        this.sliceDate();
+        this.progressCount();
       },
-
       methods: {
         renderHeader(h,{column,$index}){
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
@@ -95,7 +104,24 @@
                 this.paginatedAllProjects = response.data.data;
                 this.currentPage = response.data.current_page;
                 this.total = response.data.total;
+                this.sliceDate();
             })
+        },
+        sliceDate: function() {
+            for(var x in this.paginatedAllProjects) {
+                this.paginatedAllProjects[x].started_at = this.paginatedAllProjects[x].started_at.split(' ')[0];
+            }
+        },
+        progressCount: function() {
+            var x = 0;
+            for(x > this.paginatedAllProjects.length; x++;) {
+                for(var y in this.paginatedAllProjects[x].tasks) {
+                    if (this.paginatedAllProjects[x].task[y].status == 'completed') {
+                        this.testCount = x++;
+                        console.log(x);
+                    }
+                }
+            }
         },
         handleSizeChange: function (val) {
             this.currentSize = val;

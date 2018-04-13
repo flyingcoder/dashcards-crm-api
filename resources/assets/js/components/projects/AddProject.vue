@@ -6,28 +6,23 @@
                 <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                     <div class="modal-options">
                         <el-form-item  class="option">
-                            <div class="option-item members-btn"> 
+                            <div class="option-item"> 
                                 <el-dropdown trigger="click" placement="bottom" class="member-option">
                                     <el-button size="small" class="el-dropdown-link"> 
                                         <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
                                         <span> Members </span> 
                                     </el-button>
-                                    <el-dropdown-menu slot="dropdown" class="member-dropdown" id="member-dropdown">
-                                        <!-- v-bind:class="{ active: showMembers }" -->
-                                        <div class="member-content">
-                                            <el-select v-model="form.member" multiple filterable placeholder="Select a Member">
-                                                <el-option
-                                                v-for="item in members"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value"
-                                               
-                                                class="member-option">
-                                                 <!-- v-on:click="showMembers = !showMembers" -->
-                                                    <!-- <label class="member-image"> <img src="/img/temporary/user1.png"> </label> -->
-                                                </el-option>
-                                            </el-select>
-                                        </div>
+                                    <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
+                                        <el-dropdown-item>
+                                            <el-row :gutter="20" v-for="c in clients" :key="c.id">
+                                                <el-col :sm="8">
+                                                    <img :src="c.image_url" class="no-padding-left drop-down-image">
+                                                </el-col>
+                                                <el-col :sm="16">
+                                                    <label style="line-height:4; margin-bottom:0px">{{ c.first_name }} {{ c.last_name }}</label>
+                                                </el-col>
+                                            </el-row>
+                                        </el-dropdown-item> 
                                     </el-dropdown-menu>
                                 </el-dropdown>
                             </div>
