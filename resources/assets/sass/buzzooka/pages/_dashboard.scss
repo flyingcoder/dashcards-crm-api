@@ -126,6 +126,7 @@
             height: 60px;
             background: $white;
             @extend .buzz-border;
+            @extend .toggle-transition;
 
             .buzz-tile-icon{
                 position: relative;

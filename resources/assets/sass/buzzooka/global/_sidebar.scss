@@ -28,6 +28,8 @@
                     height: 100%;
                     width: 100%;
                     padding: 10px 0 0 20px;
+                    -webkit-transition: margin 0.4s ease;
+                    transition: margin 0.4s ease;
                 }
                 .menu-name{
                     position:absolute;

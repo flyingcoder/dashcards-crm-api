@@ -235,7 +235,6 @@
         }
         .content-body{
             position: relative;
-            margin-top: 18px;
             height: 1476px;
             background: $white;
             border-radius: 10px;
@@ -583,7 +582,7 @@
         float: right;
         font-size: 18px;
         color: $modal-title;
-        height: 60px !important;
+        height: 47px !important;
         width: 31% !important;
     }
     .button-options{
@@ -606,7 +605,7 @@
     .head-page-option{
         position: relative;
         float: right;
-        top: 20px;
+        top: 10px;
         ul{
             list-style: none;
             border: none;
@@ -661,8 +660,8 @@
     }
     .add-button{
         position: relative;
-        width: 44px;
-        height: 43px;
+        width: 38px;
+        height: 38px;
         border-radius: 40px !important;
         background: $blue;
         box-shadow: $add-shadow !important;
@@ -671,7 +670,7 @@
         -webkit-transition: width 0.2s;
         transition: width 0.2s;
         &:hover{
-            width: 170px;
+            width: 140px;
             span{
                 display: inline;
             }
@@ -679,26 +678,26 @@
         span{
             position: absolute;
             display: none;
-            left: 0;
-            top: 4px;
-            font-size: 18.7px;
+            left: 5px;
+            top: 2px;
+            font-size: 15px;
             color: $white;
             padding: 5px;
-            margin-left: 15px;
+            margin-left: 12px;
             vertical-align: top;
             font-family: $lato-semi;
             letter-spacing: 0.3px;
         }
         button{
-            width: 44px;
-            height: 44px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: none !important;
             outline: none;
             svg{
                 position: absolute;
-                top: 12px;
-                right: 12px;
+                top: 9px;
+                right: 9px;
             }
         }
     }
@@ -1195,7 +1194,7 @@
                 font-size: 23px;
                 color: $modal-title;
                 font-family: $lato-semi;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
             }
             .add-members{
                 margin-bottom: 20px;
@@ -1229,6 +1228,7 @@
                     display: inline-block;
                     width: 100%;
                     padding: 0px 10px;
+                    margin-bottom: 15px !important;
                     .row{
                         margin-bottom: 10px;
                     }
@@ -1336,7 +1336,7 @@
                     }
                 }
                 .el-form-item{
-                    margin-bottom: 25px;
+                    margin-bottom: 15px;
                     h3{
                         margin: 0;
                         margin-bottom: 10px;
@@ -1354,14 +1354,16 @@
                         padding: 0 !important;
                     }
                     .el-input{
-                        height: 60px;
+                        height: 45px;
                         input{
-                            height: 60px;
-                            font-size: 23px;
+                            height: 45px;
+                            font-size: 18px;
                         }
                     }
                     .el-form-item__label{
                         font-size: 17px !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
                     }
                     .ckeditor{
                         .head-page-option{
@@ -1675,7 +1677,7 @@
         }
     }
     .add-description, .add-comment{
-        height: 200px !important;
+        height: 100px !important;
         .ql-toolbar{
             display: none;
         }
