@@ -32,7 +32,7 @@
                 </el-table-column>
                 <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
-                        <a @click="$modal.show('add-project',{action: 'update', data: scope.row.id})">
+                        <a href="#" @click="scope.row">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="16px" height="16px">
                                 <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -138,9 +138,9 @@
             this.multipleSelection.push(val[index].id);
             }
         },
-        rowClick(row, event, col){
-            location = "/project-hq/" + row.id;
-        },
+        // rowClick(row, event, col){
+        //     location = "/project-hq/" + row.id;
+        // },
         destroy: function(row) {
             axios.delete('/projects/' + row.id + '/delete')
                 .then(response => {
