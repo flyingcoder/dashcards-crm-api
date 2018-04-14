@@ -15,7 +15,7 @@
                 padding: 0;
                 margin: 0 6px;
                 text-align: center;
-                width: 45.99%;
+                width: 45.5%;
                 height: 50px;
                 background: $blue;
                 color: $white;
@@ -171,7 +171,51 @@
             }
         }
     }
-// Grid Viewa
+    .custom-form{
+        .el-form-item{
+            .el-input{
+                width: 50% !important;
+                margin-right: 20px;
+            }
+            .el-select{
+                width: 30% !important;
+                .el-input{
+                    width: 100% !important;
+                }
+            }
+            .el-button{
+                border: $table-border;
+                border-radius: 10px;
+                background: $modal-input;
+                box-shadow: $body-shadow;
+                height: 63px;
+                width: 65px;
+                vertical-align: top;
+                margin-left: 20px;
+                svg{
+                    fill: $modal-title;
+                }
+                &:hover{
+                    svg{
+                        fill: $action-hover-delete;
+                    }
+                }
+            }
+            .additional-field{
+                margin-left: 19px !important;
+                padding: 14px !important;
+                svg{
+                    width: 39px;
+                }
+                &:hover{
+                    svg{
+                        fill: $green;
+                    }
+                }
+            }
+        }
+    }
+// Grid View
     .right-calendar{
         padding: 10px;
         margin: 0;
@@ -467,4 +511,83 @@
             }
         }
     }
+}
+.selected-color{
+    position: absolute;
+    height: 58px;
+    width: 60px;
+    z-index: 1;
+    margin-top: 2px;
+    margin-left: 2px;
+    border-radius: 5px 0 0 5px;
+}
+.color-dropdown{
+    width: 170px;
+    .add-color{
+        background: $white;
+        position: fixed;
+        border-radius: 0 0 5px 5px;
+        .color-preview, .add-color-btn{
+            width: 148px;
+            height: 40px;
+            border: $table-border;
+            margin: 10px;
+            border-radius: 10px;
+            .current-color {
+                display: inline-block;
+                width: 60px;
+                height: 100%;
+                cursor: pointer;
+                vertical-align: middle;
+                border-radius: 10px 0 0 10px;
+            }
+            input{
+                width: 50%;
+                text-indent: 10px;
+            }
+        }
+    }
+    .color-option{
+        display: inline-block;
+        width: 35%;
+        margin: 5px 12px;
+        border-radius: 10px;
+        height: 50px;
+        span{
+            display: none;
+        }
+    }
+    .selected{
+        &::after{
+            -webkit-transform: rotate(45deg) scaleY(1);
+            transform: rotate(45deg) scaleY(1);
+            
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+            content: "";
+            border: 2px solid #ffffff;
+            height: 17px;
+            left: 12px;
+            top: 3px;
+            width: 4px;
+            border-left: 0;
+            border-top: 0;
+            position: absolute;
+            -webkit-transform: rotate(45deg) scaleY(0);
+            transform: rotate(45deg) scaleY(0);
+            -webkit-transition: -webkit-transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6) 50ms;
+            transition: -webkit-transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6) 50ms;
+            transition: transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6) 50ms;
+            transition: transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6) 50ms, -webkit-transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6) 50ms;
+            transition: transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6) 50ms, -webkit-transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6) 50ms;
+            -webkit-transform-origin: center;
+            transform-origin: center;
+        }
+    }
+}
+.vc-chrome {
+    position: absolute;
+    top: -43px;
+    left: 170px;
+    z-index: 9;
 }

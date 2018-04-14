@@ -1,5 +1,5 @@
 <template>
-    <modal name="add-project" transition="nice-modal-fade" @before-open="beforeOpen">
+    <modal name="edit-project" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
@@ -10,7 +10,7 @@
                                 <el-dropdown trigger="click" placement="bottom" class="member-option">
                                     <el-button size="small" class="el-dropdown-link"> 
                                         <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
-                                        <span> Members </span> 
+                                        Members 
                                     </el-button>
                                     <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
                                         <el-dropdown-item>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="buzz-modal-content">
                         <el-form-item prop="name">
-                            <el-input type="text" v-model="form.title" placeholder="Untitled Project"></el-input>
+                            <el-input type="text" v-model="form.name" placeholder="Untitled Project"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-select v-model="form.client" clearable placeholder="Select Client">
@@ -206,7 +206,6 @@ var yyyy = today.getFullYear();
     export default {
     	data: function () {
         	return {    
-                showMembers: false,
                 descriptionEditor: false,
                 commentEditor: false,
                 title: 'Add New Project',
@@ -218,7 +217,6 @@ var yyyy = today.getFullYear();
                     title: '',
                     description: '',
                     comment: '',
-                    member: '',
                     end_at: '',
                     start_at: yyyy + '-' + mm + '-' + dd,
                     content: '',
@@ -227,22 +225,6 @@ var yyyy = today.getFullYear();
                 },
                 clients: [],
                 services: [],
-                members: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                    }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                    }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                    }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                    }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
         		error: {
         			title: [],
                     description: [],
@@ -260,8 +242,8 @@ var yyyy = today.getFullYear();
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
-                    this.title = 'Edit Project';
-                    this.id = event.params.data;
+                    this.header = 'Edit Project';
+                    this.id = event.params.data.id;
                     var vm = this;
                     axios.get('api/projects/'+this.id)
                         .then( response => {
@@ -316,6 +298,7 @@ var yyyy = today.getFullYear();
                     this.services = response.data
                 })
             },
+            
         },
         mounted() {
             this.getClients();

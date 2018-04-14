@@ -72,6 +72,7 @@ class Task extends Model
                     ->withPivot('created_at');
     }
 
+    /*
     public static function boot()
     {
         
@@ -97,5 +98,5 @@ class Task extends Model
                    ->log('Updated');
             });
         }
-    }
+    }*/
 }

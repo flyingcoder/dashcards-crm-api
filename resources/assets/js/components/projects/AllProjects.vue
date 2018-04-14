@@ -1,5 +1,5 @@
 <template>
-    <div class="All-Projects">
+    <div class="all-projects tab-pane fade in active" id="all-project">
         <div v-if="paginatedAllProjects.length >= 1">
             <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
@@ -10,7 +10,7 @@
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
                 <el-table-column prop="client_image_url" label="Client" width="85">
                     <template slot-scope="scope">
-                        <img :src="scope.row.client_image_url" style="width: 70px">
+                        <img :src="scope.row.client_image_url" class="user-image">
                     </template>
                 </el-table-column>
                 <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
@@ -27,7 +27,7 @@
                 <el-table-column sortable label="Status">
                     <template slot-scope="scope">
                         <span class="status"> {{ scope.row.status }} </span>
-                        <!-- <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div> -->
+                        <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
                     </template>
                 </el-table-column>
                 <el-table-column fixed="right" :render-header="renderHeader">
@@ -62,16 +62,19 @@
         <div v-else> 
             <EmptyProjects></EmptyProjects>
         </div>
+        <edit-project></edit-project>
     </div>
 </template>
 
 
 <script>
     import EmptyProjects from './EmptyProjects.vue';
+    import EditProject from './EditProject.vue';
 
     export default {   
         components: {
           'EmptyProjects': EmptyProjects,
+          'edit-project': EditProject,
       },
       data () {
         return {

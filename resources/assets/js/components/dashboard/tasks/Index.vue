@@ -10,8 +10,8 @@
          <div class="box-content">
             <el-tabs type="border-card" class="task-option">
                 <el-tab-pane label="All Task">
-                    <!-- <list-alltask></list-alltask> -->
-                    <task-selected></task-selected>
+                    <list-alltask></list-alltask>
+                    <!-- <task-selected></task-selected> -->
                 </el-tab-pane>
                 <el-tab-pane label="My Task">
                     <list-mytask></list-mytask>

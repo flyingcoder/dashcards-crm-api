@@ -38,6 +38,7 @@ class Service extends Model
     	return $this->belongsTo(User::class);
     }
 
+    /*
     public static function boot() 
     {
         if(!is_null(Auth::user())) {
@@ -72,5 +73,5 @@ class Service extends Model
                 }
             }
         });
-    }
+    }*/
 }
