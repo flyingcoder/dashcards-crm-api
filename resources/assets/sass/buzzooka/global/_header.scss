@@ -13,25 +13,26 @@
             display: none;
         }
         img{
-            margin-top: 7px;
+            margin-top: 8px;
             margin-left: 5px;
         }
     }
     .menu-toggle{
         position: absolute;
         background: $white;
-        width: 30px;
-        height: 30px;
-        left: 211px;
-        top: 30px;
+        width: 27px;
+        height: 27px;
+        left: 178px;
+        top: 28px;
         border-radius: 50%;
         border: 1px solid $toggle-border;
         box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+        z-index: 999;
         @extend .toggle-transition;
         svg{
             position: relative;
-            top: 5.5px;
-            left: 1.5px;
+            top: 3.5px;
+            left: 0.5px;
             -ms-transform: rotate(180deg); /* IE 9 */
             -webkit-transform: rotate(180deg); /* Safari 3-8 */
             transform: rotate(180deg);
@@ -135,19 +136,18 @@
 .buzzooka{
     .header-dropdown{
         height: auto;
-        width: 559px;
+        width: 470px;
         background: $header-dropdown-bg;
         border: $body-border;
         box-shadow: $body-shadow;
         z-index: 5896;
     }
-    
     .header-data_box{
-        padding: 20px 30px 30px;
-        top: 80px !important;
+        padding: 20px 40px;
+        top: 70px !important;
         h1{
             margin: 0;
-            font-size: 30px;
+            font-size: 23px;
             color: $table-data;
         }
         button{
@@ -160,16 +160,17 @@
             font-size: 24.6px;
             color:  $table-status-text;
             letter-spacing: 0.2px;
+            margin-top: 10px;
         }
         .all-template{
-            margin-top: 26px;
+            margin-top: 10px;
             top: 20px;
             .template-checkbox{
                 position: relative;
-                height: 70px;
+                height: 50px;
                 label {
-                    width: 45px;
-                    height: 45px;
+                    width: 35px;
+                    height: 35px;
                     cursor: pointer;
                     position: relative;
                     top: 6px;
@@ -180,10 +181,10 @@
                     &:after {
                         content: '';
                         position: absolute;
-                        width: 25px;
-                        height: 10px;
-                        top: 14px;
-                        left: 9px;
+                        width: 20px;
+                        height: 8px;
+                        top: 12px;
+                        left: 8px;
                         border: 3px solid $white;
                         border-top: none;
                         border-right: none;
@@ -218,53 +219,52 @@
             }
         }
         .template-box{
+            position: relative;
             background: $template-box;
             text-align: center;
-            width: 237px;
-            height: 238px;
+            width: 180px;
+            height: 150px;
             border-radius: 10px;
-            margin: 15px 0;
+            margin: 10px 0;
             border: 2px solid $template-box;
             &:hover{
                 background: $template-hover;
                 border: $template-border;
             }
             .template-checkbox{
-                position: relative;
-                height: 60px;
-                width: 100%;
-                padding: 5px 15px;
-                label, svg{
-                    float: right;
-                }
-                svg{
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                img{
                     display: none;
+                    width: 35px !important;
                 }
             }
             .template-image{
-                height: 100px;
+                height: 60px;
+                margin-top: 25px;
                 img, svg{
-                    margin-top: 15px;
+                    width: 50px;
                 }
                 svg{
                     fill: $template-icon;
                 }
             }
             .template-name{
-                height: 68px;
+                height: 25px;
+                margin-top: 5px;
                 h3{
                     margin: 0;
                     font-size: 20px;
                     color: $template-text;
                     font-family: $lato-mid;
-                    line-height: 4;
                 }
             }
         }
         .active{
             background: $white !important;
             .template-checkbox{
-                svg{
+                img{
                     display: block !important;
                 }
             }
@@ -279,7 +279,7 @@
     }
     .header-notifications{
         height: 900px;
-        top: 90px !important;
+        top: 80px !important;
         padding: 0;
         margin: 0;
         overflow-x: hidden;
@@ -287,9 +287,9 @@
             position: relative;
             padding: 0;
             top: 0 !important;
-            height: 93px !important;
+            height: 80px !important;
             border: $table-border;
-            padding: 10px 30px 10px 35px;
+            padding: 5px 10px;
             width: 100%;
             margin: 0;
             &:hover{
@@ -301,25 +301,28 @@
                         position: absolute;
                     }
                     .user-image{
-                        width: 71px;
+                        width: 60px;
+                        margin-top: 5px;
                     }
                     .type-image{
-                        bottom: 7px;
-                        left: 80px
+                        bottom: 5px;
+                        left: 50px;
+                        width: 25px;
                     }
                 }
                 .info{
                     position: relative;
-                    left: 100px;
+                    left: 75px;
                     p{
-                        font-size: 17px;
+                        font-size: 15px;
                         color: $notification-text;
                         font-family: $lato-semi;
                         width: 400px;
+                        height: 45px;
                         margin: 0;
                         line-height: 1.2;
                         padding-top: 7px;
-                        max-width: 100% !important;
+                        max-width: 90% !important;
                         white-space: normal !important;
                         .action{
                             font-size: 17px;
