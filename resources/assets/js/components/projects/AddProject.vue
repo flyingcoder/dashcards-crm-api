@@ -55,7 +55,7 @@
                     </div>
                     <div class="buzz-modal-content">
                         <el-form-item prop="name">
-                            <el-input type="text" v-model="form.name" placeholder="Untitled Project"></el-input>
+                            <el-input type="text" v-model="form.title" placeholder="Untitled Project"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-select v-model="form.client" clearable placeholder="Select Client">
@@ -242,8 +242,8 @@ var yyyy = today.getFullYear();
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
-                    this.header = 'Edit Project';
-                    this.id = event.params.data.id;
+                    this.title = 'Edit Project';
+                    this.id = event.params.data;
                     var vm = this;
                     axios.get('api/projects/'+this.id)
                         .then( response => {
