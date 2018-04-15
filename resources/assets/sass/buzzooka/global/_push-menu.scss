@@ -48,7 +48,11 @@
             }
         }
     }
-    .buzz-content, .buzz-head{
+    .buzz-search{
+        margin-left: 80px !important;
+        @extend .margin-transition;
+    }
+    .buzz-content{
         margin-left: 86px !important;
         @extend .margin-transition;
     }   

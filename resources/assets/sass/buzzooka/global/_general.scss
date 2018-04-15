@@ -192,17 +192,26 @@
         z-index: 100;
         @extend .buzz-shadow-soft;
 
+        .logo, .buzz-head{
+            display: inline-block;
+            height: 80px;
+        }
+        
         .logo {
-            height: 90px;
+            position: relative;
+            float: left;
             width: 190px;
             background: $blue;
         }
 
         .buzz-head{
-            position: relative;
-            margin-left: 190px;
-            padding: 0px 30px;
+            position: absolute;
+            float: right;
+            right: 0;
+            width: 100%;
             z-index: 100;
+            padding-top: 25px;
+            @extend .width-transition;
         }
 
     }
@@ -484,6 +493,11 @@
         -webkit-transition: margin 0.4s ease;
 		-moz-transition: margin 0.4s ease;
 		transition: margin 0.4s ease;
+    }
+    .width-transition{
+        -webkit-transition: width 0.4s ease;
+		-moz-transition: width 0.4s ease;
+		transition: width 0.4s ease;
     }
 // Box Shadow
     .buzz-shadow{

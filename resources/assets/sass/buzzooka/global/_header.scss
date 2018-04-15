@@ -13,7 +13,7 @@
             display: none;
         }
         img{
-            margin-top: 8px;
+            margin-top: 5px;
             margin-left: 5px;
         }
     }
@@ -23,7 +23,7 @@
         width: 27px;
         height: 27px;
         left: 178px;
-        top: 28px;
+        top: 25px;
         border-radius: 50%;
         border: 1px solid $toggle-border;
         box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
@@ -41,8 +41,10 @@
     }
     .buzz-head{
         .buzz-search{
-            position: relative;
-            top: 30px;
+            position: absolute;
+            left: 30px;
+            margin-left: 190px;
+            @extend .toggle-transition;
             form{
                 padding: 0;
                 margin: 0;
@@ -54,7 +56,6 @@
                     }
                 }
                 input{
-                    width: 400px;
                 }
                 ::placeholder{
                     color: $fade-text;
@@ -63,70 +64,73 @@
                 }
             }
         }
-        .buzz-nav{
-            position: relative;
-            top: 25px;
-            li{
-                position: relative;
-                list-style: none;
-                display: inline;
-                padding: 0 15px;
-                &:last-child{
-                    top: -15px;
-                    svg{
-                        position: relative;
-                        top: 2px;
-                    }
-                }
-                a{
-                    #user-image{
-                        width: 64px;
-                        margin-right: 25px;
-                        margin-top: -8px;
-                    }
-                }
-                button{
-                    padding: 0;
-                    background: none;
-                }
-                .el-dropdown{
-                    .el-badge{
-                        vertical-align: unset;
-                        .el-badge__content{
-                            width: 33px;
-                            height: 32px;
-                            border-radius: 50%;
-                            padding-top: 5px;
-                            font-size: 13px;
+        .buzz-nav-menu{
+            position: absolute;
+            right: 30px;
+            .buzz-nav{
+                padding: 0;
+                margin: 0;
+                li{
+                    list-style: none;
+                    display: inline-block;
+                    padding: 0 10px;
+                    &:first-child{
+                        img{
+                            margin-bottom: 3px;
                         }
                     }
                     button{
-                        svg{
-                            fill: $table-data;
+                        padding: 0;
+                        background: none;
+                    }
+                    .el-dropdown{
+                        .el-badge{
+                            vertical-align: unset;
+                            .el-badge__content{
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 50%;
+                                padding-top: 5px;
+                                font-size: 12px;
+                            }
                         }
-                        &:hover{
-                            svg{
-                                fill: $blue;
+                        button{
+                            #user-image{
+                                width: 45px;
+                                margin-right: 15px;
+                                margin-left: 5px;
+                                margin-top: -8px;
+                            }
+                            .icon-hover{
+                                display: none;
+                            }
+                            &:hover, .active{
+                                .icon-normal{
+                                    display: none;
+                                }
+                                .icon-hover, svg{
+                                    display: inline-block;
+                                }
                             }
                         }
                     }
-                }
-                .email-badge{
-                    .el-badge__content{
-                        top: 1px !important;
-                        right: 15px !important;
+                    .email-badge{
+                        .el-badge__content{
+                            top: 1px !important;
+                            right: 12px !important;
+                        }
                     }
-                }
-                .notif-badge{
-                    .el-badge__content{
-                        top: 5px !important;
-                        right: 20px !important;
+                    .notif-badge{
+                        .el-badge__content{
+                            top: 5px !important;
+                            right: 14px !important;
+                        }
                     }
-                }
-                .chat-badge{
-                    .el-badge__content{
-                        top: 4px !important;
-                        right: 12px !important;
+                    .chat-badge{
+                        .el-badge__content{
+                            top: 4px !important;
+                            right: 11px !important;
+                        }
                     }
                 }
             }
