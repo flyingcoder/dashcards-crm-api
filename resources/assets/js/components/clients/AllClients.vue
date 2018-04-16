@@ -7,13 +7,13 @@
                 @cell-click="rowClick"
                 >
                 <el-table-column sortable type="selection" width="60"></el-table-column>
-                <el-table-column sortable label="Client">
+                <el-table-column sortable prop="first_name" label="Client">
                     <template slot-scope="scope">
                         <avatar :username="scope.row.first_name + ' ' + scope.row.last_name" 
                         :src="'/' + scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar> 
                     </template>
                 </el-table-column>
-                <el-table-column prop="service_name" label="Service"></el-table-column>
+                <el-table-column prop="service_name" sortable label="Service"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date"></el-table-column>
                 <el-table-column sortable label="Progress">
                     <div class="progress project-progress"> 
@@ -21,7 +21,7 @@
                     </div>
                 </el-table-column>
                 <el-table-column sortable prop="time_spent" label="Time Spent"></el-table-column>
-                <el-table-column sortable label="Status">
+                <el-table-column sortable prop="status" label="Status">
                     <template slot-scope="scope">
                         <span class="status"> {{ scope.row.status }} </span>
                         <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
