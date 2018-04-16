@@ -19,6 +19,8 @@ class Company extends Model
     
     protected $paginate = 10;
 
+    protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description'];
+
     public function teams()
     {
         return $this->hasMany(Team::class);
@@ -177,7 +179,7 @@ class Company extends Model
 
     public function roles()
     {
-        return $this->hasMany(Role::class);
+        return $this->belongsToMany(Role::class);
     }
 
     public function projects()
