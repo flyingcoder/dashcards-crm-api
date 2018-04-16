@@ -33,16 +33,16 @@
                                     </el-button>
                                     <el-dropdown-menu slot="dropdown" class="sort-dropdown">
                                         <el-dropdown-item>
-                                            <a href="#"> Sort by Client </a>
+                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('first_name', 'ascending')"> Sort by Client </p>
                                         </el-dropdown-item>
                                         <el-dropdown-item>
-                                            <a href="#"> Sort by Service </a>
+                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('service_name', 'ascending')"> Sort by Service </p>
                                         </el-dropdown-item>
                                         <el-dropdown-item>
-                                            <a href="#"> Sort by Date </a>
+                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('start_date', 'ascending')"> Sort by Date </p>
                                         </el-dropdown-item>
                                         <el-dropdown-item>
-                                            <a href="#"> Sort by Progress </a>
+                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('status', 'ascending')"> Sort by Progress </p>
                                         </el-dropdown-item>
                                     </el-dropdown-menu>  
                                 </el-dropdown>
@@ -63,7 +63,7 @@
                             <my-clients></my-clients>
                         </el-tab-pane>
                     </el-tabs> -->
-                    <all-clients></all-clients>
+                    <all-clients ref="allClients"></all-clients>
                 </div>
             </section>
         </div>
@@ -82,7 +82,21 @@
           'add-client': AddClient,
           'all-clients': AllClients,
           'my-clients': MyClients,
-      }
+        },
+      data() {
+           return {
+
+           }
+        },
+        methods: {
+            exteralSort: function(prop, order) {
+                var col = [{
+                    prop: prop,
+                    order: order,
+                }];
+                this.$refs.allClients.handleSortChange(col);
+            }
+        }
 
     }
 </script>
