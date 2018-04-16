@@ -17,7 +17,13 @@ Route::get('activities', 'ActivityController@index');
 
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
-  Route::get('/', 'CompanyController@index');
+  //Route::get('/', 'CompanyController@index');
+});
+
+Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register/subscriber'], function () {
+
+  Route::post('/', 'Auth\ApiRegisterController@create');
+
 });
 
 //events
@@ -72,6 +78,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/', 'UserController@user');
+
+  Route::post('/', 'Auth\RegisterController@create');
 
   Route::get('/company/{key}', 'UserController@getMeta');
 

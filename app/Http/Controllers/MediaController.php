@@ -64,6 +64,8 @@ class MediaController extends Controller
                   'media' => $media
                 ])
                ->log('Added a file to a project');
+
+        
     }
 
     public function collectionName(Request $request)
