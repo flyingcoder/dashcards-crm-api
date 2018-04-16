@@ -1696,6 +1696,26 @@
             display: none;
         }
     }
+    .settings-editor{
+        height: 200px !important;
+        .ql-container{
+            box-shadow: $box-shadow-inset;
+            border: $input-border !important;
+        }
+        .ql-toolbar{
+            display: none;
+        }
+    }
+    .email-editor{
+        height: 725px !important;
+        .ql-container{
+            box-shadow: $box-shadow-inset;
+            border: $input-border !important;
+        }
+        .ql-toolbar{
+            display: none;
+        }
+    }
     .showEditor{
         .ql-toolbar{
             display: block !important;

@@ -1,11 +1,11 @@
 <template>
     <section class="content settings">
         <settings-menu></settings-menu>
-        <!-- <section>
+        <section>
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
             </transition>
-        </section> -->
+        </section>
     </section>
 </template>
 

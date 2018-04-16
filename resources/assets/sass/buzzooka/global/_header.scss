@@ -101,6 +101,9 @@
                                 margin-left: 5px;
                                 margin-top: -8px;
                             }
+                            .arrow-down{
+                                width: 35px;
+                            }
                             .icon-hover{
                                 display: none;
                             }
@@ -344,6 +347,35 @@
                 .image , .info{
                     display: inline-block;
                     vertical-align: top;
+                }
+            }
+        }
+    }
+    .header-user{
+        width: 300px !important;
+        margin-top: 20px;
+        padding: 20px;
+        .dropdown-content{
+            list-style: none;
+            padding: 0;
+            background: none;
+            &:hover{
+                background: none;
+            }
+            li{
+                height: 50px;
+                a, button{
+                    img, h3{
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                    img{
+                        width: 40px;
+                    }
+                    h3{
+                        margin: 0;
+                        padding: 0;
+                    }
                 }
             }
         }

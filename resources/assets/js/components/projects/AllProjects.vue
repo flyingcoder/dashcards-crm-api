@@ -67,7 +67,6 @@
     </div>
 </template>
 
-
 <script>
     import EmptyProjects from './EmptyProjects.vue';
     import EditProject from './EditProject.vue';
