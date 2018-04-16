@@ -27,9 +27,16 @@ class MediaController extends Controller
 
     public function projectMedia($project_id)
     {
-        return Media::where('model_id', $project_id)
+        $medias = Media::where('model_id', $project_id)
                       ->where('model_type', 'App\Project')
                       ->paginate(10);
+
+        $medias->map(function ($media) {
+           $media['public_url'] = $media->getUrl();
+           return $media;
+        });
+
+        return $medias;
     }
 
     public function projectMediaAll($project_id)
@@ -45,9 +52,18 @@ class MediaController extends Controller
 
         $project = Project::findOrFail($project_id);
 
-        $project->addMedia(request()->url)
+        $media = $project->addMedia(request()->url)
                 ->withCustomProperties(['ext' => request()->extention])
                 ->toMediaCollection($collectionName);
+
+        activity(auth()->user()->company()->name)
+               ->performedOn($project)
+               ->causedBy(auth()->user())
+               ->withProperties([
+                  'company_id' => auth()->user()->company()->id,
+                  'media' => $media
+                ])
+               ->log('Added a file to a project');
     }
 
     public function collectionName(Request $request)
@@ -82,9 +98,18 @@ class MediaController extends Controller
 
       	$project = Project::findOrFail($project_id);
 
-      	$project->addMedia(request()->file('file'))
-               ->withCustomProperties(['ext' => request()->file('file')->extension()])
-      		     ->toMediaCollection($collectionName);
+      	$media = $project->addMedia(request()->file('file'))
+                ->withCustomProperties(['ext' => request()->file('file')->extension()])
+      		      ->toMediaCollection($collectionName);
+
+        activity(auth()->user()->company()->name)
+               ->performedOn($project)
+               ->causedBy(auth()->user())
+               ->withProperties([
+                  'company_id' => auth()->user()->company()->id,
+                  'media' => $media
+                ])
+               ->log('Added a file to a project');
     }
 
 

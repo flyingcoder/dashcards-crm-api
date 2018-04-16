@@ -1,61 +1,101 @@
 <template>
-    <modal name="add-project" transition="nice-modal-fade" @before-open="beforeOpen">
+    <modal name="edit-project" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
                 <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
+                    <div class="add-members">
+                        <h4> Add Members </h4>
+                        <img src="img/temporary/user1.png" class="members" alt="user">
+                        <img src="img/temporary/user2.png" class="members" alt="user">
+                        <img src="img/temporary/user3.png" class="members" alt="user">
+                        <button class="members add-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="18px" height="18px">
+                                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+                                d="M16.905,9.715 L10.225,9.715 L10.225,17.218 C10.225,17.586 9.859,17.885 9.408,17.885 C8.957,17.885 8.592,17.586 8.592,17.218 L8.592,9.715 L1.092,9.715 C0.724,9.715 0.425,9.349 0.425,8.898 C0.425,8.447 0.724,8.081 1.092,8.081 L8.592,8.081 L8.592,1.397 C8.592,1.029 8.957,0.730 9.408,0.730 C9.859,0.730 10.225,1.029 10.225,1.397 L10.225,8.081 L16.905,8.081 C17.273,8.081 17.572,8.447 17.572,8.898 C17.572,9.349 17.273,9.715 16.905,9.715 Z"/>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="modal-options">
                         <el-form-item  class="option">
-                            <div class="option-item"> 
-                                <el-dropdown trigger="click" placement="bottom" class="member-option">
-                                    <el-button size="small" class="el-dropdown-link"> 
-                                        <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
-                                        <span> Members </span> 
-                                    </el-button>
-                                    <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
-                                        <el-dropdown-item>
-                                            <el-row :gutter="20" v-for="c in clients" :key="c.id">
-                                                <el-col :sm="8">
-                                                    <img :src="c.image_url" class="no-padding-left drop-down-image">
-                                                </el-col>
-                                                <el-col :sm="16">
-                                                    <label style="line-height:4; margin-bottom:0px">{{ c.first_name }} {{ c.last_name }}</label>
-                                                </el-col>
-                                            </el-row>
-                                        </el-dropdown-item> 
-                                    </el-dropdown-menu>
-                                </el-dropdown>
-                            </div>
-                            <div class="option-item">
-                                <div class="date-option">
-                                    <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
-                                    <el-date-picker
-                                        :clearable="false"
-                                        v-model="form.end_at"
-                                        type="date"
-                                        placeholder="Due Date">
-                                    </el-date-picker>
-                                </div>
-                            </div>
-                            <div class="option-item">
-                                <div class="file-upload">
-                                    <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
-                                    <el-upload
-                                        class=""
-                                        ref="upload"
-                                        action=""
-                                        :auto-upload="false">
-                                        <el-button slot="trigger">
-                                            Attachment 
+                            <div class="row">
+                                <div class="option-item members-btn"> 
+                                    <el-dropdown trigger="click" placement="bottom" class="member-option">
+                                        <el-button size="small" class="el-dropdown-link"> 
+                                            <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
+                                            <span> Members </span> 
                                         </el-button>
-                                    </el-upload>
+                                        <el-dropdown-menu slot="dropdown" class="member-dropdown" id="member-dropdown">
+                                            <!-- v-bind:class="{ active: showMembers }" -->
+                                            <div class="member-content">
+                                                <el-select v-model="form.member" multiple filterable placeholder="Select a Member">
+                                                    <el-option
+                                                    v-for="item in members"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value"
+                                                
+                                                    class="member-option">
+                                                    <!-- v-on:click="showMembers = !showMembers" -->
+                                                        <!-- <label class="member-image"> <img src="/img/temporary/user1.png"> </label> -->
+                                                    </el-option>
+                                                </el-select>
+                                            </div>
+                                        </el-dropdown-menu>
+                                    </el-dropdown>
+                                </div>
+                                <div class="option-item">
+                                    <div class="date-option">
+                                        <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                                        <el-date-picker
+                                            :clearable="false"
+                                            v-model="form.end_at"
+                                            type="date"
+                                            placeholder="Due Date">
+                                        </el-date-picker>
+                                    </div>
+                                </div>
+                                <div class="option-item">
+                                    <div class="file-upload">
+                                        <el-upload
+                                            class=""
+                                            ref="upload"
+                                            action=""
+                                            :auto-upload="false">
+                                            <el-button slot="trigger">
+                                                <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
+                                                Attachment 
+                                            </el-button>
+                                        </el-upload>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="option-item"> 
+                                    <el-button>
+                                        <img src="img/icons/modal/more.svg" alt="" class="button-icon">
+                                        More 
+                                    </el-button>
+                                </div>
+                                <div class="option-item">
+                                    <el-button>
+                                        <img src="img/icons/modal/copy.png" alt="" class="button-icon">
+                                        Copy 
+                                    </el-button>
+                                </div>
+                                <div class="option-item">
+                                    <el-button>
+                                        <img src="img/icons/modal/archive.svg" alt="" class="button-icon"> 
+                                        Archive 
+                                    </el-button>
+                                </div>
+                             </div>
                         </el-form-item>
                     </div>
                     <div class="buzz-modal-content">
                         <el-form-item prop="name">
-                            <el-input type="text" v-model="form.title" placeholder="Untitled Project"></el-input>
+                            <el-input type="text" v-model="form.name" placeholder="Untitled Project"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-select v-model="form.client" clearable placeholder="Select Client">
@@ -209,8 +249,8 @@ var yyyy = today.getFullYear();
                 showMembers: false,
                 descriptionEditor: false,
                 commentEditor: false,
-                title: 'Add New Project',
-                action: 'Save',
+                title: 'Website Redesign Concept',
+                action: 'Update',
                 id: 0,
                 oldName: '',
                 isProcessing: false,
@@ -260,8 +300,8 @@ var yyyy = today.getFullYear();
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
-                    this.title = 'Edit Project';
-                    this.id = event.params.data;
+                    this.header = 'Edit Project';
+                    this.id = event.params.data.id;
                     var vm = this;
                     axios.get('api/projects/'+this.id)
                         .then( response => {
