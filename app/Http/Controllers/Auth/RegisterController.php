@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use Illuminate\Http\Request;
+
 class RegisterController extends Controller
 {
     /*
@@ -48,7 +50,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'job_title' => 'string|max:255',
+            'telephone' => 'string|max:255',
+            'image_url' => 'string|max:255',
+            'team_id' => 'required|exists:teams',
+            'role_id' => 'required|exists:roles',
+            'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -60,12 +69,27 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        $user = User::create([ 
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'telephone' => $request->telephone,
+            'image_url' => $request->image_url,
+            'job_title' => $request->job_title,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
         ]);
+
+        $role = Roles::findOrFail($request->role_id);
+
+        $team = Team::findOrFail($request->team_id);
+
+        $user->assignRole($role->slug);
+
+        $user->team()->attach($team);
+
+        return $user;
+
     }
 }
