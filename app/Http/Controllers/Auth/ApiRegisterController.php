@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Company;
 use App\Team;
+use App\Dashboard;
 use Kodeine\Acl\Models\Eloquent\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -69,6 +70,12 @@ class ApiRegisterController extends Controller
         $company = Company::create([
            'name' => $request->company_name,
            'email' => $request->company_email,
+        ]);
+
+        $dashboard = Dashboard::create([
+            'company_id' => $company->id,
+            'title' => $request->company_name,
+            'description' => $request->company_name.' Dashboard'
         ]);
 
         $role = new Role();
