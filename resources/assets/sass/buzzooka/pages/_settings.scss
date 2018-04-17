@@ -1,7 +1,7 @@
 .settings{
     .settings-menu{
-        margin: 0 -30px 12px;
-        height: 62px;
+        margin: 0 -30px;
+        height: 60px;
         background: $white;
         border-bottom: $body-border;
         ul{
@@ -12,7 +12,7 @@
             li{
                 display: inline-block;
                 height: 61px;
-                width: 9.81%;
+                width: 9.7%;
                 padding-top: 20px;
                 line-height: 1;
                 text-align: center;
@@ -38,18 +38,18 @@
                 .el-form-item{
                     label{
                         font-size: 23px;
-                        line-height: 55px !important;;
+                        line-height: 45px !important;
                         padding: 0 40px 0 0 !important;
                     }
                     .el-form-item__content{
                         .el-input{
-                            height: 64px;
-                            font-size: 23px;
+                            height: 50px;
+                            font-size: 20px;
                         }
                         .el-select{
                             .el-input{
                                 .el-input__suffix{
-                                    width: 70px;
+                                    width: 60px;
                                     i{
                                         font-size: 30px !important;
                                     }
@@ -62,14 +62,14 @@
                     .el-form-item__content{
                         margin-left: 0px !important;
                         .el-button{
-                            height: 64px;
-                           font-size: 23px;
+                            height: 60px;
+                            font-size: 20px;
                         }
                     }
                 }
                 .line-2{
                     label{
-                        line-height: 30px !important;
+                        line-height: 25px !important;
                     }
                 }
             }
@@ -77,7 +77,7 @@
     }
     .general, .company, .invoice, .bank, .cash, .paypal{
         .buzz-section{
-            padding: 40px;
+            padding: 25px 40px;
             .el-form-item{
                 .el-form-item__content{
                     margin-left: 330px !important;
@@ -108,6 +108,9 @@
         .el-tabs__content{
             background: $gray-bg;
             padding: 30px 0 0 0  !important;
+            .el-tabs__header{
+                width: 30%;
+            }
             .el-tabs__item{ //Sidebar
                 width: 100% !important;
                 height: 80px !important;
@@ -123,7 +126,7 @@
                 padding: 0 !important;
                 .el-input{
                     input{
-                        border:  $input-border;
+                        border: $input-border;
                     }
                 }
                 .el-textarea{
@@ -429,5 +432,4 @@
             }
         }
     }
-
 }
