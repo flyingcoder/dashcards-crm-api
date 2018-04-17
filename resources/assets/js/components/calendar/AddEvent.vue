@@ -19,24 +19,16 @@
                         <div class="modal-options">
                             <el-form-item  class="option">
                                 <div class="option-item"> 
-                                     <el-dropdown trigger="click" placement="bottom" class="member-option">
+                                    <el-dropdown trigger="click" placement="bottom" class="member-option">
                                         <el-button size="small" class="el-dropdown-link"> 
                                             <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
                                             Members 
                                         </el-button>
                                         <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
-                                           <el-select
-                                                v-model="form.members"
-                                                multiple
-                                                filterable
-                                                allow-create
-                                                default-first-option
-                                                placeholder="Choose Members">
-                                                <el-option
-                                                v-for="item in members"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
+                                            <el-select v-model="form.members" multiple filterable allow-create default-first-option placeholder="Choose Members">
+                                                <el-option v-for="item in members" :key="item.value" :value="item.value" style="height: 70px">
+                                                    <span style="float:left"><img :src="item.image" style="height:auto; width: 65"/></span>
+                                                    <span style="float:right; line-height: 8vh !important">{{ item.label }}</span>
                                                 </el-option>
                                             </el-select>
                                         </el-dropdown-menu>
@@ -44,7 +36,7 @@
                                 </div>
                                 <div class="option-item">
                                     <div class="date-option">
-                                        <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                                        <img src="img/icons/modal/date.svg" class="button-icon">                                    
                                         <el-date-picker
                                             :clearable="false"
                                             v-model="form.date"
@@ -261,12 +253,15 @@
                 members: [{
                     value: 'Ross Mosqueda',
                     label: 'Ross Mosqueda',
+                    image: 'img/members/alfred.png'
                     }, {
                     value: 'Klent',
-                    label: 'Klent'
+                    label: 'Klent',
+                    image: 'img/members/alfred.png'
                     }, {
                     value: 'Brian',
-                    label: 'Brian'
+                    label: 'Brian',
+                    image: 'img/members/alfred.png'
                 }],
                 hours: [{
                     value: '01',

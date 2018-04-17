@@ -24,7 +24,7 @@ class DashboardController extends Controller
 
         foreach (request()->dashitem_id as $k => $id) {
             if(!$defaultDash->dashitems->contains($id))
-                $defaultDash->dashitems()->attach($id, ['order' => $k+1]);
+                $defaultDash->dashitems()->attach($id, ['order' => $k+1, 'visible' => 1]);
         }
 
         return $defaultDash->dashitems;

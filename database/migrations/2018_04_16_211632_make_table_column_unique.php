@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNewCreatedByRolesTable extends Migration
+class MakeTableColumnUnique extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddNewCreatedByRolesTable extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function (Blueprint $table) {
-           $table->integer('company_id')->unsigned()->index()->foreign()->references("id")->on("companies")->onDelete("cascade");
+        Schema::table('companies', function (Blueprint $table) {
+            $table->unique('email');
         });
     }
 
@@ -25,8 +25,8 @@ class AddNewCreatedByRolesTable extends Migration
      */
     public function down()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->dropColumn('company_id');
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropUnique('companies_email_unique');
         });
     }
 }

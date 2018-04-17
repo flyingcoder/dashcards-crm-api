@@ -4,10 +4,10 @@
         padding: 0;
         margin: 0;
         .sidebar-list{
-            height: 80px;
+            height: 60px;
             margin-left: 8px;
             border-radius: 5px 0 0 5px;
-            padding: 15px 0 0 22px;
+            padding: 0;
             cursor: pointer;
 
             &:hover , &:active, &:focus{
@@ -24,18 +24,27 @@
             }
             a{
                 color: $side-text;
-                font-weight: bold;
+                .list-item{
+                    height: 100%;
+                    width: 100%;
+                    padding: 10px 0 0 20px;
+                    -webkit-transition: margin 0.4s ease;
+                    transition: margin 0.4s ease;
+                }
                 .menu-name{
                     position:absolute;
                     font-size: 16px;
                     font-family: $lato-semi;
                     line-height: 1.2;
-                    margin: 15px 0 0 45px;
+                    margin: 10px 0 0 30px;
                 }
                 
                 .tab-icon{
                     fill: $white;
-                    width: 50px;
+                    width: 40px;
+                    svg{
+                        width: 40px;
+                    }
                 }
                 img{
                     width: 50px;
@@ -45,6 +54,9 @@
         .active{
             background: $body-bg;
             z-index: 2000;
+            -webkit-box-shadow: -10px 2px 15px 0px rgba(0,0,0,0.4);
+            -moz-box-shadow: -10px 2px 15px 0px rgba(0,0,0,0.4);
+            box-shadow: -10px 2px 15px 0px rgba(0,0,0,0.4);
             @extend .hover-transition;
             a{
                 color: $side-hover;
