@@ -11,8 +11,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        //team seeder
-        factory(App\Team::class)->create();
 
         $user = new User();
         $userBen = $user->create(

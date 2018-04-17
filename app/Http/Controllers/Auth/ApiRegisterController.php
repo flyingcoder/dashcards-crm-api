@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Company;
 use App\Team;
+use App\Dashboard;
+use Kodeine\Acl\Models\Eloquent\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -64,9 +66,16 @@ class ApiRegisterController extends Controller
 
     protected function create(Request $request)
     {
+
         $company = Company::create([
-           'company_name' => $request->company_name,
-           'company_email' => $request->company_email,
+           'name' => $request->company_name,
+           'email' => $request->company_email,
+        ]);
+
+        $dashboard = Dashboard::create([
+            'company_id' => $company->id,
+            'title' => $request->company_name,
+            'description' => $request->company_name.' Dashboard'
         ]);
 
         $role = new Role();
@@ -74,29 +83,32 @@ class ApiRegisterController extends Controller
         $roleAdmin = $role->create(
             [
                 'name' => 'Administrator',
-                'slug' => 'admin',
+                'slug' => 'admin-'.$company->id,
                 'description' => 'manage administration privileges',
-                'company_id' => $company->id
             ]
         );
 
         $roleClient = $role->create(
             [
                 'name' => 'Client',
-                'slug' => 'client',
+                'slug' => 'client-'.$company->id,
                 'description' => 'Client privileges',
-                'company_id' => $company->id
             ]
         );
 
         $roleManager = $role->create(
             [
                 'name' => 'Manager',
-                'slug' => 'manager',
+                'slug' => 'manager-'.$company->id,
                 'description' => 'manage a team privileges',
-                'company_id' => $company->id
             ]
         );
+
+        $company->roles()->attach([
+            $roleAdmin->id,
+            $roleClient->id,
+            $roleManager->id
+        ]);
 
         $team = Team::create([
             'name' => 'Admin Team',
@@ -107,14 +119,15 @@ class ApiRegisterController extends Controller
 	    $user = User::create([
            'username' => $request->username,
            'first_name' => $request->first_name,
-	       'last_name' => $request->last_name,
+           'last_name' => $request->last_name,
+	       'image_url' => 'img/members/alfred.png',
 	       'email' => $request->email,
 	       'password' => bcrypt($request->password),
         ]);
 
         $user->assignRole('admin'); //prone to change
 
-        $user->team()->attach($team);
+        $company->teams()->save($team);
 
         return $user;
     }

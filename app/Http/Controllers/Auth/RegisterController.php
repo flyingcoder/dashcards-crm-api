@@ -87,7 +87,7 @@ class RegisterController extends Controller
 
         $user->assignRole($role->slug);
 
-        $user->team()->attach($team);
+        auth()->company()->teams()->save($team);
 
         return $user;
 
