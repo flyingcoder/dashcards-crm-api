@@ -95,6 +95,7 @@ Vue.component('avatar',Avatar);
 
 // Invoices
   Vue.component('invoices', require('./components/invoices/index.vue'));
+  Vue.component('invoice-form', require('./components/invoices/form/Index.vue'));
 
 // Payments
   Vue.component('payments', require('./components/payments/index.vue'));
@@ -310,7 +311,6 @@ let buzzcrm = {
 
     buzzcrm['router'] = router;
   }
-
 
 // Project HQ
   if(document.getElementById("app-with-routes")) {
