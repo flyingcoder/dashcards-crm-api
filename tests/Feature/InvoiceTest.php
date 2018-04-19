@@ -29,7 +29,7 @@ class InvoiceTest extends TestCase
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
     					 ->get('api/invoices/1');
 		
-		dd($response->content());
+		//dd($response->content());
     	$response->assertStatus(200);
     }
 }

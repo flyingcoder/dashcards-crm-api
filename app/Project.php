@@ -23,11 +23,11 @@ class Project extends Model implements HasMediaConversions
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'location', 'started_at', 'service_id', 'end_at', 'description', 'status'
+        'title', 'started_at', 'service_id', 'end_at', 'description', 'status'
     ];
 
     protected static $logAttributes = [
-        'location', 'started_at', 'service_id', 'end_at', 'description', 'status'
+        'title', 'started_at', 'service_id', 'end_at', 'description', 'status'
     ];
 
     public function comments()
