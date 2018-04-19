@@ -95,6 +95,7 @@ Vue.component('avatar',Avatar);
 
 // Invoices
   Vue.component('invoices', require('./components/invoices/index.vue'));
+  Vue.component('invoice-form', require('./components/invoices/form/Index.vue'));
 
 // Payments
   Vue.component('payments', require('./components/payments/index.vue'));
@@ -126,6 +127,9 @@ Vue.component('avatar',Avatar);
 // Project-HQ
   Vue.component('project-hq', require('./components/projects/project-hq/index.vue'));
   Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu.vue'));
+
+  // Settings
+  Vue.component('settings', require('./components/settings/Index.vue'));
 
 // Common Files
     Vue.component('page-header', require('./components/common/PageHeader.vue'));  
@@ -289,14 +293,24 @@ let buzzcrm = {
 
     let router = new VueRouter({
       routes: [
-        // {path: '/',component: require('./components/settings/General.vue')},
+        {path: '/',component: require('./components/settings/General.vue')},
+        {path: '/Company',component: require('./components/settings/Company.vue')},
+        {path: '/Invoice',component: require('./components/settings/Invoice.vue')},
+        {path: '/Bank',component: require('./components/settings/Payments/Bank.vue')},
+        {path: '/Cash',component: require('./components/settings/Payments/Cash.vue')},
+        {path: '/Paypal',component: require('./components/settings/Payments/Paypal.vue')},
+        {path: '/Email Templates',component: require('./components/settings/EmailTemplates/EmailTemplates.vue')},
+        {path: '/Support',component: require('./components/settings/Supports/Support.vue')},
+        {path: '/Form Fields',component: require('./components/settings/FormFields.vue')},
+        {path: '/Cron',component: require('./components/settings/Cron.vue')},
+        {path: '/DB Backup',component: require('./components/settings/DbBackup.vue')},
+        {path: '/Updates',component: require('./components/settings/Updates.vue')},
       ],
       linkActiveClass: 'active'
     });
 
     buzzcrm['router'] = router;
   }
-
 
 // Project HQ
   if(document.getElementById("app-with-routes")) {

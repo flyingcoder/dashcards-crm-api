@@ -14,7 +14,7 @@ class AddUserImageColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('image_url')->after('email');
+            $table->string('image_url')->after('email')->nullable();
         });
     }
 

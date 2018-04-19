@@ -63,7 +63,7 @@
                     <div class="buzz-tile-name">
                         <!-- <div class="buzz-tile-number"> {{ myProjects }} </div> -->
                         <div class="buzz-tile-number"> 30 </div>
-                        <div class="buzz-tile-title"> My Projects </div>
+                        <div class="buzz-tile-title"> Projects </div>
                     </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     <div class="buzz-tile-name">
                         <!-- <div class="buzz-tile-number"> {{ myTasksCount }} </div> -->
                         <div class="buzz-tile-number"> 50 </div>
-                        <div class="buzz-tile-title"> My Open Task </div>
+                        <div class="buzz-tile-title"> Open Task </div>
                     </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                     <div class="buzz-tile-name">
                         <!-- <div class="buzz-tile-number"> {{ myCalendar }} </div> -->
                         <div class="buzz-tile-number"> 06 </div>
-                        <div class="buzz-tile-title">My Calendar </div>
+                        <div class="buzz-tile-title"> Calendar </div>
                     </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                             <div class="buzz-tile-name">
                                 <!-- <div class="buzz-tile-number"> {{ myTimer }} </div> -->
                                 <div class="buzz-tile-number"> 24 </div>
-                                <div class="buzz-tile-title"> My Timer </div>
+                                <div class="buzz-tile-title"> Timer </div>
                             </div>
                         </div>
                     </div>

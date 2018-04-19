@@ -142,7 +142,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
   Route::put('{id}', 'ServiceController@update');
 
-  Route::delete('{id}', 'ServiceController@delete');
+  Route::delete('{id}/delete', 'ServiceController@delete');
 
 });
 

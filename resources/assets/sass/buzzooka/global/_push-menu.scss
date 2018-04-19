@@ -1,15 +1,20 @@
 .sidebar-collapse{
     .logo{
-        width: 110px !important;
+        width: 80px !important;
         @extend .toggle-transition;
         .logo-mini{
             position: relative; 
             display: block;
-            left: 25px;
+            left: 10px;
             top: 22px;
+            @extend .toggle-transition;
             img{
                 width: 57px;
                 height: 33px;
+                margin-left: 0 !important;
+                margin-top: 5px !important;
+                -webkit-transition: margin 0.4s ease;
+                transition: margin 0.4s ease;
             }
         }
         .logo-lg{
@@ -17,10 +22,11 @@
         }
     }
     .menu-toggle{
-        left: 95px !important;
+        left: 70px !important;
+        top: 29px;
         @extend .toggle-transition;
         svg{
-            left: 3.5px;
+            left: 3px;
             -ms-transform: rotate(0deg); /* IE 9 */
             -webkit-transform: rotate(0deg); /* Safari 3-8 */
             transform: rotate(0deg);
@@ -28,17 +34,26 @@
         }
     }
     .buzz-sidebar{
-        width: 110px !important;
+        width: 80px !important;
         @extend .toggle-transition;
         .sidebar-menu{
             .menu-name{
                 display: none;
                 @extend .toggle-transition;
             }
+            .list-item{
+                margin-left: -5px !important;
+                -webkit-transition: margin 0.4s ease;
+                transition: margin 0.4s ease;
+            }
         }
     }
-    .buzz-content, .buzz-head{
-        margin-left: 116px !important;
+    .buzz-search{
+        margin-left: 80px !important;
+        @extend .margin-transition;
+    }
+    .buzz-content{
+        margin-left: 86px !important;
         @extend .margin-transition;
     }   
 }

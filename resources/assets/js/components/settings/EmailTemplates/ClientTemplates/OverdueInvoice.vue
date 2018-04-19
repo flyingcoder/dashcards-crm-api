@@ -5,7 +5,12 @@
                 <el-input v-model="form.overdueInvoice" placeholder="Overdue Invoice"></el-input>
             </el-form-item>
             <el-form-item label="" prop="editor"> 
-                <el-input type="textarea" v-model="form.editor" :rows="33" resize="none"></el-input>
+              <quill-editor 
+                  class="email-editor" 
+                  v-model="form.editor" 
+                  ref="myQuillEditor">
+              </quill-editor>
+                <!-- <el-input type="textarea" v-model="form.editor" :rows="33" resize="none"></el-input> -->
             </el-form-item>
             <el-form-item class="buzz-form-button">
                 <el-button @click="submitForm('form')"> Save Changes </el-button>

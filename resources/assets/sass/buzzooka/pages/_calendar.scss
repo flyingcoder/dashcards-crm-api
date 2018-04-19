@@ -182,14 +182,17 @@
                 .el-input{
                     width: 100% !important;
                 }
+                input{
+                    margin-left: 45px !important; 
+                }
             }
             .el-button{
                 border: $table-border;
                 border-radius: 10px;
                 background: $modal-input;
                 box-shadow: $body-shadow;
-                height: 63px;
-                width: 65px;
+                height: 45px;
+                width: 55px;
                 vertical-align: top;
                 margin-left: 20px;
                 svg{
@@ -203,7 +206,7 @@
             }
             .additional-field{
                 margin-left: 19px !important;
-                padding: 14px !important;
+                padding: 5px !important;
                 svg{
                     width: 39px;
                 }
@@ -336,7 +339,7 @@
                             img{
                                 position: relative;
                                 left: 0.5px;
-                                bottom: 2px;
+                                bottom: 0px;
                             }
                         }
                     }
@@ -514,7 +517,7 @@
 }
 .selected-color{
     position: absolute;
-    height: 58px;
+    height: 43px;
     width: 60px;
     z-index: 1;
     margin-top: 2px;

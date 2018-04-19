@@ -1,5 +1,6 @@
 <?php
 
+use App\Company;
 use Illuminate\Database\Seeder;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Kodeine\Acl\Models\Eloquent\Permission;
@@ -13,6 +14,9 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+    	//team seeder
+        factory(App\Team::class)->create();
+
     	$permission = new Permission();
 
         $permission->create(
@@ -74,12 +78,13 @@ class RoleSeeder extends Seeder
 
     	$role = new Role();
 
+    	$company = Company::findOrfail(1);
+
 		$roleAdmin = $role->create(
 			[
 			    'name' => 'Administrator',
 			    'slug' => 'admin',
 				'description' => 'manage administration privileges',
-				'company_id' => 1
 			]
 		);
 
@@ -88,7 +93,6 @@ class RoleSeeder extends Seeder
 			    'name' => 'Client',
 			    'slug' => 'client',
 				'description' => 'Client privileges',
-				'company_id' => 1
 			]
 		);
 
@@ -97,7 +101,6 @@ class RoleSeeder extends Seeder
 			    'name' => 'Agent',
 			    'slug' => 'agent',
 				'description' => 'manage agent privileges',
-				'company_id' => 1
 			]
 		);
 
@@ -106,7 +109,6 @@ class RoleSeeder extends Seeder
 			    'name' => 'Manager',
 			    'slug' => 'manager',
 				'description' => 'manage a team privileges',
-				'company_id' => 1
 			]
 		);
 
@@ -115,8 +117,17 @@ class RoleSeeder extends Seeder
 			    'name' => 'Provider',
 			    'slug' => 'provider',
 				'description' => 'provider privileges',
-				'company_id' => 1
 			]
 		);
+
+		$company->roles()->attach([ 
+			$roleAdmin->id, 
+			$roleProvider->id, 
+			$roleManager->id,
+			$roleAgent->id,
+			$roleClient->id,
+		]);
+
+
     }
 }
