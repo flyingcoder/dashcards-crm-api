@@ -40,6 +40,8 @@
                 </el-tab-pane>
             </el-tabs>
         </div>
+        <edit-event></edit-event>
+        <edit-custom></edit-custom>
     </div> 
 </template>
 
@@ -48,6 +50,8 @@
     import GridAll from './GridAll.vue';
     import ListToday from './ListToday.vue';
     import ListAll from './ListAll.vue';
+    import EditEvent from './EditEvent.vue';
+    import EditCustomEvent from './EditCustomEvent.vue';
 
     export default {
         components: {
@@ -55,10 +59,12 @@
           'grid-all': GridAll,
           'list-today': ListToday,
           'list-all': ListAll,
+          'edit-event': EditEvent,
+          'edit-cutom': EditCustomEvent,
       },
        data () {
         return {
-
+            
         }
       },
       mounted () {
