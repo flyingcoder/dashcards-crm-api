@@ -29,10 +29,14 @@
         box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
         z-index: 999;
         @extend .toggle-transition;
+        button{
+            width: 100%;
+            height: 100%;
+        }
         svg{
             position: relative;
-            top: 3.5px;
-            left: 0.5px;
+            top: 3px;
+            right: 2px;
             -ms-transform: rotate(180deg); /* IE 9 */
             -webkit-transform: rotate(180deg); /* Safari 3-8 */
             transform: rotate(180deg);
@@ -285,7 +289,8 @@
         }
     }
     .header-notifications{
-        height: 900px;
+        height: auto;
+        max-height: 560px;
         top: 80px !important;
         padding: 0;
         margin: 0;

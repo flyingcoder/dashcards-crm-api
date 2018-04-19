@@ -9,7 +9,7 @@
             </el-badge>
             <el-dropdown-menu slot="dropdown" class="header-dropdown header-notifications buzz-scrollbar buzz-scroll">
                 <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/files.svg" class="type-image">
@@ -21,7 +21,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                     <a href="#">
+                     <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user2.png" class="user-image">
                             <img src="img/icons/notifications/images.svg" class="type-image">
@@ -33,7 +33,7 @@
                     </a>
                 </el-dropdown-item>
                  <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user3.png" class="user-image">
                             <img src="img/icons/notifications/files2.svg" class="type-image">
@@ -45,7 +45,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/edit.svg" class="type-image">
@@ -57,7 +57,7 @@
                     </a>
                 </el-dropdown-item>
                  <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/files.svg" class="type-image">
@@ -69,7 +69,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                     <a href="#">
+                     <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user2.png" class="user-image">
                             <img src="img/icons/notifications/images.svg" class="type-image">
@@ -81,7 +81,7 @@
                     </a>
                 </el-dropdown-item>
                  <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user3.png" class="user-image">
                             <img src="img/icons/notifications/files2.svg" class="type-image">
@@ -93,7 +93,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/edit.svg" class="type-image">
@@ -105,7 +105,7 @@
                     </a>
                 </el-dropdown-item>
                  <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/files.svg" class="type-image">
@@ -117,7 +117,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                     <a href="#">
+                     <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user2.png" class="user-image">
                             <img src="img/icons/notifications/images.svg" class="type-image">
@@ -129,7 +129,7 @@
                     </a>
                 </el-dropdown-item>
                  <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user3.png" class="user-image">
                             <img src="img/icons/notifications/files2.svg" class="type-image">
@@ -141,7 +141,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/edit.svg" class="type-image">
@@ -153,7 +153,7 @@
                     </a>
                 </el-dropdown-item>
                  <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/files.svg" class="type-image">
@@ -165,7 +165,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                     <a href="#">
+                     <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user2.png" class="user-image">
                             <img src="img/icons/notifications/images.svg" class="type-image">
@@ -177,7 +177,7 @@
                     </a>
                 </el-dropdown-item>
                  <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user3.png" class="user-image">
                             <img src="img/icons/notifications/files2.svg" class="type-image">
@@ -189,7 +189,7 @@
                     </a>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                    <a href="#">
+                    <a v-on:click.stop="showNotif">
                         <div class="image">
                             <img src="img/temporary/user1.png" class="user-image">
                             <img src="img/icons/notifications/edit.svg" class="type-image">
@@ -302,3 +302,24 @@
         </ul> -->
     </li>
 </template>
+
+<script>
+    export default {
+      data () {
+        return {
+
+        }
+      },
+      computed: {
+
+      },
+      mounted(){
+
+      },
+      methods: {
+        showNotif(){
+            console.log("notification")
+        },
+      }
+    }
+</script>

@@ -1,8 +1,8 @@
 <template>
     <li>
-        <div class="add-button">
+        <div class="add-button" @click="$modal.show('add-event')">
             <span> ADD NEW </span>
-            <button  @click="$modal.show('add-event')">
+            <button>
                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 width="20px" height="20px">
                 <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
@@ -25,7 +25,7 @@
                                             Members 
                                         </el-button>
                                         <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
-                                            <el-select v-model="form.members" multiple filterable allow-create default-first-option placeholder="Choose Members">
+                                            <el-select class="member-option-content" v-model="form.members" multiple filterable allow-create default-first-option placeholder="Choose Members">
                                                 <el-option v-for="item in members" :key="item.value" :value="item.value" style="height: 70px">
                                                     <span style="float:left"><img :src="item.image" style="height:auto; width: 65"/></span>
                                                     <span style="float:right; line-height: 8vh !important">{{ item.label }}</span>

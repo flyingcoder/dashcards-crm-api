@@ -681,6 +681,7 @@
         box-shadow: $add-shadow !important;
         border: none;
         outline: none;
+        cursor: pointer;
         -webkit-transition: width 0.2s;
         transition: width 0.2s;
         &:hover{
