@@ -149,11 +149,6 @@ Vue.component('avatar',Avatar);
     });
   });
 
-  $(document).on('click', '#member-option', function() {
-      console.log("testfunction");
-      $("#selectMembers").click();
-  });
-
 // Avoid on Closing Templates Dropdown When Clicking Check Boxes
   $("document").ready(function() {
     $('.dropdown-menu').on('click', function(e) {
