@@ -4,9 +4,9 @@
             <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
             @selection-change="handleSelectionChange" style="width: 100%"
-            @row-click="rowClick">
+            >
 
-                <el-table-column sortable type="selection" width="60"></el-table-column>
+                <el-table-column @cell-click="rowClick" sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
                 <el-table-column prop="client_image_url" label="Client" width="85">
                     <template slot-scope="scope">

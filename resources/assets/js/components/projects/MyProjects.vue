@@ -4,10 +4,10 @@
             <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
             @selection-change="handleSelectionChange" style="width: 100%"
-            @cell-click="rowClick"
+            
             >
                 <el-table-column type="selection" width="60"></el-table-column>
-                <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
+                <el-table-column @cell-click="rowClick" sortable prop="service_name" label="Service" width="115"></el-table-column>
                 <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
                 <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>

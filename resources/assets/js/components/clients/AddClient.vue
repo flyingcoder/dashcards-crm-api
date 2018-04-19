@@ -162,7 +162,7 @@
           },
           save: function () {
               this.isProcessing = true;
-              axios.post('/api/clients/new',this.form)
+              axios.post('/api/clients/',this.form)
               .then( response => {
                   this.isProcessing = false;
                   swal('Success!', 'Project is saved!', 'success');

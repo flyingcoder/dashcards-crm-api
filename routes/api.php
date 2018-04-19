@@ -227,7 +227,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 // Clients
 Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
-	Route::get('/', 'ClientController@index'); // project
+  Route::get('/', 'ClientController@index'); // project
+  
+	Route::post('/', 'ClientController@store'); // client add
 
   Route::delete('{id}/delete', 'ClientController@delete');
 
