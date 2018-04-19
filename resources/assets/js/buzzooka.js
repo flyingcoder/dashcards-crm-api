@@ -141,13 +141,17 @@ Vue.component('avatar',Avatar);
   $(document).ready(function(){
   // Push menu
     $("#toggleBuzzMenu").click(function(){
-      console.log('Test!!');
         $("body").toggleClass("sidebar-collapse");
     });
   // Offline and Online Status
     $('#switch-btn').click(function() {
       $('#switch-status').toggleClass('offline');
     });
+  });
+
+  $(document).on('click', '#member-option', function() {
+      console.log("testfunction");
+      $("#selectMembers").click();
   });
 
 // Avoid on Closing Templates Dropdown When Clicking Check Boxes
