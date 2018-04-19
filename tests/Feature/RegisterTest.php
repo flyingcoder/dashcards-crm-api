@@ -30,7 +30,7 @@ class RegisterTest extends TestCase
     	$response = $this->post('api/register/subscriber', $data);
     					 
 
-    	dd($response->content());
+    	//dd($response->content());
     	$response->assertStatus(200);
     }
 }

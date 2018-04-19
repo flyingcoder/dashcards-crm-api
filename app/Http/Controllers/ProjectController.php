@@ -179,7 +179,7 @@ class ProjectController extends Controller
 
         $project = Project::create([
             'title' => request()->title,
-            'location' => request()->location,
+            //'location' => request()->location,
             'service_id' => request()->service_id,
             'description' => request()->description,
             'started_at' => request()->start_at,
