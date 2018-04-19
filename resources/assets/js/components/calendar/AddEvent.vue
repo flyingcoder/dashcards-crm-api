@@ -416,7 +416,7 @@
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
-                    this.header = 'Edit Event';
+                    this.title = 'Edit Event';
                     this.id = event.params.data.id;
                     var vm = this;
                     axios.get('api/events/'+this.id)
