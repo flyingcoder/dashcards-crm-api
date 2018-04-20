@@ -49,7 +49,8 @@
                 return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
             },
             getMyInvoices(){
-                axios.get('api/user/invoices')
+                console.log()
+                axios.get('api/invoices')
                     .then( response => {
                         this.paginatedMyInvoices = response.data.data;
                         this.currentPage = response.data.current_page;

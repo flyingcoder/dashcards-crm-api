@@ -4,7 +4,7 @@
             <el-table :data="paginatedAllClients" stripe empty-text="No Data Found" v-loading="isProcessing" 
                 @sort-change="handleSortChange" element-loading-text="Processing ..." 
                 @selection-change="handleSelectionChange" style="width: 100%"
-                @row-click="rowClick"
+                @cell-click="cellClick"
                 >
                 <el-table-column sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="first_name" label="Client">
@@ -113,14 +113,20 @@
             }
         },
         rowClick(row, event, col){
-            location = "/api/clients" + row.id;
+            // location = "/api/clients" + row.id;
+        },
+        cellClick: function(row, col) {
+            var a = col.id;
+            if(a != 'el-table_1_column_8' && a != 'el-table_2_column_16') {
+                location = "/api/clients/" + row.id;
+            }
         },
         destroy: function(row) {
             axios.delete('/clients/' + row.id + '/delete')
-                .then(response => {
-                    swal('Success!', 'Client is Deleted!', 'success');
-                    this.getAllClients();
-                });
+            .then(response => {
+                swal('Success!', 'Client is Deleted!', 'success');
+                this.getAllClients();
+            });
         }
       }
     }

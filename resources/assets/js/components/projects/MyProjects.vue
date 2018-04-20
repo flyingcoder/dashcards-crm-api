@@ -4,11 +4,15 @@
             <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
             @selection-change="handleSelectionChange" style="width: 100%"
-            @cell-click="rowClick"
+            @cell-click="cellClick"
             >
                 <el-table-column type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
-                <el-table-column prop="client_name" label="Client" width="85"></el-table-column>
+                <el-table-column prop="client_image_url" label="Client" width="85">
+                    <template slot-scope="scope">
+                        <img :src="scope.row.client_image_url" class="user-image">
+                    </template>
+                </el-table-column>
                 <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
                 <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
                 <el-table-column sortable label="Progress" width="150">
@@ -116,7 +120,13 @@
             }
         },
         rowClick(row, event, cell, col){
-            location = "/project-hq/" + row.id;
+            // location = "/project-hq/" + row.id;
+        },
+        cellClick: function(row, col) {
+            var a = col.id;
+            if(a != 'el-table_1_column_9' && a != 'el-table_2_column_18') {
+                location = "/project-hq/" + row.id; 
+            }
         },
         edit(data){
             console.log(data);
