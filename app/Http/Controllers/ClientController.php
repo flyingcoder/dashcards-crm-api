@@ -48,26 +48,26 @@ class ClientController extends Controller
         request()->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'telephone' => 'required',
-            'password' => 'required|confirmed',
+            'telephone' => 'required', 
+            'password' => 'required', //Remove Confime Handled in frontend by: Dustin 04-20-2018
             'status' => 'required',
             'company_name' => 'required',
-            'company_email' => 'required',
-            'company_tel' => 'required'
+            // 'company_email' => 'required', //Commented by: Dustin 04-20-2018 //No data in form
+            // 'company_tel' => 'required' //Commented by: Dustin 04-20-2018 //No data in form
         ]);
 
         $client = User::create([
             'name' => request()->name,
             'email' => request()->email,
-            'telephone' => request()->telephone,
+            'telephone' => request()->telephone, 
             'job_title' => 'Client',
             'password' => bcrypt(request()->password),
             'image_url' => 'img/members/alfred.png'
         ]);
 
         $client->setMeta('company_name', request()->company_name);
-        $client->setMeta('company_email', request()->company_email);
-        $client->setMeta('company_tel', request()->company_tel);
+        // $client->setMeta('company_email', request()->company_email); //Commented by: Dustin 04-20-2018 //No data in form
+        // $client->setMeta('company_tel', request()->company_tel); //Commented by: Dustin 04-20-2018 //No data in form
         $client->setMeta('status', request()->status);
         $client->setMeta('created_by', Auth::user()->id);
 
@@ -92,21 +92,27 @@ class ClientController extends Controller
         $team->members()->attach($client);
 
         $client->assignRole('client');
+        
+        // Commented unable to use session in API
+        // request()->session()->flash('message.level', 'success'); 
+        // request()->session()->flash('message.content', 'User was successfully added!');
 
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'User was successfully added!');
+        // Commented need to newly added client return instead.
+        // return back();
 
-        return back();
+        return $client;
     }
 
     public function edit($id)
     {
         $client = User::findOrFail($id);
 
-         return view('pages.clients-new', [
-             'client' => $client,
-             'action' => 'edit'
-             ]);
+        return $client;
+        // old return
+        //  return view('pages.clients-new', [
+        //      'client' => $client,
+        //      'action' => 'edit'
+        //      ]);
     }
 
     public function update($id)
@@ -150,8 +156,15 @@ class ClientController extends Controller
 
     public function delete($id)
     {
+        // updated by dustin 09-20-2018 handle failed delete
         $client = User::findOrFail($id);
-        return $client->destroy($id);
+        if($client->destroy($id)){
+            return response('success', 200);
+        }
+        else {
+            return response('failed', 500);
+        }
+        
     }
 
 }

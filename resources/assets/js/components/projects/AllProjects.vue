@@ -6,7 +6,7 @@
             @selection-change="handleSelectionChange" style="width: 100%"
             @row-click="rowClick" @cell-click="cellClick">
 
-                <el-table-column sortable type="selection" width="60"></el-table-column>
+                <el-table-column @cell-click="rowClick" sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
                 <el-table-column prop="client_image_url" label="Client" width="85">
                     <template slot-scope="scope">
@@ -142,11 +142,25 @@
             // location = "/project-hq/" + row.id;
         },
         destroy: function(row) {
-            axios.delete('/projects/' + row.id + '/delete')
+            var self = this;
+                swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then(function (result) {
+              if (result) {
+                axios.delete('/projects/' + row.id + '/delete')
                 .then(response => {
                     swal('Success!', 'Project is Deleted!', 'success');
-                    this.getAllProjects();
+                    self.getAllProjects();
                 });
+              }
+          })
+            
         },
         cellClick: function(row, col) {
             var a = col.id;
