@@ -75,10 +75,10 @@ Vue.component('avatar',Avatar);
   Vue.component('buzzsidebar', require('./components/sidebar/Index.vue'));
 
 // Dashboard
-  Vue.component('dashboard', require('./components/dashboard/index.vue'));
+  Vue.component('dashboard', require('./components/dashboard/Index.vue'));
 
 // Projects
-  Vue.component('projects', require('./components/projects/index.vue'));
+  Vue.component('projects', require('./components/projects/Index.vue'));
 
 // Clients
   Vue.component('clients', require('./components/clients/Index.vue'));
@@ -94,26 +94,26 @@ Vue.component('avatar',Avatar);
   Vue.component('buzz-forms', require('./components/forms/Index.vue'));
 
 // Invoices
-  Vue.component('invoices', require('./components/invoices/index.vue'));
+  Vue.component('invoices', require('./components/invoices/Index.vue'));
   Vue.component('invoice-form', require('./components/invoices/form/Index.vue'));
 
 // Payments
-  Vue.component('payments', require('./components/payments/index.vue'));
+  Vue.component('payments', require('./components/payments/Index.vue'));
 
 // Timers
-  Vue.component('timers', require('./components/timers/index.vue'));
+  Vue.component('timers', require('./components/timers/Index.vue'));
 
 // Cloud
   Vue.component('cloud', require('./components/cloud/Index.vue'));
 
 // Teams
-  Vue.component('teams', require('./components/teams/index.vue'));
+  Vue.component('teams', require('./components/teams/Index.vue'));
 
 // Chat
   Vue.component('chat', require('./components/chat/Index.vue'));
 
 // Reports
-  Vue.component('reports', require('./components/reports/index.vue'));
+  Vue.component('reports', require('./components/reports/Index.vue'));
 
 // Supports
   Vue.component('supports', require('./components/supports/Index.vue'));
@@ -122,10 +122,10 @@ Vue.component('avatar',Avatar);
   Vue.component('bugs', require('./components/bugs/Index.vue'));
 
 // Services
-  Vue.component('services', require('./components/services/index.vue'));
+  Vue.component('services', require('./components/services/Index.vue'));
 
 // Project-HQ
-  Vue.component('project-hq', require('./components/projects/project-hq/index.vue'));
+  Vue.component('project-hq', require('./components/projects/project-hq/Index.vue'));
   Vue.component('hq-menu', require('./components/projects/project-hq/HqMenu.vue'));
 
   // Settings
@@ -135,7 +135,7 @@ Vue.component('avatar',Avatar);
     Vue.component('page-header', require('./components/common/PageHeader.vue'));  
 
 // Testing
-  Vue.component('profile', require('./components/teams/profile/index.vue'));
+  Vue.component('profile', require('./components/teams/profile/Index.vue'));
 
 
   $(document).ready(function(){
@@ -293,17 +293,17 @@ let buzzcrm = {
     let router = new VueRouter({
       routes: [
         {path: '/',component: require('./components/settings/General.vue')},
-        {path: '/Company',component: require('./components/settings/Company.vue')},
-        {path: '/Invoice',component: require('./components/settings/Invoice.vue')},
-        {path: '/Bank',component: require('./components/settings/Payments/Bank.vue')},
-        {path: '/Cash',component: require('./components/settings/Payments/Cash.vue')},
-        {path: '/Paypal',component: require('./components/settings/Payments/Paypal.vue')},
-        {path: '/Email Templates',component: require('./components/settings/EmailTemplates/EmailTemplates.vue')},
-        {path: '/Support',component: require('./components/settings/Supports/Support.vue')},
-        {path: '/Form Fields',component: require('./components/settings/FormFields.vue')},
-        {path: '/Cron',component: require('./components/settings/Cron.vue')},
-        {path: '/DB Backup',component: require('./components/settings/DbBackup.vue')},
-        {path: '/Updates',component: require('./components/settings/Updates.vue')},
+        {path: '/company',component: require('./components/settings/Company.vue')},
+        {path: '/invoice',component: require('./components/settings/Invoice.vue')},
+        {path: '/bank',component: require('./components/settings/Payments/Bank.vue')},
+        {path: '/cash',component: require('./components/settings/Payments/Cash.vue')},
+        {path: '/paypal',component: require('./components/settings/Payments/Paypal.vue')},
+        {path: '/email-templates',component: require('./components/settings/EmailTemplates/EmailTemplates.vue')},
+        {path: '/support',component: require('./components/settings/Supports/Support.vue')},
+        {path: '/form-fields',component: require('./components/settings/FormFields.vue')},
+        {path: '/cron',component: require('./components/settings/Cron.vue')},
+        {path: '/db-backup',component: require('./components/settings/DbBackup.vue')},
+        {path: '/updates',component: require('./components/settings/Updates.vue')},
       ],
       linkActiveClass: 'active'
     });
@@ -318,21 +318,21 @@ let buzzcrm = {
 
     let router = new VueRouter({
       routes: [
-        {path: '/',component: require('./components/projects/project-hq/overview/index.vue')},
-        {path: '/files',component: require('./components/projects/project-hq/files/index.vue')},
-        {path: '/tasks',component: require('./components/projects/project-hq/tasks/index.vue')},
+        {path: '/',component: require('./components/projects/project-hq/overview/Index.vue')},
+        {path: '/files',component: require('./components/projects/project-hq/files/Index.vue')},
+        {path: '/tasks',component: require('./components/projects/project-hq/tasks/Index.vue')},
   //       {path: '/tasks/new',component: require('./components/projects/project-hq/task/Create')},
   //       {path: '/tasks/update/:id',component: require('./components/projects/project-hq/task/Update'), props: true},
-        {path: '/milestones',component: require('./components/projects/project-hq/milestones/index.vue')},
+        {path: '/milestones',component: require('./components/projects/project-hq/milestones/Index.vue')},
   //       {path: '/reports',component: require('./components/projects/project-hq/report/index.vue')},
 
   //       // {path: '/calendar',component: require('./components/projects/project-hq/calendar/index.vue')},
-        {path: '/messages',component: require('./components/projects/project-hq/messages/index.vue')},
-        {path: '/invoices',component: require('./components/projects/project-hq/invoices/index.vue')},
+        {path: '/messages',component: require('./components/projects/project-hq/messages/Index.vue')},
+        {path: '/invoices',component: require('./components/projects/project-hq/invoices/Index.vue')},
   //       {path: '/invoices/:id',component: require('./components/projects/project-hq/invoice/Invoice'), props: true},
-        {path: '/members',component: require('./components/projects/project-hq/members/index.vue')},
-        {path: '/timer',component: require('./components/projects/project-hq/timer/index.vue')},
-        {path: '/reports',component: require('./components/projects/project-hq/reports/index.vue')},
+        {path: '/members',component: require('./components/projects/project-hq/members/Index.vue')},
+        {path: '/timer',component: require('./components/projects/project-hq/timer/Index.vue')},
+        {path: '/reports',component: require('./components/projects/project-hq/reports/Index.vue')},
 
       ],
       linkActiveClass: 'active'

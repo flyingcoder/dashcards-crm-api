@@ -258,15 +258,15 @@
 </template>
 
 <script> 
-    import BoxOption from '../../box-option.vue';
-    import TabTasks from './tab-tasks.vue';
-    import TabTimer from './tab-timer.vue';
-    import TabPassbox from './tab-passbox.vue';
-    import TabCalendar from './tab-calendar.vue';
-    import TabGallery from './tab-gallery.vue';
-    import TabFacebook from './tab-facebook.vue';
-    import TabTwitter from './tab-twitter.vue';
-    import TabInstagram from './tab-instagram.vue';
+    import BoxOption from '../../BoxOption.vue';
+    import TabTasks from './TabTasks.vue';
+    import TabTimer from './TabTimer.vue';
+    import TabPassbox from './TabPassbox.vue';
+    import TabCalendar from './TabCalendar.vue';
+    import TabGallery from './TabGallery.vue';
+    import TabFacebook from './TabFacebook.vue';
+    import TabTwitter from './TabTwitter.vue';
+    import TabInstagram from './TabInstagram.vue';
 
     export default {
         components: {
