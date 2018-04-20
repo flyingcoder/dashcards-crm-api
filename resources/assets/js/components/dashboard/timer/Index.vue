@@ -60,7 +60,7 @@
 </template>
 <script>
 import Alarm from './Alarm.vue';
-import timer from './timer.vue';
+import timer from './Timer.vue';
 export default {
     components:{
         'alarm': Alarm,
