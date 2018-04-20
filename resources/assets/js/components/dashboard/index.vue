@@ -250,15 +250,15 @@
 
 <script>
     import AddShortcut from './AddShortcut.vue';
-    import BoxOptions from './box-options.vue';
+    import BoxOptions from './BoxOptions.vue';
     import Tasks from './tasks/Index.vue';
     import Client from './client/Index.vue';
     import Payment from './payment/Index.vue';
-    import Calendar from './calendar/calendar.vue';
+    import Calendar from './calendar/Calendar.vue';
     import Timeline from './timeline/Index.vue';
     import Timer from './timer/Index.vue';
     import Invoice from './invoice/Index.vue';
-    import Passbox from './passbox/passbox-edit.vue';
+    import Passbox from './passbox/PassboxEdit.vue';
     // import Passbox from './passbox/passbox-client.vue'; 
     // import Passbox from './passbox/passbox-login.vue';
 
