@@ -229,10 +229,14 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
   Route::get('/', 'ClientController@index'); // project
-  
-	Route::post('/', 'ClientController@store'); // client add
 
-  Route::delete('{id}/delete', 'ClientController@delete');
+  Route::get('/{id}', 'ClientController@edit'); // project
+  
+  Route::post('/', 'ClientController@store'); // client add
+  
+  Route::put('/{id}', 'ClientController@store'); // client update
+
+  Route::delete('{id}', 'ClientController@delete');
 
 });
 

@@ -81,7 +81,7 @@ Vue.component('avatar',Avatar);
   Vue.component('projects', require('./components/projects/index.vue'));
 
 // Clients
-  Vue.component('clients', require('./components/clients/index.vue'));
+  Vue.component('clients', require('./components/clients/Index.vue'));
 
 // Calendar
   Vue.component('events', require('./components/calendar/Index.vue'));
