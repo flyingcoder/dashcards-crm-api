@@ -19,15 +19,54 @@
                                         <span class="online"></span>
                                     </li>
                                 </el-tooltip>
-                                
-                                <li>
-                                    <img src="/img/temporary/user1.png">
-                                    <span class="online"></span>
-                                </li>
-                                <li>
-                                    <img src="/img/temporary/user1.png">
-                                    <span class="online"></span>
-                                </li>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
+                                <el-tooltip content="Test" placement="top" effect="light">
+                                    <li>
+                                        <img src="/img/temporary/user1.png">
+                                        <span class="online"></span>
+                                    </li>
+                                </el-tooltip>
                             </ul>
                         </div>
                         <div class="chat-box">
