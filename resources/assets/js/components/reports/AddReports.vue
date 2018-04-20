@@ -1,8 +1,8 @@
 <template>
     <li>
-        <div class="add-button">
+        <div class="add-button" @click="$modal.show('add-report')">
             <span> ADD NEW </span>
-            <button  @click="$modal.show('add-report')">
+            <button>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="20px" height="20px">
                     <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"

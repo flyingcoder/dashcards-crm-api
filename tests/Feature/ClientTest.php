@@ -29,7 +29,7 @@ class ClientTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/clients?all=true');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 }

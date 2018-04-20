@@ -8,7 +8,7 @@ $factory->define(App\Project::class, function (Faker $faker) {
        		return factory(App\Service::class)->create()->id;
        	},
         'company_id' => 1,
-       	'title' => $faker->title,
+       	'title' => $faker->realText($maxNbChars = 50, $indexSize = 1),
        	'description' => $faker->paragraph,
        	'started_at' => $faker->date($format = 'Y-m-d', $max = 'now'),
        	'end_at' => $faker->date($format = 'Y-m-d', $max = 'now'),

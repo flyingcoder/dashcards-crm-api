@@ -141,7 +141,6 @@ Vue.component('avatar',Avatar);
   $(document).ready(function(){
   // Push menu
     $("#toggleBuzzMenu").click(function(){
-      console.log('Test!!');
         $("body").toggleClass("sidebar-collapse");
     });
   // Offline and Online Status

@@ -681,6 +681,7 @@
         box-shadow: $add-shadow !important;
         border: none;
         outline: none;
+        cursor: pointer;
         -webkit-transition: width 0.2s;
         transition: width 0.2s;
         &:hover{
@@ -1298,6 +1299,16 @@
                                 top: 10px;
                             }
                         }
+                        .member-option{
+                            .member-counter{
+                                position: absolute;
+                                right: -12px;
+                                top: 5px;
+                                .el-badge__content{
+                                    background: $green;
+                                }
+                            }
+                        }
                         .member-option, .time-option{
                             .button-icon{
                                 left: 0;
@@ -1721,8 +1732,80 @@
             display: block !important;
         }
     }
-// New
+// Select Members
+    .defaultMembers{
+        .selectMembers__content{
+            display: none;
+        }
+    }
+    .selectMembers{
+        display: block;
+        width: 200px;
+        .selectMembers__content{
+            display: block !important;
+            z-index: 100;
+            width: 100% !important;
+            background: $white;
+            background-color: #fff;
+            border: 1px solid #ebeef5;
+            webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+            .el-select__tags{
+                input{
+                    width: 100% !important;
+                }
+            }
+            .el-input{
+                input{
+                    padding: 0 !important;
+                    text-align: left !important;
+                    text-indent: 15px;
+                }
+            }
+        }
+    }
 }
+
+.selectMembers__dropdown{
+    display: none;
+}
+.selectMembers__dropdown.active{
+    display: block !important; 
+    margin: -6px 0 !important;
+    .member-items{
+        padding: 5px 10px !important;
+        height: 50px;
+        .user-image{
+            img{
+                width: 40px;
+                border-radius: 50%;
+            }
+        }
+        .user-name{
+            width: 110px;
+            font-size: 13px;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            @extend .buzz-overflow;
+        }
+        &:after{
+            height: 30px;
+            padding: 0 5px;
+            top: 10px;
+            right: 5px !important;
+            font-size: 17px !important;
+            background: $green;
+            color: $white;
+            border-radius: 50%;
+        }
+    }
+    .selected{
+        color: unset !important;
+        font-weight: unset;
+    }
+}
+
 
 .el-checkbox__inner{
     &:after {

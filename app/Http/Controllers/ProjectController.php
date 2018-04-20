@@ -179,7 +179,7 @@ class ProjectController extends Controller
 
         $project = Project::create([
             'title' => request()->title,
-            'location' => request()->location,
+            //'location' => request()->location,
             'service_id' => request()->service_id,
             'description' => request()->description,
             'started_at' => request()->start_at,
@@ -202,6 +202,12 @@ class ProjectController extends Controller
 
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
+
+        if(request()->has('members')){
+            foreach (request()->members as $value) {
+                $project->members()->attach($value, ['role' => 'members']);
+            }
+        }
 
         return response(Project::latest()->first(), 200);
     }
