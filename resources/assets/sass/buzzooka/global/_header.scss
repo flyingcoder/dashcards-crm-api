@@ -362,18 +362,21 @@
     }
     .header-chat{
         top: 70px !important;
-        padding: 0 10px;
+        padding: 0 15px;
         h1{
-            margin: 20px;
+            margin: 20px 0;
             font-size: 23px;
             color: $table-data;
         }
         .members{
-            margin: 10px;   
+            margin: 10px 0;   
             ul{
-                list-style: none;
                 margin: 0;
                 padding: 0;
+                width: 100%;
+                list-style: none;
+                white-space: nowrap;
+                overflow: hidden;
                 li{
                     position: relative;
                     display: inline-block;
@@ -397,7 +400,7 @@
         .chat-content{
             height: auto;
             .chat-body{
-                height: 365px !important;
+                height: 390px !important;
                 @extend .buzz-scrollbar;
                 .message{
                     padding: 10px 20px;
@@ -456,49 +459,43 @@
                 }
             }
             .chat-write{
-                height: 75px;
+                height: 60px;
+                background: $white;
+                padding: 10px 20px;
+                border: $table-border;
+                border-radius: 6px 0 0 6px;
+                box-shadow: $body-shadow;
                 form{
-                    textarea{
-                        width: 100%;
-                        line-height: 35px;
-                        resize: none;
-                        outline: none;
-                        padding: 25px 30px 13px 40px;
-                        line-height: 20px;
-                        border: $table-border;
-                        border-radius: 6px 0 0 6px;
-                        box-shadow: $body-shadow;
-                        border-right: none;
-                        font-size: 14.4px;
-                        color: $chat-text;
-                        &::placeholder{
-                            color: $title-path;
-                        }
+                    .chat-input, .chat-buttons{
+                        display: inline-block;
+                        height: 100%;
                     }
-                    .chat-item{
-                        width: 75%;
-                        float: left;
+                    .chat-input{
                         margin: 0;
                         padding: 0;
-                    }
-                    .chat-buttons{
-                        width: 25%;
-                        float: right;
-                        text-align: center;
-                        height: 80px;
-                        background: $white;
-                        border: $table-border;
-                        border-radius: 0 6px 6px 0;
-                        box-shadow: $body-shadow;
-                        border-left: none;
-                        button{
-                            margin: 0;
-                            padding: 25px 5px;
-                            background: none;
+                        width: 70%;
+                        textarea{
+                            width: 100%;
+                            line-height: 20px;
+                            font-size: 14.4px;
+                            color: $chat-text;
+                            resize: none;
+                            outline: none;
+                            border: none;
+                            &::placeholder{
+                                color: $title-path;
+                            }
                         }
                     }
-                    .chat-item, .chat-buttons{
-                        display: inline-block;
+                    .chat-buttons{
+                        width: 30%;
+                        float: right;
+                        text-align: right;
+                        button{
+                            margin: 0;
+                            padding: 5px;
+                            background: none;
+                        }
                     }
                 }
             }

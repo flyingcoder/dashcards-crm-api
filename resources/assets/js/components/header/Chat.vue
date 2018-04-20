@@ -7,7 +7,7 @@
                     <img src="/img/icons/header/chatcolor.png" width="28px" class="icon-hover">
                 </el-button>
             </el-badge>
-            <el-dropdown-menu slot="dropdown" class="header-dropdown header-chat buzz-scrollbar buzz-scroll">
+            <el-dropdown-menu slot="dropdown" class="header-dropdown header-chat">
                <div class="row">
                    <div class="col-md-12">
                         <h1> Chat </h1>
@@ -171,7 +171,7 @@
                                 </div>
                                 <div class="chat-write">
                                     <el-form ref="form" :model="form" label-position="top" v-loading="isProcessing" style="width: 100%">
-                                        <el-form-item class="chat-item">
+                                        <el-form-item class="chat-input">
                                             <textarea placeholder="Type here and press enter to send"></textarea>
                                         </el-form-item>
                                         <div class="chat-buttons">
