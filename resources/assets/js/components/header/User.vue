@@ -5,7 +5,7 @@
                 <img src="/img/temporary/user.png" id="user-image">
                 <img src="/img/icons/header/arrowdown.svg" class="arrow-down">
             </el-button>
-            <el-dropdown-menu slot="dropdown" class="header-dropdown header-user buzz-scrollbar buzz-scroll">
+            <el-dropdown-menu v-on:click.stop slot="dropdown" class="header-dropdown header-user buzz-scrollbar buzz-scroll">
                 <el-dropdown-item>
                     <ul class="dropdown-content">
                         <li>
