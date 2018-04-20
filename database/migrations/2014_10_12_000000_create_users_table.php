@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         if (!Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
                 $table->increments('id');
-                $table->string('username');
+                $table->string('username')->nullable(); // updated to nullable, to add clients
                 $table->string('first_name', 30)->nullable();
                 $table->string('last_name', 30)->nullable();
                 $table->string('email');

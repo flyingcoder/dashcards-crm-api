@@ -130,8 +130,8 @@
 </template>
 
 <script>
-    import ListTeams from './list-teams.vue';
-    import GridTeams from './grid-teams.vue';
+    import ListTeams from './ListTeams.vue';
+    import GridTeams from './GridTeams.vue';
 
     export default {
         components: {

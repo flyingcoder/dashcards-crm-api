@@ -12,13 +12,13 @@
                             <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
                         </el-form-item>
                         <el-form-item label="Contact Number" prop="contact_no">
-                            <el-input type="text" v-model="form.contact_no" placeholder="Contact Number"></el-input>
+                            <el-input type="text" v-model="form.telephone" placeholder="Contact Number"></el-input>
                         </el-form-item>
                         <el-form-item label="Email" prop="email">
                             <el-input type="text" v-model="form.email" placeholder="Email"></el-input>
                         </el-form-item>
                         <el-form-item label="Password" prop="pass">
-                            <el-input type="password" v-model="form.pass" auto-complete="off"></el-input>
+                            <el-input type="password" v-model="form.password" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="Confirm" prop="checkPass">
                             <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
@@ -61,7 +61,7 @@
             var validatePass2 = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('Please input the password again'));
-                } else if (value !== this.form.pass) {
+                } else if (value !== this.form.password) {
                 callback(new Error('Two inputs don\'t match!'));
                 } else {
                 callback();
@@ -76,17 +76,17 @@
                 form: {
                     name: '',
                     company_name: '',
-                    contact_no: '',
+                    telephone: '',
                     email: '',
-                    pass: '',
+                    password: '',
                     status: '',
                 },
         		error: {
         			name: [],
         			company_name: [],
-        			contact_no: [],
+        			telephone: [],
                     email: [],
-                    pass: [],
+                    password: [],
                     status: [],
         		},
                 status: [{
@@ -103,13 +103,13 @@
                     company_name: [
                         { required: true, message: 'Please input Company Name', trigger: 'change' },
                     ],
-                    contact_no: [
+                    telephone: [
                         { required: true, message: 'Please input Contact Number', trigger: 'change' },
                     ],
                     email: [
                         { required: true, message: 'Please input Email', trigger: 'change' },
                     ],
-                    pass: [
+                    password: [
                         { validator: validatePass, trigger: 'blur' }
                     ],
                     checkPass: [
@@ -141,7 +141,8 @@
                 });
             },
           beforeOpen (event) {
-              if(typeof event.params != 'undefined' && event.params.action == 'update') {
+              console.info('before Opent');
+              if(typeof event.params != 'undefined' && event.params.action == 'Update') {
                   this.action = 'Update';
                   this.header = 'Edit Client';
                   this.id = event.params.data.id;
@@ -162,10 +163,12 @@
           },
           save: function () {
               this.isProcessing = true;
-              axios.post('/api/clients/new',this.form)
+              axios.post('/api/clients/',this.form)
               .then( response => {
                   this.isProcessing = false;
                   swal('Success!', 'Project is saved!', 'success');
+                  this.$parent.getAllClients();
+                  this.$modal.hide('add-client')
               })
               .catch ( error => {
                   this.isProcessing = false;
@@ -175,7 +178,7 @@
               })
           },
           update: function () {
-              axios.put('/api/clients/'+this.id+'/edit', this.form)
+              axios.put('/api/clients/'+this.id, this.form)
               .then( response => {
                   this.isProcessing = false;
                   swal('Success!', 'Project is updated!', 'success');

@@ -60,7 +60,7 @@
 </template>
 
 <script>
-    import BoxOption from '../../../box-option.vue';
+    import BoxOption from '../../../BoxOption.vue';
     import TaskInfo from '../tasks/TaskInfo.vue'
     export default {
         components: {

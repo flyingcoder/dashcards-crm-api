@@ -42,7 +42,7 @@ class TaskTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->post('api/tasks/1/comments', $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

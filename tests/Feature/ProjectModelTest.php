@@ -22,15 +22,16 @@ class ProjectModelTest extends TestCase
             'end_at' => '2018-12-19',
             'location' => 'required',
             'description' => 'required',
-            'comment' => 'test comment'
+            'comment' => 'test comment',
+            'members' => [5,8,3,4]
         ];
-        /*
+        
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/projects', $data);
 
-        //dd($response->content());
-        $response->assertStatus(200);*/
+        dd($response->content());
+        $response->assertStatus(200);
     }
 
     public function testProjectProgress()
@@ -111,7 +112,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/1/files');
 
-        dd($response->content());              
+        //dd($response->content());              
         $response->assertStatus(200);
     }
 

@@ -30,6 +30,7 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register/subscriber'
 Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
   
   Route::get('/', 'EventController@index');
+  Route::get('{id}/delete', 'EventController@delete');
 
 });
 
@@ -40,7 +41,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'calendars'], function () 
 
   Route::post('/', 'CalendarController@store');
 
-  Route::get('{id}', 'CalendarController@calendar');
+  Route::get('{id}', 'CalendarController@calenndar');
 
   Route::get('{id}/events', 'CalendarController@events');
   
@@ -227,9 +228,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 // Clients
 Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
-	Route::get('/', 'ClientController@index'); // project
+  Route::get('/', 'ClientController@index'); // project
 
-  Route::delete('{id}/delete', 'ClientController@delete');
+  Route::get('/{id}', 'ClientController@edit'); // project
+  
+  Route::post('/', 'ClientController@store'); // client add
+  
+  Route::put('/{id}', 'ClientController@store'); // client update
+
+  Route::delete('{id}', 'ClientController@delete');
 
 });
 
