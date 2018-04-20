@@ -26,7 +26,12 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="Invoice Notes" prop="invoiceNotes"> 
-                            <el-input type="textarea" v-model="form.invoiceNotes" :rows="10" resize="none"></el-input>
+                            <quill-editor 
+                                class="settings-editor" 
+                                v-model="form.invoiceNotes" 
+                                ref="myQuillEditor">
+                            </quill-editor>
+                            <!-- <el-input type="textarea" v-model="form.invoiceNotes" :rows="10" resize="none"></el-input> -->
                         </el-form-item>
                         <el-form-item class="buzz-form-button">
                             <el-button @click="submitForm('form')"> Save Changes </el-button>

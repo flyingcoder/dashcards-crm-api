@@ -1,8 +1,8 @@
 <template>
     <li>
-        <div class="add-button">
+        <div class="add-button" @click="$modal.show('add-event')">
             <span> ADD NEW </span>
-            <button  @click="$modal.show('add-event')">
+            <button>
                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 width="20px" height="20px">
                 <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
@@ -19,32 +19,33 @@
                         <div class="modal-options">
                             <el-form-item  class="option">
                                 <div class="option-item"> 
-                                     <el-dropdown trigger="click" placement="bottom" class="member-option">
-                                        <el-button size="small" class="el-dropdown-link"> 
+                                    <div class="member-option" v-on:click="selectMembers = !selectMembers" @click="trigger">
+                                        <el-button size="small" class="el-dropdown-link" id="member-option"> 
                                             <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
                                             Members 
                                         </el-button>
-                                        <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
-                                           <el-select
-                                                v-model="form.members"
-                                                multiple
-                                                filterable
-                                                allow-create
-                                                default-first-option
-                                                placeholder="Choose Members">
-                                                <el-option
-                                                v-for="item in members"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </el-dropdown-menu>
-                                    </el-dropdown>
+                                        <el-badge :value="5" :max="99" class="member-counter"></el-badge>
+                                    </div>
+                                    <div id="selectMembers" ref="selectMembers" class="defaultMembers" v-bind:class="{ selectMembers: selectMembers }">
+                                        <el-select class="selectMembers__content"
+                                        v-model="form.members" 
+                                        multiple 
+                                        collapse-tags
+                                        filterable 
+                                        default-first-option  
+                                        placeholder="Choose a Member">
+                                        <div class="selectMembers__dropdown" v-bind:class="{ active: selectMembers }">
+                                            <el-option class="member-items" v-on:click.self="doThat" v-for="item in members" :key="item.value" :value="item.value">
+                                                <span class="user-image"> <img :src="item.image"/> </span>
+                                                <div class="user-name"> {{ item.label }} </div>
+                                            </el-option>
+                                        </div>
+                                    </el-select>
+                                    </div>
                                 </div>
                                 <div class="option-item">
                                     <div class="date-option">
-                                        <img src="img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                                        <img src="img/icons/modal/date.svg" class="button-icon">                                    
                                         <el-date-picker
                                             :clearable="false"
                                             v-model="form.date"
@@ -131,7 +132,7 @@
                                 <el-input type="text" v-model="form.name" placeholder="Untitled Event"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-select v-model="form.category" clearable placeholder="Select Category">
+                                <el-select class="category" v-model="form.category" clearable placeholder="Select Category">
                                     <el-option
                                     v-for="item in category"
                                     :key="item.value"
@@ -149,7 +150,6 @@
                                     ref="myQuillEditor">
                                 </quill-editor>
                                 <div class="field-options">
-                                    <el-button class="send border"> <span> Send </span> </el-button>
                                     <el-button class="border" v-on:click="descriptionEditor = !descriptionEditor"> 
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                             width="14px" height="18px">
@@ -188,13 +188,6 @@
                                             d="M18.337,14.812 C17.458,16.317 16.265,17.509 14.759,18.388 C13.253,19.266 11.608,19.705 9.824,19.705 C8.041,19.705 6.396,19.266 4.889,18.388 C3.383,17.509 2.191,16.317 1.312,14.812 C0.433,13.307 -0.007,11.663 -0.007,9.881 C-0.007,8.099 0.433,6.455 1.312,4.949 C2.191,3.444 3.383,2.253 4.890,1.374 C6.396,0.496 8.041,0.057 9.824,0.057 C11.608,0.057 13.253,0.496 14.759,1.374 C16.265,2.253 17.458,3.444 18.337,4.949 C19.216,6.455 19.655,8.099 19.655,9.881 C19.655,11.663 19.216,13.307 18.337,14.812 ZM17.364,6.702 C16.929,5.691 16.346,4.822 15.617,4.092 C14.887,3.363 14.017,2.781 13.005,2.346 C11.994,1.911 10.934,1.694 9.824,1.694 C8.715,1.694 7.655,1.912 6.643,2.346 C5.632,2.781 4.762,3.363 4.032,4.092 C3.302,4.822 2.720,5.692 2.285,6.702 C1.849,7.713 1.632,8.772 1.632,9.881 C1.632,10.990 1.849,12.049 2.285,13.060 C2.720,14.070 3.302,14.940 4.032,15.669 C4.762,16.398 5.632,16.980 6.643,17.415 C7.655,17.850 8.715,18.068 9.824,18.068 C10.934,18.068 11.994,17.850 13.005,17.415 C14.017,16.980 14.887,16.398 15.617,15.669 C16.346,14.940 16.929,14.070 17.364,13.060 C17.799,12.049 18.017,10.990 18.017,9.881 C18.017,8.772 17.799,7.713 17.364,6.702 ZM13.101,8.244 C12.649,8.244 12.263,8.084 11.943,7.764 C11.623,7.444 11.462,7.058 11.462,6.606 C11.462,6.154 11.623,5.768 11.943,5.448 C12.263,5.129 12.649,4.969 13.101,4.969 C13.553,4.969 13.940,5.129 14.260,5.448 C14.580,5.768 14.740,6.154 14.740,6.606 C14.740,7.058 14.580,7.444 14.260,7.764 C13.940,8.083 13.553,8.244 13.101,8.244 ZM12.948,11.685 C13.016,11.463 13.152,11.301 13.357,11.198 C13.562,11.096 13.771,11.079 13.984,11.147 C14.198,11.216 14.355,11.350 14.458,11.550 C14.561,11.750 14.578,11.958 14.509,12.170 C14.193,13.203 13.605,14.034 12.743,14.665 C11.881,15.296 10.908,15.612 9.825,15.612 C8.741,15.612 7.768,15.296 6.906,14.665 C6.044,14.034 5.455,13.202 5.139,12.170 C5.071,11.958 5.088,11.750 5.191,11.550 C5.293,11.350 5.455,11.216 5.677,11.147 C5.890,11.079 6.097,11.096 6.298,11.198 C6.498,11.301 6.633,11.463 6.701,11.685 C6.914,12.367 7.309,12.919 7.885,13.341 C8.461,13.763 9.108,13.975 9.824,13.975 C10.541,13.975 11.188,13.763 11.764,13.341 C12.340,12.919 12.735,12.367 12.948,11.685 ZM6.547,8.244 C6.095,8.244 5.709,8.084 5.389,7.764 C5.069,7.444 4.909,7.058 4.909,6.606 C4.909,6.154 5.069,5.768 5.389,5.448 C5.709,5.129 6.095,4.969 6.547,4.969 C6.999,4.969 7.386,5.129 7.706,5.448 C8.026,5.768 8.186,6.154 8.186,6.606 C8.186,7.058 8.026,7.444 7.706,7.764 C7.386,8.083 6.999,8.244 6.547,8.244 Z"/>
                                         </svg>
                                     </el-button>
-                                    <el-button class="pull-right"> 
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            width="15px" height="22px">
-                                            <path fill-rule="evenodd"
-                                            d="M14.315,6.346 L0.664,6.346 C0.292,6.346 -0.009,6.039 -0.009,5.661 L-0.009,3.554 C-0.009,3.175 0.292,2.868 0.664,2.868 L4.351,2.868 L4.351,1.446 C4.351,1.068 4.652,0.761 5.024,0.761 L9.955,0.761 C10.326,0.761 10.628,1.068 10.628,1.446 L10.628,2.868 L14.315,2.868 C14.687,2.868 14.988,3.175 14.988,3.554 L14.988,5.661 C14.988,6.039 14.687,6.346 14.315,6.346 ZM9.281,2.131 L5.697,2.131 L5.697,2.868 L9.281,2.868 L9.281,2.131 ZM13.495,21.112 C13.480,21.479 13.183,21.768 12.823,21.768 L2.156,21.768 C1.795,21.768 1.499,21.479 1.484,21.113 L0.925,7.716 L14.053,7.716 L13.495,21.112 ZM5.454,10.501 C5.454,10.123 5.153,9.816 4.781,9.816 C4.410,9.816 4.108,10.123 4.108,10.501 L4.108,18.983 C4.108,19.361 4.410,19.668 4.781,19.668 C5.153,19.668 5.454,19.361 5.454,18.983 L5.454,10.501 ZM8.162,10.501 C8.162,10.123 7.861,9.816 7.489,9.816 C7.118,9.816 6.816,10.123 6.816,10.501 L6.816,18.983 C6.816,19.361 7.118,19.668 7.489,19.668 C7.861,19.668 8.162,19.361 8.162,18.983 L8.162,10.501 ZM10.870,10.501 C10.870,10.123 10.569,9.816 10.197,9.816 C9.825,9.816 9.524,10.123 9.524,10.501 L9.524,18.983 C9.524,19.361 9.825,19.668 10.197,19.668 C10.569,19.668 10.870,19.361 10.870,18.983 L10.870,10.501 Z"/>
-                                        </svg>
-                                    </el-button>
                                 </div>
                             </el-form-item>
                             <el-form-item  class="form-buttons">
@@ -206,7 +199,6 @@
                 </div>
             </section>
         </modal>
-
         <add-custom></add-custom>
     </li>
 </template>
@@ -220,6 +212,7 @@
         },
     	data: function () {
         	return {    
+                selectMembers: false,
                 alarmToggle: false,
                 descriptionEditor: false,
                 title: 'Add New Event',
@@ -261,12 +254,15 @@
                 members: [{
                     value: 'Ross Mosqueda',
                     label: 'Ross Mosqueda',
+                    image: 'img/members/alfred.png'
                     }, {
                     value: 'Klent',
-                    label: 'Klent'
+                    label: 'Klent',
+                    image: 'img/members/alfred.png'
                     }, {
                     value: 'Brian',
-                    label: 'Brian'
+                    label: 'Brian',
+                    image: 'img/members/alfred.png'
                 }],
                 hours: [{
                     value: '01',
@@ -410,8 +406,8 @@
         },
         methods: {
             renderHeader(h,{column,$index}){
-            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
-        },
+                return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
+            },
             onBlur (e) {
                 console.log(e)
             },
@@ -472,6 +468,9 @@
                     }
                     this.isProcessing = false;        
                 })
+            },
+            trigger () {
+                this.$refs.selectMembers.elem.click()
             }
         },
         mounted() {

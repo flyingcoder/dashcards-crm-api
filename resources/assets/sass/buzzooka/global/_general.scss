@@ -180,7 +180,7 @@
         background: $blue;
         left: 0;
         min-height: 100%;
-        width: 226px;
+        width: 190px;
         z-index: 100;
         @extend .toggle-transition;
     }
@@ -188,40 +188,50 @@
     .buzz-header{
         background: $white;
         position: relative;
-        height: 90px;
+        height: 80px;
         z-index: 100;
         @extend .buzz-shadow-soft;
 
+        .logo, .buzz-head{
+            display: inline-block;
+            height: 80px;
+        }
+        
         .logo {
-            height: 90px;
-            width: 226px;
+            position: relative;
+            float: left;
+            width: 190px;
             background: $blue;
         }
 
         .buzz-head{
-            position: relative;
-            margin-left: 226px;
-            padding: 0px 30px;
+            position: absolute;
+            float: right;
+            right: 0;
+            width: 100%;
             z-index: 100;
+            padding-top: 25px;
+            @extend .width-transition;
         }
 
     }
 // Content
     .buzz-content{
         position: relative;
-        margin-left: 226px;
+        margin-left: 190px;
         // padding: 10px 30px;
         padding: 0px 30px;
         @extend .margin-transition;
         .content-header{
-            height: 66px;
+            height: 60px;
             .page-title{
                 color: $text;
                 font-weight: bolder;
                 font-family: lato semibold;
-                margin-top: 23px;
+                margin-top: 12px;
                 h1{
                     font-size: 30px;
+                    margin: 0;
                     .prev-path{
                         color: $title-path;
                     }
@@ -234,7 +244,6 @@
         }
         .content-body{
             position: relative;
-            margin-top: 18px;
             height: 1476px;
             background: $white;
             border-radius: 10px;
@@ -356,8 +365,8 @@
     .buzz-box{
         position: relative;
         height: 562px;
-        margin-top: 25px;
-        padding: 23px;
+        margin-top: 20px;
+        padding: 20px;
         background: $white;
         @extend .buzz-border;
         @extend .buzz-shadow;
@@ -485,6 +494,11 @@
 		-moz-transition: margin 0.4s ease;
 		transition: margin 0.4s ease;
     }
+    .width-transition{
+        -webkit-transition: width 0.4s ease;
+		-moz-transition: width 0.4s ease;
+		transition: width 0.4s ease;
+    }
 // Box Shadow
     .buzz-shadow{
         box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
@@ -582,7 +596,7 @@
         float: right;
         font-size: 18px;
         color: $modal-title;
-        height: 60px !important;
+        height: 47px !important;
         width: 31% !important;
     }
     .button-options{
@@ -605,7 +619,7 @@
     .head-page-option{
         position: relative;
         float: right;
-        top: 20px;
+        top: 10px;
         ul{
             list-style: none;
             border: none;
@@ -660,17 +674,18 @@
     }
     .add-button{
         position: relative;
-        width: 44px;
-        height: 43px;
+        width: 38px;
+        height: 38px;
         border-radius: 40px !important;
         background: $blue;
         box-shadow: $add-shadow !important;
         border: none;
         outline: none;
+        cursor: pointer;
         -webkit-transition: width 0.2s;
         transition: width 0.2s;
         &:hover{
-            width: 170px;
+            width: 140px;
             span{
                 display: inline;
             }
@@ -678,26 +693,26 @@
         span{
             position: absolute;
             display: none;
-            left: 0;
-            top: 4px;
-            font-size: 18.7px;
+            left: 5px;
+            top: 2px;
+            font-size: 15px;
             color: $white;
             padding: 5px;
-            margin-left: 15px;
+            margin-left: 12px;
             vertical-align: top;
             font-family: $lato-semi;
             letter-spacing: 0.3px;
         }
         button{
-            width: 44px;
-            height: 44px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: none !important;
             outline: none;
             svg{
                 position: absolute;
-                top: 12px;
-                right: 12px;
+                top: 9px;
+                right: 9px;
             }
         }
     }
@@ -1194,7 +1209,7 @@
                 font-size: 23px;
                 color: $modal-title;
                 font-family: $lato-semi;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
             }
             .add-members{
                 margin-bottom: 20px;
@@ -1228,6 +1243,7 @@
                     display: inline-block;
                     width: 100%;
                     padding: 0px 10px;
+                    margin-bottom: 15px !important;
                     .row{
                         margin-bottom: 10px;
                     }
@@ -1283,6 +1299,16 @@
                                 top: 10px;
                             }
                         }
+                        .member-option{
+                            .member-counter{
+                                position: absolute;
+                                right: -12px;
+                                top: 5px;
+                                .el-badge__content{
+                                    background: $green;
+                                }
+                            }
+                        }
                         .member-option, .time-option{
                             .button-icon{
                                 left: 0;
@@ -1335,7 +1361,7 @@
                     }
                 }
                 .el-form-item{
-                    margin-bottom: 25px;
+                    margin-bottom: 15px;
                     h3{
                         margin: 0;
                         margin-bottom: 10px;
@@ -1353,14 +1379,16 @@
                         padding: 0 !important;
                     }
                     .el-input{
-                        height: 60px;
+                        height: 45px;
                         input{
-                            height: 60px;
-                            font-size: 23px;
+                            height: 45px;
+                            font-size: 18px;
                         }
                     }
                     .el-form-item__label{
                         font-size: 17px !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
                     }
                     .ckeditor{
                         .head-page-option{
@@ -1674,7 +1702,27 @@
         }
     }
     .add-description, .add-comment{
+        height: 100px !important;
+        .ql-toolbar{
+            display: none;
+        }
+    }
+    .settings-editor{
         height: 200px !important;
+        .ql-container{
+            box-shadow: $box-shadow-inset;
+            border: $input-border !important;
+        }
+        .ql-toolbar{
+            display: none;
+        }
+    }
+    .email-editor{
+        height: 725px !important;
+        .ql-container{
+            box-shadow: $box-shadow-inset;
+            border: $input-border !important;
+        }
         .ql-toolbar{
             display: none;
         }
@@ -1684,8 +1732,80 @@
             display: block !important;
         }
     }
-// New
+// Select Members
+    .defaultMembers{
+        .selectMembers__content{
+            display: none;
+        }
+    }
+    .selectMembers{
+        display: block;
+        width: 200px;
+        .selectMembers__content{
+            display: block !important;
+            z-index: 100;
+            width: 100% !important;
+            background: $white;
+            background-color: #fff;
+            border: 1px solid #ebeef5;
+            webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+            .el-select__tags{
+                input{
+                    width: 100% !important;
+                }
+            }
+            .el-input{
+                input{
+                    padding: 0 !important;
+                    text-align: left !important;
+                    text-indent: 15px;
+                }
+            }
+        }
+    }
 }
+
+.selectMembers__dropdown{
+    display: none;
+}
+.selectMembers__dropdown.active{
+    display: block !important; 
+    margin: -6px 0 !important;
+    .member-items{
+        padding: 5px 10px !important;
+        height: 50px;
+        .user-image{
+            img{
+                width: 40px;
+                border-radius: 50%;
+            }
+        }
+        .user-name{
+            width: 110px;
+            font-size: 13px;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            @extend .buzz-overflow;
+        }
+        &:after{
+            height: 30px;
+            padding: 0 5px;
+            top: 10px;
+            right: 5px !important;
+            font-size: 17px !important;
+            background: $green;
+            color: $white;
+            border-radius: 50%;
+        }
+    }
+    .selected{
+        color: unset !important;
+        font-weight: unset;
+    }
+}
+
 
 .el-checkbox__inner{
     &:after {

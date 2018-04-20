@@ -1,8 +1,8 @@
 <template>
     <li>
-        <div class="add-button">
+        <div class="add-button" @click="$modal.show('add-service')">
             <span> ADD NEW </span>
-            <button  @click="$modal.show('add-service')">
+            <button>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="20px" height="20px">
                     <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
@@ -22,7 +22,7 @@
                                     { required: true, message: 'Please input Service', trigger: 'blur' },
                                 ]"
                                 >
-                                <el-input v-model="servicesForm.service" placeholder="Untitled Service"></el-input>
+                                <el-input v-model="servicesForm.name" placeholder="Untitled Service"></el-input>
                                 <el-button @click="addfield" class="additional-field">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <path fill-rule="evenodd"
@@ -45,7 +45,7 @@
                                 </el-button>
                             </el-form-item>
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('servicesForm')">Save</el-button>
+                                <el-button @click="submit">Save</el-button>
                                 <!-- <el-button @click="resetForm('servicesForm')">Reset</el-button> -->
                                 <el-button @click="$modal.hide('add-service')">Cancel</el-button>
                             </el-form-item>
@@ -71,7 +71,7 @@
                     key: 1,
                     value: ''
                     }],
-                    service: ''
+                    name: ''
                 },
         		error: {
         			name: [],
@@ -123,12 +123,12 @@
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
-                    this.header = 'Edit Service';
-                    this.id = event.params.data.id;
+                    this.title = 'Edit Service';
+                    this.id = event.params.data;
                     var vm = this;
                     axios.get('api/services/'+this.id)
                         .then( response => {
-                            this.form = response.data;
+                            this.servicesForm = response.data;
                         });
                 }
             },
@@ -142,7 +142,7 @@
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/services/new',this.form)
+                axios.post('/api/services/',this.servicesForm)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Service is saved!', 'success');

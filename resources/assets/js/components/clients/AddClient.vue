@@ -34,7 +34,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item  class="form-buttons">
-                            <el-button type="primary" @click="submitForm('form')">Save</el-button>
+                            <el-button type="primary" @click="submit">Save</el-button>
                             <!-- <el-button @click="resetForm('form')">Reset</el-button> -->
                                 <el-button @click="$modal.hide('add-client')">Cancel</el-button>
                         </el-form-item>

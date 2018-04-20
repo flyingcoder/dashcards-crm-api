@@ -4,25 +4,28 @@
         overflow: hidden;
         background: $gray-bg;
         width: 100%;
-        height: 50px;
-        margin-top: 12px;
+        height: 40px;
+        margin-top: 10px;
         @extend .buzz-border;
         .left{
-            width: 42%;
+            width: 40%;
             float: left;
-            line-height: 4;
+            line-height: 3;
             border-right: $section-border;
             background-color: $gray-bg;
+            img{
+                width: 20px;
+            }
         }
         .right{
-            width: 58%;
+            width: 60%;
             float: right;
             font-family: $lato-semi;
             font-size: 13px;
             color: $text;
             span{
                 position: relative;
-                top: 13px;
+                top: 10px;
                 img{
                     width: 19px;
                     height: 10px;
@@ -41,7 +44,7 @@
         }
         .switch-box {
             .left{
-                width: 42%;
+                width: 40%;
                 /*.switch{
                     position: relative;
                     display: inline-block;
@@ -118,24 +121,25 @@
         }
     }
     .buzz-tiles{
-        margin-top: 15px;
         .buzz-tile-content{
             width: 100%;
-            height: 96px;
+            height: 60px;
             background: $white;
             @extend .buzz-border;
+            @extend .toggle-transition;
 
             .buzz-tile-icon{
                 position: relative;
                 overflow: hidden;
                 float: left;
                 text-align: center;
-                width: 42%;
+                width: 40%;
                 height: 100%;
                 border-radius: 10px 0 0 10px;
                 img{
-                    width: 50px;
-                    margin-top: 21px;
+                    width: 60%;
+                    height: 40px;
+                    margin-top: 10px;
                 }
                 svg{
                     margin-top: 21px; 
@@ -145,18 +149,17 @@
                 position: relative;
                 float: right;
                 text-align: center;
-                width: 58%;
+                width: 60%;
                 height: 100%;
                 background: $white;
                 border-radius: 0 10px 10px 0;
-
                 .buzz-tile-number{
-                    font-size: 30px;
-                    margin-top: 10px;
+                    font-size: 23px;
+                    height: 32px;
                     @extend .tile-info;
                 }
                 .buzz-tile-title{
-                    font-size: 13px;
+                    font-size: 14px;
                     @extend .tile-info;
                 }
             }
@@ -207,7 +210,7 @@
                 .el-tabs__nav{
                     padding: 0;
                     width: 100%;
-                    height: 63px;
+                    height: 60px;
                 }
                 .el-tabs__item{
                     width: 50%;
@@ -221,26 +224,30 @@
                 .el-tabs__content{
                     padding: 0 !important;
                 }
-                // .el-tabs__item.is-focus{
-                //     box-shadow: none;
-                // }
             }
             .tab-content{
                 .tasks-status{
-                    height: 69px;
-                    padding: 22.5px 0;
+                    height: 65px;
+                    padding: 20px 10px;
                     text-align: center;
                     border-bottom: $border-buzz;
                     .option-list{
                         display: inline-block;
-                        a{
-                            padding: 6px 4px 6px 16px;
+                        padding: 0 5px;
+                        .option-counter{
                             border-radius: 20px;
                             font-size: 13.5px;
                             font-family: $lato-semi;
                             color: $table-head;
                             background: $white;
                             border: $border-buzz;
+                            height: 30px;
+                            line-height: 30px;
+
+                            span{
+                                position: relative;
+                                right: 10%;
+                            }
      
                             &:active, &:hover{
                              background: $blue-2;
@@ -248,21 +255,23 @@
                              border: 1px solid $blue-2;
                             }
      
-                            label{
-                                 padding: 2px 9px;
-                                 margin-left: 15px;
-                                 border-radius: 100%;
-                                 background: $gray-2;
-                             span{
-                                 position: relative;
-                                 color: $white;
-                                 top: 1px;
-                             }
+                            .el-badge{
+                                position: absolute;
+                                right: 8px;
+                                top: 6.5px;
+                                .el-badge__content{
+                                     border-radius: 100%;
+                                    background: $gray-2;
+                                    color: $white;
+                                    width: 25px;
+                                    height: 25px;
+                                    line-height: 25px;
+                                }
                             }
                         }
                     }
                     .active{
-                        a{
+                        .option-counter{
                              background: $blue-2;
                              color: $white;
                              border: 1px solid $blue-2;
@@ -941,10 +950,12 @@
             font-family: $lato-semi;
         }
         .clients-chart{
+            height: 250px;
             // TEMPORARY
                 img{
                     position: relative;
                     width: 100%;
+                    height: 100%;
                     top: 55px;
                 }
         }
@@ -1284,6 +1295,7 @@
                 border-bottom: $border-buzz;
                 img{
                     width: 100%;
+                    height: 100%;
                 }
             }
         }

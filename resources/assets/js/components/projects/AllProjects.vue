@@ -4,7 +4,7 @@
             <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
             @selection-change="handleSelectionChange" style="width: 100%"
-            @cell-click="rowClick">
+            @row-click="rowClick">
 
                 <el-table-column sortable type="selection" width="60"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
@@ -65,7 +65,6 @@
         <edit-project></edit-project>
     </div>
 </template>
-
 
 <script>
     import EmptyProjects from './EmptyProjects.vue';
@@ -138,9 +137,9 @@
             this.multipleSelection.push(val[index].id);
             }
         },
-        // rowClick(row, event, col){
-        //     location = "/project-hq/" + row.id;
-        // },
+        rowClick(row, event, col){
+            location = "/project-hq/" + row.id;
+        },
         destroy: function(row) {
             axios.delete('/projects/' + row.id + '/delete')
                 .then(response => {
