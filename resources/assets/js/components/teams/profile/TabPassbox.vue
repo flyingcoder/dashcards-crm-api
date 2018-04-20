@@ -11,9 +11,9 @@
 </template>
 
 <script>
-    import PassboxLogin from './passbox/passbox-login.vue';
-    import PassboxClients from './passbox/passbox-clients.vue';
-    import PassboxEdit from './passbox/passbox-edit.vue';
+    import PassboxLogin from './passbox/PassboxLogin.vue';
+    import PassboxClients from './passbox/PassboxClients.vue';
+    import PassboxEdit from './passbox/PassboxEdit.vue';
 
      export default {
         components: {

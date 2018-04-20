@@ -1032,7 +1032,7 @@
 </template>
 
 <script>
-    import MembersOption from './members-option.vue';
+    import MembersOption from './MembersOption.vue';
 
     export default {
         components: {
