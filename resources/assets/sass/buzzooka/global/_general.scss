@@ -1545,15 +1545,7 @@
         }
     // Chat
         .chat-popover-content{
-            // left: -10px !important;
-            // height: 262px;
-            // width: 357px;
-            // max-width: 357px !important;
-            // background: $white;
-            // border: $table-border;
-            // box-shadow: $hover-shadow;
-            // border-radius: 10px;
-            // padding: 0 !important;
+            margin: -12px;
             .tooltip-arrow{
                 border-width: 12px 12px 12px 0 !important;
                 left: -12px !important;
