@@ -137,13 +137,15 @@
                    }
                    .chat-option{
                        list-style: none;
-                       padding: 6px;
+                       padding: 0   ;
                        margin: 0;
                        li{
-                           display: inline;
-                           padding: 7px;
-                           a{
-
+                           display: inline-block;
+                           button{
+                               padding: 7px 10px;
+                                &:hover, &:focus{
+                                    background: none;
+                                }
                            }
                        }
                    }
@@ -257,6 +259,160 @@
                        }
                    }
                }
+            }
+            .chat-box{
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                height: 400px;
+                width: 300px;
+                z-index: 100;
+                @extend .toggle-transition;
+                .chat-header{
+                   height: 40px;
+                   background: $blue;
+                   border-radius: 10px 10px 0 0;
+                   padding: 6px 15px;
+                   .user{   
+                        img, .info{
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+                        img{
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            border: $table-border;
+                        }
+                        .info{
+                            margin-left: 10px;
+                            line-height: 10px;
+                            h5{
+                                margin: 0;
+                                padding: 0;
+                                color: $white;
+                                font-size: 12px;
+                                font-family: $lato-semi;
+                                letter-spacing: 0.3px;
+                            }
+                            span{
+                                font-size: 10px;
+                                color: $title-path;
+                                font-family: $lato-mid;
+                            }
+                        }
+                   }
+                   .chat-option{
+                       list-style: none;
+                       padding: 0   ;
+                       margin: 0;
+                       li{
+                           display: inline-block;
+                           button{
+                               padding: 0px;
+                               svg{
+                                    fill: $hq-icon;
+                               }
+                                &:hover, &:focus{
+                                    background: none;
+                                }
+                           }
+                       }
+                   }
+                   .user, .chat-option{
+                       display: inline-block;
+                   }
+                }
+                .chat-body{
+                    height: 310px !important;
+                    @extend .buzz-scrollbar;
+                    .message{
+                        padding: 10px 20px;
+                        border-bottom: $table-border;
+                        .user-info{
+                            margin-bottom: 10px;
+                            height: 40px;
+                                img{
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                }
+                                .name{
+                                    font-size: 14px;
+                                    color: $chat-name;
+                                    margin: 0 12px;
+                                }
+                                .date{
+                                    position: relative;
+                                    top: 10px;
+                                    right: 0;
+                                    font-size: 11px;
+                                    color: $title-path;
+                                    font-family: $lato-mid;
+                                }
+                                img, h5, span{
+                                    display: inline-block;
+                                }
+                        }
+                        p{
+                            line-height: 1.5;
+                            letter-spacing: 0.3px;
+                            color: $chat-text;
+                            font-size: 14px;
+                        }
+                    }
+                    .member{
+                        background: $white;
+                        span{
+                            position: relative;
+                            float: right;
+                            top: 15px;
+                            right: 5%;
+                        }
+                    }
+                    .me{
+                        background: $gray-bg;
+                        img , .name{
+                            float: right;
+                        }
+                        .name, span{
+                            position: relative;
+                            top: 15px;
+                        }
+                        span{
+                            left: 5%;
+                        }
+                        p{
+                            text-align: right;
+                        }
+                    }
+                }
+                .chat-write{
+                    height: 50px;
+                    background: $white;
+                    padding: 0;
+                    border: $table-border;
+                    border-radius: 6px 0 0 6px;
+                    box-shadow: $body-shadow;
+                    textarea{
+                        padding: 0px !important;
+                        padding-top: 12px !important;
+                        line-height: 1.2 !important;
+                        text-indent: 15px;
+                    }
+                    .chat-buttons{
+                        height: 48px !important;
+                        button{
+                            padding: 0 !important;
+                            padding-top: 6px !important;
+                            text-indent: 15px;
+                        }
+                    }
+                }
+            }
+            .minimize{
+                height: 40px !important;
+                @extend .toggle-transition;
             }
             .box-footer{
                 height: 64px !important;
