@@ -1,0 +1,458 @@
+.hq-messages{
+    .content-body{
+        margin-top: 20px;
+        height: 1160px !important;
+    }
+    .buzz-section{
+        padding: 20px;
+        height: 1110px !important;
+    }
+    .left-message{
+        .message-storage{
+            background: $white;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: $body-shadow;
+            .write-btn{
+                margin-bottom: 10px;
+                button{
+                    width: 100%;
+                    height: 40px;
+                    background: $blue;
+                    color: $white;
+                }
+            }
+            ul{
+                background: $gray-bg;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                li{
+                    height: 50px;
+                    button{
+                        width: 100%;
+                        height: 100%;
+                        text-align: left;
+                        .el-badge{
+                            position: absolute;
+                            height: 20px;
+                            right: 50px;
+                            .el-badge__content{
+                                border-radius: 50%;
+                                height: 25px;
+                                width: 25px;
+                                line-height: 25px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .members-list{
+            border: $table-border;
+            border-radius: 10px;
+            ul{
+                height: 685px !important;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                background: $white;
+                border-radius: 0 0 10px 10px;
+                li{
+                    position: relative;
+                    height: 70px;
+                    border-bottom: $table-border;
+                    // padding: 7px 0px;
+                    padding: 0;
+                    a, button{
+                        .online, .offline{
+                            position: absolute;
+                            bottom: 10px;
+                            left: 55px;
+                            width: 20px;
+                            height: 20px;
+                            border: 3px solid  $header-dropdown-bg;
+                            border-radius: 50%;
+                        }
+                    }
+                    button{
+                        padding: 0 !important;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .el-popover{
+                    background: red !important; 
+                }
+            }
+            .you{
+                position: relative;
+                height: 70px;
+                border-radius: 10px 10px 0 0;
+                background: $white;
+                border-bottom: $table-border;
+                padding: 0;
+                .info, button{
+                    display: inline-block;
+                }
+                .info{
+                    position: relative;
+                    top: 8px;
+                    left: 12px;
+                    width: 78%;
+                    @extend .buzz-overflow;
+                    max-width: 78% !important;
+                    span{
+                        margin-left: 10px;
+                        font-size: 14px;
+                    }
+                }
+                button{
+                    position: absolute;
+                    top: 20px;
+                    right: 10px;
+                    width: 33px;
+                    height: 33px;
+                    border-radius: 5px;
+                    border: $table-border;
+                    background: $modal-input;
+                    svg{
+                        position: relative;
+                        top: 2px;
+                    }
+                }
+            }
+            img{
+                width: 55px;
+                height: 55px;
+                border-radius: 50%;
+                border: $table-border;
+            }
+            .image, .name{
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .image{
+                img{
+                    position: relative;
+                    right: 10px;
+                }
+            }
+            .name{
+                width: 55%;
+                color:  $modal-title;
+                font-size: 12.2px;
+                font-family: $lato-semi;
+                @extend .buzz-overflow;
+                max-width: 100% !important;
+            }
+        }
+    }
+    .message-info{
+        .message-content{
+            padding: 10px 0 20px 20px;
+            .message-head{
+                height: 70px;
+                padding-right: 20px;
+                .user-info{
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+                .avatar{
+                    width: 41px !important;
+                    height: 41px !important;
+                    border-radius: 50%;
+                    border: $table-border;
+                    span{
+                        position: relative;
+                        font-size: 16px;
+                        bottom: 7px;
+                    }
+                }
+                .name{
+                    width: 65% !important;
+                    font-size: 14.93px;
+                    color: $chat-name;
+                    line-height: 1.2;
+                    margin-left: 15px;
+                    font-family: $lato; 
+                    @extend .buzz-overflow;
+                }
+                .date{
+                    position: relative;
+                    padding: 0;
+                    svg, img, span{
+                        display: inline-block;
+                        vertical-align: middle;
+                        height: 41px;
+                        line-height: 41px;
+                    }
+                    svg, img{
+                        position: relative;
+                        top: 10px;
+                        margin-right: 10px;
+                    }
+                    span{
+                        font-family: $lato;
+                        color: $chat-name;
+                        font-size: 15px;
+                        color:  $red;
+                    }
+                }
+                .message-option{
+                    position: relative;
+                    border: none;
+                    ul{
+                        border: none;
+                        li{
+                            float: right;
+                            top: 2px;
+                            width: 39px;
+                            height: 39px;
+                            border-radius: 50%;
+                            border: $table-border;
+                            margin-right: 7px;
+                            button{
+                                svg{
+                                    position: relative;
+                                }
+                            }
+                            .sort{
+                                svg{
+                                    top: 5px;
+                                    left: 2px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .options{
+                ul{
+                    list-style: none;
+                    padding: 0;
+                    li{
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 30%;
+                        height: 42px;
+                        padding: 0;
+                        margin-right: 2.5%;
+                        border: $table-border;
+                        border-radius: 3px;
+                        button{
+                            width: 100%;
+                            height: 100%;
+                            text-align: center;
+                            label, span{
+                                color: $action-hover;
+                                font-family: $lato-mid;
+                                font-size: 15px;
+                                font-weight: unset;
+                                line-height: 38px;
+                                @extend .buzz-overflow;
+                            }
+                        }
+                    }
+                }
+            }
+            .message-decription{
+                height: 980px !important;
+                background: $white !important;
+                padding: 0px 20px 20px 60px;
+                margin-top: 20px;
+                @extend .buzz-scrollbar;
+                @extend .buzz-scroll;
+                .title{
+                    color:  $milestone-title;
+                    font-family: $lato-mid;
+                    line-height: 1.2;
+                    letter-spacing: 0.3px;
+                    font-size: 20px;
+                    margin: 0;
+                    margin-bottom: 20px;
+                }
+                .description{
+                    font-size: 15px;
+                    color: $table-data;
+                    font-family: $lato-mid;
+                    letter-spacing: 0.3px;
+                    margin-bottom: 20px;
+                }
+                .comment{
+                    margin-bottom: 20px;
+                    .member-img, .comment-info{
+                        display: inline-block;
+                    }
+                    .member-img{
+                        position: relative;
+                        left: -60px;
+                        width: 41px;
+                        height: 41px;
+                        border-radius: 50%;
+                        border: $table-border;
+                    }
+                    .comment-info{
+                        position: relative;
+                        top: 10px;
+                        left: -45px;
+                        margin-bottom: 5px;
+                        h4{
+                            color:  $chat-name;
+                            font-size: 15px;
+                            margin: 0;
+                            margin-bottom: 1px;
+                            font-family: $lato;
+                        }
+                        span{
+                            font-size: 12px;
+                            color: $member-info;
+                        }
+                    }
+                    .comment-text{
+                        margin-top: 20px;
+                        p{
+                            font-size: 15px;
+                            font-family: initial;
+                            color: $table-data;
+                        }
+                    }
+                    .comment-img{
+                        margin-top: 20px;
+                        overflow: auto;
+                        white-space: nowrap;
+                        ul{
+                            list-style: none;
+                            padding: 0;
+                            width: 350px;
+                            li{
+                                display: inline-block;
+                                margin-right: 10px;
+                                img{
+                                    width: 90px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .task-comment{
+                height: 65px;
+                margin-top: 20px;
+                margin-right: 20px;
+                .avatar{
+                    position: absolute;
+                    width: 41px;
+                    margin: 10px;
+                    z-index: 1;
+                }
+                .quill-editor{
+                    .ql-container{
+                        height: 215px;
+                        border: $table-border;
+                        border-radius: 5px;
+                        .ql-editor{
+                            line-height: 1;
+                            height: 170px !important;
+                            margin-bottom: 50px;
+                            text-indent: 45px;
+                        }
+                    }
+                    .ql-toolbar{
+                        margin: 10px;
+                        .ql-formats{
+                            padding: 0 !important;
+                        }
+                        .ql-picker-label{
+                            top: 0 !important;
+                        }
+                    }
+                }
+                .field-options{
+                    display: block;
+                    position: relative;
+                    bottom: 28px;
+                    border-top: $table-border !important;
+                    height: 43px;
+                    padding: 5px 10px;
+                    border: $table-border;
+                    border-top: none !important;
+                    border-radius: 0 0 8px 8px;
+                    box-shadow: $body-shadow;
+                    background: $input2-bg !important;
+                    button{
+                        position: relative;
+                        height: 100%;
+                        width: 35px;
+                        display: inline-block;
+                        top: 0;
+                        border: none;
+                        padding: 0;
+                        margin: 0 3px;
+                        span{
+                            position: relative;
+                            top: 0;
+                            margin: 0;
+                            width: 35px;
+                            font-size: 11.3px;
+                            line-height: 1.2;
+                            display: table-caption !important;
+                            color: $table-status-text;
+                            font-family: $lato-mid;
+                        } 
+                        svg{
+                            fill: $modal-icon;
+                            padding: 0;
+                            margin: 0;
+                            &:hover{
+                                fill: $modal-hover;
+                            }
+                        }
+                    }
+                    .send{
+                        font-size: 11.3px;
+                        width: 70px;
+                        span{
+                            width: 70px;
+                        }
+                    }
+                    .border{
+                        background: $modal-input;
+                        border-radius: 3px;
+                        border: 1px solid $modal-icon !important;
+                    }
+                }
+            } 
+        }
+    }
+    .new-message{
+
+        .el-form{
+            background: $white;
+            padding: 20px;
+            .new-message-head{
+                height: 50px;
+                span{
+                    font-size: 20px;
+                }
+            }
+            .new-message-form{
+                background: $gray-bg;
+                padding: 20px;
+            }
+            .el-input{
+                background: $white;
+                border: $table-border;
+                margin-bottom: 20px;
+            }
+            .el-input-group__prepend{
+                background: $white;
+                border: none;
+            }
+            .el-input-group__append{
+                background: $white;
+                border: none;
+            }
+        }
+    }
+}

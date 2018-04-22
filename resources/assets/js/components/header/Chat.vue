@@ -207,3 +207,16 @@
         </el-dropdown>
     </li>
 </template>
+
+<script>
+     export default {
+    	data: function () {
+        	return {    
+                isProcessing: false,
+                 form: {
+
+                },
+            }
+        }
+     }
+</script>
