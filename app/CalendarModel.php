@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Calendar extends Model
+class CalendarModel extends Model
 {
 	use SoftDeletes;
 
@@ -25,6 +25,6 @@ class Calendar extends Model
 
     public function events()
     {
-    	return $this->hasMany(Event::class);
+    	return $this->hasMany(EventModel::class);
     }
 }
