@@ -5,13 +5,16 @@
                 <img src="img/temporary/user2.png">
                 <span class="name"> Bruce Wayne </span>
             </div>
-            <button> 
+            <el-button v-popover:addGroup>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="17px" height="17px">
                     <path fill-rule="evenodd"  fill="rgb(179, 182, 195)"
                     d="M8.476,0.477 C9.105,0.477 9.615,0.991 9.615,1.626 L9.615,7.300 L15.236,7.300 C15.864,7.300 16.374,7.815 16.374,8.449 C16.374,9.084 15.864,9.598 15.236,9.598 L9.615,9.598 L9.615,15.273 C9.615,15.907 9.105,16.422 8.476,16.422 C7.848,16.422 7.338,15.907 7.338,15.273 L7.338,9.598 L1.717,9.598 C1.088,9.598 0.578,9.084 0.578,8.449 C0.578,7.815 1.088,7.300 1.717,7.300 L7.338,7.300 L7.338,1.626 C7.338,0.991 7.848,0.477 8.476,0.477 Z"/>
                 </svg>
-            </button>
+            </el-button>
+            <el-popover ref="addGroup" placement="right" trigger="click">
+                <add-group></add-group>
+            </el-popover>
         </div>
         <ul class="buzz-scrollbar" id="buzz-scroll">
             <li>
@@ -1495,45 +1498,50 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        editableTabsValue2: '2',
-        editableTabs2: [{
-          title: ' ',
-          name: ' ',
-          content: ' '
-        }],
-        tabIndex: 2
-      }
-    },
-    methods: {
-      addTab(targetName) {
-        let newTabName = ++this.tabIndex + '';
-        this.editableTabs2.push({
-          title: 'New Tab',
-          name: newTabName,
-          content: '',
-        });
-        this.editableTabsValue2 = newTabName;
-      },
-      removeTab(targetName) {
-        let tabs = this.editableTabs2;
-        let activeName = this.editableTabsValue2;
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
-              }
+  import AddGroup from './AddGroup.vue'
+
+    export default {
+        components: {
+            'add-group': AddGroup ,
+        },
+        data() {
+            return {
+                editableTabsValue2: '2',
+                editableTabs2: [{
+                title: ' ',
+                name: ' ',
+                content: ' '
+                }],
+                tabIndex: 2
             }
-          });
+        },
+        methods: {
+            addTab(targetName) {
+                let newTabName = ++this.tabIndex + '';
+                this.editableTabs2.push({
+                title: 'New Tab',
+                name: newTabName,
+                content: '',
+                });
+                this.editableTabsValue2 = newTabName;
+            },
+            removeTab(targetName) {
+                let tabs = this.editableTabs2;
+                let activeName = this.editableTabsValue2;
+                if (activeName === targetName) {
+                tabs.forEach((tab, index) => {
+                    if (tab.name === targetName) {
+                    let nextTab = tabs[index + 1] || tabs[index - 1];
+                    if (nextTab) {
+                        activeName = nextTab.name;
+                    }
+                    }
+                });
+                }
+                
+                this.editableTabsValue2 = activeName;
+                this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
+            }
         }
-        
-        this.editableTabsValue2 = activeName;
-        this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
-      }
     }
-  }
 </script>

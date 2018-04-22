@@ -34,13 +34,13 @@
                                         filterable 
                                         default-first-option  
                                         placeholder="Choose a Member">
-                                        <div class="selectMembers__dropdown" v-bind:class="{ active: selectMembers }">
-                                            <el-option class="member-items" v-on:click.self="doThat" v-for="item in members" :key="item.value" :value="item.value">
-                                                <span class="user-image"> <img :src="item.image"/> </span>
-                                                <div class="user-name"> {{ item.label }} </div>
-                                            </el-option>
-                                        </div>
-                                    </el-select>
+                                            <div class="selectMembers__dropdown" v-bind:class="{ active: selectMembers }">
+                                                <el-option class="member-items" v-on:click.self="doThat" v-for="item in members" :key="item.value" :value="item.value">
+                                                    <span class="user-image"> <img :src="item.image"/> </span>
+                                                    <div class="user-name"> {{ item.label }} </div>
+                                                </el-option>
+                                            </div>
+                                        </el-select>
                                     </div>
                                 </div>
                                 <div class="option-item">
