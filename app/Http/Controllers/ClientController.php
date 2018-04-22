@@ -61,8 +61,8 @@ class ClientController extends Controller
 
         $client = User::create([
             'username' => $username,
-            'last_name' => required()->last_name,
-            'first_name' => required()->first_name,
+            'last_name' => request()->last_name,
+            'first_name' => request()->first_name,
             'email' => request()->email,
             'telephone' => request()->telephone, 
             'job_title' => 'Client',
@@ -133,7 +133,6 @@ class ClientController extends Controller
                  Rule::unique('users')->ignore($client->id)
              ],
             'telephone' => 'required',
-            'job_title' => 'required',
             'password' => 'required|confirmed',
             'status' => 'required',
             'company_name' => 'required',
@@ -146,7 +145,6 @@ class ClientController extends Controller
         $client->last_name = request()->name;
         $client->email = request()->email;
         $client->telephone = request()->telephone;
-        $client->job_title = request()->job_title;
         if(!empty(request()->password))
             $client->password = request()->password;
         
@@ -160,7 +158,7 @@ class ClientController extends Controller
         //request()->session()->flash('message.level', 'success');
         //request()->session()->flash('message.content', 'User was successfully updated!');
 
-        return back();
+        return $client;
     }
 
     public function delete($id)
