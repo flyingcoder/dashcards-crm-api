@@ -46,18 +46,23 @@ class ClientController extends Controller
     public function store()
     {
         request()->validate([
-            'name' => 'required|string',
+            'last_name' => 'required|string',
+            'first_name' => 'required|string',
             'email' => 'required|email|unique:users',
             'telephone' => 'required', 
-            'password' => 'required', //Remove Confime Handled in frontend by: Dustin 04-20-2018
+            'password' => 'required', //Remove Confirm Handled in frontend by: Dustin 04-20-2018
             'status' => 'required',
             'company_name' => 'required',
             // 'company_email' => 'required', //Commented by: Dustin 04-20-2018 //No data in form
             // 'company_tel' => 'required' //Commented by: Dustin 04-20-2018 //No data in form
         ]);
 
+        $username = explode('@', request()->email)[0];
+
         $client = User::create([
-            'name' => request()->name,
+            'username' => $username,
+            'last_name' => request()->last_name,
+            'first_name' => request()->first_name,
             'email' => request()->email,
             'telephone' => request()->telephone, 
             'job_title' => 'Client',
@@ -120,13 +125,14 @@ class ClientController extends Controller
         $client = User::findOrFail($id);
 
         request()->validate([
-            'name' => 'required|string',
+            'username' => 'required|string',
+            'last_name' => 'required|string',
+            'first_name' => 'required|string',
             'email' => [
                 'required',
                  Rule::unique('users')->ignore($client->id)
              ],
             'telephone' => 'required',
-            'job_title' => 'required',
             'password' => 'required|confirmed',
             'status' => 'required',
             'company_name' => 'required',
@@ -134,10 +140,11 @@ class ClientController extends Controller
             'company_tel' => 'required'
         ]);
 
-        $client->name = request()->name;
+        $client->first_name = request()->name;
+        $client->username = request()->name;
+        $client->last_name = request()->name;
         $client->email = request()->email;
         $client->telephone = request()->telephone;
-        $client->job_title = request()->job_title;
         if(!empty(request()->password))
             $client->password = request()->password;
         
@@ -148,10 +155,10 @@ class ClientController extends Controller
         $client->setMeta('company_tel', request()->company_tel);
         $client->setMeta('status', request()->status);
 
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'User was successfully updated!');
+        //request()->session()->flash('message.level', 'success');
+        //request()->session()->flash('message.content', 'User was successfully updated!');
 
-        return back();
+        return $client;
     }
 
     public function delete($id)
