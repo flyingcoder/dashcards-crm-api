@@ -1,4 +1,6 @@
 <template>
+<section class="buzz-section">
+                <div class="buzz-table">
      <div class="All-Clients">
         <div v-if="paginatedAllClients.length >= 1">
             <el-table :data="paginatedAllClients" stripe empty-text="No Data Found" v-loading="isProcessing" 
@@ -54,6 +56,8 @@
             <empty-clients></empty-clients>
         </div>
     </div>
+    </div>
+    </section>
 </template>
 
 <script>
@@ -112,7 +116,7 @@
                 }
             },
             rowClick(row, event, col){
-                // location = "/api/clients" + row.id;
+                location = "/api/clients" + row.id;
             },
             cellClick: function(row, col) {
                 var a = col.id;

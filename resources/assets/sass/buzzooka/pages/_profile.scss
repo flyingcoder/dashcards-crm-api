@@ -91,23 +91,38 @@
                 }
                 .social-accounts{
                     height: 80px;
+                    width: 100%;
                     background: $gray-bg;
                     border-bottom: $section-border;
                     ul{
                         list-style: none;
                         padding: 0;
                         margin: 0;
-                        li{
-                            display: inline-block;
-                            padding: 17px 46px;
-                            svg{
-                                fill: $hq-icon;
-                            }
-                            &:hover{
-                                svg{
-                                    fill: $social-hover;
+                        height: 100%;
+                        width: 100%;
+                        .left-social, .right-social{
+                            width: 50%;
+                            margin-top: 10px;
+                            li{
+                                padding: 0;
+                                background: none;
+                                width: 25% !important;
+                                display: inline-block;
+                                button{
+                                    background: none;
+                                    svg{
+                                        fill: $hq-icon;
+                                    }
+                                    &:hover{
+                                        svg{
+                                            fill: $social-hover;
+                                        }
+                                    }
                                 }
                             }
+                        }
+                        .right-social{
+                            text-align: right;
                         }
                     }
                 }
@@ -164,6 +179,25 @@
                                 margin-right: 6px;
                             }
                         }
+                    }
+                    .client-info{
+                        .title{
+                            font-size: 20px;
+                            font-weight: bold;
+                            margin-top: 10px;
+                        }
+                        h4{
+                            margin: 0;
+                        }
+                        .project-count{
+                            font-size: 35px;
+                        }
+                        .invoice-count{
+                            font-size: 20px;
+                        }
+                    }
+                    .invoice-payment{
+                        text-align: left;
                     }
                 }
             }
@@ -745,6 +779,198 @@
                 }
                 .tab-content{
                     height: 640px;
+                    .task-option{
+                        box-shadow: none;
+                        border: none;
+                        .el-tabs__header{
+                            position: unset !important;
+                        }
+                        .el-tabs__nav{
+                            padding: 0;
+                            width: 100%;
+                            height: 60px;
+                        }
+                        .el-tabs__item{
+                            width: 50%;
+                            height: 63px;
+                            text-align: center;
+                            font-size: 16px !important;
+                            color: $table-data;
+                            line-height: 4;
+                            padding: 0;
+                        }
+                        .el-tabs__content{
+                            padding: 0 !important;
+                        }
+                    }
+                    .tab-content{
+                        .tasks-status{
+                            height: 65px;
+                            padding: 20px 10px;
+                            text-align: center;
+                            border-bottom: $border-buzz;
+                            .option-list{
+                                display: inline-block;
+                                padding: 0 5px;
+                                .option-counter{
+                                    border-radius: 20px;
+                                    font-size: 13.5px;
+                                    font-family: $lato-semi;
+                                    color: $table-head;
+                                    background: $white;
+                                    border: $border-buzz;
+                                    height: 30px;
+                                    line-height: 30px;
+        
+                                    span{
+                                        position: relative;
+                                        right: 10%;
+                                    }
+             
+                                    &:active, &:hover{
+                                     background: $blue-2;
+                                     color: $white;
+                                     border: 1px solid $blue-2;
+                                    }
+             
+                                    .el-badge{
+                                        position: absolute;
+                                        right: 8px;
+                                        top: 6.5px;
+                                        .el-badge__content{
+                                             border-radius: 100%;
+                                            background: $gray-2;
+                                            color: $white;
+                                            width: 25px;
+                                            height: 25px;
+                                            line-height: 25px;
+                                        }
+                                    }
+                                }
+                            }
+                            .active{
+                                .option-counter{
+                                     background: $blue-2;
+                                     color: $white;
+                                     border: 1px solid $blue-2;
+                                }
+                            }
+                        }
+                    }
+                    .list{
+                        .tab-table{
+                            height: 304px;
+                            table{
+                                width: 100%;
+                                thead, tbody tr {
+                                    display:table;
+                                    width:100%;
+                                    table-layout:fixed;
+                                }
+                                thead{
+                                    tr{
+                                        height: 60px;
+                                        border-bottom: $border-buzz;
+                                        font-size: 16px;
+                                        letter-spacing: 0.5px;
+                                        background: $gray-bg;
+                                        color: $table-head;
+                                        @extend .page-title;
+                                        th{
+                                            &:first-child{
+                                                width: 50px;
+                                            }
+                                            &:last-child{
+                                                position: relative;
+                                                left: 15px;
+                                                width: 19%;
+                                            }
+                                        }
+                                    }
+                                }
+                                tbody{
+                                    display:block;
+                                    height: 243px !important;
+                                    tr{
+                                        height: 81px;
+                                        border-bottom: $border-buzz;
+                                        cursor: pointer;
+                                        &:hover{
+                                            .hover-display{
+                                                display: table-cell;
+                                            }
+                                        }
+                                        &:nth-child(odd){
+                                            background: $gray-bg;
+                                        }
+                                        &:nth-child(even){
+                                            background: $white;
+                                        }
+                                        td{
+                                            position: relative;
+                                            &:first-child{
+                                                width: 50px;
+                                            }
+                                            &:last-child{
+                                                left: 15px;
+                                                width: 19%;
+                                            }
+                                        }
+                                        .hover-display{
+                                            position: relative;
+                                            left: 15px;
+                                        }
+                                        .status{
+                                            position: relative;
+                                            top: 5px;
+                                            color: $gray-4;
+                                            font-size: 12px;
+                                            text-transform: capitalize;
+                                        }
+                                        .progress{
+                                            position: relative;
+                                            top: 5px;
+                                            width: 60px;
+                                            height: 6px;
+                                            border-radius: 20px;
+                                        }
+                                        .completed{
+                                            background: $green;
+                                        }
+                                        .pending{
+                                            background: $orange-tile-6;
+                                        }
+                                        .behind{
+                                            background: $orange-tile-1;
+                                        }
+                                    }
+                                }
+                                .assignee{
+                                    width: 90px;
+                                    img{
+                                        width: 55px;
+                                        border-radius: 100%;
+                                    }
+                                }
+                                .projects{
+                                    .task-project{
+                                        position: relative;
+                                        bottom: 10px;
+                                        font-family: $lato-mid;
+                                        color: $gray-3;
+                                        font-size: 19px;
+                                    }
+                                    .assigned-project{
+                                        position:absolute;
+                                        display: block;
+                                        color: $gray-4;
+                                        font-size: 11.5px;
+                                        top:40px;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 .box-footer{
                     padding-top: 23px;

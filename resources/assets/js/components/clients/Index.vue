@@ -53,11 +53,8 @@
             </div>
         </div>
         <div class="content-body">
-            <section class="buzz-section">
-                <div class="buzz-table">
-                   <clients-table></clients-table>
-                </div>
-            </section>
+            <profile></profile>
+            <!-- <clients-table></clients-table> -->
         </div>
         <add-client></add-client>
     </section>
@@ -66,11 +63,13 @@
 <script>
     import AddClient from './AddClient.vue';
     import ClientsTable from './ClientsTable.vue';
+    import Profile from './profile/Index.vue';
 
     export default {   
         components: {
           'add-client': AddClient,
           'clients-table': ClientsTable,
+          'profile': Profile,
         },
        data () {
         return {
