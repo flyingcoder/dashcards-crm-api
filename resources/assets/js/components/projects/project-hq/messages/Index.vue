@@ -1,12 +1,16 @@
 <template>
-    <section class="content Messages">
-        <div class="content-body">
+    <section class="content hq-messages">
+         <div class="content-body">
             <section class="buzz-section">
-                <div class="">
-                    <div class="text-center">
-                        <img src="/img/temporary/construction.jpg" alt="icon" width="560px">
+                <div class="row">
+                    <div class="col-md-3">
+                        <left-message></left-message>
                     </div>
-                    <h1 class="text-center"> Coming Soon!!</h1>
+                    <div class="col-md-9">
+                        <!-- <message-info></message-info> -->
+                        <!-- <message-table></message-table> -->
+                        <new-message></new-message>
+                    </div>
                 </div>
             </section>
         </div>
@@ -14,11 +18,25 @@
 </template>
 
 <script>
-export default {
+    import LeftMessage from './LeftMessage.vue'
+    import MessageInfo from './MessageInfo.vue'
+    import MessageTable from './MessageTable.vue'
+    import NewMessage from './NewMessage.vue'
+    export default {
+        components: {
+            'left-message': LeftMessage,
+            'message-info': MessageInfo,
+            'message-table': MessageTable,
+            'new-message': NewMessage,
+        },
+        data(){
+            return {
 
-}
+            }
+        },
+        methods:{
+  
+        }
+    
+    }
 </script>
-
-<style>
-
-</style>
