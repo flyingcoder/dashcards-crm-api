@@ -53,8 +53,10 @@
             </div>
         </div>
         <div class="content-body">
-            <profile></profile>
-            <!-- <clients-table></clients-table> -->
+            <section class="buzz-section">
+                <profile></profile>
+                <!-- <clients-table></clients-table> -->
+            </section>
         </div>
         <add-client></add-client>
     </section>

@@ -39,7 +39,6 @@
     </div>
 </template>
 
-
 <script>
     export default {
         props:[ 'all','completed','pending','behind','taskOption' ],

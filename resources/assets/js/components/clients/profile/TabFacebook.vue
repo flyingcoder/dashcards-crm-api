@@ -3,13 +3,13 @@
          <div class="facebook-feed">
              <div class="content">
                 <h1> Facebook Feed</h1>
-                <div class="feeds">
+                <!-- <div class="feeds">
                     <img src="img/temporary/fb-feed.png">
-                </div>
+                </div> -->
              </div>
-             <div class="box-footer">
+             <!-- <div class="box-footer">
                 <a href=""> View More </a>
-            </div>
+            </div> -->
          </div>
     </div>
 </template>
