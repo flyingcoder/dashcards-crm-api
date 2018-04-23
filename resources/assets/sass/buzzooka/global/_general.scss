@@ -244,24 +244,27 @@
         }
         .content-body{
             position: relative;
-            height: 1476px;
+            height: auto;
+            // height: 1476px;
             background: $white;
             border-radius: 10px;
             border: $body-border;
             box-shadow: $body-shadow;
             .buzz-section{
                 margin: 22px;
-                height: 1398px;
+                height: auto;
+                // height: 1398px;
                 background-color: $gray-bg;
                 border: $section-border;
                 .buzz-table{
                     margin: 22px;
-                    height: 1352px;
+                    height: auto;
+                    // height: 1352px;
                     table{
                         width: 100%;
                         tbody{
                             tr{
-                                height: 95px;
+                                height: 80px;
                                 border: $table-border;
                                 &:nth-child(odd){
                                     background: $white;
@@ -1111,7 +1114,21 @@
                         &:last-child{
                             text-align: center;
                             a, button{
-                                padding: 10px 5px;
+                                padding: 5px;
+                                background: none;
+                                svg{
+                                    margin-top: 10px;
+                                    width: 20px;
+                                    fill: $action;
+                                }
+                                &:hover{
+                                    .edit{
+                                        fill: $green;
+                                    }
+                                    .delete{
+                                        fill: $red;
+                                    }
+                                }
                             }
                         }
                     }
@@ -1132,6 +1149,14 @@
             width: 100%;
             bottom: 0;
             padding-top: 25px;
+            .el-pagination__total{
+                font-size: 15px !important;
+            }
+            .el-pagination__sizes{
+                input{
+                    font-size: 15px;
+                }
+            }
             .btn-prev{
                 position: absolute;
                 right: 10%;
@@ -1139,6 +1164,20 @@
             .el-pager{
                 position: absolute;
                 right: 5%;
+                border: none !important;
+                li{
+                    height: auto !important;
+                    color: $blue;
+                    font-weight: bold;
+                    &:hover{
+                        background: $blue !important;
+                        color: $white;
+                    }
+                }
+                .active{
+                    background: $blue;
+                    color: $white;
+                }
             }
             .btn-next{
                 position: absolute;
@@ -1369,11 +1408,20 @@
                     .el-input, .el-select, textarea{
                         width: 100%;
                         outline: none;
-                        padding: 0 10px;
+                        padding: 0px;
                         border: $table-border;
                         border-radius: 8px;
                         box-shadow: $body-shadow;
                         background: $input2-bg !important;
+                        .el-input-group__prepend{
+                            background: none;
+                            border: none;
+                            .required{
+                                position: absolute;
+                                left: 10px;
+                                color: $warning;
+                            }
+                        }
                     }
                     .el-select{
                         padding: 0 !important;
@@ -1389,6 +1437,11 @@
                         font-size: 17px !important;
                         padding: 0 !important;
                         margin: 0 !important;
+                    }
+                    .el-radio-group{
+                        .el-radio{
+                            background: $white;
+                        }
                     }
                     .ckeditor{
                         .head-page-option{
@@ -1432,7 +1485,16 @@
                         font-family: $lato-mid;
                     }
                 }
+                .buzz-input{
+                    width: 100%;
+                }
+                .buzz-inline{
+                    width: 49% !important;
+                    margin: 0;
+                    margin-bottom: 20px;
+                }
                 .form-buttons{
+                    width: 100%;
                     text-align: center;
                     margin-bottom: 25px;
                     button{
@@ -1545,15 +1607,7 @@
         }
     // Chat
         .chat-popover-content{
-            // left: -10px !important;
-            // height: 262px;
-            // width: 357px;
-            // max-width: 357px !important;
-            // background: $white;
-            // border: $table-border;
-            // box-shadow: $hover-shadow;
-            // border-radius: 10px;
-            // padding: 0 !important;
+            margin: -12px;
             .tooltip-arrow{
                 border-width: 12px 12px 12px 0 !important;
                 left: -12px !important;

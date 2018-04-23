@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Calendar;
+use App\CalendarModel;
 
-class CalendarController extends Controller
+class CalendarModelController extends Controller
 {
     public function index()
     {
@@ -19,7 +19,7 @@ class CalendarController extends Controller
 
     public function calendar($id)
     {
-    	$calendar = Calendar::findOrFail($id);
+    	$calendar = CalendarModel::findOrFail($id);
 
     	//policy will be added soon
 
@@ -28,7 +28,7 @@ class CalendarController extends Controller
 
     public function events($id)
     {
-    	$calendar = Calendar::findOrFail($id);
+    	$calendar = CalendarModel::findOrFail($id);
 
     	//policy will be added
 
@@ -43,8 +43,8 @@ class CalendarController extends Controller
 
     	$company = auth()->user()->company();
 
-    	$company->calendars()->create(request());
+    	$company->calendars()->create(request()->all());
 
-    	return Calendar::latest()->first();
+    	return CalendarModel::latest()->first();
     }
 }

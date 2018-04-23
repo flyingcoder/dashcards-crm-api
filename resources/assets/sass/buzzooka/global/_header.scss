@@ -360,6 +360,147 @@
             }
         }
     }
+    .header-chat{
+        top: 70px !important;
+        padding: 0 15px;
+        h1{
+            margin: 20px 0;
+            font-size: 23px;
+            color: $table-data;
+        }
+        .members{
+            margin: 10px 0;   
+            ul{
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                list-style: none;
+                white-space: nowrap;
+                overflow: hidden;
+                li{
+                    position: relative;
+                    display: inline-block;
+                    margin: 0 5px;
+                    img{
+                        width: 50px;
+                        border-radius: 50%;
+                    }
+                    span{
+                        position: absolute;
+                        bottom: 0px;
+                        left: 40px;
+                        width: 20px;
+                        height: 20px;
+                        border: 3px solid #e8eaf6;
+                        border-radius: 50%;
+                    }
+                }
+            }
+        }
+        .chat-content{
+            height: auto;
+            .chat-body{
+                height: 390px !important;
+                @extend .buzz-scrollbar;
+                .message{
+                    padding: 10px 20px;
+                    border-bottom: $table-border;
+                    .user-info{
+                        margin-bottom: 20px;
+                        height: 58px;
+                         img{
+                             width: 50px;
+                             height: 50px;
+                             border-radius: 50%;
+                         }
+                         .name{
+                             font-size: 16.45px;
+                             color: $chat-name;
+                             margin: 0 12px;
+                         }
+                         .date{
+                             font-size: 12.5px;
+                             color: $title-path;
+                             font-family: $lato-mid;
+                         }
+                         img, h5, span{
+                             display: inline-block;
+                         }
+                    }
+                    p{
+                        color: $chat-text;
+                        font-size: 14.48px;
+                    }
+                }
+                .member{
+                    background: $white;
+                    span{
+                        position: relative;
+                        float: right;
+                        top: 15px;
+                        right: 5%;
+                    }
+                }
+                .me{
+                    background: $gray-bg;
+                    img , .name{
+                        float: right;
+                    }
+                    .name, span{
+                        position: relative;
+                        top: 15px;
+                    }
+                    span{
+                        left: 5%;
+                    }
+                    p{
+                        text-align: right;
+                    }
+                }
+            }
+            .chat-write{
+                height: 60px;
+                background: $white;
+                padding: 10px 20px;
+                border: $table-border;
+                border-radius: 6px 0 0 6px;
+                box-shadow: $body-shadow;
+                form{
+                    .chat-input, .chat-buttons{
+                        display: inline-block;
+                        height: 100%;
+                    }
+                    .chat-input{
+                        margin: 0;
+                        padding: 0;
+                        width: 70%;
+                        textarea{
+                            width: 100%;
+                            line-height: 20px;
+                            font-size: 14.4px;
+                            color: $chat-text;
+                            resize: none;
+                            outline: none;
+                            border: none;
+                            &::placeholder{
+                                color: $title-path;
+                            }
+                        }
+                    }
+                    .chat-buttons{
+                        width: 30%;
+                        float: right;
+                        text-align: right;
+                        button{
+                            margin: 0;
+                            padding: 5px;
+                            background: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
     .header-user{
         width: 300px !important;
         margin-top: 20px;

@@ -41,9 +41,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'calendars'], function () 
 
   Route::post('/', 'CalendarController@store');
 
-  Route::get('{id}', 'CalendarController@calenndar');
+  Route::get('{id}', 'CalendarController@calendar');
 
   Route::get('{id}/events', 'CalendarController@events');
+
+  Route::post('{id}/events', 'EventController@index');
   
 }); 
 

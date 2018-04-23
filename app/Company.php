@@ -39,7 +39,7 @@ class Company extends Model
 
     public function calendars()
     {
-        return $this->hasMany(Calendar::class);
+        return $this->hasMany(CalendarModel::class);
     }
 
     public function allPaginatedCalendar(Request $request)

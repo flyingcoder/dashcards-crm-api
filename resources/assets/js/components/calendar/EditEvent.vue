@@ -1,17 +1,6 @@
 <template>
-    <li>
-        <div class="add-button" @click="$modal.show('add-event')">
-            <span> ADD NEW </span>
-            <button>
-               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="20px" height="20px">
-                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                d="M18.852,10.789 L11.590,10.789 L11.590,19.039 C11.590,19.444 11.193,19.773 10.703,19.773 C10.212,19.773 9.815,19.444 9.815,19.039 L9.815,10.789 L1.663,10.789 C1.262,10.789 0.937,10.387 0.937,9.892 C0.937,9.395 1.262,8.993 1.663,8.993 L9.815,8.993 L9.815,1.645 C9.815,1.240 10.212,0.911 10.703,0.911 C11.193,0.911 11.590,1.240 11.590,1.645 L11.590,8.993 L18.852,8.993 C19.252,8.993 19.577,9.395 19.577,9.892 C19.577,10.387 19.252,10.789 18.852,10.789 Z"/>
-            </svg>
-            </button>
-        </div>
-
-        <modal name="add-event" transition="nice-modal-fade" @before-open="beforeOpen">
+    <div>
+        <modal name="edit-event" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
@@ -34,13 +23,13 @@
                                         filterable 
                                         default-first-option  
                                         placeholder="Choose a Member">
-                                            <div class="selectMembers__dropdown" v-bind:class="{ active: selectMembers }">
-                                                <el-option class="member-items" v-on:click.self="doThat" v-for="item in members" :key="item.value" :value="item.value">
-                                                    <span class="user-image"> <img :src="item.image"/> </span>
-                                                    <div class="user-name"> {{ item.label }} </div>
-                                                </el-option>
-                                            </div>
-                                        </el-select>
+                                        <div class="selectMembers__dropdown" v-bind:class="{ active: selectMembers }">
+                                            <el-option class="member-items" v-on:click.self="doThat" v-for="item in members" :key="item.value" :value="item.value">
+                                                <span class="user-image"> <img :src="item.image"/> </span>
+                                                <div class="user-name"> {{ item.label }} </div>
+                                            </el-option>
+                                        </div>
+                                    </el-select>
                                     </div>
                                 </div>
                                 <div class="option-item">
@@ -140,7 +129,7 @@
                                     :value="item.value">
                                     </el-option>
                                 </el-select>
-                                <el-button class="custom-event" @click="$modal.show('custom-event')"> Custom Event </el-button>
+                                <el-button class="custom-event" @click="$modal.show('edit-custom')"> Custom Event </el-button>
                             </el-form-item>
                             <el-form-item label="Add Description">
                                 <quill-editor 
@@ -155,7 +144,7 @@
                                             width="14px" height="18px">
                                             <path fill-rule="evenodd"
                                             d="M0.599,17.193 L0.599,13.304 L13.453,13.304 L13.453,17.193 L0.599,17.193 ZM12.135,14.600 L1.918,14.600 L1.918,15.896 L12.135,15.896 L12.135,14.600 ZM9.149,8.993 L4.948,8.993 L3.875,12.007 L2.478,12.007 L6.550,0.569 L7.588,0.569 L11.601,12.007 L10.207,12.007 L9.149,8.993 ZM7.063,3.049 L5.409,7.697 L8.694,7.697 L7.063,3.049 Z"/>
-                                         </svg> 
+                                            </svg> 
                                     </el-button>
                                     <el-button> 
                                         <el-upload
@@ -192,31 +181,31 @@
                             </el-form-item>
                             <el-form-item  class="form-buttons">
                                 <el-button @click="submitForm('form')">Save</el-button>
-                                <el-button @click="$modal.hide('add-event')">Cancel</el-button>
+                                <el-button @click="$modal.hide('edit-event')">Cancel</el-button>
                             </el-form-item>
                         </div>
                     </el-form>
                 </div>
             </section>
         </modal>
-        <add-custom></add-custom>
-    </li>
+        <edit-custom></edit-custom>
+    </div>
 </template>
 
 <script>
-    import AddCustomEvent from './AddCustomEvent.vue';
+    import EditCustomEvent from './EditCustomEvent.vue';
 
     export default {
         components: {
-            'add-custom': AddCustomEvent,
+            'edit-custom': EditCustomEvent,
         },
     	data: function () {
         	return {    
                 selectMembers: false,
                 alarmToggle: false,
                 descriptionEditor: false,
-                title: 'Add New Event',
-                action: 'Save',
+                title: 'Edit Event',
+                action: 'Update',
                 id: 0,
                 oldName: '',
                 isProcessing: false,
@@ -417,7 +406,7 @@
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
-                    this.title = 'Edit Event';
+                    this.header = 'Edit Event';
                     this.id = event.params.data.id;
                     var vm = this;
                     axios.get('api/events/'+this.id)

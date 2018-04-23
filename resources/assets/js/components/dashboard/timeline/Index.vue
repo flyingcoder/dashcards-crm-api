@@ -19,7 +19,7 @@
                 <span> Uploaded Questionnaire for Client xyz </span>
                 </div>
                 <div class="image">
-                    <img src="img/temporary/word.png"> 
+                    <img src="/img/temporary/word.png"> 
                 </div>
                 <div class="type">
                 <span> Questionnaire.doc </span>
@@ -47,9 +47,9 @@
                 <span> Uploaded 24 files for Client x for following project </span>
                 </div>
                 <div class="image">
-                    <img src="img/temporary/one.png"> 
-                    <img src="img/temporary/two.png"> 
-                    <img src="img/temporary/three.png"> 
+                    <img src="/img/temporary/one.png"> 
+                    <img src="/img/temporary/two.png"> 
+                    <img src="/img/temporary/three.png"> 
                 </div>
                 <div class="type">
                 <span> Questionnaire.doc </span>
