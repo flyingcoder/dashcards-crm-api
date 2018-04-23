@@ -1767,9 +1767,6 @@
 }
 
 .selectMembers__dropdown{
-    display: none;
-}
-.selectMembers__dropdown.active{
     display: block !important; 
     margin: -6px 0 !important;
     .member-items{

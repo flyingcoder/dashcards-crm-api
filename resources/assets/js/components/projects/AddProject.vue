@@ -6,41 +6,51 @@
                 <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                     <div class="modal-options">
                         <el-form-item  class="option">
-                            <div class="option-item"> 
-                                <el-dropdown trigger="click" placement="bottom" class="member-option">
-                                    <el-button size="small" class="el-dropdown-link"> 
-                                        <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
-                                        <span> Members </span> 
-                                    </el-button>
-                                    <el-dropdown-menu slot="dropdown" class="member-option-dropdown">
-                                        <el-dropdown-item>
-                                            <el-row :gutter="20" v-for="c in clients" :key="c.id">
-                                                <el-col :sm="8">
-                                                    <img :src="c.image_url" class="no-padding-left drop-down-image">
-                                                </el-col>
-                                                <el-col :sm="16">
-                                                    <label style="line-height:4; margin-bottom:0px">{{ c.first_name }} {{ c.last_name }}</label>
-                                                </el-col>
-                                            </el-row>
-                                        </el-dropdown-item> 
-                                    </el-dropdown-menu>
-                                </el-dropdown>
+                            <div class="option-item">
+                                 <div class="member-option" v-on:click="membersClick">
+                                        <el-button size="small" class="el-dropdown-link" id="member-option"> 
+                                            <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
+                                            Members 
+                                        </el-button>
+                                        <el-badge :value="form.members.length" :max="99" class="member-counter"></el-badge>
+                                    </div>
+                                <div v-show="selectMembers" class="selectMembers">
+                                        <el-select class="selectMembers__content"
+                                            v-model="form.members" 
+                                            multiple
+                                            filterable
+                                            default-first-option
+                                            ref="memberSelect"
+                                            placeholder="Choose a Member"
+                                        >
+                                        <div class="selectMembers__dropdown">
+                                            <el-option  class="member-items" v-for="m in clients" :key="m.id" 
+                                            :value="m.id" :label="m.first_name + ' ' + m.last_name">
+                                                <span class="user-image"> <img :src="m.image_url"/> </span>
+                                                <div class="user-name"> {{ m.first_name + ' ' + m.last_name }} </div>
+                                            </el-option>
+                                        </div>
+                                    </el-select>
+                                </div>
                             </div>
                             <div class="option-item">
                                 <div class="date-option">
                                     <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
-                                    <el-date-picker
+                                    <el-date-picker @focus="hideMembers"
                                         :clearable="false"
                                         v-model="form.end_at"
                                         type="date"
-                                        placeholder="Due Date">
+                                        placeholder="Due Date"
+                                        value-format="yyyy-MM-dd"
+                                        >
                                     </el-date-picker>
                                 </div>
                             </div>
                             <div class="option-item">
                                 <div class="file-upload">
                                     <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
-                                    <el-upload
+                                    <el-upload @focus="hideMembers"
+                                        multiple
                                         class=""
                                         ref="upload"
                                         action=""
@@ -55,11 +65,11 @@
                     </div>
                     <div class="buzz-modal-content">
                         <el-form-item prop="name">
-                            <el-input type="text" v-model="form.title" placeholder="Untitled Project"></el-input>
+                            <el-input type="text" @focus="hideMembers" v-model="form.title" placeholder="Untitled Project"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-select v-model="form.client" clearable placeholder="Select Client">
-                                <el-option
+                            <el-select v-model="form.client" clearable placeholder="Select Client" @focus="hideMembers">
+                                <el-option 
                                 v-for="c in clients"
                                 :key="c.id"
                                 :label="c.company_name"
@@ -68,7 +78,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item>
-                            <el-select v-model="form.service" clearable placeholder="Select Service">
+                            <el-select v-model="form.service" clearable placeholder="Select Service" @focus="hideMembers">
                                 <el-option
                                 v-for="s in services"
                                 :key="s.id"
@@ -78,7 +88,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="Add Description">
-                            <quill-editor 
+                            <quill-editor @focus="hideMembers"
                                 class="add-description" 
                                 v-bind:class="{ showEditor: descriptionEditor }"
                                 v-model="form.description" 
@@ -132,7 +142,7 @@
                             </div>
                         </el-form-item>
                         <el-form-item label="Add Comment">
-                            <quill-editor 
+                            <quill-editor @focus="hideMembers"
                                 class="add-comment" 
                                 v-bind:class="{ showEditor: commentEditor }"
                                 v-model="form.comment" 
@@ -206,7 +216,7 @@ var yyyy = today.getFullYear();
     export default {
     	data: function () {
         	return {    
-                showMembers: false,
+                selectMembers: false,
                 descriptionEditor: false,
                 commentEditor: false,
                 title: 'Add New Project',
@@ -214,11 +224,12 @@ var yyyy = today.getFullYear();
                 id: 0,
                 oldName: '',
                 isProcessing: false,
+                files: [],
                 form: {
                     title: '',
                     description: '',
                     comment: '',
-                    member: '',
+                    members: [],
                     end_at: '',
                     start_at: yyyy + '-' + mm + '-' + dd,
                     content: '',
@@ -227,22 +238,6 @@ var yyyy = today.getFullYear();
                 },
                 clients: [],
                 services: [],
-                members: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                    }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                    }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                    }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                    }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
         		error: {
         			title: [],
                     description: [],
@@ -277,11 +272,20 @@ var yyyy = today.getFullYear();
                     this.update();
                 }
             },
+            submitFiles (id) {
+                this.isProcessing = true;
+                axios.post('/project-hq/' + id + '/files', this.files)
+                .then (response => {
+                    this.isProcessing = false;
+                })
+                .catch (error => {
+                });
+            },
             save: function () {
                 this.isProcessing = true;
                 axios.post('/api/projects/',this.form)
                 .then( response => {
-                    this.isProcessing = false;
+                    this.sumbitFiles(response.data.id);                    
                     swal('Success!', 'Project is saved!', 'success');
                     this.$modal.hide('add-project');
 
@@ -290,6 +294,9 @@ var yyyy = today.getFullYear();
                     this.isProcessing = false;
                     if(error.response.status == 422){
                     this.errors = error.response.data.errors;
+                    }
+                    else {
+                        swal('Server Error!', 'Unable to save please contact Administrator!', 'error');
                     }
                 })
             },
@@ -301,7 +308,7 @@ var yyyy = today.getFullYear();
                 })
                 .catch ( error => {
                     if(error.response.status == 422){
-                    this.errors = error.response.data.errors;
+                        this.errors = error.response.data.errors;
                     }
                     this.isProcessing = false;        
                 })
@@ -318,10 +325,34 @@ var yyyy = today.getFullYear();
                     this.services = response.data
                 })
             },
+            membersClick(){
+                this.selectMembers = !this.selectMembers;
+                if(this.selectMembers){
+                    this.$refs.memberSelect.toggleMenu();
+                }
+                else {
+                     this.$refs.memberSelect.blur()
+                }
+                
+            },
+            hideMembers(){
+                this.selectMembers = false;
+                this.$refs.memberSelect.blur()
+            },
+            memberBlur(bool){
+                 if(!bool){
+                     this.selectMembers = bool;
+                 }
+            },
+            beforeImport(file) {
+                this.form.append('file', file);
+                return true;
+            },
         },
         mounted() {
             this.getClients();
             this.getServices();
+            this.files = new FormData();            
         }
     }
 </script>
