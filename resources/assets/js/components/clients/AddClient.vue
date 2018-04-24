@@ -114,7 +114,7 @@
               console.info('before Opent');
               if(typeof event.params != 'undefined' && event.params.action == 'Update') {
                   this.action = 'Update';
-                  this.header = 'Edit Client';
+                  this.title = 'Edit Client';
                   this.id = event.params.data.id;
                   var vm = this;
                   axios.get('api/clients/'+this.id)
