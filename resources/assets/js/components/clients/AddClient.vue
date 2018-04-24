@@ -1,6 +1,6 @@
 <template>
     <modal name="add-client" transition="nice-modal-fade" @before-open="beforeOpen">
-        <section class="content">
+        <section class="content add-client">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
                 <el-form ref="form" :inline="true" :model="form" :rules="rules" label-position="top" v-loading="isProcessing" style="width: 100%">                    
@@ -11,26 +11,26 @@
                         <el-form-item prop="lastname" class="buzz-input buzz-inline pull-right">
                             <el-input type="text" v-model="form.lastname" placeholder="Last Name"></el-input>
                         </el-form-item>
-                        <el-form-item prop="company_name" class="buzz-input">
+                        <el-form-item prop="company_name" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
                         </el-form-item>
-                        <el-form-item prop="telephone" class="buzz-input">
+                        <el-form-item prop="telephone" class="buzz-input buzz-inline pull-right">
                             <el-input type="text" v-model="form.telephone" placeholder="Contact No."></el-input>
                         </el-form-item>
-                        <el-form-item prop="email" class="buzz-input">
+                        <el-form-item prop="email" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.email" placeholder="Email"></el-input>
+                        </el-form-item>
+                        <el-form-item class="buzz-input buzz-inline pull-right">
+                            <el-radio-group v-model="form.status" size="medium">
+                            <el-radio border label="Active"></el-radio>
+                            <el-radio border label="Inactive"></el-radio>
+                            </el-radio-group>
                         </el-form-item>
                         <el-form-item prop="pass" class="buzz-input buzz-inline">
                             <el-input type="password" v-model="form.pass" placeholder="Password" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item prop="checkPass" class="buzz-input buzz-inline pull-right">
                             <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item class="buzz-input">
-                            <el-radio-group v-model="form.status" size="medium">
-                            <el-radio border label="Active"></el-radio>
-                            <el-radio border label="Inactive"></el-radio>
-                            </el-radio-group>
                         </el-form-item>
                         <el-form-item  class="form-buttons">
                             <el-button type="primary" @click="submit('form')">Save</el-button>

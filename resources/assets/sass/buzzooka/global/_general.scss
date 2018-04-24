@@ -1577,6 +1577,31 @@
                 }
             }
         }
+        .add-client{
+            .buzz-scrollbar{
+                height: auto !important;
+                max-height: 450px !important;
+                .buzz-input{
+                    margin-bottom: 25px !important;
+                    .el-form-item__content{
+                        .el-radio-group{
+                            .el-radio{
+                                width: 134px !important;
+                                height: 45px !important; 
+                                margin-bottom: 0;
+                                border-radius: 8px;
+                                box-shadow: $body-shadow;
+                                line-height: 1.5;
+                                text-align:center;
+                                .el-radio__label{
+                                    font-size: 17px !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
 // Vue Popupover
