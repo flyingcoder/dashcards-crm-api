@@ -202,7 +202,6 @@ class ProjectController extends Controller
 
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
-
         if(request()->has('members')){
             foreach (request()->members as $value) {
                 $project->members()->attach($value, ['role' => 'members']);
