@@ -158,7 +158,6 @@ mounted(){
               }
           });
       },
-      
       getMyTasks(){
           axios.get('/api/projects/' + this.projectId + '/tasks/mine')
           .then( response => {

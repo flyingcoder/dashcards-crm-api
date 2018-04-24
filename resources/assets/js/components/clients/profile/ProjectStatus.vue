@@ -1,5 +1,5 @@
 <template>
-    <div class="tasks-status">
+    <div class="project-status">
         <div class="col-md-3 option-list" 
             :class="taskOption == 'all' ? 'active' : ''" 
             @click="filterTasks('all')">
