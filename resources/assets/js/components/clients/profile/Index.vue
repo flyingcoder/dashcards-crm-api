@@ -3,7 +3,7 @@
             <div class="top-profile">
                 <div class="cover-photo">
                     <img src="/img/temporary/cover.png">
-                    <div class="add-photo">
+                    <div class="add-photo" style="display:none">
                         <span>Update cover photo</span>
                         <button data-toggle="dropdown" class="dropdown-toggle">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -24,7 +24,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="settings">
+                    <div class="settings" style="display:none">
                         <span> Settings </span>
                         <button data-toggle="dropdown" class="dropdown-toggle">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="profile-photo text-center">
-                    <img src="/img/temporary/photo.png">
+                    <img v-bind:src="image_url">
                 </div>
                 <div class="social-accounts">
                     <ul>
@@ -112,7 +112,7 @@
                     </ul>
                 </div>
                 <div class="information">
-                    <div class="col-md-4 client-info">
+                    <div class="col-md-4 client-info" style="color: rgb(255, 255, 255)">
                         <div class="col-md-6">
                             <div class="title">Completed</div>
                             <h4> Projects </h4>
@@ -126,31 +126,18 @@
                     </div>
                     <div class="col-md-4 info">
                         <div class="member-name">
-                            <h1> Bonnin Gimenez
-                                <span> <a href="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        width="19px" height="19px">
-                                        <path fill-rule="evenodd"  fill="rgb(188, 194, 207)"
-                                        d="M11.410,3.979 C10.912,3.480 10.104,3.480 9.606,3.979 L9.155,4.430 L2.841,10.749 L2.842,10.751 L2.643,10.950 C2.643,10.950 2.009,11.589 0.576,16.212 C0.566,16.244 0.556,16.277 0.546,16.309 C0.520,16.392 0.494,16.476 0.468,16.562 C0.445,16.637 0.422,16.714 0.399,16.792 C0.379,16.857 0.359,16.921 0.339,16.988 C0.294,17.139 0.248,17.294 0.201,17.452 C0.098,17.802 -0.153,18.589 0.131,18.874 C0.405,19.149 1.201,18.907 1.549,18.804 C1.707,18.757 1.860,18.711 2.010,18.666 C2.080,18.645 2.147,18.625 2.215,18.604 C2.288,18.582 2.360,18.560 2.431,18.538 C2.521,18.510 2.610,18.483 2.697,18.456 C2.723,18.448 2.748,18.440 2.774,18.432 C7.174,17.062 7.964,16.420 8.030,16.361 C8.030,16.360 8.030,16.360 8.031,16.360 C8.034,16.357 8.035,16.356 8.035,16.356 L8.239,16.152 L8.253,16.165 L14.567,9.847 L14.567,9.846 L15.018,9.395 C15.516,8.896 15.516,8.088 15.018,7.590 L11.410,3.979 ZM7.309,15.539 C7.303,15.543 7.296,15.548 7.288,15.553 C7.284,15.556 7.278,15.559 7.273,15.562 C7.268,15.566 7.262,15.569 7.256,15.573 C7.250,15.576 7.245,15.580 7.239,15.583 C7.028,15.709 6.412,16.033 4.916,16.575 C4.741,16.638 4.551,16.705 4.351,16.774 L2.224,14.646 C2.294,14.445 2.361,14.253 2.424,14.077 C2.965,12.575 3.289,11.957 3.414,11.747 C3.417,11.743 3.420,11.738 3.422,11.733 C3.427,11.726 3.431,11.719 3.435,11.713 C3.438,11.708 3.441,11.703 3.444,11.699 C3.449,11.691 3.453,11.684 3.457,11.678 L3.613,11.522 L7.468,15.380 L7.309,15.539 ZM18.626,3.979 L15.018,0.368 C14.520,-0.130 13.712,-0.130 13.214,0.368 L12.312,1.271 C11.814,1.770 11.814,2.578 12.312,3.076 L15.920,6.687 C16.418,7.186 17.226,7.186 17.724,6.687 L18.626,5.785 C19.124,5.286 19.124,4.478 18.626,3.979 Z"/>
-                                    </svg>
-                                </a> </span> 
-                            </h1>
+                            <h1> {{ datas.first_name }} {{ datas.last_name }}</h1>
                         </div>
                         <div class="member-position">
-                            <span> UI/UX Designer </span>
+                            <span> {{ datas.meta.company_name.value }} </span>
                         </div>
                         <div class="member-location">
                             <span> 
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="13px" height="18px">
-                                    <path fill-rule="evenodd"  fill="rgb(179, 182, 195)"
-                                    d="M6.661,0.042 C3.284,0.042 0.537,2.869 0.537,6.344 C0.537,7.251 0.718,8.116 1.073,8.917 C2.604,12.364 5.540,16.004 6.403,17.038 C6.468,17.115 6.562,17.160 6.661,17.160 C6.760,17.160 6.855,17.115 6.919,17.038 C7.783,16.004 10.718,12.365 12.250,8.917 C12.605,8.116 12.785,7.251 12.785,6.344 C12.785,2.869 10.038,0.042 6.661,0.042 ZM6.661,9.617 C4.907,9.617 3.480,8.149 3.480,6.344 C3.480,4.539 4.907,3.071 6.661,3.071 C8.415,3.071 9.842,4.539 9.842,6.344 C9.842,8.149 8.415,9.617 6.661,9.617 Z"/>
-                                </svg>
-                                Cebu, Philippines
+                                {{ datas.meta.status.value | capitalize }}
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-4 client-info invoice-payment">
+                    <div class="col-md-4 client-info invoice-payment" style="color: rgb(255, 255, 255)">
                         <div class="col-md-6">
                             <div class="title">Invoices</div>
                             <h4> Paid </h4>
@@ -168,7 +155,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bottom-profile">
+            <div class="bottom-profile" style="display: none">
                 <div class="row">
                     <div class="col-md-7">
                         <div class="tab-options module-tabs">
@@ -243,7 +230,11 @@
             </div>
         </section>
 </template>
-
+<style>
+    .social-accounts button svg {
+        display: none;
+    }
+</style>
 <script> 
     import BoxOption from '../../BoxOption.vue';
     import TabProjects from './TabProjects.vue';
@@ -267,16 +258,33 @@
           'tab-twitter': TabTwitter,
           'tab-instagram': TabInstagram,
         },
-        props: [],
         data () {
         return {
-            full_name: ''
+            datas: '',
+            image_url: ''
             }
         },
 
         mounted () {
+            var url = window.location.href;
+
+            var id = url.substring(url.lastIndexOf('/') + 1);
+
+            axios.get('/api/clients/' + id)
+                .then( response => {
+                    this.datas = response.data;
+                    this.image_url = "/"+ this.datas.image_url;
+                });
         },
-            methods: {
+        filters: {
+          capitalize: function (value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.charAt(0).toUpperCase() + value.slice(1)
+          }
+        },
+        methods: {
+
         }
     }
 </script>
