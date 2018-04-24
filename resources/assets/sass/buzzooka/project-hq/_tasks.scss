@@ -1,17 +1,17 @@
 .hq-tasks{
 // Exclusive CSS
     margin-top: 25px;
-    height: 1475px;
+    height: auto;
     background: $white;
     border: 1px solid $tile-border;
     border-radius: 10px;
     .buzz-box{
         background: none;
-        height: 1473px;
+        height: auto;
         margin-top: 0 !important;
         .box-content{
             position: relative;
-            height: 1375px !important;
+            height: auto !important;
             ul{
                 li{
                     a{
@@ -22,9 +22,10 @@
             }
             .tab-content{    
                 table{
-                    height: 1245px;
+                    height: auto;
                     tbody{
-                        height: 1180px !important;
+                        height: auto;
+                        max-height: 810px !important;
                     }
                 }
             }
