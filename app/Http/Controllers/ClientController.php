@@ -36,6 +36,11 @@ class ClientController extends Controller
         return User::findOrFail($id);
     }
 
+    public function details($id)
+    {
+        return view('pages.client-details');
+    }
+
     public function save()
     {
         return view('pages.clients-new', [

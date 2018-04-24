@@ -145,9 +145,9 @@ class Company extends Model
                       ->join('users as member', 'member.id', '=', 'services.user_id')
                       ->select(
                         'services.id as id',
-                        'services.name as service_name', 
+                        DB::raw('CONCAT(UCASE(LEFT(services.name, 1)), SUBSTRING(services.name, 2)) as service_name'), 
                         'services.created_at as service_created_at',
-                        DB::raw('CONCAT(member.last_name, ", ", member.first_name) AS name'));
+                        DB::raw('CONCAT(CONCAT(UCASE(LEFT(member.last_name, 1)), SUBSTRING(member.last_name, 2)), ", ", CONCAT(UCASE(LEFT(member.first_name, 1)), SUBSTRING(member.first_name, 2))) AS name'));
     }
 
     public function paginatedCompanyServices(Request $request)
@@ -202,11 +202,11 @@ class Company extends Model
                  })
                  ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
                  ->select(
-                    DB::raw('CONCAT(manager.last_name, ", ", manager.first_name) AS manager_name'),
+                    DB::raw('CONCAT(CONCAT(UCASE(LEFT(manager.last_name, 1)), SUBSTRING(manager.last_name, 2)), ", ", CONCAT(UCASE(LEFT(manager.first_name, 1)), SUBSTRING(manager.first_name, 2))) AS manager_name'),
                     'client.image_url as client_image_url',
-                    DB::raw('CONCAT(client.last_name, ", ", client.first_name) AS client_name'),
+                    DB::raw('CONCAT(CONCAT(UCASE(LEFT(client.last_name, 1)), SUBSTRING(client.last_name, 2)), ", ", CONCAT(UCASE(LEFT(client.first_name, 1)), SUBSTRING(client.first_name, 2))) AS client_name'),
                     'projects.*',
-                    'services.name as service_name'
+                    DB::raw('CONCAT(UCASE(LEFT(services.name, 1)), SUBSTRING(services.name, 2)) as service_name')
                  )->where('projects.deleted_at', null);
 
         return $projects;
@@ -296,6 +296,7 @@ class Company extends Model
                        $join->on('status.metable_id', '=', 'users.id')
                             ->where('status.key', 'status');
                     })->select(
+                        DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS full_name'),
                         'company.value as company_name',
                         'status.value as status',
                         'users.*'
@@ -312,6 +313,8 @@ class Company extends Model
 
         if($request->has('sort'))
             $clients->orderBy($sortName, $sortValue);
+        else
+            $clients->latest();
 
         return $clients->paginate(10);
     }

@@ -31,7 +31,7 @@ class ClientTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }*/
+    }
 
     public function testUpdateClients()
     {
@@ -54,7 +54,7 @@ class ClientTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }
+    }*/
 
     public function testClients()
     {
