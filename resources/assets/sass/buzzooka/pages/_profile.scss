@@ -186,11 +186,14 @@
                 }
                 h4{
                     margin: 0;
+                    color: $gray-4;
                 }
                 .project-count{
-                    font-size: 35px;
+                    font-size: 42px;
                 }
                 .invoice-count{
+                    position: relative;
+                    bottom: 5px;
                     font-size: 20px;
                 }
             }
@@ -218,9 +221,6 @@
                     }
                     a{
                         height: 55px !important;
-                        svg, img{
-                            width: 30px;
-                        }
                     }
                 }
                 li.active{
@@ -266,6 +266,32 @@
             ul{
                 li{
                     width: 33.33%;
+                    &:hover{
+                        .normal{
+                            display: none;
+                        }
+                        .selected{
+                            display: inline-block;
+                        }
+                    }
+                    a{
+                        padding: 0;
+                        padding-top: 10px !important;
+                        img, svg{
+                            width: 35px;
+                        }
+                    }
+                    .selected{
+                        display: none;
+                    }
+                }
+                .active{
+                    .normal{
+                        display: none;
+                    }
+                    .selected{
+                        display: inline-block;
+                    }
                 }
             }
         }
@@ -480,14 +506,13 @@
                 background: $white;
                 padding: 15px;
                 height: auto;
-                min-height: 200px;
-                max-height: 482px;
+                max-height: 530px;
                 .content{
                     background: $gray-bg;
                     padding: 15px;
                     height: auto;
                     min-height: 200px;
-                    max-height: 482px;
+                    max-height: 450px;
                     h1{
                         margin: 0;
                         padding: 0;
@@ -509,12 +534,13 @@
         }
         #instagram{
             .insta-feed{
+                max-height: 600px !important;
                 .content{
+                    max-height: 500px !important;
                     padding: 0 !important;
                 }
             }
         }
-        
         // .box-footer{
         //     padding-top: 23px;
         //     height: 77px;
