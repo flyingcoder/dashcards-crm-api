@@ -215,17 +215,20 @@
                             <ul class="nav nav-tabs">
                                 <li class="facebook active">
                                     <a href="#facebook" data-toggle="tab"> 
-                                       <img src="/img/social/facebook.png">
+                                       <img class="normal" src="/img/social/facebook_normal.png">
+                                       <img class="selected" src="/img/social/facebook_selected.png">
                                     </a>
                                 </li>
                                 <li class="twitter">
                                     <a href="#twitter" data-toggle="tab">
-                                        <img src="/img/social/twitter.png">
+                                        <img class="normal" src="/img/social/twitter_normal.png">
+                                        <img class="selected" src="/img/social/twitter_selected.png">
                                     </a>
                                 </li>
                                 <li class="instagram"> 
                                     <a href="#instagram" data-toggle="tab">
-                                        <img src="/img/social/instagram.png">
+                                        <img class="normal" src="/img/social/instagram_normal.png">
+                                        <img class="selected" src="/img/social/instagram_selected.png">
                                     </a>
                                 </li>
                             </ul>

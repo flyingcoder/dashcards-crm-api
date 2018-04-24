@@ -2,4 +2,41 @@
     .content-body{
         @extend .buzz-table;
      }
+     .el-table{
+         tbody{
+            tr{
+                cursor: pointer;
+                td{
+                    &:nth-child(2){
+                        .cell{
+                            .vue-avatar--wrapper{
+                                display: inline-block;
+                                margin-right: 10px;
+                            }   
+                        }
+                    }
+                }
+                .project-progress{
+                    height: 11px;
+                    background: $progress-bg;
+                    border-radius: 20px;
+                    border: none;
+                    box-shadow: none;
+                    margin: 0;
+                    .progress-bar{
+                        background: $progress-value;
+                        border-radius: 20px;
+                    }
+                }
+                .project-status{
+                    height: 5px;
+                    border: none;
+                    box-shadow: none;
+                    margin: 0;
+                    margin-top: 3px;
+                    width: 60%;
+                }
+            }
+        }
+     }
 }

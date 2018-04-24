@@ -1338,16 +1338,6 @@
                                 top: 10px;
                             }
                         }
-                        .member-option{
-                            .member-counter{
-                                position: absolute;
-                                right: -12px;
-                                top: 5px;
-                                .el-badge__content{
-                                    background: $green;
-                                }
-                            }
-                        }
                         .member-option, .time-option{
                             .button-icon{
                                 left: 0;
@@ -1577,6 +1567,80 @@
                 }
             }
         }
+        .add-project{
+            .modal-options{
+                .option{
+                    .el-form-item__content{
+                        .option-item{
+                            .member-option{
+                                .member-badge{
+                                    position: absolute;
+                                    right: -15px;
+                                    top: -5px;
+                                    .el-badge__content{
+                                        background: $green;
+                                        height: 25px;
+                                        width: 25px;
+                                        border-radius: 50%;
+                                        line-height: 2;
+                                    }
+                                }
+                            }
+                            .file-upload{
+                                .el-upload-list{
+                                    box-shadow: $body-shadow;
+                                    z-index: 100;
+                                    // display: none;
+                                    .el-upload-list__item{
+                                        z-index: 99;
+                                        background: $white;
+                                        padding: 5px 10px;
+                                    }
+                                }
+                                .file-badge{
+                                    position: absolute;
+                                    right: -15px;
+                                    top: -5px;
+                                    cursor: pointer;
+                                    .el-badge__content{
+                                        background: $green;
+                                        height: 25px;
+                                        width: 25px;
+                                        border-radius: 50%;
+                                        line-height: 2;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .add-client{
+            .buzz-scrollbar{
+                height: auto !important;
+                max-height: 450px !important;
+                .buzz-input{
+                    margin-bottom: 25px !important;
+                    .el-form-item__content{
+                        .el-radio-group{
+                            .el-radio{
+                                width: 134px !important;
+                                height: 45px !important; 
+                                margin-bottom: 0;
+                                border-radius: 8px;
+                                box-shadow: $body-shadow;
+                                line-height: 1.5;
+                                text-align:center;
+                                .el-radio__label{
+                                    font-size: 17px !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
 // Vue Popupover
@@ -1757,9 +1821,6 @@
     }
     .add-description, .add-comment{
         height: 100px !important;
-        .ql-toolbar{
-            display: none;
-        }
     }
     .settings-editor{
         height: 200px !important;

@@ -54,6 +54,7 @@
         </div>
         <div class="content-body">
             <section class="buzz-section">
+                <!-- <profile></profile> -->
                 <clients-table></clients-table>
             </section>
         </div>
