@@ -4,7 +4,7 @@
             <h1> Twitter Feed</h1>
             <div class="content buzz-scrollbar" id="buzz-scroll">
                 <div class="feeds">
-                    <img src="img/temporary/twitter-feed.png">
+                    <img src="/img/temporary/twitter-feed.png">
                 </div>
             </div>
             <!-- <div class="box-footer">

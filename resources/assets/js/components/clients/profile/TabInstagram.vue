@@ -3,7 +3,7 @@
        <div class="insta-feed">
             <div class="content buzz-scrollbar" id="buzz-scroll">
                 <div class="feeds">
-                        <img src="img/temporary/insta-feed.png">
+                        <img src="/img/temporary/insta-feed.png">
                 </div>
             </div>
             <!-- <div class="box-footer">
