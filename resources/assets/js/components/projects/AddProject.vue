@@ -61,7 +61,9 @@
                                             Attachment 
                                         </el-button>
                                     </el-upload>
-                                    <el-badge :value="10" :max="99" class="file-badge"  v-on:click="attachmentList = !attachmentList"></el-badge>
+                                    <div v-on:click="attachmentList = !attachmentList"> 
+                                        <el-badge :value="10" :max="99" class="file-badge"></el-badge>
+                                    </div>
                                 </div>
                             </div>
                         </el-form-item>
@@ -90,7 +92,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="Add Description">
+                        <el-form-item class="modal-editor" label="Add Description">
                             <quill-editor @focus="hideMembers"
                                 class="add-description" 
                                 v-bind:class="{ showEditor: descriptionEditor }"

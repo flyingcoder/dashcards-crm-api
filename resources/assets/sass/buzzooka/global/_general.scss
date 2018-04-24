@@ -1588,9 +1588,14 @@
                             }
                             .file-upload{
                                 .el-upload-list{
+                                    position: relative;
+                                    right: -210px;
                                     box-shadow: $body-shadow;
                                     z-index: 100;
                                     // display: none;
+                                    -webkit-transition: all 0.3s ease !important;
+                                    -moz-transition: all 0.3s ease !important;
+                                    transition: all 0.3s ease !important;
                                     .el-upload-list__item{
                                         z-index: 99;
                                         background: $white;
@@ -1609,6 +1614,15 @@
                                         border-radius: 50%;
                                         line-height: 2;
                                     }
+                                }
+                            }
+                            .attachmentList{
+                                .el-upload-list{
+                                    right: 0 !important;
+                                    -webkit-transition: all 0.3s ease !important;
+                                    -moz-transition: all 0.3s ease !important;
+                                    transition: all 0.3s ease !important;
+                                    // display: block !important;
                                 }
                             }
                         }
