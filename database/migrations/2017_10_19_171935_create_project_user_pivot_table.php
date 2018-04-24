@@ -17,7 +17,7 @@ class CreateProjectUserPivotTable extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->primary(['project_id', 'user_id','role']);
+            $table->primary(['project_id', 'user_id']);
             $table->string('role')->default('member');
         });
     }

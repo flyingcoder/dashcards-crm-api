@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'clients'], function () {
 	Route::get('/', 'ClientController@index')->name('clients');
 	Route::get('new', 'ClientController@save')->name('new-client');
 	Route::post('new', 'ClientController@store')->name('store-client');
-	Route::get('{id}', 'ClientController@client')->name('client');
+	Route::get('{id}', 'ClientController@details')->name('client');
 	Route::get('{id}/edit', 'ClientController@edit')->name('edit-client');
 	Route::post('{id}/edit', 'ClientController@update')->name('update-client');
 });

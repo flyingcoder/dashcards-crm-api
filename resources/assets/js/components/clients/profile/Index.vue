@@ -2,7 +2,7 @@
         <section class="profile">
             <div class="top-profile">
                 <div class="cover-photo">
-                    <img src="img/temporary/cover.png">
+                    <img src="/img/temporary/cover.png">
                     <div class="add-photo">
                         <span>Update cover photo</span>
                         <button data-toggle="dropdown" class="dropdown-toggle">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="profile-photo text-center">
-                    <img src="img/temporary/photo.png">
+                    <img src="/img/temporary/photo.png">
                 </div>
                 <div class="social-accounts">
                     <ul>
@@ -264,5 +264,16 @@
           'tab-twitter': TabTwitter,
           'tab-instagram': TabInstagram,
         },
+        props: [],
+        data () {
+        return {
+            full_name: ''
+            }
+        },
+
+        mounted () {
+        },
+            methods: {
+        }
     }
 </script>
