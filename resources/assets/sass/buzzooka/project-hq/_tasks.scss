@@ -136,46 +136,55 @@
                 background: $white;
             }
         }
-        .tasks-option{
-            height: 69px;
-            padding: 22.5px 0;
+        .tasks-status{
+            height: 65px;
+            padding: 20px 10px;
             text-align: center;
             border-bottom: $border-buzz;
             .option-list{
                 display: inline-block;
-                a{
-                    padding: 6px 4px 6px 16px;
+                padding: 0 5px;
+                .option-counter{
                     border-radius: 20px;
                     font-size: 13.5px;
                     font-family: $lato-semi;
                     color: $table-head;
                     background: $white;
                     border: $border-buzz;
+                    height: 30px;
+                    line-height: 30px;
 
-                    &:active, &:hover{
-                    background: $blue-2;
-                    color: $white;
-                    border: 1px solid $blue-2;
-                    }
-
-                    label{
-                        padding: 2px 9px;
-                        margin-left: 15px;
-                        border-radius: 100%;
-                        background: $gray-2;
                     span{
                         position: relative;
-                        color: $white;
-                        top: 1px;
+                        right: 10%;
                     }
+
+                    &:active, &:hover{
+                     background: $blue-2;
+                     color: $white;
+                     border: 1px solid $blue-2;
+                    }
+
+                    .el-badge{
+                        position: absolute;
+                        right: 8px;
+                        top: 6.5px;
+                        .el-badge__content{
+                             border-radius: 100%;
+                            background: $gray-2;
+                            color: $white;
+                            width: 25px;
+                            height: 25px;
+                            line-height: 25px;
+                        }
                     }
                 }
             }
             .active{
-                a{
-                    background: $blue-2;
-                    color: $white;
-                    border: 1px solid $blue-2;
+                .option-counter{
+                     background: $blue-2;
+                     color: $white;
+                     border: 1px solid $blue-2;
                 }
             }
         }

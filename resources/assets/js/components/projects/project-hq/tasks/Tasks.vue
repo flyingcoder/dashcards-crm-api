@@ -10,34 +10,38 @@
                     <a href="#my-task" data-toggle="tab" @click="filterTasks('my', 'all')"> My Task </a>
                 </li>
             </ul>
-            <div class="tasks-option">
-                <div class="option-list" 
-                :class="taskOption == 'all' ? 'active' : ''" 
-                @click="filterTasks(taskFilter, 'all')">
-                <a> All
-                    <label> <span> {{ taskCount.all }} </span></label>
-                </a>
+            <div class="tasks-status">
+                <div class="col-md-3 option-list" 
+                    :class="taskOption == 'all' ? 'active' : ''" 
+                    @click="filterTasks(taskFilter, 'all')">
+                    <div class="option-counter">
+                        <span> All </span> 
+                        <el-badge :value="taskCount.all" :max="99" class="item"></el-badge>
+                    </div>
                 </div>
-                <div class="option-list" 
-                :class="taskOption == 'completed' ? 'active' : ''"
-                @click="filterTasks(taskFilter,'completed')">
-                <a> Completed
-                    <label> <span> {{ taskCount.completed }} </span></label>
-                </a>
+                <div class="col-md-3 option-list" 
+                    :class="taskOption == 'completed' ? 'active' : ''"
+                    @click="filterTasks(taskFilter,'completed')">
+                    <div class="option-counter">
+                        <span> Completed </span> 
+                        <el-badge :value="taskCount.completed" :max="99" class="item"></el-badge>
+                    </div>
                 </div>
-                <div class="option-list" 
-                :class="taskOption == 'pending' ? 'active' : ''" 
-                @click="filterTasks(taskFilter, 'pending')">
-                <a> Pending
-                    <label> <span> {{ taskCount.pending }} </span></label>
-                </a>
+                <div class="col-md-3 option-list" 
+                    :class="taskOption == 'pending' ? 'active' : ''" 
+                    @click="filterTasks(taskFilter, 'pending')">
+                    <div class="option-counter"> 
+                        <span> Pending </span> 
+                        <el-badge :value="taskCount.pending" :max="99" class="item"></el-badge>
+                    </div>
                 </div>
-                <div class="option-list" 
-                :class="taskOption == 'behind' ? 'active' : ''" 
-                @click="filterTasks(taskFilter, 'behind')">
-                <a> Behind
-                    <label> <span> {{ taskCount.behind }} </span></label>
-                </a>
+                <div class="col-md-3 option-list" 
+                    :class="taskOption == 'behind' ? 'active' : ''" 
+                    @click="filterTasks(taskFilter, 'behind')">
+                    <div class="option-counter"> 
+                        <span> Behind </span>
+                        <el-badge :value="taskCount.behind" :max="99" class="item"></el-badge>
+                    </div>
                 </div>
             </div>
             <div class="tab-content">
