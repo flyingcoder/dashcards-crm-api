@@ -52,8 +52,10 @@
                                     <el-upload @focus="hideMembers"
                                         multiple
                                         class=""
-                                        ref="upload"
+                                        ref="attachments"
                                         action=""
+                                        :before-upload="beforeImport"
+                                        :http-request='submitFiles'                           
                                         :auto-upload="false">
                                         <el-button slot="trigger">
                                             Attachment 
@@ -225,17 +227,7 @@ var yyyy = today.getFullYear();
                 oldName: '',
                 isProcessing: false,
                 files: [],
-                form: {
-                    title: '',
-                    description: '',
-                    comment: '',
-                    members: [],
-                    end_at: '',
-                    start_at: yyyy + '-' + mm + '-' + dd,
-                    content: '',
-                    client_id: 1,
-                    service_id: 1,
-                },
+                form: this.initFormData(),
                 clients: [],
                 services: [],
         		error: {
@@ -264,6 +256,19 @@ var yyyy = today.getFullYear();
                         });
                 }
             },
+            initFormData(){
+                 return {
+                    title: '',
+                    description: '',
+                    comment: '',
+                    members: [],
+                    end_at: '',
+                    start_at: yyyy + '-' + mm + '-' + dd,
+                    content: '',
+                    client_id: 1,
+                    service_id: 1,
+                }
+            },
             submit(){
                 if(this.action == 'Save'){
                     this.save();
@@ -272,9 +277,8 @@ var yyyy = today.getFullYear();
                     this.update();
                 }
             },
-            submitFiles (id) {
-                this.isProcessing = true;
-                axios.post('/project-hq/' + id + '/files', this.files)
+            submitFiles () {
+                axios.post('/project-hq/' + this.id + '/files', this.files)
                 .then (response => {
                     this.isProcessing = false;
                 })
@@ -285,7 +289,8 @@ var yyyy = today.getFullYear();
                 this.isProcessing = true;
                 axios.post('/api/projects/',this.form)
                 .then( response => {
-                    this.sumbitFiles(response.data.id);                    
+                    this.id = response.data.id;
+                    this.$refs.attachments.submit();                
                     swal('Success!', 'Project is saved!', 'success');
                     this.$modal.hide('add-project');
 
@@ -293,12 +298,13 @@ var yyyy = today.getFullYear();
                 .catch ( error => {
                     this.isProcessing = false;
                     if(error.response.status == 422){
-                    this.errors = error.response.data.errors;
+                        this.errors = error.response.data.errors;
                     }
                     else {
                         swal('Server Error!', 'Unable to save please contact Administrator!', 'error');
                     }
-                })
+                });
+                
             },
             update: function () {
                 axios.put('/api/projects/'+this.id+'/edit', this.form)
@@ -345,7 +351,7 @@ var yyyy = today.getFullYear();
                  }
             },
             beforeImport(file) {
-                this.form.append('file', file);
+                this.files.append('file', file);
                 return true;
             },
         },
