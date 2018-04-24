@@ -1,5 +1,16 @@
 .hq-milestones{
     .buzz-box{
+        width: 48%;
+        margin-bottom: 20px;
+        vertical-align: top;
+        display: inline-block;
+        @extend .toggle-transition;
+        &:nth-child(odd){
+            margin-right: 4%;
+        }
+        &:nth-child(even){
+            margin-right: 0;
+        }
         .box-title{
             width: 60% !important;
             @extend .buzz-overflow;
@@ -7,6 +18,10 @@
             h1{
                 font-size: 20px !important;
             }
+        }
+        .box-options{
+            position: absolute !important;
+            right: 0;
         }
         .box-content{
             height: 408px;
@@ -113,8 +128,17 @@
             }
         }
     }
+    .minimize{
+        height: 70px !important;
+        @extend .toggle-transition;
+        .box-content, .milestone-footer{
+            display: none;
+        }
+    }
     .milestone-form{
+        height: auto !important;
         margin-top: 20px;
+        max-height: 450px !important;
     }
     .add-button{
         position: fixed !important;

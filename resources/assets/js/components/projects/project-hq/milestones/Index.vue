@@ -1,8 +1,10 @@
 <template>
     <section class="content hq-milestones">
         <div class="row">
-            <milestone-card v-for="d in milestones" :data="d" :key="d.id" v-on:addTask="addTask"></milestone-card>
-        </div>
+			<div class="col-md-12">
+            	<milestone-card v-for="d in milestones" :data="d" :key="d.id" v-on:addTask="addTask"></milestone-card>
+    		</div>
+		</div>
         <add-milestone></add-milestone>
     </section>
 </template>
