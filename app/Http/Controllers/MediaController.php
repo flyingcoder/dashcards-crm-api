@@ -71,7 +71,7 @@ class MediaController extends Controller
     public function collectionName(Request $request)
     {
         $collectionName = '';
-
+        if(request()->has('file')){
         if(collect($this->allowedDocs)->contains($request->file('file')->extension())) {
           $collectionName = 'project.files.documents';
         } else if (collect($this->allowedImages)->contains($request->file('file')->extension())) {
@@ -83,6 +83,7 @@ class MediaController extends Controller
         } else {
           return response('Invalid file', 402);
         }
+      }
 
         return $collectionName;
     }
@@ -99,19 +100,21 @@ class MediaController extends Controller
       	$collectionName = $this->collectionName(request());
 
       	$project = Project::findOrFail($project_id);
+        if(request()->has('file')){
+          $media = $project->addMedia(request()->file('file'))
+          ->withCustomProperties(['ext' => request()->file('file')->extension()])
+          ->toMediaCollection($collectionName);
 
-      	$media = $project->addMedia(request()->file('file'))
-                ->withCustomProperties(['ext' => request()->file('file')->extension()])
-      		      ->toMediaCollection($collectionName);
-
-        activity(auth()->user()->company()->name)
-               ->performedOn($project)
-               ->causedBy(auth()->user())
-               ->withProperties([
-                  'company_id' => auth()->user()->company()->id,
-                  'media' => $media
-                ])
-               ->log('Added a file to a project');
+          activity(auth()->user()->company()->name)
+          ->performedOn($project)
+          ->causedBy(auth()->user())
+          ->withProperties([
+              'company_id' => auth()->user()->company()->id,
+              'media' => $media
+            ])
+          ->log('Added a file to a project');
+        }
+      	
     }
 
 
