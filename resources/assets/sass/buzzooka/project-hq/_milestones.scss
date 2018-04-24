@@ -130,6 +130,7 @@
     }
     .minimize{
         height: 70px !important;
+        margin-bottom: 0 !important;
         @extend .toggle-transition;
         .box-content, .milestone-footer{
             display: none;
