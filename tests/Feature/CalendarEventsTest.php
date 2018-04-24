@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CalendarEventsTest extends TestCase
 {
+	/*
     public function testIndex()
     {
         $user = User::find(1);
@@ -19,5 +20,5 @@ class CalendarEventsTest extends TestCase
 
     	//dd($response->content());
     	$response->assertStatus(200);
-    }
+    }*/
 }

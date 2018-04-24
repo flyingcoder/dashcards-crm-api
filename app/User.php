@@ -147,9 +147,9 @@ class User extends Authenticatable
                         })
                         ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
                         ->select(
-                            DB::raw('CONCAT(manager.last_name, ", ", manager.first_name) AS manager_name'),
+                            DB::raw('CONCAT(CONCAT(UCASE(LEFT(manager.last_name, 1)), SUBSTRING(manager.last_name, 2)), ", ", CONCAT(UCASE(LEFT(manager.first_name, 1)), SUBSTRING(manager.first_name, 2))) AS manager_name'),
                             'client.image_url as client_image_url',
-                            DB::raw('CONCAT(client.last_name, ", ", client.first_name) AS client_name'),
+                            DB::raw('CONCAT(CONCAT(UCASE(LEFT(client.last_name, 1)), SUBSTRING(client.last_name, 2)), ", ", CONCAT(UCASE(LEFT(client.first_name, 1)), SUBSTRING(client.first_name, 2))) AS client_name'),
                             'projects.*',
                             'services.name as service_name'
                         )->where('projects.deleted_at', null);

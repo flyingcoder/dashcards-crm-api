@@ -8,7 +8,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CalendarTest extends TestCase
-{
+{   
+    /*
     public function testIndex()
     {
         $user = User::find(1);
@@ -21,7 +22,7 @@ class CalendarTest extends TestCase
         $response->assertStatus(200);
     }  
 
-    /*
+    
     public function testStore()
     {
         $user = User::find(1);
@@ -36,7 +37,7 @@ class CalendarTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }*/
+    }
 
     public function testCalendar()
     {
@@ -60,5 +61,5 @@ class CalendarTest extends TestCase
 
         dd($response->content());
         $response->assertStatus(200);
-    }
+    }*/
 }

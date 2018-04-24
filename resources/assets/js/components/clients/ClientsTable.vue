@@ -10,7 +10,8 @@
                 <el-table-column sortable label="Client">
                     <template slot-scope="scope">
                         <avatar :username="scope.row.first_name + ' ' + scope.row.last_name" 
-                        :src="'/' + scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar> 
+                        :src="'/' + scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar>
+                        <span class="full_name">{{ scope.row.first_name + ' ' + scope.row.last_name }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="telephone" sortable label="Telephone"></el-table-column>
@@ -113,12 +114,15 @@
             },
             rowClick(row, event, col){
                 // location = "/api/clients" + row.id;
+                console.log(row);
             },
             cellClick: function(row, col) {
                 var a = col.id;
-                if(a != 'el-table_1_column_8' && a != 'el-table_2_column_16') {
-                    location = "/api/clients/" + row.id;
+                if(a != 'el-table_1_column_6') {
+                    location = "/clients/" + row.id;
                 }
+
+                console.log(a);
             },
             destroy: function(row) {
                 var self = this;
