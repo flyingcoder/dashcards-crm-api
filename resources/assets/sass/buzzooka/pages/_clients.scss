@@ -2,4 +2,11 @@
     .content-body{
         @extend .buzz-table;
      }
+     .el-table{
+         tbody{
+             tr{
+                 cursor: pointer;
+             }
+         }
+     }
 }
