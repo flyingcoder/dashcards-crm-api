@@ -1338,16 +1338,6 @@
                                 top: 10px;
                             }
                         }
-                        .member-option{
-                            .member-counter{
-                                position: absolute;
-                                right: -12px;
-                                top: 5px;
-                                .el-badge__content{
-                                    background: $green;
-                                }
-                            }
-                        }
                         .member-option, .time-option{
                             .button-icon{
                                 left: 0;
@@ -1577,6 +1567,55 @@
                 }
             }
         }
+        .add-project{
+            .modal-options{
+                .option{
+                    .el-form-item__content{
+                        .option-item{
+                            .member-option{
+                                .member-badge{
+                                    position: absolute;
+                                    right: -15px;
+                                    top: -5px;
+                                    .el-badge__content{
+                                        background: $green;
+                                        height: 25px;
+                                        width: 25px;
+                                        border-radius: 50%;
+                                        line-height: 2;
+                                    }
+                                }
+                            }
+                            .file-upload{
+                                .el-upload-list{
+                                    box-shadow: $body-shadow;
+                                    z-index: 100;
+                                    // display: none;
+                                    .el-upload-list__item{
+                                        z-index: 99;
+                                        background: $white;
+                                        padding: 5px 10px;
+                                    }
+                                }
+                                .file-badge{
+                                    position: absolute;
+                                    right: -15px;
+                                    top: -5px;
+                                    cursor: pointer;
+                                    .el-badge__content{
+                                        background: $green;
+                                        height: 25px;
+                                        width: 25px;
+                                        border-radius: 50%;
+                                        line-height: 2;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         .add-client{
             .buzz-scrollbar{
                 height: auto !important;
@@ -1782,9 +1821,6 @@
     }
     .add-description, .add-comment{
         height: 100px !important;
-        .ql-toolbar{
-            display: none;
-        }
     }
     .settings-editor{
         height: 200px !important;
