@@ -144,7 +144,7 @@
                 
             },
             edit(data){
-                this.$modal.show('add-client', { action: 'Update', data: data })
+                this.$modal.show('edit-client', { action: 'Update', data: data })
             }
         }
     }

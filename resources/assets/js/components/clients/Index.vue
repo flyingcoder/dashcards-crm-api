@@ -59,17 +59,20 @@
             </section>
         </div>
         <add-client></add-client>
+        <edit-client></edit-client>
     </section>
 </template>
 
 <script>
     import AddClient from './AddClient.vue';
+    import EditClient from './EditClient.vue';
     import ClientsTable from './ClientsTable.vue';
     import Profile from './profile/Index.vue';
 
     export default {   
         components: {
           'add-client': AddClient,
+          'edit-client': EditClient,
           'clients-table': ClientsTable,
           'profile': Profile,
         },

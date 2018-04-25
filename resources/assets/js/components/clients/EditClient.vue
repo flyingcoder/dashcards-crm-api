@@ -1,5 +1,5 @@
 <template>
-    <modal name="add-client" transition="nice-modal-fade" @before-open="beforeOpen">
+    <modal name="edit-client" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content add-client">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
@@ -34,7 +34,7 @@
                         </el-form-item>
                         <el-form-item  class="form-buttons">
                             <el-button type="primary" @click="submit('form')"> {{action}} </el-button>
-                            <el-button @click="$modal.hide('add-client')">Cancel</el-button>
+                            <el-button @click="$modal.hide('edit-client')">Cancel</el-button>
                         </el-form-item>
                     </div>
                 </el-form>
@@ -45,28 +45,9 @@
 <script>
   export default {
     data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the password'));
-        } else {
-          if (this.form.checkPass !== '') {
-            this.$refs.form.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('Please input the password again'));
-        } else if (value !== this.form.pass) {
-          callback(new Error('Password don\'t match!'));
-        } else {
-          callback();
-        }
-      };
       return {
-        title: 'Add New Client',
-        action: 'Save',
+        title: 'Edit Client',
+        action: 'Update',
         isProcessing: false,
         form: {
             firstname: '',
@@ -89,18 +70,11 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
-                { type: 'number', message: 'Contact No. Must be a Number'}
+                // { type: 'number', message: 'Contact No. Must be a Number'}
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },
                 { type: 'email', message: 'Email Address is Invalid', trigger: ['blur', 'change'] }
-            ],
-            pass: [
-                { required: true, message: 'Password is Required', trigger: 'change' },
-                { validator: validatePass, trigger: 'blur' }
-            ],
-            checkPass: [
-                { validator: validatePass2, trigger: 'blur' }
             ],
             status: [
                 { required: true, message: 'Status is Required', trigger: 'change' },
@@ -113,7 +87,7 @@
               console.info('before Opent');
               if(typeof event.params != 'undefined' && event.params.action == 'Update') {
                   this.action = 'Update';
-                  this.title = 'Edit Client';
+                  this.header = 'Edit Client';
                   this.id = event.params.data.id;
                   var vm = this;
                   axios.get('api/clients/'+this.id)
