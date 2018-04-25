@@ -431,6 +431,7 @@
             margin-left: 7px;
             background: $gray-bg;
             box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
+            cursor: pointer;
             @extend .buzz-border;
             a{
                 img, svg{
@@ -447,27 +448,27 @@
                 top: 9px;
             }
         }
-        .cut-option{
+        .pin-icon{
             svg{
                 top: 7px;
                 left: 6px;
             }
         }
-        .minimize-option{
+        .minimize-icon{
             bottom: 5px;
             svg{
                 top: 5px;
                 left: 6px;
             }
         }
-        .expand-option{
+        .expand-icon{
             bottom: 2px;
             svg{
                 top: 8px;
                 left: 7px;
             }
         }
-        .x-option{
+        .close-icon{
             bottom: 5px;
             svg{
                 top: 10px;

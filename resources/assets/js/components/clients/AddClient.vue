@@ -89,7 +89,6 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
-                { type: 'number', message: 'Contact No. is Invalid', trigger: 'change' },
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },
