@@ -11,8 +11,8 @@
                 <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/files.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/files.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p>Brian Howar <span class="action"> Uploaded </span> Questionnaire for Client Buzzooka Inc. </p>
@@ -23,8 +23,8 @@
                 <el-dropdown-item>
                      <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user2.png" class="user-image">
-                            <img src="img/icons/notifications/images.svg" class="type-image">
+                            <img src="/img/temporary/user2.png" class="user-image">
+                            <img src="/img/icons/notifications/images.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Alan Podemski <span class="action"> Uploaded </span> 24 files for client x for following project </p>
@@ -35,8 +35,8 @@
                  <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user3.png" class="user-image">
-                            <img src="img/icons/notifications/files2.svg" class="type-image">
+                            <img src="/img/temporary/user3.png" class="user-image">
+                            <img src="/img/icons/notifications/files2.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Jhon Smith <span class="action"> Shared </span> a GOOGLE SHEET and  GOOGLE DOC files </p>
@@ -47,8 +47,8 @@
                 <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/edit.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/edit.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Tommy Jeffrey <span class="action"> Modified </span> folder for the client Y for the specific folder </p>
@@ -59,8 +59,8 @@
                  <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/files.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/files.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p>Brian Howar <span class="action"> Uploaded </span> Questionnaire for Client Buzzooka Inc. </p>
@@ -71,8 +71,8 @@
                 <el-dropdown-item>
                      <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user2.png" class="user-image">
-                            <img src="img/icons/notifications/images.svg" class="type-image">
+                            <img src="/img/temporary/user2.png" class="user-image">
+                            <img src="/img/icons/notifications/images.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Alan Podemski <span class="action"> Uploaded </span> 24 files for client x for following project </p>
@@ -83,8 +83,8 @@
                  <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user3.png" class="user-image">
-                            <img src="img/icons/notifications/files2.svg" class="type-image">
+                            <img src="/img/temporary/user3.png" class="user-image">
+                            <img src="/img/icons/notifications/files2.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Jhon Smith <span class="action"> Shared </span> a GOOGLE SHEET and  GOOGLE DOC files </p>
@@ -95,8 +95,8 @@
                 <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/edit.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/edit.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Tommy Jeffrey <span class="action"> Modified </span> folder for the client Y for the specific folder </p>
@@ -107,8 +107,8 @@
                  <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/files.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/files.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p>Brian Howar <span class="action"> Uploaded </span> Questionnaire for Client Buzzooka Inc. </p>
@@ -119,8 +119,8 @@
                 <el-dropdown-item>
                      <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user2.png" class="user-image">
-                            <img src="img/icons/notifications/images.svg" class="type-image">
+                            <img src="/img/temporary/user2.png" class="user-image">
+                            <img src="/img/icons/notifications/images.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Alan Podemski <span class="action"> Uploaded </span> 24 files for client x for following project </p>
@@ -131,8 +131,8 @@
                  <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user3.png" class="user-image">
-                            <img src="img/icons/notifications/files2.svg" class="type-image">
+                            <img src="/img/temporary/user3.png" class="user-image">
+                            <img src="/img/icons/notifications/files2.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Jhon Smith <span class="action"> Shared </span> a GOOGLE SHEET and  GOOGLE DOC files </p>
@@ -143,8 +143,8 @@
                 <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/edit.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/edit.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Tommy Jeffrey <span class="action"> Modified </span> folder for the client Y for the specific folder </p>
@@ -155,8 +155,8 @@
                  <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/files.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/files.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p>Brian Howar <span class="action"> Uploaded </span> Questionnaire for Client Buzzooka Inc. </p>
@@ -167,8 +167,8 @@
                 <el-dropdown-item>
                      <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user2.png" class="user-image">
-                            <img src="img/icons/notifications/images.svg" class="type-image">
+                            <img src="/img/temporary/user2.png" class="user-image">
+                            <img src="/img/icons/notifications/images.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Alan Podemski <span class="action"> Uploaded </span> 24 files for client x for following project </p>
@@ -179,8 +179,8 @@
                  <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user3.png" class="user-image">
-                            <img src="img/icons/notifications/files2.svg" class="type-image">
+                            <img src="/img/temporary/user3.png" class="user-image">
+                            <img src="/img/icons/notifications/files2.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Jhon Smith <span class="action"> Shared </span> a GOOGLE SHEET and  GOOGLE DOC files </p>
@@ -191,8 +191,8 @@
                 <el-dropdown-item>
                     <a v-on:click.stop="showNotif">
                         <div class="image">
-                            <img src="img/temporary/user1.png" class="user-image">
-                            <img src="img/icons/notifications/edit.svg" class="type-image">
+                            <img src="/img/temporary/user1.png" class="user-image">
+                            <img src="/img/icons/notifications/edit.svg" class="type-image">
                         </div>
                         <div class="info">
                             <p> Tommy Jeffrey <span class="action"> Modified </span> folder for the client Y for the specific folder </p>
@@ -206,8 +206,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user1.png" class="user-image">
-                        <img src="img/icons/notifications/files.svg" class="type-image">
+                        <img src="/img/temporary/user1.png" class="user-image">
+                        <img src="/img/icons/notifications/files.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p>Brian Howar <span class="action"> Uploaded </span> Questionnaire for Client Buzzooka Inc. </p>
@@ -218,8 +218,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user2.png" class="user-image">
-                        <img src="img/icons/notifications/images.svg" class="type-image">
+                        <img src="/img/temporary/user2.png" class="user-image">
+                        <img src="/img/icons/notifications/images.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p> Alan Podemski <span class="action"> Uploaded </span> 24 files for client x for following project </p>
@@ -230,8 +230,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user3.png" class="user-image">
-                        <img src="img/icons/notifications/files2.svg" class="type-image">
+                        <img src="/img/temporary/user3.png" class="user-image">
+                        <img src="/img/icons/notifications/files2.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p> Jhon Smith <span class="action"> Shared </span> a GOOGLE SHEET and  GOOGLE DOC files </p>
@@ -242,8 +242,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user1.png" class="user-image">
-                        <img src="img/icons/notifications/edit.svg" class="type-image">
+                        <img src="/img/temporary/user1.png" class="user-image">
+                        <img src="/img/icons/notifications/edit.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p> Tommy Jeffrey <span class="action"> Modified </span> folder for the client Y for the specific folder </p>
@@ -254,8 +254,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user1.png" class="user-image">
-                        <img src="img/icons/notifications/files.svg" class="type-image">
+                        <img src="/img/temporary/user1.png" class="user-image">
+                        <img src="/img/icons/notifications/files.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p>Brian Howar <span class="action"> Uploaded </span> Questionnaire for Client Buzzooka Inc. </p>
@@ -266,8 +266,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user2.png" class="user-image">
-                        <img src="img/icons/notifications/images.svg" class="type-image">
+                        <img src="/img/temporary/user2.png" class="user-image">
+                        <img src="/img/icons/notifications/images.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p> Alan Podemski <span class="action"> Uploaded </span> 24 files for client x for following project </p>
@@ -278,8 +278,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user3.png" class="user-image">
-                        <img src="img/icons/notifications/files2.svg" class="type-image">
+                        <img src="/img/temporary/user3.png" class="user-image">
+                        <img src="/img/icons/notifications/files2.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p> Jhon Smith <span class="action"> Shared </span> a GOOGLE SHEET and  GOOGLE DOC files </p>
@@ -290,8 +290,8 @@
             <li>
                 <a href="#">
                     <div class="image">
-                        <img src="img/temporary/user1.png" class="user-image">
-                        <img src="img/icons/notifications/edit.svg" class="type-image">
+                        <img src="/img/temporary/user1.png" class="user-image">
+                        <img src="/img/icons/notifications/edit.svg" class="type-image">
                     </div>
                     <div class="info">
                         <p> Tommy Jeffrey <span class="action"> Modified </span> folder for the client Y for the specific folder </p>

@@ -1277,7 +1277,7 @@
                 }
             }
             .modal-options{
-                margin: 0px -10px;
+                margin: 10px -10px 0;
                 .option{
                     display: inline-block;
                     width: 100%;
@@ -1509,7 +1509,7 @@
                 }
             }
             .buzz-scrollbar{
-                height: 450px !important;
+                height: 450px;
                 background: none;
                 overflow-x: hidden;
                 padding-right: 25px;
@@ -1567,48 +1567,48 @@
                 }
             }
         }
-        .add-project{
+        .add-project, .add-task{
             .modal-options{
                 .option{
                     .el-form-item__content{
                         .option-item{
-                            .member-option{
-                                .member-badge{
-                                    position: absolute;
-                                    right: -15px;
-                                    top: -5px;
-                                    .el-badge__content{
-                                        background: $green;
-                                        height: 25px;
-                                        width: 25px;
-                                        border-radius: 50%;
-                                        line-height: 2;
-                                    }
-                                }
-                            }
                             .file-upload{
                                 .el-upload-list{
+                                    position: relative;
+                                    right: -210px;
                                     box-shadow: $body-shadow;
                                     z-index: 100;
                                     // display: none;
+                                    -webkit-transition: all 0.3s ease !important;
+                                    -moz-transition: all 0.3s ease !important;
+                                    transition: all 0.3s ease !important;
                                     .el-upload-list__item{
                                         z-index: 99;
                                         background: $white;
                                         padding: 5px 10px;
                                     }
                                 }
-                                .file-badge{
-                                    position: absolute;
-                                    right: -15px;
-                                    top: -5px;
-                                    cursor: pointer;
-                                    .el-badge__content{
-                                        background: $green;
-                                        height: 25px;
-                                        width: 25px;
-                                        border-radius: 50%;
-                                        line-height: 2;
-                                    }
+                            }
+                            .member-badge, .file-badge{
+                                position: absolute;
+                                right: -10px;
+                                top: -10px;
+                                cursor: pointer;
+                                .el-badge__content{
+                                    background: $green;
+                                    height: 25px;
+                                    width: 25px;
+                                    border-radius: 50%;
+                                    line-height: 2;
+                                }
+                            }
+                            .attachmentList{
+                                .el-upload-list{
+                                    right: 0 !important;
+                                    -webkit-transition: all 0.3s ease !important;
+                                    -moz-transition: all 0.3s ease !important;
+                                    transition: all 0.3s ease !important;
+                                    // display: block !important;
                                 }
                             }
                         }
@@ -1625,7 +1625,7 @@
                     .el-form-item__content{
                         .el-radio-group{
                             .el-radio{
-                                width: 134px !important;
+                                width: 120px !important;
                                 height: 45px !important; 
                                 margin-bottom: 0;
                                 border-radius: 8px;
@@ -1880,7 +1880,6 @@
         }
     }
 }
-
 .selectMembers__dropdown{
     display: block !important; 
     margin: -6px 0 !important;
@@ -1917,8 +1916,6 @@
         font-weight: unset;
     }
 }
-
-
 .el-checkbox__inner{
     &:after {
         -webkit-box-sizing: content-box;

@@ -15,38 +15,40 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar milestone-form" id="buzz-scroll">
-                    <el-form :model="milestoneForm" ref="milestoneForm" v-loading="isProcessing">
+                    <el-form :model="form" ref="form" :rules="rules" v-loading="isProcessing">
                         <div class="buzz-modal-content">
-                            <el-form-item label="" prop="title" :error="errors.title[0]">
-                                <el-input v-model="milestoneForm.title" placeholder="Title"></el-input>
+                            <el-form-item prop="title" :error="errors.title[0]">
+                                <el-input v-model="form.title" placeholder="Title"></el-input>
                             </el-form-item>
-                            <el-form-item label="" prop="percentage" :error="errors.percentage[0]">
-                                <el-input v-model="milestoneForm.percentage" placeholder="Percentage" ></el-input>
+                            <el-form-item prop="percentage" :error="errors.percentage[0]">
+                                <el-input v-model="form.percentage" placeholder="Percentage" ></el-input>
                             </el-form-item>
-                            <el-form-item label="" prop="started_at" :error="errors.started_at[0]">
+                            <el-form-item prop="started_at" :error="errors.started_at[0]">
                                <el-date-picker
                                     style="width: 100%"
-                                    v-model="milestoneForm.started_at"
+                                    v-model="form.started_at"
                                     type="date"
                                     value-format="yyyy-MM-dd"
                                     placeholder="Select Start Date">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="" prop="end_at" :error="errors.end_at[0]">
+                            <el-form-item prop="end_at" :error="errors.end_at[0]">
                                 <el-date-picker
                                     style="width: 100%"
-                                    v-model="milestoneForm.end_at"
+                                    v-model="form.end_at"
                                     type="date"
                                     value-format="yyyy-MM-dd"
                                     placeholder="Select End Date">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="" prop="days" :error="errors.days[0]">
-                                <el-input v-model="milestoneForm.days" placeholder="Days"></el-input>
+                            <el-form-item prop="days" :error="errors.days[0]">
+                                <el-input v-model="form.days" placeholder="Days"></el-input>
+                            </el-form-item>
+                            <el-form-item>
                                 <span> Note! If Start and End dates are provided, Milestone duration (days) will be ignored </span>
                             </el-form-item>
-                            <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('milestoneForm')">Save</el-button>
+                            <el-form-item class="form-buttons">
+                                <el-button type="primary" @click="submit('form')">Save</el-button>
                                 <el-button @click="$modal.hide('add-milestone')">Cancel</el-button>
                             </el-form-item>
                         </div>
@@ -69,7 +71,7 @@
                 id: 0,
                 oldName: '',
                 isProcessing: false,
-                milestoneForm: {
+                form: {
                     title: '',
                     percentage: '',
                     started_at: '',
@@ -82,7 +84,24 @@
         			started_at: [],
         			end_at: [],
         			days: [],
-        		},
+                },
+                rules: {
+                    title: [
+                        { required: true, message: 'Title is Required', trigger: 'change' },
+                    ],
+                    percentage: [
+                        { required: true, message: 'Percentage is Required', trigger: 'change' },
+                    ],
+                    started_at: [
+                        { required: true, message: 'Date is Required', trigger: 'change' },
+                    ],
+                    end_at: [
+                        { required: true, message: 'Date is Required', trigger: 'change' },
+                    ],
+                    days: [
+                        { required: true, message: 'Days is Required', trigger: 'change' },
+                    ],
+                },
         	}
         },
 
@@ -101,12 +120,12 @@
                     var vm = this;
                     axios.get('api/milestones/'+this.id)
                         .then( response => {
-                            this.milestoneForm = response.data;
+                            this.form = response.data;
                         });
                 }
             },
-            submit(){
-                this.$refs[milestoneForm].validate((valid) => {
+            submit(form){
+                this.$refs[form].validate((valid) => {
                     if (valid) {
                         alert('submit!');
                     } else {
@@ -117,7 +136,7 @@
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/milestones/new',this.milestoneForm)
+                axios.post('/api/milestones/new',this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Milestone is saved!', 'success');
@@ -130,7 +149,7 @@
                 })
             },
             update: function () {
-                axios.put('/api/milestones/'+this.id+'/edit', this.milestoneForm)
+                axios.put('/api/milestones/'+this.id+'/edit', this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Milestone is updated!', 'success');

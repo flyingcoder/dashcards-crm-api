@@ -1,6 +1,6 @@
 <template>
     <div class="buzz-table">
-        <div class="All-Clients">
+        <div class="clients">
             <div v-if="paginatedAllClients.length >= 1">
                 <el-table :data="paginatedAllClients" stripe empty-text="No Data Found" v-loading="isProcessing" 
                     @sort-change="handleSortChange" element-loading-text="Processing ..." 

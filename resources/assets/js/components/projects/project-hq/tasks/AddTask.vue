@@ -12,7 +12,7 @@
         </div>
     
         <modal name="add-task" transition="nice-modal-fade" @before-open="beforeOpen">
-            <section class="content">
+            <section class="content add-task">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar task-form" id="buzz-scroll">
                     <el-form :model="form" ref="form" v-loading="isProcessing">

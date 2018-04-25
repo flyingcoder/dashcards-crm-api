@@ -121,14 +121,15 @@
                 <div class="task-comment">
                     <img src="/img/temporary/user1.png" alt="user" class="avatar">
                     <quill-editor 
-                        class="add-comment" 
                         v-bind:class="{ showEditor: commentEditor }"
                         v-model="form.body" 
                         ref="myQuillEditor">
                     </quill-editor>
                     <div class="field-options">
-                        <el-button class="send border" @click="addComments" > <span> Send </span> </el-button>
-                        <el-button class="border" v-on:click="commentEditor = !commentEditor"> 
+                        <div class="field-buttons">
+                            <el-button class="send border" @click="addComments" > <span> Send </span> </el-button>
+                        </div>
+                        <!-- <el-button class="border" v-on:click="commentEditor = !commentEditor"> 
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="14px" height="18px">
                                 <path fill-rule="evenodd"
@@ -170,14 +171,14 @@
                                 <path fill-rule="evenodd"
                                 d="M14.315,6.346 L0.664,6.346 C0.292,6.346 -0.009,6.039 -0.009,5.661 L-0.009,3.554 C-0.009,3.175 0.292,2.868 0.664,2.868 L4.351,2.868 L4.351,1.446 C4.351,1.068 4.652,0.761 5.024,0.761 L9.955,0.761 C10.326,0.761 10.628,1.068 10.628,1.446 L10.628,2.868 L14.315,2.868 C14.687,2.868 14.988,3.175 14.988,3.554 L14.988,5.661 C14.988,6.039 14.687,6.346 14.315,6.346 ZM9.281,2.131 L5.697,2.131 L5.697,2.868 L9.281,2.868 L9.281,2.131 ZM13.495,21.112 C13.480,21.479 13.183,21.768 12.823,21.768 L2.156,21.768 C1.795,21.768 1.499,21.479 1.484,21.113 L0.925,7.716 L14.053,7.716 L13.495,21.112 ZM5.454,10.501 C5.454,10.123 5.153,9.816 4.781,9.816 C4.410,9.816 4.108,10.123 4.108,10.501 L4.108,18.983 C4.108,19.361 4.410,19.668 4.781,19.668 C5.153,19.668 5.454,19.361 5.454,18.983 L5.454,10.501 ZM8.162,10.501 C8.162,10.123 7.861,9.816 7.489,9.816 C7.118,9.816 6.816,10.123 6.816,10.501 L6.816,18.983 C6.816,19.361 7.118,19.668 7.489,19.668 C7.861,19.668 8.162,19.361 8.162,18.983 L8.162,10.501 ZM10.870,10.501 C10.870,10.123 10.569,9.816 10.197,9.816 C9.825,9.816 9.524,10.123 9.524,10.501 L9.524,18.983 C9.524,19.361 9.825,19.668 10.197,19.668 C10.569,19.668 10.870,19.361 10.870,18.983 L10.870,10.501 Z"/>
                             </svg>
-                        </el-button>
+                        </el-button> -->
                     </div>
                 </div>
             </div>
         </div>
-        <div class="box-footer">
+        <!-- <div class="box-footer">
             <a href=""> View More </a>
-        </div>
+        </div> -->
     </div>
 </template>
 

@@ -3,7 +3,7 @@
         <section class="content add-client">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
-                <el-form ref="form" :inline="true" :model="form" :rules="rules" label-position="top" v-loading="isProcessing" style="width: 100%">                    
+                <el-form ref="form" :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
                     <div class="buzz-modal-content">
                         <el-form-item prop="firstname" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.firstname" placeholder="First Name"></el-input>
@@ -77,7 +77,7 @@
             pass: '',
             status: '',
         },
-         rules: {
+        rules: {
             firstname: [
                 { required: true, message: 'First Name is Required', trigger: 'change' },
             ],
@@ -90,7 +90,6 @@
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
                 { type: 'number', message: 'Contact No. is Invalid', trigger: 'change' },
-                { min: 11, max: 11, message: 'Length', trigger: 'blur' }
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },

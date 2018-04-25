@@ -74,7 +74,7 @@
                                 <div class="chat-body" id="buzz-scroll">
                                     <div class="message member">
                                         <div class="user-info">
-                                            <img src="img/temporary/user1.png">
+                                            <img src="/img/temporary/user1.png">
                                             <h5 class="name"> Brian Howard </h5>
                                             <span class="date"> 1 hour ago </span>
                                         </div>
@@ -82,7 +82,7 @@
                                     </div>
                                     <div class="message me">
                                         <div class="user-info">
-                                            <img src="img/temporary/user2.png">
+                                            <img src="/img/temporary/user2.png">
                                             <h5 class="name"> Me </h5>
                                             <span class="date"> Just now </span>
                                         </div>
@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="message member">
                                         <div class="user-info">
-                                            <img src="img/temporary/user1.png">
+                                            <img src="/img/temporary/user1.png">
                                             <h5 class="name"> Brian Howard </h5>
                                             <span class="date"> 1 hour ago </span>
                                         </div>
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="message me">
                                         <div class="user-info">
-                                            <img src="img/temporary/user2.png">
+                                            <img src="/img/temporary/user2.png">
                                             <h5 class="name"> Me </h5>
                                             <span class="date"> Just now </span>
                                         </div>
@@ -106,7 +106,7 @@
                                     </div>
                                     <div class="message member">
                                         <div class="user-info">
-                                            <img src="img/temporary/user1.png">
+                                            <img src="/img/temporary/user1.png">
                                             <h5 class="name"> Brian Howard </h5>
                                             <span class="date"> 1 hour ago </span>
                                         </div>
@@ -114,7 +114,7 @@
                                     </div>
                                     <div class="message me">
                                         <div class="user-info">
-                                            <img src="img/temporary/user2.png">
+                                            <img src="/img/temporary/user2.png">
                                             <h5 class="name"> Me </h5>
                                             <span class="date"> Just now </span>
                                         </div>
@@ -122,7 +122,7 @@
                                     </div>
                                     <div class="message member">
                                         <div class="user-info">
-                                            <img src="img/temporary/user1.png">
+                                            <img src="/img/temporary/user1.png">
                                             <h5 class="name"> Brian Howard </h5>
                                             <span class="date"> 1 hour ago </span>
                                         </div>
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="message me">
                                         <div class="user-info">
-                                            <img src="img/temporary/user2.png">
+                                            <img src="/img/temporary/user2.png">
                                             <h5 class="name"> Me </h5>
                                             <span class="date"> Just now </span>
                                         </div>
@@ -138,7 +138,7 @@
                                     </div>
                                     <div class="message member">
                                         <div class="user-info">
-                                            <img src="img/temporary/user1.png">
+                                            <img src="/img/temporary/user1.png">
                                             <h5 class="name"> Brian Howard </h5>
                                             <span class="date"> 1 hour ago </span>
                                         </div>
@@ -146,7 +146,7 @@
                                     </div>
                                     <div class="message me">
                                         <div class="user-info">
-                                            <img src="img/temporary/user2.png">
+                                            <img src="/img/temporary/user2.png">
                                             <h5 class="name"> Me </h5>
                                             <span class="date"> Just now </span>
                                         </div>
@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="message member">
                                         <div class="user-info">
-                                            <img src="img/temporary/user1.png">
+                                            <img src="/img/temporary/user1.png">
                                             <h5 class="name"> Brian Howard </h5>
                                             <span class="date"> 1 hour ago </span>
                                         </div>
@@ -162,7 +162,7 @@
                                     </div>
                                     <div class="message me">
                                         <div class="user-info">
-                                            <img src="img/temporary/user2.png">
+                                            <img src="/img/temporary/user2.png">
                                             <h5 class="name"> Me </h5>
                                             <span class="date"> Just now </span>
                                         </div>
