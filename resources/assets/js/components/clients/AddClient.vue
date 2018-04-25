@@ -90,7 +90,6 @@
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
                 { type: 'number', message: 'Contact No. is Invalid', trigger: 'change' },
-                { min: 11, max: 11, message: 'Length', trigger: 'blur' }
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },

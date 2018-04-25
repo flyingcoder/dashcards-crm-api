@@ -1625,7 +1625,7 @@
                     .el-form-item__content{
                         .el-radio-group{
                             .el-radio{
-                                width: 134px !important;
+                                width: 120px !important;
                                 height: 45px !important; 
                                 margin-bottom: 0;
                                 border-radius: 8px;
@@ -1880,7 +1880,6 @@
         }
     }
 }
-
 .selectMembers__dropdown{
     display: block !important; 
     margin: -6px 0 !important;
@@ -1917,8 +1916,6 @@
         font-weight: unset;
     }
 }
-
-
 .el-checkbox__inner{
     &:after {
         -webkit-box-sizing: content-box;
