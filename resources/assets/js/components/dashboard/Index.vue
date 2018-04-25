@@ -143,7 +143,8 @@
             <!-- Tasks -->
                 <div class="buzz-box db-tasks"
                     v-if="isEnable('tasks')" 
-                    v-bind:class="{ minimize: minimizeTask }">
+                    v-bind:class="{ minimize: minimizeTask, expand: expandTask }"
+                    >
                     <div class="box-head">
                         <h1>Tasks</h1>
                         <div class="box-options">
@@ -163,7 +164,7 @@
                                     </svg>
                                 </a>
                             </div>
-                            <div class="option-item expand-icon">
+                            <div class="option-item expand-icon" v-on:click="expandTask = !expandTask">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="17px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -171,7 +172,7 @@
                                     </svg>
                                 </a>
                             </div>
-                            <div class="option-item close-icon">
+                            <div class="option-item close-icon" v-on:click="expandTask = !expandTask">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="14px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -549,6 +550,8 @@
         data(){
             return {
                 minimizeTask: false,
+                expandTask: false,
+
                 minimizeClient: false,
                 minimizePayment: false,
                 minimizeCalendar: false,

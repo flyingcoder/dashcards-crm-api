@@ -1648,6 +1648,9 @@
     }
     .buzz-box{
         @extend .toggle-transition;
+        -webkit-transition: width 2s ease;
+		-moz-transition: width 2s ease;
+		transition: width 2s ease;
     }
     .minimize{
         height: 65px !important;
@@ -1657,6 +1660,25 @@
         }
         .box-footer{
             display: none;
+        }
+    }
+    .expand{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        margin: 0;
+        border-radius: 0;
+        z-index: 999;
+        -webkit-transition: width 2s ease;
+		-moz-transition: width 2s ease;
+		transition: width 2s ease;
+        .close-icon{
+            display: block !important;
+        }
+        .expand-icon, .minimize-icon, .pin-icon, .el-tabs__header{
+            display: none !important;
         }
     }
     .close-icon{
