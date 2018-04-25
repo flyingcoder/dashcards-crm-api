@@ -165,9 +165,6 @@
             }
         }
     }
-    .tasks-view{
-        top: 0px;
-    }
     .db-tasks{
         .view-option{
             box-shadow: none;
@@ -175,7 +172,7 @@
             .el-tabs__header{
                 position: absolute;
                 top: 15px;
-                right: 190px;
+                right: 145px;
                 border: none;
             }
             .el-tabs__item{
@@ -1648,5 +1645,21 @@
                 }
             } */
         }
+    }
+    .buzz-box{
+        @extend .toggle-transition;
+    }
+    .minimize{
+        height: 65px !important;
+        @extend .toggle-transition;
+        .box-content{
+            display: none;
+        }
+        .box-footer{
+            display: none;
+        }
+    }
+    .close-icon{
+        display: none !important;
     }
 }
