@@ -1,8 +1,5 @@
 <template>
-  <div class="buzz-box">
-    <div class="box-head">
-        <h1>Calendar</h1>
-        <div class="box-options">
+    <div class="box-options">
         <div class="option-item cut-option">
             <a href="#">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
@@ -35,30 +32,5 @@
             </svg>
             </a>
         </div>
-        </div>
     </div>
-    <div class="box-content">
-        <div class="row">
-            <div class="col-md-7">
-            LEFT
-            </div>
-            <div class="col-md-5">
-            Right
-            </div>
-        </div>
-    </div>
-    <div class="box-footer">
-        <a href=""> View More </a>
-    </div>
-  </div>
 </template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
