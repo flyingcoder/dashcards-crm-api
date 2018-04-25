@@ -232,7 +232,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
   Route::get('/', 'ClientController@index'); // project
 
-  Route::get('/{id}', 'ClientController@edit'); // project
+  Route::get('{id}', 'ClientController@client'); // project
   
   Route::post('/', 'ClientController@store'); // client add
   

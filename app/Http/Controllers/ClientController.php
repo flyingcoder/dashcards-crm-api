@@ -33,7 +33,11 @@ class ClientController extends Controller
 
     public function client($id)
     {
-        return User::findOrFail($id);
+        $client = User::findOrFail($id);
+
+        $client->getAllMeta();
+
+        return $client;
     }
 
     public function details($id)
@@ -113,18 +117,6 @@ class ClientController extends Controller
         return $client;
     }
 
-    public function edit($id)
-    {
-        $client = User::findOrFail($id);
-
-        return $client;
-        // old return
-        //  return view('pages.clients-new', [
-        //      'client' => $client,
-        //      'action' => 'edit'
-        //      ]);
-    }
-
     public function update($id)
     {
         $client = User::findOrFail($id);
@@ -138,7 +130,6 @@ class ClientController extends Controller
                  Rule::unique('users')->ignore($client->id)
              ],
             'telephone' => 'required',
-            'password' => 'required|confirmed',
             'status' => 'required',
             'company_name' => 'required',
             'company_email' => 'required',
@@ -150,7 +141,7 @@ class ClientController extends Controller
         $client->last_name = request()->name;
         $client->email = request()->email;
         $client->telephone = request()->telephone;
-        if(!empty(request()->password))
+        if(request()->has('password'))
             $client->password = request()->password;
         
         $client->save();

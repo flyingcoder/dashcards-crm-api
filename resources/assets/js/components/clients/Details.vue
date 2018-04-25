@@ -8,7 +8,7 @@
                             &nbsp; <img src="/img/icons/ArrowRight.svg"> 
                             &nbsp; <span class="prev-path"> Clients </span>
                             &nbsp; <img src="/img/icons/ArrowRight.svg"> 
-                            &nbsp; <span class="current">{{ full_name }}</span>
+                            &nbsp; <span class="current">Profile</span>
                         </h1>
                     </div>
                 </div>
@@ -31,13 +31,15 @@
         },
        data () {
         return {
-            full_name: ''
+            full_name: '',
+            image_url: '',
+            id: 0
         }
       },
-
       mounted () {
       },
-        methods: {
-        }
+      methods: {
+
+      }
     }
 </script>
