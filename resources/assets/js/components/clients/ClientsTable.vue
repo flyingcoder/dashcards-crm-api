@@ -7,16 +7,16 @@
                     @selection-change="handleSelectionChange" style="width: 100%"
                     @cell-click="cellClick"
                     >
-                    <el-table-column sortable type="selection" width="60"></el-table-column>
-                    <el-table-column sortable label="Client">
+                    <el-table-column sortable type="selection" width="70"></el-table-column>
+                    <el-table-column sortable label="Client" width="220">
                         <template slot-scope="scope">
                             <avatar :username="scope.row.first_name + ' ' + scope.row.last_name" 
                             :src="'/' + scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar> 
                             <span>{{ scope.row.full_name }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="telephone" sortable label="Telephone"></el-table-column>
-                    <el-table-column sortable prop="email" label="Email"></el-table-column>
+                    <el-table-column prop="telephone" sortable label="Telephone" width="150"></el-table-column>
+                    <el-table-column sortable prop="email" label="Email"  width="220"></el-table-column>
                     <el-table-column sortable prop="status" label="Status">
                         <template slot-scope="scope">
                             <span class="status"> {{ scope.row.status }} </span>

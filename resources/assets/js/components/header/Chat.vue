@@ -8,7 +8,7 @@
                 </el-button>
             </el-badge>
             <el-dropdown-menu slot="dropdown" class="header-dropdown header-chat">
-               <div class="row">
+                <div class="row">
                    <div class="col-md-12">
                         <h1> Chat </h1>
                         <div class="members">
@@ -202,7 +202,7 @@
                             </div>
                         </div>
                     </div>
-               </div>
+                </div>
             </el-dropdown-menu>
         </el-dropdown>
     </li>

@@ -36,13 +36,10 @@
                                             <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('first_name', 'ascending')"> Sort by Client </p>
                                         </el-dropdown-item>
                                         <el-dropdown-item>
-                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('service_name', 'ascending')"> Sort by Service </p>
+                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('email', 'ascending')"> Sort by Email </p>
                                         </el-dropdown-item>
                                         <el-dropdown-item>
-                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('start_date', 'ascending')"> Sort by Date </p>
-                                        </el-dropdown-item>
-                                        <el-dropdown-item>
-                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('status', 'ascending')"> Sort by Progress </p>
+                                            <p style="font-weight: light !important; font-family:lato medium; font-size: 15px; line-height:3; color: #727d92; " @click="exteralSort('status', 'ascending')"> Sort by Status </p>
                                         </el-dropdown-item>
                                     </el-dropdown-menu>  
                                 </el-dropdown>
