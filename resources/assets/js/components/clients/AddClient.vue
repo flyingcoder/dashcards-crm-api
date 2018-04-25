@@ -3,7 +3,7 @@
         <section class="content add-client">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
-                <el-form ref="form" :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
+                <el-form ref="form" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
                     <div class="buzz-modal-content">
                         <el-form-item prop="firstname" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.firstname" placeholder="First Name"></el-input>
@@ -15,15 +15,15 @@
                             <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
                         </el-form-item>
                         <el-form-item prop="telephone" class="buzz-input buzz-inline pull-right">
-                            <el-input type="text" v-model="form.telephone" placeholder="Contact No."></el-input>
+                            <el-input type="text" v-model.number="form.telephone" placeholder="Contact No."></el-input>
                         </el-form-item>
                         <el-form-item prop="email" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.email" placeholder="Email"></el-input>
                         </el-form-item>
-                        <el-form-item class="buzz-input buzz-inline pull-right">
+                        <el-form-item prop="status" class="buzz-input buzz-inline pull-right">
                             <el-radio-group v-model="form.status" size="medium">
-                            <el-radio border label="Active"></el-radio>
-                            <el-radio border label="Inactive"></el-radio>
+                                <el-radio border label="Active"></el-radio>
+                                <el-radio border label="Inactive"></el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item prop="pass" class="buzz-input buzz-inline">
@@ -89,6 +89,7 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
+                { type: 'number', message: 'Contact No. Must be a Number'}
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },
