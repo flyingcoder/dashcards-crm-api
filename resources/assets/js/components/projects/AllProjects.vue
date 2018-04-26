@@ -32,7 +32,7 @@
                 </el-table-column>
                 <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
-                        <el-button @click="scope.row">
+                        <el-button @click="edit(scope.row)">
                             <svg viewBox="0 0 250 250">
                                 <path class="edit" d="M192 10l54 56c4,5 4,13 -1,18l-18 17c-5,5 -13,5 -17,0l-54 -56c-5,-5 -5,-13 0,-18l18 -17c5,-5 13,-5 18,0zm-140 202l40 -13 -39 -41 -16 38 15 16zm99 -152l43 45c8,8 7,21 -1,29l-80 77c-1,0 -92,30 -100,32 -2,1 -5,1 -7,0 -4,-2 -6,-7 -4,-12l40 -94 80 -77c8,-8 21,-8 29,0z"/>
                             </svg>
@@ -164,7 +164,10 @@
             if(a != 'el-table_1_column_9' && a != 'el-table_2_column_18') {
                 location = "/project-hq/" + row.id; 
             }
-        } 
+        },
+        edit(data){
+            this.$modal.show('add-project', { action: 'Update', data: data })
+        }
       }
     }
 </script>

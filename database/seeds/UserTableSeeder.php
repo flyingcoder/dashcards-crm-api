@@ -73,5 +73,6 @@ class UserTableSeeder extends Seeder
                         ->get();
 
         $userBentong->teams()->attach($team);
+
     }
 }
