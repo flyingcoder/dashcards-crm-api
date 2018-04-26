@@ -3,13 +3,13 @@
         <section class="content add-client">
             <div class="buzz-modal-header"> {{ title }} </div>
             <div class="buzz-scrollbar" id="buzz-scroll">
-                <el-form ref="form" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
+                <el-form ref="form" name="addClient" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
                     <div class="buzz-modal-content">
-                        <el-form-item prop="firstname" class="buzz-input buzz-inline">
-                            <el-input type="text" v-model="form.firstname" placeholder="First Name"></el-input>
+                        <el-form-item prop="first_name" class="buzz-input buzz-inline">
+                            <el-input type="text" v-model="form.first_name" placeholder="First Name"></el-input>
                         </el-form-item>
-                        <el-form-item prop="lastname" class="buzz-input buzz-inline pull-right">
-                            <el-input type="text" v-model="form.lastname" placeholder="Last Name"></el-input>
+                        <el-form-item prop="last_name" class="buzz-input buzz-inline pull-right">
+                            <el-input type="text" v-model="form.last_name" placeholder="Last Name"></el-input>
                         </el-form-item>
                         <el-form-item prop="company_name" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
@@ -26,8 +26,8 @@
                                 <el-radio border label="Inactive"></el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item prop="pass" class="buzz-input buzz-inline">
-                            <el-input type="password" v-model="form.pass" placeholder="Password" auto-complete="off"></el-input>
+                        <el-form-item prop="password" class="buzz-input buzz-inline">
+                            <el-input type="password" v-model="form.password" placeholder="Password" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item prop="checkPass" class="buzz-input buzz-inline pull-right">
                             <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
@@ -58,7 +58,7 @@
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('Please input the password again'));
-        } else if (value !== this.form.pass) {
+        } else if (value !== this.form.password) {
           callback(new Error('Password don\'t match!'));
         } else {
           callback();
@@ -68,20 +68,23 @@
         title: 'Add New Client',
         action: 'Save',
         isProcessing: false,
+        errors: {
+
+        },
         form: {
-            firstname: '',
-            lastname: '',
-            company_name: '',
-            telephone: '',
-            email: '',
-            pass: '',
-            status: '',
+          first_name: '',
+          last_name: '',
+          company_name: '',
+          telephone: '',
+          email: '',
+          password: '',
+          status: '',
         },
         rules: {
-            firstname: [
+            first_name: [
                 { required: true, message: 'First Name is Required', trigger: 'change' },
             ],
-            lastname: [
+            last_name: [
                 { required: true, message: 'Last Name is Required', trigger: 'change' },
             ],
             company_name: [
@@ -95,7 +98,7 @@
                 { required: true, message: 'Email is Required', trigger: 'change' },
                 { type: 'email', message: 'Email Address is Invalid', trigger: ['blur', 'change'] }
             ],
-            pass: [
+            password: [
                 { required: true, message: 'Password is Required', trigger: 'change' },
                 { validator: validatePass, trigger: 'blur' }
             ],
@@ -110,31 +113,93 @@
     },
     methods: {
         beforeOpen (event) {
-              console.info('before Opent');
+              console.log('before Open');
               if(typeof event.params != 'undefined' && event.params.action == 'Update') {
                   this.action = 'Update';
                   this.title = 'Edit Client';
                   this.id = event.params.data.id;
                   var vm = this;
                   axios.get('api/clients/'+this.id)
-                      .then( response => {
+                      .then( (response) => {
                           this.form = response.data;
+                          console.log(response.data)
                       });
               }
-          },
+        },
         submit(form) {
             this.$refs[form].validate((valid) => {
-            if (valid) {
-                alert('submit!');
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
+              if (valid) {
+                 if(this.action == 'Save'){
+                      this.save();
+                  }
+              } else {
+                  console.log('error submit!!');
+                  return false;
+              }
             });
         },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        save: function () {
+              this.isProcessing = true;
+              var vm = this;
+              axios.post('/api/clients/',this.form)
+              .then( (response) => {
+                    vm.id = response.data.id;               
+                    swal('Success!', 'Client is saved!', 'success');
+                    this.isProcessing = false;
+                    vm.$modal.hide('add-client');
+                    vm.$emit('refresh');
+                    vm.resetForm();
+                }, (error) => {
+                    this.isProcessing = false;
+                    if(error.response.status == 422){
+                        this.errors = error.response.data.errors;
+                        for( var value in error.response.data.errors) {
+                          console.log(value)
+                          if(value == 'email'){
+                             swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                          }
+                        }
+                    } else {
+                        swal('Saving Failed!', error.response.data, 'error');
+                    } 
+              });
+              
+        },
+        update: function () {
+            this.isProcessing = true;
+            axios.put('/api/clients/'+this.id, this.form)
+            .then( (response) => {
+                this.isProcessing = false;
+                swal('Success!', 'Client is updated!', 'success');
+                this.isProcessing = false;
+                vm.$modal.hide('add-client');
+                vm.resetForm();
+            }, (error) => {
+                this.isProcessing = false;
+                if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    for( var value in error.response.data.errors) {
+                      console.log(value)
+                      if(value == 'email'){
+                         swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                      }
+                    }
+                } else {
+                    swal('Saving Failed!', error.response.data, 'error');
+                } 
+            });
+        },
+        resetForm() {
+          this.form = {
+              first_name: '',
+              last_name: '',
+              company_name: '',
+              telephone: '',
+              email: '',
+              password: '',
+              status: '',
+          }
+        }
     }
   }
 </script>
