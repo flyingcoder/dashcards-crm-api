@@ -5,11 +5,11 @@
             <div class="buzz-scrollbar" id="buzz-scroll">
                 <el-form ref="form" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
                     <div class="buzz-modal-content">
-                        <el-form-item prop="firstname" class="buzz-input buzz-inline">
-                            <el-input type="text" v-model="form.firstname" placeholder="First Name"></el-input>
+                        <el-form-item prop="first_name" class="buzz-input buzz-inline">
+                            <el-input type="text" v-model="form.first_name" placeholder="First Name"></el-input>
                         </el-form-item>
-                        <el-form-item prop="lastname" class="buzz-input buzz-inline pull-right">
-                            <el-input type="text" v-model="form.lastname" placeholder="Last Name"></el-input>
+                        <el-form-item prop="last_name" class="buzz-input buzz-inline pull-right">
+                            <el-input type="text" v-model="form.last_name" placeholder="Last Name"></el-input>
                         </el-form-item>
                         <el-form-item prop="company_name" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
@@ -26,8 +26,8 @@
                                 <el-radio border label="Inactive"></el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item prop="pass" class="buzz-input buzz-inline">
-                            <el-input type="password" v-model="form.pass" placeholder="Password" auto-complete="off"></el-input>
+                        <el-form-item prop="password" class="buzz-input buzz-inline">
+                            <el-input type="password" v-model="form.password" placeholder="Password" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item prop="checkPass" class="buzz-input buzz-inline pull-right">
                             <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
@@ -45,24 +45,44 @@
 <script>
   export default {
     data() {
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('Please input the password'));
+        } else {
+          if (this.form.checkPass !== '') {
+            this.$refs.form.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('Please input the password again'));
+        } else if (value !== this.form.password) {
+          callback(new Error('Password don\'t match!'));
+        } else {
+          callback();
+        }
+      };
       return {
         title: 'Edit Client',
         action: 'Update',
         isProcessing: false,
+        id: 0,
         form: {
-            firstname: '',
-            lastname: '',
+            first_name: '',
+            last_name: '',
             company_name: '',
             telephone: '',
             email: '',
-            pass: '',
+            password: '',
             status: '',
         },
         rules: {
-            firstname: [
+            first_name: [
                 { required: true, message: 'First Name is Required', trigger: 'change' },
             ],
-            lastname: [
+            last_name: [
                 { required: true, message: 'Last Name is Required', trigger: 'change' },
             ],
             company_name: [
@@ -76,6 +96,12 @@
                 { required: true, message: 'Email is Required', trigger: 'change' },
                 { type: 'email', message: 'Email Address is Invalid', trigger: ['blur', 'change'] }
             ],
+            password: [
+                { validator: validatePass, trigger: 'blur' }
+            ],
+            checkPass: [
+                { validator: validatePass2, trigger: 'blur' }
+            ],
             status: [
                 { required: true, message: 'Status is Required', trigger: 'change' },
             ],
@@ -84,7 +110,10 @@
     },
     methods: {
         beforeOpen (event) {
-              console.info('before Opent');
+              console.info('before Open');
+              this.form = event.params.data;
+              this.id = event.params.data.id;
+              /*
               if(typeof event.params != 'undefined' && event.params.action == 'Update') {
                   this.action = 'Update';
                   this.header = 'Edit Client';
@@ -93,22 +122,57 @@
                   axios.get('api/clients/'+this.id)
                       .then( response => {
                           this.form = response.data;
+                          this.form.company_name = response.data.meta.company_name.value
+                          this.form.status = response.data.meta.status.value
                       });
-              }
+              }*/
           },
         submit(form) {
             this.$refs[form].validate((valid) => {
             if (valid) {
-                alert('submit!');
+                this.update();
             } else {
                 console.log('error submit!!');
                 return false;
             }
             });
+        }, 
+        update: function () {
+            this.isProcessing = true;
+            var vm = this;
+            axios.put('/api/clients/'+this.id, this.form)
+            .then( (response) => {
+                swal('Success!', 'Client is updated!', 'success');
+                vm.isProcessing = false;
+                vm.$modal.hide('edit-client');
+                vm.$emit('refresh');
+                vm.resetForm();
+            }, (error) => {
+                this.isProcessing = false;
+                if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    for( var value in error.response.data.errors) {
+                      console.log(value)
+                      if(value == 'email'){
+                         swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                      }
+                    }
+                } else {
+                    swal('Saving Failed!', error.response.data, 'error');
+                } 
+            });
         },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        resetForm() {
+          this.form = {
+              first_name: '',
+              last_name: '',
+              company_name: '',
+              telephone: '',
+              email: '',
+              password: '',
+              status: '',
+          }
+        }
     }
   }
 </script>

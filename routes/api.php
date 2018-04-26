@@ -236,7 +236,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
   
   Route::post('/', 'ClientController@store'); // client add
   
-  Route::put('/{id}', 'ClientController@store'); // client update
+  Route::put('/{id}', 'ClientController@update'); // client update
 
   Route::delete('{id}', 'ClientController@delete');
 
