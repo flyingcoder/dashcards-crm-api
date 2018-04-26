@@ -21,15 +21,11 @@
   export default {
     data () {
       return {
-        active: null,
-        show: true,
+        
       }
     },
     methods: {
-      next () {
-        const active = parseInt(this.active)
-        this.active = (active < 2 ? active + 1 : 0).toString()
-      }
+
     }
   }
 </script>

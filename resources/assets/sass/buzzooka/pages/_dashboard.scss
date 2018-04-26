@@ -165,7 +165,28 @@
             }
         }
     }
+    .data-boxes{
+        margin-bottom: 80px;
+    }
     .db-tasks{
+        // vuetify
+            .icon-tabs{
+                .tabs__bar{
+                    position: absolute;
+                    top: -58px;
+                    right: 130px;
+                    .tabs__item{
+                        svg{
+                            fill: $table-data;
+                        }
+                    }
+                    .tabs__item--active{
+                        svg{
+                            fill: $gray;
+                        }
+                    }
+                }
+            }
         .view-option{
             box-shadow: none;
             border: none;
@@ -198,6 +219,28 @@
             }
         }
         .box-content{
+            .buzz-tabs{
+                .view-tabs{
+                    .tabs__bar{
+                        position: relative;
+                        top: unset;
+                        right: unset;
+                        height: 58px !important;
+                        .tabs__wrapper{
+                            height: 100%;
+                            .tabs__container{
+                                height: 100%;
+                            }
+                        }
+                    }
+                    .tabs__div{
+                        width: 50%;
+                        .tabs__item--active{
+                            background: $active-tab;
+                        }
+                    }
+                }
+            }
             .task-option{
                 box-shadow: none;
                 border: none;
