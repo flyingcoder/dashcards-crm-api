@@ -8,15 +8,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 payment-graph">
-                <div class="progress blue">
-                <span class="progress-left">
-                    <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                    <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">75%</div>
-                </div>
+                <el-progress type="circle" :percentage="25"></el-progress>
             </div>
         </div>
         <div class="row">
@@ -31,28 +23,28 @@
         </div>
     </div>
 </template>
-// <script>
-// export default {
-//     data(){
-//         return {
-//             payment: []
-//         }
-//     },
-//     mounted(){
-//         this.getPayment();
-//     },
-//     methods:{
-//         getPayment(){
-//             axios.get('/api/payments')
-//             .then( response => {
-//                 this.payment = response.data;
-//             })
-//             .catch( error => {
-//                 if(error.response.status == 500 || error.response.status == 404){
+<script>
+export default {
+    data(){
+        return {
+            payment: []
+        }
+    },
+    mounted(){
+        this.getPayment();
+    },
+    methods:{
+        getPayment(){
+            axios.get('/api/payments')
+            .then( response => {
+                this.payment = response.data;
+            })
+            .catch( error => {
+                if(error.response.status == 500 || error.response.status == 404){
 
-//                 }
-//             });
-//         },
-//     }
-// }
-// </script>
+                }
+            });
+        },
+    }
+}
+</script>

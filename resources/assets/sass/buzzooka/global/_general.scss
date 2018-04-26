@@ -225,8 +225,10 @@ html{
         position: relative;
         margin-left: 190px;
         // padding: 10px 30px;
-        padding: 0px 30px;
         @extend .margin-transition;
+        .content{
+            padding: 0px 30px;
+        }
         .content-header{
             height: 60px;
             .page-title{
@@ -1298,7 +1300,7 @@ html{
                         vertical-align: middle;
                         display: inline-block;
                         padding: 0;
-                        width: 30%;
+                        width: 30.6%;
                         margin-right: 20px;
                         height: 44px;
                         font-size: 17.2px;

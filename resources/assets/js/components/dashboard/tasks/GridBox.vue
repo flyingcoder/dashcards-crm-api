@@ -4,13 +4,13 @@
             <v-tab>
                 All Task
             </v-tab>
-            <v-tab-item>
+            <v-tab-item class="all-task">
                 <grid-alltask></grid-alltask>
             </v-tab-item>
             <v-tab>
                 My Task
             </v-tab>
-            <v-tab-item >
+            <v-tab-item class="my-task">
                 <grid-mytask></grid-mytask>
             </v-tab-item>
         </v-tabs>
