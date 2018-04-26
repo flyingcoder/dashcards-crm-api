@@ -73,7 +73,7 @@
                             <el-input type="text" @focus="hideMembers" v-model="form.title" placeholder="Untitled Project"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-select v-model="form.client" clearable placeholder="Select Client" @focus="hideMembers">
+                            <el-select v-model="form.client_id" clearable placeholder="Select Client" @focus="hideMembers">
                                 <el-option 
                                 v-for="c in clients"
                                 :key="c.id"
@@ -83,7 +83,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item>
-                            <el-select v-model="form.service" clearable placeholder="Select Service" @focus="hideMembers">
+                            <el-select v-model="form.service_id" clearable placeholder="Select Service" @focus="hideMembers">
                                 <el-option
                                 v-for="s in services"
                                 :key="s.id"
@@ -136,6 +136,7 @@
                                 class="add-comment" 
                                 v-bind:class="{ showEditor: commentEditor }"
                                 v-model="form.comment" 
+                                :options="editorOption"
                                 ref="myQuillEditor">
                             </quill-editor>
                             <!-- <div class="field-options">
@@ -214,20 +215,37 @@ var yyyy = today.getFullYear();
                     client_id: [],
                     service_id: [],
         		},
+                editorOption: {
+                // some quill options
+                }
         	}
         },
 
         methods: {
             beforeOpen (event) {
-                if(typeof event.params != 'undefined' && event.params.action == 'update') {
+                console.info('before open');
+                if(typeof event.params != 'undefined' && event.params.action == 'Update') {
                     this.action = 'Update';
                     this.title = 'Edit Project';
-                    this.id = event.params.data;
+                    this.data = event.params.data;
                     var vm = this;
-                    axios.get('api/projects/'+this.id)
-                        .then( response => {
-                            this.form = response.data;
-                        });
+                    axios.get('api/projects/'+this.data.id)
+                    .then( response => {
+                        this.id = response.data.id;
+                        this.form = this.initFormData();
+                        this.form.title = response.data.title;
+                        this.form.description = response.data.description;
+                        if(response.data.comment){
+                            this.form.comment = response.data.comment[0].body
+                        }
+                        this.form.members = response.data.members.map(function(e){
+                            return e.id;
+                        })
+                        this.form.end_at = response.data.end_at;
+                        this.form.start_at = response.data.started_at;
+                        this.form.client_id = response.data.client[0].id;
+                        this.form.service_id = response.data.service.id;
+                    });
                 }
             },
             initFormData(){
@@ -238,9 +256,8 @@ var yyyy = today.getFullYear();
                     members: [],
                     end_at: '',
                     start_at: yyyy + '-' + mm + '-' + dd,
-                    content: '',
-                    client_id: 1,
-                    service_id: 1,
+                    client_id: '',
+                    service_id: '',
                 }
             },
             submit(){
@@ -275,22 +292,26 @@ var yyyy = today.getFullYear();
                         this.errors = error.response.data.errors;
                     }
                     else {
-                        swal('Server Error!', 'Unable to save please contact Administrator!', 'error');
+                        swal('Saving Failed!', error.response.data, 'error');
                     }
                 });
                 
             },
             update: function () {
+                this.isProcessing = true;
                 axios.put('/api/projects/'+this.id+'/edit', this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is updated!', 'success');
                 })
                 .catch ( error => {
+                    this.isProcessing = false;
                     if(error.response.status == 422){
                         this.errors = error.response.data.errors;
                     }
-                    this.isProcessing = false;        
+                    else {
+                        swal('Saving Failed!', error.response.data, 'error');
+                    }      
                 })
             },
             getClients(){
