@@ -1,9 +1,12 @@
+html{
+    height: 100%;
+}
 .buzzooka{
     position: relative;
     background: $body-bg;
     min-height: 100%;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     height: auto;
     padding: 0;
     margin: 0;

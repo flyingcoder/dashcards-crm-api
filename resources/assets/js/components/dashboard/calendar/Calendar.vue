@@ -1,28 +1,35 @@
 <template>
-     <div class="box-content db-calendar">
-        <div class="row">
-            <div class="col-md-7">
-            </div>
-            <div class="col-md-5">
-
-            </div>
-        </div>
-        <under-construction></under-construction>
-    </div>
+  <div>
+    <v-tabs v-model="active" color="cyan" dark slider-color="yellow" transition="slide-x-transition">
+      <v-tab>All Task</v-tab>
+      <v-tab-item>
+        <v-card flat>
+            <v-card-text> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab>My Task</v-tab>
+      <v-tab-item >
+        <v-card flat>
+            <v-card-text>  Test Text </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
+  </div>
 </template>
 
-
 <script>
-    import UnderConstruction from '../../UnderConstruction.vue';
-
-    export default {
-        components: {
-            'under-construction': UnderConstruction,
-            },
-            data() {
-                return {
-                events: [],
-            }
-        },
+  export default {
+    data () {
+      return {
+        active: null,
+        show: true,
+      }
+    },
+    methods: {
+      next () {
+        const active = parseInt(this.active)
+        this.active = (active < 2 ? active + 1 : 0).toString()
+      }
     }
+  }
 </script>

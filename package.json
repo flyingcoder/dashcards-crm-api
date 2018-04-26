@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "github:ckeditor/ckeditor5-build-classic",
+        "animate.css": "^3.6.1",
         "ckeditor": "^4.9.0",
         "dragula": "^3.7.2",
         "dropzone": "^5.4.0",
@@ -58,6 +59,7 @@
         "vue-quill-editor": "^3.0.5",
         "vue-router": "^3.0.1",
         "vue-template-compiler": "^2.5.16",
-        "vuejs-datepicker": "^0.9.29"
+        "vuejs-datepicker": "^0.9.29",
+        "vuetify": "^1.0.17"
     }
 }
