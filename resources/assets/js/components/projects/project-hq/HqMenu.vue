@@ -3,8 +3,8 @@
         <v-layout row wrap>
             <div class="col-md-12">
                 <ul>
-                    <li>
-                        <router-link to="/" >
+                    <li transition="slide-x-transition">
+                        <router-link to="/" transition="slide-x-transition">
                             <div class="menu-item overview-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="31px" height="28px">
@@ -15,8 +15,8 @@
                             </div>
                         </router-link>
                     </li>
-                    <li>
-                        <router-link to="/files" >
+                    <li transition="slide-x-transition">
+                        <router-link to="/files" transition="slide-x-transition">
                             <div class="menu-item file-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="28px" height="24px">
@@ -27,8 +27,8 @@
                             </div>
                         </router-link>
                     </li>
-                    <li>
-                        <router-link to="/milestones" >
+                    <li transition="slide-x-transition">
+                        <router-link to="/milestones" transition="slide-x-transition">
                             <div class="menu-item milestone-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="28px" height="20px">
