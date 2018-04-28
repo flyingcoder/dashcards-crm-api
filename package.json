@@ -26,7 +26,7 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "github:ckeditor/ckeditor5-build-classic",
-        "ckeditor": "^4.9.0",
+        "ckeditor": "^4.9.2",
         "dragula": "^3.7.2",
         "dropzone": "^5.4.0",
         "element-ui": "^2.2.2",
