@@ -1,6 +1,7 @@
 .hq-milestones{
     .buzz-box{
         width: 48%;
+        height: 490px !important;
         margin-bottom: 20px;
         vertical-align: top;
         display: inline-block;
@@ -12,6 +13,8 @@
             margin-right: 0;
         }
         .box-title{
+            position: relative;
+            top: 5px;
             width: 60% !important;
             @extend .buzz-overflow;
             max-width: unset !important;
@@ -24,14 +27,14 @@
             right: 0;
         }
         .box-content{
-            height: 408px;
+            height: 350px;
             .milestone-group{
                 .milestone{
                     margin: 0;
                     border: $table-border;
                     .milestone-heading{
-                        padding: 10px 15px;
-                        height: 82px;
+                        padding: 5px 15px;
+                        height: 70px;
                         &:hover{
                             .milestone-sub-option{
                                 li{
@@ -115,7 +118,7 @@
             }
         }
         .milestone-footer{
-            bottom: 15px;
+            bottom: 10px;
             a{
                 font-family: $lato-semi;
                 line-height: 1.2;
@@ -143,8 +146,8 @@
     }
     .add-button{
         position: fixed !important;
-        right: 20px !important;
-        bottom: 40px !important;
+        right: 10px !important;
+        bottom: 20px !important;
         box-shadow: $hover-shadow !important;
     }
 }
