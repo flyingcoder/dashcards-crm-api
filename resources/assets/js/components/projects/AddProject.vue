@@ -6,7 +6,7 @@
                 <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
                     <div class="modal-options">
                         <el-form-item  class="option">
-                            <div class="option-item">
+                            <!-- <div class="option-item">
                                 <div class="member-option" v-on:click="membersClick">
                                     <el-button size="small" class="el-dropdown-link" id="member-option"> 
                                         <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
@@ -32,7 +32,7 @@
                                         </div>
                                     </el-select>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="option-item">
                                 <div class="date-option">
                                     <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
@@ -119,7 +119,7 @@ var yyyy = today.getFullYear();
     export default {
     	data: function () {
         	return {    
-                selectMembers: false,
+                // selectMembers: false,
                 attachmentList: false,
                 descriptionEditor: false,
                 commentEditor: false,
@@ -165,9 +165,9 @@ var yyyy = today.getFullYear();
                         if(response.data.comment){
                             this.form.comment = response.data.comment[0].body
                         }
-                        this.form.members = response.data.members.map(function(e){
-                            return e.id;
-                        })
+                        // this.form.members = response.data.members.map(function(e){
+                        //     return e.id;
+                        // })
                         this.form.end_at = response.data.end_at;
                         this.form.start_at = response.data.started_at;
                         this.form.client_id = response.data.client[0].id;
@@ -180,7 +180,7 @@ var yyyy = today.getFullYear();
                     title: '',
                     description: '',
                     comment: '',
-                    members: [],
+                    // members: [],
                     end_at: '',
                     start_at: yyyy + '-' + mm + '-' + dd,
                     client_id: '',
@@ -253,25 +253,25 @@ var yyyy = today.getFullYear();
                     this.services = response.data
                 })
             },
-            membersClick(){
-                this.selectMembers = !this.selectMembers;
-                if(this.selectMembers){
-                    this.$refs.memberSelect.toggleMenu();
-                }
-                else {
-                     this.$refs.memberSelect.blur()
-                }
+            // membersClick(){
+            //     this.selectMembers = !this.selectMembers;
+            //     if(this.selectMembers){
+            //         this.$refs.memberSelect.toggleMenu();
+            //     }
+            //     else {
+            //          this.$refs.memberSelect.blur()
+            //     }
                 
-            },
+            // },
             hideMembers(){
-                this.selectMembers = false;
-                this.$refs.memberSelect.blur()
+                // this.selectMembers = false;
+                // this.$refs.memberSelect.blur()
             },
-            memberBlur(bool){
-                 if(!bool){
-                     this.selectMembers = bool;
-                 }
-            },
+            // memberBlur(bool){
+            //      if(!bool){
+            //          this.selectMembers = bool;
+            //      }
+            // },
             beforeImport(file) {
                 this.files.append('file', file);
                 return true;

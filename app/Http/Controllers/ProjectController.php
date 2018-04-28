@@ -112,19 +112,19 @@ class ProjectController extends Controller
         
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
-        if(request()->has('members')){
-            if(in_array(request()->client_id, request()->members)){
-                DB::rollback();
-                return response('Client cant be a member', 500);
-            }
-            elseif(in_array(Auth::user()->id, request()->members)){
-                DB::rollback();
-                return response('Manager cant be a member', 500);
-            }
-            foreach (request()->members as $value) {
-                $project->members()->attach($value, ['role' => 'members']);
-            }
-        }
+        // if(request()->has('members')){
+        //     if(in_array(request()->client_id, request()->members)){
+        //         DB::rollback();
+        //         return response('Client cant be a member', 500);
+        //     }
+        //     elseif(in_array(Auth::user()->id, request()->members)){
+        //         DB::rollback();
+        //         return response('Manager cant be a member', 500);
+        //     }
+        //     foreach (request()->members as $value) {
+        //         $project->members()->attach($value, ['role' => 'members']);
+        //     }
+        // }
 
         DB::commit();
         return response(Project::latest()->first(), 200);
@@ -163,10 +163,10 @@ class ProjectController extends Controller
             $project->members()->detach($project->client()->id);
             $project->members()->attach(request()->client_id, ['role' => 'client']);
         }
-        foreach (request()->members as $value) {
+        // foreach (request()->members as $value) {
             
-            $project->members()->sync(request()->members);
-        }
+        //     $project->members()->sync(request()->members);
+        // }
 
         $project->save();
 
