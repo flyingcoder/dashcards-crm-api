@@ -1,5 +1,5 @@
 <template>
-    <section class="content Invoices">
+    <section class="content hq-invoices">
         <div class="content-body">
             <section class="buzz-section">
                 <div class="">

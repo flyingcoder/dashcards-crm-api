@@ -1,8 +1,13 @@
 .hq-reports{
-    .buzz-section{
-        padding-top: 20px;
-        .buzz-table{
-            height: auto !important;
+    margin-top: 25px;
+    .content-body{
+        width: 100%;
+        .buzz-section{
+            width: 100%;
+            padding-top: 20px;
+            .buzz-table{
+                height: auto !important;
+            }
         }
     }
 }

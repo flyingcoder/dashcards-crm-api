@@ -1,6 +1,7 @@
 <template>
     <section class="content hq-reports">
         <div class="content-body">
+            <v-layout row wrap>
             <section class="buzz-section">
                 <div class="button-options">
                     <ul class="nav nav-tabs">
@@ -45,6 +46,7 @@
                     <reports></reports>
                 </div>
             </section>
+            </v-layout>
         </div>
         <add-report></add-report>
         <add-from-template></add-from-template>

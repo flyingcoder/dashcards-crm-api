@@ -1,6 +1,6 @@
 .hq-tasks{
 // Exclusive CSS
-    margin-top: 25px;
+    margin-top: 20px;
     height: auto;
     .tasks-wrapper{
         width: 100%;
@@ -11,6 +11,7 @@
             .tabs__bar{
                 position: relative;
                 .tabs__item{
+                    cursor: pointer;
                     svg{
                         fill: $table-data;
                     }
