@@ -11,12 +11,15 @@ window.moment = require('moment');
 window.Vue = require('vue');
 window.swal  = require('sweetalert2');
 window.VueColor = require('vue-color');
+// window.CKEDITOR = require( 'ckeditor' );
+
 
 import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
-import Ckeditor from 'vue-ckeditor2'
+import CKEDITOR from 'ckeditor'
+// import Ckeditor from 'vue-ckeditor2'
 import VueQuillEditor from 'vue-quill-editor'
 import Avatar from 'vue-avatar'
 // Require styles
@@ -27,11 +30,9 @@ import Photoshop from 'vue-color'
 
 Vue.use(Element, { locale });
 Vue.use(VModal);
-Vue.use(Ckeditor);
 Vue.use(VModal);
 Vue.use(VueQuillEditor, /* { default global options } */);
 Vue.component('avatar',Avatar);
-//window.CKEDITOR = require( 'ckeditor' );
 
 // Classic Editor
 //ClassicEditor
@@ -140,6 +141,8 @@ Vue.component('avatar',Avatar);
 // Testing
   Vue.component('profile', require('./components/teams/profile/Index.vue'));
 
+// Ckeditor
+  Vue.component('ckeditor', require('./components/common/Ckeditor.vue'));
 
   $(document).ready(function(){
   // Push menu
