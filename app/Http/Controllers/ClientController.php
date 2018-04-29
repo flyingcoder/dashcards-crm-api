@@ -131,25 +131,21 @@ class ClientController extends Controller
              ],
             'telephone' => 'required',
             'status' => 'required',
-            'company_name' => 'required',
-            'company_email' => 'required',
-            'company_tel' => 'required'
+            'company_name' => 'required'
         ]);
 
-        $client->first_name = request()->name;
-        $client->username = request()->name;
-        $client->last_name = request()->name;
+        $client->first_name = request()->first_name;
+        //$client->username = request()->name;
+        $client->last_name = request()->last_name;
         $client->email = request()->email;
         $client->telephone = request()->telephone;
         if(request()->has('password'))
             $client->password = request()->password;
-        
-        $client->save();
 
         $client->setMeta('company_name', request()->company_name);
-        $client->setMeta('company_email', request()->company_email);
-        $client->setMeta('company_tel', request()->company_tel);
         $client->setMeta('status', request()->status);
+        
+        $client->save();
 
         //request()->session()->flash('message.level', 'success');
         //request()->session()->flash('message.content', 'User was successfully updated!');
