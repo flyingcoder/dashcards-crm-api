@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="tab-invoices">
+    <div class="tab-invoices">
         <table>
             <thead>
                 <tr>
@@ -26,7 +26,7 @@
                         Paid
                     </td>
                     <td> 
-                       $150.00 USD
+                        $150.00 USD
                     </td>
                 </tr>
                 <tr>
@@ -44,7 +44,7 @@
                         Paid
                     </td>
                     <td> 
-                       $150.00 USD
+                        $150.00 USD
                     </td>
                 </tr>
                 <tr>
@@ -62,7 +62,7 @@
                         Paid
                     </td>
                     <td> 
-                       $150.00 USD
+                        $150.00 USD
                     </td>
                 </tr>
             </tbody>

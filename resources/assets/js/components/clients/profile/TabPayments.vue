@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="tab-payments">
+    <div class="tab-payments">
         <table>
             <thead>
                 <tr>

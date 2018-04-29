@@ -245,8 +245,9 @@
                         }
                     }
                     .tabs__item{
-                        a{
-                            height: 55px !important;
+                        height: 55px !important;
+                        svg{
+                            fill: $hq-icon;
                         }
                     }
                     .tabs__item--active{
@@ -290,10 +291,7 @@
                 .tabs__div{
                     width: 25%;
                     .tabs__item{
-                        a{
-                            padding: 0;
-                            padding-top: 15px;
-                        }
+                        padding: 0;
                     }
                 }
                 .projects{
@@ -303,15 +301,19 @@
                 }
                 .invoices{
                     svg{
-                        width: 27px;
+                        width: 30px;
+                    }
+                }
+                .payments{
+                    .tabs__item{
+                        padding-top: 5px;
                     }
                 }
                 .payments, .users{
-                    a{
-                        padding-top: 10px !important;
-                    }
-                    svg{
-                        width: 40px;
+                    .tabs__item{
+                        svg{
+                            width: 40px;
+                        }
                     }
                 }
             }
@@ -351,10 +353,10 @@
         }
         .tab-content{
             height: auto;
+            border: $border-buzz;
             table{
                 width: 100%;
                 height: auto;
-                border: $border-buzz;
                 thead, tbody tr {
                     display:table;
                     width:100%;
@@ -390,7 +392,7 @@
                     }
                 }
             }
-            #tab-projects{
+            .tab-projects{
                 .project-status{
                     height: 65px;
                     padding: 20px 10px;
@@ -534,18 +536,39 @@
                     }
                 }
             }
-            #tab-invoices{
+            .tab-invoices{
                table{
-                    .client{
-                        img{
-                            width: 45px;
-                            margin-right: 10px;
+                   thead{
+                       tr{
+                           th{
+                                text-align: center !important;
+                           }
+                       }
+                   }
+                   tbody{
+                       tr{
+                           td{
+                               text-align: center;
+                           }
+                           .client{
+                            img{
+                                width: 45px;
+                                margin-right: 10px;
+                            }
                         }
-                    }
+                       }
+                   }
                 } 
             }
-            #tab-payments{
+            .tab-payments, .tab-users{
                 table{
+                    tbody, thead{
+                        tr{
+                            td, th{
+                                text-align: center;
+                            }
+                        }
+                    }
                     .client{
                         img{
                             width: 45px;

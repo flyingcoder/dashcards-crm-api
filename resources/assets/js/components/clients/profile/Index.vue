@@ -158,7 +158,7 @@
             <div class="bottom-profile">
                 <v-layout row wrap>
                     <div class="col-md-7">
-                         <v-tabs v-model="active" class="tab-options module-tabs">
+                        <v-tabs v-model="active" class="tab-options module-tabs">
                             <v-tab class="projects">
                                 <svg viewBox="0 0 250 250">
                                     <path class="fil0" d="M23 71c10,0 19,8 19,18 0,11 -9,19 -19,19 -10,0 -19,-8 -19,-19 0,-10 9,-18 19,-18zm0 141c10,0 19,8 19,18 0,11 -9,19 -19,19 -10,0 -19,-8 -19,-19 0,-10 9,-18 19,-18zm0 -70c10,0 19,8 19,19 0,10 -9,18 -19,18 -10,0 -19,-8 -19,-18 0,-11 9,-19 19,-19zm55 30c-5,0 -9,-4 -9,-9 0,-5 4,-10 9,-10l159 0c5,0 9,5 9,10 0,5 -4,9 -9,9l-159 0zm0 70c-5,0 -9,-5 -9,-10 0,-5 4,-9 9,-9l159 0c5,0 9,4 9,9 0,5 -4,10 -9,10l-159 0zm-55 -241c10,0 19,8 19,19 0,10 -9,18 -19,18 -10,0 -19,-8 -19,-18 0,-11 9,-19 19,-19zm55 30c-5,0 -9,-4 -9,-10 0,-5 4,-9 9,-9l159 0c5,0 9,4 9,9 0,6 -4,10 -9,10l-159 0zm0 69c-5,0 -9,-4 -9,-9 0,-5 4,-9 9,-9l159 0c5,0 9,4 9,9 0,5 -4,9 -9,9l-159 0z"/>
@@ -232,7 +232,30 @@
                         </div> -->
                     </div>
                     <div class="col-md-5">
-                        <div class="tab-options social-tabs">
+                        <v-tabs v-model="active" class="tab-options module-tabs">
+                            <v-tab class="facebook">
+                                <img class="normal" src="/img/social/facebook_normal.png">
+                                <img class="selected" src="/img/social/facebook_selected.png">
+                            </v-tab>
+                            <v-tab-item class="tab-content">
+                                <tab-facebook></tab-facebook>
+                            </v-tab-item>
+                            <v-tab class="twitter">
+                                <img class="normal" src="/img/social/twitter_normal.png">
+                                <img class="selected" src="/img/social/twitter_selected.png">
+                            </v-tab>
+                            <v-tab-item class="tab-content">
+                                <tab-twitter></tab-twitter>
+                            </v-tab-item>
+                            <v-tab class="instagram">
+                                <img class="normal" src="/img/social/instagram_normal.png">
+                                <img class="selected" src="/img/social/instagram_selected.png">
+                            </v-tab>
+                            <v-tab-item class="tab-content">
+                                <tab-instagram></tab-instagram>
+                            </v-tab-item>
+                        </v-tabs>
+                        <!-- <div class="tab-options social-tabs">
                             <ul class="nav nav-tabs">
                                 <li class="facebook active">
                                     <a href="#facebook" data-toggle="tab"> 
@@ -253,12 +276,12 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="tab-content">
+                        </div> -->
+                        <!-- <div class="tab-content">
                             <tab-facebook></tab-facebook>
                             <tab-twitter></tab-twitter>
                             <tab-instagram></tab-instagram>
-                        </div>
+                        </div> -->
                     </div>
                 </v-layout>
             </div>
