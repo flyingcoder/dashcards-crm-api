@@ -350,6 +350,28 @@
                     }
                 }
             }
+            .tabs__bar{
+                .tabs__div{
+                    width: 33.33%;
+                    &:hover{
+                        .normal{
+                            display: none;
+                        }
+                        .selected{
+                            display: inline-block;
+                        }
+                    }
+                    .tabs__item{
+                        padding: 0;
+                        img, svg{
+                            width: 35px;
+                        }
+                    }
+                    .selected{
+                        display: none;
+                    }
+                }
+            }
         }
         .tab-content{
             height: auto;
@@ -578,7 +600,7 @@
                 } 
             }
         }
-        #facebook, #instagram, #twitter{
+        .facebook, .instagram, .twitter{
             .facebook-feed, .insta-feed, .twitter-feed{
                 background: $white;
                 padding: 15px;
@@ -609,12 +631,14 @@
                 }
             }
         }
-        #instagram{
-            .insta-feed{
-                max-height: 600px !important;
-                .content{
-                    max-height: 500px !important;
-                    padding: 0 !important;
+        .insta-feed{
+            padding: 0 !important;
+            max-height: 600px !important;
+            .content{
+                max-height: 529px !important;
+                padding: 0 !important;
+                .feeds{
+                    padding: 20px;
                 }
             }
         }

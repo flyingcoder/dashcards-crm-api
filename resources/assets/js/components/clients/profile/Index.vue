@@ -232,7 +232,7 @@
                         </div> -->
                     </div>
                     <div class="col-md-5">
-                        <v-tabs v-model="active" class="tab-options module-tabs">
+                        <v-tabs v-model="active" class="tab-options social-tabs">
                             <v-tab class="facebook">
                                 <img class="normal" src="/img/social/facebook_normal.png">
                                 <img class="selected" src="/img/social/facebook_selected.png">
