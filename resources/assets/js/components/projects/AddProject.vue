@@ -1,19 +1,54 @@
 <template>
     <modal name="add-project" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content add-project">
-            <div class="buzz-modal-header"> {{ title }} </div>
-            <div class="buzz-scrollbar" id="buzz-scroll">
-                <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
-                    <div class="modal-options">
-                        <el-form-item  class="option">
-                            <!-- <div class="option-item">
-                                <div class="member-option" v-on:click="membersClick">
-                                    <el-button size="small" class="el-dropdown-link" id="member-option"> 
-                                        <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
-                                        Members 
-                                    </el-button>
-                                    <el-badge :value="form.members.length" :max="99" class="member-badge"></el-badge>
-                                </div>
+            <v-layout row wrap>
+                <div class="buzz-modal-header"> {{ title }} </div>
+                <div class="buzz-scrollbar" id="buzz-scroll">
+                    <el-form :model="form" ref="projectForm" label-position="top" v-loading="isProcessing" style="width: 100%">
+                        <div class="modal-options">
+                            <el-form-item  class="option">
+                                <!-- <div class="option-item">
+                                    <div class="member-option" v-on:click="membersClick">
+                                        <el-button size="small" class="el-dropdown-link" id="member-option"> 
+                                            <img src="/img/icons/modal/members.png" alt="" class="button-icon">   
+                                            Members 
+                                        </el-button>
+                                        <el-badge :value="form.members.length" :max="99" class="member-badge"></el-badge>
+                                    </div>
+                                    <div class="option-item">
+                                        <div class="date-option">
+                                            <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
+                                            <el-date-picker @focus="hideMembers"
+                                                :clearable="false"
+                                                v-model="form.end_at"
+                                                type="date"
+                                                placeholder="Due Date"
+                                                value-format="yyyy-MM-dd"
+                                                >
+                                            </el-date-picker>
+                                        </div>
+                                    </div>
+                                    <div class="option-item">
+                                        <div class="file-upload" v-bind:class="{ attachmentList: attachmentList }">
+                                            <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
+                                            <el-upload @focus="hideMembers"
+                                                multiple
+                                                class=""
+                                                ref="attachments"
+                                                action=""
+                                                :before-upload="beforeImport"
+                                                :http-request='submitFiles'                           
+                                                :auto-upload="false">
+                                                <el-button slot="trigger">
+                                                    Attachment 
+                                                </el-button>
+                                            </el-upload>
+                                            <div v-on:click="attachmentList = !attachmentList"> 
+                                                <el-badge :value="10" :max="99" class="file-badge"></el-badge>
+                                            </div>
+                                        </el-select>
+                                    </div>
+                                </div> -->
                                 <div class="option-item">
                                     <div class="date-option">
                                         <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
@@ -45,81 +80,48 @@
                                         <div v-on:click="attachmentList = !attachmentList"> 
                                             <el-badge :value="10" :max="99" class="file-badge"></el-badge>
                                         </div>
-                                    </el-select>
-                                </div>
-                            </div> -->
-                            <div class="option-item">
-                                <div class="date-option">
-                                    <img src="/img/icons/modal/date.svg" alt="" class="button-icon">                                    
-                                    <el-date-picker @focus="hideMembers"
-                                        :clearable="false"
-                                        v-model="form.end_at"
-                                        type="date"
-                                        placeholder="Due Date"
-                                        value-format="yyyy-MM-dd"
-                                        >
-                                    </el-date-picker>
-                                </div>
-                            </div>
-                            <div class="option-item">
-                                <div class="file-upload" v-bind:class="{ attachmentList: attachmentList }">
-                                    <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
-                                    <el-upload @focus="hideMembers"
-                                        multiple
-                                        class=""
-                                        ref="attachments"
-                                        action=""
-                                        :before-upload="beforeImport"
-                                        :http-request='submitFiles'                           
-                                        :auto-upload="false">
-                                        <el-button slot="trigger">
-                                            Attachment 
-                                        </el-button>
-                                    </el-upload>
-                                    <div v-on:click="attachmentList = !attachmentList"> 
-                                        <el-badge :value="10" :max="99" class="file-badge"></el-badge>
                                     </div>
                                 </div>
-                            </div>
-                        </el-form-item>
-                    </div>
-                    <div class="buzz-modal-content">
-                        <el-form-item prop="name">
-                            <el-input type="text" @focus="hideMembers" v-model="form.title" placeholder="Untitled Project"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-select v-model="form.client_id" clearable placeholder="Select Client" @focus="hideMembers">
-                                <el-option 
-                                v-for="c in clients"
-                                :key="c.id"
-                                :label="c.company_name"
-                                :value="c.id">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-select v-model="form.service_id" clearable placeholder="Select Service" @focus="hideMembers">
-                                <el-option
-                                v-for="s in services"
-                                :key="s.id"
-                                :label="s.name"
-                                :value="s.id">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item class="modal-editor" label="Add Description">
-                            <ckeditor id="description" v-model="form.description"></ckeditor>
-                        </el-form-item>
-                        <el-form-item label="Add Comment">
-                            <ckeditor id="comment" v-model="form.comment"></ckeditor>
-                        </el-form-item>
-                        <el-form-item  class="form-buttons">
-                            <el-button @click="submit"> {{ action }}</el-button>
-                            <el-button @click="$modal.hide('add-project')">Cancel</el-button>
-                        </el-form-item>
-                    </div>
-                </el-form>
-            </div>
+                            </el-form-item>
+                        </div>
+                        <div class="buzz-modal-content">
+                            <el-form-item prop="name">
+                                <el-input type="text" @focus="hideMembers" v-model="form.title" placeholder="Untitled Project"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-select v-model="form.client_id" clearable placeholder="Select Client" @focus="hideMembers">
+                                    <el-option 
+                                    v-for="c in clients"
+                                    :key="c.id"
+                                    :label="c.company_name"
+                                    :value="c.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-select v-model="form.service_id" clearable placeholder="Select Service" @focus="hideMembers">
+                                    <el-option
+                                    v-for="s in services"
+                                    :key="s.id"
+                                    :label="s.name"
+                                    :value="s.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item class="modal-editor" label="Add Description">
+                                <ckeditor id="description" v-model="form.description"></ckeditor>
+                            </el-form-item>
+                            <el-form-item label="Add Comment">
+                                <ckeditor id="comment" v-model="form.comment"></ckeditor>
+                            </el-form-item>
+                            <el-form-item  class="form-buttons">
+                                <el-button @click="submit"> {{ action }}</el-button>
+                                <el-button @click="$modal.hide('add-project')">Cancel</el-button>
+                            </el-form-item>
+                        </div>
+                    </el-form>
+                </div>
+            </v-layout>
         </section>
     </modal>
 </template>

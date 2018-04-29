@@ -1457,17 +1457,17 @@ html{
                             }
                         }
                         .cke_top{
-                            position: absolute;
+                            position: relative;
                             bottom: 0;
                             background: none;
                             .cke_toolgroup{
                                a{
-                                   padding-top: 0 !important;
-                                   height: auto !important;
-                                   width: auto !important;
-                                   background: none;
-                                   border: none !important;
-                                   margin-right: 5px !important;
+                                //    padding-top: 0 !important;
+                                //    height: auto !important;
+                                //    width: auto !important;
+                                //    background: none;
+                                //    border: none !important;
+                                //    margin-right: 5px !important;
                                } 
                             }
                         }
@@ -1576,6 +1576,19 @@ html{
                 }
             }
         }
+        .layout{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .add-project{
+            .modal-options{
+                .option{
+                    .option-item{
+                        width: 47.8% !important;
+                    }
+                }
+            }
+        }   
         .add-project, .add-task{
             .modal-options{
                 .option{
@@ -1584,7 +1597,7 @@ html{
                             .file-upload{
                                 .el-upload-list{
                                     position: relative;
-                                    right: -210px;
+                                    right: -310px;
                                     box-shadow: $body-shadow;
                                     z-index: 100;
                                     // display: none;

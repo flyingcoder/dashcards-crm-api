@@ -95,7 +95,7 @@
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
                 { required: true, pattern:/^[0-9]+$/, message: 'Contact No. Must be a Number', trigger: 'blur' },
-                { min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
+                // { min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },
