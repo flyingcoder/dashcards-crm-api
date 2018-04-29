@@ -84,6 +84,7 @@
                 bottom: 128px;
                 width: 208px;
                 height: 208px;
+                border-radius: 50%;
             }
         }
         .social-accounts{
@@ -232,6 +233,30 @@
                     }
                 }
             }
+            .tabs__bar{
+                .tabs__div{
+                    border: $body-border;
+                    &:hover, &:focus{
+                        a{
+                            background: $blue !important;
+                            svg{
+                                fill: $white;
+                            }
+                        }
+                    }
+                    .tabs__item{
+                        a{
+                            height: 55px !important;
+                        }
+                    }
+                    .tabs__item--active{
+                        background: $blue !important;
+                        svg{
+                            fill: $white;
+                        }
+                    }
+                }
+            }
         }
         .module-tabs{
             ul{
@@ -240,6 +265,35 @@
                     a{
                         padding: 0;
                         padding-top: 15px;
+                    }
+                }
+                .projects{
+                    svg{
+                        width: 25px;
+                    }
+                }
+                .invoices{
+                    svg{
+                        width: 27px;
+                    }
+                }
+                .payments, .users{
+                    a{
+                        padding-top: 10px !important;
+                    }
+                    svg{
+                        width: 40px;
+                    }
+                }
+            }
+            .tabs__bar{
+                .tabs__div{
+                    width: 25%;
+                    .tabs__item{
+                        a{
+                            padding: 0;
+                            padding-top: 15px;
+                        }
                     }
                 }
                 .projects{

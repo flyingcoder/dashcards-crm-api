@@ -49,7 +49,6 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="content-body">
                     <section class="buzz-section">
-                        <!-- <profile></profile> -->
                         <clients-table></clients-table>
                     </section>
                 </div>
@@ -64,14 +63,12 @@
     import AddClient from './AddClient.vue';
     import EditClient from './EditClient.vue';
     import ClientsTable from './ClientsTable.vue';
-    import Profile from './profile/Index.vue';
 
     export default {   
         components: {
           'add-client': AddClient,
           'edit-client': EditClient,
           'clients-table': ClientsTable,
-          'profile': Profile,
         },
        data () {
         return {

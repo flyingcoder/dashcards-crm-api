@@ -65,9 +65,9 @@
                         <grid-members :project-id="$parent.projectId" :asset="$parent.asset"></grid-members>
                     </div>
                 </section>
-                <div class="box-footer">
+                <!-- <div class="box-footer">
                     <a href=""> View More </a>
-                </div>
+                </div> -->
             </v-layout>
         </div>
     </section>

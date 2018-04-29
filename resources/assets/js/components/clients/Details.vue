@@ -1,8 +1,8 @@
 <template>
-    <section class="content clients">
-        <div class="content-header">
-             <div class="row">
-                <div class="col-md-6">
+    <section class="content profile">
+        <v-layout row wrap>
+            <div class="col-md-12">
+                <div class="content-header">
                     <div class="page-title">
                         <h1> <span class="prev-path"> Dashboard </span> 
                             &nbsp; <img src="/img/icons/ArrowRight.svg"> 
@@ -12,13 +12,11 @@
                         </h1>
                     </div>
                 </div>
+                <div class="content-body">
+                    <profile></profile>
+                </div>
             </div>
-        </div>
-        <div class="content-body">
-            <section class="buzz-section">
-                <profile></profile>
-            </section>
-        </div>
+        </v-layout>
     </section>
 </template>
 

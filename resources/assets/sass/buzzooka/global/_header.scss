@@ -50,10 +50,12 @@
     .buzz-head{
         .buzz-search{
             position: absolute;
+            width: 30%;
             left: 30px;
             margin-left: 190px;
             @extend .toggle-transition;
             form{
+                width: 100%;
                 padding: 0;
                 margin: 0;
                 .search{
