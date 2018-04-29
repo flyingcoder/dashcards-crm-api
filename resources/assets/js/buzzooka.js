@@ -27,7 +27,9 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import Photoshop from 'vue-color'
+import VueCarousel from 'vue-carousel';
 
+Vue.use(VueCarousel);
 Vue.use(Element, { locale });
 Vue.use(VModal);
 Vue.use(VModal);

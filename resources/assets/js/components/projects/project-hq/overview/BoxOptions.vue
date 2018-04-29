@@ -1,6 +1,6 @@
 <template>
     <div class="box-options">
-        <div class="option-item cut-option">
+        <div class="option-item pin-icon">
             <a href="#">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                 <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -8,7 +8,7 @@
             </svg>
             </a>
         </div>
-        <div class="option-item minimize-option">
+        <div class="option-item minimize-icon">
             <a href="#">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21px" height="3px">
                 <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -16,7 +16,7 @@
             </svg>
             </a>
         </div>
-        <div class="option-item expand-option">
+        <div class="option-item expand-icon">
             <a href="#">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="17px">
                 <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -24,7 +24,7 @@
             </svg>
             </a>
         </div>
-        <div class="option-item x-option">
+        <div class="option-item close-icon">
             <a href="#">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="14px">
                 <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"

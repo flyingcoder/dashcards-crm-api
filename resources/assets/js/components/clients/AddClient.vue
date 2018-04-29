@@ -15,7 +15,7 @@
                             <el-input type="text" v-model="form.company_name" placeholder="Company Name"></el-input>
                         </el-form-item>
                         <el-form-item prop="telephone" class="buzz-input buzz-inline pull-right">
-                            <el-input type="text" v-model.number="form.telephone" placeholder="Contact No."></el-input>
+                            <el-input type="text" v-model="form.telephone" placeholder="Contact No."></el-input>
                         </el-form-item>
                         <el-form-item prop="email" class="buzz-input buzz-inline">
                             <el-input type="text" v-model="form.email" placeholder="Email"></el-input>
@@ -92,7 +92,8 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
-                { type: 'number', message: 'Contact No. Must be a Number'}
+                { required: true, pattern:/^[0-9]+$/, message: 'Contact No. Must be a Number', trigger: 'blur' },
+                { min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },
@@ -100,10 +101,10 @@
             ],
             password: [
                 { required: true, message: 'Password is Required', trigger: 'change' },
-                { validator: validatePass, trigger: 'blur' }
+                { validator: validatePass, trigger: 'blur' },
             ],
             checkPass: [
-                { validator: validatePass2, trigger: 'blur' }
+                { validator: validatePass2, trigger: 'blur' },
             ],
             status: [
                 { required: true, message: 'Status is Required', trigger: 'change' },
