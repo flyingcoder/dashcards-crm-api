@@ -3,7 +3,7 @@
             <div class="top-profile">
                 <div class="cover-photo">
                     <img src="/img/temporary/cover.png">
-                    <div class="add-photo" style="display:none">
+                    <div class="add-photo">
                         <span>Update cover photo</span>
                         <button data-toggle="dropdown" class="dropdown-toggle">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -24,7 +24,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="settings" style="display:none">
+                    <div class="settings">
                         <span> Settings </span>
                         <button data-toggle="dropdown" class="dropdown-toggle">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -54,8 +54,8 @@
                         <div class="left-social pull-left">
                             <li>
                                 <el-button>
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        width="41px" height="41px">
+                                    test
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <path fill-rule="evenodd"
                                         d="M20.499,0.005 C9.198,0.005 0.005,9.198 0.005,20.499 C0.005,31.800 9.198,40.993 20.499,40.993 C31.800,40.993 40.993,31.800 40.993,20.499 C40.993,9.198 31.800,0.005 20.499,0.005 ZM25.596,21.220 L22.262,21.220 C22.262,26.548 22.262,33.106 22.262,33.106 L17.321,33.106 C17.321,33.106 17.321,26.611 17.321,21.220 L14.972,21.220 L14.972,17.020 L17.321,17.020 L17.321,14.303 C17.321,12.358 18.245,9.317 22.307,9.317 L25.966,9.331 L25.966,13.409 C25.966,13.409 23.742,13.409 23.309,13.409 C22.876,13.409 22.262,13.625 22.262,14.553 L22.262,17.021 L26.027,17.021 L25.596,21.220 Z"/>
                                     </svg>

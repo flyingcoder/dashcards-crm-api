@@ -4,12 +4,11 @@
         padding: 0;
         margin: 0;
         .sidebar-list{
-            height: 60px;
+            height: 50px;
             margin-left: 8px;
             border-radius: 5px 0 0 5px;
             padding: 0;
             cursor: pointer;
-
             &:hover , &:active, &:focus{
                 background: $body-bg;
                 z-index: 2000;
@@ -31,21 +30,22 @@
                     -webkit-transition: margin 0.4s ease;
                     transition: margin 0.4s ease;
                 }
-                .menu-name{
-                    position:absolute;
-                    font-size: 16px;
-                    font-family: $lato-semi;
-                    line-height: 1.2;
-                    margin: 10px 0 0 30px;
-                }
-                
                 .tab-icon{
                     fill: $white;
-                    width: 40px;
+                    width: 30px;
                     svg{
-                        width: 40px;
+                        width: 30px;
                     }
                 }
+                .menu-name{
+                    position:absolute;
+                    font-size: 15px;
+                    font-family: $lato-semi;
+                    line-height: 1.2;
+                    margin: 6px 0 0 30px;
+                    @extend .toggle75-transition;
+                }
+               
                 img{
                     width: 50px;
                 }

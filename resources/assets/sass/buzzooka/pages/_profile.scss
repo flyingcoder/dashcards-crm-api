@@ -367,6 +367,14 @@
                             width: 35px;
                         }
                     }
+                    .tabs__item--active{
+                        .normal{
+                            display: none;
+                        }
+                        .selected{
+                            display: inline-block;
+                        }
+                    }
                     .selected{
                         display: none;
                     }
