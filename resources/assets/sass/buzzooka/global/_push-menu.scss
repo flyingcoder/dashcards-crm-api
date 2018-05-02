@@ -4,26 +4,27 @@
         @extend .toggle-transition;
         .logo-mini{
             position: relative; 
-            display: block;
+            opacity: 1;
             left: 10px;
-            top: 22px;
-            @extend .toggle-transition;
+            top: 8px;
+            @extend .toggle75-transition;
             img{
                 width: 57px;
                 height: 33px;
                 margin-left: 0 !important;
-                margin-top: 5px !important;
+                margin-top: 0px !important;
                 -webkit-transition: margin 0.4s ease;
                 transition: margin 0.4s ease;
             }
         }
         .logo-lg{
-            display: none;
+            opacity: 0;
+            @extend .toggle75-transition;
         }
     }
     .menu-toggle{
         left: 70px !important;
-        top: 29px;
+        top: 25px;
         @extend .toggle-transition;
         svg{
             left: 0px;

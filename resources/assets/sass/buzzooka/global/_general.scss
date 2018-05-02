@@ -503,9 +503,14 @@ html{
 		transition: all 0.3s ease !important;
     }
     .toggle75-transition{
-        -webkit-transition: all 0.3s ease !important;
-		-moz-transition: all 0.3s ease !important;
-		transition: all 0.3s ease !important;
+        -webkit-transition: all 0.75s ease !important;
+		-moz-transition: all 0.75s ease !important;
+		transition: all 0.75s ease !important;
+    }
+    .toggle1s-transition{
+        -webkit-transition: all 1s ease !important;
+		-moz-transition: all 1s ease !important;
+		transition: all 1s ease !important;
     }
     .margin-transition{
         -webkit-transition: margin 0.4s ease;
