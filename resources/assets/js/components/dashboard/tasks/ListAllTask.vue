@@ -96,11 +96,14 @@
         },
         filters: {
             concat: function (value) {
+                console.log(value);
+                /*
                 if(
                     typeof value[0].first_name !== 'undefined' && 
                     typeof value[0].last_name !== 'undefined'
                 )
                     return value[0].first_name + " " +value[0].last_name;
+                */
             }
         }
     }
