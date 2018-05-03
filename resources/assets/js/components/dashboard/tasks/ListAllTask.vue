@@ -96,7 +96,10 @@
         },
         filters: {
             concat: function (value) {
-                if(value != null)
+                if(
+                    typeof value[0].first_name !== 'undefined' && 
+                    typeof value[0].last_name !== 'undefined'
+                )
                     return value[0].first_name + " " +value[0].last_name;
             }
         }

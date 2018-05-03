@@ -48,8 +48,8 @@ class ProjectTableSeeder extends Seeder
             $task->assigned()->attach(rand(1,4));
         }
 
-        $team = App\Team::findOrFail(1);
+        $team = App\Team::first();
 
-        $team->members()->attach([1,3,4,5,6,7,8,9,10]);
+        $team->members()->attach([4,5,6,7,8,9,10]);
     }
 }
