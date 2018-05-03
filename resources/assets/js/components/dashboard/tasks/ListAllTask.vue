@@ -27,10 +27,10 @@
                         <td class="assignee"> <img src="/img/temporary/user1.png"> </td>
                         <td class="projects">
                             <div class="buzz-overflow task-project"> {{ t.title }} </div>
-                            <span class="assigned-project"> assigned to {{
-                                 t.assigned == null ? '' :
-                                 t.assigned[0].first_name + ' ' + t.assigned[0].last_name 
-                                 }}. {{ t.created_at | momentAgo}} </span>
+                            <span class="assigned-project"> assigned to 
+                                {{
+                                    t.assigned | concat
+                                }}. {{ t.created_at | momentAgo}} </span>
                         </td>
                         <td> 
                         <span class="status"> {{ t.status }} </span>
@@ -92,6 +92,12 @@
                 this.taskCount.pending = _.filter(this.allTasks.data, { status: 'pending'}).length;
                 this.taskCount.behind = _.filter(this.allTasks.data, { status: 'behind'}).length;
 
+            }
+        },
+        filters: {
+            concat: function (value) {
+                if(value != null)
+                    return value[0].first_name + " " +value[0].last_name;
             }
         }
     }
