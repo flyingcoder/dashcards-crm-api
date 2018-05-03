@@ -17,6 +17,8 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
+Route::get('test-act', 'ActivityController@index');
+
 // Public routes
 Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]+');
 
