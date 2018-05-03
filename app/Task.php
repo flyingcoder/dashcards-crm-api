@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class Task extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes;
 
      /**
      * The attributes that are mass assignable.

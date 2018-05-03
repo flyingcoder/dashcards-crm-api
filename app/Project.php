@@ -16,7 +16,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 class Project extends Model implements HasMediaConversions
 {
-    use SoftDeletes, HasMediaTrait, LogsActivity;
+    use SoftDeletes, HasMediaTrait;
 
     protected $paginate = 10;
 

@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('activities', 'ActivityController@index');
+Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function () {
+  Route::get('/', 'ActivityController@index');
+});
 
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
