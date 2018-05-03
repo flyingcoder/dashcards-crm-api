@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\Activitylog\Models\Activity;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use App\Project;
@@ -143,6 +144,8 @@ class MediaController extends Controller
                                       'thumb_url' => $media->getUrl('thumb')
                                     ])
                                 ->log($log);
+
+          return Activity::latest()->first();
         }
       	
     }
