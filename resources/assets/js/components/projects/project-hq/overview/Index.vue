@@ -47,7 +47,7 @@
                         <h1>Timeline</h1>
                         <box-options></box-options>
                     </div>
-                    <timeline></timeline>
+                    <timeline :project-id="$parent.projectId"></timeline>
                     <div class="box-footer">
                         <a href=""> View More </a>
                     </div>
