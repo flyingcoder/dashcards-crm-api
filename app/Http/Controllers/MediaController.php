@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\Activitylog\Models\Activity;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use App\Project;
@@ -50,20 +51,25 @@ class MediaController extends Controller
     {
         $collectionName = $this->collectionName(request());
 
+        //$type = $this->fileType(request());
+
         $project = Project::findOrFail($project_id);
 
         $media = $project->addMedia(request()->url)
                 ->withCustomProperties(['ext' => request()->extention])
                 ->toMediaCollection($collectionName);
 
+        $log = auth()->user()->first_name.' linked a .'.request()->extention.' file.';
+
         activity(auth()->user()->company()->name)
-               ->performedOn($project)
-               ->causedBy(auth()->user())
-               ->withProperties([
-                  'company_id' => auth()->user()->company()->id,
-                  'media' => $media
-                ])
-               ->log('Added a file to a project');
+                     ->performedOn($project)
+                     ->causedBy(auth()->user())
+                     ->withProperties([
+                        'company_id' => auth()->user()->company()->id,
+                        'media' => $media,
+                        'thumb_url' => $media->getUrl('thumb')
+                      ])
+                     ->log($log);
 
         
     }
@@ -88,6 +94,26 @@ class MediaController extends Controller
         return $collectionName;
     }
 
+    public function fileType(Request $request)
+    {
+        $collectionName = '';
+        if(request()->has('file')){
+        if(collect($this->allowedDocs)->contains($request->file('file')->extension())) {
+          $collectionName = 'documents';
+        } else if (collect($this->allowedImages)->contains($request->file('file')->extension())) {
+          $collectionName = 'images';
+        } else if (collect($this->allowedVideos)->contains($request->file('file')->extension())) {
+          $collectionName = 'videos';
+        } else if (collect($this->allowedOtherFiles)->contains($request->file('file')->extension())) {
+          $collectionName = 'zip';
+        } else {
+          return response('Invalid file', 402);
+        }
+      }
+
+        return $collectionName;
+    }
+
 
    /**
      * Create a new controller instance.
@@ -99,20 +125,27 @@ class MediaController extends Controller
     {
       	$collectionName = $this->collectionName(request());
 
+        $type = $this->fileType(request());
+
       	$project = Project::findOrFail($project_id);
         if(request()->has('file')){
           $media = $project->addMedia(request()->file('file'))
-          ->withCustomProperties(['ext' => request()->file('file')->extension()])
-          ->toMediaCollection($collectionName);
+                           ->withCustomProperties(['ext' => request()->file('file')->extension()])
+                           ->toMediaCollection($collectionName);
+
+          $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
 
           activity(auth()->user()->company()->name)
-          ->performedOn($project)
-          ->causedBy(auth()->user())
-          ->withProperties([
-              'company_id' => auth()->user()->company()->id,
-              'media' => $media
-            ])
-          ->log('Added a file to a project');
+                                ->performedOn($project)
+                                ->causedBy(auth()->user())
+                                ->withProperties([
+                                      'company_id' => auth()->user()->company()->id,
+                                      'media' => $media,
+                                      'thumb_url' => $media->getUrl('thumb')
+                                    ])
+                                ->log($log);
+
+          return Activity::latest()->first();
         }
       	
     }

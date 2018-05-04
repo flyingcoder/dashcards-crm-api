@@ -7,7 +7,7 @@ use App\Project;
 
 class ActivityController extends Controller
 {
-    public function index($project_id)
+    public function index()
     {
     	$company = auth()->user()->company();
     	return $company->allTimeline();

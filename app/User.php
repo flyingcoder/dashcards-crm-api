@@ -21,8 +21,7 @@ class User extends Authenticatable
         HasRole, 
         Metable, 
         SoftDeletes,
-        HasApiTokens, 
-        LogsActivity,
+        HasApiTokens,
         Billable;
 
     /**
