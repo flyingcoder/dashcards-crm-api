@@ -13,7 +13,15 @@ class MilestoneTemplateController extends Controller
     public function index()
     {
         if(!request()->ajax())
-    	   return view('pages.milestone');
+           return view('pages.milestone-templates');
+
+        try {
+            $milestone = new MilestoneTemplate;
+            return $milestone->with('user')->orderBy('created_at','desc')->paginate(10);
+        } 
+        catch (\Exception $ex) {
+            return response(['message' => $ex->getMessage()], 500);
+        }
     }
 
     public function store(MilestoneTemplateRequest $request){
@@ -30,7 +38,7 @@ class MilestoneTemplateController extends Controller
 
     public function update($id, MilestoneTemplateRequest $request){
         try {
-            Department::find($id)->update($request->all());
+            $milestone = MilestoneTemplate::find($id)->update($request->all());
             return response(['milestone' => $milestone], 200);
         } 
         catch (\Exception $ex) {
@@ -46,17 +54,5 @@ class MilestoneTemplateController extends Controller
             return response(['message' => $ex->getMessage()], 500);
 
         }
-    }
-
-
-    public function templates(){
-        try {
-            $milestone = new MilestoneTemplate;
-            return $milestone->with('user')->orderBy('created_at','desc')->paginate(10);
-          } 
-          catch (\Exception $ex) {
-            return response(['message' => $ex->getMessage()], 500);
-          }
-       
     }
 }

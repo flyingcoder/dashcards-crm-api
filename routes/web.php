@@ -17,6 +17,8 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
+Route::get('test-act', 'ActivityController@index');
+
 // Public routes
 Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]+');
 
@@ -89,7 +91,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'milestones'], function () {
 	// Route::get('{id}', 'TemplateController@milestone')->name('milestone');
 	// Route::get('new', 'TemplateController@save')->name('new-milestone');
 	Route::get('/', 'MilestoneTemplateController@index')->name('milestones');
-	Route::get('{id}', 'MilestoneTemplateController@milestone')->name('milestone');
+	Route::get('{id}', 'MltMilestoneController@index')->name('milestone');
 	Route::get('new', 'MilestoneTemplateController@save')->name('new-milestone');
 });
 

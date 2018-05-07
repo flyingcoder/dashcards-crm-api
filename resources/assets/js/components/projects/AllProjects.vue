@@ -74,13 +74,15 @@
       },
       data () {
         return {
-        testCount: '',
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedAllProjects: [],
+            testCount: '',
+            isProcessing: false,
+            multipleSelection: [],
+            currentPage: 1,
+            currentSize: 10,
+            total : 1,
+            paginatedAllProjects: [],
+            getAll: 1,
+            currentUserId: 0
         }
       },
 
@@ -88,19 +90,26 @@
         this.getAllProjects();
         this.sliceDate();
         this.progressCount();
+        console.log(window.Current);
       },
       methods: {
         renderHeader(h,{column,$index}){
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
         getAllProjects(){
-            axios.get('api/projects')
-            .then( response => {
-                this.paginatedAllProjects = response.data.data;
-                this.currentPage = response.data.current_page;
-                this.total = response.data.total;
-                this.sliceDate();
-            })
+            var url = 'api/projects';
+
+            if(this.getAll)
+                url = 'api/projects/'+this.currentUserId
+
+            axios.get(url)
+                .then( response => {
+                    this.paginatedAllProjects = response.data.data;
+                    this.currentPage = response.data.current_page;
+                    this.total = response.data.total;
+                    this.sliceDate();
+                })
+           
         },
         sliceDate: function() {
             for(var x in this.paginatedAllProjects) {

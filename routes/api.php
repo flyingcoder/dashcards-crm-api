@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('activities', 'ActivityController@index');
+Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function () {
+  Route::get('/', 'ActivityController@index');
+});
 
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
@@ -138,15 +140,26 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 // Milestone Template
 Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
 
-  Route::get('/', 'MilestoneTemplateController@templates');
+  Route::get('/', 'MilestoneTemplateController@index');
 
   Route::post('/', 'MilestoneTemplateController@store');
-
-  Route::get('{id}', 'MilestoneTemplateController@template');
 
   Route::put('{id}', 'MilestoneTemplateController@update');
 
   Route::delete('{id}', 'MilestoneTemplateController@destroy');
+
+  Route::group(['prefix' => 'mlt-milestone'], function (){
+
+    Route::get('/', 'MltMilestoneController@index');
+
+    Route::post('/', 'MltMilestoneController@store');
+
+    Route::put('{id}', 'MltMilestoneController@update');
+
+    Route::delete('{id}', 'MltMilestoneController@destroy');
+
+  });
+
 });
 
 // Services
