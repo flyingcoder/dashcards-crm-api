@@ -223,6 +223,8 @@ class Company extends Model
 
         if($request->has('sort'))
             $projects->orderBy($sortName, $sortValue);
+        else
+            $projects->latest();
 
         $data = $projects->paginate($this->paginate);
 
