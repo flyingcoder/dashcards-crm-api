@@ -98,6 +98,9 @@ Vue.component('avatar',Avatar);
 // Templates
   Vue.component('templates', require('./components/templates/Index.vue'));
 
+// Templates
+  Vue.component('milestone-template', require('./components/milestone/Index.vue'));
+
 // Forms
   Vue.component('buzz-forms', require('./components/forms/Index.vue'));
 
