@@ -6,5 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class MltMilestone extends Model
 {
-    //
+    protected $fillable = ['title', 'days','milestone_template_id', 'percentage'];
+
+    public function milestoneTemplate()
+    {
+    	return $this->belongsTo(MilestoneTemplate::class);
+    }
+
+    public function mltTasks()
+    {
+    	return $this->hasMany(MltTask::class);
+    }
+
 }

@@ -92,9 +92,9 @@
                         :total="total">
                     </el-pagination> -->
                       </div>
-											<div v-else>
-												<empty title="Add New Template" modal="add-template"></empty>
-											</div>
+                        <div v-else>
+                            <empty title="Add New Template" modal="add-template"></empty>
+                        </div>
                     </div>
                   </div>
                 </section>
@@ -114,10 +114,10 @@
       },
       data(){
         return {
-          paginatedAllTemplate: [],
-          isProcessing: false,
-					loadingText: 'Fetching datas ...',
-					notEmpty: true
+            paginatedAllTemplate: [],
+            isProcessing: false,
+            loadingText: 'Fetching datas ...',
+            notEmpty: true
         }
       },
       mounted(){
@@ -129,20 +129,20 @@
           axios.get(URL)
           .then (response => {
             this.isProcessing = false;
-						this.paginatedAllTemplate = response.data.data;
-						if(this.paginatedAllTemplate < 1){
-							this.notEmpty = false;
-						}
-						else{
-							this.notEmpty = true;							
-						}
+            this.paginatedAllTemplate = response.data.data;
+            if(this.paginatedAllTemplate < 1){
+                this.notEmpty = false;
+            }
+            else{
+                this.notEmpty = true;							
+            }
           }) .catch (error => {
             if (error.response.status == 401) {
               location.reload();
             } else {
-              this.isProcessing = false;
-							this.paginatedAllTemplate = [];
-							this.notEmpty = false;
+                this.isProcessing = false;
+                this.paginatedAllTemplate = [];
+                this.notEmpty = false;
             }
           });
         },

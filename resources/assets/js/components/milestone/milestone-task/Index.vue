@@ -52,7 +52,7 @@
                 <section class="buzz-section">
                   <div class="buzz-table">
                     <div class="milestone-templates">
-                      <!-- <div v-if="paginatedAllTemplate.length >= 1"> -->
+                      <div v-if="notEmpty">
                       <el-table :data="paginatedAllMilestone" stripe empty-text="No Data Found" v-loading="isProcessing" 
                         @sort-change="handleSortChange" :element-loading-text="loadingText" 
                         @selection-change="handleSelectionChange" style="width: 100%"
@@ -85,13 +85,16 @@
                         layout="total, sizes, prev, pager, next"
                         :total="total">
                     </el-pagination> -->
-                      <!-- </div> -->
+                      </div>
+                      <div v-else>
+                            <empty title="Add New Milestone" modal="add-mlt-milestone"></empty>
+                        </div>
                     </div>
                   </div>
                 </section>
               </div>
             </div>  
-            <add-form v-on:updated="updated"></add-form>
+            <add-form v-on:updated="updated" :id="id"></add-form>
         </v-layout>  
     </section>
 </template>
@@ -103,11 +106,13 @@
       components:{
         'add-form': Form
       },
+      props: ['id'],
       data(){
         return {
-          paginatedAllMilestone: [],
-          isProcessing: false,
-          loadingText: 'Fetching datas ...'
+            paginatedAllMilestone: [],
+            isProcessing: false,
+            loadingText: 'Fetching datas ...',
+            notEmpty: true          
         }
       },
       mounted(){
@@ -116,16 +121,23 @@
       methods:{
         getMilestone() {
           this.isProcessing = true;
-          axios.get(URL)
+          axios.get(URL+ this.id)
           .then (response => {
             this.isProcessing = false;
             this.paginatedAllMilestone = response.data.data;
+            if(this.paginatedAllTemplate < 1){
+                this.notEmpty = false;
+            }
+            else{
+                this.notEmpty = true;							
+            }
           }) .catch (error => {
             if (error.response.status == 401) {
               location.reload();
             } else {
               this.isProcessing = false;
               this.paginatedAllMilestone = [];
+                this.notEmpty = false;              
             }
           });
         },

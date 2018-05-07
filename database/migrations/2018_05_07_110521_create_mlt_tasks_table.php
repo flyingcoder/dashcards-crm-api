@@ -18,7 +18,7 @@ class CreateMltTasksTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->integer('days');
-            $table->integer('mlt_milestones')->unsigned()->foreign()->references("id")->on("mlt_milestones")->onDelete("cascade");
+            $table->integer('mlt_milestone_id')->unsigned()->foreign()->references("id")->on("mlt_milestones")->onDelete("cascade");
             $table->timestamps();
         });
     }

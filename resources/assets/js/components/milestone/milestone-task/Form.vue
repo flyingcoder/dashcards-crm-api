@@ -1,21 +1,20 @@
 <template>
   <modal name="add-mlt-milestone" transition="nice-modal-fade" @before-open="beforeOpen">
-            <section class="content add-project">
+            <section class="content add-milestone">
             <v-layout row wrap>
               <div class="buzz-modal-header"> {{ title }} </div>
               <div class="buzz-scrollbar" id="buzz-scroll">
             <el-form label-position="top" v-loading="isProcessing" :element-loading-text="loadingText">
               <div class="buzz-modal-content">
-                <el-form-item>
                   <el-form-item label="Title" :error="formError.title">
-                    <el-input type="text" v-model="form.title" placeholder="Template Title"></el-input>
+                    <el-input type="text" v-model="form.title" placeholder="Milestone Title"></el-input>
                   </el-form-item>
-                </el-form-item>
-                <el-form-item>
-                  <el-form-item label="Days" :error="formError.title">
-                    <el-input-number type="text" v-model="form.title" placeholder="Template Title"></el-input-number>
+                  <el-form-item label="Days" :error="formError.days">
+                    <el-input-number type="text" v-model="form.days"></el-input-number>
                   </el-form-item>
-                </el-form-item>
+                  <el-form-item label="Percentage" :error="formError.percentage">
+                    <el-input-number type="text" v-model="form.percentage"></el-input-number>
+                  </el-form-item>
                 <el-table
                   :data="tasks"
                   style="width: 100%">
@@ -34,7 +33,7 @@
                     label="Days">
                   </el-table-column>
                 </el-table>
-                <el-button type="text" @click="dialogVisible = true">Add Task</el-button>
+                <el-button type="text" @click="$modal.show('add-mlt-tasks')">Add Task</el-button>
                 
                 <el-form-item  class="form-buttons">
                   <el-button @click="submit"> {{ action }}</el-button>
@@ -42,17 +41,32 @@
                 </el-form-item>
               </div>
             </el-form>
-            <el-dialog
-              title="Tips"
-              :visible.sync="dialogVisible"
-              width="30%"
-              :before-close="handleClose">
-              <span>This is a message</span>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
-              </span>
-            </el-dialog>
+            
+            <modal name="add-mlt-tasks" transition="nice-modal-fade">
+              <section class="content add-milestone">
+            <v-layout row wrap>
+              <div class="buzz-modal-header">Task</div>
+              <div class="buzz-scrollbar" id="buzz-scroll">
+            <el-form label-position="top" v-loading="isProcessing" :element-loading-text="loadingText">
+              <div class="buzz-modal-content">
+              
+                  <el-form-item label="Title">
+                    <el-input type="text" v-model="formTask.title" placeholder="Task Title"></el-input>
+                  </el-form-item>
+                  <el-form-item label="Days">
+                    <el-input-number type="text" v-model="formTask.days"></el-input-number>
+                  </el-form-item>
+                  <el-form-item class="modal-editor" label="Description">
+                      <ckeditor id="description" ref="ckeditor" v-model="formTask.description"></ckeditor>
+                  </el-form-item>
+                  <el-button type="text" @click="dialogVisible = false">Cancel</el-button>
+                    <el-button type="text" @click="addTask">Submit</el-button>
+                    </div>
+            </el-form>
+              </div>
+            </v-layout>
+            </section>
+              </modal>
           </div>
         </v-layout>
     </section>
@@ -62,12 +76,9 @@
 <script>
 var URL = '/api/milestones/mlt-milestone/'
 export default {
+  props: ['id'],
   data(){
     return {
-      options: [
-        { label: 'Active', value: 1 },
-        { label: 'Inactive', value: 0 }
-      ],
       form: this.initForm(),
       action: 'Save',
       title: 'Add New Milestone',
@@ -76,6 +87,7 @@ export default {
       loadingText: 'Saving ...',
       dialogVisible: false,
       tasks: [],
+      formTask: this.initFormTask(),
     }
   },
   methods:{
@@ -90,7 +102,8 @@ export default {
     initForm(){
       return {
         title: '',
-        is_active: 1,
+        days: 1,
+        percentage: 0
       }
     },
     submit(){
@@ -104,12 +117,12 @@ export default {
     save(){
       this.isProcessing = true;
       var vm = this;
-      axios.post(URL,this.form)
+      axios.post(URL + this.id,{'milestone': this.form, 'tasks': this.tasks})
       .then( response => {
         this.isProcessing = false;                                    
         swal({
           title: 'Success!',
-          text: 'Project is saved!',
+          text: 'Milestone is saved!',
           type: 'success'
         }).then( function() {
            vm.$modal.hide('add-mlt-milestone');
@@ -154,6 +167,19 @@ export default {
             swal('Saving Failed!','Server Error! ', 'error');  
           }
       });
+    },
+    initFormTask(){
+      return {
+        title: '',
+        description: '',
+        days: 1
+      }
+    },
+    addTask(){
+      this.tasks.push(this.formTask);
+      this.dialogVisible = false;
+      this.formTask = this.initFormTask();
+      this.$modal.hide('add-mlt-tasks')
     }
   }
 }

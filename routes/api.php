@@ -150,9 +150,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function ()
 
   Route::group(['prefix' => 'mlt-milestone'], function (){
 
-    Route::get('/', 'MltMilestoneController@index');
+    Route::get('{id}', 'MltMilestoneController@index');
 
-    Route::post('/', 'MltMilestoneController@store');
+    Route::post('{id}', 'MltMilestoneController@store');
 
     Route::put('{id}', 'MltMilestoneController@update');
 

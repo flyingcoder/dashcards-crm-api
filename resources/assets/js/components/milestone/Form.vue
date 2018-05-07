@@ -6,11 +6,9 @@
               <div class="buzz-scrollbar" id="buzz-scroll">
             <el-form label-position="top" v-loading="isProcessing" :element-loading-text="loadingText">
               <div class="buzz-modal-content">
-                <el-form-item>
                   <el-form-item label="Title" :error="formError.title">
                     <el-input type="text" v-model="form.title" placeholder="Template Title"></el-input>
                   </el-form-item>
-                </el-form-item>
                 <el-form-item label="Status">
                   <el-select v-model="form.is_active" placeholder="Select">
                     <el-option
@@ -82,7 +80,7 @@ export default {
         this.isProcessing = false;                                    
         swal({
           title: 'Success!',
-          text: 'Project is saved!',
+          text: 'Template is saved!',
           type: 'success'
         }).then( function() {
            vm.$modal.hide('add-template');
@@ -109,7 +107,7 @@ export default {
         this.isProcessing = false;                                    
         swal({
           title: 'Success!',
-          text: 'Project is updated!',
+          text: 'Template is updated!',
           type: 'success'
         }).then( function() {
            vm.$modal.hide('add-template');

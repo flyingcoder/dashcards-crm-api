@@ -14,4 +14,9 @@ class MilestoneTemplate extends Model
     {
     	return $this->belongsTo(User::class);
     }
+
+    public function mltMilestones()
+    {
+    	return $this->hasMany(MltMilestone::class);
+    }
 }

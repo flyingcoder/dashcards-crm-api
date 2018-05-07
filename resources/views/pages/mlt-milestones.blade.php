@@ -3,5 +3,5 @@
 @section('title', 'Milestone Template')
 
 @section('content')
-   <mlt-milestone></mlt-milestone>
+   <mlt-milestone :id="{{ $id }}"></mlt-milestone>
 @endsection

@@ -17,6 +17,7 @@ class CreateMltMilestonesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('days');
+            $table->integer('percentage');
             $table->integer('milestone_template_id')->unsigned()->foreign()->references("id")->on("milestone_templates")->onDelete("cascade");
             $table->timestamps();
         });
