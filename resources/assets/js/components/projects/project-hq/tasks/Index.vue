@@ -1,13 +1,13 @@
 <template>
     <section class="content hq-tasks">
-        <div class="row">
+        <v-layout row wrap>
             <div class="col-md-6">
                 <tasks :project-id="$parent.projectId" v-on:clickTask="clickTask"></tasks>
             </div>
             <div class="col-md-6 ">
                 <task-info :task="task"></task-info>
             </div>
-        </div>
+        </v-layout>
         <add-task></add-task>
     </section>
 </template>

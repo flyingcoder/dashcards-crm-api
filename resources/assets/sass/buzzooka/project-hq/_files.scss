@@ -1,16 +1,16 @@
 .hq-files{
     .drop-files{
-        height: 520px;
+        height: 375px;
         .drop-files-content{
             background: $gray-bg;
-            height: 465px;
-            margin: 3px 0;
+            height: 100%;
+            margin: 0;
             text-align: center;
             img{
-                margin-top: 100px;
+                margin-top: 55px;
                 margin-bottom: 10px;
                 width: 89px;
-                height: 100px;
+                height: 80px;
             }
             .drop-text{
                 margin: 5px;
@@ -29,20 +29,19 @@
                 button{
                     background: $blue;
                     color: $white;
-                    font-size: 20px;
+                    font-size: 18px;
                     font-family: $lato-semi;
                     border-radius: 5px;
-                    padding: 20px 30px;
+                    padding: 15px 25px;
                 }
             }
         }
     }
     .files{
-        height: 985px;
+        height: auto;
         .files-options{
             ul{
                 border: none;
-                
                 li{
                     border: $table-border;
                     border-radius: 5px;
@@ -159,7 +158,7 @@
                 table{
                     background: $gray-bg;
                     border: $table-border;
-                    height: 795px;
+                    height: auto;
                     thead, tbody{
                         tr{
                             border-bottom: $table-border;
@@ -201,7 +200,7 @@
                 }
             }
             #list-view{
-                height: 858px;
+                height: auto;
                 @extend .body-scroll;
                 table{
                     thead{
@@ -215,7 +214,7 @@
                         }
                     }
                     tbody{
-                        height: 770px !important;
+                        height: auto !important;
                         @extend .buzz-scrollbar;
                         tr{
                             height: 82px;
@@ -249,7 +248,7 @@
                 }
             }
             #grid-view{
-                height: 830px;
+                height: auto;
                 border: $table-border;
                 .grid-container{
                     background: none !important;

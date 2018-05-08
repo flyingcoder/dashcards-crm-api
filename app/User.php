@@ -174,6 +174,11 @@ class User extends Authenticatable
         return $this->teams()->first()->company;
     }
 
+    public function milestoneTemplate()
+    {
+    	return $this->hasMany(MilestoneTemplate::class);
+    }
+
     /*
     public static function boot()
     {

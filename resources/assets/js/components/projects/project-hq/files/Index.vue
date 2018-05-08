@@ -1,6 +1,6 @@
 <template>
     <section class="content hq-files">
-        <div class="row">
+        <v-layout row wrap>
             <div class="col-md-12">
                 <div class="buzz-box drop-files">
                     <div class="drop-files-content">
@@ -24,10 +24,6 @@
                         
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
                 <div class="buzz-box files">
                     <div class="files-options">
                         <ul class="nav nav-tabs">
@@ -143,7 +139,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </v-layout>
     </section>
 </template>
 

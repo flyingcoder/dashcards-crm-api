@@ -1,5 +1,5 @@
 <template>
-     <div class="tab-pane fade active in" id="facebook">
+     <div class="facebook">
         <div class="facebook-feed">
             <h1> Facebook Feed</h1>
             <div class="content buzz-scrollbar" id="buzz-scroll">

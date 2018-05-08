@@ -1,12 +1,40 @@
 .hq-tasks{
 // Exclusive CSS
-    margin-top: 25px;
+    margin-top: 20px;
     height: auto;
-    background: $white;
-    border: 1px solid $tile-border;
-    border-radius: 10px;
+    .tasks-wrapper{
+        width: 100%;
+        padding: 0px;
+    }
+    // vuetify
+        .icon-tabs{
+            .tabs__bar{
+                position: relative;
+                .tabs__item{
+                    cursor: pointer;
+                    svg{
+                        fill: $table-data;
+                    }
+                }
+                .tabs__item--active{
+                    svg{
+                        fill: $gray;
+                    }
+                }
+            }
+            .all-task{
+                .projects{
+                    width: 50%;
+                }
+            }
+            .my-task{
+                .projects{
+                    width: 70% !important;
+                }
+            }
+        }
     .buzz-box{
-        background: none;
+        background: $white;
         height: auto;
         min-height: 210px;
         max-height: 1100px;
@@ -30,6 +58,85 @@
                         max-height: 810px !important;
                     }
                 }
+            }
+        }
+        // vuetify
+        .icon-tabs{
+            .tabs__bar{
+                position: relative;
+                
+                .tabs__item{
+                    svg{
+                        fill: $table-data;
+                    }
+                }
+                .tabs__item--active{
+                    svg{
+                        fill: $gray;
+                    }
+                }
+            }
+            .all-task{
+                .projects{
+                    width: 50%;
+                }
+            }
+            .my-task{
+                .projects{
+                    width: 70% !important;
+                }
+            }
+        }
+    }
+    .tasks-status{
+        height: 65px;
+        padding: 20px 10px;
+        text-align: center;
+        border-bottom: $border-buzz;
+        .option-list{
+            display: inline-block;
+            padding: 0 5px;
+            .option-counter{
+                border-radius: 20px;
+                font-size: 13.5px;
+                font-family: $lato-semi;
+                color: $table-head;
+                background: $white;
+                border: $border-buzz;
+                height: 30px;
+                line-height: 30px;
+
+                span{
+                    position: relative;
+                    right: 10%;
+                }
+
+                &:active, &:hover{
+                 background: $blue-2;
+                 color: $white;
+                 border: 1px solid $blue-2;
+                }
+
+                .el-badge{
+                    position: absolute;
+                    right: 8px;
+                    top: 6.5px;
+                    .el-badge__content{
+                         border-radius: 100%;
+                        background: $gray-2;
+                        color: $white;
+                        width: 25px;
+                        height: 25px;
+                        line-height: 25px;
+                    }
+                }
+            }
+        }
+        .active{
+            .option-counter{
+                 background: $blue-2;
+                 color: $white;
+                 border: 1px solid $blue-2;
             }
         }
     }
@@ -112,193 +219,132 @@
     }
 
 // Dashboard CSS
-    .box-tabs{
-        ul{
-            height: 63px;
-            li{
-                width: 50%;
-                height: 62px;
-                padding-top: 10px;
-                background: $gray-bg;
-                text-align: center;
-                &:first-child{
-                    border-right: $border-buzz;
+    .view-tabs{
+        .tabs__bar{
+            position: relative;
+            top: unset;
+            right: unset;
+            height: 58px !important;
+            .tabs__wrapper{
+                height: 100%;
+                .tabs__container{
+                    height: 100%;
                 }
-                a{
-                    background: none;
-                    border: none;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                    font-size: 14px !important;
-                    color: $table-data;
-                    @extend .buzz-a;
-                }
-            }
-            li.active{
-                background: $white;
             }
         }
-        .tasks-status{
-            height: 65px;
-            padding: 20px 10px;
-            text-align: center;
-            border-bottom: $border-buzz;
-            .option-list{
-                display: inline-block;
-                padding: 0 5px;
-                .option-counter{
-                    border-radius: 20px;
-                    font-size: 13.5px;
-                    font-family: $lato-semi;
+        .tabs__div{
+            width: 50%;
+            .tabs__item--active{
+                background: $active-tab;
+            }
+        }
+    }
+    .tabs__content{
+        table{
+            width: 100%;
+            thead, tbody tr {
+                display:table;
+                width:100%;
+                table-layout:fixed;
+            }
+            thead{
+                tr{
+                    height: 60px;
+                    border-bottom: $border-buzz;
+                    font-size: 16px;
+                    letter-spacing: 0.5px;
+                    background: $gray-bg;
                     color: $table-head;
-                    background: $white;
-                    border: $border-buzz;
-                    height: 30px;
-                    line-height: 30px;
-
-                    span{
-                        position: relative;
-                        right: 10%;
-                    }
-
-                    &:active, &:hover{
-                     background: $blue-2;
-                     color: $white;
-                     border: 1px solid $blue-2;
-                    }
-
-                    .el-badge{
-                        position: absolute;
-                        right: 8px;
-                        top: 6.5px;
-                        .el-badge__content{
-                             border-radius: 100%;
-                            background: $gray-2;
-                            color: $white;
-                            width: 25px;
-                            height: 25px;
-                            line-height: 25px;
+                    @extend .page-title;
+                    th{
+                        &:first-child{
+                            width: 50px;
                         }
-                    }
-                }
-            }
-            .active{
-                .option-counter{
-                     background: $blue-2;
-                     color: $white;
-                     border: 1px solid $blue-2;
-                }
-            }
-        }
-        .tab-content{
-            .tab-table{
-                table{
-                    width: 100%;
-                    thead, tbody tr {
-                        display:table;
-                        width:100%;
-                        table-layout:fixed;
-                    }
-                    thead{
-                        tr{
-                            height: 60px;
-                            border-bottom: $border-buzz;
-                            font-size: 16px;
-                            letter-spacing: 0.5px;
-                            background: $gray-bg;
-                            color: $table-head;
-                            @extend .page-title;
-                            th{
-                                &:first-child{
-                                    width: 50px;
-                                }
-                                &:last-child{
-                                    position: relative;
-                                    left: 15px;
-                                    width: 19%;
-                                }
-                            }
-                        }
-                    }
-                    tbody{
-                        display:block;
-                        tr{
-                            height: 81px;
-                            border-bottom: $border-buzz;
-                            cursor: pointer;
-                            &:hover{
-                                .hover-display{
-                                    display: table-cell;
-                                }
-                            }
-                            &:nth-child(odd){
-                                background: $gray-bg;
-                            }
-                            &:nth-child(even){
-                                background: $white;
-                            }
-                            td{
-                                position: relative;
-                                &:first-child{
-                                    width: 50px;
-                                }
-                                &:last-child{
-                                    left: 15px;
-                                    width: 19%;
-                                }
-                            }
-                            .hover-display{
-                                position: relative;
-                                left: 15px;
-                            }
-                            .status{
-                                position: relative;
-                                top: 5px;
-                                color: $gray-4;
-                                font-size: 12px;
-                                text-transform: capitalize;
-                            }
-                            .progress{
-                                position: relative;
-                                top: 5px;
-                                width: 60px;
-                                height: 6px;
-                                border-radius: 20px;
-                            }
-                            .completed{
-                                background: $green;
-                            }
-                            .pending{
-                                background: $orange-tile-6;
-                            }
-                            .behind{
-                                background: $orange-tile-1;
-                            }
-                        }
-                    }
-                    .assignee{
-                        width: 90px;
-                        img{
-                            width: 55px;
-                            border-radius: 100%;
-                        }
-                    }
-                    .projects{
-                        .task-project{
+                        &:last-child{
                             position: relative;
-                            bottom: 10px;
-                            font-family: $lato-mid;
-                            color: $gray-3;
-                            font-size: 19px;
-                        }
-                        .assigned-project{
-                            position:absolute;
-                            display: block;
-                            color: $gray-4;
-                            font-size: 11.5px;
-                            top:40px;
+                            left: 15px;
+                            width: 19%;
                         }
                     }
+                }
+            }
+            tbody{
+                display:block;
+                tr{
+                    height: 81px;
+                    border-bottom: $border-buzz;
+                    cursor: pointer;
+                    &:hover{
+                        .hover-display{
+                            display: table-cell;
+                        }
+                    }
+                    &:nth-child(odd){
+                        background: $gray-bg;
+                    }
+                    &:nth-child(even){
+                        background: $white;
+                    }
+                    td{
+                        position: relative;
+                        &:first-child{
+                            width: 50px;
+                        }
+                        &:last-child{
+                            left: 15px;
+                            width: 19%;
+                        }
+                    }
+                    .hover-display{
+                        position: relative;
+                        left: 15px;
+                    }
+                    .status{
+                        position: relative;
+                        top: 5px;
+                        color: $gray-4;
+                        font-size: 12px;
+                        text-transform: capitalize;
+                    }
+                    .progress{
+                        position: relative;
+                        top: 5px;
+                        width: 60px;
+                        height: 6px;
+                        border-radius: 20px;
+                    }
+                    .completed{
+                        background: $green;
+                    }
+                    .pending{
+                        background: $orange-tile-6;
+                    }
+                    .behind{
+                        background: $orange-tile-1;
+                    }
+                }
+            }
+            .assignee{
+                width: 90px;
+                img{
+                    width: 55px;
+                    border-radius: 100%;
+                }
+            }
+            .projects{
+                .task-project{
+                    position: relative;
+                    bottom: 10px;
+                    font-family: $lato-mid;
+                    color: $gray-3;
+                    font-size: 19px;
+                }
+                .assigned-project{
+                    position:absolute;
+                    display: block;
+                    color: $gray-4;
+                    font-size: 11.5px;
+                    top:40px;
                 }
             }
         }

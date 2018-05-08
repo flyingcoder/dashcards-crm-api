@@ -13,47 +13,49 @@
     
         <modal name="add-milestone" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
-                <div class="buzz-modal-header"> {{ title }} </div>
-                <div class="buzz-scrollbar milestone-form" id="buzz-scroll">
-                    <el-form :model="form" ref="form" :rules="rules" v-loading="isProcessing">
-                        <div class="buzz-modal-content">
-                            <el-form-item prop="title" :error="errors.title[0]">
-                                <el-input v-model="form.title" placeholder="Title"></el-input>
-                            </el-form-item>
-                            <el-form-item prop="percentage" :error="errors.percentage[0]">
-                                <el-input v-model="form.percentage" placeholder="Percentage" ></el-input>
-                            </el-form-item>
-                            <el-form-item prop="started_at" :error="errors.started_at[0]">
-                               <el-date-picker
-                                    style="width: 100%"
-                                    v-model="form.started_at"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="Select Start Date">
-                                </el-date-picker>
-                            </el-form-item>
-                            <el-form-item prop="end_at" :error="errors.end_at[0]">
+                <v-layout row wrap>
+                    <div class="buzz-modal-header"> {{ title }} </div>
+                    <div class="buzz-scrollbar milestone-form" id="buzz-scroll">
+                        <el-form :model="form" ref="form" :rules="rules" v-loading="isProcessing">
+                            <div class="buzz-modal-content">
+                                <el-form-item prop="title" :error="errors.title[0]">
+                                    <el-input v-model="form.title" placeholder="Title"></el-input>
+                                </el-form-item>
+                                <el-form-item prop="percentage" :error="errors.percentage[0]">
+                                    <el-input v-model="form.percentage" placeholder="Percentage" ></el-input>
+                                </el-form-item>
+                                <el-form-item prop="started_at" :error="errors.started_at[0]">
                                 <el-date-picker
-                                    style="width: 100%"
-                                    v-model="form.end_at"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="Select End Date">
-                                </el-date-picker>
-                            </el-form-item>
-                            <el-form-item prop="days" :error="errors.days[0]">
-                                <el-input v-model="form.days" placeholder="Days"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <span> Note! If Start and End dates are provided, Milestone duration (days) will be ignored </span>
-                            </el-form-item>
-                            <el-form-item class="form-buttons">
-                                <el-button type="primary" @click="submit('form')">Save</el-button>
-                                <el-button @click="$modal.hide('add-milestone')">Cancel</el-button>
-                            </el-form-item>
-                        </div>
-                    </el-form>
-                </div>
+                                        style="width: 100%"
+                                        v-model="form.started_at"
+                                        type="date"
+                                        value-format="yyyy-MM-dd"
+                                        placeholder="Select Start Date">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item prop="end_at" :error="errors.end_at[0]">
+                                    <el-date-picker
+                                        style="width: 100%"
+                                        v-model="form.end_at"
+                                        type="date"
+                                        value-format="yyyy-MM-dd"
+                                        placeholder="Select End Date">
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item prop="days" :error="errors.days[0]">
+                                    <el-input v-model="form.days" placeholder="Days"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <span> Note! If Start and End dates are provided, Milestone duration (days) will be ignored </span>
+                                </el-form-item>
+                                <el-form-item class="form-buttons">
+                                    <el-button type="primary" @click="submit('form')">Save</el-button>
+                                    <el-button @click="$modal.hide('add-milestone')">Cancel</el-button>
+                                </el-form-item>
+                            </div>
+                        </el-form>
+                    </div>
+                </v-layout>
             </section>
         </modal>
     </div>

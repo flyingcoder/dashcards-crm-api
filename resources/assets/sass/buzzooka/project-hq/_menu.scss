@@ -1,62 +1,42 @@
 .hq-menu{
-    margin: 0 -30px;
+    margin: 0;
     height: 62px;
     background: $white;
     border-bottom: $body-border;
     ul{
-        padding: 0 30px;
+        padding: 0;
         margin: 0;
         list-style: none;
         display: block;
         li{
-            display: inline-block;
             height: 61px;
-            width: 10.8%;
-            padding: 18px 0;
+            width: 10.86%;
+            display: inline-block;
             text-align: center;
-            &:hover, &:active, &:focus{
-                background: $hq-menu-bg;
-                svg, a{
-                    color: $white;
-                    fill: $white;
-                }
-            }
+            vertical-align: middle;
             a{
-                vertical-align: super;
                 font-size: 15px;
                 color: $hq-icon;
                 line-height: 1.2;
-                padding-left: 5px;
-            }
-            svG{
-                fill: $hq-icon;
-            }
-            .overview-menu{
-                margin-top: -2px;
-            }
-            .file-menu{
-                margin-top: 2px;
-            }
-            .milestone-menu{
-                margin-top: 6px;
-            }
-            .task-menu{
-                margin-top: 6px;
-            }
-            .messages-menu{
-                margin-top: 5px;
-            }
-            .invoice-menu{
-                margin-top: 2px;
-            }
-            .members-menu{
-                margin-top: 6px;
-            }
-            .timer-menu{
-                margin-top: 0px;
-            }
-            .reports-menu{
-                margin-top: 5px;
+                .menu-item{
+                    height: 100%;
+                    width: 100%;
+                    line-height: 4;
+                    svg{
+                        fill: $hq-icon;
+                        margin-right: 5px;
+                    }
+                    svg, span{
+                        vertical-align: middle;
+                    }
+                    &:hover, &:active, &:focus{
+                        background: $hq-menu-bg;
+                        svg, span{
+                            color: $white;
+                            fill: $white;
+                        }
+                    }
+                }
             }
         }
     }

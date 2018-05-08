@@ -13,35 +13,37 @@
     
         <modal name="add-task" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content add-task">
-                <div class="buzz-modal-header"> {{ title }} </div>
-                <div class="buzz-scrollbar task-form" id="buzz-scroll">
-                    <el-form :model="form" ref="form" v-loading="isProcessing">
-                        <el-tabs type="card">
-                            <el-tab-pane>
-                                <div slot="label" class="text-option task-option">
-                                    <div class="left">
-                                        <img src="/img/icons/task/text.png" alt="icon">
+                <v-layout row wrap>
+                    <div class="buzz-modal-header"> {{ title }} </div>
+                    <div class="buzz-scrollbar task-form" id="buzz-scroll">
+                        <el-form :model="form" ref="form" v-loading="isProcessing">
+                            <el-tabs type="card">
+                                <el-tab-pane>
+                                    <div slot="label" class="text-option task-option">
+                                        <div class="left">
+                                            <img src="/img/icons/task/text.png" alt="icon">
+                                        </div>
+                                        <div class="right">
+                                            Text
+                                        </div>
                                     </div>
-                                    <div class="right">
-                                        Text
+                                    <text-task></text-task>
+                                </el-tab-pane>
+                                <el-tab-pane label="Video">
+                                    <div slot="label" class="video-option task-option">
+                                        <div class="left">
+                                            <img src="/img/icons/task/video.svg" alt="icon">
+                                        </div>
+                                        <div class="right">
+                                            Video
+                                        </div>
                                     </div>
-                                </div>
-                                <text-task></text-task>
-                            </el-tab-pane>
-                            <el-tab-pane label="Video">
-                                <div slot="label" class="video-option task-option">
-                                    <div class="left">
-                                        <img src="/img/icons/task/video.svg" alt="icon">
-                                    </div>
-                                    <div class="right">
-                                        Video
-                                    </div>
-                                </div>
-                                <video-task></video-task>
-                            </el-tab-pane>
-                        </el-tabs>
-                    </el-form>
-                </div>
+                                    <video-task></video-task>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </el-form>
+                    </div>
+                </v-layout>
             </section>
         </modal>
     </div>

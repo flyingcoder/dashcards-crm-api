@@ -1,7 +1,7 @@
 <template>
     <section class="content dashboard">
-        <div class="row content-header">
-            <div class="col-md-6">
+        <v-layout row wrap>
+            <div class="col-md-6 content-header">
                 <div class="page-title">
                     <h1>Dashboard</h1>
                 </div>
@@ -21,8 +21,8 @@
                 <div class="col-md-4">
                     <div class="dashboard-option">
                         <div class="switch-box" id="switch-status">
-                             <div class="left">
-                                 <!-- <label class="switch">
+                            <div class="left">
+                                <!-- <label class="switch">
                                 <input type="checkbox">
                                 <span class="slider round"></span>
                                 </label> -->
@@ -50,12 +50,10 @@
                 </div>
                 </div>
             </div>
-        </div>
-        <div class="row buzz-tiles">
-            <div class="col-md-6">
+            <div class="col-md-6 buzz-tiles">
                 <div class="row">
                 <!-- <div class="col-md-4" v-if="!isNaN(myProjects)"> -->
-                 <div class="col-md-4">
+                <div class="col-md-4">
                     <div class="buzz-tile-content">
                     <div class="buzz-tile-icon orange-1">
                         <img src="img/sidebar/projects.svg">
@@ -94,7 +92,7 @@
                 </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 buzz-tiles">
                 <div class="row">
                     <!-- <div class="col-md-4" v-if="!isNaN(myTimer)"> -->
                     <div class="col-md-4">
@@ -137,9 +135,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 data-boxes">
             <!-- Tasks -->
                 <div class="buzz-box db-tasks"
                     v-if="isEnable('tasks')" 
@@ -326,7 +322,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 data-boxes">
             <!-- Timeline -->
                  <div class="buzz-box" 
                  v-if="isEnable('timeline')"
@@ -514,7 +510,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </v-layout>
         <add-shortcut></add-shortcut>
     </section>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade in active" id="tab-projects">
+    <div class="tab-projects">
         <project-status></project-status>
         <table>
             <thead>

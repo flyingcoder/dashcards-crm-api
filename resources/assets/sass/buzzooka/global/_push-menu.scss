@@ -38,8 +38,9 @@
         @extend .toggle-transition;
         .sidebar-menu{
             .menu-name{
-                display: none;
-                @extend .toggle-transition;
+                opacity: 0;
+                margin-left: 0 !important;
+                @extend .toggle75-transition;
             }
             .list-item{
                 margin-left: -5px !important;

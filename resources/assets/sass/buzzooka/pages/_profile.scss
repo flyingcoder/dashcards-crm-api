@@ -84,6 +84,7 @@
                 bottom: 128px;
                 width: 208px;
                 height: 208px;
+                border-radius: 50%;
             }
         }
         .social-accounts{
@@ -232,6 +233,31 @@
                     }
                 }
             }
+            .tabs__bar{
+                .tabs__div{
+                    border: $body-border;
+                    &:hover, &:focus{
+                        a{
+                            background: $blue !important;
+                            svg{
+                                fill: $white;
+                            }
+                        }
+                    }
+                    .tabs__item{
+                        height: 55px !important;
+                        svg{
+                            fill: $hq-icon;
+                        }
+                    }
+                    .tabs__item--active{
+                        background: $blue !important;
+                        svg{
+                            fill: $white;
+                        }
+                    }
+                }
+            }
         }
         .module-tabs{
             ul{
@@ -258,6 +284,36 @@
                     }
                     svg{
                         width: 40px;
+                    }
+                }
+            }
+            .tabs__bar{
+                .tabs__div{
+                    width: 25%;
+                    .tabs__item{
+                        padding: 0;
+                    }
+                }
+                .projects{
+                    svg{
+                        width: 25px;
+                    }
+                }
+                .invoices{
+                    svg{
+                        width: 30px;
+                    }
+                }
+                .payments{
+                    .tabs__item{
+                        padding-top: 5px;
+                    }
+                }
+                .payments, .users{
+                    .tabs__item{
+                        svg{
+                            width: 40px;
+                        }
                     }
                 }
             }
@@ -294,13 +350,43 @@
                     }
                 }
             }
+            .tabs__bar{
+                .tabs__div{
+                    width: 33.33%;
+                    &:hover{
+                        .normal{
+                            display: none;
+                        }
+                        .selected{
+                            display: inline-block;
+                        }
+                    }
+                    .tabs__item{
+                        padding: 0;
+                        img, svg{
+                            width: 35px;
+                        }
+                    }
+                    .tabs__item--active{
+                        .normal{
+                            display: none;
+                        }
+                        .selected{
+                            display: inline-block;
+                        }
+                    }
+                    .selected{
+                        display: none;
+                    }
+                }
+            }
         }
         .tab-content{
             height: auto;
+            border: $border-buzz;
             table{
                 width: 100%;
                 height: auto;
-                border: $border-buzz;
                 thead, tbody tr {
                     display:table;
                     width:100%;
@@ -336,7 +422,7 @@
                     }
                 }
             }
-            #tab-projects{
+            .tab-projects{
                 .project-status{
                     height: 65px;
                     padding: 20px 10px;
@@ -480,18 +566,39 @@
                     }
                 }
             }
-            #tab-invoices{
+            .tab-invoices{
                table{
-                    .client{
-                        img{
-                            width: 45px;
-                            margin-right: 10px;
+                   thead{
+                       tr{
+                           th{
+                                text-align: center !important;
+                           }
+                       }
+                   }
+                   tbody{
+                       tr{
+                           td{
+                               text-align: center;
+                           }
+                           .client{
+                            img{
+                                width: 45px;
+                                margin-right: 10px;
+                            }
                         }
-                    }
+                       }
+                   }
                 } 
             }
-            #tab-payments{
+            .tab-payments, .tab-users{
                 table{
+                    tbody, thead{
+                        tr{
+                            td, th{
+                                text-align: center;
+                            }
+                        }
+                    }
                     .client{
                         img{
                             width: 45px;
@@ -501,7 +608,7 @@
                 } 
             }
         }
-        #facebook, #instagram, #twitter{
+        .facebook, .instagram, .twitter{
             .facebook-feed, .insta-feed, .twitter-feed{
                 background: $white;
                 padding: 15px;
@@ -532,12 +639,14 @@
                 }
             }
         }
-        #instagram{
-            .insta-feed{
-                max-height: 600px !important;
-                .content{
-                    max-height: 500px !important;
-                    padding: 0 !important;
+        .insta-feed{
+            padding: 0 !important;
+            max-height: 600px !important;
+            .content{
+                max-height: 529px !important;
+                padding: 0 !important;
+                .feeds{
+                    padding: 20px;
                 }
             }
         }

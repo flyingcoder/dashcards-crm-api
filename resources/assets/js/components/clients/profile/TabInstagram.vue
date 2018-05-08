@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="instagram">
+    <div class="instagram">
        <div class="insta-feed">
             <div class="content buzz-scrollbar" id="buzz-scroll">
                 <div class="feeds">

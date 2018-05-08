@@ -138,6 +138,32 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
 });
 
+
+// Milestone Template
+Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
+
+  Route::get('/', 'MilestoneTemplateController@index');
+
+  Route::post('/', 'MilestoneTemplateController@store');
+
+  Route::put('{id}', 'MilestoneTemplateController@update');
+
+  Route::delete('{id}', 'MilestoneTemplateController@destroy');
+
+  Route::group(['prefix' => 'mlt-milestone'], function (){
+
+    Route::get('{id}', 'MltMilestoneController@index');
+
+    Route::post('{id}', 'MltMilestoneController@store');
+
+    Route::put('{id}', 'MltMilestoneController@update');
+
+    Route::delete('{id}', 'MltMilestoneController@destroy');
+
+  });
+
+});
+
 // Services
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
@@ -280,14 +306,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoices'], function () {
   Route::delete('{id}', 'InvoiceController@delete');
 });
 
-// Milestones
-Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
+// comment dustin 05/03 - used of milestone template
+// // Milestones
+// Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
 
-  Route::post('{id}', 'MilestoneController@store');
+//   Route::post('{id}', 'MilestoneController@store');
   
-  Route::get('select/{id}', 'MilestoneController@selectMilestone');
+//   Route::get('select/{id}', 'MilestoneController@selectMilestone');
   
-});
+// });
 
 // Forms
 Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
