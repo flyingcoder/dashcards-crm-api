@@ -105,6 +105,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   Route::get('/projects', 'UserController@projects');
 
   Route::get('/clients', 'UserController@clients');
+
+  Route::get('/notifications', 'UserController@notification');
   
 });
 
