@@ -1,5 +1,5 @@
 <template>
-     <div class="tab-pane fade" id="twitter">
+     <div class="twitter">
         <div class="twitter-feed">
             <h1> Twitter Feed</h1>
             <div class="content buzz-scrollbar" id="buzz-scroll">

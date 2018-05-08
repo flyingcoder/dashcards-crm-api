@@ -3,8 +3,8 @@
         <el-dropdown trigger="click" placement="bottom" class="notif-badge">
             <el-badge :value="200" :max="99" class="item">
                 <el-button size="small" class="el-dropdown-link">
-                    <img src="/img/icons/header/notification.svg" width="32px" class="icon-normal">
-                    <img src="/img/icons/header/notificationcolor.png" width="32px" class="icon-hover">
+                    <img src="/img/icons/header/notification.svg" width="28px" class="icon-normal">
+                    <img src="/img/icons/header/notificationcolor.png" width="28px" height="30px" class="icon-hover">
                 </el-button>
             </el-badge>
             <el-dropdown-menu slot="dropdown" class="header-dropdown header-notifications buzz-scrollbar buzz-scroll">

@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="tab-users">
+    <div class="tab-users">
         <table>
             <thead>
                 <tr>

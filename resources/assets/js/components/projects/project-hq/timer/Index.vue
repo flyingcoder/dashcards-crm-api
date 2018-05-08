@@ -1,5 +1,5 @@
 <template>
-    <section class="content Timer">
+    <section class="content hq-timer">
         <div class="content-body">
             <section class="buzz-section">
                 <div class="">

@@ -42,9 +42,9 @@
                 </tr>
             </tbody>
         </table>
-        <div class="box-footer">
+        <!-- <div class="box-footer">
             <a href="#"> View More </a>
-        </div>
+        </div> -->
     </div>
 </template>
 

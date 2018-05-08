@@ -1,9 +1,14 @@
+html{
+    height: 100%;
+    min-height: 970px;
+}
+
 .buzzooka{
     position: relative;
     background: $body-bg;
     min-height: 100%;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     height: auto;
     padding: 0;
     margin: 0;
@@ -188,13 +193,13 @@
     .buzz-header{
         background: $white;
         position: relative;
-        height: 80px;
+        height: 70px;
         z-index: 100;
         @extend .buzz-shadow-soft;
 
         .logo, .buzz-head{
             display: inline-block;
-            height: 80px;
+            height: 70px;
         }
         
         .logo {
@@ -210,7 +215,7 @@
             right: 0;
             width: 100%;
             z-index: 100;
-            padding-top: 25px;
+            padding-top: 18px;
             @extend .width-transition;
         }
 
@@ -220,15 +225,18 @@
         position: relative;
         margin-left: 190px;
         // padding: 10px 30px;
-        padding: 0px 30px;
         @extend .margin-transition;
+        .content{
+            padding: 0px 30px;
+        }
         .content-header{
-            height: 60px;
+            height: 70px;
             .page-title{
                 color: $text;
                 font-weight: bolder;
                 font-family: lato semibold;
                 margin-top: 12px;
+                text-align: left;
                 h1{
                     font-size: 30px;
                     margin: 0;
@@ -245,6 +253,7 @@
         .content-body{
             position: relative;
             height: auto;
+            margin-bottom: 60px;
             // height: 1476px;
             background: $white;
             border-radius: 10px;
@@ -489,6 +498,11 @@
         transition: transform 0.5s ease;
     }
     .toggle-transition{
+        -webkit-transition: all 0.3s ease !important;
+		-moz-transition: all 0.3s ease !important;
+		transition: all 0.3s ease !important;
+    }
+    .toggle75-transition{
         -webkit-transition: all 0.3s ease !important;
 		-moz-transition: all 0.3s ease !important;
 		transition: all 0.3s ease !important;
@@ -1234,7 +1248,7 @@
     }
 // V Modal
     .v--modal{
-        width: 620px !important;
+        width: 600px !important;
         min-height: 300px;
         height: auto !important;
         top: 50px !important;
@@ -1292,7 +1306,7 @@
                         vertical-align: middle;
                         display: inline-block;
                         padding: 0;
-                        width: 30%;
+                        width: 30.6%;
                         margin-right: 20px;
                         height: 44px;
                         font-size: 17.2px;
@@ -1449,17 +1463,17 @@
                             }
                         }
                         .cke_top{
-                            position: absolute;
+                            position: relative;
                             bottom: 0;
                             background: none;
                             .cke_toolgroup{
                                a{
-                                   padding-top: 0 !important;
-                                   height: auto !important;
-                                   width: auto !important;
-                                   background: none;
-                                   border: none !important;
-                                   margin-right: 5px !important;
+                                //    padding-top: 0 !important;
+                                //    height: auto !important;
+                                //    width: auto !important;
+                                //    background: none;
+                                //    border: none !important;
+                                //    margin-right: 5px !important;
                                } 
                             }
                         }
@@ -1568,6 +1582,19 @@
                 }
             }
         }
+        .layout{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .add-project{
+            .modal-options{
+                .option{
+                    .option-item{
+                        width: 47.8% !important;
+                    }
+                }
+            }
+        }   
         .add-project, .add-task{
             .modal-options{
                 .option{
@@ -1576,7 +1603,7 @@
                             .file-upload{
                                 .el-upload-list{
                                     position: relative;
-                                    right: -210px;
+                                    right: -310px;
                                     box-shadow: $body-shadow;
                                     z-index: 100;
                                     // display: none;

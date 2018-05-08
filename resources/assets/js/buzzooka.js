@@ -28,7 +28,9 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import Photoshop from 'vue-color'
 import VueCarousel from 'vue-carousel';
+import Vuetify from 'vuetify';
 
+Vue.use(Vuetify);
 Vue.use(VueCarousel);
 Vue.use(Element, { locale });
 Vue.use(VModal);
@@ -96,6 +98,10 @@ Vue.component('avatar',Avatar);
 // Templates
   Vue.component('templates', require('./components/templates/Index.vue'));
 
+// Templates
+  Vue.component('milestone-template', require('./components/milestone/Index.vue'));
+  Vue.component('mlt-milestone', require('./components/milestone/milestone-task/Index.vue'));
+
 // Forms
   Vue.component('buzz-forms', require('./components/forms/Index.vue'));
 
@@ -145,6 +151,10 @@ Vue.component('avatar',Avatar);
 
 // Ckeditor
   Vue.component('ckeditor', require('./components/common/Ckeditor.vue'));
+
+// Empty Table
+Vue.component('empty', require('./components/common/Empty'));
+  
 
   $(document).ready(function(){
   // Push menu

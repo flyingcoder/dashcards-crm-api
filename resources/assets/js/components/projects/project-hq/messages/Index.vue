@@ -1,18 +1,18 @@
 <template>
     <section class="content hq-messages">
-         <div class="content-body">
-            <section class="buzz-section">
-                <div class="row">
-                    <div class="col-md-3">
-                        <left-message></left-message>
-                    </div>
-                    <div class="col-md-9">
-                        <!-- <message-info></message-info> -->
-                        <!-- <message-table></message-table> -->
-                        <new-message></new-message>
-                    </div>
-                </div>
-            </section>
+        <div class="content-body">
+            <v-layout row wrap>
+                <section class="buzz-section">
+                        <div class="col-md-3">
+                            <left-message></left-message>
+                        </div>
+                        <div class="col-md-9">
+                            <!-- <message-info></message-info> -->
+                            <!-- <message-table></message-table> -->
+                            <new-message></new-message>
+                        </div>
+                </section>
+            </v-layout>
         </div>
     </section>
 </template>

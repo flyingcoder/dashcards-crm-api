@@ -3,8 +3,11 @@
         display: block;
         float: left;
         overflow: hidden;
+        z-index: 101;
         @extend .toggle-transition;
-
+        button{
+            cursor: pointer;
+        }
         .logo-lg {
             display: block;
             padding: 15px 0;
@@ -13,8 +16,8 @@
             display: none;
         }
         img{
-            margin-top: 5px;
             margin-left: 5px;
+            cursor: pointer;
         }
     }
     .menu-toggle{
@@ -23,7 +26,7 @@
         width: 27px;
         height: 27px;
         left: 178px;
-        top: 25px;
+        top: 20px;
         border-radius: 50%;
         border: 1px solid $toggle-border;
         box-shadow: 0px 4px 3px 0px rgba(173, 183, 196, 0.13);
@@ -35,12 +38,12 @@
         }
         .icon{
             position: relative;
-            top: 3px;
+            top: 0px;
         }
         svg{
             position: relative;
-            top: 0px;
-            right: 2px;
+            top: -1.5px;
+            right: 2.2px;
             -ms-transform: rotate(180deg); /* IE 9 */
             -webkit-transform: rotate(180deg); /* Safari 3-8 */
             transform: rotate(180deg);
@@ -50,25 +53,27 @@
     .buzz-head{
         .buzz-search{
             position: absolute;
+            width: 15%;
+            top: 15px;
             left: 30px;
             margin-left: 190px;
             @extend .toggle-transition;
             form{
+                width: 100%;
                 padding: 0;
                 margin: 0;
-                .search{
-                    button{
-                        padding: 0;
-                        margin: 0;
-                        padding-right: 10px;
-                    }
-                }
                 input{
+                    border-bottom: 1px solid $fade-text;
+                    border-radius: 5px;
+                    font-size: 18px;
                 }
                 ::placeholder{
                     color: $fade-text;
-                    font-size: 16px;
+                    font-size: 18px;
                     letter-spacing: 0.5px;
+                }
+                .el-input__inner{
+                    padding-left: 40px;
                 }
             }
         }
@@ -81,7 +86,7 @@
                 li{
                     list-style: none;
                     display: inline-block;
-                    padding: 0 10px;
+                    padding: 0 12px;
                     &:first-child{
                         img{
                             margin-bottom: 3px;
@@ -90,27 +95,32 @@
                     button{
                         padding: 0;
                         background: none;
+                        span{
+                            &:focus{
+                                outline: none;
+                            }
+                        }
                     }
                     .el-dropdown{
                         .el-badge{
                             vertical-align: unset;
                             .el-badge__content{
-                                width: 30px;
-                                height: 30px;
+                                width: 25px;
+                                height: 25px;
                                 border-radius: 50%;
-                                padding-top: 5px;
+                                padding-top: 3px;
                                 font-size: 12px;
                             }
                         }
                         button{
                             #user-image{
-                                width: 45px;
+                                width: 40px;
                                 margin-right: 15px;
                                 margin-left: 5px;
-                                margin-top: -8px;
+                                margin-top: 0px;
                             }
                             .arrow-down{
-                                width: 35px;
+                                width: 30px;
                             }
                             .icon-hover{
                                 display: none;
@@ -160,7 +170,7 @@
     .header-data_box{
         width: 420px !important;
         padding: 20px 40px;
-        top: 70px !important;
+        top: 58px !important;
         h1{
             margin: 0;
             font-size: 23px;
@@ -296,7 +306,7 @@
     .header-notifications{
         height: auto;
         max-height: 560px;
-        top: 80px !important;
+        top: 70px !important;
         padding: 0;
         margin: 0;
         overflow-x: hidden;
@@ -362,7 +372,7 @@
         }
     }
     .header-chat{
-        top: 70px !important;
+        top: 60px !important;
         padding: 0 15px;
         h1{
             margin: 20px 0;
@@ -385,6 +395,9 @@
                     img{
                         width: 50px;
                         border-radius: 50%;
+                        &:focus{
+                            outline: none;
+                        }
                     }
                     span{
                         position: absolute;

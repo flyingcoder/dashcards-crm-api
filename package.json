@@ -58,6 +58,7 @@
         "vue-quill-editor": "^3.0.5",
         "vue-router": "^3.0.1",
         "vue-template-compiler": "^2.5.16",
-        "vuejs-datepicker": "^0.9.29"
+        "vuejs-datepicker": "^0.9.29",
+        "vuetify": "^1.0.17"
     }
 }
