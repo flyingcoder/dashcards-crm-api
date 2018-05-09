@@ -45,6 +45,7 @@
                     <div class="milestone-heading">
                         <a href="#milestone-element-1" data-parent="#milestone-1" class="collapsed milestone-title" data-toggle="collapse">
                             <span> {{ t.title }} </span>  
+                            <span> {{ t.assigned ? t.assigned[0].first_name + " " + t.assigned[0].last_name : '' }} </span>  
                         </a>
                         <ul class="milestone-sub-option">
                                 <li>

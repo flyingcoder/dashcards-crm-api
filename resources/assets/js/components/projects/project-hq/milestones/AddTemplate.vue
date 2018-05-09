@@ -4,7 +4,7 @@
         <v-layout row wrap>
             <div class="buzz-modal-header"> import template </div>
             <div class="buzz-scrollbar milestone-form" id="buzz-scroll">
-              <div style="height: 400px;" class="col-md-3">
+              <div style="height: 200px;" class="col-md-3">
                 <el-steps direction="vertical" :active="active" >
                   <el-step title="Choose Template">
                   </el-step>
@@ -13,8 +13,8 @@
                 
               </div>
               <div class="buzz-modal-content col-md-9">
-                <el-form v-if="active == 0">
-                  <el-form-item>
+                <el-form v-if="active == 0" v-loading="isProcessing">
+                  <el-form-item >
                         <el-select v-model="template_id" clearable placeholder="Select template">
                             <el-option 
                             v-for="t in templates"
@@ -26,15 +26,32 @@
                     </el-form-item>
                 </el-form>
                 <div v-if="active == 1">
-                  <el-card v-for="m in form.milestones" :key="m.id">
+                  <el-form v-loading="isProcessing">
+                    <div style="margin-bottom: 10px"  v-for="(m, i) in form.milestones" :key="m.id" >
+                    <el-card>
                     <div slot="header" class="clearfix">
                       <span>{{ m.title }}</span>
                     </div>
-                  </el-card>
+                    <el-form-item v-for="(t,ii) in m.mlt_tasks" :key="t.id" :label="t.title">
+                      <el-select v-model="form.milestones[i].mlt_tasks[ii].assign" placeholder="Assign Member">
+                            <el-option 
+                            v-for="m in members"
+                            :key="m.id"
+                            :label="m.first_name + ' ' + m.last_name"
+                            :value="t.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    </el-card>
+                    </div>
+                    
+                  </el-form>
+                  
                 </div>
                 
                 <el-button style="margin-top: 12px;" @click="prev">Prev step</el-button>
-                <el-button style="margin-top: 12px;" @click="next">Next step</el-button>
+                <el-button style="margin-top: 12px;" v-if="active == 0" @click="next">Next step</el-button>
+                <el-button style="margin-top: 12px;" v-if="active == 1" @click="submit">Submit</el-button>
                 </div>
             </div>
         </v-layout>
@@ -44,18 +61,22 @@
 
 <script>
 export default {
+  props: ['projectId'],
   data(){
     return {
+      isProcessing: true,
       active: 0,
       templates: [],
       template_id: '',
-      form: this.initForm()
+      form: this.initForm(),
+      members: [],
     }
   },
   methods: {
     beforeOpen(){
       axios.get('/api/milestones/all')
       .then( response => {
+        this.isProcessing = false;
         this.templates = response.data;
       })  
     },
@@ -68,14 +89,43 @@ export default {
       if (this.active++ > 1);
       console.log(this.active);
       if(this.active == 1){
+        this.isProcessing = true;
         axios.get('/api/milestones/mlt-milestone/' + this.template_id + '/all')
         .then( response => {
+          this.isProcessing = false;
           this.form.milestones = response.data;
-        })
+          _.forEach(this.form.milestones, function(m){
+            _.forEach(m.mlt_tasks, function(t){
+              _.assign(t, {'assign': ''});
+            })
+          })
+        });
+      axios.get('/api/projects/' + this.projectId + '/members')
+        .then( response => {
+          this.members = response.data.data;
+    
+        });
+        
       }
     },
     prev() {
       if (this.active-- < 0);
+    },
+    submit(){
+        this.isProcessing = true;      
+        var vm = this;
+      axios.post('/api/milestones/' + this.projectId + '/import', this.form)
+      .then(response => {
+        this.isProcessing = false;
+        swal({
+          title: 'Success!',
+          text: 'Milestone is saved!',
+          type: 'success'
+        }).then( function() {
+           vm.$modal.hide('add-template');
+            vm.$emit('updated',response.data);
+        });
+      })
     }
   }
 }

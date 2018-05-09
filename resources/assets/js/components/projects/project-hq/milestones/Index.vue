@@ -6,7 +6,7 @@
             	<milestone-card v-for="d in milestones" :data="d" :key="d.id" v-on:addTask="addTask"></milestone-card>
     		</div>
         <add-milestone></add-milestone>
-        <add-template></add-template>
+        <add-template :projectId='$parent.projectId' v-on:updated="update"></add-template>
         </v-layout>
     </section>
 </template>
@@ -43,6 +43,9 @@
 			addTask(val){
 				let i = _.findIndex(this.milestones, ['id', val.id]);
 				this.milestones[i].tasks.push(val.task);
+			},
+			update(){
+				this.getMilestones();
 			}
 		}
     }
