@@ -9,15 +9,21 @@
             cursor: pointer;
         }
         .logo-lg {
-            display: block;
+            position: absolute;
+            top: 0;
+            opacity: 1;
             padding: 15px 0;
+            @extend .toggle75-transition;
         }
         .logo-mini {
-            display: none;
+            opacity: 0;
+            @extend .toggle75-transition;
         }
         img{
+            position: absolute;
             margin-left: 5px;
             cursor: pointer;
+            @extend .toggle75-transition;
         }
     }
     .menu-toggle{

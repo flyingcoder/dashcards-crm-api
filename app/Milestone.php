@@ -50,6 +50,24 @@ class Milestone extends Model
         return $milestone;
     }
 
+    public function replicate($template, Project $project){
+        $template = $request->all();
+        $milestones = $template['milestone'];
+        foreach($milestones as $milestone){
+            self::create([
+                'project_id' => $project->id,
+                'title' => $milestone->title,
+                'started_at' => strtotime(),
+                'end_at' => strtotime($milestone->days + ' days'),
+                'percentage' => $request->percentage,
+                'status' => 'In Progress'
+            ]);
+            foreach($milestone['tasks'] as $task){
+                
+            }
+        }
+    }
+
     public function project()
     {
     	return $this->belongsTo(Project::class);

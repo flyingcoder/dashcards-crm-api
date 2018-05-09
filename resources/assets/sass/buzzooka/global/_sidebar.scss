@@ -43,7 +43,7 @@
                     font-family: $lato-semi;
                     line-height: 1.2;
                     margin: 6px 0 0 30px;
-                    @extend .toggle75-transition;
+                    @extend .toggle1s-transition;
                 }
                
                 img{

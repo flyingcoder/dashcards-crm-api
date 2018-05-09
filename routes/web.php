@@ -27,6 +27,7 @@ Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]
 Route::view('bugs', 'pages.bugs')->name('bugs');
 Route::view('calendar', 'pages.calendar')->name('calendar');
 Route::view('templates', 'pages.templates')->name('templates');
+Route::view('milestones', 'pages.milestones')->name('milestones');
 Route::view('buzz-forms', 'pages.forms')->name('buzz-forms');
 Route::view('invoices', 'pages.invoices')->name('invoices');
 Route::view('payments', 'pages.payments')->name('payments');
