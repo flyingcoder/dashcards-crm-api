@@ -1,18 +1,16 @@
 <template>
     <section class="content projects">
-        <div class="content-header">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="page-title">
-                        <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Forms </span> </h1>
-                    </div>
+        <v-layout row wrap>
+            <div class="content-header col-md-6">
+                <div class="page-title">
+                    <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Forms </span> </h1>
                 </div>
                 <!-- <div class="col-md-6">
                     <div class="head-page-option">
                         <ul class="nav nav-tabs">
                             <AddProject></AddProject>
                             <li class="sort">
-                                 <el-dropdown trigger="click" placement="bottom">
+                                <el-dropdown trigger="click" placement="bottom">
                                     <el-button size="small" class="el-dropdown-link">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                             width="22px" height="6px">
@@ -40,16 +38,18 @@
                     </div>
                 </div> -->
             </div>
-        </div>
-        <div class="content-body">
-            <section class="buzz-section">
-                <div class="">
-                    <div class="text-center">
-                        <img src="/img/temporary/construction.jpg" alt="icon" width="560px">
-                    </div>
-                    <h1 class="text-center"> Coming Soon!!</h1>
+            <div class="col-md-12">
+                <div class="content-body">
+                    <section class="buzz-section">
+                        <div class="">
+                            <div class="text-center">
+                                <img src="/img/temporary/construction.jpg" alt="icon" width="560px">
+                            </div>
+                            <h1 class="text-center"> Coming Soon!!</h1>
+                        </div>
+                    </section>
                 </div>
-            </section>
-        </div>
+            </div>
+        </v-layout>
     </section>
 </template>
