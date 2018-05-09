@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\MilestoneTemplateRequest;
 use App\MilestoneTemplate;
+use App\Project;
 use Auth;
 
 class MilestoneTemplateController extends Controller
@@ -54,5 +55,10 @@ class MilestoneTemplateController extends Controller
             return response(['message' => $ex->getMessage()], 500);
 
         }
+    }
+
+    public function replicate($id, Request $request){
+        $milestone = new Milestone();
+        $milestone->replicate($request, Project::findOrfail($id));
     }
 }
