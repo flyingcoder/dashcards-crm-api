@@ -215,7 +215,6 @@ var yyyy = today.getFullYear();
             submitFiles () {
                 axios.post('/project-hq/' + this.id + '/files', this.files)
                 .then (response => {
-                    this.isProcessing = false;
                 })
                 .catch (error => {
                 });
@@ -225,7 +224,8 @@ var yyyy = today.getFullYear();
                 axios.post('/api/projects/',this.form)
                 .then( response => {
                     this.id = response.data.id;
-                    this.$refs.attachments.submit();                
+                    this.$refs.attachments.submit();
+                    this.isProcessing = false;                                    
                     swal('Success!', 'Project is saved!', 'success');
                     this.$modal.hide('add-project');
 

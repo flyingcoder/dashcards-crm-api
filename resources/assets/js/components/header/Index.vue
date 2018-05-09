@@ -64,5 +64,10 @@
           'chat': Chat,
           'user': User,
       },
+      data(){
+          return{
+              input21: ""
+          }
+      }
     }
 </script>

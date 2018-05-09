@@ -158,6 +158,8 @@ class User extends Authenticatable
 
         if($request->has('sort'))
             $projects->orderBy($sortName, $sortValue);
+        else
+            $projects->latest();
 
         return $projects->with('tasks')->paginate($this->paginate);
     }
@@ -170,6 +172,11 @@ class User extends Authenticatable
     public function company()
     {
         return $this->teams()->first()->company;
+    }
+
+    public function milestoneTemplate()
+    {
+    	return $this->hasMany(MilestoneTemplate::class);
     }
 
     /*

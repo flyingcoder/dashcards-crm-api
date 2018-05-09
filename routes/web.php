@@ -88,9 +88,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'calendar'], function () {
 
 // Milestones
 Route::group(['middleware' => 'auth', 'prefix' => 'milestones'], function () {
-	Route::get('/', 'TemplateController@index')->name('milestones');
-	Route::get('{id}', 'TemplateController@milestone')->name('milestone');
-	Route::get('new', 'TemplateController@save')->name('new-milestone');
+	// Route::get('/', 'TemplateController@index')->name('milestones');
+	// Route::get('{id}', 'TemplateController@milestone')->name('milestone');
+	// Route::get('new', 'TemplateController@save')->name('new-milestone');
+	Route::get('/', 'MilestoneTemplateController@index')->name('milestones');
+	Route::get('{id}', 'MltMilestoneController@index')->name('milestone');
+	Route::get('new', 'MilestoneTemplateController@save')->name('new-milestone');
 });
 
 // ================
