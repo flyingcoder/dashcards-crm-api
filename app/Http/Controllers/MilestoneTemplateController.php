@@ -61,4 +61,14 @@ class MilestoneTemplateController extends Controller
         $milestone = new Milestone();
         $milestone->replicate($request, Project::findOrfail($id));
     }
+
+    public function all(){
+        try {
+            return MilestoneTemplate::select('id','title')->get();
+        } 
+        catch (\Exception $ex) {
+            return response(['message' => $ex->getMessage()], 500);
+
+        }
+    }
 }
