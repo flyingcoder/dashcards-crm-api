@@ -93,6 +93,7 @@ export default {
   methods:{
     beforeOpen (event) {
       this.form = this.initForm();
+      this.tasks = [];
       if(typeof event.params != 'undefined' && event.params.action == 'Update') {
         this.action = 'Update';
         this.title = 'Edit Milestone';

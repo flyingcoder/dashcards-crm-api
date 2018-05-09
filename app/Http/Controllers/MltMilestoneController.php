@@ -38,4 +38,9 @@ class MltMilestoneController extends Controller
         }
     }
 
+    public function all($id){
+        $milestone = new MltMilestone;
+        return $milestone->with('mltTasks')->where('milestone_template_id', $id)->orderBy('created_at','desc')->get();
+    }
+
 }

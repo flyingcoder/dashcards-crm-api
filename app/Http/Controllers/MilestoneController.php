@@ -26,7 +26,7 @@ class MilestoneController extends Controller
 
         $project = Project::findOrFail($project_id);
 
-        return $project->milestones()->with(['tasks'])
+        return $project->milestones()->with(['tasks.assigned'])
         ->paginate(10);
     }
 
