@@ -252,13 +252,13 @@ class ProjectController extends Controller
 
         (new ProjectPolicy())->view($project);
 
-        return $project->load(['client', 'service','members' => function ($query) {
-            $query->select('id')->wherePivot('role','members');
-        }
-        
-        ,'comments' => function ($query){
-            $query->first();
-        }]);
+        return $project->load(['company', 'client', 'service', 'members' => function ($query) {
+                    $query->select('id')->wherePivot('role','members');
+                }
+                
+                ,'comments' => function ($query){
+                    $query->first();
+                }]);
     }
 
     /*public function myProjectStatus($status)

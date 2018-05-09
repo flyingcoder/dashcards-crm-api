@@ -141,7 +141,7 @@
                 </div>
             </div>
         </v-layout >
-        <add-project></add-project>
+        <add-project @refresh="getAllProjects"></add-project>
     </section>
 </template>
 

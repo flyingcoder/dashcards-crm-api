@@ -42,7 +42,7 @@ class ProjectPolicy
      */
     public function view(Project $project)
     {
-        if($project->company() != auth()->user()->company())
+        if($project->company != auth()->user()->company())
             abort(403, 'Project not found!');
     }
 

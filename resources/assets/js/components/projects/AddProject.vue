@@ -228,7 +228,7 @@ var yyyy = today.getFullYear();
                     this.isProcessing = false;                                    
                     swal('Success!', 'Project is saved!', 'success');
                     this.$modal.hide('add-project');
-
+                    this.$emit('refresh');
                 })
                 .catch ( error => {
                     this.isProcessing = false;
@@ -247,6 +247,7 @@ var yyyy = today.getFullYear();
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is updated!', 'success');
+                    this.$emit('refresh');
                 })
                 .catch ( error => {
                     this.isProcessing = false;
