@@ -107,7 +107,7 @@
                 </div>
               </a>
             </li>
-            <li class="sidebar-list {{ (Request::is('templates/*') || Request::is('templates')  ? 'active' : '') }}">
+            <!-- <li class="sidebar-list {{ (Request::is('templates/*') || Request::is('templates')  ? 'active' : '') }}">
               <a href="{{ route ('milestones') }}" id="milestones"> 
                 <div class="list-item">
                     <label class="tab-icon"> 
@@ -119,7 +119,7 @@
                     <span class="pull-right-container"></span>
                 </div>
               </a>
-            </li>
+            </li> -->
             <li class="sidebar-list {{ (Request::is('buzz-forms/*') || Request::is('buzz-forms')  ? 'active' : '') }}">
               <a href="{{ route ('buzz-forms') }}" id="buzz-forms"> 
                 <div class="list-item">
