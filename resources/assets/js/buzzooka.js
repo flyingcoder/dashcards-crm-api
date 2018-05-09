@@ -98,7 +98,7 @@ Vue.component('avatar',Avatar);
 // Templates
   Vue.component('templates', require('./components/templates/Index.vue'));
 
-// Templates
+// Milestones
   Vue.component('milestone-template', require('./components/milestone/Index.vue'));
   Vue.component('mlt-milestone', require('./components/milestone/milestone-task/Index.vue'));
 

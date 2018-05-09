@@ -1,19 +1,23 @@
 <template>
     <section class="content timers">
-        <div class="tabs" id="timer-tabs">
-            <ul class="timer-tabs nav nav-tabs">
-                <li>
-                    <a href="#alarm" data-toggle="tab"> Alarm </a>
-                </li>
-                 <li class="active">
-                    <a href="#timer" data-toggle="tab"> Timer </a>
-                </li>
-            </ul>
-        </div>
-        <div class="tab-content">
-            <alarm></alarm>
-            <timer></timer>
-        </div>
+        <v-layout row wrap>
+            <div class="col-md-12">
+                <div class="tabs" id="timer-tabs">
+                    <ul class="timer-tabs nav nav-tabs">
+                        <li>
+                            <a href="#alarm" data-toggle="tab"> Alarm </a>
+                        </li>
+                        <li class="active">
+                            <a href="#timer" data-toggle="tab"> Timer </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <alarm></alarm>
+                    <timer></timer>
+                </div>
+            </div>
+        </v-layout>
     </section>
 </template>
 
