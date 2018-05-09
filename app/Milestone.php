@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Http\Request;
+use Task;
 
 class Milestone extends Model
 {
@@ -50,11 +51,11 @@ class Milestone extends Model
         return $milestone;
     }
 
-    public function replicate($template, Project $project){
+    public function importTemplate($template, Project $project){
         $template = $request->all();
         $milestones = $template['milestone'];
         foreach($milestones as $milestone){
-            self::create([
+            $m = self::create([
                 'project_id' => $project->id,
                 'title' => $milestone->title,
                 'started_at' => strtotime(),
@@ -63,7 +64,13 @@ class Milestone extends Model
                 'status' => 'In Progress'
             ]);
             foreach($milestone['tasks'] as $task){
-                
+                Task::create([
+                    'title' => $task['title'],
+                    'description' => $task['description'],
+                    'started_at' => strtotime(),
+                    'end_at' => strtotime($task['days'] + ' days'),
+                    'milestone_id' => $m->id
+                ]);
             }
         }
     }
