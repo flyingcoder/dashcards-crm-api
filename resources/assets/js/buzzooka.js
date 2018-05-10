@@ -34,7 +34,6 @@ Vue.use(Vuetify);
 Vue.use(VueCarousel);
 Vue.use(Element, { locale });
 Vue.use(VModal);
-Vue.use(VModal);
 Vue.use(VueQuillEditor, /* { default global options } */);
 Vue.component('avatar',Avatar);
 

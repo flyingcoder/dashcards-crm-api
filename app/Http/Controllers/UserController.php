@@ -14,6 +14,11 @@ class UserController extends Controller
         return request()->user();
     }
 
+    public function notifications()
+    {
+        return auth()->user()->notifications;
+    }
+
     public function store(Request $request)
     {
         (new UserPolicy())->create();

@@ -191,7 +191,7 @@ class Project extends Model implements HasMediaConversions
 
     public function company()
     {
-        return $this->manager->first()->company();
+        return $this->belongsTo(Company::class);
     }
 
     public function members()
