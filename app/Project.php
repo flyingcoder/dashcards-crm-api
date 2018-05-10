@@ -23,11 +23,11 @@ class Project extends Model implements HasMediaConversions
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'title', 'started_at', 'service_id', 'end_at', 'description', 'status'
+        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
     ];
 
     protected static $logAttributes = [
-        'title', 'started_at', 'service_id', 'end_at', 'description', 'status'
+        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
     ];
 
     public function comments()
@@ -191,7 +191,7 @@ class Project extends Model implements HasMediaConversions
 
     public function company()
     {
-        return $this->manager->first()->company();
+        return $this->belongsTo(Company::class);
     }
 
     public function members()

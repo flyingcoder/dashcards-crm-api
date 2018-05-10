@@ -55,22 +55,22 @@
                         <div class="buzz-table">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item active">
-                                    <a href="#all-project" ref="all-project" data-toggle="tab"> All Project </a>
+                                    <a href="#all-project"  data-toggle="tab"> All Project </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#my-project" ref="my-project" data-toggle="tab"> My Project </a>
+                                    <a href="#my-project"  data-toggle="tab"> My Project </a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <AllProjects></AllProjects>
-                                <MyProjects></MyProjects>
+                                <AllProjects ref="allproject"></AllProjects>
+                                <MyProjects ref="myproject"></MyProjects>
                             </div>
                         </div>
                     </section>
                 </div>
             </div>
-        </v-layout>
-        <add-project></add-project>
+        </v-layout >
+        <add-project v-on:updated="updated"></add-project>
     </section>
 </template>
 
@@ -85,8 +85,11 @@
           'AllProjects': AllProjects,
           'MyProjects': MyProjects,
       },
-        mounted(){
-
-        }
+      methods:{
+          updated(){
+              this.$refs.allproject.updated();
+              this.$refs.myproject.updated();
+          }
+      }
     }
 </script>

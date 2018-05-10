@@ -25,10 +25,10 @@
                                             placeholder="Choose a Member"
                                         >
                                         <div class="selectMembers__dropdown">
-                                            <el-option  class="member-items" v-for="m in clients" :key="m.id" 
-                                            :value="m.id" :label="m.first_name + ' ' + m.last_name">
+                                            <el-option  class="member-items" v-for="m in members" :key="m.id" 
+                                            :value="m.id" :label="m.name">
                                                 <span class="user-image"> <img :src="m.image_url"/> </span>
-                                                <div class="user-name"> {{ m.first_name + ' ' + m.last_name }} </div>
+                                                <div class="user-name"> {{ m.name }} </div>
                                             </el-option>
                                         </div>
                                     </el-select>
@@ -58,6 +58,8 @@
                                             class=""
                                             ref="attachments"
                                             action=""
+                                            :on-change="handleAdd"
+                                            :on-remove="handleRemove"
                                             :before-upload="beforeImport"
                                             :http-request='submitFiles'                           
                                             :auto-upload="false">
@@ -66,7 +68,7 @@
                                             </el-button>
                                         </el-upload>
                                         <div v-on:click="attachmentList = !attachmentList"> 
-                                            <el-badge :value="10" :max="99" class="file-badge"></el-badge>
+                                            <el-badge :value="attachmentsLength" :max="99" class="file-badge"></el-badge>
                                         </div>
                                     </div>
                                 </div>
@@ -96,11 +98,11 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item class="modal-editor" label="Add Description" :error="formError.description">
+                            <el-form-item class="modal-editor" v-if="!isProcessing" label="Add Description" :error="formError.description">
                                 <ckeditor id="description" v-model="form.description"></ckeditor>
                             </el-form-item>
-                            <el-form-item label="Add Comment" :error="formError.comment">
-                                <ckeditor id="comment" v-model="form.comment"></ckeditor>
+                            <el-form-item label="Add Comment" :error="formError.comment" v-if="action != 'Update'">
+                                <ckeditor id="comment" v-model="form.comment" :value="form.comment"></ckeditor>
                             </el-form-item>
                             <el-form-item  class="form-buttons" >
                                 <el-button @click="submit"> {{ action }}</el-button>
@@ -135,8 +137,10 @@ var yyyy = today.getFullYear();
                 isProcessing: false,
                 files: [],
                 form: this.initFormData(),
+                members: [],
                 clients: [],
                 services: [],
+                attachmentsLength: 0,
                 formError: '',
         		error: {
         			title: [],
@@ -156,28 +160,33 @@ var yyyy = today.getFullYear();
 
         methods: {
             beforeOpen (event) {
+                this.files = new FormData();     
                 this.form = this.initFormData();
-                if(typeof event.params != 'undefined' && event.params.action == 'Update') {
+                if(typeof event.params != 'undefined' && event.params.action == 'Update') {   
+                    this.isProcessing = true;
                     this.action = 'Update';
                     this.title = 'Edit Project';
                     this.data = event.params.data;
                     var vm = this;
                     axios.get('api/projects/'+this.data.id)
                     .then( response => {
-                        this.id = response.data.id;
-                        this.form = this.initFormData();
-                        this.form.title = response.data.title;
-                        this.form.description = response.data.description;
-                        if(response.data.comment){
-                            this.form.comment = response.data.comment[0].body
-                        }
-                        this.form.members = response.data.members.map(function(e){
-                            return e.id;
-                        })
-                        this.form.end_at = response.data.end_at;
-                        this.form.start_at = response.data.started_at;
-                        this.form.client_id = response.data.client[0].id;
-                        this.form.service_id = response.data.service.id;
+                        this.isProcessing = false;
+                        vm.id = response.data.id;
+                        vm.form = this.initFormData();
+                        vm.form.title = response.data.title;
+                        vm.form.description = response.data.description;
+                        //if(response.data.comment){
+                        //    this.form.comment = response.data.comment[0].body
+                        //}
+                        //this.form.members = response.data.members.map(function(e){
+                        //    return e.id;
+                        //})
+                        vm.form.end_at = response.data.end_at;
+                        vm.form.start_at = response.data.started_at;
+                        vm.form.client_id = response.data.client[0].id;
+                        vm.form.service_id = response.data.service.id;
+                        
+                        
                     });
                 }
             },
@@ -208,16 +217,29 @@ var yyyy = today.getFullYear();
                 .catch (error => {
                 });
             },
+            handleAdd(file, fileList) {
+                this.attachmentsLength = fileList.length;
+            },
+            handleRemove(file, fileList) {
+                
+               this.attachmentsLength -= fileList.length;
+            },
             save: function () {
                 this.isProcessing = true;
+                var vm = this;
                 axios.post('/api/projects/',this.form)
                 .then( response => {
                     this.id = response.data.id;
                     this.$refs.attachments.submit();
                     this.isProcessing = false;                                    
-                    swal('Success!', 'Project is saved!', 'success');
-                    this.$modal.hide('add-project');
-
+                    swal({
+                        title: 'Success!',
+                        text: 'Project is saved!',
+                        type: 'success'
+                    }).then( function() {
+                        vm.$modal.hide('add-project');
+                        vm.$emit('updated',response.data);
+                    });
                 })
                 .catch ( error => {
                     this.isProcessing = false;
@@ -234,20 +256,31 @@ var yyyy = today.getFullYear();
             },
             update: function () {
                 this.isProcessing = true;
+                var vm = this;
+                
                 axios.put('/api/projects/'+this.id+'/edit', this.form)
                 .then( response => {
                     this.isProcessing = false;
-                    swal('Success!', 'Project is updated!', 'success');
+                     swal({
+                        title: 'Success!',
+                        text: 'Project is updated!',
+                        type: 'success'
+                    }).then( function() {
+                        vm.$modal.hide('add-project');
+                        vm.$emit('updated',response.data);
+                    });
                 })
                 .catch ( error => {
                     this.isProcessing = false;
+                    this.formError = '';
                     if(error.response.status == 422){
-                        this.errors = error.response.data.errors;
+                        this.formError = error.response.data;
+                        swal('Saving Failed!','Form validation failed! ', 'error');
                     }
                     else {
-                        swal('Saving Failed!', error.response.data, 'error');
-                    }      
-                })
+                        swal('Saving Failed!','Server Error! ', 'error');  
+                    }
+                });
             },
             getClients(){
                 axios.get('api/clients?all=true')
@@ -281,14 +314,21 @@ var yyyy = today.getFullYear();
                  }
             },
             beforeImport(file) {
+                console.log(file)
                 this.files.append('file', file);
                 return true;
             },
+            getMembers(){
+                axios.get('api/company/members')
+                .then( response => {
+                    this.members = response.data
+                })
+            },
         },
         mounted() {
+            this.getMembers();
             this.getClients();
-            this.getServices();
-            this.files = new FormData();            
+            this.getServices();       
         }
     }
 </script>

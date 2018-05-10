@@ -21,6 +21,18 @@ class CompanyTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testMembers()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/company/members');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testAddSettings()
     {
         $user = User::find(1);

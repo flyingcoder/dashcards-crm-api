@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProjectRequest extends FormRequest
 {
@@ -36,9 +38,9 @@ class ProjectRequest extends FormRequest
     public function attributes()
     {
         return [
-            'end_at' => 'Due Date',
-            'client_id' => 'Client',
-            'service_id' => 'Service',
+            'end_at' => 'due date',
+            'client_id' => 'client',
+            'service_id' => 'service',
         ];
     }
 

@@ -126,21 +126,11 @@ class ProjectController extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id, ProjectRequest $request)
     {
         $project = Project::findOrFail($id);
 
         (new ProjectPolicy())->update($project);
-
-        request()->validate([
-            'title' => 'required',
-            'client_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'start_at' => 'required|date',
-            'end_at' => 'required|date',
-            // 'location' => 'required',
-            'description' => 'required'
-        ]);
 
         $project->title = request()->title;
         $project->service_id = request()->service_id;
@@ -154,15 +144,15 @@ class ProjectController extends Controller
             $project->members()->detach($project->client()->id);
             $project->members()->attach(request()->client_id, ['role' => 'client']);
         }
-        // foreach (request()->members as $value) {
+        foreach (request()->members as $value) {
             
-        //     $project->members()->sync(request()->members);
-        // }
+            $project->members()->sync(request()->members);
+        }
 
         $project->save();
 
-        //request()->session()->flash('message.level', 'success');
-        //request()->session()->flash('message.content', 'Project was successfully updated!');
+        request()->session()->flash('message.level', 'success');
+        request()->session()->flash('message.content', 'Project was successfully updated!');
 
         return response($project, 200);
     }
@@ -242,14 +232,11 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
 
         (new ProjectPolicy())->view($project);
-
+        
         return $project->load(['client', 'service','members' => function ($query) {
             $query->select('id')->wherePivot('role','members');
         }
-        
-        ,'comments' => function ($query){
-            $query->first();
-        }]);
+        ]);
     }
 
     /*public function myProjectStatus($status)

@@ -19,7 +19,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
 
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
-  //Route::get('/', 'CompanyController@index');
+  Route::get('/members', 'CompanyController@members');
 });
 
 Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register/subscriber'], function () {
@@ -105,6 +105,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   Route::get('/projects', 'UserController@projects');
 
   Route::get('/clients', 'UserController@clients');
+
+  Route::get('/notifications', 'UserController@notification');
   
 });
 
