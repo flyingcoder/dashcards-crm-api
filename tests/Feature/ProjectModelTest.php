@@ -13,7 +13,7 @@ class ProjectModelTest extends TestCase
     public function testCreateProject()
     {
         $user = User::find(1);
-
+        /*
         $data = [
             'title' => 'Test',
             'client_id' => 2,
@@ -31,6 +31,28 @@ class ProjectModelTest extends TestCase
                          ->post('api/projects', $data);
 
         //dd($response->content());
+        $response->assertStatus(200);*/
+    }
+
+    public function testUpdateProject()
+    {
+        $user = User::find(1);
+
+        $data = [
+            'title' => 'Test',
+            'client_id' => 2,
+            'service_id' => 1,
+            'start_at' => '2018-12-19',
+            'end_at' => '2018-12-19',
+            'location' => 'required',
+            'description' => 'required'
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put('api/projects/1', $data);
+
+        dd($response->content());
         $response->assertStatus(200);
     }
 
