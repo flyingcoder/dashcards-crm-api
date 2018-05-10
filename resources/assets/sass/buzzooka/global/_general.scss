@@ -1675,6 +1675,15 @@ html{
                 }
             }
         }
+        .add-member{
+            .buzz-modal-content{
+                .el-form-item{
+                    .el-select{
+                        width: 250px !important;
+                    }
+                }
+            }
+        }
     }
     
 // Vue Popupover
