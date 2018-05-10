@@ -61,7 +61,7 @@ class ProjectController extends Controller
 
     public function save()
     {
-        // (new ProjectPolicy())->create();
+        (new ProjectPolicy())->create();
 
         $clients =  Role::where('slug', 'client')->first()->users;
         $company = Auth::user()->company();
