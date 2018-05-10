@@ -53,22 +53,12 @@
                 <div class=" content-body">
                     <section class="buzz-section">
                         <div class="buzz-table">
-                            <!-- <el-tabs type="border-card">
-                                <el-tab-pane label="All Projects">
-                                    <transition name="fade">
-                                        <AllProjects></AllProjects>
-                                    </transition>
-                                </el-tab-pane>
-                                <el-tab-pane label="My Projects">
-                                    <MyProjects></MyProjects>
-                                </el-tab-pane>
-                            </el-tabs> -->
                             <ul class="nav nav-tabs">
                                 <li class="nav-item active">
-                                    <a href="#all-project" data-toggle="tab"> All Project </a>
+                                    <a href="#all-project" ref="all-project" data-toggle="tab"> All Project </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#my-project" data-toggle="tab"> My Project </a>
+                                    <a href="#my-project" ref="my-project" data-toggle="tab"> My Project </a>
                                 </li>
                             </ul>
                             <div class="tab-content">

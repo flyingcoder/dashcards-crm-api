@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Policies\ProjectPolicy;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests\ProjectRequest;
 use DB;
 
 class ProjectController extends Controller
@@ -60,7 +61,7 @@ class ProjectController extends Controller
 
     public function save()
     {
-        (new ProjectPolicy())->create();
+        // (new ProjectPolicy())->create();
 
         $clients =  Role::where('slug', 'client')->first()->users;
         $company = Auth::user()->company();
@@ -72,19 +73,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(ProjectRequest $request)
     {
         (new ProjectPolicy())->create();
-
-        request()->validate([
-            'title' => 'required',
-            'client_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'start_at' => 'required|date',
-            'end_at' => 'required|date',
-            // 'location' => 'required',
-            'description' => 'required'
-        ]);
         try{
         DB::beginTransaction();
         $project = Project::create([
@@ -112,19 +103,19 @@ class ProjectController extends Controller
         
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
-        // if(request()->has('members')){
-        //     if(in_array(request()->client_id, request()->members)){
-        //         DB::rollback();
-        //         return response('Client cant be a member', 500);
-        //     }
-        //     elseif(in_array(Auth::user()->id, request()->members)){
-        //         DB::rollback();
-        //         return response('Manager cant be a member', 500);
-        //     }
-        //     foreach (request()->members as $value) {
-        //         $project->members()->attach($value, ['role' => 'members']);
-        //     }
-        // }
+        if(request()->has('members')){
+            if(in_array(request()->client_id, request()->members)){
+                DB::rollback();
+                return response('Client cant be a member', 500);
+            }
+            elseif(in_array(Auth::user()->id, request()->members)){
+                DB::rollback();
+                return response('Manager cant be a member', 500);
+            }
+            foreach (request()->members as $value) {
+                $project->members()->attach($value, ['role' => 'members']);
+            }
+        }
 
         DB::commit();
         return response(Project::latest()->first(), 200);
