@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Http\Request;
 
+
 class Milestone extends Model
 {
     use SoftDeletes;

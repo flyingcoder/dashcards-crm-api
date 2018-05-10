@@ -93,7 +93,7 @@
                     </el-pagination> -->
                       </div>
                         <div v-else>
-                            <empty title="Add New Template" modal="add-template"></empty>
+                            <empty title="Add New Template" modal="add-template" icon="/img/icons/empty/projects.svg"></empty>
                         </div>
                     </div>
                   </div>

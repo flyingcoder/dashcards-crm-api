@@ -178,17 +178,14 @@
 
         },
         cellClick: function(row, col) {
-            var a = col.id;
-            if(a != 'el-table_1_column_6') {
-                location = "/milestones/" + row.id; 
-            }
+
         },
         renderHeader(h,{column,$index}){
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
         updated() {
-          self.loadingText = 'Updating ...'
-          self.getMilestone();
+          this.loadingText = 'Updating ...'
+          this.getMilestone();
         }
       }
     }

@@ -150,9 +150,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function ()
 
   Route::delete('{id}', 'MilestoneTemplateController@destroy');
 
+  Route::get('all', 'MilestoneTemplateController@all');
+
+  Route::post('{id}/import', 'MilestoneTemplateController@replicate');
+
   Route::group(['prefix' => 'mlt-milestone'], function (){
 
     Route::get('{id}', 'MltMilestoneController@index');
+
+    Route::get('{id}/all', 'MltMilestoneController@all');
 
     Route::post('{id}', 'MltMilestoneController@store');
 

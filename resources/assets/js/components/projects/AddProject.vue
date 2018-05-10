@@ -175,20 +175,20 @@ var yyyy = today.getFullYear();
                     var vm = this;
                     axios.get('api/projects/'+this.data.id)
                     .then( response => {
-                        this.id = response.data.id;
-                        this.form = this.initFormData();
-                        this.form.title = response.data.title;
-                        this.form.description = response.data.description;
-                        if(response.data.comment){
-                            this.form.comment = response.data.comment[0].body
-                        }
-                        // this.form.members = response.data.members.map(function(e){
-                        //     return e.id;
-                        // })
-                        this.form.end_at = response.data.end_at;
-                        this.form.start_at = response.data.started_at;
-                        this.form.client_id = response.data.client[0].id;
-                        this.form.service_id = response.data.service.id;
+                        vm.id = response.data.id;
+                        vm.form = this.initFormData();
+                        vm.form.title = response.data.title;
+                        vm.form.description = response.data.description;
+                        //if(response.data.comment){
+                        //    this.form.comment = response.data.comment[0].body
+                        //}
+                        //this.form.members = response.data.members.map(function(e){
+                        //    return e.id;
+                        //})
+                        vm.form.end_at = response.data.end_at;
+                        vm.form.start_at = response.data.started_at;
+                        vm.form.client_id = response.data.client[0].id;
+                        vm.form.service_id = response.data.service.id;
                     });
                 }
             },
