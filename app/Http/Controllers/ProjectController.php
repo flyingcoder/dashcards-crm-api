@@ -144,15 +144,14 @@ class ProjectController extends Controller
             $project->members()->detach($project->client()->id);
             $project->members()->attach(request()->client_id, ['role' => 'client']);
         }
-        foreach (request()->members as $value) {
-            
-            $project->members()->sync(request()->members);
+
+        if(request()->has('members')) {
+            foreach (request()->members as $value) {
+                $project->members()->sync(request()->members);
+            }
         }
 
         $project->save();
-
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'Project was successfully updated!');
 
         return response($project, 200);
     }
