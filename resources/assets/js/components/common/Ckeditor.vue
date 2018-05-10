@@ -33,6 +33,7 @@ export default {
       }) 
     },
   },
+
   mounted () {
     CKEDITOR.replace(this.id, this.config)
     CKEDITOR.instances[this.id].setData(this.value)

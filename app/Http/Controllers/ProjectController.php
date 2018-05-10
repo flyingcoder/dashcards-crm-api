@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Policies\ProjectPolicy;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests\ProjectRequest;
 use DB;
 
 class ProjectController extends Controller
@@ -72,19 +73,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(ProjectRequest $request)
     {
         (new ProjectPolicy())->create();
-
-        request()->validate([
-            'title' => 'required',
-            'client_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'start_at' => 'required|date',
-            'end_at' => 'required|date',
-            // 'location' => 'required',
-            'description' => 'required'
-        ]);
         try{
         DB::beginTransaction();
         $project = Project::create([
@@ -112,19 +103,19 @@ class ProjectController extends Controller
         
         $project->members()->attach(request()->client_id, ['role' => 'client']);
         $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
-        // if(request()->has('members')){
-        //     if(in_array(request()->client_id, request()->members)){
-        //         DB::rollback();
-        //         return response('Client cant be a member', 500);
-        //     }
-        //     elseif(in_array(Auth::user()->id, request()->members)){
-        //         DB::rollback();
-        //         return response('Manager cant be a member', 500);
-        //     }
-        //     foreach (request()->members as $value) {
-        //         $project->members()->attach($value, ['role' => 'members']);
-        //     }
-        // }
+        if(request()->has('members')){
+            if(in_array(request()->client_id, request()->members)){
+                DB::rollback();
+                return response('Client cant be a member', 500);
+            }
+            elseif(in_array(Auth::user()->id, request()->members)){
+                DB::rollback();
+                return response('Manager cant be a member', 500);
+            }
+            foreach (request()->members as $value) {
+                $project->members()->attach($value, ['role' => 'members']);
+            }
+        }
 
         DB::commit();
         return response(Project::latest()->first(), 200);
@@ -135,21 +126,11 @@ class ProjectController extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id, ProjectRequest $request)
     {
         $project = Project::findOrFail($id);
 
         (new ProjectPolicy())->update($project);
-
-        request()->validate([
-            'title' => 'required',
-            'client_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'start_at' => 'required|date',
-            'end_at' => 'required|date',
-            // 'location' => 'required',
-            'description' => 'required'
-        ]);
 
         $project->title = request()->title;
         $project->service_id = request()->service_id;
@@ -163,15 +144,15 @@ class ProjectController extends Controller
             $project->members()->detach($project->client()->id);
             $project->members()->attach(request()->client_id, ['role' => 'client']);
         }
-        // foreach (request()->members as $value) {
+        foreach (request()->members as $value) {
             
-        //     $project->members()->sync(request()->members);
-        // }
+            $project->members()->sync(request()->members);
+        }
 
         $project->save();
 
-        //request()->session()->flash('message.level', 'success');
-        //request()->session()->flash('message.content', 'Project was successfully updated!');
+        request()->session()->flash('message.level', 'success');
+        request()->session()->flash('message.content', 'Project was successfully updated!');
 
         return response($project, 200);
     }
@@ -251,14 +232,11 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
 
         (new ProjectPolicy())->view($project);
-
-        return $project->load(['company', 'client', 'service', 'members' => function ($query) {
-                    $query->select('id')->wherePivot('role','members');
-                }
-                
-                ,'comments' => function ($query){
-                    $query->first();
-                }]);
+        
+        return $project->load(['client', 'service','members' => function ($query) {
+            $query->select('id')->wherePivot('role','members');
+        }
+        ]);
     }
 
     /*public function myProjectStatus($status)

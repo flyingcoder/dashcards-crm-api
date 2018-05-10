@@ -1,8 +1,8 @@
 <template>
     <div class="all-projects tab-pane fade in active" id="all-project">
-        <div v-if="paginatedAllProjects.length >= 1">
+        <div v-if="notEmpty">
             <el-table :data="paginatedAllProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
-            @sort-change="handleSortChange" element-loading-text="Processing ..." 
+            @sort-change="handleSortChange"  :element-loading-text="loadingText"
             @selection-change="handleSelectionChange" style="width: 100%"
             @row-click="rowClick" @cell-click="cellClick">
 
@@ -30,7 +30,7 @@
                         <div class="progress project-status" :class="scope.row.status.toLowerCase()"> </div>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" :render-header="renderHeader">
+                <el-table-column fixed="right" width="150" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <el-button @click="edit(scope.row)">
                             <svg viewBox="0 0 250 250">
@@ -75,14 +75,16 @@
       data () {
         return {
             testCount: '',
-            isProcessing: false,
+            isProcessing: true,
             multipleSelection: [],
             currentPage: 1,
             currentSize: 10,
             total : 1,
             paginatedAllProjects: [],
             getAll: 1,
-            currentUserId: 0
+            currentUserId: 0,
+            notEmpty: true,
+            loadingText: 'Fetching datas ...',
         }
       },
 
@@ -90,24 +92,37 @@
         this.getAllProjects();
         this.sliceDate();
         this.progressCount();
-        console.log(window.Current);
       },
       methods: {
         renderHeader(h,{column,$index}){
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
         getAllProjects(){
-            var url = 'api/projects';
-
-            if(this.getAll)
-                url = 'api/projects/'+this.currentUserId
+            this.isProcessing = true;            
+           var url = '/api/projects';
 
             axios.get(url)
                 .then( response => {
+                    this.isProcessing = false;
                     this.paginatedAllProjects = response.data.data;
                     this.currentPage = response.data.current_page;
                     this.total = response.data.total;
                     this.sliceDate();
+                    if(this.paginatedAllProjects < 1){
+                        this.notEmpty = false;
+                    }
+                    else{
+                        this.notEmpty = true;							
+                    }
+                })
+                .catch( error => {
+                    if (error.response.status == 401) {
+                        location.reload();
+                    } else {
+                        this.isProcessing = false;
+                        this.paginatedAllProjects = [];
+                        this.notEmpty = false;
+                    }
                 })
            
         },
@@ -176,6 +191,10 @@
         },
         edit(data){
             this.$modal.show('add-project', { action: 'Update', data: data })
+        },
+        updated() {
+          this.loadingText = 'Updating ...'
+          this.getAllProjects();
         }
       }
     }
