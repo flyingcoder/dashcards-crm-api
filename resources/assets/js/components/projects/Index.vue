@@ -79,13 +79,8 @@
                     </section>
                 </div>
             </div>
-<<<<<<< HEAD
         </v-layout >
         <add-project @refresh="getAllProjects"></add-project>
-=======
-        </v-layout>
-        <add-project></add-project>
->>>>>>> 6cf669c1f403c3293eda6401e15317dace7fe4ac
     </section>
 </template>
 
