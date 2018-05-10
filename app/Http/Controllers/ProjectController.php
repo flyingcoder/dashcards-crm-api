@@ -138,12 +138,12 @@ class ProjectController extends Controller
         $project->description = request()->description;
         $project->started_at = request()->start_at;
         $project->end_at = request()->end_at;
-        $project->status = 'Active';
-        $project->company_id = auth()->user()->company()->id;
 
-        if($project->client()->first()->id != request()->client_id) {
-            $project->members()->detach($project->client()->id);
-            $project->members()->attach(request()->client_id, ['role' => 'client']);
+        if(request()->has('client_id')){
+            if($project->client()->first()->id != request()->client_id) {
+                $project->members()->detach($project->client()->id);
+                $project->members()->attach(request()->client_id, ['role' => 'client']);
+            }
         }
 
         if(request()->has('members')) {
