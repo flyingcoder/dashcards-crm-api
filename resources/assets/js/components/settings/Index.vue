@@ -1,12 +1,12 @@
 <template>
-    <section class="content settings">
+    <div>
         <settings-menu></settings-menu>
-        <section>
+        <section class="content settings"> 
             <transition name="fade" mode="out-in">
                 <router-view></router-view>
             </transition>
         </section>
-    </section>
+    </div>
 </template>
 
 <script>
