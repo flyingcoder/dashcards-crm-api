@@ -198,7 +198,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::post('/', 'ProjectController@store');
 
-  Route::put('{id}/edit', 'ProjectController@update');
+  Route::put('{id}', 'ProjectController@update'); //no more edit
 
   Route::post('{id}/comments', 'ProjectController@addComments');
 

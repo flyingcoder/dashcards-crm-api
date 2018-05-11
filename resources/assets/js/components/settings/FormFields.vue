@@ -1,186 +1,186 @@
  <template>
     <section class="content form-fields">
-        <div class="content-header">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="page-title">
-                        <h1> Additional Form Fields </h1>
-                    </div>
+        <v-layout row wrap>
+            <div class="content-header col-md-12">
+                <div class="page-title">
+                    <h1> Additional Form Fields </h1>
                 </div>
             </div>
-        </div>
-        <div class="content-body">
-            <el-form :model="form" ref="form">
-                <section class="buzz-section client">
-                    <div class="page-title">
-                        <h2> Client Sign Up Form </h2>
-                    </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th> Label </th>
-                                    <th> Required </th>
-                                    <th> Status </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.clientLabel1"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.clientRequired1">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.clientStatus1">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.clientLabel2"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.clientRequired2">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.clientStatus2">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.clientLabel3"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.clientRequired3">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.clientStatus3">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                </section>
-                <section class="buzz-section project">
-                    <div class="page-title">
-                        <h2> Project Details Form </h2>
-                         <table>
-                            <thead>
-                                <tr>
-                                    <th> Label </th>
-                                    <th> Required </th>
-                                    <th> Status </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.projectLabel1"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectRequired1">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectStatus1">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.projectLabel2"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectRequired2">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectStatus2">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.projectLabel3"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectRequired3">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectStatus3">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.projectLabel4"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectRequired4">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectStatus4">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> 
-                                        <el-input placeholder="Please input" v-model="form.projectLabel5"></el-input>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectRequired5">
-                                            <el-option label="No" value="No"></el-option>
-                                            <el-option label="Yes" value="Yes"></el-option>
-                                        </el-select>
-                                    </td>
-                                    <td>
-                                        <el-select v-model="form.projectStatus5">
-                                            <el-option label="Enabled" value="Enabled"></el-option>
-                                            <el-option label="Disabled" value="Disabled"></el-option>
-                                        </el-select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            </el-form>
-        </div>
+            <div class="col-md-12">
+                <div class="content-body">
+                    <el-form :model="form" ref="form">
+                        <section class="buzz-section client">
+                            <div class="page-title">
+                                <h2> Client Sign Up Form </h2>
+                            </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th> Label </th>
+                                            <th> Required </th>
+                                            <th> Status </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.clientLabel1"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.clientRequired1">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.clientStatus1">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.clientLabel2"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.clientRequired2">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.clientStatus2">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.clientLabel3"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.clientRequired3">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.clientStatus3">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </section>
+                        <section class="buzz-section project">
+                            <div class="page-title">
+                                <h2> Project Details Form </h2>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th> Label </th>
+                                            <th> Required </th>
+                                            <th> Status </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.projectLabel1"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectRequired1">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectStatus1">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.projectLabel2"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectRequired2">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectStatus2">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.projectLabel3"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectRequired3">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectStatus3">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.projectLabel4"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectRequired4">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectStatus4">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <el-input placeholder="Please input" v-model="form.projectLabel5"></el-input>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectRequired5">
+                                                    <el-option label="No" value="No"></el-option>
+                                                    <el-option label="Yes" value="Yes"></el-option>
+                                                </el-select>
+                                            </td>
+                                            <td>
+                                                <el-select v-model="form.projectStatus5">
+                                                    <el-option label="Enabled" value="Enabled"></el-option>
+                                                    <el-option label="Disabled" value="Disabled"></el-option>
+                                                </el-select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </el-form>
+                </div>
+            </div>
+        </v-layout>
     </section>
 </template>
 

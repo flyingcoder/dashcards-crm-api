@@ -1,26 +1,26 @@
  <template>
     <section class="content email-templates">
-        <div class="content-header">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="page-title">
-                        <h1> {{title}} </h1>
-                    </div>
+        <v-layout row wrap>
+            <div class="content-header col-md-12">
+                <div class="page-title">
+                    <h1> {{title}} </h1>
                 </div>
             </div>
-        </div>
-        <div class="content-body">
-            <section class="buzz-section">
-                <el-tabs type="border-card">
-                    <el-tab-pane label="Client Template">
-                        <ClientTemplate></ClientTemplate>
-                    </el-tab-pane>
-                    <el-tab-pane label="Admin Template">
-                        <AdminTemplate></AdminTemplate>
-                    </el-tab-pane>
-                </el-tabs>
-            </section>
-        </div>
+            <div class="col-md-12">
+                <div class="content-body">
+                    <section class="buzz-section">
+                        <el-tabs type="border-card">
+                            <el-tab-pane label="Client Template">
+                                <ClientTemplate></ClientTemplate>
+                            </el-tab-pane>
+                            <el-tab-pane label="Admin Template">
+                                <AdminTemplate></AdminTemplate>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </section>
+                </div>
+            </div>
+        </v-layout>
     </section>
 </template>
 

@@ -258,7 +258,7 @@ var yyyy = today.getFullYear();
                 this.isProcessing = true;
                 var vm = this;
                 
-                axios.put('/api/projects/'+this.id+'/edit', this.form)
+                axios.put('/api/projects/'+this.id, this.form)
                 .then( response => {
                     this.isProcessing = false;
                      swal({

@@ -1675,6 +1675,16 @@ html{
                 }
             }
         }
+        .add-member{
+            height: 410px !important;
+            .buzz-modal-content{
+                .el-form-item{
+                    .el-select{
+                        width: 250px !important;
+                    }
+                }
+            }
+        }
     }
     
 // Vue Popupover

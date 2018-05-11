@@ -56,7 +56,7 @@ class ProjectPolicy
     public function viewTask(Project $project)
     {
         if(
-            $project->company() != auth()->user()->company() &&
+            $project->company != auth()->user()->company() &&
             !auth()->user()->hasRole('admin|manager') &&
             auth()->user()->can('view.project-task')
         ) {
@@ -101,7 +101,7 @@ class ProjectPolicy
         if( !auth()->user()->hasRole('admin') && !auth()->user()->can('delete.project') )
             abort(403, 'Not enought permission!');
 
-        if( $project->company() != auth()->user()->company() )
+        if( $project->company != auth()->user()->company() )
             abort(403, 'Project not found!');
     }
 }

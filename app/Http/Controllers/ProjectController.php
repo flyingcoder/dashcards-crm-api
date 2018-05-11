@@ -76,6 +76,7 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         (new ProjectPolicy())->create();
+        
         try{
         DB::beginTransaction();
         $project = Project::create([
@@ -137,22 +138,21 @@ class ProjectController extends Controller
         $project->description = request()->description;
         $project->started_at = request()->start_at;
         $project->end_at = request()->end_at;
-        $project->status = 'Active';
-        $project->company_id = auth()->user()->company()->id;
 
-        if($project->client()->first()->id != request()->client_id) {
-            $project->members()->detach($project->client()->id);
-            $project->members()->attach(request()->client_id, ['role' => 'client']);
+        if(request()->has('client_id')){
+            if($project->client()->first()->id != request()->client_id) {
+                $project->members()->detach($project->client()->id);
+                $project->members()->attach(request()->client_id, ['role' => 'client']);
+            }
         }
-        foreach (request()->members as $value) {
-            
-            $project->members()->sync(request()->members);
+
+        if(request()->has('members')) {
+            foreach (request()->members as $value) {
+                $project->members()->sync(request()->members);
+            }
         }
 
         $project->save();
-
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'Project was successfully updated!');
 
         return response($project, 200);
     }

@@ -332,7 +332,7 @@ var yyyy = today.getFullYear();
                 })
             },
             update: function () {
-                axios.put('/api/projects/'+this.id+'/edit', this.form)
+                axios.put('/api/projects/'+this.id, this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Project is updated!', 'success');
