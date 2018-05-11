@@ -35,7 +35,7 @@ class MilestoneController extends Controller
     	// return view('pages.project-hq.tasks-new', ['project_id' => $project_id]);
     }
 
-    public function store($project_id)
+    public function store($project_id, MilestoneRequest $request)
     {
         $milestone = new Milestone();
         return $milestone->store(request(), Project::findOrfail($project_id));

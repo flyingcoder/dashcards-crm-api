@@ -21,9 +21,6 @@
                                 <el-form-item prop="title" :error="errors.title[0]">
                                     <el-input v-model="form.title" placeholder="Title"></el-input>
                                 </el-form-item>
-                                <el-form-item prop="percentage" :error="errors.percentage[0]">
-                                    <el-input v-model="form.percentage" placeholder="Percentage" ></el-input>
-                                </el-form-item>
                                 <el-form-item prop="started_at" :error="errors.started_at[0]">
                                 <el-date-picker
                                         style="width: 100%"
@@ -73,41 +70,25 @@
                 id: 0,
                 oldName: '',
                 isProcessing: false,
-                form: {
-                    title: '',
-                    percentage: '',
-                    started_at: '',
-                    end_at: '',
-                    days: '',
-                },
-        		errors: {
+                form: this.initForm(),
+        		forErrors: {
         			title: [],
-        			percentage: [],
         			started_at: [],
         			end_at: [],
         			days: [],
-                },
-                rules: {
-                    title: [
-                        { required: true, message: 'Title is Required', trigger: 'change' },
-                    ],
-                    percentage: [
-                        { required: true, message: 'Percentage is Required', trigger: 'change' },
-                    ],
-                    started_at: [
-                        { required: true, message: 'Date is Required', trigger: 'change' },
-                    ],
-                    end_at: [
-                        { required: true, message: 'Date is Required', trigger: 'change' },
-                    ],
-                    days: [
-                        { required: true, message: 'Days is Required', trigger: 'change' },
-                    ],
                 },
         	}
         },
 
         methods: {
+            initForm(){
+                return {
+                    title: '',
+                    started_at: '',
+                    end_at: '',
+                    days: '',
+                }
+            },
             onBlur (e) {
                 console.log(e)
             },
