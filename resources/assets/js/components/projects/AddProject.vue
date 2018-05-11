@@ -162,6 +162,8 @@ var yyyy = today.getFullYear();
             beforeOpen (event) {
                 this.files = new FormData();     
                 this.form = this.initFormData();
+                this.title = 'Add New Project';
+                this.action = 'Save';
                 if(typeof event.params != 'undefined' && event.params.action == 'Update') {   
                     this.isProcessing = true;
                     this.action = 'Update';
