@@ -164,6 +164,7 @@ var yyyy = today.getFullYear();
                 this.form = this.initFormData();
                 this.title = 'Add New Project';
                 this.action = 'Save';
+                this.formError = '';                
                 if(typeof event.params != 'undefined' && event.params.action == 'Update') {   
                     this.isProcessing = true;
                     this.action = 'Update';
@@ -205,6 +206,7 @@ var yyyy = today.getFullYear();
                 }
             },
             submit(){
+                this.hideMembers();
                 if(this.action == 'Save'){
                     this.save();
                 }
@@ -233,7 +235,8 @@ var yyyy = today.getFullYear();
                 .then( response => {
                     this.id = response.data.id;
                     this.$refs.attachments.submit();
-                    this.isProcessing = false;                                    
+                    this.isProcessing = false;        
+                    this.formError = '';                                                
                     swal({
                         title: 'Success!',
                         text: 'Project is saved!',
@@ -248,7 +251,13 @@ var yyyy = today.getFullYear();
                     this.formError = '';
                     if(error.response.status == 422){
                         this.formError = error.response.data;
-                        swal('Saving Failed!','Form validation failed! ', 'error');
+                        if (typeof this.formError === 'object'){
+                            swal('Saving Failed!','Form validation failed! ', 'error');
+                        }
+                        else {
+                            swal('Form validation failed!',this.formError, 'error');
+                        }
+                        
                     }
                     else {
                         swal('Saving Failed!','Server Error! ', 'error');  
@@ -277,7 +286,12 @@ var yyyy = today.getFullYear();
                     this.formError = '';
                     if(error.response.status == 422){
                         this.formError = error.response.data;
-                        swal('Saving Failed!','Form validation failed! ', 'error');
+                        if (typeof this.formError === 'object'){
+                            swal('Saving Failed!','Form validation failed! ', 'error');
+                        }
+                        else {
+                            swal('Form validation failed!',this.formError, 'error');
+                        }
                     }
                     else {
                         swal('Saving Failed!','Server Error! ', 'error');  

@@ -107,11 +107,11 @@ class ProjectController extends Controller
         if(request()->has('members')){
             if(in_array(request()->client_id, request()->members)){
                 DB::rollback();
-                return response('Client cant be a member', 500);
+                return response('Client cant be a member', 422);
             }
             elseif(in_array(Auth::user()->id, request()->members)){
                 DB::rollback();
-                return response('Manager cant be a member', 500);
+                return response('Manager cant be a member', 422);
             }
             foreach (request()->members as $value) {
                 $project->members()->attach($value, ['role' => 'members']);
