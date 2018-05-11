@@ -164,6 +164,7 @@ var yyyy = today.getFullYear();
                 this.form = this.initFormData();
                 this.title = 'Add New Project';
                 this.action = 'Save';
+                this.formError = '';                
                 if(typeof event.params != 'undefined' && event.params.action == 'Update') {   
                     this.isProcessing = true;
                     this.action = 'Update';
@@ -234,7 +235,8 @@ var yyyy = today.getFullYear();
                 .then( response => {
                     this.id = response.data.id;
                     this.$refs.attachments.submit();
-                    this.isProcessing = false;                                    
+                    this.isProcessing = false;        
+                    this.formError = '';                                                
                     swal({
                         title: 'Success!',
                         text: 'Project is saved!',
