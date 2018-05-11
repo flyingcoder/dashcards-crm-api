@@ -205,6 +205,7 @@ var yyyy = today.getFullYear();
                 }
             },
             submit(){
+                this.hideMembers();
                 if(this.action == 'Save'){
                     this.save();
                 }
@@ -248,7 +249,13 @@ var yyyy = today.getFullYear();
                     this.formError = '';
                     if(error.response.status == 422){
                         this.formError = error.response.data;
-                        swal('Saving Failed!','Form validation failed! ', 'error');
+                        if (typeof this.formError === 'object'){
+                            swal('Saving Failed!','Form validation failed! ', 'error');
+                        }
+                        else {
+                            swal('Form validation failed!',this.formError, 'error');
+                        }
+                        
                     }
                     else {
                         swal('Saving Failed!','Server Error! ', 'error');  
@@ -277,7 +284,12 @@ var yyyy = today.getFullYear();
                     this.formError = '';
                     if(error.response.status == 422){
                         this.formError = error.response.data;
-                        swal('Saving Failed!','Form validation failed! ', 'error');
+                        if (typeof this.formError === 'object'){
+                            swal('Saving Failed!','Form validation failed! ', 'error');
+                        }
+                        else {
+                            swal('Form validation failed!',this.formError, 'error');
+                        }
                     }
                     else {
                         swal('Saving Failed!','Server Error! ', 'error');  
