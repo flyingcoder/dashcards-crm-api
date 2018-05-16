@@ -115,7 +115,7 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        (new TaskPolicy())->delete($task);
+        // (new TaskPolicy())->delete($task);
 
         Task::destroy($id);
 

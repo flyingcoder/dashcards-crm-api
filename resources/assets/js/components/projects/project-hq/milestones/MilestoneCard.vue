@@ -67,7 +67,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"> 
+                                    <a href="#" @click="destroy(t)"> 
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                             width="12px" height="17px">
                                             <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -124,6 +124,29 @@
                 console.info(t);
                 this.$modal.show('new-task-modal-' + m.id, { action: 'Update', data: t })
             },
+            destroy: function(row) {
+				var self = this;
+					swal({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!'
+				}).then(function (result) {
+				if (result) {
+					axios.delete('/api/tasks/' + row.id)
+					.then(response => {
+						swal('Success!', 'Task is Deleted!', 'success');
+						self.$emit('updated', 
+                            response.data
+                        );
+					});
+				}
+			})
+				
+			},
         }
     }
 </script>

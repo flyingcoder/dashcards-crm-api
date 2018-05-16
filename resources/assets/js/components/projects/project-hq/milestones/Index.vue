@@ -50,7 +50,8 @@
 			update(){
 				this.getMilestones();
 				this.loading = 'updating';
-			}
+			},
+
 		}
     }
     

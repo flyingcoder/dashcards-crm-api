@@ -111,6 +111,7 @@
 						oldName: '',
         		form: this.initFormData(),
             formError: '',
+            id: 0,
       			isProcessing: false,
             members: [],
             dateOptions: {
@@ -133,7 +134,9 @@
                     this.header = 'Edit Task';
                     axios.get('/api/tasks/' + event.params.data.id)
                     .then(response => {
-                    this.isProcessing = false;                      
+                    this.isProcessing = false;     
+
+                      this.id = response.data.id;                 
                       this.form.title = response.data.title;
                       this.form.description = response.data.description
                       this.form.started_at = response.data.started_at
@@ -214,7 +217,7 @@
             update () {
               this.isProcessing = true;
               var vm = this;              
-								axios.put('/api/tasks', this.form)
+								axios.put('/api/tasks/' + this.id, this.form)
 								.then( response => {
 									this.isProcessing = false;
 									swal({
