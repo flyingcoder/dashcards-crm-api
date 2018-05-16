@@ -1,3 +1,86 @@
 .login{
     background: $white;
+    padding: 50px;
+    height: auto;
+    width: 90%;
+    margin-left: 20px;
+    margin-top: 15%;
+    -webkit-box-shadow: 1px 15px 50px -15px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 15px 50px -15px rgba(0,0,0,0.75);
+    box-shadow: 1px 15px 50px -15px rgba(0,0,0,0.75);
+    .login-head{
+        .logo{
+            text-align: center;
+        }
+        .title{
+            h1{
+                text-align: left;
+                color: $login;
+                line-height: 1.2;
+                font-family: "GothamBold";
+                font-size: 30px;
+                font-weight: 600;
+                padding-left: 10px;
+            }
+        }
+    }
+    .login-form{
+        .input-group-addon{
+            background: $blue;
+            width: 50px;
+        }
+        .login-field{
+            height: 35px;
+        }
+        .help-block{
+            position: absolute;
+            margin-top: 10px;
+            color: $red;
+        }
+        .divider{
+            margin-top: 40px;
+            background: $divider;
+            height: 2px !important;
+        }
+        .login-option{
+            margin-top: 20px;
+            .checkbox{
+                margin: 0;
+                padding: 0;
+                label{
+                    font-weight: bold;
+                }
+            }
+            .forgot{
+                a{
+                    font-family: "HelveticaLTStd";
+                    color: $forgot;
+                    line-height: 1.2;
+                    text-decoration: none;
+                }
+            }
+        }
+        .btn-login{
+            background: $blue;
+            color: $white;
+            border-radius: 10px;
+            height: 40px;
+            font-size: 15px;
+            font-family: "OpenSans";
+            font-weight: bold;
+            line-height: 1.2;
+            outline: none;
+            margin-left: 0;
+            margin-top: 25px;
+        }
+        .signup{
+            position: relative;
+            text-align: center;
+            top: 10px;
+            a{
+                color: $blue;
+                text-decoration: underline;
+            }
+        }
+    }
 }

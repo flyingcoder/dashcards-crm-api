@@ -98,7 +98,6 @@
         },
         data() {
             return {
-                loading2: true,
                 confirmDelete: false,
                 tableDB: [
                     {

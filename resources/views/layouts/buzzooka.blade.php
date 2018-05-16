@@ -14,9 +14,14 @@
     <link href="{{ asset('css/buzzooka.css') }}" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
-  </head>
-  <body class="buzzooka">
+    <style>
+      #app{
+        display: none;
+      }
+    </style>
 
+  </head>
+  <body class="buzzooka" onload="pageLoad()">
     <div id="app" class="wrapper">
 
       <buzzheader></buzzheader>
@@ -327,8 +332,30 @@
       </div>
       
     </div>
+    <div id="loading">
+      <div class="page-loader">
+        <div class="sk-circle1 sk-circle"></div>
+        <div class="sk-circle2 sk-circle"></div>
+        <div class="sk-circle3 sk-circle"></div>
+        <div class="sk-circle4 sk-circle"></div>
+        <div class="sk-circle5 sk-circle"></div>
+        <div class="sk-circle6 sk-circle"></div>
+        <div class="sk-circle7 sk-circle"></div>
+        <div class="sk-circle8 sk-circle"></div>
+        <div class="sk-circle9 sk-circle"></div>
+        <div class="sk-circle10 sk-circle"></div>
+        <div class="sk-circle11 sk-circle"></div>
+        <div class="sk-circle12 sk-circle"></div>
+      </div>
+    </div>
     <script>
       window.Current = <?= json_encode(['user' => auth()->user(), 'company' => auth()->user()->company() ]) ?>;
+
+      function pageLoad(){
+        document.getElementById("app").style.display = "block";
+        document.getElementById("loading").style.display = "none";
+      }
+
     </script>
     <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
     <script src="{{ mix('js/buzzooka.js') }}"></script>
