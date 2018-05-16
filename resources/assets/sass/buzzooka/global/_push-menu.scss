@@ -1,15 +1,15 @@
 .sidebar-collapse{
     .logo{
-        width: 80px !important;
+        width: 60px !important;
         @extend .toggle-transition;
         .logo-mini{
             position: relative; 
             opacity: 1;
-            left: 10px;
+            left: 2px;
             top: 8px;
             @extend .toggle75-transition;
             img{
-                width: 57px;
+                width: 55px;
                 height: 33px;
                 margin-left: 0 !important;
                 margin-top: 0px !important;
@@ -35,18 +35,34 @@
         }
     }
     .buzz-sidebar{
-        width: 80px !important;
+        width: 60px !important;
         @extend .toggle-transition;
         .sidebar-menu{
-            .menu-name{
-                opacity: 0;
-                margin-left: 0 !important;
-                @extend .toggle75-transition;
+            .sidebar-list{
+                width: 60px;
+                margin-left: 0;
+                transition: width 0.3s;
+                &:hover{
+                    width: 180px !important;
+                    transition: width 0.3s;
+                    .menu-name{
+                        opacity: 1 !important;
+                        margin-left: 20px !important;
+                    }
+                }
+                .menu-name{
+                    opacity: 0;
+                    margin-left: 0;
+                    @extend .toggle75-transition;
+                }
+                .list-item{
+                    margin-left: -5px !important;
+                    -webkit-transition: margin 0.4s ease;
+                    transition: margin 0.4s ease;
+                }
             }
-            .list-item{
-                margin-left: -5px !important;
-                -webkit-transition: margin 0.4s ease;
-                transition: margin 0.4s ease;
+            .active{
+                width: 75px;
             }
         }
     }
@@ -55,7 +71,7 @@
         @extend .margin-transition;
     }
     .buzz-content{
-        margin-left: 86px !important;
+        margin-left: 60px !important;
         @extend .margin-transition;
     }   
 }

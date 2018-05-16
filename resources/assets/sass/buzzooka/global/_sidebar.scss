@@ -5,6 +5,7 @@
         margin: 0;
         .sidebar-list{
             height: 50px;
+            width: 195px;
             margin-left: 8px;
             border-radius: 5px 0 0 5px;
             padding: 0;
@@ -43,7 +44,7 @@
                     font-family: $lato-semi;
                     line-height: 1.2;
                     margin: 6px 0 0 30px;
-                    @extend .toggle1s-transition;
+                    @extend .toggle-transition;
                 }
                
                 img{
