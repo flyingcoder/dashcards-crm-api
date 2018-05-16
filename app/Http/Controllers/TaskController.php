@@ -7,6 +7,8 @@ use App\Comment;
 use App\Project;
 use App\Policies\TaskPolicy;
 use App\Events\NewTaskCommentCreated;
+use App\Http\Requests\TaskRequest;
+
 
 class TaskController extends Controller
 {
@@ -90,21 +92,14 @@ class TaskController extends Controller
      * store a task from an api call
      *
      */
-    public function store()
+    public function store(TaskRequest $request)
     {
         //test user capacity to create task
         (new TaskPolicy())->create();
 
-        request()->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'milestone_id' => 'required|integer|exists:milestones,id',
-            'started_at' => 'required|date',
-            'end_at' => 'required|date'
-        ]);
-
         //validate and store request to database
-        $task = Task::store(request());
+        
+        $task = Task::store($request);
 
         //return response back to json
         return response()->json(['created' => $task[0], 'task' => $task[1]]);
@@ -162,16 +157,17 @@ class TaskController extends Controller
      */
     public function task($id)
     {
-        $task = Task::where('id', 2)
+        $task = Task::where('id', $id)
                     ->where('deleted_at', null)
                     ->first();
-                    
-        if(empty($task))
-            abort(403, 'Task not found!');
+        return $task->load('assigned');
 
-        (new TaskPolicy())->view($task);
+        // if(empty($task)){
+        //     abort(403, 'Task not found!');
+        // }
 
-        return $task;
+        // (new TaskPolicy())->view($task);
+
     }
 
 }

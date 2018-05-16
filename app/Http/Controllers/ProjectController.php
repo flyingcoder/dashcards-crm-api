@@ -326,6 +326,11 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
         return $project->members()->paginate(10);
     }
+
+    public function membersAll($project_id){
+        $project = Project::findOrFail($project_id);
+        return $project->members()->get();
+    }
     //for overview function kindly check the spreadsheet
 
     // public function getCalendar($project_id)

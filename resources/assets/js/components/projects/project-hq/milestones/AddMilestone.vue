@@ -16,12 +16,12 @@
                 <v-layout row wrap>
                     <div class="buzz-modal-header"> {{ title }} </div>
                     <div class="buzz-scrollbar milestone-form" id="buzz-scroll">
-                        <el-form :model="form" ref="form" :rules="rules" v-loading="isProcessing">
+                        <el-form :model="form" ref="form" v-loading="isProcessing">
                             <div class="buzz-modal-content">
-                                <el-form-item prop="title" :error="errors.title[0]">
+                                <el-form-item prop="title" :error="formError.title">
                                     <el-input v-model="form.title" placeholder="Title"></el-input>
                                 </el-form-item>
-                                <el-form-item prop="started_at" :error="errors.started_at[0]">
+                                <el-form-item prop="started_at" :error="formError.started_at">
                                 <el-date-picker
                                         style="width: 100%"
                                         v-model="form.started_at"
@@ -30,7 +30,7 @@
                                         placeholder="Select Start Date">
                                     </el-date-picker>
                                 </el-form-item>
-                                <el-form-item prop="end_at" :error="errors.end_at[0]">
+                                <el-form-item prop="end_at" :error="formError.end_at">
                                     <el-date-picker
                                         style="width: 100%"
                                         v-model="form.end_at"
@@ -39,7 +39,7 @@
                                         placeholder="Select End Date">
                                     </el-date-picker>
                                 </el-form-item>
-                                <el-form-item prop="days" :error="errors.days[0]">
+                                <el-form-item prop="days" :error="formError.days">
                                     <el-input v-model="form.days" placeholder="Days"></el-input>
                                 </el-form-item>
                                 <el-form-item>
@@ -62,91 +62,165 @@
 <script>
     export default {
         props: ['projectId'],
-    	data() {
-        	return {   
-                labelPosition: 'left', 
+    	data: function () {
+        	return {    
                 title: 'Add New Milestone',
                 action: 'Save',
                 id: 0,
-                oldName: '',
                 isProcessing: false,
-                form: this.initForm(),
-        		forErrors: {
-        			title: [],
-        			started_at: [],
-        			end_at: [],
-        			days: [],
-                },
+                form: this.initFormData(),
+                formError: '',
         	}
         },
 
         methods: {
-            initForm(){
-                return {
+            beforeOpen (event) {
+                this.files = new FormData();     
+                this.form = this.initFormData();
+                this.title = 'Add New Milestone';
+                this.action = 'Save';
+                this.formError = '';                
+                if(typeof event.params != 'undefined' && event.params.action == 'Update') {   
+                    this.isProcessing = true;
+                    this.action = 'Update';
+                    this.title = 'Edit Milestone';
+                    this.data = event.params.data;
+                    var vm = this;
+                    axios.get('api/milestone/'+this.data.id)
+                    .then( response => {
+                        this.isProcessing = false;
+                        vm.id = response.data.id;
+                        vm.form = this.initFormData();
+                        vm.form.title = response.data.title;
+                        vm.form.started_at = response.data.started_at;
+                        vm.form.end_at = response.data.end_at;
+                        vm.form.days = response.data.days;         
+                        
+                    });
+                }
+            },
+            initFormData(){
+                 return {
                     title: '',
                     started_at: '',
                     end_at: '',
-                    days: '',
+                    days: ''
                 }
             },
-            onBlur (e) {
-                console.log(e)
-            },
-            onFocus (e) {
-                console.log(e)
-            },
-            beforeOpen (event) {
-                if(typeof event.params != 'undefined' && event.params.action == 'update') {
-                    this.action = 'Update';
-                    this.header = 'Edit Milestone';
-                    this.id = event.params.data.id;
-                    var vm = this;
-                    axios.get('api/milestones/'+this.id)
-                        .then( response => {
-                            this.form = response.data;
-                        });
+            submit(){
+                if(this.action == 'Save'){
+                    this.save();
                 }
-            },
-            submit(form){
-                this.$refs[form].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+                else {
+                    this.update();
+                }
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/milestones/new',this.form)
+                var vm = this;
+                axios.post('/api/project-milestones/'+this.projectId,this.form)
                 .then( response => {
-                    this.isProcessing = false;
-                    swal('Success!', 'Milestone is saved!', 'success');
+                    this.id = response.data.id;
+                    this.isProcessing = false;        
+                    this.formError = '';                                                
+                    swal({
+                        title: 'Success!',
+                        text: 'Milestone is saved!',
+                        type: 'success'
+                    }).then( function() {
+                        vm.$modal.hide('add-milestone');
+                        vm.$emit('updated',response.data);
+                    });
                 })
                 .catch ( error => {
                     this.isProcessing = false;
+                    this.formError = '';
                     if(error.response.status == 422){
-                    this.errors = error.response.data.errors;
+                        this.formError = error.response.data;
+                        swal('Saving Failed!','Form validation failed! ', 'error');
+                        
                     }
-                })
+                    else {
+                        swal('Saving Failed!','Server Error! ', 'error');  
+                    }
+                });
+                
             },
             update: function () {
-                axios.put('/api/milestones/'+this.id+'/edit', this.form)
+                this.isProcessing = true;
+                var vm = this;
+                
+                axios.put('/api/project-milestones/'+this.id, this.form)
                 .then( response => {
                     this.isProcessing = false;
-                    swal('Success!', 'Milestone is updated!', 'success');
+                     swal({
+                        title: 'Success!',
+                        text: 'Project is updated!',
+                        type: 'success'
+                    }).then( function() {
+                        vm.$modal.hide('add-project');
+                        vm.$emit('updated',response.data);
+                    });
                 })
                 .catch ( error => {
+                    this.isProcessing = false;
+                    this.formError = '';
                     if(error.response.status == 422){
-                    this.errors = error.response.data.errors;
+                        this.formError = error.response.data;
+                        swal('Saving Failed!','Form validation failed! ', 'error');
                     }
-                    this.isProcessing = false;        
+                    else {
+                        swal('Saving Failed!','Server Error! ', 'error');  
+                    }
+                });
+            },
+            getClients(){
+                axios.get('api/clients?all=true')
+                .then( response => {
+                    this.clients = response.data
                 })
-            }
+            },
+            getServices(){
+                axios.get('api/services?all=true')
+                .then( response => {
+                    this.services = response.data
+                })
+            },
+            membersClick(){
+                this.selectMembers = !this.selectMembers;
+                if(this.selectMembers){
+                    this.$refs.memberSelect.toggleMenu();
+                }
+                else {
+                     this.$refs.memberSelect.blur()
+                }
+                
+            },
+            hideMembers(){
+                this.selectMembers = false;
+                this.$refs.memberSelect.blur()
+            },
+            memberBlur(bool){
+                 if(!bool){
+                     this.selectMembers = bool;
+                 }
+            },
+            beforeImport(file) {
+                console.log(file)
+                this.files.append('file', file);
+                return true;
+            },
+            getMembers(){
+                axios.get('api/company/members')
+                .then( response => {
+                    this.members = response.data
+                })
+            },
         },
         mounted() {
-            
+            this.getMembers();
+            this.getClients();
+            this.getServices();       
         }
     }
 </script>

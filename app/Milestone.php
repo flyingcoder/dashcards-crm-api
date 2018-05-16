@@ -35,16 +35,23 @@ class Milestone extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function store(Request $request, Project $project)
+    public function store($request, Project $project)
     {
-        $request->validate($this->rules);
+        if($request->started_at != null){
+            $started_at = $request->started_at;
+            $end_at = $request->end_at;
+        }
+        else{
+            $started_at = date("Y-m-d",strtotime("now"));
+            $end_at = date("Y-m-d",strtotime($request->days . ' days'));
+        }
+        
         
         $milestone = self::create([
             'project_id' => $project->id,
             'title' => $request->title,
-            'started_at' => $request->started_at,
-            'end_at' => $request->end_at,
-            'percentage' => $request->percentage,
+            'started_at' => $started_at,
+            'end_at' => $end_at,
             'status' => 'In Progress'
         ]);
 

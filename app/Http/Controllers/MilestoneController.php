@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Milestone;
 use Auth;
 use App\Project;
+use App\Http\Requests\MilestoneRequest;
+
+
 
 class MilestoneController extends Controller
 {
-    public function index()
+    public function index($project_id)
     {
-       if(!request()->ajax())
+        if(!request()->ajax())
             return view('pages.project-hq.milestone', ['project_id' => $project_id]);   
 
-        $project = Project::findOrFail(2);
+        $project = Project::findOrFail($project_id);
 
         return $project->milestones()->paginate(10);
     }
@@ -37,8 +40,15 @@ class MilestoneController extends Controller
 
     public function store($project_id, MilestoneRequest $request)
     {
-        $milestone = new Milestone();
-        return $milestone->store(request(), Project::findOrfail($project_id));
+        try{
+            $milestone = new Milestone();
+            $milestone->store($request, Project::findOrfail($project_id));
+            return response(['milestone' => $milestone], 200 );
+            
+        }
+        catch (\Exception $ex) {
+            return response(['message' => $ex->getMessage()], 500);
+        }
     }
 
     public function delete($id)
