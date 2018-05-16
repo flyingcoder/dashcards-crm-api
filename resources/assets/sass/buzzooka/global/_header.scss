@@ -522,9 +522,18 @@
         }
     }
     .header-user{
-        width: 300px !important;
-        margin-top: 20px;
-        padding: 20px;
+        width: 200px !important;
+        margin-top: 15px;
+        padding: 0px;
+        .el-dropdown-menu__item{
+            padding: 0;
+            &:hover{
+                background: none;
+                h3{
+                    color: unset;
+                }
+            }
+        }
         .dropdown-content{
             list-style: none;
             padding: 0;
@@ -540,7 +549,7 @@
                         vertical-align: middle;
                     }
                     img{
-                        width: 40px;
+                        width: 30px;
                     }
                     h3{
                         margin: 0;
