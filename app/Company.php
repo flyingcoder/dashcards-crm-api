@@ -90,6 +90,21 @@ class Company extends Model
 
         return $templates->paginate($this->paginate);
     }
+
+    public function allTeamMembers()
+    {
+        return $this->members()
+                    ->select(
+                        'users.id',
+                        'users.job_title',
+                        'users.email',
+                        'users.first_name',
+                        'users.last_name',
+                        'users.image_url'
+                    )
+                    ->with('tasks', 'projects')
+                    ->get();
+    }
     
     public function members()
     {

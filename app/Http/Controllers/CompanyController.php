@@ -10,4 +10,9 @@ class CompanyController extends Controller
     {
     	return auth()->user()->company()->allCompanyMembers();
     }
+
+    public function teams()
+    {
+    	return auth()->user()->company()->allTeamMembers();
+    }
 }

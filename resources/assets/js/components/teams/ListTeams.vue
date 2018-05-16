@@ -1,7 +1,7 @@
 <template>
     <div class="tab-pane fade" id="list-view">
         <div class="buzz-table">
-            <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
+            <el-table stripe empty-text="No Data Found" v-loading="isProcessing" 
             @sort-change="handleSortChange" element-loading-text="Processing ..." 
             @selection-change="handleSelectionChange" style="width: 100%"
             @row-click="rowClick">
@@ -48,13 +48,12 @@
 
       data () {
         return {
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedMyProjects: [],
-        paginatedAllProjects: [],
+            isProcessing: false,
+            multipleSelection: [],
+            currentPage: 1,
+            currentSize: 10,
+            total : 1,
+            paginatedTeams: {}
         }
       },
 
@@ -69,9 +68,10 @@
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
         getMyProjects(){
-            axios.get('api/projects/mine')
+            axios.get('api/company/teams')
                  .then( response => {
-                    this.paginatedMyProjects = response.data.data;
+                    console.log(response.data.data);
+                    this.paginatedTeams = response.data.data;
                     this.currentPage = response.data.current_page;
                     this.total = response.data.total;
                  })

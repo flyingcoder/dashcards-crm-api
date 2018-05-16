@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
   Route::get('/members', 'CompanyController@members');
+  Route::get('/teams', 'CompanyController@teams');
 });
 
 Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register/subscriber'], function () {
@@ -106,7 +107,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/clients', 'UserController@clients');
 
-  Route::get('/notifications', 'UserController@notification');
+  Route::get('/notifications', 'NotificationController@unread');
+
+  Route::get('/notifications/count', 'NotificationController@unreadcount');
+
+  Route::put('/notifications/{id}', 'NotificationController@markRead');
   
 });
 

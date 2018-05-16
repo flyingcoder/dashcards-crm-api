@@ -64,10 +64,10 @@ class TeamController extends Controller
             'image_url' => 'img/members/alfred.png'
         ]);
 
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'Member was successfully added!');
+        //request()->session()->flash('message.level', 'success');
+        //request()->session()->flash('message.content', 'Member was successfully added!');
 
-        return back();
+        return response(200);
     }
 
 //Group

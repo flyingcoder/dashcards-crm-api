@@ -15,7 +15,7 @@
                             <el-form-item prop="group_name" class="buzz-input buzz-inline">
                                 <el-select v-model="form.group_name" clearable placeholder="Select Group" @focus="hideMembers">
                                     <el-option 
-                                    v-for="c in groups"
+                                    v-for="c in form.groups"
                                     :key="c.id"
                                     :label="c.group_name"
                                     :value="c.id">
@@ -118,6 +118,9 @@
       };
     },
     methods: {
+        hideMembers() {
+
+        },
         beforeOpen (event) {
               console.log('before Open');
               if(typeof event.params != 'undefined' && event.params.action == 'Update') {
