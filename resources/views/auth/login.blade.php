@@ -13,49 +13,63 @@
     <link rel="stylesheet" type="text/css" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/buzzooka.css') }}" rel="stylesheet">
 
 </head>
-<body id="app" class="overlay">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-push-4 col-md-4">
-                <div class="login">
-                    <div class="login-head">
-                        <img src="{{URL::asset('/img/logo/color-logo.png')}}" alt="profile Pic" width="200">
-                        <h2> Log In </h2>
-                    </div>
-                    <div class="login-form">
-                        <form method="post" action="/login">
-                            {{ csrf_field() }}
-                            <div class="form-group{{ $errors->has('login') ? ' has-error' : '' }}">
-                                <input id="text" type="text" placeholder="Email or username" class="form-control" name="login" required autofocus>
+<body>
+    <div id="app" class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-push-4 col-md-4">
+                    <div class="login">
+                        <div class="login-head">
+                            <div class="logo">
+                                <img src="{{URL::asset('/img/logo/color-logo.png')}}" alt="Logo" width="250">
                             </div>
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <input id="password" type="password" placeholder="Your password" class="form-control" name="password" required>
+                            <div class="title">
+                                <h1> Log In </h1>
                             </div>
-                            @if ($errors->any())
-                                <span class="help-block">
-                                    <strong>{{ $errors->first() }}</strong>
-                                </span>
-                            @endif
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
+                        </div>
+                        <div class="login-form">
+                            <form method="post" action="/login">
+                                {{ csrf_field() }}
+                                <div class="input-group{{ $errors->has('login') ? ' has-error' : '' }}">
+                                    <span class="input-group-addon"> <img src="{{URL::asset('/img/icons/login/loginemail.png')}}"> </span>
+                                    <input id="text" type="text" placeholder="Email or username" class="form-control login-field" name="login" required autofocus>
                                 </div>
-                                <div>
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        Forgot Your Password?
-                                    </a>
+                                <div class="input-group{{ $errors->has('login') ? ' has-error' : '' }}">
+                                    <span class="input-group-addon"> <img src="{{URL::asset('/img/icons/login/loginpass.png')}}"> </span>
+                                    <input id="password" type="password" placeholder="Your password" class="form-control login-field" name="password" required>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="form-control btn btn-primary">
-                                    Login
-                                </button>
-                            </div>
-                        </form>
+                                @if ($errors->any())
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first() }}</strong>
+                                    </span>
+                                @endif
+                                <div class="divider"></div>
+                                <div class="form-group login-option">
+                                    <div class="checkbox pull-left">
+                                        <label>
+                                            <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}> 
+                                            Remember Me 
+                                        </label>
+                                    </div>
+                                    <div class="forgot pull-right">
+                                        <a class="" href="{{ route('password.request') }}">
+                                            Forgot Your Password?
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-login">
+                                        Log in
+                                    </button>
+                                </div>
+                                <div class="signup">
+                                    <label>Not a member yet? <a href="#"> Sign up </a></label>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
