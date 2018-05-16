@@ -41,9 +41,6 @@
 @import '~fullcalendar/dist/fullcalendar.css';
 
 // General 
-@import "pages/login";
-
-// General 
 @import "global/general";
 
 // Header 
@@ -54,6 +51,9 @@
 
 // Sidebar 
 @import "global/sidebar";
+
+  // Login 
+  @import "pages/login";
 
 // Dashboard 
 @import "pages/dashboard";
