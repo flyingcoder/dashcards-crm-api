@@ -27,18 +27,18 @@
                 </el-form>
                 <div v-if="active == 1">
                   <el-form v-loading="isProcessing">
-                    <div style="margin-bottom: 10px"  v-for="(m, i) in form.milestones" :key="m.id" >
+                    <div style="margin-bottom: 10px"  v-for="m in form.milestones" :key="m.id" >
                     <el-card>
                     <div slot="header" class="clearfix">
                       <span>{{ m.title }}</span>
                     </div>
                     <el-form-item v-for="(t,ii) in m.mlt_tasks" :key="t.id" :label="t.title">
-                      <el-select v-model="form.milestones[i].mlt_tasks[ii].assign" placeholder="Assign Member">
+                      <el-select v-model="assign[ii].members" multiple placeholder="Assign Member">
                             <el-option 
                             v-for="m in members"
                             :key="m.id"
                             :label="m.first_name + ' ' + m.last_name"
-                            :value="t.id">
+                            :value="m.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -70,6 +70,7 @@ export default {
       template_id: '',
       form: this.initForm(),
       members: [],
+      assign: []
     }
   },
   methods: {
@@ -90,13 +91,14 @@ export default {
       console.log(this.active);
       if(this.active == 1){
         this.isProcessing = true;
+        var vm = this;
         axios.get('/api/milestones/mlt-milestone/' + this.template_id + '/all')
         .then( response => {
           this.isProcessing = false;
           this.form.milestones = response.data;
           _.forEach(this.form.milestones, function(m){
             _.forEach(m.mlt_tasks, function(t){
-              _.assign(t, {'assign': ''});
+              vm.assign.push({members: []})
             })
           })
         });
@@ -114,6 +116,9 @@ export default {
     submit(){
         this.isProcessing = true;      
         var vm = this;
+        this.assign.forEach(function(a, index){
+          vm.form.milestones[0].mlt_tasks[index].assign = a.members;
+        })
       axios.post('/api/milestones/' + this.projectId + '/import', this.form)
       .then(response => {
         this.isProcessing = false;

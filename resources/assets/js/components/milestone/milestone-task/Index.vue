@@ -142,7 +142,7 @@
           });
         },
         edit(data){
-            this.$modal.show('add-template', { action: 'Update', data: data })
+            this.$modal.show('add-mlt-milestone', { action: 'Update', data: data })
         },
         destroy(row){
           var self = this;

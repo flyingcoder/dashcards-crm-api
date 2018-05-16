@@ -38,9 +38,24 @@ class MltMilestoneController extends Controller
         }
     }
 
+    public function edit($id){
+        $milestone = MltMilestone::find($id);
+        return $milestone->load('mltTasks');
+    }
+
     public function all($id){
         $milestone = new MltMilestone;
         return $milestone->with('mltTasks')->where('milestone_template_id', $id)->orderBy('created_at','desc')->get();
+    }
+
+    public function destroy($id){
+        try {
+            return MltMilestone::destroy($id);
+        } 
+        catch (\Exception $ex) {
+            return response(['message' => $ex->getMessage()], 500);
+
+        }
     }
 
 }
