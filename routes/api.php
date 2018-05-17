@@ -167,6 +167,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function ()
 
     Route::get('{id}', 'MltMilestoneController@index');
 
+    Route::get('{id}/edit', 'MltMilestoneController@edit');
+
     Route::get('{id}/all', 'MltMilestoneController@all');
 
     Route::post('{id}', 'MltMilestoneController@store');
@@ -227,6 +229,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/milestones', 'MilestoneController@projectMilestone');
 
   Route::get('{id}/members', 'ProjectController@members');// project-hq
+  Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 
@@ -321,15 +324,17 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoices'], function () {
   Route::delete('{id}', 'InvoiceController@delete');
 });
 
-// comment dustin 05/03 - used of milestone template
-// // Milestones
-// Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
 
-//   Route::post('{id}', 'MilestoneController@store');
+// Milestones
+Route::group(['middleware' => 'auth:api', 'prefix' => 'project-milestones'], function () {
+
+  Route::get('{id}', 'MilestoneController@index');
+
+  Route::post('{id}', 'MilestoneController@store');
   
-//   Route::get('select/{id}', 'MilestoneController@selectMilestone');
+  Route::get('select/{id}', 'MilestoneController@selectMilestone');
   
-// });
+});
 
 // Forms
 Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {

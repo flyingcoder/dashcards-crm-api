@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class MilestoneRequest extends FormRequest
+class TaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,10 @@ class MilestoneRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'end_at' => 'required_with:started_at|after:started_at',
+            'title' => 'required',
+            'description' => 'required',
+            'milestone_id' => 'required|integer|exists:milestones,id',
+            'end_at' => 'required_with:started_at',
             'days' => 'required_without:started_at',
         ];
     }
@@ -35,8 +37,9 @@ class MilestoneRequest extends FormRequest
     public function attributes()
     {
         return [
-            'end_at' => 'end at',
             'started_at' => 'started at',
+            'milestone_id' => 'milestone',
+            'end_at' => 'end at',
         ];
     }
 

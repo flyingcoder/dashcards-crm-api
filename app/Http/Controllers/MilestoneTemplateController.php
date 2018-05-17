@@ -68,7 +68,6 @@ class MilestoneTemplateController extends Controller
                     'title' => $m['title'],
                     'started_at' => date("Y-m-d",strtotime("now")),
                     'end_at' => date("Y-m-d",strtotime($m['days'] . ' days')),
-                    'percentage' => $m['percentage'],
                     'status' => 'In Progress'
                 ]);
                 foreach($m['mlt_tasks'] as $task){
@@ -81,7 +80,9 @@ class MilestoneTemplateController extends Controller
                         'status' => 'Open'
                     ]);
                     if(!empty($task['assign'])){
-                        $new_task->assigned()->attach($task['assign']);
+                        foreach($task['assign'] as $t){
+                            $new_task->assigned()->attach($t);                            
+                        }
                     }
                 }
             } 

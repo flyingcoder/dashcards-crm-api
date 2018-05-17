@@ -12,9 +12,6 @@
                   <el-form-item label="Days" :error="formError.days">
                     <el-input-number type="text" v-model="form.days"></el-input-number>
                   </el-form-item>
-                  <el-form-item label="Percentage" :error="formError.percentage">
-                    <el-input-number type="text" v-model="form.percentage"></el-input-number>
-                  </el-form-item>
                 <el-table
                   :data="tasks"
                   style="width: 100%">
@@ -94,17 +91,25 @@ export default {
     beforeOpen (event) {
       this.form = this.initForm();
       this.tasks = [];
+      this.formError = '';
       if(typeof event.params != 'undefined' && event.params.action == 'Update') {
         this.action = 'Update';
         this.title = 'Edit Milestone';
-        this.form = event.params.data;
+        this.isProcessing = true;        
+        axios.get(URL + event.params.data.id + '/edit')
+          .then(response => {
+            this.isProcessing = false;     
+            this.form.title = response.data.title;
+            this.form.days = response.data.days;
+            this.form.id = response.data.id;
+            this.tasks = response.data.mlt_tasks;
+          })
       }
     },
     initForm(){
       return {
         title: '',
         days: 1,
-        percentage: 0
       }
     },
     submit(){
