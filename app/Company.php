@@ -130,8 +130,24 @@ class Company extends Model
 
     public function paginatedCompanyMembers(Request $request)
     {
-        return $this->members()
-                    ->paginate($this->paginate);
+         list($sortName, $sortValue) = parseSearchParam($request);
+
+        $members = $this->members()
+                        ->select(
+                            'users.id',
+                            'users.job_title',
+                            'users.email',
+                            'users.first_name',
+                            'users.last_name',
+                            'users.image_url'
+                        )->with('tasks', 'projects');
+
+        if($request->has('sort'))
+            $members->orderBy($sortName, $sortValue);
+        else
+            $members->orderBy('users.created_at', 'DESC');
+
+        return $members->paginate($this->paginate);
     }
 
     public function membersID()
