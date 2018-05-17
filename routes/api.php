@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
   Route::get('members', 'CompanyController@members');
   Route::get('teams', 'CompanyController@teams');
   Route::get('teams/{id}', 'CompanyController@member');
+  Route::delete('teams/{id}', 'TeamController@delete');
   Route::post('teams', 'TeamController@store');
   Route::put('teams/{id}', 'TeamController@update');
 });
