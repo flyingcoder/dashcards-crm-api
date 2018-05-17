@@ -138,6 +138,17 @@ class TeamController extends Controller
         return $member;
     }
 
+    public function delete($id)
+    {
+        $member = User::findOrFail($id);
+        if($member->destroy($id)){
+            return response('success', 200);
+        }
+        else {
+            return response('failed', 500);
+        }
+    }
+
 //Group
     public function groups()
     {

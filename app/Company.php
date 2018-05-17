@@ -114,7 +114,7 @@ class Company extends Model
                        ->join('companies', function($join) {
                             $join->on('companies.id', '=', 'teams.company_id')
                                  ->where('companies.id', $this->id);
-                       });
+                       })->where('users.deleted_at', null);
     }
 
     public function allCompanyMembers()
