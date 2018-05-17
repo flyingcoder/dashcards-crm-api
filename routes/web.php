@@ -33,7 +33,7 @@ Route::view('invoices', 'pages.invoices')->name('invoices');
 Route::view('payments', 'pages.payments')->name('payments');
 Route::view('timers', 'pages.timers')->name('timers');
 Route::view('cloud', 'pages.cloud')->name('cloud');
-Route::view('teams', 'pages.teams')->name('teams');
+Route::view('teams', 'pages.teams')->name('teams')->middleware('auth');
 Route::view('chat', 'pages.chat')->name('chat');
 Route::view('reports', 'pages.reports')->name('reports');
 Route::view('supports', 'pages.supports')->name('supports');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -14,5 +15,12 @@ class CompanyController extends Controller
     public function teams()
     {
     	return auth()->user()->company()->allTeamMembers();
+    }
+
+    public function member($id)
+    {
+    	$user = User::findOrFail($id);
+
+    	return $user->load('teams');
     }
 }
