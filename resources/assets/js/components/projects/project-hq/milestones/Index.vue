@@ -1,12 +1,19 @@
 <template>
     <section class="content hq-milestones">
         <v-layout row wrap >
-            <el-button @click="$modal.show('add-template')">Import Template</el-button>
+            <!-- <el-button @click="$modal.show('add-template')">Import Template</el-button> -->
 			<div class="col-md-12" v-if="!isProcessing">
             	<milestone-card v-for="d in milestones" :data="d" :key="d.id" v-on:updated="update"></milestone-card>
     		</div>
-			<div v-else>
-				<i class="fas fa-circle-notch fa-spin"></i> {{ loading }}
+			<div class="col-md-12" v-else>
+				<div class="data-loader">
+					<div class="spinner">
+						<div class="bounce1"></div>
+						<div class="bounce2"></div>
+						<div class="bounce3"></div>
+					</div>
+					{{ loading }} 
+				</div>
 			</div>
         <add-milestone :projectId='$parent.projectId' v-on:updated="update"></add-milestone>
         <add-template :projectId='$parent.projectId' v-on:updated="update"></add-template>
@@ -29,7 +36,7 @@
 			return {
 				milestones: [],
 				isProcessing: true,
-				loading: 'Fetching Datas ...'
+				loading: 'Fetching Data'
 			}
 		},
 		mounted() {
