@@ -128,8 +128,8 @@
                             </div>
                         </div> -->
                         <div class="tab-content">
-                            <list-teams></list-teams>
-                            <grid-teams></grid-teams>
+                            <list-teams ref="listTeam"></list-teams>
+                            <grid-teams ref="gridTeam"></grid-teams>
                         </div>
                     </section>
                     <div class="box-footer">
@@ -138,7 +138,7 @@
                 </div>
             </div>
         </v-layout>
-        <add-member></add-member>
+        <add-member @refresh="refreshGrid"></add-member>
     </section>
 </template>
 
@@ -153,5 +153,11 @@
             'grid-teams': GridTeams,
             'add-member': AddMember,
         },
+        methods: {
+            refreshGrid() {
+                this.$refs.gridTeam.getTeam();
+                this.$refs.listTeam.getTeam();
+            }
+        }
     }
 </script>

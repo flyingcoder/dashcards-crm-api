@@ -60,6 +60,7 @@
             }]
         },
         value1: 'March 16, 2018',
+         active: ''
       };
     },
     methods: {

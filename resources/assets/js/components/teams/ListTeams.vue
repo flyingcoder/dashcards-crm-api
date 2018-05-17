@@ -1,16 +1,16 @@
 <template>
     <div class="tab-pane fade" id="list-view">
         <div class="buzz-table">
-            <el-table :data="paginatedMyProjects" stripe empty-text="No Data Found" v-loading="isProcessing" 
-            @sort-change="handleSortChange" element-loading-text="Processing ..." 
-            @selection-change="handleSelectionChange" style="width: 100%"
-            @row-click="rowClick">
+            <el-table stripe :data="paginatedTeams" empty-text="No Data Found" v-loading="isProcessing" 
+                @sort-change="handleSortChange" element-loading-text="Processing ..." 
+                @selection-change="handleSelectionChange" style="width: 100%"
+                @row-click="rowClick">
                 <el-table-column sortable type="selection" width="45"></el-table-column>
                 <el-table-column sortable prop="member" label="Member"></el-table-column>
                 <el-table-column sortable prop="position" label="Position"></el-table-column>
                 <el-table-column sortable prop="location" label="Location"></el-table-column>
-                <el-table-column sortable prop="total_hours" label="Total Hours"></el-table-column>
-                <el-table-column sortable prop="assigned_project" label="Assigned Project"></el-table-column>
+                <el-table-column sortable prop="total_hours" label="Tasks"></el-table-column>
+                <el-table-column sortable prop="assigned_project" label="Projects"></el-table-column>
                 <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <a href="#" @click="edit(scope.row)">
@@ -48,30 +48,28 @@
 
       data () {
         return {
-        isProcessing: false,
-        multipleSelection: [],
-        currentPage: 1,
-        currentSize: 10,
-        total : 1,
-        paginatedMyProjects: [],
-        paginatedAllProjects: [],
+            isProcessing: false,
+            multipleSelection: [],
+            currentPage: 1,
+            currentSize: 10,
+            total : 1,
+            paginatedTeams: []
         }
       },
 
       mounted () {
-        this.getMyProjects();
-        this.getAllProjects();
-
+        this.getTeam();
       },
 
       methods: {
         renderHeader(h,{column,$index}){
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
         },
-        getMyProjects(){
-            axios.get('api/projects/mine')
+        getTeam(){
+            axios.get('api/company/teams?paginate=true')
                  .then( response => {
-                    this.paginatedMyProjects = response.data.data;
+                    console.log(response.data.data);
+                    this.paginatedTeams = response.data.data;
                     this.currentPage = response.data.current_page;
                     this.total = response.data.total;
                  })

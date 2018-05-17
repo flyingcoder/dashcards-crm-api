@@ -57,6 +57,20 @@ Vue.component('avatar',Avatar);
     // return moment.duration(Date.parse(value) - Date.parse(start)).asHours();
   })
 
+  Vue.filter('capitalize', function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  })
+
+  Vue.filter('truncate', function (text, stop, clamp) {
+      return text.slice(0, stop) + (stop < text.length ? clamp || '...' : '')
+  })
+
+  Vue.filter('fullname', function (value) {
+     return value.first_name +' '+value.last_name;
+  })
+
   Vue.filter('formatHuman', function(value) {
     return moment(value).format("MMMM DD, YYYY")
   })

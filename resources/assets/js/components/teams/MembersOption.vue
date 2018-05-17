@@ -9,14 +9,27 @@
         </button>
         <ul class="dropdown-menu">
             <li>
-                <a href="#"> Messages </a>
+                <a href="#"> Edit </a>
             </li>
-            <li>
+            <!-- li>
                 <a href="#"> Call </a>
-            </li>
+            </li -->
             <li>
                 <a href="#"> Remove </a>
             </li>
         </ul>
     </div>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+
+            }
+        },
+        methods: {
+            
+        }
+    }
+</script>
