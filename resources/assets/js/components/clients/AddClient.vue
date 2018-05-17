@@ -33,6 +33,19 @@
                             <el-form-item prop="checkPass" class="buzz-input buzz-inline pull-right">
                                 <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
                             </el-form-item>
+                            <el-upload class="client-upload"
+                                v-model="form.image_url"
+                                action=""
+                                :limit="1"
+                                :on-change="handleAdd"
+                                :on-remove="handleRemove"
+                                :before-upload="beforeImport"
+                                :http-request='submitFiles'                           
+                                :auto-upload="false">
+                                <el-button slot="trigger">
+                                    Upload Photo
+                                </el-button>
+                            </el-upload>
                             <el-form-item  class="form-buttons">
                                 <el-button type="primary" @click="submit('form')"> {{action}} </el-button>
                                 <el-button @click="$modal.hide('add-client')">Cancel</el-button>
@@ -82,6 +95,7 @@
           email: '',
           password: '',
           status: '',
+          image_url: '',
         },
         rules: {
             first_name: [
@@ -116,94 +130,94 @@
       };
     },
     methods: {
-      beforeOpen (event) {
-            console.log('before Open');
-            if(typeof event.params != 'undefined' && event.params.action == 'Update') {
-                this.action = 'Update';
-                this.title = 'Edit Client';
-                this.id = event.params.data.id;
-                var vm = this;
-                axios.get('api/clients/'+this.id)
-                    .then( (response) => {
-                        this.form = response.data;
-                        console.log(response.data)
-                    });
-            }
-      },
-      submit(form) {
-          this.$refs[form].validate((valid) => {
-            if (valid) {
-               if(this.action == 'Save'){
-                    this.save();
+        beforeOpen (event) {
+                console.log('before Open');
+                if(typeof event.params != 'undefined' && event.params.action == 'Update') {
+                    this.action = 'Update';
+                    this.title = 'Edit Client';
+                    this.id = event.params.data.id;
+                    var vm = this;
+                    axios.get('api/clients/'+this.id)
+                        .then( (response) => {
+                            this.form = response.data;
+                            console.log(response.data)
+                        });
                 }
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
-          });
-      },
-      save: function () {
+        },
+        submit(form) {
+            this.$refs[form].validate((valid) => {
+                if (valid) {
+                if(this.action == 'Save'){
+                        this.save();
+                    }
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        save: function () {
+                this.isProcessing = true;
+                var vm = this;
+                axios.post('/api/clients/',this.form)
+                .then( (response) => {
+                    vm.id = response.data.id;               
+                    swal('Success!', 'Client is saved!', 'success');
+                    this.isProcessing = false;
+                    vm.$modal.hide('add-client');
+                    vm.$emit('refresh');
+                    vm.resetForm();
+                }, (error) => {
+                    this.isProcessing = false;
+                    if(error.response.status == 422){
+                        this.errors = error.response.data.errors;
+                        for( var value in error.response.data.errors) {
+                            console.log(value)
+                            if(value == 'email'){
+                            swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                            }
+                        }
+                    } else {
+                        swal('Saving Failed!', error.response.data, 'error');
+                    } 
+                });
+                
+        },
+        update: function () {
             this.isProcessing = true;
-            var vm = this;
-            axios.post('/api/clients/',this.form)
+            axios.put('/api/clients/'+this.id, this.form)
             .then( (response) => {
-                  vm.id = response.data.id;               
-                  swal('Success!', 'Client is saved!', 'success');
-                  this.isProcessing = false;
-                  vm.$modal.hide('add-client');
-                  vm.$emit('refresh');
-                  vm.resetForm();
-              }, (error) => {
-                  this.isProcessing = false;
-                  if(error.response.status == 422){
-                      this.errors = error.response.data.errors;
-                      for( var value in error.response.data.errors) {
+                this.isProcessing = false;
+                swal('Success!', 'Client is updated!', 'success');
+                this.isProcessing = false;
+                vm.$modal.hide('add-client');
+                vm.resetForm();
+            }, (error) => {
+                this.isProcessing = false;
+                if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    for( var value in error.response.data.errors) {
                         console.log(value)
                         if(value == 'email'){
-                           swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                        swal('Saving Failed!', error.response.data.errors.email[0], 'error');
                         }
-                      }
-                  } else {
-                      swal('Saving Failed!', error.response.data, 'error');
-                  } 
-            });
-            
-      },
-      update: function () {
-          this.isProcessing = true;
-          axios.put('/api/clients/'+this.id, this.form)
-          .then( (response) => {
-              this.isProcessing = false;
-              swal('Success!', 'Client is updated!', 'success');
-              this.isProcessing = false;
-              vm.$modal.hide('add-client');
-              vm.resetForm();
-          }, (error) => {
-              this.isProcessing = false;
-              if(error.response.status == 422){
-                  this.errors = error.response.data.errors;
-                  for( var value in error.response.data.errors) {
-                    console.log(value)
-                    if(value == 'email'){
-                       swal('Saving Failed!', error.response.data.errors.email[0], 'error');
                     }
-                  }
-              } else {
-                  swal('Saving Failed!', error.response.data, 'error');
-              } 
-          });
-      },
-      resetForm() {
-        this.form = {
-            first_name: '',
-            last_name: '',
-            company_name: '',
-            telephone: '',
-            email: '',
-            password: '',
-            status: '',
-        }
-      }
+                } else {
+                    swal('Saving Failed!', error.response.data, 'error');
+                } 
+            });
+        },
+        resetForm() {
+            this.form = {
+                first_name: '',
+                last_name: '',
+                company_name: '',
+                telephone: '',
+                email: '',
+                password: '',
+                status: '',
+            }
+        },
     }
   }
 </script>

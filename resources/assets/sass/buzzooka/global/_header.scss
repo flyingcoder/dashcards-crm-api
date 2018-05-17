@@ -540,9 +540,13 @@
             background: none;
             &:hover{
                 background: none;
+                color: unset;
             }
             li{
                 height: 50px;
+                &:hover{
+                    background: $gray-5;
+                }
                 a, button{
                     img, h3{
                         display: inline-block;
