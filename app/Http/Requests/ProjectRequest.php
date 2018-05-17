@@ -29,7 +29,7 @@ class ProjectRequest extends FormRequest
             'title' => 'required',
             'client_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:services,id',
-            'end_at' => 'required|date|after:start_at',
+            'end_at' => 'required|date',
             // 'location' => 'required',
             'description' => 'required'
         ];

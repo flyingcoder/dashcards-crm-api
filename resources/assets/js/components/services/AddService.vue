@@ -15,42 +15,29 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                   <el-form :model="servicesForm" ref="servicesForm">
+                   <el-form :model="form" loading ref="form" @submit.prevent.native="handleInputConfirm">
                         <div class="buzz-modal-content services-form">
-                            <el-form-item prop="service"
-                                :rules="[
-                                    { required: true, message: 'Please input Service', trigger: 'blur' },
-                                ]"
-                                >
-                                <el-input v-model="servicesForm.name" placeholder="Untitled Service"></el-input>
-                                <el-button @click="addfield" class="additional-field">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <path fill-rule="evenodd"
-                                        d="M36.579,19.954 L22.146,19.954 L22.146,36.118 C22.146,36.912 21.356,37.556 20.382,37.556 C19.408,37.556 18.618,36.912 18.618,36.118 L18.618,19.954 L2.414,19.954 C1.619,19.954 0.973,19.167 0.973,18.196 C0.973,17.223 1.619,16.436 2.414,16.436 L18.618,16.436 L18.618,2.038 C18.618,1.244 19.408,0.600 20.382,0.600 C21.356,0.600 22.146,1.244 22.146,2.038 L22.146,16.436 L36.579,16.436 C37.375,16.436 38.020,17.223 38.020,18.196 C38.020,19.167 37.375,19.954 36.579,19.954 Z"/>
-                                    </svg>
-                                </el-button>
+                            <el-form-item v-loading="isProcessing" :error="error.name[0]">
+                                <el-input v-model="service.name" placeholder="Untitled Service"></el-input>
                             </el-form-item>
-                            <el-form-item v-for="(field, index) in servicesForm.fields" :key="field.key"
-                                :prop="'fields.' + index + '.value'"
-                                :rules="{
-                                    required: true, message: 'Please input Service', trigger: 'blur'
-                                }"
-                                >
-                                <el-input v-model="field.value" placeholder="Untitled Service"></el-input><el-button @click.prevent="removefield(field)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        width="27px" height="39px">
-                                        <path fill-rule="evenodd"
-                                        d="M24.849,10.106 L1.181,10.106 C0.536,10.106 0.014,9.551 0.014,8.867 L0.014,5.052 C0.014,4.368 0.536,3.813 1.181,3.813 L7.574,3.813 L7.574,1.239 C7.574,0.554 8.096,-0.002 8.741,-0.002 L17.290,-0.002 C17.934,-0.002 18.456,0.554 18.456,1.239 L18.456,3.813 L24.849,3.813 C25.494,3.813 26.016,4.368 26.016,5.052 L26.016,8.867 C26.016,9.551 25.494,10.106 24.849,10.106 ZM16.122,2.478 L9.908,2.478 L9.908,3.813 L16.122,3.813 L16.122,2.478 ZM23.428,36.834 C23.402,37.498 22.887,38.021 22.262,38.021 L3.768,38.021 C3.143,38.021 2.628,37.498 2.602,36.835 L1.634,12.586 L24.396,12.586 L23.428,36.834 ZM9.487,17.628 C9.487,16.943 8.964,16.388 8.320,16.388 C7.675,16.388 7.153,16.943 7.153,17.628 L7.153,32.979 C7.153,33.664 7.675,34.219 8.320,34.219 C8.964,34.219 9.487,33.664 9.487,32.979 L9.487,17.628 ZM14.182,17.628 C14.182,16.943 13.659,16.388 13.015,16.388 C12.370,16.388 11.848,16.943 11.848,17.628 L11.848,32.979 C11.848,33.664 12.370,34.219 13.015,34.219 C13.659,34.219 14.182,33.664 14.182,32.979 L14.182,17.628 ZM18.877,17.628 C18.877,16.943 18.354,16.388 17.710,16.388 C17.065,16.388 16.543,16.943 16.543,17.628 L16.543,32.979 C16.543,33.664 17.065,34.219 17.710,34.219 C18.354,34.219 18.877,33.664 18.877,32.979 L18.877,17.628 Z"/>
-                                    </svg>
-                                </el-button>
-                            </el-form-item>
+                            <ul>
+                                <li v-for="(s, index) in form" :key="s.key">
+                                    <span> {{ s.name  }} </span>
+                                    <el-button @click="removeService(index)">
+                                        <svg viewBox="0 0 250 250">
+                                            <path class="delete" d="M61 83l129 0c6,0 11,5 10,10l-3 146c-1,6 -5,11 -11,11l-121 0c-6,0 -11,-5 -11,-11l-4 -146c0,-5 5,-10 11,-10zm37 -83l54 0c5,0 9,2 12,5l0 0c3,3 4,7 4,11l0 10 33 0c6,0 11,4 11,10l0 23c0,6 -5,11 -11,11l-152 0c-6,0 -11,-5 -11,-11l0 -23c0,-6 5,-10 11,-10l33 0 0 -10c0,-4 2,-8 5,-11 3,-3 7,-5 11,-5zm1 26l53 0 0 -9 -53 0 0 9zm-5 83l0 0c5,0 9,4 9,10l0 95c0,5 -4,9 -9,9l0 0c-6,0 -10,-4 -10,-9l0 -95c0,-6 4,-10 10,-10zm64 0l0 0c5,0 9,4 9,10l0 95c0,5 -4,9 -9,9l0 0c-5,0 -10,-4 -10,-9l0 -95c0,-6 5,-10 10,-10zm-32 0l0 0c5,0 9,4 9,10l0 95c0,5 -4,9 -9,9l0 0c-5,0 -10,-4 -10,-9l0 -95c0,-6 5,-10 10,-10z"/>
+                                        </svg>
+                                    </el-button>
+                                </li>
+                            </ul>
                             <el-form-item  class="form-buttons">
-                                <el-button @click="submit">Save</el-button>
-                                <!-- <el-button @click="resetForm('servicesForm')">Reset</el-button> -->
+                                <el-button :disabled="form.length == 0" @click="submit">Save</el-button>
+                                <!-- <el-button @click="resetForm('form')">Reset</el-button> -->
                                 <el-button @click="$modal.hide('add-service')">Cancel</el-button>
                             </el-form-item>
                         </div>
                     </el-form>
+                    
                 </div>
             </section>
         </modal>
@@ -64,63 +51,38 @@
                 title: 'Add New Services',
                 action: 'Save',
                 id: 0,
-                oldName: '',
-                isProcessing: false,
-                servicesForm: {
-                    fields: [{
-                    key: 1,
-                    value: ''
-                    }],
+                service: {
                     name: ''
                 },
-        		error: {
-        			name: [],
-                    description: [],
-                    due_date: [],
-                    content: [],
-        		},
-                config: {
-                    toolbar: [
-                      [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
-                    ],
-                    
-                    height: 500
-                }
+                isProcessing: false,
+                form: [],
+                error: {
+                    name: []
+                },
+                
         	}
         },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    alert('submit!');
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-                });
+            handleInputConfirm(){
+                this.isProcessing = true
+                axios.post('/api/services/validate', this.service)
+                .then(response => {
+                    this.isProcessing = false;
+                    this.form.push({ key: this.form.length + 1, name: this.service.name });
+                    this.service.name = "";
+                })
+                .catch( error => {
+                    this.error = error.response.data.errors;
+                    this.isProcessing = false;                  
+                })
+                
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-            },
-            removefield(item) {
-                var index = this.servicesForm.fields.indexOf(item);
-                if (index !== -1) {
-                this.servicesForm.fields.splice(index, 1);
-                }
-            },
-            addfield() {
-                this.servicesForm.fields.push({
-                key: Date.now(),
-                value: ''
-                });
-            },
-            onBlur (e) {
-                console.log(e)
-            },
-            onFocus (e) {
-                console.log(e)
+            removeService(index){
+                this.form.splice(index, 1);
             },
             beforeOpen (event) {
+                error = { name : [] }
+                form = [];
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
                     this.title = 'Edit Service';
@@ -128,7 +90,7 @@
                     var vm = this;
                     axios.get('api/services/'+this.id)
                         .then( response => {
-                            this.servicesForm = response.data;
+                            this.form = response.data;
                         });
                 }
             },
@@ -142,7 +104,7 @@
             },
             save: function () {
                 this.isProcessing = true;
-                axios.post('/api/services/',this.servicesForm)
+                axios.post('/api/services/',this.form)
                 .then( response => {
                     this.isProcessing = false;
                     swal('Success!', 'Service is saved!', 'success');

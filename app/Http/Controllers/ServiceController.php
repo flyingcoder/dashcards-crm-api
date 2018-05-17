@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Auth;
+use Validator;
 use App\Team;
 use App\Service;
 use App\Company;
@@ -51,12 +52,10 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function store()
-    {
-        (new ServicePolicy())->create();
 
-        $company = Auth::user()->company();
-
+    public function isValid(){
+        $company = Auth::user()->company();            
+        
         request()->validate([
             'name' => [
                 'required',
@@ -64,14 +63,28 @@ class ServiceController extends Controller
                 new CollectionUnique($company->servicesNameList())
             ]
         ]);
-        
-        $service = Service::create([
-            'user_id' => Auth::user()->id,
-            'name' => request()->name  
-        ]);
+    }
 
-        return response()
-                ->json(['message' => 'Service was successfully added.', 'service' => $service->load(['user'])]);
+    public function store(Request $request)
+    {
+        try{
+            
+            $services = $request->all();
+            (new ServicePolicy())->create();
+            foreach($services as $s){
+                Service::create([
+                    'user_id' => Auth::user()->id,
+                    'name' => $s['name'] 
+                ]);    
+            }
+            
+            return response()
+                    ->json(['message' => 'Service was successfully added.', ]);
+        }
+        catch (\Exception $ex) {
+            return response(['message' => $ex->getMessage()], 500);
+        }
+        
     }
 
     public function service($id)

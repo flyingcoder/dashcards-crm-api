@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MltMilestone extends Model
 {
-    protected $fillable = ['title', 'days','milestone_template_id', 'percentage'];
+    protected $fillable = ['title', 'days','milestone_template_id'];
 
     public function milestoneTemplate()
     {
