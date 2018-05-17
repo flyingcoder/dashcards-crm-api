@@ -31,15 +31,30 @@ class Task extends Model
 
     public static function store(Request $request)
     {
+        if($request->started_at != null){
+            $request->validate([
+                'end_at' => 'after:started_at',
+            ]);
+            $started_at = $request->started_at;
+            $end_at = $request->end_at;
+        }
+        else{
+            $started_at = date("Y-m-d",strtotime("now"));
+            $end_at = date("Y-m-d",strtotime($request->days . ' days'));
+        }
         $task = self::create([
-            'title' =>request()->title,
-            'description' =>request()->description,
-            'milestone_id' =>request()->milestone_id,
-            'started_at' =>request()->started_at,
-            'end_at' =>request()->end_at,
+            'title' =>$request->title,
+            'description' =>$request->description,
+            'milestone_id' =>$request->milestone_id,
+            'started_at' =>$started_at,
+            'end_at' =>$end_at,
             'status' => 'Open'
         ]);
-
+        if(!empty($request->members)){
+            foreach($request->members as $m){
+                $task->assigned()->attach($m);
+            }
+        }
         return [$task->save(), $task];
     }
 

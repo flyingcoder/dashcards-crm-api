@@ -41,11 +41,11 @@
         </div>
         <div class="box-content buzz-scrollbar" id="buzz-scroll">
             <div class="milestone-group" id="milestone-1">
-                <div class="milestone"  v-for="t in data.tasks" :key="t.id" @click="showTask">
+                <div class="milestone"  v-for="t in data.tasks" :key="t.id">
                     <div class="milestone-heading">
                         <a href="#milestone-element-1" data-parent="#milestone-1" class="collapsed milestone-title" data-toggle="collapse">
                             <span> {{ t.title }} </span>  
-                            <span> {{ t.assigned ? t.assigned[0].first_name + " " + t.assigned[0].last_name : '' }} </span>  
+                            <span> {{ t.assigned.length > 0 ? t.assigned[0].first_name + " " + t.assigned[0].last_name : '' }} </span>  
                         </a>
                         <ul class="milestone-sub-option">
                                 <li>
@@ -58,7 +58,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"> 
+                                    <a href="#" @click="edit(t,data)"> 
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                             width="16px" height="16px">
                                             <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -67,7 +67,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"> 
+                                    <a href="#" @click="destroy(t)"> 
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                             width="12px" height="17px">
                                             <path fill-rule="evenodd"  fill="rgb(212, 214, 224)"
@@ -81,8 +81,11 @@
             </div>
         </div>
         <div class="box-footer milestone-footer">
-            <a href="#"> Add New </a>
+            <button @click="$modal.show('new-task-modal-' + data.id)">
+                Add New
+            </button>
         </div>
+        <add-task :milestone="data" v-on:updated="updated"></add-task>
         <modal name="comments" transition="nice-modal-fade">
             <section class="content">
                 <task-info :task="task"></task-info>
@@ -93,9 +96,11 @@
 
 <script>
     import TaskInfo from '../tasks/TaskInfo.vue'
+    import AddTask from './AddTask.vue'
     export default {
         components: {
             'task-info': TaskInfo,
+            'add-task' : AddTask
         },
         props: ['data'],
         data(){
@@ -105,8 +110,8 @@
             }
         },
         methods:{
-            addTask(val){
-                this.$emit('addTask', {
+            updated(val){
+                this.$emit('updated', {
                 id: this.data.id,
                 task: val
                 });
@@ -114,7 +119,34 @@
             showTask(val){
                 this.task = val;
                 this.$modal.show('comments');
-            }
+            },
+            edit(t,m){
+                console.info(t);
+                this.$modal.show('new-task-modal-' + m.id, { action: 'Update', data: t })
+            },
+            destroy: function(row) {
+				var self = this;
+					swal({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!'
+				}).then(function (result) {
+				if (result) {
+					axios.delete('/api/tasks/' + row.id)
+					.then(response => {
+						swal('Success!', 'Task is Deleted!', 'success');
+						self.$emit('updated', 
+                            response.data
+                        );
+					});
+				}
+			})
+				
+			},
         }
     }
 </script>
