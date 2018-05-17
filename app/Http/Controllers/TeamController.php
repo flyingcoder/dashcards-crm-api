@@ -8,6 +8,7 @@ use Auth;
 use App\User;
 use App\Team;
 use App\Company;
+use Illuminate\Validation\Rule;
 use App\Rules\CollectionUnique;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -46,28 +47,106 @@ class TeamController extends Controller
     public function store()
     {
         request()->validate([
-            'name' => 'required|string',
-            'group_id' => 'required',
-            'job_title' => 'required',
+            'last_name' => 'required|string',
+            'first_name' => 'required|string',
             'email' => 'required|email|unique:users',
             'telephone' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
+            'group_name' => 'required',
         ]);
 
-        $project = User::create([
-            'name' => request()->name,
-            'job_title' => request()->job_title,
+        $username = explode('@', request()->email)[0];
+
+        $image_url = 'img/members/alfred.png';
+
+        if(request()->has('image_url'))
+            $image_url = request()->image_url;
+
+        $member = User::create([
+            'username' => $username,
+            'last_name' => request()->last_name,
+            'first_name' => request()->first_name,
             'email' => request()->email,
-            'telephone' => request()->telephone,
+            'telephone' => request()->telephone, 
+            'job_title' => request()->job_title,
             'password' => bcrypt(request()->password),
-            'created_by' => Auth::user()->name,
-            'image_url' => 'img/members/alfred.png'
+            'image_url' => $image_url
         ]);
 
-        request()->session()->flash('message.level', 'success');
-        request()->session()->flash('message.content', 'Member was successfully added!');
+        $company = Auth::user()->company();
 
-        return back();
+        $team = $company->teams()
+                ->where('slug', strtolower(request()->group_name))
+                ->count();
+
+        if(!$team) {
+            $company->teams()->create([
+                'name' => request()->group_name,
+                'description' => request()->group_name.' of '.$company->name,
+                'slug' => strtolower(request()->group_name)
+            ]);
+        }
+
+        $team = $company->teams()
+                        ->where('slug', strtolower(request()->group_name))
+                        ->first();
+
+        $team->members()->attach($member);
+
+        $role = $company->roles()
+                        ->where('slug', strtolower(request()->group_name))
+                        ->count();
+
+        if(!$role) {
+            $company->roles()->create([
+                'name' => request()->group_name,
+                'slug' => strtolower(request()->group_name),
+                'description' => 'Priveleges of '.request()->group_name
+            ]);
+        }
+
+        $member->assignRole(strtolower(request()->group_name));
+
+        return $member;
+    }
+
+    public function update($id)
+    {
+        $member = User::findOrFail($id);
+
+        request()->validate([
+            'username' => 'required|string',
+            'last_name' => 'required|string',
+            'first_name' => 'required|string',
+            'email' => [
+                'required',
+                 Rule::unique('users')->ignore($member->id)
+             ],
+            'telephone' => 'required',
+            'group_name' => 'required',
+        ]);
+
+        $member->first_name = request()->first_name;
+        $member->last_name = request()->last_name;
+        $member->email = request()->email;
+        $member->telephone = request()->telephone;
+        if(request()->has('password'))
+            $member->password = request()->password;
+        
+        $member->save();
+
+        return $member;
+    }
+
+    public function delete($id)
+    {
+        $member = User::findOrFail($id);
+        if($member->destroy($id)){
+            return response('success', 200);
+        }
+        else {
+            return response('failed', 500);
+        }
     }
 
 //Group

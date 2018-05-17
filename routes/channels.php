@@ -26,3 +26,10 @@ Broadcast::channel('comment.task.{taskId}', function ($comment, $taskId) {
 		return $comment;
 	}
 });
+
+
+Broadcast::channel('project.notification.{companyId}', function ($user, $companyId) {
+	if((int) $user->company()->id === (int) $companyId){
+		return $user;
+	}
+});

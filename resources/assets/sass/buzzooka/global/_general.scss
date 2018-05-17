@@ -1796,6 +1796,7 @@ html{
                     .el-form-item__content{
                         .el-radio-group{
                             .el-radio{
+                                background: $input-bg;
                                 width: 120px !important;
                                 height: 45px !important; 
                                 margin-bottom: 0;
@@ -1807,7 +1808,40 @@ html{
                                     font-size: 17px !important;
                                 }
                             }
+                            .is-checked{
+                                background: $white;
+                            }
                         }
+                    }
+                }
+                .el-form{
+                    .buzz-modal-content{
+                        .client-upload{
+                            height: 45px;
+                            margin-bottom: 20px;
+                           .el-upload{
+                               float: left;
+                               vertical-align: middle;
+                               .el-button{
+                                   width: 250px;
+                                   background: $input-bg;
+                                   @extend .buzz-border;
+                                   &:hover, &:focus, &:active{
+                                       background: $white;
+                                        span{
+                                            color: $blue;
+                                        }
+                                   }
+                               }
+                           }
+                           .el-upload-list {
+                               display: inline-block;
+                               vertical-align: middle;
+                               margin-left: 30px;
+                               width: 250px;
+                               @extend .buzz-overflow;
+                           }
+                       }
                     }
                 }
             }

@@ -21,4 +21,16 @@ class TeamModelTest extends TestCase
 
         $this->assertTrue(true);
     }
+
+    public function testCompanyTeams()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/company/teams');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
 }

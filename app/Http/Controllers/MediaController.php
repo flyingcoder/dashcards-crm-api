@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Spatie\Activitylog\Models\Activity;
+use App\Activity;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use App\Project;
@@ -61,16 +61,21 @@ class MediaController extends Controller
 
         $log = auth()->user()->first_name.' linked a .'.request()->extention.' file.';
 
-        activity(auth()->user()->company()->name)
-                     ->performedOn($project)
-                     ->causedBy(auth()->user())
-                     ->withProperties([
-                        'company_id' => auth()->user()->company()->id,
-                        'media' => $media,
-                        'thumb_url' => $media->getUrl('thumb')
-                      ])
-                     ->log($log);
+        $activity = activity(auth()->user()->company()->name)
+                                   ->performedOn($project)
+                                   ->causedBy(auth()->user())
+                                   ->withProperties([
+                                      'company_id' => auth()->user()->company()->id,
+                                      'media' => $media,
+                                      'thumb_url' => $media->getUrl('thumb')
+                                    ])
+                                   ->log($log);
 
+        $activity = Activity::latest()->first();
+
+        $activity->users()->attach(auth()->user()->company()->membersID());
+
+        return $activity;
         
     }
 
@@ -145,7 +150,13 @@ class MediaController extends Controller
                                     ])
                                 ->log($log);
 
-          return Activity::latest()->first();
+
+
+          $activity = Activity::latest()->first();
+
+          $activity->users()->attach(auth()->user()->company()->membersID());
+
+          return $activity;
         }
       	
     }

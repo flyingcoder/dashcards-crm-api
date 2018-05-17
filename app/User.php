@@ -50,6 +50,26 @@ class User extends Authenticatable
 
     /**
      *
+     * activity_user table relationship
+     *
+     */
+    
+    public function acts()
+    {
+        return $this->belongsToMany('App\Activity', 'activity_user', 'user_id', 'activity_id')
+                    ->withPivot('read_at');
+    }
+
+    public function unreadActivity()
+    {
+        return $this->acts()
+                    ->whereNull('read_at')
+                    ->with('causer')
+                    ->get();
+    }
+
+    /**
+     *
      * Recursive relationship
      *
      */
