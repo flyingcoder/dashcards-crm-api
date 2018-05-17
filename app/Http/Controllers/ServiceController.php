@@ -54,8 +54,9 @@ class ServiceController extends Controller
 
 
     public function isValid(){
-        $company = Auth::user()->company();            
-        
+
+        $company = Auth::user()->company();
+
         request()->validate([
             'name' => [
                 'required',
@@ -63,6 +64,8 @@ class ServiceController extends Controller
                 new CollectionUnique($company->servicesNameList())
             ]
         ]);
+
+        return response(200);
     }
 
     public function store(Request $request)
