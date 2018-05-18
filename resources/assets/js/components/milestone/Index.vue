@@ -124,6 +124,9 @@
         this.getTemplates();
       },
       methods:{
+        renderHeader(h,{column,$index}){
+            return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });
+        },
         getTemplates() {
           this.isProcessing = true;
           axios.get(URL)

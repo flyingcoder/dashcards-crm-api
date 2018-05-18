@@ -174,6 +174,23 @@ class Company extends Model
         return $services;
     }
 
+    public function servicesNameList()
+    {
+        $data = [];
+
+        $members = $this->membersID();
+
+        $services = Service::whereIn('user_id', $members)
+                            ->select('name')
+                            ->get();
+
+        foreach ($services as $key => $value) {
+            $data[] = $value->name;
+        }
+
+        return collect($data)->unique();
+    }
+
     public function services()
     {
         $members = $this->membersID();
@@ -196,22 +213,10 @@ class Company extends Model
 
         if($request->has('sort'))
             $services->orderBy($sortName, $sortValue);
+        else
+            $services->orderBy('services.created_at', 'desc');
 
         return $services->paginate($this->paginate);
-    }
-
-    public function servicesNameList()
-    {
-        $services = [];
-        foreach ($this->members() as $member) {
-            if(!empty($member->services)) {
-                foreach ($member->services as $service) {
-                    $services[] = $service->name;
-                }
-            }
-        }
-
-        return collect($services)->unique('name');
     }
 
 
