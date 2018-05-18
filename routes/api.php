@@ -190,7 +190,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
   Route::post('validate', 'ServiceController@isValid');
 
-  Route::get('{id}', 'ServiceController@service');
+  Route::get('{id}', 'ServiceController@getService');
 
   Route::put('{id}', 'ServiceController@update');
 

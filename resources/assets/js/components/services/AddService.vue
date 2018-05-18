@@ -15,7 +15,8 @@
             <section class="content">
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                   <el-form :model="form" loading ref="form" @submit.prevent.native="handleInputConfirm">
+                   <el-form loading ref="form" @submit.prevent.native="handleInputConfirm">
+                       <p>Press Enter to add multiple service</p>
                         <div class="buzz-modal-content services-form">
                             <el-form-item v-loading="isProcessing" :error="error.name[0]">
                                 <el-input v-model="service.name" placeholder="Untitled Service"></el-input>
@@ -31,7 +32,7 @@
                                 </li>
                             </ul>
                             <el-form-item  class="form-buttons">
-                                <el-button :disabled="form.length == 0" @click="submit">Save</el-button>
+                                <el-button :disabled="form.length == 0" @click="save">Save</el-button>
                                 <!-- <el-button @click="resetForm('form')">Reset</el-button> -->
                                 <el-button @click="$modal.hide('add-service')">Cancel</el-button>
                             </el-form-item>
@@ -65,11 +66,18 @@
         methods: {
             handleInputConfirm(){
                 this.isProcessing = true
+                var vm = this;
+                if(_.findIndex(this.form, function(o){ return o.name == vm.service.name  }) != -1){
+                    this.error.name[0] = 'already exist in the list';
+                    this.isProcessing = false;
+                    return;
+                }
                 axios.post('/api/services/validate', this.service)
                 .then(response => {
                     this.isProcessing = false;
                     this.form.push({ key: this.form.length + 1, name: this.service.name });
                     this.service.name = "";
+                    this.error.name[0] = '';
                 })
                 .catch( error => {
                     this.error = error.response.data.errors;
@@ -81,54 +89,36 @@
                 this.form.splice(index, 1);
             },
             beforeOpen (event) {
-                error = { name : [] }
-                form = [];
-                if(typeof event.params != 'undefined' && event.params.action == 'update') {
-                    this.action = 'Update';
-                    this.title = 'Edit Service';
-                    this.id = event.params.data;
-                    var vm = this;
-                    axios.get('api/services/'+this.id)
-                        .then( response => {
-                            this.form = response.data;
-                        });
-                }
-            },
-            submit(){
-                if(this.action == 'Save'){
-                    this.save();
-                }
-                else {
-                    this.update();
-                }
+                this.error = { name : [] }
+                this.form = [];
             },
             save: function () {
                 this.isProcessing = true;
+                var vm = this;
                 axios.post('/api/services/',this.form)
                 .then( response => {
-                    this.isProcessing = false;
-                    swal('Success!', 'Service is saved!', 'success');
+                    this.isProcessing = false;                                    
+                    swal({
+                    title: 'Success!',
+                    text: 'Services is saved!',
+                    type: 'success'
+                    }).then( function() {
+                        vm.$modal.hide('add-service');
+                        vm.$emit('updated',response.data);
+                    });
                 })
                 .catch ( error => {
                     this.isProcessing = false;
+                    this.error = '';
                     if(error.response.status == 422){
-                    this.errors = error.response.data.errors;
+                        this.error = error.response.data.errors;
+                        swal('Saving Failed!','Form validation failed! ', 'error');
                     }
-                })
+                    else {
+                        swal('Saving Failed!','Server Error! ', 'error');  
+                    }
+                });
             },
-            update: function () {
-                axios.put('/api/services/'+this.id+'/edit', this.form)
-                .then( response => {
-                    this.isProcessing = false;
-                    swal('Success!', 'Service is updated!', 'success');
-                })
-                .catch ( error => {
-                    if(error.response.status == 422){
-                    this.errors = error.response.data.errors;
-                    }
-                    this.isProcessing = false;        
-                })
-            }
         },
         mounted() {
             

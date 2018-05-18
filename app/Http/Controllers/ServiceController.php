@@ -90,11 +90,11 @@ class ServiceController extends Controller
         
     }
 
-    public function service($id)
+    public function getService($id)
     {
-        $service = Service::findOrFail($id)
+        $service = Service::findOrFail($id);
 
-        (new ServicePolicy())->view($service);
+        // (new ServicePolicy())->view($service);
 
         return $service;
     }
@@ -102,11 +102,16 @@ class ServiceController extends Controller
     public function update($id)
     {
         $service = Service::findOrFail($id);
+        $company = Auth::user()->company();
 
         (new ServicePolicy())->update($service);
 
         request()->validate([
-            'name' => 'required|string'
+            'name' => [
+                'required',
+                'string',
+                new CollectionUnique($company->servicesNameList())
+            ]
         ]);
 
         $service->name = request()->name;

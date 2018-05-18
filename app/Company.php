@@ -213,6 +213,8 @@ class Company extends Model
 
         if($request->has('sort'))
             $services->orderBy($sortName, $sortValue);
+        else
+            $services->orderBy('services.created_at', 'desc');
 
         return $services->paginate($this->paginate);
     }

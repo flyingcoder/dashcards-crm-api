@@ -9,7 +9,8 @@
             <div class="col-md-6">
                 <div class="head-page-option">
                     <ul class="nav nav-tabs">
-                        <add-service></add-service>
+                        <add-service v-on:updated="updated"></add-service>
+                        <edit-service v-on:updated="updated"></edit-service>
                         <li class="sort">
                                 <el-dropdown trigger="click" placement="bottom-end">
                                 <el-button size="small" class="el-dropdown-link">
@@ -101,12 +102,14 @@
 
 <script>
     import AddService from './AddService.vue';
+    import EditService from './EditService.vue';
     import EmptyServices from './EmptyServices.vue';
 
     export default {   
       components: {
         'add-service': AddService,
-        'EmptyServices': EmptyServices
+        'EmptyServices': EmptyServices,
+        'edit-service': EditService
       },
       data () {
         return {
@@ -164,6 +167,9 @@
                 this.multipleSelection.push(val[index].id);
             }
         },
+        updated(){
+            this.getServices();
+        },
         destroy: function(row) {
          var vm = this;	
           swal({
@@ -192,7 +198,10 @@
               });
             }
           })
-        }
+        },
+        edit(data){
+            this.$modal.show('edit-service', { action: 'Update', data: data })
+        },
       }
 
     }
