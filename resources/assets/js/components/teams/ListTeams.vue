@@ -6,11 +6,30 @@
                 @selection-change="handleSelectionChange" style="width: 100%"
                 @row-click="rowClick">
                 <el-table-column sortable type="selection" width="45"></el-table-column>
-                <el-table-column sortable prop="member" label="Member"></el-table-column>
-                <el-table-column sortable prop="position" label="Position"></el-table-column>
-                <el-table-column sortable prop="location" label="Location"></el-table-column>
-                <el-table-column sortable prop="total_hours" label="Tasks"></el-table-column>
-                <el-table-column sortable prop="assigned_project" label="Projects"></el-table-column>
+                <el-table-column sortable label="Member">
+                    <template slot-scope="scope">
+                        <span> 
+                             <img class="user-image" :src="scope.row.image_url">
+                            {{ scope.row.first_name + " " + scope.row.last_name }} 
+                        </span>
+                    </template>
+                </el-table-column>
+                <el-table-column sortable label="Position">
+                    <template slot-scope="scope">
+                        <span> {{ scope.row.job_title }} </span>
+                    </template>
+                </el-table-column>
+                <!-- <el-table-column sortable prop="location" label="Location"></el-table-column> -->
+                <el-table-column sortable label="Tasks">
+                    <template slot-scope="scope">
+                        <span> {{ scope.row.tasks.length}} </span>
+                    </template>
+                </el-table-column>
+                <el-table-column sortable label="Projects">
+                    <template slot-scope="scope">
+                        <span> {{ scope.row.projects.length}} </span>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <a href="#" @click="edit(scope.row)">
