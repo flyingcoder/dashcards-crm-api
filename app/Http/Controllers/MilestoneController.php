@@ -18,6 +18,8 @@ class MilestoneController extends Controller
             return view('pages.project-hq.milestone', ['project_id' => $project_id]);   
 
         $project = Project::findOrFail($project_id);
+        if(request()->has('all') && request()->all == true)
+            return $project->milestones();
 
         return $project->milestones()->paginate(10);
     }

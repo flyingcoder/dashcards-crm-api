@@ -27,7 +27,7 @@
                                             Text
                                         </div>
                                     </div>
-                                    <text-task></text-task>
+                                    <text-task :projectId="projectId"></text-task>
                                 </el-tab-pane>
                                 <el-tab-pane label="Video">
                                     <div slot="label" class="video-option task-option">
@@ -70,6 +70,7 @@
                 action: 'Save',
                 id: 0,
                 oldName: '',
+                task: '',
                 isProcessing: false,
                 form: {
                     title: '',
@@ -99,21 +100,14 @@
                     animation: false
                 })  
             },
-            onBlur (e) {
-                console.log(e)
-            },
-            onFocus (e) {
-                console.log(e)
-            },
             beforeOpen (event) {
                 if(typeof event.params != 'undefined' && event.params.action == 'update') {
                     this.action = 'Update';
                     this.header = 'Edit Task';
-                    this.id = event.params.data.id;
                     var vm = this;
-                    axios.get('api/tasks/'+this.id)
+                    axios.get('api/tasks/'+event.params.data.id)
                         .then( response => {
-                            this.form = response.data;
+                            this.task = response.data;
                         });
                 }
             },

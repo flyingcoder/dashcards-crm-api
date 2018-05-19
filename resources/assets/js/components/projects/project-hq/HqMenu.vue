@@ -50,7 +50,7 @@
                                 <span> Tasks </span> 
                             </div>
                         </router-link>
-                           <a href=""  v-else @click="addTasks">
+                           <a v-else @click="addTasks">
                             <div class="menu-item task-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     width="19px" height="20px">
@@ -175,10 +175,10 @@
         methods:{
             addTasks(){
                 swal({
-                        title: 'No Milestone!',
-                        text: 'Please add milestone first to add task!',
-                        type: 'warning'
-                    })
+                    title: 'No Milestone!',
+                    text: 'Please add milestone first to add task!',
+                    type: 'warning'
+                })
             }
         }
     }
