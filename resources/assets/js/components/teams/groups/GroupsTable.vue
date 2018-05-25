@@ -75,7 +75,7 @@
 </template>
 
 <script>
- import EmptyGroups from './EmptyGroups.vue';
+    import EmptyGroups from './EmptyGroups.vue';
 
     export default { 
         components: {
@@ -130,12 +130,17 @@
                 this.multipleSelection.push(val[index].id);
                 }
             },
-            onPermission (data, index){
-                console.log(data);
-                this.$modal.show('permission-modal', {data: data})
+            permission (data){
+                this.$modal.show('permissions-modal', {data: data})
+            },
+            migrate (data){
+                this.$modal.show('migrate-modal', {data: data})
+            },
+            members (data){
+                this.$modal.show('members-modal', {data: data})
             },
             edit(data){
-                this.$modal.show('edit-client', { action: 'Update', data: data })
+                this.$modal.show('add-groups', { action: 'Update', data: data })
             },
             destroy: function(row) {
                 var self = this;

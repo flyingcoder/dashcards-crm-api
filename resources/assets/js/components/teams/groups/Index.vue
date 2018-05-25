@@ -37,17 +37,26 @@
             </div>
         </v-layout>
         <add-groups @refresh="getAllGroups"></add-groups>
+        <permissions></permissions>
+        <migrate></migrate>
+        <members></members>
     </section>
 </template>
 
 <script>
     import GroupsTable from './GroupsTable.vue';
     import AddGroups from './AddGroups.vue';
+    import Permissions from './Permissions.vue';
+    import Migrate from './Migrate.vue';
+    import Members from './Members.vue';
 
     export default {
         components: {
             'groups-table': GroupsTable,
             'add-groups': AddGroups,
+            'permissions': Permissions,
+            'migrate': Migrate,
+            'members': Members,
         },
     }
 </script>
