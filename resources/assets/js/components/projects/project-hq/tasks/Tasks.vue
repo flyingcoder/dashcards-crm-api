@@ -2,7 +2,7 @@
     <div class="buzz-box">
         <div class="box-content">
             <div class="view-tabs">
-                <v-tabs v-model="active" class="icon-tabs" show-arrows="false">
+                <v-tabs class="icon-tabs" :show-arrows="false">
                     <v-tab @click="filterTasks('all', 'all')"> All Task </v-tab>
                     <v-tab-item>
                         <div class="tasks-status">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Auth;
+use Validator;
 use App\Team;
 use App\Service;
 use App\Company;
@@ -51,9 +52,8 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function store()
-    {
-        (new ServicePolicy())->create();
+
+    public function isValid(){
 
         $company = Auth::user()->company();
 
@@ -64,21 +64,37 @@ class ServiceController extends Controller
                 new CollectionUnique($company->servicesNameList())
             ]
         ]);
-        
-        $service = Service::create([
-            'user_id' => Auth::user()->id,
-            'name' => request()->name  
-        ]);
 
-        return response()
-                ->json(['message' => 'Service was successfully added.', 'service' => $service->load(['user'])]);
+        return response(200);
     }
 
-    public function service($id)
+    public function store(Request $request)
     {
-        $service = Service::findOrFail($id)
+        try{
+            
+            $services = $request->all();
+            (new ServicePolicy())->create();
+            foreach($services as $s){
+                Service::create([
+                    'user_id' => Auth::user()->id,
+                    'name' => $s['name'] 
+                ]);    
+            }
+            
+            return response()
+                    ->json(['message' => 'Service was successfully added.', ]);
+        }
+        catch (\Exception $ex) {
+            return response(['message' => $ex->getMessage()], 500);
+        }
+        
+    }
 
-        (new ServicePolicy())->view($service);
+    public function getService($id)
+    {
+        $service = Service::findOrFail($id);
+
+        // (new ServicePolicy())->view($service);
 
         return $service;
     }
@@ -86,11 +102,16 @@ class ServiceController extends Controller
     public function update($id)
     {
         $service = Service::findOrFail($id);
+        $company = Auth::user()->company();
 
         (new ServicePolicy())->update($service);
 
         request()->validate([
-            'name' => 'required|string'
+            'name' => [
+                'required',
+                'string',
+                new CollectionUnique($company->servicesNameList())
+            ]
         ]);
 
         $service->name = request()->name;
