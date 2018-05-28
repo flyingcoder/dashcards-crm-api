@@ -157,31 +157,30 @@
             });
         },
         save: function () {
-                this.isProcessing = true;
-                var vm = this;
-                axios.post('/api/clients/',this.form)
-                .then( (response) => {
-                    vm.id = response.data.id;               
-                    swal('Success!', 'Client is saved!', 'success');
-                    this.isProcessing = false;
-                    vm.$modal.hide('add-client');
-                    vm.$emit('refresh');
-                    vm.resetForm();
-                }, (error) => {
-                    this.isProcessing = false;
-                    if(error.response.status == 422){
-                        this.errors = error.response.data.errors;
-                        for( var value in error.response.data.errors) {
-                            console.log(value)
-                            if(value == 'email'){
-                            swal('Saving Failed!', error.response.data.errors.email[0], 'error');
-                            }
+            this.isProcessing = true;
+            var vm = this;
+            axios.post('/api/clients/',this.form)
+            .then( (response) => {
+                vm.id = response.data.id;               
+                swal('Success!', 'Client is saved!', 'success');
+                this.isProcessing = false;
+                vm.$modal.hide('add-client');
+                vm.$emit('refresh');
+                vm.resetForm();
+            }, (error) => {
+                this.isProcessing = false;
+                if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    for( var value in error.response.data.errors) {
+                        console.log(value)
+                        if(value == 'email'){
+                        swal('Saving Failed!', error.response.data.errors.email[0], 'error');
                         }
-                    } else {
-                        swal('Saving Failed!', error.response.data, 'error');
-                    } 
-                });
-                
+                    }
+                } else {
+                    swal('Saving Failed!', error.response.data, 'error');
+                } 
+            });
         },
         update: function () {
             this.isProcessing = true;
