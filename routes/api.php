@@ -285,7 +285,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
   Route::get('{id}', 'ClientController@client'); // project
 
-  Route::get('{id}/file', 'ClientController@updatePicture');
+  Route::post('{id}/image', 'ClientController@updatePicture');
   
   Route::post('/', 'ClientController@store'); // client add
   

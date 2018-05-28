@@ -33,16 +33,6 @@
                             <el-form-item prop="checkPass" class="buzz-input buzz-inline pull-right">
                                 <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
                             </el-form-item>
-                            <el-upload class="client-upload"
-                                :on-change="beforeImport"
-                                :limit="1"
-                                :http-request="updatePicture"
-                                ref="upload"               
-                                :auto-upload="false">
-                                <el-button slot="trigger">
-                                    Upload Photo
-                                </el-button>
-                            </el-upload>
                             <el-form-item  class="form-buttons">
                                 <el-button type="primary" @click="submit('form')"> {{action}} </el-button>
                                 <el-button @click="$modal.hide('add-client')">Cancel</el-button>
@@ -130,11 +120,6 @@
         beforeOpen (event) {
             console.log('before Open');
         },
-        beforeImport(file) {
-            console.log(file.raw);
-            this.form.image_url = file.raw;
-            return true;
-        },
         submit(form) {
             this.$refs[form].validate((valid) => {
                 if (valid) {
@@ -152,7 +137,7 @@
             var vm = this;
             axios.post('/api/clients/',this.form)
             .then( (response) => {
-                vm.id = response.data.id;               
+                vm.id = response.data.id;           
                 swal('Success!', 'Client is saved!', 'success');
                 this.isProcessing = false;
                 vm.$modal.hide('add-client');
@@ -172,13 +157,11 @@
                                 swal('Saving Failed!', error.response.data.errors.image_url[0], 'error');
                                 break;
                         }
-                        
                     }
                 } else {
                     swal('Saving Failed!', error.response.data, 'error');
                 } 
             });
-                
         },
         update: function () {
             this.isProcessing = true;

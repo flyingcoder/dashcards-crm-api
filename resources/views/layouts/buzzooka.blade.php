@@ -278,7 +278,7 @@
                 </div>
               </a>
             </li>
-            <li class="sidebar-list {{ (Request::is('bugs/*') || Request::is('bugs')  ? 'active' : '') }}">
+            <!-- <li class="sidebar-list {{ (Request::is('bugs/*') || Request::is('bugs')  ? 'active' : '') }}">
               <a href="{{ route ('bugs') }}" id="bugs">
                 <div class="list-item">
                   <label class="tab-icon">
@@ -290,7 +290,7 @@
                     <span class="pull-right-container"></span>
                 </div>
               </a>
-            </li>
+            </li> -->
             <li class="sidebar-list {{ (Request::is('services/*') || Request::is('services')  ? 'active' : '') }}">
               <a href="{{ route ('services') }}" id="services">
                 <div class="list-item">

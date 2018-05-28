@@ -133,6 +133,7 @@ Vue.component('avatar',Avatar);
 
 // Teams
   Vue.component('teams', require('./components/teams/Index.vue'));
+  Vue.component('groups', require('./components/teams/groups/Index.vue'));
 
 // Chat
   Vue.component('chat', require('./components/chat/Index.vue'));

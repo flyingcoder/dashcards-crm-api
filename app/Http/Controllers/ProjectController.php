@@ -90,7 +90,7 @@ class ProjectController extends Controller
             'company_id' => auth()->user()->company()->id
         ]);
 
-        if(request()->has('comment')){
+        if(request()->has('comment') && request()->comment != ''){
 
             $comment = new Comment([ 
                 'body' => request()->comment,
