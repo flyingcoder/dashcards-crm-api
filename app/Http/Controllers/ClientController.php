@@ -117,6 +117,17 @@ class ClientController extends Controller
         return $client;
     }
 
+    public function updatePiture($id)
+    {
+        request()->validate([
+            'image_url' => 'required|image|max:2000'
+        ]);
+
+        $client = User::findOrFail($id);
+
+        
+    }
+
     public function update($id)
     {
         $client = User::findOrFail($id);

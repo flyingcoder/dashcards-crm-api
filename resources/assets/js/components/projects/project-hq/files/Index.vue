@@ -172,9 +172,11 @@
             },
             submit () {
                 this.isProcessing = true;
+                console.log(this.form);
                 axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
                 .then (response => {
-                this.isProcessing = false;
+                    this.isProcessing = false;
+                    this.getFiles();
                 }) .catch (error => {
                 });
             },

@@ -4,7 +4,7 @@
             <v-layout row wrap>
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form ref="form" name="addClient" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
+                    <el-form enctype="multipart/form-data" ref="form" name="addClient" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
                         <div class="buzz-modal-content">
                             <el-form-item prop="first_name" class="buzz-input buzz-inline">
                                 <el-input type="text" v-model="form.first_name" placeholder="First Name"></el-input>
@@ -34,13 +34,10 @@
                                 <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
                             </el-form-item>
                             <el-upload class="client-upload"
-                                v-model="form.image_url"
-                                action=""
+                                :on-change="beforeImport"
                                 :limit="1"
-                                :on-change="handleAdd"
-                                :on-remove="handleRemove"
-                                :before-upload="beforeImport"
-                                :http-request='submitFiles'                           
+                                :http-request="updatePicture"
+                                ref="upload"               
                                 :auto-upload="false">
                                 <el-button slot="trigger">
                                     Upload Photo
@@ -131,18 +128,12 @@
     },
     methods: {
         beforeOpen (event) {
-                console.log('before Open');
-                if(typeof event.params != 'undefined' && event.params.action == 'Update') {
-                    this.action = 'Update';
-                    this.title = 'Edit Client';
-                    this.id = event.params.data.id;
-                    var vm = this;
-                    axios.get('api/clients/'+this.id)
-                        .then( (response) => {
-                            this.form = response.data;
-                            console.log(response.data)
-                        });
-                }
+            console.log('before Open');
+        },
+        beforeImport(file) {
+            console.log(file.raw);
+            this.form.image_url = file.raw;
+            return true;
         },
         submit(form) {
             this.$refs[form].validate((valid) => {
@@ -157,30 +148,36 @@
             });
         },
         save: function () {
-                this.isProcessing = true;
-                var vm = this;
-                axios.post('/api/clients/',this.form)
-                .then( (response) => {
-                    vm.id = response.data.id;               
-                    swal('Success!', 'Client is saved!', 'success');
-                    this.isProcessing = false;
-                    vm.$modal.hide('add-client');
-                    vm.$emit('refresh');
-                    vm.resetForm();
-                }, (error) => {
-                    this.isProcessing = false;
-                    if(error.response.status == 422){
-                        this.errors = error.response.data.errors;
-                        for( var value in error.response.data.errors) {
-                            console.log(value)
-                            if(value == 'email'){
-                            swal('Saving Failed!', error.response.data.errors.email[0], 'error');
-                            }
+            this.isProcessing = true;
+            var vm = this;
+            axios.post('/api/clients/',this.form)
+            .then( (response) => {
+                vm.id = response.data.id;               
+                swal('Success!', 'Client is saved!', 'success');
+                this.isProcessing = false;
+                vm.$modal.hide('add-client');
+                vm.$emit('refresh');
+                vm.resetForm();
+            }, (error) => {
+                this.isProcessing = false;
+                if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    for( var value in error.response.data.errors) {
+                        console.log(value)
+                        switch (value) {
+                            case 'email': 
+                                swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                                break;
+                            case 'image_url':
+                                swal('Saving Failed!', error.response.data.errors.image_url[0], 'error');
+                                break;
                         }
-                    } else {
-                        swal('Saving Failed!', error.response.data, 'error');
-                    } 
-                });
+                        
+                    }
+                } else {
+                    swal('Saving Failed!', error.response.data, 'error');
+                } 
+            });
                 
         },
         update: function () {
