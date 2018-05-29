@@ -71,6 +71,10 @@ Vue.component('avatar',Avatar);
      return value.first_name +' '+value.last_name;
   })
 
+  Vue.filter('phone', function (value) {
+     return value.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  })
+
   Vue.filter('formatHuman', function(value) {
     return moment(value).format("MMMM DD, YYYY")
   })

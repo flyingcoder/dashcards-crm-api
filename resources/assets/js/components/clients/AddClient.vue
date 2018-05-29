@@ -96,7 +96,7 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
-                { required: true, pattern:/^[0-9]+$/, message: 'Contact No. Must be a Number', trigger: 'blur' },
+                { required: true, pattern:/^[\+\d]+(?:[\d-.\s()]*)$/, message: 'Not a valid number.', trigger: 'blur' },
                 // { min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
             ],
             email: [
@@ -198,6 +198,12 @@
                 status: '',
             }
         },
+    },
+    watch: {
+        'form.telephone' : function(val, oldval) {
+            val = val.toString();
+            this.form.telephone = val.replace(/(\d{3})(\d{3})(\d{4})/, "+1-$1-$2-$3");
+        }
     }
   }
 </script>
