@@ -1,5 +1,5 @@
 <template>
-    <modal name="migrate-modal" transition="nice-modal-fade" @before-open="beforeOpen">
+    <modal name="migrate-modal" class="migrate-modal" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content migrate">
             <v-layout row wrap>
                 <div class="buzz-modal-header"> Migrate - {{ title }} </div>
@@ -17,6 +17,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item  class="form-buttons">
+                                <el-button type="primary" @click="submit('form')"> Migrate </el-button>
                                 <el-button @click="$modal.hide('migrate-modal')">Cancel</el-button>
                             </el-form-item>
                         </div>
@@ -46,6 +47,7 @@
     methods: {
         beforeOpen (event) {
             var vm = this;
+            this.title = event.params.data.name;
             this.id = event.params.data.id;
             let name = event.params.data.name;
             vm.roles = [];

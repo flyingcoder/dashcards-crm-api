@@ -1,13 +1,12 @@
 <template>
-    <section class="content milestone">
+    <section class="content milestones">
         <v-layout row wrap>
-
-        <div class="col-md-6 content-header">
-            <div class="page-title">
-                <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Milestone Template </span> </h1>
+            <div class="col-md-6 content-header">
+                <div class="page-title">
+                    <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Milestones Template </span> </h1>
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
+            <div class="col-md-6">
                 <div class="head-page-option">
                     <ul class="nav nav-tabs">
                         <li>

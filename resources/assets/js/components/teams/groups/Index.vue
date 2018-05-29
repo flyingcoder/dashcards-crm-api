@@ -1,13 +1,20 @@
 <template>
-    <section class="content teams">
+    <section class="content groups">
         <v-layout row wrap>
             <div class="content-header col-md-6">
                 <div class="page-title">
-                    <el-breadcrumb separator=">">
-                        <el-breadcrumb-item :to="{ path: '/' }">Dashboard</el-breadcrumb-item>
-                        <el-breadcrumb-item>Team</el-breadcrumb-item>
-                        <el-breadcrumb-item>Groups</el-breadcrumb-item>
-                    </el-breadcrumb>  
+                    <!-- <el-breadcrumb separator=">">
+                        <el-breadcrumb-item :to="{ path: '/' }" class="prev-path">Dashboard</el-breadcrumb-item>
+                        <el-breadcrumb-item class="prev-path">Team</el-breadcrumb-item>
+                        <el-breadcrumb-item class="current">Groups</el-breadcrumb-item>
+                    </el-breadcrumb>   -->
+                    <h1> 
+                        <span class="prev-path"> Dashboard </span> 
+                        &nbsp; <img src="/img/icons/ArrowRight.svg"> &nbsp; 
+                        <span class="prev-path"> Team </span> 
+                        &nbsp; <img src="/img/icons/ArrowRight.svg"> &nbsp; 
+                        <span class="current"> Groups </span> 
+                    </h1>
                 </div>
             </div>
              <div class="col-md-6">

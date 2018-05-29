@@ -11,6 +11,15 @@
                     }
                 }
             }
+            .groups-button{
+                margin-left: 25px;
+                box-shadow: none;
+                border: none !important;
+                button{
+                    box-shadow: none;
+                    border: none !important;
+                }
+            }
             .view{
                 box-shadow: none !important;
                 a{
@@ -52,11 +61,12 @@
         margin-top: 20px !important;
         @extend .buzz-scrollbar;
         .member-box{
-            padding-bottom: 45px;
+            padding-bottom: 0;
             .content-body{
                 width: 95%;
                 height: 305px;
                 margin-top: 3px;
+                margin-bottom: 40px !important;
                 &:hover{
                     box-shadow: $hover-shadow;
                 }
