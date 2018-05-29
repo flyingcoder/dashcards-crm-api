@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
   Route::delete('teams/{id}', 'TeamController@delete');
   Route::post('teams', 'TeamController@store');
   Route::put('teams/{id}', 'TeamController@update');
+
 });
 
 Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register/subscriber'], function () {
@@ -283,6 +284,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
   Route::get('/', 'ClientController@index'); // project
 
   Route::get('{id}', 'ClientController@client'); // project
+
+  Route::post('{id}/image', 'ClientController@updatePicture');
   
   Route::post('/', 'ClientController@store'); // client add
   

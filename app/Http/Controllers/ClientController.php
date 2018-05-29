@@ -11,6 +11,7 @@ use App\Rules\CollectionUnique;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -115,6 +116,28 @@ class ClientController extends Controller
         // return back();
 
         return $client;
+    }
+
+    public function updatePicture($id)
+    {
+        $client = User::findOrFail($id);
+        
+        $path = "";
+
+        if(request()->has('avatar')) {
+            $path = request()->file('avatar')->store(
+                        'avatars/'.$client->id, 'public'
+                    );
+
+            $client->image_url = $path;
+
+            $client->save();
+
+        } else {
+            return response(500, 'File is missing');
+        }
+
+        return $path;
     }
 
     public function update($id)

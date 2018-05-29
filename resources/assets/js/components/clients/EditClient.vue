@@ -37,11 +37,8 @@
                                 v-model="form.image_url"
                                 action=""
                                 :limit="1"
-                                :on-change="handleAdd"
-                                :on-remove="handleRemove"
-                                :before-upload="beforeImport"
-                                :http-request='submitFiles'                           
-                                :auto-upload="false">
+                                :be="handleAdd"                    
+                                :auto-upload="true">
                                 <el-button slot="trigger">
                                     Upload Photo
                                 </el-button>
@@ -143,7 +140,10 @@
                           this.form.status = response.data.meta.status.value
                       });
               }*/
-          },
+        },
+        handleAdd (file) {
+          this.form.image_url = file;
+        },
         submit(form) {
             this.$refs[form].validate((valid) => {
             if (valid) {

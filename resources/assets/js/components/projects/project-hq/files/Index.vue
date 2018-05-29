@@ -165,18 +165,21 @@
         },
         methods: {
             getFiles(){
-            axios.get('/api/projects/' + this.$parent.projectId + '/files')
-                .then( response => {
-                    this.files = response.data.data;
-                })
+                axios.get('/api/projects/' + this.$parent.projectId + '/files')
+                    .then( response => {
+                        this.files = response.data.data;
+                    })
             },
             submit () {
                 this.isProcessing = true;
+                console.log(this.form);
                 axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
-                .then (response => {
-                this.isProcessing = false;
-                }) .catch (error => {
-                });
+                    .then (response => {
+                        this.isProcessing = false;
+                        this.getFiles();
+                    }).catch (error => {
+                        
+                    });
             },
             beforeImport(file) {
                 this.form.append('file', file);

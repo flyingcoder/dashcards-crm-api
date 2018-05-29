@@ -4,7 +4,7 @@
             <v-layout row wrap>
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form ref="form" name="addClient" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
+                    <el-form enctype="multipart/form-data" ref="form" name="addClient" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%">                    
                         <div class="buzz-modal-content">
                             <el-form-item prop="first_name" class="buzz-input buzz-inline">
                                 <el-input type="text" v-model="form.first_name" placeholder="First Name"></el-input>
@@ -33,19 +33,6 @@
                             <el-form-item prop="checkPass" class="buzz-input buzz-inline pull-right">
                                 <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
                             </el-form-item>
-                            <el-upload class="client-upload"
-                                v-model="form.image_url"
-                                action=""
-                                :limit="1"
-                                :on-change="handleAdd"
-                                :on-remove="handleRemove"
-                                :before-upload="beforeImport"
-                                :http-request='submitFiles'                           
-                                :auto-upload="false">
-                                <el-button slot="trigger">
-                                    Upload Photo
-                                </el-button>
-                            </el-upload>
                             <el-form-item  class="form-buttons">
                                 <el-button type="primary" @click="submit('form')"> {{action}} </el-button>
                                 <el-button @click="$modal.hide('add-client')">Cancel</el-button>
@@ -109,7 +96,7 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
-                { required: true, pattern:/^[0-9]+$/, message: 'Contact No. Must be a Number', trigger: 'blur' },
+                { required: true, pattern:/^[\+\d]+(?:[\d-.\s()]*)$/, message: 'Not a valid number.', trigger: 'blur' },
                 // { min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
             ],
             email: [
@@ -131,18 +118,7 @@
     },
     methods: {
         beforeOpen (event) {
-                console.log('before Open');
-                if(typeof event.params != 'undefined' && event.params.action == 'Update') {
-                    this.action = 'Update';
-                    this.title = 'Edit Client';
-                    this.id = event.params.data.id;
-                    var vm = this;
-                    axios.get('api/clients/'+this.id)
-                        .then( (response) => {
-                            this.form = response.data;
-                            console.log(response.data)
-                        });
-                }
+            console.log('before Open');
         },
         submit(form) {
             this.$refs[form].validate((valid) => {
@@ -161,7 +137,7 @@
             var vm = this;
             axios.post('/api/clients/',this.form)
             .then( (response) => {
-                vm.id = response.data.id;               
+                vm.id = response.data.id;           
                 swal('Success!', 'Client is saved!', 'success');
                 this.isProcessing = false;
                 vm.$modal.hide('add-client');
@@ -173,8 +149,13 @@
                     this.errors = error.response.data.errors;
                     for( var value in error.response.data.errors) {
                         console.log(value)
-                        if(value == 'email'){
-                        swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                        switch (value) {
+                            case 'email': 
+                                swal('Saving Failed!', error.response.data.errors.email[0], 'error');
+                                break;
+                            case 'image_url':
+                                swal('Saving Failed!', error.response.data.errors.image_url[0], 'error');
+                                break;
                         }
                     }
                 } else {
@@ -217,6 +198,12 @@
                 status: '',
             }
         },
+    },
+    watch: {
+        'form.telephone' : function(val, oldval) {
+            val = val.toString();
+            this.form.telephone = val.replace(/(\d{3})(\d{3})(\d{4})/, "+1-$1-$2-$3");
+        }
     }
   }
 </script>

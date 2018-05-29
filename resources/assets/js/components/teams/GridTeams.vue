@@ -26,7 +26,7 @@
                                             <a href="#"> Call </a>
                                         </li -->
                                         <li>
-                                            <a href="#" @click="remove(member.id)"> Remove </a>
+                                            <a href="#" @click="remove(member)"> Remove </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -107,25 +107,29 @@
             edit(id) {
 
             },
-            remove(id) {
+            remove(row) {
                 var vm = this;
-                swal({
-                  title: 'Are you sure?',
-                  text: "You won't be able to revert this!",
-                  type: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, delete it!'
-                }).then(function (result) {
-                  if (result) {
-                    axios.delete('/api/company/teams/' + id)
-                    .then(response => {
-                        vm.getTeam();
-                        swal('Success!', 'Member is Deleted!', 'success');
-                    });
-                  }
-              })
+                if(row.projects.length == 0 && row.tasks.length == 0){
+                    swal({
+                      title: 'Are you sure?',
+                      text: "You won't be able to revert this!",
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes, delete it!'
+                    }).then(function (result) {
+                      if (result) {
+                        axios.delete('/api/company/teams/' + row.id)
+                        .then(response => {
+                            vm.getTeam();
+                            swal('Success!', 'Member is Deleted!', 'success');
+                        });
+                      }
+                    })
+                } else {
+                    swal('Not Allowed!', 'This user is involved in some projects/tasks!', 'error');
+                }
             },
             profile(id) {
 
