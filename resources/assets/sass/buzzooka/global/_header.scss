@@ -529,6 +529,7 @@
             padding: 0;
             &:hover{
                 background: none;
+                color: unset;
                 h3{
                     color: unset;
                 }
@@ -541,9 +542,14 @@
             &:hover{
                 background: none;
                 color: unset;
+                h3{
+                    color: unset;
+                }
             }
             li{
                 height: 50px;
+                padding-left: 40px;
+                padding-top: 5px;
                 &:hover{
                     background: $gray-5;
                 }
@@ -557,7 +563,7 @@
                     }
                     h3{
                         margin: 0;
-                        padding: 0;
+                        padding: 0 10px;
                     }
                 }
             }
