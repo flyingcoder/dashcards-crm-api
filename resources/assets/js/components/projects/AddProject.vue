@@ -132,7 +132,6 @@ var yyyy = today.getFullYear();
                 selectMembers: false,
                 showList: false,
                 hideList: true,
-                // attachList: true,
                 descriptionEditor: false,
                 commentEditor: false,
                 title: 'Add New Project',
@@ -344,23 +343,20 @@ var yyyy = today.getFullYear();
                     this.members = response.data
                 })
             },
-            // attachList(){
-            //     this.attachList = false
+            // test(){
+            //    setTimeout(function () { this.attachList() }.bind(this), 1000);
+            //    console.log("test");
             // },
-            test(){
-               setTimeout(function () { this.attachList() }.bind(this), 1000);
-               console.log("test");
-            },
-            attachList: function(){
-                var $this = $("#projectAttachList");
-                if ($this.hasClass('hideList')) {
-                    $this.removeClass('hideList').addClass('showList');
-                } else if ($this.hasClass('showList')) {
-                    $this.removeClass('showList').addClass('hideList');
-                } else {
-                    alert("text alert");
-                }
-            }
+            // attachList: function(){
+            //     var $this = $("#projectAttachList");
+            //     if ($this.hasClass('hideList')) {
+            //         $this.removeClass('hideList').addClass('showList');
+            //     } else if ($this.hasClass('showList')) {
+            //         $this.removeClass('showList').addClass('hideList');
+            //     } else {
+            //         alert("text alert");
+            //     }
+            // }
         },
         mounted() {
             this.getMembers();
