@@ -10,7 +10,7 @@ html{
     overflow-y: hidden;
     height: auto;
     padding: 0;
-    margin: 0;
+    margin: 0;  
     #app{
         min-height: 970px;
     }
@@ -1839,13 +1839,10 @@ html{
                             .file-upload{
                                 .el-upload-list{
                                     position: relative;
-                                    right: -310px;
-                                    box-shadow: $body-shadow;
+                                    margin: 0px !important;
+                                    // box-shadow: $body-shadow;
                                     z-index: 100;
-                                    // display: none;
-                                    -webkit-transition: all 0.3s ease !important;
-                                    -moz-transition: all 0.3s ease !important;
-                                    transition: all 0.3s ease !important;
+                                    @extend .margin-transition;
                                     .el-upload-list__item{
                                         z-index: 99;
                                         background: $white;
@@ -1866,14 +1863,46 @@ html{
                                     line-height: 2;
                                 }
                             }
-                            .attachmentList{
+                            .showList{
                                 .el-upload-list{
-                                    right: 0 !important;
-                                    -webkit-transition: all 0.3s ease !important;
-                                    -moz-transition: all 0.3s ease !important;
-                                    transition: all 0.3s ease !important;
-                                    // display: block !important;
+                                    position: relative;
+                                    margin: 0px !important;
                                 }
+                            }
+                            .hideList{
+                                .el-upload-list{
+                                    .is-ready{
+                                         position: relative;
+                                         margin-left: 200px;
+                                        -webkit-animation: toright 4s; /* Safari 4.0 - 8.0 */
+                                        -webkit-animation-delay: 0.5s; /* Safari 4.0 - 8.0 */
+                                        animation: toright 4s;
+                                        animation-delay: 0.5s;
+
+                                        /* Safari 4.0 - 8.0 */
+                                        @-webkit-keyframes toright {
+                                            from {margin-left: 0px;}
+                                            to {margin-left: 200px;}
+                                            0% {
+                                                opacity: 1;
+                                            }
+                                            100% {
+                                                opacity: 0;
+                                            }
+                                        }
+
+                                        @keyframes toright {
+                                            from {margin-left: 0px;}
+                                            to {margin-left: 200px;}
+                                            0% {
+                                                opacity: 1;
+                                            }
+                                              100% {
+                                                opacity: 0;
+                                            }
+                                        }
+                                    }
+                                } 
                             }
                         }
                     }
