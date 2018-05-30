@@ -169,12 +169,12 @@ Vue.component('avatar',Avatar);
 // Empty Table
 Vue.component('empty', require('./components/common/Empty'));
   
-
   $(document).ready(function(){
   // Push menu
     $("#toggleBuzzMenu").click(function(){
         $("body").toggleClass("sidebar-collapse");
     });
+
   // Offline and Online Status
     $('#switch-btn').click(function() {
       $('#switch-status').toggleClass('offline');

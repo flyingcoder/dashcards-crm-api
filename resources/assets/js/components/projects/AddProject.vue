@@ -51,11 +51,13 @@
                                     </div>
                                 </div>
                                 <div class="option-item">
-                                    <div class="file-upload" v-bind:class="{ attachmentList: attachmentList }">
+                                    <div id="projectAttachList" class="file-upload" v-bind:class="{ showList: showList, hideList: hideList }">
+                                    <!-- <div id="projectAttachList" class="file-upload showList"> -->
                                         <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
                                         <el-upload @focus="hideMembers"
                                             multiple
                                             class=""
+                                            id="fileList"
                                             ref="attachments"
                                             action=""
                                             :on-change="handleAdd"
@@ -67,7 +69,8 @@
                                                 Attachment 
                                             </el-button>
                                         </el-upload>
-                                        <div v-on:click="attachmentList = !attachmentList"> 
+                                        <div id="projectAttachBadge" v-on:click="showList = !showList, hideList = !hideList"> 
+                                        <!-- <div id="projectAttachBadge"  @click="test">  -->
                                             <el-badge :value="attachmentsLength" :max="99" class="file-badge"></el-badge>
                                         </div>
                                     </div>
@@ -127,7 +130,9 @@ var yyyy = today.getFullYear();
     	data: function () {
         	return {    
                 selectMembers: false,
-                attachmentList: false,
+                showList: false,
+                hideList: true,
+                // attachList: true,
                 descriptionEditor: false,
                 commentEditor: false,
                 title: 'Add New Project',
@@ -225,7 +230,6 @@ var yyyy = today.getFullYear();
                 this.attachmentsLength = fileList.length;
             },
             handleRemove(file, fileList) {
-                
                this.attachmentsLength -= fileList.length;
             },
             save: function () {
@@ -340,11 +344,29 @@ var yyyy = today.getFullYear();
                     this.members = response.data
                 })
             },
+            // attachList(){
+            //     this.attachList = false
+            // },
+            test(){
+               setTimeout(function () { this.attachList() }.bind(this), 1000);
+               console.log("test");
+            },
+            attachList: function(){
+                var $this = $("#projectAttachList");
+                if ($this.hasClass('hideList')) {
+                    $this.removeClass('hideList').addClass('showList');
+                } else if ($this.hasClass('showList')) {
+                    $this.removeClass('showList').addClass('hideList');
+                } else {
+                    alert("text alert");
+                }
+            }
         },
         mounted() {
             this.getMembers();
             this.getClients();
-            this.getServices();       
+            this.getServices();   
+            this.sayHi();    
         }
     }
 </script>
