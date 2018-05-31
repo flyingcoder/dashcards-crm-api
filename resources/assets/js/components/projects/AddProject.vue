@@ -219,6 +219,7 @@ var yyyy = today.getFullYear();
                 }
             },
             submitFiles () {
+                //console.log(this.files);
                 axios.post('/project-hq/' + this.id + '/files', this.files)
                 .then (response => {
                 })
@@ -333,8 +334,8 @@ var yyyy = today.getFullYear();
                  }
             },
             beforeImport(file) {
-                console.log(file)
                 this.files.append('file', file);
+                console.log(this.files);
                 return true;
             },
             getMembers(){
