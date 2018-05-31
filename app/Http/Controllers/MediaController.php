@@ -133,6 +133,7 @@ class MediaController extends Controller
         $type = $this->fileType(request());
 
       	$project = Project::findOrFail($project_id);
+        //dd(request()->has('file'));
         if(request()->has('file')){
           $media = $project->addMedia(request()->file('file'))
                            ->withCustomProperties(['ext' => request()->file('file')->extension()])

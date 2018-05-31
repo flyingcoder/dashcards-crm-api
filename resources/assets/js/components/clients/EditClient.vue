@@ -33,16 +33,6 @@
                             <el-form-item prop="checkPass" class="buzz-input buzz-inline pull-right">
                                 <el-input type="password" v-model="form.checkPass" placeholder="Confirm" auto-complete="off"></el-input>
                             </el-form-item>
-                            <el-upload class="client-upload"
-                                v-model="form.image_url"
-                                action=""
-                                :limit="1"
-                                :be="handleAdd"                    
-                                :auto-upload="true">
-                                <el-button slot="trigger">
-                                    Upload Photo
-                                </el-button>
-                            </el-upload>
                             <el-form-item  class="form-buttons">
                                 <el-button type="primary" @click="submit('form')"> {{action}} </el-button>
                                 <el-button @click="$modal.hide('edit-client')">Cancel</el-button>
@@ -103,8 +93,8 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
-                { required: true, pattern:/^[0-9]+$/, message: 'Contact No. Must be a Number', trigger: 'blur' },
-                { min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
+                { required: true, pattern:/^[\+\d]+(?:[\d-.\s()]*)$/, message: 'Not a valid number.', trigger: 'blur' },
+                //{ min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
             ],
             email: [
                 { required: true, message: 'Email is Required', trigger: 'change' },
@@ -189,6 +179,12 @@
               password: '',
               status: '',
           }
+        }
+    },
+    watch: {
+        'form.telephone' : function(val, oldval) {
+            val = val.toString();
+            this.form.telephone = val.replace(/(\d{3})(\d{3})(\d{4})/, "+1-$1-$2-$3");
         }
     }
   }
