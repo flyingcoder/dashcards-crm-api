@@ -1494,7 +1494,7 @@ html{
             background: $modal-bg;
             border: $section-border;
             box-shadow: $body-shadow;
-            padding: 25px 0 0px 25px;
+            padding: 25px 0px 0px 25px;
             .buzz-modal-header{
                 font-size: 23px;
                 color: $modal-title;
@@ -1738,6 +1738,7 @@ html{
                     width: 100%;
                     text-align: center;
                     margin-bottom: 25px;
+                    padding-bottom: 25px;
                     button{
                         background: $white !important;
                         width: 130px;
@@ -1871,36 +1872,42 @@ html{
                             }
                             .hideList{
                                 .el-upload-list{
+                                    .el-upload-list__item{
+                                        position: relative;
+                                       //  margin-left: 200px;
+                                       -webkit-animation: tofade 4s; /* Safari 4.0 - 8.0 */
+                                       -webkit-animation-delay: 0.5s; /* Safari 4.0 - 8.0 */
+                                       animation: tofade 4s;
+                                       animation-delay: 0.5s;
+
+                                       /* Safari 4.0 - 8.0 */
+                                       @-webkit-keyframes tofade {
+                                           // from {margin-left: 0px;}
+                                           // to {margin-left: 200px;}
+                                           0% {
+                                               opacity: 1;
+                                           }
+                                           100% {
+                                               opacity: 0;
+                                           }
+                                       }
+
+                                       @keyframes tofade {
+                                           // from {margin-left: 0px;}
+                                           // to {margin-left: 200px;}
+                                           0% {
+                                               opacity: 1;
+                                           }
+                                             100% {
+                                               opacity: 0;
+                                           }
+                                       }
+                                    }
+                                    .el-list-enter-to{
+                                        display: block !important;
+                                    }
                                     .is-ready{
-                                         position: relative;
-                                         margin-left: 200px;
-                                        -webkit-animation: toright 4s; /* Safari 4.0 - 8.0 */
-                                        -webkit-animation-delay: 0.5s; /* Safari 4.0 - 8.0 */
-                                        animation: toright 4s;
-                                        animation-delay: 0.5s;
-
-                                        /* Safari 4.0 - 8.0 */
-                                        @-webkit-keyframes toright {
-                                            from {margin-left: 0px;}
-                                            to {margin-left: 200px;}
-                                            0% {
-                                                opacity: 1;
-                                            }
-                                            100% {
-                                                opacity: 0;
-                                            }
-                                        }
-
-                                        @keyframes toright {
-                                            from {margin-left: 0px;}
-                                            to {margin-left: 200px;}
-                                            0% {
-                                                opacity: 1;
-                                            }
-                                              100% {
-                                                opacity: 0;
-                                            }
-                                        }
+                                        display: none;
                                     }
                                 } 
                             }
