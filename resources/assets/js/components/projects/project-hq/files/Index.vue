@@ -9,7 +9,9 @@
                             drag
                             action=""
                             :http-request="submit"
-                            :before-upload="beforeImport"
+                            :before-upload="beforeUpload"
+                            :on-change="onChnage"
+                            :file-list="fileList"
                             multiple>
                                 <img :src="$parent.asset + 'img/files/documents-bw.svg'">
                                 <div class="drop-text">
@@ -164,7 +166,9 @@
             return {
                 form: [],
                 isProcessing: false,
-                files: []
+                files: [],
+                sent: false,
+                fileList: []
             }
         },
         mounted(){
@@ -184,18 +188,23 @@
                         this.files = response.data.data;
                     })
             },
-            submit () {
-                this.isProcessing = true;
- 
-                axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
-                    .then (response => {
-                        this.isProcessing = false;
-                        this.getFiles();
-                    }).catch (error => {
-                        swal('Oops!', 'File not supported!', 'error');
-                    });
+            onChnage(file, fileList){
+                
             },
-            beforeImport(file) {
+            submit () {
+                if(!this.sent) {
+                    this.sent = true
+                    axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
+                          .then (response => {
+                            this.isProcessing = false;
+                            this.getFiles();
+                            
+                          }).catch (error => {
+                            swal('Oops!', 'File not supported!', 'error');
+                          });
+                }
+            },
+            beforeUpload(file) {
                 this.form.append('files[]', file);
                 return true;
             },
