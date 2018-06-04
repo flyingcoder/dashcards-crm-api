@@ -90,6 +90,8 @@ class MediaController extends Controller
     {
         $collectionName = $this->collectionName(request());
 
+        if(!$collectionName)
+          return response('Invalid file format.', 422);
         //$type = $this->fileType(request());
 
         $project = Project::findOrFail($project_id);
@@ -131,7 +133,7 @@ class MediaController extends Controller
         } else if (collect($this->allowedOtherFiles)->contains($request->file('file')->extension())) {
           $collectionName = 'project.files.others';
         } else {
-          return response('Invalid file', 402);
+          return false;
         }
       }
 
@@ -151,7 +153,7 @@ class MediaController extends Controller
         } else if (collect($this->allowedOtherFiles)->contains($request->file('file')->extension())) {
           $collectionName = 'zip';
         } else {
-          return response('Invalid file', 402);
+          return false;
         }
       }
 
@@ -169,13 +171,19 @@ class MediaController extends Controller
     {
       	$collectionName = $this->collectionName(request());
 
+        if(!$collectionName)
+          return response('Invalid file format.', 422);
+
         $type = $this->fileType(request());
 
       	$project = Project::findOrFail($project_id);
         //dd(request()->has('file'));
         if(request()->has('file')){
           $media = $project->addMedia(request()->file('file'))
-                           ->withCustomProperties(['ext' => request()->file('file')->extension()])
+                           ->withCustomProperties([
+                            'ext' => request()->file('file')->extension(),
+                            'user' => auth()->user
+                           ])
                            ->toMediaCollection($collectionName);
 
           $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;

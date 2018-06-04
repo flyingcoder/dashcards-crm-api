@@ -75,6 +75,9 @@
                     case  'project.files.others':
                         return '/img/files/others.svg';                      
                         break;
+                    default:
+                        return '/img/files/documents.svg';
+                        break;
                 }
             }
         }

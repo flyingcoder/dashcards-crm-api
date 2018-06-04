@@ -28,7 +28,7 @@
                     <div class="files-options">
                         <ul class="nav nav-tabs">
                             <li class="file-type"> 
-                                <a href="#" class="all">
+                                <a @click="getFiles" style="cursor:pointer" class="all">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="43px" height="24px">
                                         <path fill-rule="evenodd"
