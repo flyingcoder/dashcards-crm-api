@@ -341,7 +341,7 @@ var yyyy = today.getFullYear();
                  }
             },
             beforeImport(file) {
-                this.files.append('file', file);
+                this.files.append('files[]', file);
                 console.log(this.files);
                 return true;
             },
@@ -370,7 +370,7 @@ var yyyy = today.getFullYear();
             this.getMembers();
             this.getClients();
             this.getServices();   
-            this.sayHi();    
+            //this.sayHi();    
         }
     }
 </script>

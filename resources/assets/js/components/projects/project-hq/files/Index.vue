@@ -186,7 +186,7 @@
             },
             submit () {
                 this.isProcessing = true;
-                console.log(this.form);
+ 
                 axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
                     .then (response => {
                         this.isProcessing = false;
@@ -196,7 +196,7 @@
                     });
             },
             beforeImport(file) {
-                this.form.append('file', file);
+                this.form.append('files[]', file);
                 return true;
             },
         }
