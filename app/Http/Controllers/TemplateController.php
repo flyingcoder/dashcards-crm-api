@@ -70,7 +70,7 @@ class TemplateController extends Controller
     {
         $template = Template::findOrFail($id);
 
-        $milestone = Milestone::store(request());
+        $milestone = Milestone::saveTemplate(request());
 
         $template->milestone()->attach($milestone);
     }

@@ -11,7 +11,7 @@ use Storage;
 class MediaController extends Controller
 {
   	private $allowedDocs = [
-  		'docx', 'csv', 'doc', 'pdf', 'ppt'
+  		'docx', 'csv', 'doc', 'pdf', 'pptx', 'pps'
   	]; 
 
   	private $allowedImages = [
@@ -26,11 +26,50 @@ class MediaController extends Controller
   		'zip'
   	];
 
+
     public function projectMedia($project_id)
     {
         $medias = Media::where('model_id', $project_id)
-                      ->where('model_type', 'App\Project')
-                      ->paginate(10);
+                      ->where('model_type', 'App\Project');
+                      
+
+        if(request()->has('type')) {
+          switch (request()->type) {
+            case 'images':
+              $medias->where('mime_type', 'like', 'image/%');
+              break;
+
+            case 'videos':
+              $medias->where('mime_type', 'like', 'video/%');
+              break;
+
+            case 'documents':
+              $mime_type = [
+                  'application/msword',
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                  'text/plain',
+                  'application/pdf',
+                  'application/vnd.ms-powerpoint',
+                  'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                ];
+
+              $medias->whereIn('mime_type', $mime_type);
+              break;
+
+            case 'others':
+              $mime_type = [
+                  'application/zip',
+                  'application/octet-stream',
+                  'application/x-zip-compressed',
+                  'multipart/x-zip'
+                ];
+
+              $medias->whereIn('mime_type', $mime_type);
+              break;
+          }
+        }
+
+        $medias = $medias->paginate(10);
 
         $medias->map(function ($media) {
            $media['public_url'] = $media->getUrl();

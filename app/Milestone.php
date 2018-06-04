@@ -40,12 +40,10 @@ class Milestone extends Model
         if($request->started_at != null){
             $started_at = $request->started_at;
             $end_at = $request->end_at;
-        }
-        else{
+        } else {
             $started_at = date("Y-m-d",strtotime("now"));
             $end_at = date("Y-m-d",strtotime($request->days . ' days'));
         }
-        
         
         $milestone = self::create([
             'project_id' => $project->id,
@@ -56,6 +54,11 @@ class Milestone extends Model
         ]);
 
         return $milestone;
+    }
+
+    public function saveTemplate($request)
+    {
+        return true;
     }
 
     public function project()
