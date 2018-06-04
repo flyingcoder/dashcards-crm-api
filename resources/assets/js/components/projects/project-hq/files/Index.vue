@@ -28,7 +28,7 @@
                     <div class="files-options">
                         <ul class="nav nav-tabs">
                             <li class="file-type"> 
-                                <a href="#" class="all">
+                                <a @click="getFiles" style="cursor:pointer" class="all">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="43px" height="24px">
                                         <path fill-rule="evenodd"
@@ -186,17 +186,17 @@
             },
             submit () {
                 this.isProcessing = true;
-                console.log(this.form);
+ 
                 axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
                     .then (response => {
                         this.isProcessing = false;
                         this.getFiles();
                     }).catch (error => {
-                        
+                        swal('Oops!', 'File not supported!', 'error');
                     });
             },
             beforeImport(file) {
-                this.form.append('file', file);
+                this.form.append('files[]', file);
                 return true;
             },
         }

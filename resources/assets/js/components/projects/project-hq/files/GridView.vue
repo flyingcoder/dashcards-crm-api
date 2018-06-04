@@ -3,15 +3,17 @@
         <div class="grid-container" id="buzz-scroll">
             <div class="file-box" v-for="f in $parent.files" :key="f.id" :class="getGridClass(f.collection_name)" >
                 <div class="image-container">
-                    <img :src="$parent.$parent.asset + 'storage/' + $parent.$parent.projectId + '/' + f.file_name">
+                    <img :src="f.thumb_url">
                 </div>
                 <div class="file-info">
                     <img :src="getImageType(f.collection_name)">
                     <span> {{ f.name }} </span>
                 </div>
                 <div class="user-info">
-                    <img src="/img/temporary/user1.png">
-                    <label> Uploaded by <span> Brian Howard </span> <br> 2hrs ago</label>
+                    <img :src="'/' + f.custom_properties.user.image_url">
+                    <label> Uploaded by 
+                            <span> {{ f.custom_properties.user | fullname }} </span> 
+                            <br> {{ f.created_at | momentAgo }} </label>
                 </div>
                 <grid-option></grid-option>
                 <!-- <approval-option></approval-option> -->
