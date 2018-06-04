@@ -180,12 +180,14 @@
                 axios.get('/api/projects/' + this.$parent.projectId + '/files')
                     .then( response => {
                         this.files = response.data.data;
+                        this.sent = false
                     })
             },
             getType(type){
                 axios.get('/api/projects/' + this.$parent.projectId + '/files?type='+type)
                     .then( response => {
                         this.files = response.data.data;
+                        this.sent = false
                     })
             },
             onChnage(file, fileList){
@@ -198,7 +200,7 @@
                           .then (response => {
                             this.isProcessing = false;
                             this.getFiles();
-                            
+                            this.form = new FormData()
                           }).catch (error => {
                             swal('Oops!', 'File not supported!', 'error');
                           });
