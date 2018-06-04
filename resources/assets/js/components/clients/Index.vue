@@ -61,7 +61,7 @@
                                         <el-table-column sortable label="Client">
                                             <template slot-scope="scope">
                                                 <avatar :username="scope.row.first_name + ' ' + scope.row.last_name" 
-                                                :src="'/' + scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar> 
+                                                :src="scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar> 
                                                 <span>{{ scope.row.full_name }}</span>
                                             </template>
                                         </el-table-column>

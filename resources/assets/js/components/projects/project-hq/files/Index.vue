@@ -38,7 +38,7 @@
                                 </a>
                             </li>
                             <li class="file-type buzz-dropdown">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle image">
+                                <!-- a href="#" data-toggle="dropdown" class="dropdown-toggle image">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="32px" height="24px">
                                         <path fill-rule="evenodd"
@@ -53,10 +53,18 @@
                                     <li>
                                         <a href="#"> For Approval </a>
                                     </li>
-                                </ul>
+                                </ul -->
+                                <a @click="getType('images')" style="cursor: pointer" class="image">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="32px" height="24px">
+                                        <path fill-rule="evenodd"
+                                        d="M30.239,21.589 L6.971,21.589 C6.045,21.589 5.287,20.825 5.287,19.890 L5.287,2.171 C5.287,1.236 6.045,0.472 6.971,0.472 L30.239,0.472 C31.165,0.472 31.922,1.236 31.922,2.171 L31.922,19.890 C31.922,20.825 31.165,21.589 30.239,21.589 ZM30.226,2.361 L6.827,2.361 L6.827,14.386 L13.182,7.073 C13.955,6.184 14.581,6.434 15.298,7.302 L21.817,15.195 L25.105,11.831 C25.799,11.120 26.430,11.123 27.180,11.841 L30.226,14.757 L30.226,2.361 ZM25.400,9.126 C24.100,9.126 23.045,8.061 23.045,6.747 C23.045,5.434 24.100,4.370 25.400,4.370 C26.702,4.370 27.756,5.434 27.756,6.747 C27.756,8.061 26.702,9.126 25.400,9.126 ZM6.971,21.965 L19.136,21.965 L4.603,23.799 C3.684,23.915 2.839,23.251 2.724,22.324 L0.546,4.742 C0.431,3.815 1.089,2.961 2.008,2.845 L4.915,2.479 L4.915,4.383 L2.097,4.738 L3.575,16.670 L4.915,14.675 L4.915,19.890 C4.915,20.460 5.146,20.979 5.518,21.355 C5.891,21.731 6.405,21.965 6.971,21.965 Z"/>
+                                    </svg>
+                                    <span> Images </span>
+                                </a>
                             </li>
                             <li class="file-type">
-                                <a href="#" class="video">
+                                <a @click="getType('videos')" style="cursor: pointer" class="video">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="33px" height="27px">
                                         <path fill-rule="evenodd"
@@ -66,7 +74,7 @@
                                 </a>
                             </li>
                             <li class="file-type">
-                                <a href="#" class="document">
+                                <a @click="getType('documents')" style="cursor: pointer" class="document">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="23px" height="26px">
                                         <path fill-rule="evenodd"
@@ -76,7 +84,7 @@
                                 </a>
                             </li>
                             <li class="file-type">
-                                <a href="#" class="others">
+                                <a @click="getType('others')" style="cursor: pointer" class="others">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="26px" height="25px">
                                         <path fill-rule="evenodd"
@@ -166,6 +174,12 @@
         methods: {
             getFiles(){
                 axios.get('/api/projects/' + this.$parent.projectId + '/files')
+                    .then( response => {
+                        this.files = response.data.data;
+                    })
+            },
+            getType(type){
+                axios.get('/api/projects/' + this.$parent.projectId + '/files?type='+type)
                     .then( response => {
                         this.files = response.data.data;
                     })
