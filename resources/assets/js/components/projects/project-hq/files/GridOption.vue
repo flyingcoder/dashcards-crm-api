@@ -7,12 +7,12 @@
             <li>
                 <a href="#"> Preview </a>
             </li>
-            <li>
+            <!-- li>
                 <a href="#"> Open </a>
             </li>
             <li>
                 <a href="#"> Open new tab </a>
-            </li>
+            </li -->
             <li>
                 <a href="#"> Delete </a>
             </li>

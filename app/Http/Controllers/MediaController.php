@@ -73,6 +73,7 @@ class MediaController extends Controller
 
         $medias->map(function ($media) {
            $media['public_url'] = $media->getUrl();
+           $media['thumb_url'] = $media->getUrl('thumb');
            return $media;
         });
 
@@ -182,7 +183,7 @@ class MediaController extends Controller
           $media = $project->addMedia(request()->file('file'))
                            ->withCustomProperties([
                             'ext' => request()->file('file')->extension(),
-                            'user' => auth()->user
+                            'user' => auth()->user()
                            ])
                            ->toMediaCollection($collectionName);
 

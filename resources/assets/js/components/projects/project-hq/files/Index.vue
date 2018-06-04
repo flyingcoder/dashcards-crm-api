@@ -192,7 +192,7 @@
                         this.isProcessing = false;
                         this.getFiles();
                     }).catch (error => {
-                        
+                        swal('Oops!', 'File not supported!', 'error');
                     });
             },
             beforeImport(file) {
