@@ -1,5 +1,5 @@
 <template>
-    <modal name="add-groups" transition="nice-modal-fade" @before-open="beforeOpen">
+    <modal name="add-groups" class="add-group-modal" transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content add-group">
             <v-layout row wrap>
                 <div class="buzz-modal-header"> {{ title }} </div>

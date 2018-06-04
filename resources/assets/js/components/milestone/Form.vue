@@ -1,6 +1,6 @@
 <template>
-  <modal name="add-template" transition="nice-modal-fade" @before-open="beforeOpen">
-            <section class="content add-project">
+  <modal name="add-template" class="add-milestone-template" transition="nice-modal-fade" @before-open="beforeOpen">
+            <section class="content add-milestone">
             <v-layout row wrap>
               <div class="buzz-modal-header"> {{ title }} </div>
               <div class="buzz-scrollbar" id="buzz-scroll">

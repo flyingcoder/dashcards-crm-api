@@ -11,19 +11,20 @@
             </button>
         </div>
 
-        <modal name="add-service" transition="nice-modal-fade" @before-open="beforeOpen">
+        <modal name="add-service" class="add-service" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
-                <div class="buzz-modal-header"> {{ title }} </div>
-                <div class="buzz-scrollbar" id="buzz-scroll">
-                   <el-form loading ref="form" @submit.prevent.native="handleInputConfirm">
-                       <p>Press Enter to add multiple service</p>
+                <v-layout row wrap>
+                    <div class="buzz-modal-header"> {{ title }} </div>
+                    <div class="buzz-scrollbar" id="buzz-scroll">
+                    <el-form loading ref="form" @submit.prevent.native="handleInputConfirm">
+                        <p>Press enter to add service</p>
                         <div class="buzz-modal-content services-form">
                             <el-form-item v-loading="isProcessing" :error="error.name[0]">
                                 <el-input v-model="service.name" placeholder="Untitled Service"></el-input>
                             </el-form-item>
                             <ul>
                                 <li v-for="(s, index) in form" :key="s.key">
-                                    <span> {{ s.name  }} </span>
+                                    <label> {{ s.name  }} </label>
                                     <el-button @click="removeService(index)">
                                         <svg viewBox="0 0 250 250">
                                             <path class="delete" d="M61 83l129 0c6,0 11,5 10,10l-3 146c-1,6 -5,11 -11,11l-121 0c-6,0 -11,-5 -11,-11l-4 -146c0,-5 5,-10 11,-10zm37 -83l54 0c5,0 9,2 12,5l0 0c3,3 4,7 4,11l0 10 33 0c6,0 11,4 11,10l0 23c0,6 -5,11 -11,11l-152 0c-6,0 -11,-5 -11,-11l0 -23c0,-6 5,-10 11,-10l33 0 0 -10c0,-4 2,-8 5,-11 3,-3 7,-5 11,-5zm1 26l53 0 0 -9 -53 0 0 9zm-5 83l0 0c5,0 9,4 9,10l0 95c0,5 -4,9 -9,9l0 0c-6,0 -10,-4 -10,-9l0 -95c0,-6 4,-10 10,-10zm64 0l0 0c5,0 9,4 9,10l0 95c0,5 -4,9 -9,9l0 0c-5,0 -10,-4 -10,-9l0 -95c0,-6 5,-10 10,-10zm-32 0l0 0c5,0 9,4 9,10l0 95c0,5 -4,9 -9,9l0 0c-5,0 -10,-4 -10,-9l0 -95c0,-6 5,-10 10,-10z"/>
@@ -38,8 +39,8 @@
                             </el-form-item>
                         </div>
                     </el-form>
-                    
-                </div>
+                    </div>
+                </v-layout>
             </section>
         </modal>
     </li>

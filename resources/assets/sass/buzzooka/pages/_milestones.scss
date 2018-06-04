@@ -1,45 +1,5 @@
-.services{
-    .content-body{
-       @extend .buzz-table;
-    }
-    .services-form{
-        .el-form-item{
-            .el-input{
-                width: 83.5% !important;
-            }
-            .el-button{
-                border: $table-border;
-                border-radius: 10px;
-                background: $modal-input;
-                box-shadow: $body-shadow;
-                height: 63px;
-                width: 65px;
-                vertical-align: top;
-                margin-left: 20px;
-                svg{
-                    fill: $modal-title;
-                }
-                &:hover{
-                    svg{
-                        fill: $action-hover-delete;
-                    }
-                }
-            }
-            .additional-field{
-                margin-left: 19px !important;
-                padding: 14px !important;
-                svg{
-                    width: 39px;
-                }
-                &:hover{
-                    svg{
-                        fill: $green;
-                    }
-                }
-            }
-        }
-    }
-    .add-service{
+.milestones{
+    .add-milestone-template{
         .v--modal{
             width: 400px !important;
             min-height: 200px !important;
