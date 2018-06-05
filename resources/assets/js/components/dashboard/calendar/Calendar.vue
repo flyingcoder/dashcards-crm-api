@@ -1,19 +1,15 @@
 <template>
-  <div>
-    <v-tabs v-model="active" color="cyan" dark slider-color="yellow" transition="slide-x-transition">
-      <v-tab>All Task</v-tab>
-      <v-tab-item>
-        <v-card flat>
-            <v-card-text> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat </v-card-text>
-        </v-card>
-      </v-tab-item>
-      <v-tab>My Task</v-tab>
-      <v-tab-item >
-        <v-card flat>
-            <v-card-text>  Test Text </v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs>
+  <div class="col-md-12">
+    <div class="content-body">
+        <section class="buzz-section">
+            <div class="">
+                <div class="text-center">
+                    <img src="/img/temporary/construction.jpg" alt="icon" width="400px">
+                </div>
+                <h1 class="text-center"> Coming Soon!!</h1>
+            </div>
+        </section>
+    </div>
   </div>
 </template>
 

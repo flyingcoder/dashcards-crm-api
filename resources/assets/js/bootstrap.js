@@ -13,6 +13,8 @@ try {
     require('fullcalendar');
 } catch (e) {}
 
+window.dragula = require('dragula');
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

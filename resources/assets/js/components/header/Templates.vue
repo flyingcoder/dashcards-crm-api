@@ -1,6 +1,6 @@
 <template>
     <li>
-        <el-dropdown trigger="click" placement="bottom">
+        <el-dropdown trigger="click" placement="bottom" class="head-icons">
             <el-button size="small" class="el-dropdown-link">
                 <img src="/img/icons/header/add.svg" width="30px" class="icon-normal">
                 <img src="/img/icons/header/addcolor.png" width="30px" height="28px" class="icon-hover">

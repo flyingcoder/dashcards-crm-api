@@ -12,9 +12,9 @@ window.Vue = require('vue');
 window.swal  = require('sweetalert2');
 window.VueColor = require('vue-color');
 // window.CKEDITOR = require( 'ckeditor' );
-
-
+  
 import Element from 'element-ui';
+import Dragula from 'dragula';
 import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
@@ -201,6 +201,19 @@ Vue.component('empty', require('./components/common/Empty'));
         }
     });
   });
+
+/* Dragula */
+  dragula([document.querySelector('#left'), document.querySelector('#right')],{
+    moves: function (el, container, handle) {
+      return handle.classList.contains('handle');
+    }
+  }
+  );
+  // dragula([document.getElementById(left), document.getElementById(right)], {
+  //   moves: function (el, container, handle) {
+  //     return handle.classList.contains('handle');
+  //   }
+  // });
 
 // Full Calendar 
     var date = new Date(),
