@@ -20,7 +20,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('tasks')"
                             v-on:click="addRemoveDashitem('tasks')">
                             <div class="template-checkbox">
@@ -35,6 +35,8 @@
                                 <h3> Task </h3>
                             </div>
                         </button>
+                    </div>
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('client')"
                             v-on:click="addRemoveDashitem('client')">
                             <div class="template-checkbox">
@@ -49,6 +51,8 @@
                                 <h3> Client </h3>
                             </div>
                         </button>
+                    </div>
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('payment')"
                             v-on:click="addRemoveDashitem('payment')">
                             <div class="template-checkbox">
@@ -63,6 +67,8 @@
                                 <h3> Payment </h3>
                             </div>
                         </button>
+                    </div>
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('calendar')"
                             v-on:click="addRemoveDashitem('calendar')">
                             <div class="template-checkbox">
@@ -78,7 +84,7 @@
                             </div>
                         </button>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('timeline')"
                             v-on:click="addRemoveDashitem('timeline')">
                             <div class="template-checkbox">
@@ -93,6 +99,8 @@
                                 <h3> Timeline </h3>
                             </div>
                         </button>
+                    </div>
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('timer')"
                             v-on:click="addRemoveDashitem('timer')">
                             <div class="template-checkbox">
@@ -108,6 +116,8 @@
                                 <h3> Timer </h3>
                             </div>
                         </button>
+                    </div>
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('invoice')"
                            v-on:click="addRemoveDashitem('invoice')">
                             <div class="template-checkbox">
@@ -122,6 +132,8 @@
                                 <h3> Invoice </h3>
                             </div>
                         </button>
+                    </div>
+                    <div class="col-md-3">
                         <button class="template-box" v-bind:class="isActive('passbox')"
                             v-on:click="addRemoveDashitem('passbox')">
                             <div class="template-checkbox">

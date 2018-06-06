@@ -15,7 +15,11 @@
                     </template>
                 </el-table-column>
                 <!-- <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column> -->
-                <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
+                <el-table-column sortable label="Start Date" width="115">
+                     <template slot-scope="scope">
+                        <span class="status"> {{ scope.row.started_at }}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column sortable label="Progress" width="150">
                     <template slot-scope="scope">
                         <el-progress :text-inside="true" :stroke-width="18" :percentage="0"></el-progress>
