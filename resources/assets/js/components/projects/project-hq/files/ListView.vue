@@ -24,7 +24,7 @@
                         </div>
                     </td>  
                     <td> <img :src="getImageType(f.collection_name)"> </td>  
-                    <td> <span> {{ f.file_name }} </span> </td>  
+                    <td> <div class="filename"> {{ f.file_name }} </div> </td>  
                     <td> 
                         <div class="user-info">
                             <img :src="'/' + f.custom_properties.user.image_url">

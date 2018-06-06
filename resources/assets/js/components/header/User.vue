@@ -1,6 +1,6 @@
 <template>
     <li>
-        <el-dropdown trigger="click" placement="bottom" class="member-option">
+        <el-dropdown trigger="click" placement="bottom" class="head-icons member-option">
             <el-button size="small" class="el-dropdown-link"> 
                 <img src="/img/temporary/user.png" id="user-image">
                 <img src="/img/icons/header/arrowdown.svg" class="arrow-down">

@@ -36,6 +36,11 @@
                 }
             }
         }
+        .project-hq-file-upload{
+            .el-upload-list{
+                display: none;
+            }
+        }
     }
     .files{
         height: auto;
@@ -223,6 +228,10 @@
                                 font-size: 15px;
                                 color: $file-uploadby;
                                 font-family: $lato-mid;
+                                .filename{
+                                    width: 70%;
+                                    @extend .buzz-overflow;
+                                }
                                 .user-info{
                                     text-align: left;
                                     display: inline-block;
