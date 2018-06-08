@@ -3,7 +3,9 @@
         <v-layout row wrap>
             <div class="col-md-6 content-header">
                 <div class="page-title">
-                    <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Milestones Template </span> </h1>
+                    <h1> 
+                        &nbsp; <span class="current"> Template </span> 
+                    </h1>
                 </div>
             </div>
             <div class="col-md-6">
@@ -58,12 +60,12 @@
                             @cell-click="cellClick"
                             >
                             <el-table-column type="selection" width="60"></el-table-column>
-                            <el-table-column prop="title" sortable label="Title"></el-table-column>
-                            <el-table-column  sortable label="User">
+                            <el-table-column prop="name" sortable label="Title"></el-table-column>
+                            <!-- el-table-column  sortable label="User">
                             <template slot-scope="scope">
                                 {{ scope.row.user.first_name + " " + scope.row.user.last_name }}
                             </template>
-                            </el-table-column>
+                            </el-table-column -->
                             <el-table-column sortable prop="created_at" label="Date"></el-table-column>
                             <el-table-column sortable prop="status" label="Status"></el-table-column>
                             <el-table-column fixed="right" :render-header="renderHeader">
@@ -128,7 +130,7 @@
         },
         getTemplates() {
           this.isProcessing = true;
-          axios.get(URL)
+          axios.get('/api/template')
           .then (response => {
             this.isProcessing = false;
             this.paginatedAllTemplate = response.data.data;
@@ -164,7 +166,7 @@
             confirmButtonText: 'Yes, delete it!'
           }).then(function (result) {
             if (result) {
-							vm.isProcessing = true;	
+			  vm.isProcessing = true;	
               vm.loadingText = 'Loading ...'
               axios.delete(URL + row.id)
               .then(response => {
@@ -190,7 +192,7 @@
         cellClick: function(row, col) {
             var a = col.id;
             if(a != 'el-table_1_column_6') {
-                location = "/milestones/" + row.id; 
+                location = "/template/"+row.id+"/milestones/"; 
             }
         },
         renderHeader(h,{column,$index}){

@@ -150,7 +150,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
 
 // Milestone Template
-Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () {
+
+  /* alvin added */
+  Route::get('{id}/tasks', 'MilestoneController@tasks');
 
   Route::get('/', 'MilestoneTemplateController@index');
 

@@ -24,6 +24,19 @@ class MilestoneController extends Controller
         return $project->milestones()->paginate(10);
     }
 
+    public function tasks($id)
+    {
+        if(!request()->ajax())
+            return view('pages.milestone-tasks')->with(['id' => $id]);
+
+        $milestone = Milestone::findOrFail($id);
+
+        if(!is_null($milestone))
+            return $milestone->tasks()->paginate(10);
+
+        return response(500);
+    }
+
     public function projectMilestone($project_id)
     {
         if(!request()->ajax())

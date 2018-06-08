@@ -56,11 +56,6 @@ class Milestone extends Model
         return $milestone;
     }
 
-    public function saveTemplate($request)
-    {
-        return true;
-    }
-
     public function project()
     {
     	return $this->belongsTo(Project::class);

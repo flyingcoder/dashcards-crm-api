@@ -6,8 +6,10 @@
             <div class="page-title">
                 <h1> 
                   &nbsp; <span class="current"> Template </span> 
-                  &nbsp; <img src="img/icons/ArrowRight.svg"> 
+                  &nbsp; <img src="/img/icons/ArrowRight.svg"> 
                   &nbsp; <span class="current"> Milestones </span>
+                  &nbsp; <img src="/img/icons/ArrowRight.svg"> 
+                  &nbsp; <span class="current"> Tasks </span>
                 </h1>
             </div>
         </div>
@@ -125,7 +127,7 @@
       methods:{
         getMilestone() {
           this.isProcessing = true;
-          axios.get('/api/template/'+ this.id +'/milestone')
+          axios.get('/api/milestone/'+ this.id +'/tasks')
           .then (response => {
             this.isProcessing = false;
             this.paginatedAllMilestone = response.data.data;
@@ -134,7 +136,7 @@
                 this.notEmpty = false;
             }
             else{
-                this.notEmpty = true;							
+                this.notEmpty = true;                           
             }
           }) .catch (error => {
             if (error.response.status == 401) {

@@ -110,6 +110,7 @@ export default {
       return {
         title: '',
         days: 1,
+        status: 'active',
       }
     },
     submit(){
@@ -123,7 +124,7 @@ export default {
     save(){
       this.isProcessing = true;
       var vm = this;
-      axios.post(URL + this.id,{'milestone': this.form, 'tasks': this.tasks})
+      axios.post('/api/template/' + this.id + '/milestone', {'milestone': this.form, 'tasks': this.tasks})
       .then( response => {
         this.isProcessing = false;                                    
         swal({
