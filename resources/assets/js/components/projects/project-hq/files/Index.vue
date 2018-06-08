@@ -9,7 +9,9 @@
                             drag
                             action=""
                             :http-request="submit"
-                            :before-upload="beforeImport"
+                            :before-upload="beforeUpload"
+                            :on-change="onChnage"
+                            :file-list="fileList"
                             multiple>
                                 <img :src="$parent.asset + 'img/files/documents-bw.svg'">
                                 <div class="drop-text">
@@ -164,7 +166,9 @@
             return {
                 form: [],
                 isProcessing: false,
-                files: []
+                files: [],
+                sent: false,
+                fileList: []
             }
         },
         mounted(){
@@ -176,26 +180,33 @@
                 axios.get('/api/projects/' + this.$parent.projectId + '/files')
                     .then( response => {
                         this.files = response.data.data;
+                        this.sent = false
                     })
             },
             getType(type){
                 axios.get('/api/projects/' + this.$parent.projectId + '/files?type='+type)
                     .then( response => {
                         this.files = response.data.data;
+                        this.sent = false
                     })
             },
-            submit () {
-                this.isProcessing = true;
- 
-                axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
-                    .then (response => {
-                        this.isProcessing = false;
-                        this.getFiles();
-                    }).catch (error => {
-                        swal('Oops!', 'File not supported!', 'error');
-                    });
+            onChnage(file, fileList){
+                
             },
-            beforeImport(file) {
+            submit () {
+                if(!this.sent) {
+                    this.sent = true
+                    axios.post('/project-hq/' + this.$parent.projectId + '/files', this.form)
+                          .then (response => {
+                            this.isProcessing = false;
+                            this.getFiles();
+                            this.form = new FormData()
+                          }).catch (error => {
+                            swal('Oops!', 'File not supported!', 'error');
+                          });
+                }
+            },
+            beforeUpload(file) {
                 this.form.append('files[]', file);
                 return true;
             },
