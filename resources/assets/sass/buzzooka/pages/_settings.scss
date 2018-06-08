@@ -444,6 +444,14 @@
             .payment-settings{
                 padding-top: 15px;
             }
+            .router-link-exact-active{
+                .menu-item{
+                    background: $hq-menu-bg;
+                    span{
+                        color: $white;
+                    }
+                }
+            }
         }
     }
 }

@@ -144,7 +144,6 @@
     }
     .milestone-form{
         height: auto !important;
-        margin-top: 20px;
         max-height: 450px !important;
     }
     .add-button{
@@ -152,6 +151,28 @@
         right: 10px !important;
         bottom: 20px !important;
         box-shadow: $hover-shadow !important;
+    }
+    .import-milestone , .add-hq-milestone{
+        .v--modal{
+            width: 400px !important;
+            min-height: 200px !important;
+            margin-left: 100px;
+            height: min-content !important;
+            .content{
+                padding: 25px !important;
+            }
+            .milestone-note{
+                .el-form-item__content{
+                    line-height: 20px;
+                    span{
+                        color: $warning;
+                    }
+                }
+            }
+            .form-buttons{
+                padding-bottom: 0 !important;
+            }
+        }
     }
 }
   

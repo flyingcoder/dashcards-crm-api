@@ -7,7 +7,7 @@
                     <img src="/img/icons/header/emailcolor.png" width="35px" class="icon-hover">
                 </el-button>
             </el-badge>
-            <el-dropdown-menu slot="dropdown" class="header-dropdown header-notifications buzz-scrollbar buzz-scroll">
+            <el-dropdown-menu slot="dropdown" class="header-dropdown header-messages buzz-scrollbar buzz-scroll">
                
             </el-dropdown-menu>
         </el-dropdown>

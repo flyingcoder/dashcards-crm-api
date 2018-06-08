@@ -39,7 +39,7 @@
             <div class="buzz-nav-menu">
                 <ul class="buzz-nav">
                     <templates></templates>
-                    <!-- email></email -->
+                    <email></email>
                     <notifications></notifications>
                     <chat></chat>
                     <user></user>
