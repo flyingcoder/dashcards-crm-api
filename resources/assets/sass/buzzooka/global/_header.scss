@@ -313,7 +313,11 @@
         }
     }
     .header-messages{
-        
+        top: 60px !important;
+        padding: 5px 20px;
+        h2{
+            color: $table-data;
+        }
     }
     .header-notifications{
         height: auto;

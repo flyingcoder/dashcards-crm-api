@@ -1,6 +1,5 @@
 <template>
     <div class="new-message">
-        
         <el-form :model="form" :rules="rules" ref="form" label-width="120px" class="demo-form">
             <div class="new-message-head">
                 <span>New Message</span>
