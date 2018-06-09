@@ -3,7 +3,7 @@
         <v-layout row wrap>
             <div class="col-md-12">
                 <ul>
-                    <li transition="slide-x-transition">
+                    <li @click="activate(1)" :class="{ active : active_tab == 1 }">
                         <router-link to="/" transition="slide-x-transition">
                             <div class="menu-item overview-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -15,7 +15,7 @@
                             </div>
                         </router-link>
                     </li>
-                    <li transition="slide-x-transition">
+                    <li @click="activate(2)" :class="{ active : active_tab == 2 }">
                         <router-link to="/files" transition="slide-x-transition">
                             <div class="menu-item file-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -27,7 +27,7 @@
                             </div>
                         </router-link>
                     </li>
-                    <li transition="slide-x-transition">
+                    <li @click="activate(3)" :class="{ active : active_tab == 3 }">
                         <router-link to="/milestones" transition="slide-x-transition">
                             <div class="menu-item milestone-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -39,7 +39,7 @@
                             </div>
                         </router-link>
                     </li>
-                    <li>
+                    <li @click="activate(4)" :class="{ active : active_tab == 4 }">
                         <router-link to="/tasks" v-if="milestone > 0">
                             <div class="menu-item task-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -62,7 +62,7 @@
                         </a>
                         
                     </li>
-                    <li>
+                    <li @click="activate(5)" :class="{ active : active_tab == 5 }">
                         <router-link to="/messages">
                             <div class="menu-item messages-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -74,7 +74,7 @@
                             </div>
                         </router-link>
                     </li>
-                    <li>
+                    <li @click="activate(6)" :class="{ active : active_tab == 6 }">
                         <router-link to="/invoices">
                             <div class="menu-item invoice-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -86,7 +86,7 @@
                             </div>
                         </router-link> 
                     </li>
-                    <li>
+                    <li @click="activate(7)" :class="{ active : active_tab == 7 }">
                         <router-link to="/members">
                             <div class="menu-item members-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -98,7 +98,7 @@
                             </div>
                         </router-link>
                     </li>
-                    <li>
+                    <li @click="activate(8)" :class="{ active : active_tab == 8 }">
                         <router-link to="/timer"> 
                             <div class="menu-item timer-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
@@ -141,7 +141,7 @@
                             </div>
                         </router-link>
                     </li>
-                    <li>
+                    <li @click="activate(9)" :class="{ active : active_tab == 9 }">
                         <router-link to="/reports" >
                             <div class="menu-item reports-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -163,6 +163,7 @@
     export default {
         data(){
             return {
+                active_tab: 0,
                 milestone: 0,
             }
         },
@@ -173,6 +174,9 @@
             })
         },
         methods:{
+            activate:function(el){
+                this.active_tab = el;
+            },
             addTasks(){
                 swal({
                     title: 'No Milestone!',
