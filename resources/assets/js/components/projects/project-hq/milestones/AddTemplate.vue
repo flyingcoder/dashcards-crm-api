@@ -1,59 +1,54 @@
 <template>
-  <modal name="add-template" transition="nice-modal-fade" @before-open="beforeOpen">
+  <modal name="add-template" class="import-milestone" transition="nice-modal-fade" @before-open="beforeOpen">
     <section class="content">
         <v-layout row wrap>
-            <div class="buzz-modal-header"> import template </div>
-            <div class="buzz-scrollbar milestone-form" id="buzz-scroll">
-              <div style="height: 200px;" class="col-md-3">
-                <el-steps direction="vertical" :active="active" >
-                  <el-step title="Choose Template">
-                  </el-step>
-                  <el-step title="Assign Member"></el-step>
-                </el-steps>
-                
-              </div>
-              <div class="buzz-modal-content col-md-9">
-                <el-form v-if="active == 0" v-loading="isProcessing">
-                  <el-form-item >
-                        <el-select v-model="template_id" clearable placeholder="Select template">
-                            <el-option 
-                            v-for="t in templates"
-                            :key="t.id"
-                            :label="t.title"
-                            :value="t.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-form>
-                <div v-if="active == 1">
-                  <el-form v-loading="isProcessing">
-                    <div style="margin-bottom: 10px"  v-for="m in form.milestones" :key="m.id" >
-                    <el-card>
-                    <div slot="header" class="clearfix">
-                      <span>{{ m.title }}</span>
-                    </div>
-                    <el-form-item v-for="(t,ii) in m.mlt_tasks" :key="t.id" :label="t.title">
-                      <el-select v-model="assign[ii].members" multiple placeholder="Assign Member">
-                            <el-option 
-                            v-for="m in members"
-                            :key="m.id"
-                            :label="m.first_name + ' ' + m.last_name"
-                            :value="m.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    </el-card>
-                    </div>
-                    
-                  </el-form>
-                  
+          <div class="buzz-modal-header"> Import Template </div>
+          <div style="height: 45px;" class="col-md-12">
+            <el-steps direction="horizontal" :active="active">
+              <el-step>
+              </el-step>
+              <el-step></el-step>
+            </el-steps>
+          </div>
+          <div class="buzz-modal-content col-md-12">
+            <el-form v-if="active == 0" v-loading="isProcessing">
+              <el-form-item >
+                    <el-select v-model="template_id" clearable placeholder="Select template">
+                        <el-option 
+                        v-for="t in templates"
+                        :key="t.id"
+                        :label="t.title"
+                        :value="t.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div v-if="active == 1">
+              <el-form v-loading="isProcessing">
+                <div style="margin-bottom: 10px"  v-for="m in form.milestones" :key="m.id" >
+                <el-card>
+                <div slot="header" class="clearfix">
+                  <span>{{ m.title }}</span>
+                </div>
+                <el-form-item v-for="(t,ii) in m.mlt_tasks" :key="t.id" :label="t.title">
+                  <el-select v-model="assign[ii].members" multiple placeholder="Assign Member">
+                        <el-option 
+                        v-for="m in members"
+                        :key="m.id"
+                        :label="m.first_name + ' ' + m.last_name"
+                        :value="m.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                </el-card>
                 </div>
                 
-                <el-button style="margin-top: 12px;" @click="prev">Prev step</el-button>
-                <el-button style="margin-top: 12px;" v-if="active == 0" @click="next">Next step</el-button>
-                <el-button style="margin-top: 12px;" v-if="active == 1" @click="submit">Submit</el-button>
-                </div>
+              </el-form>
             </div>
+            <el-button style="margin-top: 12px;" @click="prev">Prev step</el-button>
+            <el-button style="margin-top: 12px;" v-if="active == 0" @click="next">Next step</el-button>
+            <el-button style="margin-top: 12px;" v-if="active == 1" @click="submit">Submit</el-button>
+          </div>
         </v-layout>
     </section>
   </modal>

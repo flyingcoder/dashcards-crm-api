@@ -26,7 +26,7 @@
             </div>
         </div>
         
-        <modal name="add-milestone" transition="nice-modal-fade" @before-open="beforeOpen">
+        <modal name="add-milestone" class="add-hq-milestone" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
                 <v-layout row wrap>
                     <div class="buzz-modal-header"> {{ title }} </div>
@@ -57,7 +57,7 @@
                                 <el-form-item prop="days" :error="formError.days">
                                     <el-input v-model="form.days" placeholder="Days"></el-input>
                                 </el-form-item>
-                                <el-form-item>
+                                <el-form-item  class="milestone-note">
                                     <span> Note! If Start and End dates are provided, Milestone duration (days) will be ignored </span>
                                 </el-form-item>
                                 <el-form-item class="form-buttons">
