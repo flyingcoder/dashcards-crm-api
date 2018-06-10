@@ -1,12 +1,8 @@
 <template>
-    <div class="new-message">
+    <div class="write-message">
         <el-form :model="form" :rules="rules" ref="form" label-width="120px" class="demo-form">
             <div class="new-message-head">
-                <span>New Message</span>
-                <div class="new-message-option">
-                    <el-button> </el-button>
-                    <el-button> </el-button>
-                </div>
+                <h4>New Message</h4>
             </div>
             <div class="new-message-form">
                 <el-input v-model="form.to">
@@ -18,7 +14,7 @@
                     <template slot="prepend">Subject</template>
                 </el-input>
                 <el-form-item class="modal-editor">
-                    <ckeditor id="description" v-model="form.description"></ckeditor>
+                    <ckeditor v-model="form.description"></ckeditor>
                 </el-form-item>
             </div>
         </el-form>

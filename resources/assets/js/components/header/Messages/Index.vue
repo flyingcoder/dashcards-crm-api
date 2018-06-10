@@ -11,31 +11,39 @@
                 <h2> Messages </h2>
                 <v-tabs v-model="active" class="icon-tabs">
                     <v-tab>
-                        Write A Message
+                          <el-button size="small">Write A Message</el-button>
                     </v-tab>
                     <v-tab-item>
                         <write></write>
                     </v-tab-item>
                     <v-tab>
-                       Inbox
+                        <el-badge :value="200" :max="99" class="item">
+                            <el-button size="small">Inbox</el-button>
+                        </el-badge>
                     </v-tab>
                     <v-tab-item>
                        <inbox></inbox>
                     </v-tab-item>
                     <v-tab>
-                        Sent Mail
+                        <el-badge :value="200" :max="99" class="item">
+                            <el-button size="small">Sent Mail</el-button>
+                        </el-badge>
                     </v-tab>
                     <v-tab-item>
                         <sent></sent>
                     </v-tab-item>
                     <v-tab>
-                       Draft
+                       <el-badge :value="200" :max="99" class="item">
+                            <el-button size="small">Draft</el-button>
+                        </el-badge>
                     </v-tab>
                     <v-tab-item>
                        <draft></draft>
                     </v-tab-item>
                     <v-tab>
-                       Bin
+                       <el-badge :value="200" :max="99" class="item">
+                            <el-button size="small">Bin</el-button>
+                        </el-badge>
                     </v-tab>
                     <v-tab-item>
                        <bin></bin>

@@ -314,9 +314,79 @@
     }
     .header-messages{
         top: 60px !important;
-        padding: 5px 20px;
+        padding: 5px 15px;
         h2{
             color: $table-data;
+        }
+        .tabs{
+            .tabs__bar{
+                .tabs__div{
+                    font-size: 12px !important;
+                    border: $border-buzz;
+                    .tabs__item{
+                        padding: 0 7.7px !important;
+                        background:  $active-tab;
+                        .el-badge__content{
+                            width: 25px;
+                            height: 25px;
+                            border-radius: 50%;
+                            padding-top: 3px;
+                            font-size: 12px;
+                            right: 17px;
+                            top: 3px;
+                        }
+                        .el-button{
+                            &:focus, &:hover{
+                                background: none !important;
+                            }
+                        }
+                    }
+                    .tabs__item--active{
+                        background: $white;
+                        .el-button{
+                            color: #606266;
+                        }
+                    }
+                }
+            }
+        }
+        .write-message{
+            background: $gray-bg;
+            border: $border-buzz;
+            padding: 1px 10px;
+            border-radius: 10px;
+            margin-top: 5px;
+            .el-form{
+                background: $white;
+                padding: 10px;
+                .new-message-head{
+                    h4{
+                        margin-top: 3px;
+                    }
+                }
+                .new-message-form{
+                    .el-input{
+                        background: $white;
+                        border: 1px solid #dce1e5;
+                        margin-bottom: 10px;
+                        border-radius: 7px; 
+                        .el-input-group__prepend, .el-input-group__append{
+                            background: none;
+                            border: none;
+                        }
+                    }   
+                }
+                .modal-editor{
+                    .el-form-item__content{
+                        margin: 0 !important;
+                    }
+                    .ckeditor{
+                        .cke_contents{
+                            height: 110px !important;
+                        }
+                    }
+                }
+            }
         }
     }
     .header-notifications{
