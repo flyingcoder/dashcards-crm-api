@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="multiple-add" v-on:click="multipleBtnVisible = !multipleBtnVisible" v-bind:class="{ rotateIcon: multipleBtnVisible }">
+        <!-- <div class="multiple-add" v-on:click="multipleBtnVisible = !multipleBtnVisible" v-bind:class="{ rotateIcon: multipleBtnVisible }">
             <i class="el-icon-arrow-down el-icon--right"></i>
             <div class="multiple-btn"  v-bind:class="{ multipleBtnVisible: multipleBtnVisible }">
                 <div class="add-button one"  @click="$modal.show('add-milestone')">
@@ -24,8 +24,7 @@
                     </button>
                 </div>
             </div>
-        </div>
-        
+        </div> -->
         <modal name="add-milestone" class="add-hq-milestone" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
                 <v-layout row wrap>

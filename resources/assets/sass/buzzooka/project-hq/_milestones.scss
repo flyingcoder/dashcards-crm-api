@@ -146,11 +146,23 @@
         height: auto !important;
         max-height: 450px !important;
     }
-    .add-button{
-        position: fixed !important;
-        right: 10px !important;
-        bottom: 20px !important;
-        box-shadow: $hover-shadow !important;
+    .hq-milestone-add{
+        position: relative !important;
+        .el-button{
+            position: relative;
+            float: right;
+            top: 10px;
+            border-radius: 40px !important;
+            background: $blue;
+            color: $white;
+            box-shadow: $add-shadow !important;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+        .el-button+.el-button{
+            margin-right: 10px;
+        }
     }
     .import-milestone , .add-hq-milestone{
         .v--modal{
