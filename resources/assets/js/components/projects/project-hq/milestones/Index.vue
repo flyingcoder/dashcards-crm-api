@@ -2,9 +2,9 @@
     <section class="content hq-milestones">
         <v-layout row wrap >
 			<div class="col-md-12 hq-milestone-add">
-				<el-button @click="$modal.show('add-milestone')">
+				<!-- <el-button @click="$modal.show('add-milestone')">
 					<span> Add New </span>
-				</el-button>
+				</el-button> -->
 				<el-button @click="$modal.show('add-template')">
 					<span> Import Template </span>
 				</el-button>
