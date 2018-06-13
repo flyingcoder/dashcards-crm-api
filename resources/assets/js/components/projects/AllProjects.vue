@@ -190,7 +190,7 @@
         },
         cellClick: function(row, col) {
             var a = col.id;
-            if(a != 'el-table_1_column_9' && a != 'el-table_2_column_18') {
+            if(a != 'el-table_1_column_9' && a != 'el-table_2_column_13' && a != 'el-table_3_column_22 ') {
                 location = "/project-hq/" + row.id; 
             }
         },
