@@ -135,15 +135,28 @@ class TaskController extends Controller
 
         (new TaskPolicy())->update($task);
 
-        $validated = request()->validate([
+        /*$validated = request()->validate([
             'title' => 'required',
             'description' => 'required',
-            'milestone_id' => 'required|integer|exists:milestones,id',
-            'started_at' => 'required|date',
-            'end_at' => 'required|date'
-        ]);
+            'milestone_id' => 'integer|exists:milestones,id',
+            'started_at' => 'date',
+            'end_at' => 'date',
+            'days' => 'integer'
+        ]);*/
 
-        $task->update($validated);
+        $task->title = request()->title;
+        $task->description = request()->description;
+
+        if(request()->has('days'))
+            $task->days = request()->days;
+
+        if(request()->has('started_at'))
+            $task->started_at = request()->started_at;
+
+        if(request()->has('end_at'))
+            $task->end_at = request()->end_at;
+
+        $task->save();
 
         return response()->json(['updated' => $task]);
     }

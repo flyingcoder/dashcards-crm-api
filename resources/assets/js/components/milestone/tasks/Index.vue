@@ -17,7 +17,7 @@
                 <div class="head-page-option">
                     <ul class="nav nav-tabs">
                         <li>
-                            <div class="add-button" @click="$modal.show('add-mlt-milestone')">
+                            <div class="add-button" @click="$modal.show('add-tasks', { action: 'Save', id: id})">
                                 <span> ADD NEW </span>
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -66,7 +66,7 @@
                         >
                         <el-table-column type="selection" width="60"></el-table-column>
                         <el-table-column prop="title" sortable label="Title"></el-table-column>
-                        <el-table-column sortable prop="days" label="Days"></el-table-column>                        
+                        <el-table-column prop="days" label="Days"></el-table-column>                        
                         <el-table-column fixed="right" :render-header="renderHeader">
                             <template slot-scope="scope">
                                 <el-button @click="edit(scope.row)">
@@ -149,34 +149,34 @@
           });
         },
         edit(data){
-            this.$modal.show('add-mlt-milestone', { action: 'Update', data: data })
+            this.$modal.show('add-tasks', { action: 'Update', data: data })
         },
         destroy(row){
           var self = this;
               swal({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then(function (result) {
-            if (result) {
-              axios.delete(URL + row.id)
-              .then(response => {
-                swal({
-                  title: 'Success!',
-                  text: 'Templete is Deleted!',
-                  type: 'success'
-                }).then( function() {
-                    self.loadingText = 'Updating ...'
-                    self.getMilestone();
-                });
-                
-              });
-            }
-          })
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then(function (result) {
+                if (result) {
+                  axios.delete(URL + row.id)
+                  .then(response => {
+                    swal({
+                      title: 'Success!',
+                      text: 'Templete is Deleted!',
+                      type: 'success'
+                    }).then( function() {
+                        self.loadingText = 'Updating ...'
+                        self.getMilestone();
+                    });
+                    
+                  });
+                }
+              })
         },
         handleSortChange(){
 
@@ -187,7 +187,7 @@
         cellClick: function(row, col) {
           var a = col.id;
           if(a != 'el-table_1_column_6') {
-              location = "/milestone/"+row.id; 
+              //location = "/milestones/"+row.id; 
           }
         },
         renderHeader(h,{column,$index}){

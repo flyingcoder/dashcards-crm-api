@@ -1,39 +1,32 @@
 <template>
-  <modal name="add-template" class="add-milestone-template" transition="nice-modal-fade" @before-open="beforeOpen">
-            <section class="content add-milestone">
-            <v-layout row wrap>
-              <div class="buzz-modal-header"> {{ title }} </div>
-              <div class="buzz-scrollbar" id="buzz-scroll">
-            <el-form label-position="top" v-loading="isProcessing" :element-loading-text="loadingText">
-              <div class="buzz-modal-content">
-                  <el-form-item label="Title" :error="formError.name">
-                    <el-input type="text" v-model="form.name" placeholder="Template Title"></el-input>
-                  </el-form-item>
-                <el-form-item label="Status">
-                  <el-select v-model="form.status" placeholder="Select">
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                
-                <el-form-item  class="form-buttons">
-                  <el-button @click="submit"> {{ action }}</el-button>
-                  <el-button @click="$modal.hide('add-template')">Cancel</el-button>
-                </el-form-item>
-              </div>
-            </el-form>
-          </div>
-        </v-layout>
+  <modal name="add-tasks" transition="nice-modal-fade" @before-open="beforeOpen">
+    <section class="content add-milestone">
+      <v-layout row wrap>
+        <div class="buzz-modal-header">{{title}}</div>
+        <div class="buzz-scrollbar" id="buzz-scroll">
+      <el-form label-position="top" v-loading="isProcessing" :element-loading-text="loadingText">
+        <div class="buzz-modal-content">
+        
+            <el-form-item label="Title">
+              <el-input type="text" v-model="formTask.title" placeholder="Task Title"></el-input>
+            </el-form-item>
+            <el-form-item label="Days">
+              <el-input-number type="text" v-model="formTask.days"></el-input-number>
+            </el-form-item>
+            <el-form-item class="modal-editor" label="Description">
+                <ckeditor id="description" ref="ckeditor" v-model="formTask.description"></ckeditor>
+            </el-form-item>
+            <el-button type="text" @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="text" @click="submit">Submit</el-button>
+        </div>
+      </el-form>
+        </div>
+      </v-layout>
     </section>
   </modal>
 </template>
 
 <script>
-var URL = '/api/milestones/'
 export default {
   data(){
     return {
@@ -41,9 +34,10 @@ export default {
         { label: 'Active', value: 'active' },
         { label: 'Inactive', value: 'inactive' }
       ],
-      form: this.initForm(),
+      milestoneID: 0,
+      formTask: this.initForm(),
       action: 'Save',
-      title: 'Add New Milestone Template',
+      title: 'Add New Tasks',
       isProcessing: false,
       formError: '',
       loadingText: 'Saving ...'
@@ -51,33 +45,33 @@ export default {
   },
   methods:{
     beforeOpen (event) {
-      this.form = this.initForm();
+      this.formTask = this.initForm();
       this.formError = '';
+      this.milestoneID = event.params.id;
       if(typeof event.params != 'undefined' && event.params.action == 'Update') {
         this.action = 'Update';
-        this.title = 'Edit Milestone Template';
-        this.form = event.params.data;
+        this.title = 'Edit Task';
+        this.formTask = event.params.data;
       }
     },
     initForm(){
       return {
-        name: '',
-        status: 'active',
-        type: 'App\\Milestone',
+        title: '',
+        description: '',
+        days: 1
       }
     },
     submit(){
       if(this.action == 'Save'){
-          this.save();
-      }
-      else {
+          this.addTask();
+      } else {
           this.update();
       }
     },
-    save(){
+    addTask(){
       this.isProcessing = true;
       var vm = this;
-      axios.post('/api/template',this.form)
+      axios.post('/api/milestone/'+this.milestoneID+'/tasks', this.formTask)
       .then( response => {
         this.isProcessing = false;                                    
         swal({
@@ -85,7 +79,7 @@ export default {
           text: 'Template is saved!',
           type: 'success'
         }).then( function() {
-           vm.$modal.hide('add-template');
+           vm.$modal.hide('add-tasks');
             vm.$emit('updated',response.data);
         });
       })
@@ -104,7 +98,7 @@ export default {
     update(){
       this.isProcessing = true;
       var vm = this;
-      axios.put(URL + this.form.id,this.form)
+      axios.put('/api/tasks/'+this.formTask.id , this.formTask)
       .then( response => {
         this.isProcessing = false;                                    
         swal({
@@ -112,7 +106,7 @@ export default {
           text: 'Template is updated!',
           type: 'success'
         }).then( function() {
-           vm.$modal.hide('add-template');
+           vm.$modal.hide('add-tasks');
             vm.$emit('updated',response.data);
         });
       })

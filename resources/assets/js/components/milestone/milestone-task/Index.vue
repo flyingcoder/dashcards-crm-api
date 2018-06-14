@@ -6,7 +6,7 @@
             <div class="page-title">
                 <h1> 
                   &nbsp; <span class="current"> Template </span> 
-                  &nbsp; <img src="img/icons/ArrowRight.svg"> 
+                  &nbsp; <img src="/img/icons/ArrowRight.svg"> 
                   &nbsp; <span class="current"> Milestones </span>
                 </h1>
             </div>
@@ -15,7 +15,7 @@
                 <div class="head-page-option">
                     <ul class="nav nav-tabs">
                         <li>
-                            <div class="add-button" @click="$modal.show('add-mlt-milestone')">
+                            <div class="add-button" @click="$modal.show('add-mlt-milestone', { action: 'Save'})">
                                 <span> ADD NEW </span>
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -184,8 +184,8 @@
         },
         cellClick: function(row, col) {
           var a = col.id;
-          if(a != 'el-table_1_column_6') {
-              location = "/milestone/"+row.id; 
+          if(a != 'el-table_1_column_4') {
+              location = "/milestones/"+row.id; 
           }
         },
         renderHeader(h,{column,$index}){

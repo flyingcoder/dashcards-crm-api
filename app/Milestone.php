@@ -19,11 +19,11 @@ class Milestone extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'project_id', 'started_at', 'end_at', 'days', 'status', 'percentage'
+        'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];
 
     protected static $logAttributes = [
-        'title', 'project_id', 'started_at', 'end_at', 'days', 'status', 'percentage'
+        'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];
 
     protected $rules = [
