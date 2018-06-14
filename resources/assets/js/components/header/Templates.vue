@@ -206,7 +206,6 @@
             axios.post('/api/dashboard/default/dashitems', this.form)
             .then( response => {
                  console.info(response.data);  
-                 console.log("test");
                  location = "/dashboard";       
             })
         },
