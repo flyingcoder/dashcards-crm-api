@@ -60,8 +60,9 @@
                                         <el-table-column sortable type="selection" width="60"></el-table-column>
                                         <el-table-column sortable label="Client">
                                             <template slot-scope="scope">
-                                                <avatar :username="scope.row.first_name + ' ' + scope.row.last_name" 
-                                                :src="scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar> 
+                                                <avatar class="user-info avatar" :username="scope.row.full_name"></avatar> 
+                                                <!-- <avatar :username="scope.row.first_name + ' ' + scope.row.last_name" 
+                                                :src="scope.row.image_url">{{ scope.row.first_name + ' ' + scope.row.last_name }}</avatar>  -->
                                                 <span>{{ scope.row.full_name }}</span>
                                             </template>
                                         </el-table-column>
