@@ -19,11 +19,11 @@ class Milestone extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'project_id', 'started_at', 'end_at', 'days', 'status', 'percentage'
+        'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];
 
     protected static $logAttributes = [
-        'title', 'project_id', 'started_at', 'end_at', 'days', 'status', 'percentage'
+        'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];
 
     protected $rules = [
@@ -54,11 +54,6 @@ class Milestone extends Model
         ]);
 
         return $milestone;
-    }
-
-    public function saveTemplate($request)
-    {
-        return true;
     }
 
     public function project()

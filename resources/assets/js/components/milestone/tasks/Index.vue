@@ -8,6 +8,8 @@
                   &nbsp; <span class="current"> Template </span> 
                   &nbsp; <img src="/img/icons/ArrowRight.svg"> 
                   &nbsp; <span class="current"> Milestones </span>
+                  &nbsp; <img src="/img/icons/ArrowRight.svg"> 
+                  &nbsp; <span class="current"> Tasks </span>
                 </h1>
             </div>
         </div>
@@ -15,7 +17,7 @@
                 <div class="head-page-option">
                     <ul class="nav nav-tabs">
                         <li>
-                            <div class="add-button" @click="$modal.show('add-mlt-milestone', { action: 'Save'})">
+                            <div class="add-button" @click="$modal.show('add-tasks', { action: 'Save', id: id})">
                                 <span> ADD NEW </span>
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -64,7 +66,7 @@
                         >
                         <el-table-column type="selection" width="60"></el-table-column>
                         <el-table-column prop="title" sortable label="Title"></el-table-column>
-                        <el-table-column sortable prop="days" label="Days"></el-table-column>                        
+                        <el-table-column prop="days" label="Days"></el-table-column>                        
                         <el-table-column fixed="right" :render-header="renderHeader">
                             <template slot-scope="scope">
                                 <el-button @click="edit(scope.row)">
@@ -125,7 +127,7 @@
       methods:{
         getMilestone() {
           this.isProcessing = true;
-          axios.get('/api/template/'+ this.id +'/milestone')
+          axios.get('/api/milestone/'+ this.id +'/tasks')
           .then (response => {
             this.isProcessing = false;
             this.paginatedAllMilestone = response.data.data;
@@ -134,7 +136,7 @@
                 this.notEmpty = false;
             }
             else{
-                this.notEmpty = true;							
+                this.notEmpty = true;                           
             }
           }) .catch (error => {
             if (error.response.status == 401) {
@@ -147,34 +149,34 @@
           });
         },
         edit(data){
-            this.$modal.show('add-mlt-milestone', { action: 'Update', data: data })
+            this.$modal.show('add-tasks', { action: 'Update', data: data })
         },
         destroy(row){
           var self = this;
               swal({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then(function (result) {
-            if (result) {
-              axios.delete(URL + row.id)
-              .then(response => {
-                swal({
-                  title: 'Success!',
-                  text: 'Templete is Deleted!',
-                  type: 'success'
-                }).then( function() {
-                    self.loadingText = 'Updating ...'
-                    self.getMilestone();
-                });
-                
-              });
-            }
-          })
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then(function (result) {
+                if (result) {
+                  axios.delete(URL + row.id)
+                  .then(response => {
+                    swal({
+                      title: 'Success!',
+                      text: 'Templete is Deleted!',
+                      type: 'success'
+                    }).then( function() {
+                        self.loadingText = 'Updating ...'
+                        self.getMilestone();
+                    });
+                    
+                  });
+                }
+              })
         },
         handleSortChange(){
 
@@ -184,8 +186,8 @@
         },
         cellClick: function(row, col) {
           var a = col.id;
-          if(a != 'el-table_1_column_4') {
-              location = "/milestones/"+row.id; 
+          if(a != 'el-table_1_column_6') {
+              //location = "/milestones/"+row.id; 
           }
         },
         renderHeader(h,{column,$index}){

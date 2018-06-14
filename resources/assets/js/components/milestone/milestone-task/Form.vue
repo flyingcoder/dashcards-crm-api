@@ -29,6 +29,19 @@
                     prop="days"
                     label="Days">
                   </el-table-column>
+                  <el-table-column
+                    fixed="right"
+                    label="Actions"
+                    width="120">
+                    <template slot-scope="scope">
+                      <el-button
+                        @click.native.prevent="deleteRow(scope.$index, tasks, scope)"
+                        type="text"
+                        size="small">
+                        Remove
+                      </el-button>
+                    </template>
+                  </el-table-column>
                 </el-table>
                 <el-button type="text" @click="$modal.show('add-mlt-tasks')">Add Task</el-button>
                 
@@ -41,29 +54,29 @@
             
             <modal name="add-mlt-tasks" transition="nice-modal-fade">
               <section class="content add-milestone">
-            <v-layout row wrap>
-              <div class="buzz-modal-header">Task</div>
-              <div class="buzz-scrollbar" id="buzz-scroll">
-            <el-form label-position="top" v-loading="isProcessing" :element-loading-text="loadingText">
-              <div class="buzz-modal-content">
-              
-                  <el-form-item label="Title">
-                    <el-input type="text" v-model="formTask.title" placeholder="Task Title"></el-input>
-                  </el-form-item>
-                  <el-form-item label="Days">
-                    <el-input-number type="text" v-model="formTask.days"></el-input-number>
-                  </el-form-item>
-                  <el-form-item class="modal-editor" label="Description">
-                      <ckeditor id="description" ref="ckeditor" v-model="formTask.description"></ckeditor>
-                  </el-form-item>
-                  <el-button type="text" @click="dialogVisible = false">Cancel</el-button>
-                    <el-button type="text" @click="addTask">Submit</el-button>
-                    </div>
-            </el-form>
-              </div>
-            </v-layout>
-            </section>
-              </modal>
+                <v-layout row wrap>
+                  <div class="buzz-modal-header">Task</div>
+                  <div class="buzz-scrollbar" id="buzz-scroll">
+                <el-form label-position="top" v-loading="isProcessing" :element-loading-text="loadingText">
+                  <div class="buzz-modal-content">
+                      <el-input type="hidden" v-model="formTask.tempid"></el-input>
+                      <el-form-item label="Title">
+                        <el-input type="text" v-model="formTask.title" placeholder="Task Title"></el-input>
+                      </el-form-item>
+                      <el-form-item label="Days">
+                        <el-input-number type="text" v-model="formTask.days"></el-input-number>
+                      </el-form-item>
+                      <el-form-item class="modal-editor" label="Description">
+                          <ckeditor id="description" ref="ckeditor" v-model="formTask.description"></ckeditor>
+                      </el-form-item>
+                      <el-button type="text" @click="dialogVisible = false">Cancel</el-button>
+                        <el-button type="text" @click="addTask">Submit</el-button>
+                        </div>
+                </el-form>
+                  </div>
+                </v-layout>
+              </section>
+            </modal>
           </div>
         </v-layout>
     </section>
@@ -76,7 +89,7 @@ export default {
   props: ['id'],
   data(){
     return {
-      form: this.initForm(),
+      form: {},
       action: 'Save',
       title: 'Add New Milestone',
       isProcessing: false,
@@ -88,7 +101,18 @@ export default {
     }
   },
   methods:{
+    deleteRow(index, rows, scope) {
+        if(scope.row.id != undefined){
+           axios.delete('/api/tasks/'+scope.row.id)
+                 .then((response) => {
+                    rows.splice(index, 1);
+            });
+        }
+
+         rows.splice(index, 1);
+    },
     beforeOpen (event) {
+      console.log('check')
       this.form = this.initForm();
       this.tasks = [];
       this.formError = '';
@@ -96,20 +120,29 @@ export default {
         this.action = 'Update';
         this.title = 'Edit Milestone';
         this.isProcessing = true;        
-        axios.get(URL + event.params.data.id + '/edit')
+        axios.get('/api/milestone/'+ event.params.data.id)
           .then(response => {
             this.isProcessing = false;     
             this.form.title = response.data.title;
             this.form.days = response.data.days;
             this.form.id = response.data.id;
-            this.tasks = response.data.mlt_tasks;
+            this.tasks = response.data.tasks;
           })
+      } else {
+        this.action = 'Save'
+        this.title = 'Add New Milestone'
+        this.isProcessing = false
+        this.formError = ''
+        this.loadingText = 'Saving ...'
+        this.dialogVisible = false
+        this.formTask = this.initFormTask()
       }
     },
     initForm(){
       return {
         title: '',
         days: 1,
+        status: 'active',
       }
     },
     submit(){
@@ -123,7 +156,7 @@ export default {
     save(){
       this.isProcessing = true;
       var vm = this;
-      axios.post(URL + this.id,{'milestone': this.form, 'tasks': this.tasks})
+      axios.post('/api/template/' + this.id + '/milestone', {'milestone': this.form, 'tasks': this.tasks})
       .then( response => {
         this.isProcessing = false;                                    
         swal({
@@ -174,7 +207,7 @@ export default {
           }
       });
     },
-    initFormTask(){
+    initFormTask(counter){
       return {
         title: '',
         description: '',

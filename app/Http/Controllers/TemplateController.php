@@ -26,10 +26,18 @@ class TemplateController extends Controller
         return $company->paginatedTemplates(request());
     }
 
+    public function milestonesTask($id)
+    {
+        if(!is_null(Template::find($id)))
+            return view('pages.milestone-task-templates')->with(['id'=>$id]);
+        else
+            return redirect('milestones');
+    }
+
     public function milestones($id)
     {
         if(!request()->ajax())
-           return view('pages.milestone-template', ['template_id' => $id]);
+           return view('pages.milestone-templates', ['template_id' => $id]);
 
         $template = Template::findOrFail($id);
 
@@ -53,7 +61,11 @@ class TemplateController extends Controller
     // Dustin - 02/06
     public function milestone($id)
     {
-        return Milestone::find($id);
+        $template = Template::findOrFail($id);
+
+        return $template->milestones()
+                        ->latest()
+                        ->paginate();
     }
     
     public function projectDetails()
@@ -68,10 +80,26 @@ class TemplateController extends Controller
 
     public function saveMilestone($id)
     {
+        //request()->validate($this->rules);
+
         $template = Template::findOrFail($id);
 
-        $milestone = Milestone::saveTemplate(request());
+        $milestone = Milestone::create([
+            'project_id' => 0,
+            'title' => request()['milestone']['title'],
+            'days' => request()['milestone']['days'],
+            'status' => request()['milestone']['status']
+        ]);
 
-        $template->milestone()->attach($milestone);
+        foreach (request()['tasks'] as $key => $task) {
+             $milestone->tasks()->create([
+                'title' => $task['title'],
+                'description' => $task['description'],
+                'days' => $task['days'],
+                'status' => 'open'
+             ]);
+         }
+
+        return $template->milestones()->attach($milestone);
     }
 }
