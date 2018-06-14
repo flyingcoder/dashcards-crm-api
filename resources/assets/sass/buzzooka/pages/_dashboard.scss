@@ -462,10 +462,11 @@
                         .title{
                             padding-top: 10px;
                             line-height: 1.2;
-                            height: 60px;
+                            height: 70px;
                             font-size: 15px;
                             color:  $milestone-title;
                             font-family: $lato-mid;
+                            overflow: hidden;
                         }
                         .time{
                             height: 40px;
