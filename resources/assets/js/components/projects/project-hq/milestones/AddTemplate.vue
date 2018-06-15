@@ -4,14 +4,15 @@
         <v-layout row wrap>
             <div class="buzz-modal-header"> import template </div>
             <div class="buzz-scrollbar milestone-form" id="buzz-scroll">
-              <div style="height: 200px;" class="col-md-3">
+              <!-- div style="height: 200px;" class="col-md-3">
                 <el-steps direction="vertical" :active="active" >
                   <el-step title="Choose Template">
                   </el-step>
                   <el-step title="Assign Member"></el-step>
                 </el-steps>
                 
-              </div>
+              </div -->
+              <label>Choose Template</label>
               <div class="buzz-modal-content col-md-9">
                 <el-form v-if="active == 0" v-loading="isProcessing">
                   <el-form-item >
@@ -19,13 +20,13 @@
                             <el-option 
                             v-for="t in templates"
                             :key="t.id"
-                            :label="t.title"
+                            :label="t.name"
                             :value="t.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </el-form>
-                <div v-if="active == 1">
+                <!-- div v-if="active == 1">
                   <el-form v-loading="isProcessing">
                     <div style="margin-bottom: 10px"  v-for="m in form.milestones" :key="m.id" >
                     <el-card>
@@ -47,11 +48,11 @@
                     
                   </el-form>
                   
-                </div>
+                </div -->
                 
                 <el-button style="margin-top: 12px;" @click="prev">Prev step</el-button>
-                <el-button style="margin-top: 12px;" v-if="active == 0" @click="next">Next step</el-button>
-                <el-button style="margin-top: 12px;" v-if="active == 1" @click="submit">Submit</el-button>
+                <el-button style="margin-top: 12px;" @click="next">Next step</el-button>
+                <el-button style="margin-top: 12px;" @click="submit">Submit</el-button>
                 </div>
             </div>
         </v-layout>
@@ -75,10 +76,11 @@ export default {
   },
   methods: {
     beforeOpen(){
-      axios.get('/api/milestones/all')
+      axios.get('/api/template?paginated=false&type=App\\Milestone')
       .then( response => {
         this.isProcessing = false;
         this.templates = response.data;
+        console.log(response.data)
       })  
     },
     initForm(){
@@ -92,21 +94,12 @@ export default {
       if(this.active == 1){
         this.isProcessing = true;
         var vm = this;
-        axios.get('/api/milestones/mlt-milestone/' + this.template_id + '/all')
-        .then( response => {
-          this.isProcessing = false;
-          this.form.milestones = response.data;
-          _.forEach(this.form.milestones, function(m){
-            _.forEach(m.mlt_tasks, function(t){
-              vm.assign.push({members: []})
-            })
-          })
-        });
-      axios.get('/api/projects/' + this.projectId + '/members')
-        .then( response => {
-          this.members = response.data.data;
-    
-        });
+        axios.post('/api/projects/' + this.projectId + '/milestone-import', { template_id : this.template_id })
+             .then( response => {
+                //swal('Success!', 'Template imported.', 'success');
+
+                location = "/project-hq/"+this.projectId+"#/milestones/"; 
+              });
         
       }
     },

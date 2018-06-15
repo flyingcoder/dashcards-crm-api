@@ -9,6 +9,7 @@ use App\Team;
 use App\Service;
 use App\Project;
 use App\Comment;
+use App\Template;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Policies\ProjectPolicy;
@@ -34,6 +35,40 @@ class ProjectController extends Controller
         $result = $company->paginatedCompanyProjects(request());
 
         return $result;
+    }
+
+    public function milestoneImport($id)
+    {
+        $project = Project::findOrFail($id);
+
+        $template = Template::findOrFail(request()->template_id);
+
+        //get milestones
+
+        if($template->milestones->count() <= 0)
+            return response(500, 'Template has no milestones.');
+
+        foreach ($template->milestones as $key => $milestone) {
+
+            $new_milestone = $milestone->replicate();
+
+            $new_milestone->project_id = $project->id;
+
+            $new_milestone->save();
+
+            if($milestone->tasks->count() > 0) {
+                foreach ($milestone->tasks as $key => $task) {
+                   $new_milestone->tasks()->create([
+                        'title' => $task->title,
+                        'description' => $task->description,
+                        'status' => $task->status,
+                        'days' => $task->days
+                   ]);
+                }
+
+            }
+        }
+
     }
 
     public function updateStatus($id)
