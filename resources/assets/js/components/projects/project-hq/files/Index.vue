@@ -23,7 +23,6 @@
                                     </button>
                                 </div>
                         </el-upload>
-                        
                     </div>
                 </div>
                 <div class="buzz-box files">

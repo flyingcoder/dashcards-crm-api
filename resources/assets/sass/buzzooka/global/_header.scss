@@ -174,7 +174,8 @@
         z-index: 5896;
     }
     .header-data_box{
-        width: 420px !important;
+        // width: 420px !important;
+        width: 550px !important;
         padding: 20px 40px;
         top: 58px !important;
         h1{
@@ -187,12 +188,16 @@
             height: 50px;
             background: $border-circle;
             border: $input-border;
-            border-radius: 5px;
+            border-radius: 10px;
             outline: none;
             font-size: 20px;
             color:  $table-status-text;
             letter-spacing: 0.2px;
             margin-top: 10px;
+            &:hover{
+                background: $white;
+                color: $blue;
+            }
         }
         .all-template{
             margin-top: 5px;
@@ -254,8 +259,10 @@
             position: relative;
             background: $template-box;
             text-align: center;
-            width: 150px;
-            height: 120px;
+            // width: 150px;
+            width: 100%;
+            // height: 120px;
+            height: 90px;
             border-radius: 10px;
             margin: 5px 0;
             border: 2px solid $template-box;
@@ -265,18 +272,18 @@
             }
             .template-checkbox{
                 position: absolute;
-                right: 10px;
-                top: 10px;
+                right: 5px;
+                top: 5px;
                 img{
                     display: none;
-                    width: 25px !important;
+                    width: 20px !important;
                 }
             }
             .template-image{
-                height: 50px;
+                height: 40px;
                 margin-top: 25px;
                 img, svg{
-                    width: 35px;
+                    // width: 35px;
                 }
                 svg{
                     fill: $template-icon;
@@ -287,7 +294,7 @@
                 margin-top: 0px;
                 h3{
                     margin: 0;
-                    font-size: 15px;
+                    font-size: 16px;
                     color: $template-text;
                     font-family: $lato-mid;
                 }
@@ -305,6 +312,83 @@
                     fill: $blue !important;
                     color: $blue !important;
                     font-family: $lato-semi !important;
+                }
+            }
+        }
+    }
+    .header-messages{
+        top: 60px !important;
+        padding: 5px 15px;
+        h2{
+            color: $table-data;
+        }
+        .tabs{
+            .tabs__bar{
+                .tabs__div{
+                    font-size: 12px !important;
+                    border: $border-buzz;
+                    .tabs__item{
+                        padding: 0 7.7px !important;
+                        background:  $active-tab;
+                        .el-badge__content{
+                            width: 25px;
+                            height: 25px;
+                            border-radius: 50%;
+                            padding-top: 3px;
+                            font-size: 12px;
+                            right: 17px;
+                            top: 3px;
+                        }
+                        .el-button{
+                            &:focus, &:hover{
+                                background: none !important;
+                            }
+                        }
+                    }
+                    .tabs__item--active{
+                        background: $white;
+                        .el-button{
+                            color: #606266;
+                        }
+                    }
+                }
+            }
+        }
+        .write-message{
+            background: $gray-bg;
+            border: $border-buzz;
+            padding: 1px 10px;
+            border-radius: 10px;
+            margin-top: 5px;
+            .el-form{
+                background: $white;
+                padding: 10px;
+                .new-message-head{
+                    h4{
+                        margin-top: 3px;
+                    }
+                }
+                .new-message-form{
+                    .el-input{
+                        background: $white;
+                        border: 1px solid #dce1e5;
+                        margin-bottom: 10px;
+                        border-radius: 7px; 
+                        .el-input-group__prepend, .el-input-group__append{
+                            background: none;
+                            border: none;
+                        }
+                    }   
+                }
+                .modal-editor{
+                    .el-form-item__content{
+                        margin: 0 !important;
+                    }
+                    .ckeditor{
+                        .cke_contents{
+                            height: 110px !important;
+                        }
+                    }
                 }
             }
         }

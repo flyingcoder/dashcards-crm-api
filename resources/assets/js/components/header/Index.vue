@@ -39,7 +39,7 @@
             <div class="buzz-nav-menu">
                 <ul class="buzz-nav">
                     <templates></templates>
-                    <!-- email></email -->
+                    <messages></messages>
                     <notifications></notifications>
                     <chat></chat>
                     <user></user>
@@ -51,7 +51,7 @@
 
 <script>
     import Templates from './Templates.vue';
-    import Email from './Email.vue';
+    import Messages from './Messages/Index.vue';
     import Notifications from './Notifications.vue';
     import Chat from './Chat.vue';
     import User from './User.vue';
@@ -59,7 +59,7 @@
     export default {   
         components: {
           'templates': Templates,
-          'email': Email,
+          'messages': Messages,
           'notifications': Notifications,
           'chat': Chat,
           'user': User,

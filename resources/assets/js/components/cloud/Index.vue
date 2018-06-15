@@ -1,5 +1,5 @@
 <template>
-    <section class="content projects">
+    <section class="content cloud">
         <v-layout row wrap>
             <div class="content-header col-md-6">
                 <div class="page-title">
@@ -41,11 +41,31 @@
             <div class="col-md-12">
                 <div class="content-body">
                     <section class="buzz-section">
-                        <div class="">
-                            <div class="text-center">
-                                <img src="/img/temporary/construction.jpg" alt="icon" width="560px">
+                        <div class="cloud-box google-drive" v-bind:class="{connected: GoogleConnect }">
+                            <div class="cloud-head">
+                                <h2>Connect To Google Drive</h2>
                             </div>
-                            <h1 class="text-center"> Coming Soon!!</h1>
+                            <img class="colored" src="/img/icons/cloud/drive.svg">
+                            <img class="gray" src="/img/icons/cloud/drive-gray.svg">
+                            <div class="button">
+                                <button class="buzz-add" v-on:click="GoogleConnect = !GoogleConnect">
+                                    <span class="connect-now">Connect Now</span>
+                                    <span class="disconnect">Disconnect</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="cloud-box dropbox" v-bind:class="{connected: DropboxConnect }">
+                            <div class="cloud-head">
+                                <h2>Connect To Dropbox</h2>
+                            </div>
+                            <img class="colored" src="/img/icons/cloud/dropbox.svg">
+                            <img class="gray" src="/img/icons/cloud/dropbox-gray.svg">
+                            <div class="button">
+                                <button class="buzz-add" v-on:click="DropboxConnect = !DropboxConnect">
+                                    <span class="connect-now">Connect Now</span>
+                                    <span class="disconnect">Disconnect</span>
+                                </button>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -53,3 +73,22 @@
         </v-layout>
     </section>
 </template>
+
+
+<script>
+    export default {
+    	data: function () {
+        	return {    
+                GoogleConnect: false,
+                DropboxConnect: false,
+        	}
+        },
+
+        methods: {
+
+        },
+        mounted() {
+ 
+        }
+    }
+</script>

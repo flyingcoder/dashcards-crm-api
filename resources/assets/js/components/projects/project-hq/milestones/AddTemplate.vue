@@ -1,5 +1,5 @@
 <template>
-  <modal name="add-template" transition="nice-modal-fade" @before-open="beforeOpen">
+  <modal name="add-template" class="import-milestone" transition="nice-modal-fade" @before-open="beforeOpen">
     <section class="content">
         <v-layout row wrap>
             <div class="buzz-modal-header"> import template </div>
@@ -52,9 +52,14 @@
                 
                 <el-button style="margin-top: 12px;" @click="prev">Prev step</el-button>
                 <el-button style="margin-top: 12px;" @click="next">Next step</el-button>
-                <el-button style="margin-top: 12px;" @click="submit">Submit</el-button>
                 </div>
+                
+              </el-form>
             </div>
+            <el-button style="margin-top: 12px;" @click="prev">Prev step</el-button>
+            <el-button style="margin-top: 12px;" v-if="active == 0" @click="next">Next step</el-button>
+            <el-button style="margin-top: 12px;" v-if="active == 1" @click="submit">Submit</el-button>
+          </div>
         </v-layout>
     </section>
   </modal>

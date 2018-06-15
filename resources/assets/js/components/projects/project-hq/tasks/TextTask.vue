@@ -24,7 +24,7 @@
                         </el-date-picker>
                     </div>
                 </div> -->
-                <div class="option-item">
+                <div class="option-item attachment pull-right">
                     <div class="file-upload" v-bind:class="{ attachmentList: attachmentList }">
                         <img src="/img/icons/modal/attachment.svg" alt="" class="button-icon"> 
                         <el-upload @focus="hideMembers"
@@ -49,10 +49,10 @@
             </el-form-item>
         </div>
         <div class="buzz-modal-content">
-            <el-form-item label="" prop="name" :error="formError.name">
+            <el-form-item class="input-full" label="" prop="name" :error="formError.name">
                 <el-input v-model="form.name" placeholder="Untitled Task"></el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item class="input-half">
                 <el-select v-model="form.milestone" filterable @change="milestoneChange" placeholder="Select Milestone" style="width: 100%">
                     <el-option
                         v-for="milestone in milestones"
@@ -62,7 +62,10 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-             <el-form-item :error="formError.started_at">
+            <el-form-item class="input-half" prop="days" :error="formError.days">
+                <el-input v-model="form.days" placeholder="Days"></el-input>
+            </el-form-item>
+            <el-form-item class="input-half" :error="formError.started_at">
                 <el-date-picker @focus="hideMembers" 
                     style="width: 100%"
                     v-model="form.started_at"
@@ -71,9 +74,8 @@
                     placeholder="Select Start Date"
                     :picker-options="dateOptions">
                 </el-date-picker>
-                </el-form-item>
-
-            <el-form-item :error="formError.end_at">
+            </el-form-item>
+            <el-form-item class="input-half" :error="formError.end_at">
                 <el-date-picker @focus="hideMembers"
                     style="width: 100%"
                     v-model="form.end_at"
@@ -83,13 +85,10 @@
                     :picker-options="dateOptions">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item prop="days" :error="formError.days">
-                <el-input v-model="form.days" placeholder="Days"></el-input>
-            </el-form-item>
             <el-form-item>
                 <span> Note! If Start and End dates are provided, Milestone duration (days) will be ignored </span>
             </el-form-item>
-            <el-form-item class="modal-editor" v-if="!isProcessing" label="Add Description" :error="formError.description">
+            <el-form-item class="modal-editor" label="Add Description" v-if="!isProcessing" :error="formError.description">
                 <ckeditor id="description" v-model="form.description"></ckeditor>
             </el-form-item>
             <el-form-item label="Add Comment" :error="formError.comment" v-if="action != 'Update'">

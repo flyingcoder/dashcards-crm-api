@@ -1,7 +1,14 @@
 <template>
     <section class="content hq-milestones">
         <v-layout row wrap >
-            <!-- <el-button @click="$modal.show('add-template')">Import Template</el-button> -->
+			<div class="col-md-12 hq-milestone-add">
+				<!-- <el-button @click="$modal.show('add-milestone')">
+					<span> Add New </span>
+				</el-button> -->
+				<el-button @click="$modal.show('add-template')">
+					<span> Import Template </span>
+				</el-button>
+			</div>
 			<div class="col-md-12" v-if="!isProcessing">
             	<milestone-card v-for="d in milestones" :data="d" :key="d.id" v-on:updated="update"></milestone-card>
     		</div>

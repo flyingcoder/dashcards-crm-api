@@ -920,6 +920,17 @@ html{
             }
         }
     }
+    .buzz-add{
+        position: relative;
+        background: $blue;
+        color: $white;
+        width: fit-content;
+        height: auto;
+        padding: 5px 20px;
+        border-radius: 40px !important;
+        border: none !important;
+        outline: none;
+    }
     .multiple-add{
         position: fixed;
         right: 20px;
@@ -1216,7 +1227,7 @@ html{
                 }
             }
             .buzz-form-button{
-                float: right !important;
+                text-align: right !important;
                 .el-button{
                     background: $form-button;
                     border-radius: 5px;

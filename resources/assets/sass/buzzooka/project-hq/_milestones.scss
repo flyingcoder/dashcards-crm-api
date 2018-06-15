@@ -144,14 +144,54 @@
     }
     .milestone-form{
         height: auto !important;
-        margin-top: 20px;
         max-height: 450px !important;
     }
     .add-button{
         position: fixed !important;
-        right: 10px !important;
-        bottom: 20px !important;
-        box-shadow: $hover-shadow !important;
+        right: 20px !important;
+        bottom: 40px !important;
+        -webkit-box-shadow: 0px 10px 10px 0px rgba(173, 183, 196, 0.75) !important;
+        box-shadow: 0px 10px 10px 0px rgba(173, 183, 196, 0.75) !important;
+    }
+    .hq-milestone-add{
+        position: relative !important;
+        .el-button{
+            position: relative;
+            float: right;
+            top: 10px;
+            border-radius: 40px !important;
+            background: $blue;
+            color: $white;
+            box-shadow: $add-shadow !important;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+        .el-button+.el-button{
+            margin-right: 10px;
+        }
+    }
+    .import-milestone , .add-hq-milestone{
+        .v--modal{
+            width: 400px !important;
+            min-height: 200px !important;
+            margin-left: 100px;
+            height: min-content !important;
+            .content{
+                padding: 25px !important;
+            }
+            .milestone-note{
+                .el-form-item__content{
+                    line-height: 20px;
+                    span{
+                        color: $warning;
+                    }
+                }
+            }
+            .form-buttons{
+                padding-bottom: 0 !important;
+            }
+        }
     }
 }
   
