@@ -23,6 +23,9 @@ class TemplateController extends Controller
 
         $company = auth()->user()->company();
 
+        if(request()->has('paginated'))
+            return $company->selectTemplate(request());
+
         return $company->paginatedTemplates(request());
     }
 

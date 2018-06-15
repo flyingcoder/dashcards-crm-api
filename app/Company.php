@@ -76,6 +76,13 @@ class Company extends Model
         return $this->hasMany(Template::class);
     }
 
+    public function selectTemplate(Request $request)
+    {
+        return $this->templates()
+                    ->where('replica_type', $request->type)
+                    ->get();
+    }
+
     public function paginatedTemplates(Request $request)
     {
         list($sortName, $sortValue) = parseSearchParam($request);
