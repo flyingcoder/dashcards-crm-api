@@ -121,7 +121,7 @@ Vue.component('avatar',Avatar);
   Vue.component('milestone-tasks', require('./components/milestone/tasks/Index.vue'));
 
 // Forms
-  Vue.component('buzz-forms', require('./components/forms/Index.vue'));
+  Vue.component('buzz-forms', require('./components/forms/Index.vue'));  
 
 // Invoices
   Vue.component('invoices', require('./components/invoices/Index.vue'));

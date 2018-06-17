@@ -69,5 +69,10 @@
           'draft': Draft,
           'bin': Bin,
       },
+        data(){
+            return{
+                active: ""
+            }
+        }
     }
 </script>
