@@ -1,27 +1,29 @@
 <template>
-    <modal name="add-from-template" transition="nice-modal-fade" @before-open="beforeOpen">
+    <modal name="add-from-template" class="add-reports"  transition="nice-modal-fade" @before-open="beforeOpen">
         <section class="content">
-            <div class="buzz-modal-header"> {{ title }} </div>
-            <div class="buzz-scrollbar" id="buzz-scroll">
-                <el-form :model="form" ref="form" label-position="top" v-loading="isProcessing" style="width: 100%">
-                    <div class="buzz-modal-content">
-                        <el-form-item>
-                            <el-select v-model="form.report" clearable placeholder="Select Report">
-                                <el-option
-                                v-for="item in fromTemplates"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item  class="form-buttons">
-                            <el-button @click="submit"> {{ action }}</el-button>
-                            <el-button @click="$modal.hide('add-from-template')">Cancel</el-button>
-                        </el-form-item>
-                    </div>
-                </el-form>
-            </div>
+            <v-layout row wrap>
+                <div class="buzz-modal-header"> {{ title }} </div>
+                <div class="buzz-scrollbar" id="buzz-scroll">
+                    <el-form :model="form" ref="form" label-position="top" v-loading="isProcessing" style="width: 100%">
+                        <div class="buzz-modal-content">
+                            <el-form-item>
+                                <el-select v-model="form.report" clearable placeholder="Select Report">
+                                    <el-option
+                                    v-for="item in fromTemplates"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item  class="form-buttons">
+                                <el-button @click="submit"> {{ action }}</el-button>
+                                <el-button @click="$modal.hide('add-from-template')">Cancel</el-button>
+                            </el-form-item>
+                        </div>
+                    </el-form>
+                </div>
+            </v-layout>
         </section>
     </modal>
 </template>
