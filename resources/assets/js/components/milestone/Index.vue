@@ -4,7 +4,9 @@
             <div class="col-md-6 content-header">
                 <div class="page-title">
                     <h1> 
-                        &nbsp; <span class="current"> Template </span> 
+                        <span class="prev-path"> Dashboard </span> 
+                        &nbsp; <img src="img/icons/ArrowRight.svg"> &nbsp; 
+                        <span class="current"> Milestone Template </span> 
                     </h1>
                 </div>
             </div>
