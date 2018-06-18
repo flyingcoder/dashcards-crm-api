@@ -119,7 +119,7 @@
             },
             cellClick: function(row, col) {
                 var a = col.id;
-                if(a != 'el-table_1_column_6') {
+                if(a != 'el-table_1_column_10') {
                     location = "/clients/" + row.id;
                 }
 
