@@ -9,11 +9,19 @@ window._ = require('lodash');
 
 try {
     window.$ = window.jQuery = require('jquery');
+    require('jquery-ui-sortable');
+    require('jquery-autocomplete');
+    require('jquery-datetimepicker');
+    require('jquery-datepicker');
     require('bootstrap-sass');
     require('fullcalendar');
+    require('fastclick');
+    require('select2');
 } catch (e) {}
 
 window.dragula = require('dragula');
+
+window.formBuilder = require('formBuilder');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

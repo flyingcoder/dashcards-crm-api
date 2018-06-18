@@ -34,6 +34,7 @@
         "font-awesome": "^4.7.0",
         "font-awesome-animation": "^0.1.0",
         "formBuilder": "^2.9.8",
+        "formeo": "^0.7.17",
         "fullcalendar": "^3.9.0",
         "jquery-autocomplete": "^1.2.1",
         "jquery-datepicker": "^1.12.3",

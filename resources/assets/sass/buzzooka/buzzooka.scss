@@ -55,8 +55,8 @@
 // Sidebar 
 @import "global/sidebar";
 
-  // Login 
-  @import "pages/login";
+// Login 
+@import "pages/login";
 
 // Dashboard 
 @import "pages/dashboard";
@@ -84,6 +84,9 @@
 
 // Milestones Template
 @import "pages/milestones";
+
+// Forms
+@import "pages/forms";
 
 // Invoice
 @import "pages/invoice";
