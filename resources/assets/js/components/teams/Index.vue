@@ -10,7 +10,7 @@
                 <div class="head-page-option">
                     <ul class="nav nav-tabs">
                         <li>
-                            <div class="add-button"  @click="$modal.show('add-member')">
+                            <div class="add-button"  @click="$modal.show('add-member', { action: 'Add' })">
                                 <span> ADD NEW </span>
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

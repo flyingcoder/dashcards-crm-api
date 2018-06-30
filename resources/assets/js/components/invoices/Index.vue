@@ -54,7 +54,8 @@
                     <section class="buzz-section">
                         <!-- <invoiceForm v-if="invoiceForm"></invoiceForm>
                         <invoiceTable v-if="!invoiceForm"></invoiceTable> -->
-                        <invoiceTable></invoiceTable>
+                        <!-- <invoiceTable></invoiceTable> -->
+                        <invoiceTemplate></invoiceTemplate>
                         <!-- <invoiceForm></invoiceForm> -->
                     </section>
                 </div>
@@ -65,11 +66,13 @@
 
 <script>
     import invoiceTable from './Invoices.vue';
+    import invoiceTemplate from './InvoiceTemplate.vue';
     import invoiceForm from './form/Index.vue';
 
     export default { 
         components: {
           'invoiceTable': invoiceTable,
+          'invoiceTemplate': invoiceTemplate,
           'invoiceForm': invoiceForm,
       },  
       data () {

@@ -137,7 +137,33 @@
                     }
                 }
             }
+            .invoice-template{
+                padding: 10px 50px;
+                .title{
+                    font-size: 60px !important;
+                    color: $invoice-title;
+                    text-transform: uppercase;
+                    letter-spacing: 2px !important;
+                }
+                .text-left{
+                    text-align: left;
+                    li{
+                        text-align: left;
+                    }
+                }
+                .text-right{
+                    text-align: right;
+                    li{
+                        text-align: right;
+                    }
+                }
+                ul{
+                    border: none;
+                    li{
+                        width: 100%;
+                    }
+                }
+            }
         }
     }
 }
-
