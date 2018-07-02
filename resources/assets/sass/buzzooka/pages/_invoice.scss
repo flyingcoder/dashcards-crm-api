@@ -137,7 +137,179 @@
                     }
                 }
             }
+            .invoice-template{
+                padding: 10px 30px;
+                .title{
+                    font-size: 60px !important;
+                    color: $invoice-title;
+                    text-transform: uppercase;
+                    letter-spacing: 2px !important;
+                }
+                .highlights{
+                    background: $highlight-bg !important;
+                }
+                .text-left{
+                    text-align: left;
+                    li{
+                        text-align: left;
+                    }
+                }
+                .text-right{
+                    text-align: right;
+                    li{
+                        text-align: right;
+                    }
+                }
+                ul{
+                    border: none;
+                    li{
+                        width: 100%;
+                        height: auto !important;
+                        font-size: 16px;
+                        letter-spacing: 0.2px;
+                        &:hover{
+                            background: none;
+                        }
+                    }
+                }
+                .page{
+                    height: 100px;
+                    span{
+                        position: relative;
+                        font-size: 20px;
+                        top: 35px;
+                    }
+                }
+                .invoice-info{
+                    margin: 10px 0;
+                    .informations{
+                        margin-left: 20px;
+                    }
+                    .invoice-num{
+                        .text-highlight{
+                            font-size: 20px;
+                            letter-spacing: 1px;
+                            font-weight: bold;
+                            background: #fbfdff;
+                        }
+                        li{
+                            padding: 3px 10px;
+                        }
+                    }
+                    .table{
+                        tr{
+                            td{
+                                height: auto;
+                                padding: 5px 10px;
+                                font-size: 15px;
+                                vertical-align: middle;
+                                &:first-child{
+                                    width: 45%;
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                    }
+                }
+                .list-invoice{
+                    thead{
+                        tr{
+                            height: auto;
+                            th{
+                                padding: 0;
+                                font-size: 16px;
+                                text-align: center;
+                                vertical-align: middle;
+                                &:first-child{
+                                    padding-left: 20px;
+                                    text-align: left;
+                                }
+                            }
+                        }
+                    }
+                    tbody{
+                        border: $table-border;
+                        tr{
+                            &:nth-child(odd){
+                                background: $white;
+                            }
+                            &:nth-child(even){
+                                background: #fbfdff;
+                            }
+                            td{
+                                padding: 0;
+                                text-align: center;
+                                vertical-align: middle;
+                                font-size: 15px;
+                                &:first-child{
+                                    padding-left: 20px;
+                                    text-align: left;
+                                    width: 60%;
+                                }
+                            }
+                        }
+                    }
+                }
+                .payments{
+                    li{
+                        line-height: 30px;
+                    }
+                }
+                .break-list{
+                    border: $table-border;
+                    tbody{
+                        tr{
+                            background: $white;
+                            &:nth-child(odd){
+                                background: $white;
+                            }
+                            &:nth-child(even){
+                                background: #fbfdff;
+                            }
+                            td{
+                                height: auto;
+                                font-size: 15px;
+                                padding: 3px 24px;
+                                &:last-child{
+                                    text-align: right;
+                                }
+                            }
+                            .bold{
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+                .terms-and-conditions{
+                    height: 180px;
+                    span{
+                        font-size: 16px;
+                        position: absolute;
+                        bottom: 0;
+                    }
+                }
+                .authorized{
+                    span, p{
+                        font-size: 16px;
+                    }
+                    h3{
+                        margin-top: -25px;
+                        font-weight: bold;
+                    }
+                }
+                .invoice-btn{
+                    background: $blue;
+                    color: $white;
+                    margin: 30px 0;
+                    padding: 12px 30px;
+                    font-size: 16px;
+                    letter-spacing: 0.3px;
+                    border-radius: 10px;
+                    &:hover{
+                        opacity: 0.9;
+                    }
+                }
+            }
         }
     }
 }
-

@@ -407,6 +407,13 @@ html{
         @extend .margin-transition;
         .content{
             padding: 0px 30px;
+            .bold{
+                font-weight: bold;
+            }
+            .zero{
+                margin: 0;
+                padding: 0;
+            }
         }
         .content-header{
             height: 70px;

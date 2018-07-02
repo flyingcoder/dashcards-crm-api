@@ -4,7 +4,7 @@
             <v-layout row wrap>
                 <div class="buzz-modal-header"> {{ title }} </div>
                 <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form ref="form" name="addMember" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%"> 
+                    <el-form ref="form" id="teamform" name="addMember" status-icon :inline="true" :model="form" :rules="rules" v-loading="isProcessing" style="width: 100%"> 
                         <div class="buzz-modal-content">
                             <el-form-item prop="first_name" class="buzz-input buzz-inline">
                                 <el-input type="text" v-model="form.first_name" placeholder="First Name"></el-input>
@@ -12,7 +12,7 @@
                             <el-form-item prop="last_name" class="buzz-input buzz-inline pull-right">
                                 <el-input type="text" v-model="form.last_name" placeholder="Last Name"></el-input>
                             </el-form-item>
-                            <el-form-item v-if="passwordEnable" prop="group_name" class="buzz-input buzz-inline">
+                            <el-form-item prop="group_name" class="buzz-input buzz-inline">
                                 <el-select v-model="form.group_name" clearable placeholder="Select Group" @focus="hideMembers">
                                     <el-option 
                                     v-for="c in groups"
@@ -134,20 +134,32 @@
 
         },
         beforeOpen (event) {
-              console.log('before Open');
-              if(typeof event.params != 'undefined' && event.params.action == 'Update') {
-                  this.passwordEnable = false;
-                  this.action = 'Update';
-                  this.title = 'Edit Client';
-                  this.id = event.params.id;
-                  var vm = this;
-                  axios.get('api/company/teams/'+this.id)
-                      .then( (response) => {
-                          this.form = response.data;
-                          this.form.group_name = response.data.teams[0].name;
-                          console.log(response.data)
-                      });
-              }
+            this.passwordEnable = true;
+            this.action = 'Save';
+            this.title = 'Add New Member';
+            this.form = {
+                    first_name: '',
+                    last_name: '',
+                    group_name: '',
+                    job_title: '',
+                    email: '',
+                    telephone: '',
+                    password: '',
+            }
+            if(typeof event.params != 'undefined' && event.params.action == 'Update') {
+                console.log("sulod edit")
+                this.passwordEnable = false;
+                this.action = 'Update';
+                this.title = 'Edit Member';
+                this.id = event.params.id;
+                var vm = this;
+                axios.get('api/company/teams/'+this.id)
+                    .then( (response) => {
+                        this.form = response.data;
+                        this.form.group_name = response.data.teams[0].name;
+                        console.log(response.data)
+                    });
+            }
         },
         submit(form) {
             this.$refs[form].validate((valid) => {
