@@ -1,7 +1,7 @@
 <template>
      <li>
-        <el-dropdown v-show="count>0"  trigger="click" placement="bottom" class="head-icons notif-badge">
-            <el-badge :value="count" :max="99" class="item">
+        <el-dropdown trigger="click" placement="bottom" class="head-icons notif-badge">
+            <el-badge v-show="count>0" :value="count" :max="99" class="item">
                 <el-button size="small" class="notif-icon el-dropdown-link">
                     <img src="/img/icons/header/notification.svg" width="28px" class="icon-normal">
                     <img src="/img/icons/header/notificationcolor.png" width="28px" height="30px" class="icon-hover">
@@ -245,6 +245,7 @@
                 axios.put('api/user/notifications/'+id, {read:true})
                      .then( (response) => {
                         console.log(response.data);
+                        location = "/dashboard";     
                      });
             }
         },

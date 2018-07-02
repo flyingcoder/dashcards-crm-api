@@ -8,13 +8,13 @@
                 <span>Page 1 of 1</span>
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="col-md-2">
+        <div class="col-md-12  invoice-info">
+            <div class="col-md-2 text-center">
                 <img src="/img/logo/invoice-logo.png" alt="Logo">
             </div>
-            <div class="col-md-5">
-                <ul class="list-unstyled text-left">
-                    <li class="list-item">
+            <div class="col-md-7">
+                <ul class="list-unstyled informations text-left">
+                    <li class="list-item bold">
                         BUZZOOKA Pvt Ltd.
                     </li>
                     <li class="list-item">
@@ -34,33 +34,33 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-5">
-                <ul class="list-unstyled text-right">
-                    <li class="list-item">
+            <div class="col-md-3">
+                <ul class="list-unstyled invoice-num text-left">
+                    <li class="list-item highlights">
                        Invoice ID
                     </li>
-                    <li class="list-item">
+                    <li class="list-item text-highlight">
                         #INV101
                     </li>
-                    <li class="list-item">
+                    <li class="list-item highlights">
                         Balance Due
                     </li>
-                    <li class="list-item">
+                    <li class="list-item text-highlight">
                         $1,000.00
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="col-md-2">
+        <div class="col-md-12 invoice-info">
+            <div class="col-md-2 text-center">
                 <img src="/img/temporary/atomic.png" alt="Logo">
             </div>
             <div class="col-md-5">
-                <ul class="list-unstyled text-left">
-                    <li class="list-item">
+                <ul class="list-unstyled informations text-left">
+                    <li class="list-item bold">
                         Billed To
                     </li>
-                    <li class="list-item">
+                    <li class="list-item bold">
                         Mr. Alan Podemski
                     </li>
                     <li class="list-item">
@@ -72,10 +72,10 @@
                 </ul>
             </div>
             <div class="col-md-5">
-                <table class="table text-right">
+                <table class="table text-left">
                     <tbody>
                         <tr>
-                            <td>
+                            <td class="highlights">
                                 Payment Terms
                             </td>
                             <td>
@@ -83,7 +83,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td class="highlights">
                                 Invoice Date
                             </td>
                             <td>
@@ -91,7 +91,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td class="highlights">
                                 Due Date
                             </td>
                             <td>
@@ -103,9 +103,9 @@
             </div>
         </div>
         <div class="col-md-12">
-            <table class="table">
+            <table class="table list-invoice">
 				<thead>
-					<tr>
+					<tr class="highlights">
 						<th>
 							Description
 						</th>
@@ -165,6 +165,71 @@
 					</tr>
 				</tbody>
 			</table>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <ul class="list-unstyled payments text-left">
+                    <li class="list-item">
+                        Payment Methods: 
+                    </li>
+                    <li class="list-item">
+                        Mode of Payment:
+                    </li>
+                    <li class="list-item">
+                        Account Name:
+                    </li>
+                    <li class="list-item">
+                        Transaction Code:
+                    </li>
+                    <li class="list-item">
+                        SWIFT Code:
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <table class="table break-list">
+                    <tbody>
+                        <tr class="highlights">
+                            <td> Total </td>
+                            <td> USD $1,000.00 </td>
+                        </tr>
+                        <tr>
+                            <td> Subtotal </td>
+                            <td> $1,000.00 </td>
+                        </tr>
+                        <tr>
+                            <td> Tax(GST Included) </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td> Total </td>
+                            <td> $1,000.00 </td>
+                        </tr>
+                        <tr>
+                            <td> Payment Made </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td> Payment Due </td>
+                            <td> $1,000.00 </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <span> Terms & Conditions Applied </span>
+            </div>
+            <div class="col-md-6 text-center">
+                <p> Authorized Signature </p>
+                <img src="/img/temporary/ross.png">
+                <h3> Ross Mosqueda </h3>
+                <span> Managing Director </span>
+            </div>
+        </div>
+        <div class="col-md-12 text-center">
+            <button> Send Invoice </button>
         </div>
     </v-layout>
 </template>

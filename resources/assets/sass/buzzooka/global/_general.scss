@@ -407,6 +407,9 @@ html{
         @extend .margin-transition;
         .content{
             padding: 0px 30px;
+            .bold{
+                font-weight: bold;
+            }
         }
         .content-header{
             height: 70px;
