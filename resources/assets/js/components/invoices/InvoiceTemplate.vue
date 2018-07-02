@@ -5,7 +5,9 @@
                 <h1 class="title">Invoice</h1>
             </div>
             <div class="col-md-6 text-right">
-                <span>Page 1 of 1</span>
+                <div class="page">
+                    <span>Page 1 of 1</span>
+                </div>
             </div>
         </div>
         <div class="col-md-12  invoice-info">
@@ -186,16 +188,16 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 zero">
                 <table class="table break-list">
                     <tbody>
                         <tr class="highlights">
-                            <td> Total </td>
-                            <td> USD $1,000.00 </td>
+                            <td class="bold"> Total </td>
+                            <td class="bold"> USD $1,000.00 </td>
                         </tr>
                         <tr>
-                            <td> Subtotal </td>
-                            <td> $1,000.00 </td>
+                            <td class="bold"> Subtotal </td>
+                            <td class="bold"> $1,000.00 </td>
                         </tr>
                         <tr>
                             <td> Tax(GST Included) </td>
@@ -219,17 +221,19 @@
         </div>
         <div class="col-md-12">
             <div class="col-md-6">
-                <span> Terms & Conditions Applied </span>
+                <div class="terms-and-conditions">
+                    <span> Terms & Conditions Applied </span>
+                </div>
             </div>
-            <div class="col-md-6 text-center">
+            <div class="col-md-6 authorized text-center">
                 <p> Authorized Signature </p>
                 <img src="/img/temporary/ross.png">
-                <h3> Ross Mosqueda </h3>
+                <h3 class="zero"> Ross Mosqueda </h3>
                 <span> Managing Director </span>
             </div>
         </div>
         <div class="col-md-12 text-center">
-            <button> Send Invoice </button>
+            <button class="invoice-btn"> Send Invoice </button>
         </div>
     </v-layout>
 </template>

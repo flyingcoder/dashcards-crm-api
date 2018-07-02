@@ -146,7 +146,7 @@
                     letter-spacing: 2px !important;
                 }
                 .highlights{
-                    background: $highlight-bg;
+                    background: $highlight-bg !important;
                 }
                 .text-left{
                     text-align: left;
@@ -158,6 +158,26 @@
                     text-align: right;
                     li{
                         text-align: right;
+                    }
+                }
+                ul{
+                    border: none;
+                    li{
+                        width: 100%;
+                        height: auto !important;
+                        font-size: 16px;
+                        letter-spacing: 0.2px;
+                        &:hover{
+                            background: none;
+                        }
+                    }
+                }
+                .page{
+                    height: 100px;
+                    span{
+                        position: relative;
+                        font-size: 20px;
+                        top: 35px;
                     }
                 }
                 .invoice-info{
@@ -191,18 +211,6 @@
                         }
                     }
                 }
-                ul{
-                    border: none;
-                    li{
-                        width: 100%;
-                        height: auto !important;
-                        font-size: 16px;
-                        letter-spacing: 0.2px;
-                        &:hover{
-                            background: none;
-                        }
-                    }
-                }
                 .list-invoice{
                     thead{
                         tr{
@@ -222,6 +230,12 @@
                     tbody{
                         border: $table-border;
                         tr{
+                            &:nth-child(odd){
+                                background: $white;
+                            }
+                            &:nth-child(even){
+                                background: #fbfdff;
+                            }
                             td{
                                 padding: 0;
                                 text-align: center;
@@ -245,14 +259,54 @@
                     border: $table-border;
                     tbody{
                         tr{
+                            background: $white;
+                            &:nth-child(odd){
+                                background: $white;
+                            }
+                            &:nth-child(even){
+                                background: #fbfdff;
+                            }
                             td{
                                 height: auto;
                                 font-size: 15px;
+                                padding: 3px 24px;
                                 &:last-child{
                                     text-align: right;
                                 }
                             }
+                            .bold{
+                                font-size: 18px;
+                            }
                         }
+                    }
+                }
+                .terms-and-conditions{
+                    height: 180px;
+                    span{
+                        font-size: 16px;
+                        position: absolute;
+                        bottom: 0;
+                    }
+                }
+                .authorized{
+                    span, p{
+                        font-size: 16px;
+                    }
+                    h3{
+                        margin-top: -25px;
+                        font-weight: bold;
+                    }
+                }
+                .invoice-btn{
+                    background: $blue;
+                    color: $white;
+                    margin: 30px 0;
+                    padding: 12px 30px;
+                    font-size: 16px;
+                    letter-spacing: 0.3px;
+                    border-radius: 10px;
+                    &:hover{
+                        opacity: 0.9;
                     }
                 }
             }
