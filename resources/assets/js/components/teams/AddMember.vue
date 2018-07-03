@@ -106,7 +106,7 @@
                 { required: true, message: 'Last Name is Required', trigger: 'change' },
             ],
             group_name: [
-                { required: this.passwordEnable, message: 'Group is Required', trigger: 'change' },
+                { required: true, message: 'Group is Required', trigger: 'change' },
             ],
             job_title: [
                 { required: true, message: 'Job Title is Required', trigger: 'change' },
