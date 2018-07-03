@@ -245,7 +245,7 @@
                 axios.put('api/user/notifications/'+id, {read:true})
                      .then( (response) => {
                         console.log(response.data);
-                        location = "/dashboard";     
+                        location = "/project-hq/86#/files";   
                      });
             }
         },
