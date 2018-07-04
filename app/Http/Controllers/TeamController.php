@@ -8,6 +8,7 @@ use Auth;
 use App\User;
 use App\Team;
 use App\Company;
+use App\Mail\UserCredentials;
 use Illuminate\Validation\Rule;
 use App\Rules\CollectionUnique;
 use Kodeine\Acl\Models\Eloquent\Role;
@@ -106,6 +107,8 @@ class TeamController extends Controller
         }
 
         $member->assignRole(strtolower(request()->group_name));
+
+        \Mail::to($member)->send(new UserCredentials($member, request()->password));
 
         return $member;
     }
