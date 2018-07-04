@@ -29,12 +29,12 @@ class UserTableSeeder extends Seeder
 
         $userdust = $user->create(
         	[
-                'username' => 'dustin12345',
-                'first_name' => 'Dustin',
+                'username' => 'admin',
+                'first_name' => 'Admin',
         		'last_name' => 'Developer',
         		'email' => env('ADMIN_EMAIL', 'dustin@gmail.com'),
                 'image_url' => 'img/members/alfred.png',
-        		'password' => bcrypt(env('ADMIN_PASSWORD', '12345')),
+        		'password' => bcrypt(env('ADMIN_PASSWORD', 'admin')),
         		'job_title' => 'Administrator',
         		'telephone' => '123456789'
         	]

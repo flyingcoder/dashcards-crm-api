@@ -5,12 +5,12 @@
 				<!-- <el-button @click="$modal.show('add-milestone')">
 					<span> Add New </span>
 				</el-button> -->
-				<el-button @click="$modal.show('add-template')">
+				<el-button v-show="!milestones" @click="$modal.show('add-template')">
 					<span> Import Template </span>
 				</el-button>
 			</div>
 			<div class="col-md-12" v-if="!isProcessing">
-            	<milestone-card v-for="d in milestones" :data="d" :key="d.id" v-on:updated="update"></milestone-card>
+            	<milestone-card @refresh="getMilestones" v-for="d in milestones" :data="d" :key="d.id" v-on:updated="update"></milestone-card>
     		</div>
 			<div class="col-md-12" v-else>
 				<div class="data-loader">
@@ -64,7 +64,7 @@
 			update(){
 				this.getMilestones();
 				this.loading = 'updating';
-			},
+			}
 
 		}
     }

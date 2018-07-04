@@ -183,7 +183,7 @@ class TeamController extends Controller
     public function deletegroup($id)
     {
         $role = Role::findOrFail($id);
-        return $role->destroy($id);
+        return $role->delete();
     }
 
     public function role()
