@@ -159,11 +159,13 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () 
 
   Route::get('{id}', 'MilestoneController@milestone');
 
+  Route::delete('{id}', 'MilestoneController@delete');
+
+
+  /* next to useless routes */
   Route::post('/', 'MilestoneTemplateController@store');
 
   Route::put('{id}', 'MilestoneTemplateController@update');
-
-  Route::delete('{id}', 'MilestoneTemplateController@destroy');
 
   Route::get('all', 'MilestoneTemplateController@all');
 

@@ -61,12 +61,15 @@
                                             </div> 
                                         </td>
                                         <!-- <td> <img :src="'/' + t.assignee[0].image_url"> </td> -->
-                                        <td class="assignee"> <img src="/img/temporary/user1.png"> </td>
+                                        <td class="assignee"> 
+                                            <img :src="'/' + t.image"> 
+                                        </td>
                                         <td class="projects"> 
-                                            <div class="buzz-overflow task-project"> {{ t.title }} </div>
+                                            <div class="buzz-overflow task-project"> 
+                                                {{ t.title }} 
+                                            </div>
                                             <span class="assigned-project"> assigned to {{
-                                                t.assigned == null ? '' :
-                                                t.assigned[0].first_name + ' ' + t.assigned[0].last_name 
+                                                    t.assignee
                                                 }}. {{ t.created_at | momentAgo}} </span>
                                         </td>
                                         <td> 
@@ -186,7 +189,7 @@
         getAllTasks(){
             axios.get('/api/projects/' + this.projectId + '/tasks')
             .then( response => {
-                this.allTasks = response.data.data;   
+                this.allTasks = response.data.data;
                 this.filterTasks('all' , 'all');   
             })
             .catch( error => {

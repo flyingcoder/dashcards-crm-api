@@ -144,8 +144,9 @@ class Project extends Model implements HasMediaConversions
                       ->join('task_user as tu', 'tu.task_id', '=', 'tasks.id')
                       ->join('users', 'users.id', '=', 'tu.user_id')
                       ->select(
-                        DB::raw('CONCAT(users.last_name, ", ", users.first_name) AS assignee'),
-                        'tasks.*')
+                        'users.image_url as image',
+                       DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS assignee'),
+                       'tasks.*')
                       ->where('tasks.deleted_at', null);
 
         if($request->has('sort')) {

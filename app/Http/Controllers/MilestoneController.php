@@ -86,7 +86,13 @@ class MilestoneController extends Controller
     public function delete($id)
     {
         $milestone = Milestone::findOrFail($id);
-        return $milestone->destroy($id);
+        
+        if($milestone->delete()){
+            return response('success', 200);
+        }
+        else {
+            return response('failed', 500);
+        }
     }
 
     // milestone get title and id only for select input
