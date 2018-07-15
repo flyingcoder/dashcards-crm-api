@@ -1,13 +1,13 @@
 <template>
      <li>
-        <el-dropdown trigger="click" placement="bottom" class="notif-badge">
-            <el-badge :value="count" :max="99" class="item">
-                <el-button size="small" class="el-dropdown-link">
+        <el-dropdown trigger="click" placement="bottom" class="head-icons notif-badge">
+            <el-badge v-show="count>0" :value="count" :max="99" class="item">
+                <el-button size="small" class="notif-icon el-dropdown-link">
                     <img src="/img/icons/header/notification.svg" width="28px" class="icon-normal">
                     <img src="/img/icons/header/notificationcolor.png" width="28px" height="30px" class="icon-hover">
                 </el-button>
             </el-badge>
-            <el-dropdown-menu slot="dropdown" class="header-dropdown header-notifications buzz-scrollbar buzz-scroll">
+            <el-dropdown-menu  slot="dropdown" class="header-dropdown header-notifications buzz-scrollbar buzz-scroll">
                 <el-dropdown-item 
                     v-for="notification in notifications" 
                     :data="notification" 
@@ -207,6 +207,12 @@
                 </el-dropdown-item -->
             </el-dropdown-menu>
         </el-dropdown>
+        <div v-show="count<1" class="head-icons">
+            <el-button size="small" class="notif-icon el-dropdown-link">
+                <img src="/img/icons/header/notification.svg" width="28px" class="icon-normal">
+                <img src="/img/icons/header/notificationcolor.png" width="28px" height="30px" class="icon-hover">
+            </el-button>
+        </div>
     </li>
 </template>
 <style>
@@ -239,6 +245,7 @@
                 axios.put('api/user/notifications/'+id, {read:true})
                      .then( (response) => {
                         console.log(response.data);
+                        location = "/project-hq/86#/files";   
                      });
             }
         },

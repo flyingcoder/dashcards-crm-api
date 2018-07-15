@@ -19,11 +19,11 @@ class Milestone extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'project_id', 'started_at', 'end_at', 'days', 'status', 'percentage'
+        'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];
 
     protected static $logAttributes = [
-        'title', 'project_id', 'started_at', 'end_at', 'days', 'status', 'percentage'
+        'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];
 
     protected $rules = [
@@ -40,12 +40,10 @@ class Milestone extends Model
         if($request->started_at != null){
             $started_at = $request->started_at;
             $end_at = $request->end_at;
-        }
-        else{
+        } else {
             $started_at = date("Y-m-d",strtotime("now"));
             $end_at = date("Y-m-d",strtotime($request->days . ' days'));
         }
-        
         
         $milestone = self::create([
             'project_id' => $project->id,

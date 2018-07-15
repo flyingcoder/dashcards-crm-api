@@ -8,6 +8,7 @@ use Auth;
 use App\User;
 use App\Team;
 use App\Company;
+use App\Mail\UserCredentials;
 use Illuminate\Validation\Rule;
 use App\Rules\CollectionUnique;
 use Kodeine\Acl\Models\Eloquent\Role;
@@ -107,6 +108,8 @@ class TeamController extends Controller
 
         $member->assignRole(strtolower(request()->group_name));
 
+        \Mail::to($member)->send(new UserCredentials($member, request()->password));
+
         return $member;
     }
 
@@ -128,6 +131,7 @@ class TeamController extends Controller
 
         $member->first_name = request()->first_name;
         $member->last_name = request()->last_name;
+        $member->job_title = request()->job_title; //Added for job_title update 04/07/2018
         $member->email = request()->email;
         $member->telephone = request()->telephone;
         if(request()->has('password'))
@@ -183,7 +187,7 @@ class TeamController extends Controller
     public function deletegroup($id)
     {
         $role = Role::findOrFail($id);
-        return $role->destroy($id);
+        return $role->delete();
     }
 
     public function role()

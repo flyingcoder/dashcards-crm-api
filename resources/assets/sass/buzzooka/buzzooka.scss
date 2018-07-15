@@ -11,6 +11,9 @@
 // Sweetalert
 @import "~sweetalert2/src/sweetalert2.scss";
 
+// Dragula
+@import "~dragula/dist/dragula.min.css";
+
 // Element UI
 @import "~element-ui/lib/theme-chalk/index.css";
   .el-upload__input {
@@ -52,8 +55,8 @@
 // Sidebar 
 @import "global/sidebar";
 
-  // Login 
-  @import "pages/login";
+// Login 
+@import "pages/login";
 
 // Dashboard 
 @import "pages/dashboard";
@@ -79,6 +82,12 @@
 // Calendar
 @import "pages/calendar";
 
+// Milestones Template
+@import "pages/milestones";
+
+// Forms
+@import "pages/forms";
+
 // Invoice
 @import "pages/invoice";
 
@@ -88,9 +97,15 @@
 // Timers
 @import "pages/timers";
 
+// Cloud
+@import "pages/cloud";
+
 // Teams
 @import "pages/teams";
 @import "pages/profile";
+
+// Groups
+@import "pages/groups";
 
 // Chat
 @import "pages/chat";

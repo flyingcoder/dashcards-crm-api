@@ -12,7 +12,6 @@
                     <th> Filetype </th>
                     <th> Filename </th>
                     <th> Uploaded by </th>
-                    <th> Project </th>
                     <th>  </th>
                 </tr>
             </thead>
@@ -25,17 +24,16 @@
                         </div>
                     </td>  
                     <td> <img :src="getImageType(f.collection_name)"> </td>  
-                    <td> <span> {{ f.file_name }} </span> </td>  
+                    <td> <div class="filename"> {{ f.file_name }} </div> </td>  
                     <td> 
                         <div class="user-info">
-                            <img src="/img/temporary/user2.png">
+                            <img :src="'/' + f.custom_properties.user.image_url">
                         </div>
                         <div class="user-info">
-                            <span class="name">Brian Howard</span> <br>
-                            <span class="time">uploaded 3hrs ago</span>
+                            <span class="name">{{ f.custom_properties.user | fullname }}</span> <br>
+                            <span class="time">{{ f.created_at | momentAgo }}</span>
                         </div>
                     </td>  
-                    <td> <span>XYZ Web Design </span> </td>  
                     <td>
                         <list-option></list-option>
                     </td>  
@@ -74,6 +72,9 @@
                         break;
                     case  'project.files.others':
                         return '/img/files/others.svg';                      
+                        break;
+                    default:
+                        return '/img/files/documents.svg';
                         break;
                 }
             }

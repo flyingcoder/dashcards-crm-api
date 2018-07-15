@@ -1,0 +1,36 @@
+.cloud{
+    .buzz-section{
+        text-align: center;
+        .cloud-box {
+            position: relative;
+            width: 40%;
+            margin: 20px 30px;
+            display: inline-block;
+            text-align: center;
+            border: $border-buzz;
+            box-shadow: $body-shadow;
+            border-radius: 10px;
+    
+            img{
+                width: 50%;
+            }
+    
+            .colored, .disconnect{
+                display: none;
+            }
+
+            .buzz-add{
+                font-size: 20px;
+                margin: 20px;
+            }
+        }
+        .connected{
+            .colored, .disconnect{
+                display: inline-block !important;
+            }
+            .gray, .connect-now{
+                display: none !important;
+            }
+        }
+    }
+}

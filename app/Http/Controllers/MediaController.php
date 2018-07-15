@@ -11,7 +11,7 @@ use Storage;
 class MediaController extends Controller
 {
   	private $allowedDocs = [
-  		'docx', 'csv', 'doc', 'pdf', 'ppt'
+  		'docx', 'csv', 'doc', 'pdf', 'pptx', 'pps'
   	]; 
 
   	private $allowedImages = [
@@ -26,14 +26,54 @@ class MediaController extends Controller
   		'zip'
   	];
 
+
     public function projectMedia($project_id)
     {
         $medias = Media::where('model_id', $project_id)
-                      ->where('model_type', 'App\Project')
-                      ->paginate(10);
+                      ->where('model_type', 'App\Project');
+                      
+
+        if(request()->has('type')) {
+          switch (request()->type) {
+            case 'images':
+              $medias->where('mime_type', 'like', 'image/%');
+              break;
+
+            case 'videos':
+              $medias->where('mime_type', 'like', 'video/%');
+              break;
+
+            case 'documents':
+              $mime_type = [
+                  'application/msword',
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                  'text/plain',
+                  'application/pdf',
+                  'application/vnd.ms-powerpoint',
+                  'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                ];
+
+              $medias->whereIn('mime_type', $mime_type);
+              break;
+
+            case 'others':
+              $mime_type = [
+                  'application/zip',
+                  'application/octet-stream',
+                  'application/x-zip-compressed',
+                  'multipart/x-zip'
+                ];
+
+              $medias->whereIn('mime_type', $mime_type);
+              break;
+          }
+        }
+
+        $medias = $medias->latest()->paginate(10);
 
         $medias->map(function ($media) {
            $media['public_url'] = $media->getUrl();
+           $media['thumb_url'] = $media->getUrl('thumb');
            return $media;
         });
 
@@ -51,6 +91,8 @@ class MediaController extends Controller
     {
         $collectionName = $this->collectionName(request());
 
+        if(!$collectionName)
+          return response('Invalid file format.', 422);
         //$type = $this->fileType(request());
 
         $project = Project::findOrFail($project_id);
@@ -79,42 +121,39 @@ class MediaController extends Controller
         
     }
 
-    public function collectionName(Request $request)
+    public function collectionName($file)
     {
         $collectionName = '';
-        if(request()->has('file')){
-        if(collect($this->allowedDocs)->contains($request->file('file')->extension())) {
+        if(collect($this->allowedDocs)->contains($file->extension())) {
           $collectionName = 'project.files.documents';
-        } else if (collect($this->allowedImages)->contains($request->file('file')->extension())) {
+        } else if (collect($this->allowedImages)->contains($file->extension())) {
           $collectionName = 'project.files.images';
-        } else if (collect($this->allowedVideos)->contains($request->file('file')->extension())) {
+        } else if (collect($this->allowedVideos)->contains($file->extension())) {
           $collectionName = 'project.files.videos';
-        } else if (collect($this->allowedOtherFiles)->contains($request->file('file')->extension())) {
+        } else if (collect($this->allowedOtherFiles)->contains($file->extension())) {
           $collectionName = 'project.files.others';
         } else {
-          return response('Invalid file', 402);
+          return false;
         }
-      }
 
         return $collectionName;
     }
 
-    public function fileType(Request $request)
+    public function fileType($file)
     {
         $collectionName = '';
-        if(request()->has('file')){
-        if(collect($this->allowedDocs)->contains($request->file('file')->extension())) {
+
+        if(collect($this->allowedDocs)->contains($file->extension())) {
           $collectionName = 'documents';
-        } else if (collect($this->allowedImages)->contains($request->file('file')->extension())) {
+        } else if (collect($this->allowedImages)->contains($file->extension())) {
           $collectionName = 'images';
-        } else if (collect($this->allowedVideos)->contains($request->file('file')->extension())) {
+        } else if (collect($this->allowedVideos)->contains($file->extension())) {
           $collectionName = 'videos';
-        } else if (collect($this->allowedOtherFiles)->contains($request->file('file')->extension())) {
+        } else if (collect($this->allowedOtherFiles)->contains($file->extension())) {
           $collectionName = 'zip';
         } else {
-          return response('Invalid file', 402);
+          return false;
         }
-      }
 
         return $collectionName;
     }
@@ -128,14 +167,24 @@ class MediaController extends Controller
 
     public function projectFileUpload($project_id)
     {
-      	$collectionName = $this->collectionName(request());
+        $files = request()->file('files');
 
-        $type = $this->fileType(request());
+        foreach ($files as $key => $file) {
 
-      	$project = Project::findOrFail($project_id);
-        if(request()->has('file')){
-          $media = $project->addMedia(request()->file('file'))
-                           ->withCustomProperties(['ext' => request()->file('file')->extension()])
+          $collectionName = $this->collectionName($file);
+
+          if(!$collectionName)
+            return response('Invalid file format.', 422);
+
+          $type = $this->fileType($file);
+
+          $project = Project::findOrFail($project_id);
+
+          $media = $project->addMedia($file)
+                           ->withCustomProperties([
+                            'ext' => $file->extension(),
+                            'user' => auth()->user()
+                           ])
                            ->toMediaCollection($collectionName);
 
           $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
@@ -152,14 +201,9 @@ class MediaController extends Controller
 
 
 
-          $activity = Activity::latest()->first();
+          $activity = Activity::where('properties->media->id', $media->id)->first();
 
           $activity->users()->attach(auth()->user()->company()->membersID());
-
-          return $activity;
         }
-      	
     }
-
-
 }

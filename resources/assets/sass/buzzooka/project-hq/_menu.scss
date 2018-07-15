@@ -38,6 +38,15 @@
                     }
                 }
             }
+            .router-link-exact-active{
+                .menu-item{
+                    background: $hq-menu-bg;
+                    svg, span{
+                        color: $white;
+                        fill: $white;
+                    }
+                }
+            }
         }
     }
 }

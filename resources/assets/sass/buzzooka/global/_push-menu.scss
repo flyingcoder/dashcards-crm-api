@@ -1,4 +1,7 @@
 .sidebar-collapse{
+    .buzz-sidebar{
+        z-index: 99;
+    }
     .logo{
         width: 60px !important;
         @extend .toggle-transition;

@@ -7,13 +7,14 @@
             @cell-click="cellClick"
             >
                 <el-table-column type="selection" width="60"></el-table-column>
+                <el-table-column sortable prop="title" label="Title" width="115"></el-table-column>
                 <el-table-column sortable prop="service_name" label="Service" width="115"></el-table-column>
                 <el-table-column prop="client_image_url" label="Client" width="85">
                     <template slot-scope="scope">
                         <img :src="scope.row.client_image_url" class="user-image">
                     </template>
                 </el-table-column>
-                <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column>
+                <!-- <el-table-column prop="manager_name" label="Project Manager"  width="135"></el-table-column> -->
                 <el-table-column sortable prop="started_at" label="Start Date" width="115"></el-table-column>
                 <el-table-column sortable label="Progress" width="150">
                     <div class="progress project-progress"> 
@@ -161,7 +162,7 @@
         },
         cellClick: function(row, col) {
             var a = col.id;
-            if(a != 'el-table_1_column_9' && a != 'el-table_2_column_18') {
+            if(a != 'el-table_3_column_22') {
                 location = "/project-hq/" + row.id; 
             }
         },

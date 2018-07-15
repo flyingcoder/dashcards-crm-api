@@ -19,7 +19,7 @@ class Task extends Model
      */
 
     protected $fillable = [
-        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status'
+        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days'
     ];
 
     protected $dates = ['deleted_at'];

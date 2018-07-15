@@ -6,6 +6,35 @@
         width: 100%;
         padding: 0px;
     }
+    .ckeditor{
+        .cke_inner{
+            .cke_top{
+                position: relative;
+                top: 0 !important;
+                width: 100%;
+            }
+        }
+    }
+    .option-item{
+        width: 48% !important;
+        margin-left: 1%;
+        margin-right: 0 !important;
+    }
+    .attachment{
+        right: 6px;
+    }
+    .el-form-item__label{
+        display: contents;
+    }
+    .input-full{
+        width: 98%;
+        margin-left: 1%;
+    }
+    .input-half{
+        display: inline-block;
+        width: 48%;
+        margin-left: 1%;
+    }
     // vuetify
         .icon-tabs{
             .tabs__bar{
@@ -141,7 +170,6 @@
         }
     }
     .task-form{
-        margin-top: 20px;
         .el-tabs__header{
             border-bottom: none !important;
             margin: 0 0 10px !important;

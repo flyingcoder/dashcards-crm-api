@@ -162,7 +162,9 @@ $navbar-default-bg: #fff;
     $dropdown-border: rgba(0, 0, 0, 0.15);
 
 // Invoice
+    $invoice-title: rgb(213, 212, 211);
     $border-circle: rgb(248, 249, 251);
+    $highlight-bg: #e8f1fa;
     $invoice-fill-progress: #667381;
     $invoice-progress-bg: rgb(241, 241, 247);
     $invoice-circle-bg: #f1f1f7;
@@ -215,3 +217,10 @@ $navbar-default-bg: #fff;
     $build-border: 2px solid rgb(230, 237, 244);;
     $support-icon: rgb(195, 208, 216);
     $supp-icon-bg: rgb(243, 244, 246);;
+
+// Group
+    $permission-grp: #50b4aa;
+    $migrate-grp: #a085d6;
+    $members-grp: #01a7e5;
+    $edit-grp: #1fb868;
+    $delete-grp: #ff7f7e;

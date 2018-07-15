@@ -135,7 +135,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 data-boxes">
+            <div id="left" class="dragula-container col-lg-6 col-md-6 col-sm-12 col-xs-12 data-boxes">
             <!-- Tasks -->
                 <div class="buzz-box db-tasks"
                     v-if="isEnable('tasks')" 
@@ -144,7 +144,7 @@
                     <div class="box-head">
                         <h1>Tasks</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon handle">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -190,7 +190,7 @@
                     <div class="box-head">
                         <h1>Clients</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon handle" >
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -236,7 +236,7 @@
                     <div class="box-head"  >
                         <h1>Payment</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon  handle">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -282,7 +282,7 @@
                     <div class="box-head">
                         <h1>Calendar</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon  handle">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -322,7 +322,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 data-boxes">
+            <div id="right" class="dragula-container col-lg-6 col-md-6 col-sm-12 col-xs-12 data-boxes">
             <!-- Timeline -->
                  <div class="buzz-box" 
                  v-if="isEnable('timeline')"
@@ -330,7 +330,7 @@
                     <div class="box-head">
                         <h1>Timeline</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon  handle">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -376,7 +376,7 @@
                     <div class="box-head" >
                         <h1>Timer</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon handle">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -422,7 +422,7 @@
                     <div class="box-head" >
                         <h1>Invoice</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon handle">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
@@ -468,7 +468,7 @@
                     <div class="box-head">
                         <h1>Pass Box</h1>
                         <div class="box-options">
-                            <div class="option-item pin-icon">
+                            <div class="option-item pin-icon handle">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="19px">
                                         <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"

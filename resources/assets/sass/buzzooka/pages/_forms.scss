@@ -1,0 +1,40 @@
+.questionnaire-forms{
+    .form-content{
+        padding: 25px 50px;
+        .title{
+            font-size: 25px !important;
+            line-height: 1.6 !important;
+            padding-right: 0 !important;
+        }
+        .title-input{
+            background: $white;
+            border: $input-border;
+            height: 45px !important;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+        .form-builder{
+            .stage-wrap{
+                width: 79% !important;
+                ul{
+                    min-height: 550px !important;
+                    li{
+                        border: $input-border;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+            .cb-wrap{
+                position: relative !important;
+                width: 20% !important;
+                ul{
+                    li{
+                        width: 100% !important;
+                        font-size: 15px !important;
+
+                    }
+                }
+            }
+        }
+    }  
+}

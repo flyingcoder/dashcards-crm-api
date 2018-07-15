@@ -1,0 +1,87 @@
+.groups{
+    .content-body{
+        .buzz-table{
+            .el-button{
+                color: $white;
+                font-size: 13px;
+                font-family: "Lato";
+                color: $white !important;
+                line-height: 1.2;
+                text-align: center;
+                &:hover{
+                    svg{
+                        fill: $white;
+                    }
+                }
+                span{
+                    vertical-align: super;
+                    margin: 0 1px;
+                }
+                svg{
+                    width: 20px;
+                    height: 20px;
+                    fill: $white;
+                }
+            }
+            .el-table_1_column_4  {
+                text-align: left;
+            }
+            .text-left{
+                text-align: left;
+            }
+            .permission-btn{
+                background: $permission-grp;
+            }
+            .migrate-btn{
+                background: $migrate-grp;
+            }
+            .members-btn{
+                background: $members-grp;
+            }
+            .edit-btn{
+                background: $edit-grp;
+            }
+            .delete-btn{
+                background: $delete-grp;
+            }
+        }
+    }
+    .permissions-modal, .members-modal{
+        .v--modal{
+            width: 600px !important;
+            min-height: 200px !important;
+            height: min-content !important;
+            .buzz-scrollbar{
+                height: auto;
+                min-height: 150px !important;
+                max-height: 450px !important;
+                .el-table{
+                    margin-bottom: 25px;
+                    thead, tbody{
+                        td, th{
+                            text-align: center; 
+                        }
+                    }
+                }
+            }
+        }  
+    }
+    .add-group-modal, .migrate-modal{
+        .v--modal{
+            width: 400px !important;
+            min-height: 200px !important;
+            height: min-content !important;
+            margin-left: 100px;
+            .buzz-scrollbar{
+                height: auto;
+                min-height: 150px !important;
+                max-height: 450px !important;
+                .el-form{
+                    .el-input{
+                        width: 100% !important;
+                    }
+                }
+            }
+        } 
+    }
+}

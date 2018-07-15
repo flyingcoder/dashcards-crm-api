@@ -5,7 +5,13 @@
             @selection-change="handleSelectionChange" style="width: 100%"
             @row-click="rowClick">
                 <el-table-column sortable type="selection" width="45"></el-table-column>
-                <el-table-column sortable prop="invoice_date" label="Date"></el-table-column>
+                <el-table-column sortable label="Date">
+                    <template slot-scope="scope">
+                        <span> 
+                            {{ scope.row.billed_date }} 
+                        </span>
+                    </template>
+                </el-table-column>
                 <el-table-column sortable prop="invoice_num" label="Invoice Number"></el-table-column>
                 <el-table-column sortable prop="client_name" label="Client"></el-table-column>
                 <el-table-column sortable prop="status" label="Status"></el-table-column>
@@ -50,7 +56,7 @@
             },
             getMyInvoices(){
                 console.log()
-                axios.get('api/invoices')
+                axios.get('/api/invoices')
                     .then( response => {
                         this.paginatedMyInvoices = response.data.data;
                         this.currentPage = response.data.current_page;

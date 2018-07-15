@@ -12,9 +12,9 @@ window.Vue = require('vue');
 window.swal  = require('sweetalert2');
 window.VueColor = require('vue-color');
 // window.CKEDITOR = require( 'ckeditor' );
-
-
+  
 import Element from 'element-ui';
+import Dragula from 'dragula';
 import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal'
@@ -71,6 +71,10 @@ Vue.component('avatar',Avatar);
      return value.first_name +' '+value.last_name;
   })
 
+  Vue.filter('phone', function (value) {
+     return value.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  })
+
   Vue.filter('formatHuman', function(value) {
     return moment(value).format("MMMM DD, YYYY")
   })
@@ -113,10 +117,11 @@ Vue.component('avatar',Avatar);
 
 // Milestones
   Vue.component('milestone-template', require('./components/milestone/Index.vue'));
-  Vue.component('mlt-milestone', require('./components/milestone/milestone-task/Index.vue'));
+  Vue.component('milestone-template-tasks', require('./components/milestone/milestone-task/Index.vue'));
+  Vue.component('milestone-tasks', require('./components/milestone/tasks/Index.vue'));
 
 // Forms
-  Vue.component('buzz-forms', require('./components/forms/Index.vue'));
+  Vue.component('buzz-forms', require('./components/forms/Index.vue'));  
 
 // Invoices
   Vue.component('invoices', require('./components/invoices/Index.vue'));
@@ -166,15 +171,16 @@ Vue.component('avatar',Avatar);
 // Ckeditor
   Vue.component('ckeditor', require('./components/common/Ckeditor.vue'));
 
+
 // Empty Table
 Vue.component('empty', require('./components/common/Empty'));
   
-
   $(document).ready(function(){
   // Push menu
     $("#toggleBuzzMenu").click(function(){
         $("body").toggleClass("sidebar-collapse");
     });
+
   // Offline and Online Status
     $('#switch-btn').click(function() {
       $('#switch-status').toggleClass('offline');
@@ -197,6 +203,19 @@ Vue.component('empty', require('./components/common/Empty'));
         }
     });
   });
+
+/* Dragula */
+  dragula([document.querySelector('#left'), document.querySelector('#right')],{
+    moves: function (el, container, handle) {
+      return handle.classList.contains('handle');
+    }
+  }
+  );
+  // dragula([document.getElementById(left), document.getElementById(right)], {
+  //   moves: function (el, container, handle) {
+  //     return handle.classList.contains('handle');
+  //   }
+  // });
 
 // Full Calendar 
     var date = new Date(),

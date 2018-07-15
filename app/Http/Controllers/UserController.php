@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Mail\UserCredentials;
 use Illuminate\Http\Request;
 use App\Policies\UserPolicy;
 
@@ -33,6 +34,8 @@ class UserController extends Controller
     	]);
 
         $user = User::create(request()->all());
+
+        \Mail::to($user)->send(new UserCredentials);
 
         return $user;
 

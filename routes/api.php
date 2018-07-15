@@ -149,16 +149,23 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 });
 
 
-// Milestone Template
-Route::group(['middleware' => 'auth:api', 'prefix' => 'milestones'], function () {
+// Milestone
+Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () {
 
-  Route::get('/', 'MilestoneTemplateController@index');
+  /* alvin added */
+  Route::get('{id}/tasks', 'MilestoneController@tasks');
 
+  Route::post('{id}/tasks', 'MilestoneController@addTasks');
+
+  Route::get('{id}', 'MilestoneController@milestone');
+
+  Route::delete('{id}', 'MilestoneController@delete');
+
+
+  /* next to useless routes */
   Route::post('/', 'MilestoneTemplateController@store');
 
   Route::put('{id}', 'MilestoneTemplateController@update');
-
-  Route::delete('{id}', 'MilestoneTemplateController@destroy');
 
   Route::get('all', 'MilestoneTemplateController@all');
 
@@ -208,6 +215,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}', 'ProjectController@project');
 
+  Route::post('{id}/milestone-import', 'ProjectController@milestoneImport');
+
   Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
   Route::post('/', 'ProjectController@store');
@@ -237,6 +246,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 
   Route::get('{id}/files', 'MediaController@projectMedia');// project-hq
+
 	Route::post('{id}/files','MediaController@projectFileUpload');// project-hq
 
   Route::post('{id}/links', 'MediaController@addMediaLink');

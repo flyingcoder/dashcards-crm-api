@@ -11,32 +11,34 @@
             </button>
         </div>
 
-        <modal name="add-report" transition="nice-modal-fade" @before-open="beforeOpen">
+        <modal name="add-report" class="add-reports" transition="nice-modal-fade" @before-open="beforeOpen">
             <section class="content">
-                <div class="buzz-modal-header"> {{ title }} </div>
-                <div class="buzz-scrollbar" id="buzz-scroll">
-                    <el-form :model="form" :rules="rules" ref="form" label-position="top" v-loading="isProcessing" style="width: 100%">
-                        <div class="buzz-modal-content report-content">
-                            <el-form-item prop="name">
-                                <el-input type="text" v-model="form.name" placeholder="Untitled Report"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-select v-model="form.status" clearable placeholder="Select Status">
-                                    <el-option
-                                    v-for="item in status"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item  class="form-buttons">
-                                <el-button @click="submitForm('form')">Save</el-button>
-                                <el-button @click="$modal.hide('add-report')">Cancel</el-button>
-                            </el-form-item>
-                        </div>
-                    </el-form>
-                </div>
+                <v-layout row wrap>
+                    <div class="buzz-modal-header"> {{ title }} </div>
+                    <div class="buzz-scrollbar" id="buzz-scroll">
+                        <el-form :model="form" :rules="rules" ref="form" label-position="top" v-loading="isProcessing" style="width: 100%">
+                            <div class="buzz-modal-content report-content">
+                                <el-form-item prop="name">
+                                    <el-input type="text" v-model="form.name" placeholder="Untitled Report"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-select v-model="form.status" clearable placeholder="Select Status">
+                                        <el-option
+                                        v-for="item in status"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item  class="form-buttons">
+                                    <el-button @click="submitForm('form')">Save</el-button>
+                                    <el-button @click="$modal.hide('add-report')">Cancel</el-button>
+                                </el-form-item>
+                            </div>
+                        </el-form>
+                    </div>
+                </v-layout>
             </section>
         </modal>
     </li>

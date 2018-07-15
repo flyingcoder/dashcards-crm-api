@@ -4,14 +4,18 @@
 
         <div class="col-md-6 content-header">
             <div class="page-title">
-                <h1> <span class="prev-path"> Dashboard </span> &nbsp; <img src="/img/icons/ArrowRight.svg"> &nbsp; <span class="current"> Milestone Template </span> </h1>
+                <h1> 
+                  &nbsp; <span class="current"> Template </span> 
+                  &nbsp; <img src="/img/icons/ArrowRight.svg"> 
+                  &nbsp; <span class="current"> Milestones </span>
+                </h1>
             </div>
         </div>
         <div class="col-md-6">
                 <div class="head-page-option">
                     <ul class="nav nav-tabs">
                         <li>
-                            <div class="add-button" @click="$modal.show('add-mlt-milestone')">
+                            <div class="add-button" @click="$modal.show('add-mlt-milestone', { action: 'Save'})">
                                 <span> ADD NEW </span>
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -121,10 +125,11 @@
       methods:{
         getMilestone() {
           this.isProcessing = true;
-          axios.get(URL+ this.id)
+          axios.get('/api/template/'+ this.id +'/milestone')
           .then (response => {
             this.isProcessing = false;
             this.paginatedAllMilestone = response.data.data;
+            console.log(response.data.data)
             if(this.paginatedAllTemplate < 1){
                 this.notEmpty = false;
             }
@@ -178,7 +183,10 @@
 
         },
         cellClick: function(row, col) {
-
+          var a = col.id;
+          if(a != 'el-table_1_column_4') {
+              location = "/milestones/"+row.id; 
+          }
         },
         renderHeader(h,{column,$index}){
             return h('img', { attrs: { src: '../../../img/icons/menu.svg'}  });

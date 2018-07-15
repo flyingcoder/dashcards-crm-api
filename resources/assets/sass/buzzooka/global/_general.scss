@@ -10,7 +10,7 @@ html{
     overflow-y: hidden;
     height: auto;
     padding: 0;
-    margin: 0;
+    margin: 0;  
     #app{
         min-height: 970px;
     }
@@ -365,7 +365,7 @@ html{
         left: 0;
         min-height: 100%;
         width: 190px;
-        z-index: 99;
+        // z-index: 99;
         @extend .toggle-transition;
     }
 // Header
@@ -407,20 +407,29 @@ html{
         @extend .margin-transition;
         .content{
             padding: 0px 30px;
+            .bold{
+                font-weight: bold;
+            }
+            .zero{
+                margin: 0;
+                padding: 0;
+            }
         }
         .content-header{
             height: 70px;
             .page-title{
                 color: $text;
-                font-weight: bolder;
                 font-family: lato semibold;
                 margin-top: 15px;
                 text-align: left;
-                h1{
+                .el-breadcrumb, h1{
                     font-size: 30px;
                     margin: 0;
                     .prev-path{
                         color: $title-path;
+                        span{
+                            color: $title-path;
+                        }
                     }
                     img{
                         position: relative;
@@ -918,6 +927,17 @@ html{
             }
         }
     }
+    .buzz-add{
+        position: relative;
+        background: $blue;
+        color: $white;
+        width: fit-content;
+        height: auto;
+        padding: 5px 20px;
+        border-radius: 40px !important;
+        border: none !important;
+        outline: none;
+    }
     .multiple-add{
         position: fixed;
         right: 20px;
@@ -1214,7 +1234,7 @@ html{
                 }
             }
             .buzz-form-button{
-                float: right !important;
+                text-align: right !important;
                 .el-button{
                     background: $form-button;
                     border-radius: 5px;
@@ -1483,16 +1503,16 @@ html{
 // V Modal
     .v--modal{
         width: 600px !important;
-        min-height: 300px;
+        min-height: 200px;
+        max-height: 500px;
         height: auto !important;
         top: 50px !important;
-        left: 30.5% !important;
         border-radius: 10px;
         .content{
             background: $modal-bg;
             border: $section-border;
             box-shadow: $body-shadow;
-            padding: 25px 0 0px 25px;
+            padding: 25px 0px 0px 25px;
             .buzz-modal-header{
                 font-size: 23px;
                 color: $modal-title;
@@ -1736,6 +1756,7 @@ html{
                     width: 100%;
                     text-align: center;
                     margin-bottom: 25px;
+                    padding-bottom: 25px;
                     button{
                         background: $white !important;
                         width: 130px;
@@ -1837,13 +1858,10 @@ html{
                             .file-upload{
                                 .el-upload-list{
                                     position: relative;
-                                    right: -310px;
-                                    box-shadow: $body-shadow;
+                                    margin: 0px !important;
+                                    // box-shadow: $body-shadow;
                                     z-index: 100;
-                                    // display: none;
-                                    -webkit-transition: all 0.3s ease !important;
-                                    -moz-transition: all 0.3s ease !important;
-                                    transition: all 0.3s ease !important;
+                                    @extend .margin-transition;
                                     .el-upload-list__item{
                                         z-index: 99;
                                         background: $white;
@@ -1864,14 +1882,52 @@ html{
                                     line-height: 2;
                                 }
                             }
-                            .attachmentList{
+                            .showList{
                                 .el-upload-list{
-                                    right: 0 !important;
-                                    -webkit-transition: all 0.3s ease !important;
-                                    -moz-transition: all 0.3s ease !important;
-                                    transition: all 0.3s ease !important;
-                                    // display: block !important;
+                                    position: relative;
+                                    margin: 0px !important;
                                 }
+                            }
+                            .hideList{
+                                .el-upload-list{
+                                    .el-upload-list__item{
+                                        position: relative;
+                                       //  margin-left: 200px;
+                                       -webkit-animation: tofade 4s; /* Safari 4.0 - 8.0 */
+                                       -webkit-animation-delay: 0.5s; /* Safari 4.0 - 8.0 */
+                                       animation: tofade 4s;
+                                       animation-delay: 0.5s;
+
+                                       /* Safari 4.0 - 8.0 */
+                                       @-webkit-keyframes tofade {
+                                           // from {margin-left: 0px;}
+                                           // to {margin-left: 200px;}
+                                           0% {
+                                               opacity: 1;
+                                           }
+                                           100% {
+                                               opacity: 0;
+                                           }
+                                       }
+
+                                       @keyframes tofade {
+                                           // from {margin-left: 0px;}
+                                           // to {margin-left: 200px;}
+                                           0% {
+                                               opacity: 1;
+                                           }
+                                             100% {
+                                               opacity: 0;
+                                           }
+                                       }
+                                    }
+                                    .el-list-enter-to{
+                                        display: block !important;
+                                    }
+                                    .is-ready{
+                                        display: none;
+                                    }
+                                } 
                             }
                         }
                     }
@@ -1945,6 +2001,18 @@ html{
                         width: 250px !important;
                     }
                 }
+            }
+        }
+        .modal-close-btn{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 37.5px;
+            border-radius: 50%;
+            svg{
+                position: relative;
+                right: 8px;
             }
         }
     }

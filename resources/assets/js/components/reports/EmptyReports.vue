@@ -8,7 +8,7 @@
             </svg>
         </span> -->
         <div class="empty-button">
-            <button class="add"  @click="$modal.show('add-report_page')">
+            <button class="add"  @click="$modal.show('add-report')">
                 Add New Report
             </button>
         </div>

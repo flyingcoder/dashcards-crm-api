@@ -38,6 +38,13 @@
                                 <el-button @click="$modal.hide('add-client')">Cancel</el-button>
                             </el-form-item>
                         </div>
+                        <el-button class="modal-close-btn" @click="$modal.hide('add-client')">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="18px" height="17px">
+                                <path fill-rule="evenodd"  fill="rgb(102, 115, 129)"
+                                d="M17.324,16.511 C16.889,16.940 16.183,16.940 15.748,16.511 L9.191,10.039 L2.635,16.511 C2.200,16.940 1.494,16.940 1.058,16.511 C0.623,16.080 0.623,15.384 1.058,14.954 L7.614,8.484 L1.058,2.013 C0.623,1.583 0.623,0.886 1.058,0.456 C1.494,0.026 2.200,0.026 2.635,0.456 L9.191,6.927 L15.748,0.456 C16.183,0.026 16.889,0.026 17.324,0.456 C17.759,0.886 17.759,1.583 17.324,2.013 L10.768,8.484 L17.324,14.954 C17.759,15.384 17.759,16.080 17.324,16.511 Z"/>
+                            </svg>
+                        </el-button>
                     </el-form>
                 </div>
             </v-layout>
@@ -96,7 +103,7 @@
             ],
             telephone: [
                 { required: true, message: 'Contact No. is Required', trigger: 'change' },
-                { required: true, pattern:/^[0-9]+$/, message: 'Contact No. Must be a Number', trigger: 'blur' },
+                { required: true, pattern:/^[\+\d]+(?:[\d-.\s()]*)$/, message: 'Not a valid number.', trigger: 'blur' },
                 // { min: 6, max: 11, message: 'Invalid Contact Number', trigger: 'blur' },
             ],
             email: [
@@ -198,6 +205,12 @@
                 status: '',
             }
         },
+    },
+    watch: {
+        'form.telephone' : function(val, oldval) {
+            val = val.toString();
+            this.form.telephone = val.replace(/(\d{3})(\d{3})(\d{4})/, "+1-$1-$2-$3");
+        }
     }
   }
 </script>
