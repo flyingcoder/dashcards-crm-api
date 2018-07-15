@@ -17,6 +17,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
   Route::get('/', 'ActivityController@index');
 });
 
+Route::post('login', 'Auth\ApiLoginController@login');
+
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
   Route::get('members', 'CompanyController@members');
