@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CalendarModel;
 
-class CalendarModelController extends Controller
+class CalendarController extends Controller
 {
     public function index()
     {

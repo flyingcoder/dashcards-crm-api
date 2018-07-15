@@ -171,6 +171,7 @@ Vue.component('avatar',Avatar);
 // Ckeditor
   Vue.component('ckeditor', require('./components/common/Ckeditor.vue'));
 
+
 // Empty Table
 Vue.component('empty', require('./components/common/Empty'));
   
