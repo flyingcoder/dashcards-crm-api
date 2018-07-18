@@ -43,11 +43,10 @@ class ApiLoginController extends Controller
      */ 
     public function login(){
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
-            $user = Auth::user(); 
-            $success['token'] =  $user->createToken('MyApp')->accessToken; 
+            $user = Auth::user();
             return response()->json([
-                'success' => $success, 
-                'user' => $user 
+                'token' => $user->createToken('MyApp')->accessToken, 
+                'user' => $user->scopeDefaultColumn()
             ], $this->successStatus); 
         } 
         else{ 
