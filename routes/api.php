@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
 });
 
-Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register/subscriber'], function () {
+Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function () {
 
   Route::post('/', 'Auth\ApiRegisterController@create');
 

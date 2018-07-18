@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dashboard extends Model
 {
+	protected $fillable = ['title', 'email', 'description'];
+
     public function dashitems()
     {
     	return $this->belongsToMany(Dashitem::class)->withPivot('order');

@@ -58,9 +58,9 @@ class ApiRegisterController extends Controller
             'company_email' => 'required|string|email|max:255|unique:companies',
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
+            //'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
         ]);
     }
 
@@ -68,12 +68,11 @@ class ApiRegisterController extends Controller
     {
 
         $company = Company::create([
-           'name' => $request->company_name,
-           'email' => $request->company_email,
+            'name' => $request->company_name,
+            'email' => $request->company_email,
         ]);
 
-        $dashboard = Dashboard::create([
-            'company_id' => $company->id,
+        $dashboard = $company->dashboards()->create([
             'title' => $request->company_name,
             'description' => $request->company_name.' Dashboard'
         ]);
@@ -117,7 +116,7 @@ class ApiRegisterController extends Controller
         ]);
 
 	    $user = User::create([
-           'username' => $request->username,
+           'username' => explode('@', $request->email)[0],
            'first_name' => $request->first_name,
            'last_name' => $request->last_name,
 	       'image_url' => 'img/members/alfred.png',
@@ -129,6 +128,11 @@ class ApiRegisterController extends Controller
 
         $company->teams()->save($team);
 
-        return $user;
+        $success['token'] =  $user->createToken('MyApp')->accessToken;
+
+        return response()->json([
+            'success' => $success, 
+            'user' => $user 
+        ], 200);
     }
 }
