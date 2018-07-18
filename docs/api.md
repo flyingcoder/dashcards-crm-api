@@ -9,14 +9,23 @@ Buzzooka crm api documentation
 ### Login [POST]
 
 + Request (application/json)
+
         {
             'email' : 'sample@email.com',
-            'password' : 'somesecurepassword'
+            'password' : 'securepassword'
         }
 
 + Response 200 (application/json)
+
         {
-            {"success":{"token":"eyJ0eXAiO-so-on"}}
+            'success' : 
+                { 
+                    'token' : 'eyJ0eXAiO-so-on'
+                }
+            'user' : 
+                {
+                    'user-object'
+                }
         }
 
 ## Timer Collection [api/timer/{action}]
