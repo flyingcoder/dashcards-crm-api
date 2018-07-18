@@ -66,7 +66,6 @@ class ApiRegisterController extends Controller
 
     protected function create(Request $request)
     {
-
         $company = Company::create([
             'name' => $request->company_name,
             'email' => $request->company_email,
