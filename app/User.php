@@ -33,8 +33,12 @@ class User extends Authenticatable
         'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
 
-     protected static $logAttributes = [
+    protected static $logAttributes = [
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
+    ];
+
+    protected $default_columns = [
+        'email', 'first_name', 'id', 'image_url', 'job_title', 'last_name', 'telephone', 'trial_ends', 'username'
     ];
 
     /**
@@ -48,12 +52,28 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    public function scopeDefaultColumn()
+    {
+       return $this->select(
+                    'id', 
+                    'email', 
+                    'first_name',
+                    'image_url', 
+                    'job_title', 
+                    'last_name', 
+                    'telephone', 
+                    'trial_ends_at', 
+                    'username')
+                ->where('id', $this->id)
+                ->first();
+    }
+    
+
     /**
      *
      * activity_user table relationship
      *
      */
-    
     public function acts()
     {
         return $this->belongsToMany('App\Activity', 'activity_user', 'user_id', 'activity_id')
