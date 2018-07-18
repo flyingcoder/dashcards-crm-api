@@ -18,10 +18,7 @@
 + Response 200 (application/json)
 
         {
-            'success' : 
-                { 
-                    'token' : 'eyJ0eXAiO-so-on'
-                }
+            'token' : 'eyJ0eXasAiO-so-on'
             'user' : 
                 {
                     'user-object'
