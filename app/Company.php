@@ -424,6 +424,7 @@ class Company extends Model
 
     public static function boot() 
     {
+        
         Company::deleting(function($company) {
             foreach(['roles', 'teams'] as $relation)
             {

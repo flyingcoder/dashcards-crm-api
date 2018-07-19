@@ -127,11 +127,9 @@ class ApiRegisterController extends Controller
 
         $company->teams()->save($team);
 
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
-
         return response()->json([
-            'success' => $success, 
-            'user' => $user 
+            'token' => $user->createToken('MyApp')->accessToken, 
+            'user' => $user->scopeDefaultColumn()
         ], 200);
     }
 }
