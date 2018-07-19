@@ -424,6 +424,53 @@ class Company extends Model
 
     public static function boot() 
     {
+        Company::created(function ($company) {
+            $dashboard = $company->dashboards()->create([
+                'title' => $company->name,
+                'description' => $company->name.' Dashboard'
+            ]);
+
+            $role = new Role();
+
+            $roleAdmin = $role->create(
+                [
+                    'name' => 'Administrator',
+                    'slug' => 'admin-'.$company->id,
+                    'description' => 'manage administration privileges',
+                ]
+            );
+
+            $roleClient = $role->create(
+                [
+                    'name' => 'Client',
+                    'slug' => 'client-'.$company->id,
+                    'description' => 'Client privileges',
+                ]
+            );
+
+            $roleManager = $role->create(
+                [
+                    'name' => 'Manager',
+                    'slug' => 'manager-'.$company->id,
+                    'description' => 'manage a team privileges',
+                ]
+            );
+
+            $company->roles()->attach([
+                $roleAdmin->id,
+                $roleClient->id,
+                $roleManager->id
+            ]);
+
+            $team = Team::create([
+                'name' => $company->name.' Default Team',
+                'company_id' => $company->id,
+                'description' => 'This is the default team for a company'
+            ]);
+
+            $company->teams()->save($team);
+        });
+
         Company::deleting(function($company) {
             foreach(['roles', 'teams'] as $relation)
             {
