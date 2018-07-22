@@ -95,7 +95,10 @@ class ApiRegisterController extends Controller
                                 'error' => 'We have a duplicate entry problem.'
                            ], 500);
                     break;
-                
+                case 1048:
+                    return response()->json([
+                                'error' => 'Some fields are missing.'
+                           ], 500);
                 default:
                     return response()->json([
                                 'error' => $e
