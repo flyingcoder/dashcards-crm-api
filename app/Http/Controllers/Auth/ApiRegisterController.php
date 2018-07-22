@@ -92,7 +92,7 @@ class ApiRegisterController extends Controller
             switch ($error_code) {
                 case 1062:
                     return response()->json([
-                                'error' => 'We have a duplicate entry problem.'
+                                'error' => 'The company email you have entered is already registered.'
                            ], 500);
                     break;
                 
