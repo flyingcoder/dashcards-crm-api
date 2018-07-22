@@ -50,7 +50,7 @@ class ApiLoginController extends Controller
             ], $this->successStatus); 
         } 
         else{ 
-            return response()->json(['error'=>'Unauthorised'], 401); 
+            return response()->json(['error' => 'Invalid email or password!'], 401); 
         } 
     }
 
