@@ -2,7 +2,7 @@
 
 ## Authentication API [api/register]
 
-### Login [POST]
+### Signup [POST]
 
 + Request (application/json)
 
