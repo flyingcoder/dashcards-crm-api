@@ -159,7 +159,7 @@ class TeamController extends Controller
         $roles = Role::paginate(5);
 
         if(request()->ajax())
-        return $roles;
+            return $roles;
 
         return view('pages.groups');
     }
