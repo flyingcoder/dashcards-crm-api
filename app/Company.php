@@ -238,7 +238,7 @@ class Company extends Model
 
         $services = $this->roles();
 
-        if($request->has('sort'))
+        if($request->has('sort') && !is_null($sortValue))
             $services->orderBy($sortName, $sortValue);
         else
             $services->orderBy('roles.id', 'asc');
