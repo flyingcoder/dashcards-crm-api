@@ -156,7 +156,9 @@ class TeamController extends Controller
 //Group
     public function groups()
     {
-        $roles = Role::paginate(10);
+        $company = auth()->user()->company();
+
+        $roles = $company->paginatedRoles(request());
 
         if(request()->ajax())
             return $roles;

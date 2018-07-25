@@ -232,6 +232,20 @@ class Company extends Model
         return $this->belongsToMany(Role::class);
     }
 
+    public function paginatedRoles(Request $request)
+    {
+        list($sortName, $sortValue) = parseSearchParam($request);
+
+        $services = $this->roles();
+
+        if($request->has('sort'))
+            $services->orderBy($sortName, $sortValue);
+        else
+            $services->orderBy('roles.id', 'asc');
+
+        return $services->paginate($this->paginate);
+    }
+
     public function projects()
     {
         $members = $this->membersID();
