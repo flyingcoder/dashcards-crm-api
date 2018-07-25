@@ -160,7 +160,7 @@ class TeamController extends Controller
 
         if(request()->ajax())
             return $roles;
-
+        
         return view('pages.groups');
     }
 
