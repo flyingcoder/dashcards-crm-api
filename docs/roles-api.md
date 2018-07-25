@@ -2,6 +2,8 @@
 
 ## Groups API [api/groups]
 
+## Groups sort API [api/groups?sort={column}|{asc|desc}]
+
 ### / [GET]
 
 + Response 200 (application/json)
@@ -27,3 +29,5 @@
                 }
             ]
         }
+
+
