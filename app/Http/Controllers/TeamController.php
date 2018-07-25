@@ -156,7 +156,7 @@ class TeamController extends Controller
 //Group
     public function groups()
     {
-        $roles = Role::paginate(5);
+        $roles = Role::paginate(10);
 
         if(request()->ajax())
             return $roles;
