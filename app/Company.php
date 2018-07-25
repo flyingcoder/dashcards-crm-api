@@ -435,7 +435,7 @@ class Company extends Model
             $roleAdmin = $role->create(
                 [
                     'name' => 'Administrator',
-                    'slug' => 'admin-'.$company->id,
+                    'slug' => 'default-admin-'.$company->id,
                     'description' => 'manage administration privileges',
                 ]
             );
