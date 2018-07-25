@@ -76,7 +76,7 @@ class ApiRegisterController extends Controller
                'password' => bcrypt($request->password),
             ]);
 
-            $user->assignRole('admin-'.$company->id); //prone to change
+            $user->assignRole('default-admin-'.$company->id); //prone to change
 
             $default_team = $company->teams()->first();
 
