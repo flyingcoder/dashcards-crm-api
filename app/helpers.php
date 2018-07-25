@@ -8,7 +8,11 @@ function parseSearchParam(Request $request) {
 		return false;
 	
     $sort = $request->sort;
+
     $params = explode('|', $sort);
+
+    if(count($params) == 1)
+    	return false;
 
     return [$params[0], $params[1]];
 }
