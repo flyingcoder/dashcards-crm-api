@@ -1,10 +1,10 @@
 # Base URL [api.bizzooka.ca]
 
-## Groups API [api/groups]
+## Teams API [api/company/teams]
 
-## Groups sort API [api/groups?sort={column}|{asc|desc}]
+## Teams sort API [api/company/teams?sort={column}|{asc|desc}]
 
-## Groups search API [api/groups?search={keyword}]
+## Teams search API [api/company/teams?search={keyword}]
 
 ### / [GET]
 
