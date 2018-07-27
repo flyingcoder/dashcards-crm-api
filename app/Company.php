@@ -11,11 +11,36 @@ use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Company extends Model
 {
-    use SoftDeletes,
+    use SearchableTrait,
+        SoftDeletes,
         Metable;
+
+    /**
+     * Searchable rules.
+     *
+     * @var array
+     */
+    protected $searchable = [
+        /**
+         * Columns and their priority in search results.
+         * Columns with higher values are more important.
+         * Columns with equal values have equal importance.
+         *
+         * @var array
+        
+        'columns' => [
+            'users.first_name' => 10,
+            'users.last_name' => 10,
+            'users.bio' => 2,
+            'users.email' => 5,
+            'posts.title' => 2,
+            'posts.body' => 1,
+        ],*/
+    ];
     
     protected $paginate = 10;
 
@@ -236,14 +261,22 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $services = $this->roles();
+        $model = $this->roles();
 
         if($request->has('sort') && !is_null($sortValue))
-            $services->orderBy($sortName, $sortValue);
+            $model->orderBy($sortName, $sortValue);
         else
-            $services->orderBy('roles.id', 'asc');
+            $model->orderBy('roles.id', 'asc');
 
-        return $services->paginate($this->paginate);
+        if($request->has('search')){
+            $keyword = $request->search;
+            $model->where(function ($query) use($keyword) {
+                        $query->where('roles.name', 'like', '%' . $keyword . '%')
+                              ->orWhere('roles.description', 'like', '%' . $keyword . '%');
+                      });
+        }
+
+        return $model->paginate($this->paginate);
     }
 
     public function projects()
