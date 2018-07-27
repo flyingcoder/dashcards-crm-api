@@ -15,10 +15,10 @@ class CompanyController extends Controller
 
     public function teams()
     {
-    	if(request()->has('paginate') && request()->paginate)
-    		return auth()->user()->company()->paginatedCompanyMembers(request());
-    	else
-    		return auth()->user()->company()->allTeamMembers();
+    	if(request()->has('view') && request()->view == 'grid')
+            return auth()->user()->company()->allTeamMembers();
+    	
+        return auth()->user()->company()->paginatedCompanyMembers(request());
     }
 
     public function member($id)

@@ -2,6 +2,8 @@
 
 ## Teams API [api/company/teams]
 
+## Teams view API [api/company/teams?view={grid|list}] default view "list"
+
 ## Teams sort API [api/company/teams?sort={column}|{asc|desc}]
 
 ## Teams search API [api/company/teams?search={keyword}]
