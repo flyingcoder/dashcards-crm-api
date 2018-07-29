@@ -29,7 +29,7 @@ class CompanyTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/company/members');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

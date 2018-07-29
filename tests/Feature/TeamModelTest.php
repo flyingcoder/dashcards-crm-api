@@ -30,7 +30,7 @@ class TeamModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/company/teams');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 }
