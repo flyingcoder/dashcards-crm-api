@@ -241,14 +241,21 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $services = $this->services();
+        $model = $this->services();
 
-        if($request->has('sort'))
-            $services->orderBy($sortName, $sortValue);
+        if($request->has('sort') && !is_null($sortValue))
+            $model->orderBy($sortName, $sortValue);
         else
-            $services->orderBy('services.created_at', 'desc');
+            $model->orderBy('services.created_at', 'desc');
 
-        return $services->paginate($this->paginate);
+        if($request->has('search')){
+            $keyword = $request->search;
+            $model->where(function ($query) use($keyword) {
+                        $query->where('services.name', 'like', '%' . $keyword . '%');
+                      });
+        }
+
+        return $model->paginate($this->paginate);
     }
 
 

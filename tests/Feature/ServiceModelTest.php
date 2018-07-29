@@ -71,4 +71,18 @@ class ServiceModelTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testSearch()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/services?search=par');
+        
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
 }
