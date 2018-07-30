@@ -50,7 +50,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
 
     public function scopeDefaultColumn()
     {
