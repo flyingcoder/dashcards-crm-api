@@ -47,70 +47,95 @@ class TeamController extends Controller
 
     public function store()
     {
-        request()->validate([
-            'last_name' => 'required|string',
-            'first_name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'telephone' => 'required',
-            'password' => 'required',
-            'group_name' => 'required',
-        ]);
-
-        $username = explode('@', request()->email)[0];
-
-        $image_url = 'img/members/alfred.png';
-
-        if(request()->has('image_url'))
-            $image_url = request()->image_url;
-
-        $member = User::create([
-            'username' => $username,
-            'last_name' => request()->last_name,
-            'first_name' => request()->first_name,
-            'email' => request()->email,
-            'telephone' => request()->telephone, 
-            'job_title' => request()->job_title,
-            'password' => bcrypt(request()->password),
-            'image_url' => $image_url
-        ]);
-
-        $company = Auth::user()->company();
-
-        $team = $company->teams()
-                ->where('slug', strtolower(request()->group_name))
-                ->count();
-
-        if(!$team) {
-            $company->teams()->create([
-                'name' => request()->group_name,
-                'description' => request()->group_name.' of '.$company->name,
-                'slug' => strtolower(request()->group_name)
+        try {
+            request()->validate([
+                'last_name' => 'required|string',
+                'first_name' => 'required|string',
+                'email' => 'required|email|unique:users',
+                'telephone' => 'required',
+                'password' => 'required|confirmed',
+                'group_name' => 'required',
             ]);
-        }
 
-        $team = $company->teams()
-                        ->where('slug', strtolower(request()->group_name))
-                        ->first();
+            $username = explode('@', request()->email)[0];
 
-        $team->members()->attach($member);
+            $image_url = 'img/members/alfred.png';
 
-        $role = $company->roles()
-                        ->where('slug', strtolower(request()->group_name))
-                        ->count();
+            if(request()->has('image_url'))
+                $image_url = request()->image_url;
 
-        if(!$role) {
-            $company->roles()->create([
-                'name' => request()->group_name,
-                'slug' => strtolower(request()->group_name),
-                'description' => 'Priveleges of '.request()->group_name
+            $member = User::create([
+                'username' => $username.rand(0,20),
+                'last_name' => request()->last_name,
+                'first_name' => request()->first_name,
+                'email' => request()->email,
+                'telephone' => request()->telephone, 
+                'job_title' => request()->job_title,
+                'password' => bcrypt(request()->password),
+                'image_url' => $image_url,
+                'created_by' => auth()->user()->id
             ]);
+
+            $company = auth()->user()->company();
+
+            $team = $company->teams()
+                    ->where('slug', strtolower(request()->group_name))
+                    ->count();
+
+            if(!$team) {
+                $company->teams()->create([
+                    'name' => request()->group_name,
+                    'description' => request()->group_name.' of '.$company->name,
+                    'slug' => strtolower(request()->group_name)
+                ]);
+            }
+
+            $team = $company->teams()
+                            ->where('slug', strtolower(request()->group_name))
+                            ->first();
+
+            $team->members()->attach($member);
+
+            $role = $company->roles()
+                            ->where('slug', strtolower(request()->group_name))
+                            ->count();
+
+            if(!$role) {
+                $company->roles()->create([
+                    'name' => request()->group_name,
+                    'slug' => strtolower(request()->group_name),
+                    'description' => 'Priveleges of '.request()->group_name
+                ]);
+            }
+
+            $member->assignRole(strtolower(request()->group_name));
+
+            \Mail::to($member)->send(new UserCredentials($member, request()->password));
+
+            return $member;
+
+        } catch (Exception $e) {
+
+            $error_code = $e->errorInfo[1];
+
+            switch ($error_code) {
+                case 1062:
+                    return response()->json([
+                                'error' => 'The company email you have entered is already registered.'
+                           ], 500);
+                    break;
+                case 1048:
+                    return response()->json([
+                                'error' => 'Some fields are missing.'
+                           ], 500);
+                default:
+                    return response()->json([
+                                'error' => $e
+                           ], 500);
+                    break;
+            }
         }
-
-        $member->assignRole(strtolower(request()->group_name));
-
-        \Mail::to($member)->send(new UserCredentials($member, request()->password));
-
-        return $member;
+        
     }
 
     public function update($id)
@@ -118,7 +143,6 @@ class TeamController extends Controller
         $member = User::findOrFail($id);
 
         request()->validate([
-            'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'email' => [
@@ -146,10 +170,9 @@ class TeamController extends Controller
     {
         $member = User::findOrFail($id);
         if($member->destroy($id)){
-            return response('success', 200);
-        }
-        else {
-            return response('failed', 500);
+            return response('User is successfully deleted.', 200);
+        } else {
+            return response('Failed to delete user.', 500);
         }
     }
 
