@@ -17,6 +17,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
   Route::get('/', 'ActivityController@index');
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
+  Route::get('plan', 'PaymentController@plan');
+  Route::post('/subscribe', 'PaymentController@subscribe');
+});
+
 Route::post('login', 'Auth\ApiLoginController@login');
 
 //company
