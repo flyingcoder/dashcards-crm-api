@@ -63,9 +63,7 @@
             'first_name' : 'Alvin',
             'last_name' : 'Pacot',
             'email' : 'sample@email.com',
-            'password' : 'securepassword',
             'telephone' : '+1323453234',
-            'password_repeat' : 'securepassword',
             'group_name' : 'Managers',
             'job_title' : 'Development Manager'
         }
