@@ -34,4 +34,58 @@
             ]
         }
 
+### / [POST]
 
++ Request (application/json)
+
+        {
+            'first_name' : 'Alvin',
+            'last_name' : 'Pacot',
+            'email' : 'sample@email.com',
+            'password' : 'securepassword',
+            'telephone' : '+1323453234',
+            'password_confirmation' : 'securepassword',
+            'group_name' : 'Managers',
+            'job_title' : 'Development Manager'
+        }
+
++ Response 201 (application/json)
+
+        {
+            newly created user object
+        }
+
+### /{user-id} [PUT]
+
++ Request (application/json)
+
+        {
+            'first_name' : 'Alvin',
+            'last_name' : 'Pacot',
+            'email' : 'sample@email.com',
+            'password' : 'securepassword',
+            'telephone' : '+1323453234',
+            'password_repeat' : 'securepassword',
+            'group_name' : 'Managers',
+            'job_title' : 'Development Manager'
+        }
+
++ Response 200 (application/json)
+
+        {
+            updated user object
+        }
+
+### /{user-id} [DELETE]
+
++ Response 200 (application/json)
+
+        {
+            'User is successfully deleted.'
+        }
+
++ Response 500 (application/json)
+
+        {
+            'Failed to delete user.'
+        }
