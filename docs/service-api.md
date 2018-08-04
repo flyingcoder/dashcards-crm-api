@@ -34,4 +34,46 @@
             ]
         }
 
+### / [POST]
 
++ Request (application/json)
+
+        {
+            ['name' : 'SEO Services'],
+            ['name' : 'Wedding Services']
+
+        }
+
++ Response 201 (application/json)
+
+        {
+            newly created service object
+        }
+
+### /{service-id} [PUT]
+
++ Request (application/json)
+
+        {
+            'name' : 'Tech Services'
+        }
+
++ Response 200 (application/json)
+
+        {
+            updated service object
+        }
+
+### /{service-id} [DELETE]
+
++ Response 200 (application/json)
+
+        {
+            'Service is successfully deleted.'
+        }
+
++ Response 500 (application/json)
+
+        {
+            'Failed to delete Service.'
+        }

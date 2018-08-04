@@ -13,11 +13,11 @@ class ServiceModelTest extends TestCase
      * A basic test example.
      *
      * @return void
-    */
+    
     public function testStore()
     {
         $this->assertTrue(true);
-        /*
+        
     	$user = User::findOrFail(1);
 
         $response = $this->actingAs($user, 'api')
@@ -25,8 +25,8 @@ class ServiceModelTest extends TestCase
                          ->post('api/services', [['name' => 'Alvin'], ['name' => 'Alvintong']]);
         
         //dd($response->content());                 
-        $response->assertStatus(200);*/
-    }
+        $response->assertStatus(200);
+    }*/
 
     /**
      * A basic test example.
@@ -35,7 +35,6 @@ class ServiceModelTest extends TestCase
     */
     public function testValidate()
     {
-        $this->assertTrue(true);
         
         $user = User::findOrFail(1);
 
@@ -43,6 +42,47 @@ class ServiceModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/services/validate', ['name' => 'asdfdsa']);
         
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+    */
+    public function testUpdate()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+        
+        $modelput = Service::latest()->first();
+
+        $data = [
+            'name' => 'Market Services '.rand(0,10)
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put('api/services/'.$modelput->id , $data);
+        
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testDelete()
+    {
+       $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $modeldelete = Service::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/services/'.$modeldelete->id);
+
         //dd($response->content());
         $response->assertStatus(200);
     }

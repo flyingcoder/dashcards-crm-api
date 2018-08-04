@@ -73,7 +73,9 @@ class ServiceController extends Controller
         try{
             
             $services = $request->all();
+
             (new ServicePolicy())->create();
+
             foreach($services as $s){
                 Service::create([
                     'user_id' => Auth::user()->id,
@@ -82,10 +84,11 @@ class ServiceController extends Controller
             }
             
             return response()
-                    ->json(['message' => 'Service was successfully added.', ]);
-        }
-        catch (\Exception $ex) {
+                        ->json(['message' => 'Service was successfully added.', ]);
+        } catch (\Exception $ex) {
+
             return response(['message' => $ex->getMessage()], 500);
+
         }
         
     }
