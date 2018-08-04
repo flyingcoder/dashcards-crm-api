@@ -60,13 +60,29 @@ class ServiceModelTest extends TestCase
         $modelput = Service::latest()->first();
 
         $data = [
-            'name' => 'Marketing Services'
+            'name' => 'Market Services '.rand(0,10)
         ];
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put('api/services/'.$modelput->id , $data);
         
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testDelete()
+    {
+       $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $modeldelete = Service::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/services/'.$modeldelete->id);
+
         //dd($response->content());
         $response->assertStatus(200);
     }
