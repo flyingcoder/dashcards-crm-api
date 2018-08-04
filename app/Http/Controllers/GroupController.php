@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Group;
 use Illuminate\Http\Request;
 use App\Policies\GroupPolicy;
 use Kodeine\Acl\Models\Eloquent\Role;
@@ -26,14 +27,13 @@ class GroupController extends Controller
             'name' => 'required',
         ]);
 
-        $slug = SlugService::createSlug(Role::class, 'slug', request()->name);
+        $slug = SlugService::createSlug(Group::class, 'slug', request()->name);
 
-        $company->roles()->create([
-            'name' => request()->name,
-            'slug' => $slug,
-        ]);
+        $roles = $company->roles()->create([
+                        'name' => request()->name,
+                        'slug' => $slug,
+                    ]);
 
-        return response()
-                ->json(['message' => 'Group was successfully added.']);
+        return $roles;
     }
 }

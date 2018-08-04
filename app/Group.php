@@ -13,6 +13,20 @@ class Group extends Role
 		SoftDeletes,
 		Sluggable;
 
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
 	/**
      * Searchable rules.
      *
