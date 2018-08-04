@@ -329,7 +329,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 
   Route::put('{id}', 'TeamController@updategroup');
 
-  Route::delete('{id}/delete', 'TeamController@deletegroup');
+  Route::delete('{id}', 'TeamController@deletegroup');
 });
 
 // Invoices

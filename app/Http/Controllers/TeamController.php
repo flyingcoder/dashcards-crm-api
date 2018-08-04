@@ -212,7 +212,12 @@ class TeamController extends Controller
     public function deletegroup($id)
     {
         $role = Role::findOrFail($id);
-        return $role->delete();
+
+        if($role->destroy($id)){
+            return response('Group is successfully deleted.', 200);
+        } else {
+            return response('Failed to delete group.', 500);
+        }
     }
 
     public function role()

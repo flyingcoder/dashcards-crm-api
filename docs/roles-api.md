@@ -32,4 +32,44 @@
             ]
         }
 
+### / [POST]
 
++ Request (application/json)
+
+        {
+            'name' : 'Sales Agent'
+        }
+
++ Response 201 (application/json)
+
+        {
+            newly created groups object
+        }
+
+### /{group-id} [PUT]
+
++ Request (application/json)
+
+        {
+            'name' : 'Sales Agent'
+        }
+
++ Response 200 (application/json)
+
+        {
+            updated groups object
+        }
+
+### /{group-id} [DELETE]
+
++ Response 200 (application/json)
+
+        {
+            'Group is successfully deleted.'
+        }
+
++ Response 500 (application/json)
+
+        {
+            'Failed to delete group.'
+        }
