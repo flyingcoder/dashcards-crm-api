@@ -14,6 +14,7 @@ class PaymentController extends Controller
 
     public function checkout()
     {
+        dd(response()->all()); 
     	try {
 
     		$subscription = 'Gold';
