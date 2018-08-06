@@ -19,7 +19,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
   Route::get('plan', 'PaymentController@plan');
-  Route::post('/checkout', 'PaymentController@checkout');
+  Route::post('checkout', 'PaymentController@checkout');
 });
 
 Route::post('login', 'Auth\ApiLoginController@login');
