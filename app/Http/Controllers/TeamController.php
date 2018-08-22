@@ -176,12 +176,15 @@ class TeamController extends Controller
         }
     }
 
-//Group
+    //Group
     public function groups()
     {
         $company = auth()->user()->company();
 
         $roles = $company->paginatedRoles(request());
+
+        if(request()->has('all') && request()->all == true)
+            $roles = $company->roles;
 
         if(request()->ajax())
             return $roles;
