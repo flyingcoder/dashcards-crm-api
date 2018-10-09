@@ -204,11 +204,11 @@ class TeamController extends Controller
         $description = isset(request()->description) ? request()->description : '' ;
 
         request()->validate([
-            'name' => 'required|string',
-            'description' => $description
+            'name' => 'required|string'
         ]);
 
         $role->name = request()->name;
+        $role->description = request()->description;
 
         $role->save();
 
