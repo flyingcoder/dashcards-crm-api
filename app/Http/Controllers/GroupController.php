@@ -29,9 +29,12 @@ class GroupController extends Controller
 
         $slug = SlugService::createSlug(Group::class, 'slug', request()->name);
 
+        $description = isset(request()->description) ? request()->description : '' ;
+
         $roles = $company->roles()->create([
                         'name' => request()->name,
                         'slug' => $slug,
+                        'description' => $description
                     ]);
 
         return $roles;
