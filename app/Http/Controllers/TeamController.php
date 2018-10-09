@@ -201,8 +201,11 @@ class TeamController extends Controller
     {
         $role = Role::findOrFail($id);
 
+        $description = isset(request()->description) ? request()->description : '' ;
+
         request()->validate([
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'description' => $description
         ]);
 
         $role->name = request()->name;

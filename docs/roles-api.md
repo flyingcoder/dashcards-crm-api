@@ -73,3 +73,17 @@
         {
             'Failed to delete group.'
         }
+
+### /{group-id}/permission [GET]
+
++ Response 200 (application/json)
+
+        {
+            'Group is successfully deleted.'
+        }
+
++ Response 500 (application/json)
+
+        {
+            'Failed to delete group.'
+        }
