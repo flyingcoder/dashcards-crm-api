@@ -130,7 +130,7 @@ class TeamController extends Controller
                            ], 500);
                 default:
                     return response()->json([
-                                'error' => $e
+                                'error' => $e."test"
                            ], 500);
                     break;
             }
