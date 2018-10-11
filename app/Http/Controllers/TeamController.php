@@ -110,7 +110,7 @@ class TeamController extends Controller
 
             $member->assignRole(strtolower(request()->group_name));
 
-            \Mail::to($member)->send(new UserCredentials($member, request()->password));
+            //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 
             return $member;
 
