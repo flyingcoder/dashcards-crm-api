@@ -58,6 +58,27 @@ class GroupTest extends TestCase
      * A basic test example.
      *
      * @return void
+     
+    public function testUpdate()
+    {
+       $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $modelput = Role::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put('api/groups/'.$modelput->id.'/permission');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }*/
+
+     /**
+     * A basic test example.
+     *
+     * @return void
      */
     public function testUpdate()
     {

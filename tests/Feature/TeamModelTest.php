@@ -29,7 +29,7 @@ class TeamModelTest extends TestCase
      */
     public function testStore()
     {
-        /*
+        
         $this->withoutExceptionHandling();
 
         $user = User::findOrFail(1);
@@ -49,8 +49,8 @@ class TeamModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/company/teams', $data);
 
-        //dd($response->content());
-        $response->assertStatus(201);*/
+        dd($response->content());
+        //$response->assertStatus(201);
         $this->assertTrue(true);
     }
 
