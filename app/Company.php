@@ -173,7 +173,7 @@ class Company extends Model
                             'users.last_name',
                             'users.image_url',
                             'users.telephone'
-                        )->with('tasks', 'projects');
+                        )->with('tasks', 'projects', 'teams');
 
         if($request->has('sort'))
             $members->orderBy($sortName, $sortValue);
