@@ -171,7 +171,8 @@ class Company extends Model
                             'users.email',
                             'users.first_name',
                             'users.last_name',
-                            'users.image_url'
+                            'users.image_url',
+                            'users.telephone'
                         )->with('tasks', 'projects');
 
         if($request->has('sort'))
