@@ -50,23 +50,58 @@ class TemplateController extends Controller
     public function store()
     {
         request()->validate($this->rules);
+
+        $type = 'App\Milestone'; 
+        //default is milestone because this function as of now is for milestone only.
+
+        if(request()->has('type'))
+            $type = "App\\".ucfirst(request()->type);
+
         
         $template = Template::create([
             'company_id' => auth()->user()->company()->id,
             'name' => request()->name,
             'status' => request()->status,
-            'replica_type' => request()->type
+            'replica_type' => $type
         ]);
 
         return $template;
     }
 
-    // Dustin - 02/06
+    public function update($id)
+    {
+        //request()->validate($this->rules);
+        $template = Template::findOrFail($id);
+
+        $type = 'App\Milestone'; 
+        //default is milestone because this function as of now is for milestone only.
+
+        if(request()->has('type'))
+            $type = "App\\".ucfirst(request()->type);
+
+        $template->name = request()->name;
+        $template->status = request()->status;
+        $template->replica_type = $type;
+
+        return $template;
+    }
+
+    public function delete($id)
+    {
+        $model = Template::findOrFail($id);
+        if($model->destroy($id)){
+            return response('Template is successfully deleted.', 200);
+        } else {
+            return response('Failed to delete template.', 500);
+        }
+    }
+
     public function milestone($id)
     {
         $template = Template::findOrFail($id);
 
         return $template->milestones()
+                        ->with('tasks')
                         ->latest()
                         ->paginate();
     }
@@ -84,25 +119,25 @@ class TemplateController extends Controller
     public function saveMilestone($id)
     {
         //request()->validate($this->rules);
+        $mileston = new Milestone();
+
+        request()->validate([
+            'title' => 'required',
+            'days' => 'required|integer',
+            'status' => 'required'
+        ]);
 
         $template = Template::findOrFail($id);
 
         $milestone = Milestone::create([
             'project_id' => 0,
-            'title' => request()['milestone']['title'],
-            'days' => request()['milestone']['days'],
-            'status' => request()['milestone']['status']
+            'title' => request()->title,
+            'days' => request()->days,
+            'status' => request()->status
         ]);
 
-        foreach (request()['tasks'] as $key => $task) {
-             $milestone->tasks()->create([
-                'title' => $task['title'],
-                'description' => $task['description'],
-                'days' => $task['days'],
-                'status' => 'open'
-             ]);
-         }
+        $template->milestones()->attach($milestone);
 
-        return $template->milestones()->attach($milestone);
+        return $milestone;
     }
 }
