@@ -26,7 +26,7 @@ class TeamModelTest extends TestCase
      * A basic test example.
      *
      * @return void
-     */
+     
     public function testStore()
     {
         
@@ -37,7 +37,7 @@ class TeamModelTest extends TestCase
         $data = [
             'first_name' => 'Alvin',
             'last_name' => 'Pacot',
-            'email' => 'sample@email.com',
+            'email' => 'sample1@email.com',
             'password' => 'securepassword',
             'telephone' => '+1323453234',
             'password_confirmation' => 'securepassword',
@@ -52,7 +52,7 @@ class TeamModelTest extends TestCase
         //dd($response->content());
         //$response->assertStatus(201);
         $this->assertTrue(true);
-    }
+    }*/
 
      /**
      * A basic test example.
@@ -70,7 +70,7 @@ class TeamModelTest extends TestCase
         $data = [
             'first_name' => 'Alvin',
             'last_name' => 'Pacot',
-            'email' => 'sample123@email.com',
+            'email' => 'sample12@email.com',
             'telephone' => '+1323453234',
             'group_name' => 'Managers',
             'job_title' => 'Development Manager'

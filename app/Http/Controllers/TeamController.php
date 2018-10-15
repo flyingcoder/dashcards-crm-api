@@ -112,7 +112,7 @@ class TeamController extends Controller
 
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 
-            return $member;
+            return $member->load('teams');
 
         } catch (Exception $e) {
 
@@ -163,7 +163,7 @@ class TeamController extends Controller
         
         $member->save();
 
-        return $member;
+        return $member->load('teams');
     }
 
     public function delete($id)
