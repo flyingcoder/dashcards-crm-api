@@ -105,15 +105,10 @@ class TemplateController extends Controller
                         ->latest()
                         ->paginate();
     }
-    
-    public function projectDetails()
-    {
-    	return view('pages.project-details');
-    }
 
-    public function services()
+    public function template($id)
     {
-        return view('pages.services');
+        return Template::findOrFail($id);
     }
 
     public function saveMilestone($id)

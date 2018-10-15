@@ -159,40 +159,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 // Milestone
 Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () {
 
-  /* alvin added */
   Route::get('{id}/tasks', 'MilestoneController@tasks');
 
   Route::post('{id}/tasks', 'MilestoneController@addTasks');
 
   Route::get('{id}', 'MilestoneController@milestone');
 
+  Route::put('{id}', 'MilestoneController@update');
+
   Route::delete('{id}', 'MilestoneController@delete');
-
-
-  /* next to useless routes */
-  Route::post('/', 'MilestoneTemplateController@store');
-
-  Route::put('{id}', 'MilestoneTemplateController@update');
-
-  Route::get('all', 'MilestoneTemplateController@all');
-
-  Route::post('{id}/import', 'MilestoneTemplateController@replicate');
-
-  Route::group(['prefix' => 'mlt-milestone'], function (){
-
-    Route::get('{id}', 'MltMilestoneController@index');
-
-    Route::get('{id}/edit', 'MltMilestoneController@edit');
-
-    Route::get('{id}/all', 'MltMilestoneController@all');
-
-    Route::post('{id}', 'MltMilestoneController@store');
-
-    Route::put('{id}', 'MltMilestoneController@update');
-
-    Route::delete('{id}', 'MltMilestoneController@destroy');
-
-  });
 
 });
 

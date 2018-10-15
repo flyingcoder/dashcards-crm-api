@@ -88,10 +88,10 @@ class MilestoneController extends Controller
         $milestone = Milestone::findOrFail($id);
         
         if($milestone->delete()){
-            return response('success', 200);
+            return response('Milestone is successfully deleted.', 200);
         }
         else {
-            return response('failed', 500);
+            return response('Failed to delete milestone.', 500);
         }
     }
 
