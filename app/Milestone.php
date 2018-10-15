@@ -29,8 +29,7 @@ class Milestone extends Model
     protected $rules = [
         'title' => 'required',
         'started_at' => 'required|date',
-        'end_at' => 'required|date',
-        'percentage' => 'required',
+        'end_at' => 'required|date'
     ];
 
     protected $dates = ['deleted_at'];
