@@ -11,8 +11,7 @@ class TemplateController extends Controller
 {
     protected $rules = [
         'name' => 'required',
-        'status' => 'required',
-        'type' => 'required'
+        'status' => 'required'
     ];
 
     // Dustin Edit 02/06
