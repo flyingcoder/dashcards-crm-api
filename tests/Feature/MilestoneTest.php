@@ -28,6 +28,28 @@ class MilestoneTest extends TestCase
         $response->assertStatus(200);
     }
 
+     public function testUpdate()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $model = Milestone::latest()->first();
+
+        $data = [
+            'title' => 'SEO Milestones',
+            'status' => 'Active',
+            'days' => 6
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put('api/milestone/'.$model->id, $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testDelete()
     {
        $this->withoutExceptionHandling();

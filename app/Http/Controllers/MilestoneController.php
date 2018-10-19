@@ -65,9 +65,26 @@ class MilestoneController extends Controller
         ->paginate(10);
     }
 
-    public function save($project_id)
+    public function update($id)
     {
-    	// return view('pages.project-hq.tasks-new', ['project_id' => $project_id]);
+        $milestone = Milestone::findOrFail($id);
+
+        $milestone->title = request()->title;
+
+        $milestone->status = request()->status;
+
+        if(request()->has('days'))
+            $milestone->days = request()->days;
+
+        if(request()->has('started_at'))
+            $milestone->started_at = request()->started_at;
+
+        if(request()->has('end_at'))
+            $milestone->end_at = request()->end_at;
+
+        $milestone->save();
+
+        return $milestone;
     }
 
     public function store($project_id, MilestoneRequest $request)
