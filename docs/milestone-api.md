@@ -23,3 +23,14 @@
         {
             //milestone object
         }
+
+### /{milestone-id} [PUT]
+
++ Request (application/json)
+
+        {
+            'title' : 'SEO Milestone 1',
+            'status' : 'Pending',
+            'days' : 4
+
+        }
