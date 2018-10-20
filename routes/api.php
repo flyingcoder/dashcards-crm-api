@@ -35,6 +35,25 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
 });
 
+//new dynamic parent milestone api
+Route::group(['middleware' => 'auth:api'], function () {
+
+  Route::get('{parent}/{id}/milestone', 'MilestoneController@index')
+         ->where('parent', 'project|template');
+
+  Route::post('{parent}/{id}/milestone', 'MilestoneController@saveMilestone')
+         ->where('parent', 'project|template');
+
+  Route::put('{parent}/{id}/milestone/{milestone_id}', 'MilestoneController@update')
+         ->where('parent', 'project|template');
+
+  Route::delete('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@delete')
+         ->where('parent', 'project|template');
+
+   Route::get('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@milestone')
+         ->where('parent', 'project|template');
+});
+
 Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function () {
 
   Route::post('/', 'Auth\ApiRegisterController@create');
@@ -149,10 +168,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
   Route::delete('{id}', 'TemplateController@delete');
 
-  Route::post('/{id}/milestone', 'TemplateController@saveMilestone');
-
-  Route::get('/{id}/milestone', 'TemplateController@milestone');
-
 });
 
 
@@ -162,12 +177,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () 
   Route::get('{id}/tasks', 'MilestoneController@tasks');
 
   Route::post('{id}/tasks', 'MilestoneController@addTasks');
-
-  Route::get('{id}', 'MilestoneController@milestone');
-
-  Route::put('{id}', 'MilestoneController@update');
-
-  Route::delete('{id}', 'MilestoneController@delete');
 
 });
 
@@ -220,9 +229,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/timer', 'ProjectController@timer');
 
-  Route::get('{id}/milestones', 'MilestoneController@projectMilestone');
-
   Route::get('{id}/members', 'ProjectController@members');// project-hq
+  
   Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');

@@ -1,30 +1,41 @@
 # Base URL [api.bizzooka.ca]
 
-## milestone API [api/milestone]
+## Milestone API [api/{parent}/{parent_id}/milestone]
 
-### /{milestone-id} [DELETE]
+## Milestone view API [api/{parent}/{parent_id}/milestone?view={grid|list}] default view "list"
 
-+ Response 200 (application/json)
+## Milestone sort API [api/{parent}/{parent_id}/milestone?sort={column}|{asc|desc}]
 
-        {
-            'milestone is successfully deleted.'
-        }
+## Milestone search API [api/{parent}/{parent_id}/milestone?search={keyword}]
 
-+ Response 500 (application/json)
 
-        {
-            'Failed to delete milestone.'
-        }
-
-### /{milestone-id} [GET]
+### / [GET]
 
 + Response 200 (application/json)
 
         {
-            //milestone object
+            "total": 50,
+            "per_page": 10,
+            "current_page": 1,
+            "last_page": 4,
+            "first_page_url": "http://api.bizzooka.ca?page=1",
+            "last_page_url": "http://api.bizzooka.ca?page=4",
+            "next_page_url": "http://api.bizzooka.ca?page=2",
+            "prev_page_url": null,
+            "path": "http://api.bizzooka.ca",
+            "from": 1,
+            "to": 15,
+            "data": [
+                {
+                    // Result Object
+                },
+                {
+                    // Result Object
+                }
+            ]
         }
 
-### /{milestone-id} [PUT]
+### / [POST]
 
 + Request (application/json)
 
@@ -33,4 +44,29 @@
             'status' : 'Pending',
             'days' : 4
 
+        }
+
+### /{milestone_id} [PUT]
+
++ Request (application/json)
+
+        {
+            'title' : 'SEO Milestone 1',
+            'status' : 'Pending',
+            'days' : 4
+
+        }
+
+### /{milestone_id} [DELETE]
+
++ Response 200 (application/json)
+
+        {
+            'Milestone is successfully deleted.'
+        }
+
++ Response 500 (application/json)
+
+        {
+            'Failed to delete milestone.'
         }

@@ -34,25 +34,102 @@ class Milestone extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function store($request, Project $project)
+    protected $paginate = 10;
+
+    public function store($parent, $parent_id)
     {
-        if($request->started_at != null){
-            $started_at = $request->started_at;
-            $end_at = $request->end_at;
-        } else {
-            $started_at = date("Y-m-d",strtotime("now"));
-            $end_at = date("Y-m-d",strtotime($request->days . ' days'));
+
+        $data = [
+            'project_id' => 0,
+            'title' => request()->title,
+            'status' => request()->status
+        ];
+
+        if($parent == 'project')
+            $data['project_id'] = (int) $parent_id;
+
+        if(request()->has('days'))
+            $data['days'] = request()->days;
+
+        if(request()->has('started_at'))
+            $data['started_at'] = request()->started_at;
+
+        if(request()->has('end_at'))
+            $data['end_at'] = request()->end_at;
+
+        $milestone = self::create($data);
+
+        if($parent == 'template'){
+
+            $model = Template::findOrFail($parent_id);
+
+            $model->milestones()->attach($milestone);
         }
-        
-        $milestone = self::create([
-            'project_id' => $project->id,
-            'title' => $request->title,
-            'started_at' => $started_at,
-            'end_at' => $end_at,
-            'status' => 'In Progress'
-        ]);
 
         return $milestone;
+
+    }
+
+    public function getTasks()
+    {
+        $model = $this->tasks();
+
+        if(request()->has('all') && request()->all == true)
+            return $model;
+
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        if(request()->has('sort'))
+            $model->orderBy($sortName, $sortValue);
+
+        if(request()->has('per_page'))
+            $this->paginate = request()->per_page;
+
+        return $model->paginate($this->paginate);
+    }
+
+    public function updateMilestone()
+    {
+
+        $this->title = request()->title;
+
+        $this->status = request()->status;
+
+        if(request()->has('days'))
+            $this->days = request()->days;
+
+        if(request()->has('started_at'))
+            $this->started_at = request()->started_at;
+
+        if(request()->has('end_at'))
+            $this->end_at = request()->end_at;
+
+        $this->save();
+
+        return $this;
+    }
+
+
+    public function paginated($parent, $id)
+    {
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        $parent = "App\\".ucfirst($parent);
+
+        $model = $parent::findOrFail($id);
+
+        if(request()->has('sort'))
+            $model->orderBy($sortName, $sortValue);
+
+        if(request()->has('per_page'))
+            $this->paginate = request()->per_page;
+
+        return $model->paginate($this->paginate);
+    }
+
+    public function template()
+    {
+        return $this->belongsTo(Template::class);
     }
 
     public function project()
