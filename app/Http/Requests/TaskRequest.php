@@ -28,7 +28,6 @@ class TaskRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'milestone_id' => 'required|integer|exists:milestones,id',
             'end_at' => 'required_with:started_at',
             'days' => 'required_without:started_at',
         ];
@@ -49,8 +48,9 @@ class TaskRequest extends FormRequest
         $messages = $validator->getMessageBag();
 
         foreach ($messages->keys() as $key) {
-            $errors[$key] = $messages->get($key, $this->messageFormat)[0];
+            $errors['message'] = $messages->get($key, $this->messageFormat)[0];
         }
+        
         throw new HttpResponseException(response()->json($errors, 422));
     }
 }

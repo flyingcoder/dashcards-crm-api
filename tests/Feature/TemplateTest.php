@@ -34,8 +34,7 @@ class TemplateTest extends TestCase
                          ->post('api/template', $data);
 
         //dd($response->content());
-        //$response->assertStatus(201);
-        $this->assertTrue(true);
+        $response->assertStatus(200);
     }
 
      /**

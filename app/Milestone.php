@@ -36,6 +36,29 @@ class Milestone extends Model
 
     protected $paginate = 10;
 
+    /*
+     * Relationship methods
+     */
+
+    public function template()
+    {
+        return $this->belongsTo(Template::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    /*
+     * Action Methods
+     */
+
     public function store($parent, $parent_id)
     {
 
@@ -68,6 +91,26 @@ class Milestone extends Model
 
         return $milestone;
 
+    }
+
+    public function addTask()
+    {
+        $data = [
+            'title' => request()->title,
+            'description' => request()->description,
+            'status' => request()->status
+        ];
+
+        if(request()->has('days'))
+            $data['days'] = request()->days;
+
+        if(request()->has('started_at'))
+            $data['started_at'] = request()->started_at;
+
+        if(request()->has('end_at'))
+            $data['end_at'] = request()->end_at;
+
+        return $this->tasks()->create($data);
     }
 
     public function getTasks()
@@ -125,21 +168,6 @@ class Milestone extends Model
             $this->paginate = request()->per_page;
 
         return $model->paginate($this->paginate);
-    }
-
-    public function template()
-    {
-        return $this->belongsTo(Template::class);
-    }
-
-    public function project()
-    {
-    	return $this->belongsTo(Project::class);
-    }
-
-    public function tasks()
-    {
-    	return $this->hasMany(Task::class);
     }
 
     /*

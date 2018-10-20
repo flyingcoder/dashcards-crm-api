@@ -29,6 +29,26 @@ class Task extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function updateTask()
+    {
+        $this->title = request()->title;
+
+        $this->description = request()->description;
+
+        if(request()->has('days'))
+            $this->days = request()->days;
+
+        if(request()->has('started_at'))
+            $this->started_at = request()->started_at;
+
+        if(request()->has('end_at'))
+            $this->end_at = request()->end_at;
+
+        $this->save();
+
+        return $this;
+    }
+
     public static function store(Request $request)
     {
         if($request->started_at != null){
@@ -42,6 +62,7 @@ class Task extends Model
             $started_at = date("Y-m-d",strtotime("now"));
             $end_at = date("Y-m-d",strtotime($request->days . ' days'));
         }
+        
         $task = self::create([
             'title' =>$request->title,
             'description' =>$request->description,

@@ -7,46 +7,15 @@ use App\Milestone;
 use Auth;
 use App\Project;
 use App\Http\Requests\MilestoneRequest;
-
-
+use App\Http\Requests\TaskRequest;
 
 class MilestoneController extends Controller
 {
-    public function index($parent, $parent_id)
-    {
-        if(!request()->ajax())
-            return view('pages.project-hq.milestone', ['project_id' => $project_id]);  
-
-        $milestone = new Milestone();
-
-        if(request()->has('all') && request()->all == true)
-            return $milestone->paginated($parent, $parent_id);
-
-        return $milestone->paginated($parent, $parent_id);
-    }
-
-    public function saveMilestone($parent, $parent_id)
-    {
-        request()->validate([
-            'title' => 'required',
-            'status' => 'required'
-        ]);
-
-        $milestone = new Milestone();
-
-        return $milestone->store($parent, $parent_id);
-    }
-
-    public function addTasks($id)
+    public function addTasks($id, TaskRequest $request)
     {
         $milestone = Milestone::findOrFail($id);
 
-        $milestone->tasks()->create([
-            'title' => request()->title,
-            'days' => request()->days,
-            'description' => request()->description,
-            'status' => 'pending'
-        ]);
+        return $milestone->addTask();
     }
 
     public function tasks($id)
@@ -56,9 +25,27 @@ class MilestoneController extends Controller
         return $milestone->getTasks();
     }
 
+    public function index($parent, $parent_id)
+    {
+        $milestone = new Milestone();
+
+        if(request()->has('all') && request()->all == true)
+            return $milestone->paginated($parent, $parent_id);
+
+        return $milestone->paginated($parent, $parent_id);
+    }
+
+    public function store($parent, $parent_id, MilestoneRequest $request)
+    {
+        $milestone = new Milestone();
+
+        return $milestone->store($parent, $parent_id);
+    }
+
     public function milestone($parent, $parent_id, $milestone_id)
     {
-        return Milestone::findOrfail($milestone_id)->load(['tasks']);
+        return Milestone::findOrfail($milestone_id)
+                        ->load(['tasks']);
     }
 
     public function update($parent, $parent_id, $milestone_id)
