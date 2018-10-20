@@ -109,29 +109,4 @@ class TemplateController extends Controller
     {
         return Template::findOrFail($id);
     }
-
-    public function saveMilestone($id)
-    {
-        //request()->validate($this->rules);
-        $mileston = new Milestone();
-
-        request()->validate([
-            'title' => 'required',
-            'days' => 'required|integer',
-            'status' => 'required'
-        ]);
-
-        $template = Template::findOrFail($id);
-
-        $milestone = Milestone::create([
-            'project_id' => 0,
-            'title' => request()->title,
-            'days' => request()->days,
-            'status' => request()->status
-        ]);
-
-        $template->milestones()->attach($milestone);
-
-        return $milestone;
-    }
 }

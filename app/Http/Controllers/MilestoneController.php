@@ -12,16 +12,29 @@ use App\Http\Requests\MilestoneRequest;
 
 class MilestoneController extends Controller
 {
-    public function index($project_id)
+    public function index($parent, $parent_id)
     {
         if(!request()->ajax())
-            return view('pages.project-hq.milestone', ['project_id' => $project_id]);   
+            return view('pages.project-hq.milestone', ['project_id' => $project_id]);  
 
-        $project = Project::findOrFail($project_id);
+        $milestone = new Milestone();
+
         if(request()->has('all') && request()->all == true)
-            return $project->milestones();
+            return $milestone->paginated($parent, $parent_id);
 
-        return $project->milestones()->paginate(10);
+        return $milestone->paginated($parent, $parent_id);
+    }
+
+    public function saveMilestone($parent, $parent_id)
+    {
+        request()->validate([
+            'title' => 'required',
+            'status' => 'required'
+        ]);
+
+        $milestone = new Milestone();
+
+        return $milestone->store($parent, $parent_id);
     }
 
     public function addTasks($id)
@@ -38,83 +51,39 @@ class MilestoneController extends Controller
 
     public function tasks($id)
     {
-        if(!request()->ajax())
-            return view('pages.milestone-tasks')->with(['id' => $id]);
-
         $milestone = Milestone::findOrFail($id);
 
-        if(!is_null($milestone))
-            return $milestone->tasks()->paginate(10);
-
-        return response(500);
+        return $milestone->getTasks();
     }
 
-    public function milestone($id)
+    public function milestone($parent, $parent_id, $milestone_id)
     {
-        return Milestone::findOrfail($id)->load(['tasks']);
+        return Milestone::findOrfail($milestone_id)->load(['tasks']);
     }
 
-    public function projectMilestone($project_id)
+    public function update($parent, $parent_id, $milestone_id)
     {
-        if(!request()->ajax())
-            return view('pages.project-hq.milestone', ['project_id' => $project_id]);   
+        $milestone = Milestone::findOrFail($milestone_id);
 
-        $project = Project::findOrFail($project_id);
-
-        return $project->milestones()->with(['tasks.assigned'])
-        ->paginate(10);
+        return $milestone->updateMilestone();
     }
 
-    public function update($id)
+    public function delete($parent, $parent_id, $milestone_id)
     {
-        $milestone = Milestone::findOrFail($id);
-
-        $milestone->title = request()->title;
-
-        $milestone->status = request()->status;
-
-        if(request()->has('days'))
-            $milestone->days = request()->days;
-
-        if(request()->has('started_at'))
-            $milestone->started_at = request()->started_at;
-
-        if(request()->has('end_at'))
-            $milestone->end_at = request()->end_at;
-
-        $milestone->save();
-
-        return $milestone;
-    }
-
-    public function store($project_id, MilestoneRequest $request)
-    {
-        try{
-            $milestone = new Milestone();
-            $milestone->store($request, Project::findOrfail($project_id));
-            return response(['milestone' => $milestone], 200 );
-            
-        }
-        catch (\Exception $ex) {
-            return response(['message' => $ex->getMessage()], 500);
-        }
-    }
-
-    public function delete($id)
-    {
-        $milestone = Milestone::findOrFail($id);
+        $milestone = Milestone::findOrFail($milestone_id);
         
-        if($milestone->delete()){
+        if($milestone->delete()) {
             return response('Milestone is successfully deleted.', 200);
-        }
-        else {
+        } else {
             return response('Failed to delete milestone.', 500);
         }
     }
 
     // milestone get title and id only for select input
-    public function selectMilestone($project_id){
+    public function selectMilestone($project_id) {
+
         return Milestone::where('project_id', $project_id)->get(['id', 'title']);
+
     }
 
 }

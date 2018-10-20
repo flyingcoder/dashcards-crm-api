@@ -95,46 +95,6 @@ class TemplateTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testAddMilestoneTemplate()
-    {
-    	$this->withoutExceptionHandling();
-
-        $user = User::findOrFail(1);
-
-        $model = Template::latest()->first();
-
-        $data = [
-            'title' => 'SEO Milestones 1',
-            'status' => 'Active',
-            'days' => 4
-        ];
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->post('api/template/'.$model->id.'/milestone', $data);
-
-        //dd($response->content());
-        //$response->assertStatus(201);
-        $this->assertTrue(true);
-    }
-
-    public function testGetMilestoneTemplate()
-    {
-    	$this->withoutExceptionHandling();
-
-        $user = User::findOrFail(1);
-
-        $model = Template::latest()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/template/'.$model->id.'/milestone');
-
-        //dd($response->content());
-        //$response->assertStatus(201);
-        $this->assertTrue(true);
-    }
-
     public function testDelete()
     {
        $this->withoutExceptionHandling();
