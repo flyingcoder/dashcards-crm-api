@@ -33,6 +33,24 @@ class MilestoneTest extends TestCase
                          ->post('api/template/'.$model->id.'/milestone', $data);
 
         //dd($response->content());
+        $response->assertStatus(201);
+    }
+
+    public function testIndexTemplate()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $parent = 'template';
+
+        $model = Template::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get("api/{$parent}/{$model->id}/milestone");
+
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -55,8 +73,7 @@ class MilestoneTest extends TestCase
                          ->post('api/project/'.$model->id.'/milestone', $data);
 
         //dd($response->content());
-        //$response->assertStatus(201);
-        $this->assertTrue(true);
+        $response->assertStatus(201);
     }
 
     public function testMilestone()
@@ -110,24 +127,6 @@ class MilestoneTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->delete('api/template/1/milestone/'.$model->id);
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testIndexTemplate()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::find(1);
-
-        $parent = 'template';
-
-        $model = Template::latest()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get("api/{$parent}/{$model->id}/milestone");
 
         //dd($response->content());
         $response->assertStatus(200);

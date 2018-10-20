@@ -159,7 +159,9 @@ class Milestone extends Model
 
         $parent = "App\\".ucfirst($parent);
 
-        $model = $parent::findOrFail($id);
+        $parent_model = $parent::findOrFail($id);
+
+        $model = $parent_model->milestones();
 
         if(request()->has('sort'))
             $model->orderBy($sortName, $sortValue);
