@@ -11,6 +11,16 @@ use App\Http\Requests\TaskRequest;
 
 class MilestoneController extends Controller
 {
+    public function index($parent, $parent_id)
+    {
+        $milestone = new Milestone();
+
+        if(request()->has('all') && request()->all == true)
+            return $milestone->paginated($parent, $parent_id);
+
+        return $milestone->paginated($parent, $parent_id);
+    }
+    
     public function addTasks($id, TaskRequest $request)
     {
         $milestone = Milestone::findOrFail($id);
@@ -23,16 +33,6 @@ class MilestoneController extends Controller
         $milestone = Milestone::findOrFail($id);
 
         return $milestone->getTasks();
-    }
-
-    public function index($parent, $parent_id)
-    {
-        $milestone = new Milestone();
-
-        if(request()->has('all') && request()->all == true)
-            return $milestone->paginated($parent, $parent_id);
-
-        return $milestone->paginated($parent, $parent_id);
     }
 
     public function store($parent, $parent_id, MilestoneRequest $request)
