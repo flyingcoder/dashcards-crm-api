@@ -14,15 +14,11 @@ class TemplateController extends Controller
         'status' => 'required'
     ];
 
-    // Dustin Edit 02/06
     public function index()
     {
-        if(!request()->ajax())
-    	   return view('pages.milestone');
-
         $company = auth()->user()->company();
-
-        if(request()->has('paginated'))
+        
+        if(request()->has('all'))
             return $company->selectTemplate(request());
 
         return $company->paginatedTemplates(request());

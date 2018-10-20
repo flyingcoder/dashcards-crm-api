@@ -35,13 +35,47 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
 });
 
+// Tasks
+Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
+  
+  Route::get('/', 'TaskController@index');
+
+  Route::post('/', 'TaskController@store'); //for independent task no milestone
+
+  Route::get('statistics/{id}', 'TaskController@stats');
+
+  Route::get('{id}', 'TaskController@task');
+
+  Route::delete('{id}', 'TaskController@delete');
+
+  Route::put('{id}', 'TaskController@update');
+
+  Route::get('{id}/comments', 'TaskController@comments');
+
+  Route::post('{id}/comments', 'TaskController@addComments');
+
+});
+
+// Milestone
+Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () {
+
+  Route::get('{id}/task', 'MilestoneController@tasks');
+
+  Route::post('{id}/task', 'MilestoneController@addTasks');
+
+  Route::put('{milestone_id}/task/{id}', 'TaskController@update');
+
+  Route::delete('{milestone_id}/task/{id}', 'TaskController@delete');
+
+});
+
 //new dynamic parent milestone api
 Route::group(['middleware' => 'auth:api'], function () {
 
   Route::get('{parent}/{id}/milestone', 'MilestoneController@index')
          ->where('parent', 'project|template');
 
-  Route::post('{parent}/{id}/milestone', 'MilestoneController@saveMilestone')
+  Route::post('{parent}/{id}/milestone', 'MilestoneController@store')
          ->where('parent', 'project|template');
 
   Route::put('{parent}/{id}/milestone/{milestone_id}', 'MilestoneController@update')
@@ -170,16 +204,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
 });
 
-
-// Milestone
-Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () {
-
-  Route::get('{id}/tasks', 'MilestoneController@tasks');
-
-  Route::post('{id}/tasks', 'MilestoneController@addTasks');
-
-});
-
 // Services
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
@@ -230,7 +254,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/timer', 'ProjectController@timer');
 
   Route::get('{id}/members', 'ProjectController@members');// project-hq
-  
+
   Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');
@@ -244,28 +268,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/files/grid', 'MediaController@projectMediaAll');
 
   Route::get('{id}/timeline', 'ActivityController@project');
-
-});
-
-
-// Tasks
-Route::group(['middleware' => 'auth:api', 'prefix' => 'tasks'], function () {
-  
-  Route::get('/', 'TaskController@index');
-
-  Route::post('/', 'TaskController@store');
-
-  Route::get('statistics/{id}', 'TaskController@stats');
-
-  Route::get('{id}', 'TaskController@task');
-
-  Route::delete('{id}', 'TaskController@delete');
-
-  Route::put('{id}', 'TaskController@update');
-
-  Route::get('{id}/comments', 'TaskController@comments');
-
-  Route::post('{id}/comments', 'TaskController@addComments');
 
 });
 

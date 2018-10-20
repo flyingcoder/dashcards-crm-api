@@ -108,16 +108,16 @@ class Company extends Model
                     ->get();
     }
 
-    public function paginatedTemplates(Request $request)
+    public function paginatedTemplates()
     {
-        list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam(request());
 
         $templates = $this->templates();
 
-        if($request->has('type'))
-            $templates->where('replica_type', $request->type);
+        if(request()->has('type'))
+            $templates->where('replica_type', request()->type);
 
-        if($request->has('sort'))
+        if(request()->has('sort'))
             $templates->orderBy($sortName, $sortValue);
 
         return $templates->paginate($this->paginate);
@@ -376,13 +376,13 @@ class Company extends Model
         return $tasks;
     }
 
-    public function allCompanyPaginatedTasks(Request $request)
+    public function allCompanyPaginatedTasks()
     {
-        list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam(request());
 
         $tasks = $this->tasks();
 
-        if($request->has('sort'))
+        if(request()->has('sort'))
             $tasks->orderBy($sortName, $sortValue);
 
         return $tasks->with('assigned')->paginate($this->paginate);

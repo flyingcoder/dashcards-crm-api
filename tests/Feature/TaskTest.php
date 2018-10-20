@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Task;
+use App\Milestone;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,8 +12,75 @@ use Carbon\Carbon;
 class TaskTest extends TestCase
 {
 
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testStore()
+    {   
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $model = Milestone::latest()->first();
+
+        $data = [
+            'title' => 'This is a title created in task test.',
+            'description' => 'Mocking the description of task test',
+            'status' => 'open',
+            'days' => 7
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/milestone/'.$model->id.'/task', $data);
+
+        //dd($response->content());
+        $response->assertStatus(201);
+    }
+
+    public function testUpdate()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $model = Task::latest()->first();
+
+        $data = [
+            'title' => 'This is a title created in task update.',
+            'description' => 'Mocking the description of task test',
+            'status' => 'open',
+            'days' => 4
+        ];
+       
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put('api/milestone/1/task/'.$model->id, $data);
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testDelete()
+    {
+        $user = User::find(1);
+
+        $model = Task::latest()->first();
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/milestone/1/task/'.$model->id);
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+    
 	public function testTaskCompany()
 	{
+        $this->withoutExceptionHandling();
+
 		$task = Task::find(1)->company();
 
 		//dd($task);
@@ -70,46 +138,6 @@ class TaskTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testStore()
-    {	
-    	$user = User::find(1);
-
-    	$postData = [
-            'milestone_id' => 0,
-	       	'title' => 'This is a title created in task test.',
-	       	'description' => 'Mocking the description of task test',
-	       	'started_at' => Carbon::today(),
-	       	'status' => 'open',
-	       	'end_at' => Carbon::today()->addDay()
-        ];
-        
-    	//$response = $this->actingAs($user, 'api')
-    	//				 ->post('api/tasks', $postData);
-
-    	//dd($response->exception->validator->messages());
-
-    	//$response->assertStatus(302);
-
-    	//$this->assertTrue(true);
-    }
-
-    public function testDelete()
-    {
-        $user = User::find(1);
-        
-        //$response = $this->actingAs($user, 'api')
-        //                 ->delete('api/tasks/2');
-
-        //deleted items must not be returned
-        //dd($response->content());
-        $this->assertTrue(true);
-    }
-
     public function testTask()
     {
         $user = User::find(1);
@@ -120,26 +148,5 @@ class TaskTest extends TestCase
         //deleted items must not be returned
         //dd($response->content());
         $response->assertStatus(200);
-    }
-
-    public function testUpdate()
-    {
-        $user = User::find(1);
-
-        $postData = [
-            'milestone_id' => 0,
-            'title' => 'This is a title created in task update.',
-            'description' => 'Mocking the description of task test',
-            'started_at' => Carbon::today(),
-            'status' => 'open',
-            'end_at' => Carbon::today()->addDay()
-        ];
-        
-        $response = $this->actingAs($user, 'api')
-                         ->put('api/tasks/1', $postData);
-
-        //dd($response->exception->validator->messages());
-
-        $response->assertStatus(302);
     }
 }

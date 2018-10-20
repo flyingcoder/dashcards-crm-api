@@ -33,8 +33,7 @@ class MilestoneTest extends TestCase
                          ->post('api/template/'.$model->id.'/milestone', $data);
 
         //dd($response->content());
-        //$response->assertStatus(201);
-        $this->assertTrue(true);
+        $response->assertStatus(200);
     }
 
     public function testAddMilestoneProject()

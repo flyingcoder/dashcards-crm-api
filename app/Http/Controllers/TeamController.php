@@ -18,10 +18,9 @@ class TeamController extends Controller
 {
     public function index()
     {
-        $company = Company::first();
+       // $company = auth()->company();
 
-        $result = $company->members()->get();
-        return view('pages.team', ['members' => collect($result)]);
+        //return $company->paginatedTemplates();
     }
 
     public function memberProfile($id)

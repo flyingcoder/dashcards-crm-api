@@ -15,13 +15,36 @@ class TaskController extends Controller
 
     public function index()
     {
-        //(new TaskPolicy())->index();
-        $user = \App\User::first();
+        $company = auth()->company();
 
-        $company = $user->company();
+        return $company->allCompanyPaginatedTasks();
+    }
 
-        //dd($company->allCompanyPaginatedTasks(request()));
-        return $company->allCompanyPaginatedTasks(request());
+    /**
+     *
+     * store a task from an api call
+     *
+     */
+    public function store(TaskRequest $request)
+    {
+        //(new TaskPolicy())->create();
+        
+        return Task::store();
+    }
+
+     /**
+     *
+     * Update a task
+     *
+     */
+
+    public function update($milestone_id, $task_id, TaskRequest $request)
+    {
+        $task = Task::findOrFail($task_id);
+
+        //(new TaskPolicy())->update($task);
+
+        return $task->updateTask();
     }
 
     public function comments($id)
@@ -52,14 +75,6 @@ class TaskController extends Controller
         return $new_comment;
 
     }
-    
-    //currently not in use. This is for in house view.
-    public function save($project_id)
-    {
-        (new TaskPolicy())->create();
-
-    	return view('pages.project-hq.tasks-new', ['project_id' => $project_id]);
-    }
 
     public function stats($id)
     {
@@ -89,24 +104,6 @@ class TaskController extends Controller
 
     /**
      *
-     * store a task from an api call
-     *
-     */
-    public function store(TaskRequest $request)
-    {
-        //test user capacity to create task
-        (new TaskPolicy())->create();
-
-        //validate and store request to database
-        
-        $task = Task::store($request);
-
-        //return response back to json
-        return response()->json(['created' => $task[0], 'task' => $task[1]]);
-    }
-
-    /**
-     *
      * Delete a specific task
      *
      */
@@ -117,48 +114,11 @@ class TaskController extends Controller
 
         // (new TaskPolicy())->delete($task);
 
-        Task::destroy($id);
-
-        return response()->json(['deleted' => $task]); 
-    }
-
-
-    /**
-     *
-     * Update a task
-     *
-     */
-
-    public function update($id)
-    {
-        $task = Task::findOrFail($id);
-
-        (new TaskPolicy())->update($task);
-
-        /*$validated = request()->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'milestone_id' => 'integer|exists:milestones,id',
-            'started_at' => 'date',
-            'end_at' => 'date',
-            'days' => 'integer'
-        ]);*/
-
-        $task->title = request()->title;
-        $task->description = request()->description;
-
-        if(request()->has('days'))
-            $task->days = request()->days;
-
-        if(request()->has('started_at'))
-            $task->started_at = request()->started_at;
-
-        if(request()->has('end_at'))
-            $task->end_at = request()->end_at;
-
-        $task->save();
-
-        return response()->json(['updated' => $task]);
+        if($task->delete()) {
+            return response('Task is successfully deleted.', 200);
+        } else {
+            return response('Failed to delete task.', 500);
+        }
     }
     
     
