@@ -14,23 +14,48 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function () {
+
   Route::get('/', 'ActivityController@index');
+
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
+
   Route::get('plan', 'PaymentController@plan');
+
   Route::post('checkout', 'PaymentController@checkout');
+
 });
+
 
 Route::post('login', 'Auth\ApiLoginController@login');
 
+//permission
+Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function () {
+
+  Route::get('/', 'PermissionController@index');
+
+  Route::post('/', 'PermissionController@store');
+
+  Route::put('{id}', 'PermissionController@update');
+
+  Route::delete('{id}', 'PermissionController@delete');
+
+});
+
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
+
   Route::get('members', 'CompanyController@members');
+
   Route::get('teams', 'CompanyController@teams');
+
   Route::get('teams/{id}', 'CompanyController@member');
+
   Route::delete('teams/{id}', 'TeamController@delete');
+
   Route::post('teams', 'TeamController@store');
+
   Route::put('teams/{id}', 'TeamController@update');
 
 });
@@ -306,8 +331,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 
   Route::get('roles', 'TeamController@role');
 
-  Route::get('{id}/permissions', 'PermissionController@rolePermissions');
-
   Route::get('{id}', 'TeamController@editgroup');
 
   Route::get('{id}/members', 'GroupController@members');
@@ -315,7 +338,14 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
   Route::put('{id}', 'TeamController@updategroup');
 
   Route::delete('{id}', 'TeamController@deletegroup');
+
+  Route::post('{id}/permission', 'GroupController@assignPermission');
+
+  Route::get('{id}/permission', 'PermissionController@permissions');
+
 });
+
+
 
 // Invoices
 Route::group(['middleware' => 'auth:api', 'prefix' => 'invoices'], function () {

@@ -29,6 +29,26 @@ class GroupTest extends TestCase
     	$response->assertStatus(200);
     }
 
+    public function testAssign()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $data = [
+            'permission_id' => [2,3,4]
+        ];
+
+        $model = Role::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/groups/'.$model->id.'/permission', $data);
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     /**
      * A basic test example.
      *
@@ -52,27 +72,6 @@ class GroupTest extends TestCase
         //dd($response->content());
         $response->assertStatus(201);
         //$this->assertTrue(true);
-    }*/
-
-     /**
-     * A basic test example.
-     *
-     * @return void
-     
-    public function testUpdate()
-    {
-       $this->withoutExceptionHandling();
-
-        $user = User::findOrFail(1);
-
-        $modelput = Role::latest()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->put('api/groups/'.$modelput->id.'/permission');
-
-        //dd($response->content());
-        $response->assertStatus(200);
     }*/
 
      /**
