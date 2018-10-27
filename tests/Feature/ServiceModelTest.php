@@ -9,6 +9,18 @@ use App\User;
 
 class ServiceModelTest extends TestCase
 {
+
+    public function testIndex()
+    {
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/services');
+        
+        dd($response->content());
+        $response->assertStatus(200);
+    }
     /**
      * A basic test example.
      *
@@ -94,18 +106,6 @@ class ServiceModelTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/services?all=true');
-        
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testIndex()
-    {
-        $user = User::findOrFail(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/services');
         
         //dd($response->content());
         $response->assertStatus(200);
