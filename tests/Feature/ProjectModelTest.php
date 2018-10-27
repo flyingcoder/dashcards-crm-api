@@ -36,7 +36,11 @@ class ProjectModelTest extends TestCase
 
     public function testUpdateProject()
     {
+        $this->withoutExceptionHandling();
+
         $user = User::find(1);
+
+        $model = Project::latest()->first();
 
         $data = [
             'title' => 'Test',
@@ -50,9 +54,9 @@ class ProjectModelTest extends TestCase
         
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->put('api/projects/1', $data);
+                         ->put('api/projects/'.$model->id , $data);
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 
