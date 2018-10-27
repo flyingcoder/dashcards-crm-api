@@ -175,8 +175,10 @@ class ProjectController extends Controller
         $project->end_at = request()->end_at;
 
         if(request()->has('client_id')){
-            if($project->client()->first()->id != request()->client_id) {
-                $project->members()->detach($project->client()->id);
+            if(empty($project->client)) {
+                $project->members()->attach(request()->client_id, ['role' => 'client']);
+            } else if ($project->client()->first()->id != request()->client_id) {
+                $project->members()->detach($project->client()->first()->id);
                 $project->members()->attach(request()->client_id, ['role' => 'client']);
             }
         }
@@ -189,7 +191,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return response($project, 200);
+        return $project;
     }
 
     public function delete($id)

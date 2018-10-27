@@ -1,12 +1,12 @@
 # Base URL [api.bizzooka.ca]
 
-## Services API [api/company/services]
+## Services API [api/services]
 
-## Services view API [api/company/services?view={grid|list}] default view "list"
+## Services view API [api/services?view={grid|list}] default view "list"
 
-## Services sort API [api/company/services?sort={column}|{asc|desc}]
+## Services sort API [api/services?sort={column}|{asc|desc}]
 
-## Services search API [api/company/services?search={keyword}]
+## Services search API [api/services?search={keyword}]
 
 ### / [GET]
 
@@ -54,9 +54,10 @@
 
 + Request (application/json)
 
-        {
-            'name' : 'Tech Services'
-        }
+        [
+            {'name' : 'Tech Services'},
+            {'name' : 'SEO Services'}
+        ]
 
 + Response 200 (application/json)
 
