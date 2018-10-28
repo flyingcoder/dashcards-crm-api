@@ -131,7 +131,11 @@ class ServiceController extends Controller
         
         $service->save();
 
-        return $service;
+        return collect([
+            'name' => ucfirst($service->user->last_name).', '.ucfirst($service->user->first_name),
+            'service_name' => $service->name,
+            'service_created_at' => $service->created_at->toDateTimeString()
+        ]);
     }
 
     public function delete($id)

@@ -81,7 +81,7 @@ class ServiceModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put('api/services/'.$modelput->id , $data);
         
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 
