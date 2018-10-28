@@ -25,7 +25,7 @@ class ServiceModelTest extends TestCase
      * A basic test example.
      *
      * @return void
-    
+     */
     public function testStore()
     {
         $this->assertTrue(true);
@@ -38,7 +38,7 @@ class ServiceModelTest extends TestCase
         
         //dd($response->content());                 
         $response->assertStatus(200);
-    }*/
+    }
 
     /**
      * A basic test example.
