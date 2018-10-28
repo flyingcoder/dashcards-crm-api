@@ -87,6 +87,7 @@ class ServiceController extends Controller
                 $created_at = $service->created_at->toDateTimeString();
 
                 $res[] = collect([
+                    'id' => $service->id,
                     'name' => ucfirst(Auth::user()->last_name).', '.ucfirst(Auth::user()->first_name),
                     'service_name' => ucfirst($service->name),
                     'service_created_at' => $created_at
@@ -132,6 +133,7 @@ class ServiceController extends Controller
         $service->save();
 
         return collect([
+            'id' => $service->id,
             'name' => ucfirst($service->user->last_name).', '.ucfirst($service->user->first_name),
             'service_name' => ucfirst($service->name),
             'service_created_at' => $service->created_at->toDateTimeString()
