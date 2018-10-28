@@ -74,17 +74,19 @@ class ServiceController extends Controller
             
             $services = $request->all();
 
+            $res = [];
+
             (new ServicePolicy())->create();
 
             foreach($services as $s){
-                Service::create([
-                    'user_id' => Auth::user()->id,
-                    'name' => $s['name'] 
-                ]);    
+                $res[] = Service::create([
+                            'user_id' => Auth::user()->id,
+                            'name' => $s['name'] 
+                        ]);    
             }
             
-            return response()
-                        ->json(['message' => 'Service was successfully added.', ]);
+            return $res;
+
         } catch (\Exception $ex) {
 
             return response(['message' => $ex->getMessage()], 500);

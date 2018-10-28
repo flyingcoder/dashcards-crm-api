@@ -44,7 +44,7 @@ class ProjectModelTest extends TestCase
 
         $data = [
             'title' => 'Test',
-            'client_id' => 2,
+            'client_id' => User::where('job_title','Client')->first()->id,
             'service_id' => 1,
             'start_at' => '2018-12-19',
             'end_at' => '2018-12-19',
@@ -56,7 +56,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put('api/projects/'.$model->id , $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
