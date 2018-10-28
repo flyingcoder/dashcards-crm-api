@@ -28,6 +28,8 @@ class ServiceModelTest extends TestCase
      */
     public function testStore()
     {
+        $this->withoutExceptionHandling();
+
         $this->assertTrue(true);
         
     	$user = User::findOrFail(1);
