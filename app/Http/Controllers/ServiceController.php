@@ -79,10 +79,18 @@ class ServiceController extends Controller
             (new ServicePolicy())->create();
 
             foreach($services as $s){
-                $res[] = Service::create([
+                $service = Service::create([
                             'user_id' => Auth::user()->id,
                             'name' => $s['name'] 
-                        ]);    
+                        ]);
+
+                $created_at = $service->created_at->toDateTimeString();
+
+                $res[] = collect([
+                    'name' => ucfirst(Auth::user()->last_name).', '.ucfirst(Auth::user()->first_name),
+                    'service_name' => $service->name,
+                    'service_created_at' => $created_at
+                ]);
             }
             
             return $res;
