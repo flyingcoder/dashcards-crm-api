@@ -19,13 +19,6 @@ class ServiceController extends Controller
 
     public function index()
     {  
-        /*
-        $page = request()->input('page', 1);
-
-        $offSet = ($page * $this->paginate) - $this->paginate;  
-        $itemsForCurrentPage = array_slice($result, $offSet, $this->paginate, true);  
-        $result = new LengthAwarePaginator($itemsForCurrentPage, count($result), $this->paginate, $page);
-        */
         (new ServicePolicy())->index();
 
         if(!request()->ajax())
@@ -140,13 +133,34 @@ class ServiceController extends Controller
         ]);
     }
 
+    public function bulkDelete()
+    {
+        try {
+
+            $service = new Service();
+
+            $service->whereIn('id', request()->ids)->delete();
+
+            return response(['message' => 'Successfully deleted services.'], 200);
+
+        } catch (\Exception $ex) {
+
+            return response(['message' => 'Services deletion failed'], 500);
+
+        }
+        
+    }
+
     public function delete($id)
     {
         $service = Service::findOrFail($id);
 
         (new ServicePolicy())->delete($service);
 
-        return $service->destroy($id);
+        if($service->destroy($id))
+            return response(['message' => 'Successfully deleted services.'], 200);
+        else
+            return response(['message' => 'Services deletion failed.'], 500);
     }
 
 

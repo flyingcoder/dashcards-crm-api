@@ -55,8 +55,7 @@
 + Request (application/json)
 
         [
-            {'name' : 'Tech Services'},
-            {'name' : 'SEO Services'}
+            {'name' : 'Tech Services'}
         ]
 
 + Response 200 (application/json)
@@ -77,4 +76,19 @@
 
         {
             'Failed to delete Service.'
+        }
+
+##bulk delete
+### / [DELETE]
+
++ Response 200 (application/json)
+
+        {
+            'Successfully deleted services.'
+        }
+
++ Response 500 (application/json)
+
+        {
+            'Services deletion failed.'
         }

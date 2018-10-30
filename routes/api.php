@@ -242,6 +242,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
   Route::put('{id}', 'ServiceController@update');
 
+  Route::delete('/', 'ServiceController@bulkDelete');
+
   Route::delete('{id}', 'ServiceController@delete');
 
 });
