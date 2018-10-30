@@ -67,6 +67,9 @@ class Project extends Model implements HasMediaConversions
 
         $proj_total_sec = 0;
 
+        if(empty($tasks))
+            return gmdate("H:i:s", $proj_total_sec);
+
         foreach ($tasks as $key => $task) {
 
             $lastTimer = $task->lastTimer();    
