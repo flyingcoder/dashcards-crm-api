@@ -256,6 +256,9 @@ class Company extends Model
                       });
         }
 
+        if($request->has('per_page'))
+            $this->paginate = $request->per_page;
+
         return $model->paginate($this->paginate);
     }
 
@@ -336,6 +339,9 @@ class Company extends Model
         $data->map(function ($project) {
             $project['total_time'] = $project->totalTime();
             $project['progress'] = $project->progress();
+            $tasks = $project->tasks->count();
+            unset($project['tasks']);
+            $project['tasks'] = $tasks;
             return $project;
         });
 

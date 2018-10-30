@@ -9,6 +9,19 @@ use App\User;
 
 class ServiceModelTest extends TestCase
 {
+    public function testIndexWithParams()
+    {
+         $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/services?per_page=5&search=&sort=service_name|asc');
+        
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
 
     public function testIndex()
     {
