@@ -12,6 +12,8 @@ class ServiceModelTest extends TestCase
 
     public function testIndex()
     {
+         $this->withoutExceptionHandling();
+
         $user = User::findOrFail(1);
 
         $response = $this->actingAs($user, 'api')
@@ -21,6 +23,28 @@ class ServiceModelTest extends TestCase
         //dd($response->content());
         $response->assertStatus(200);
     }
+
+    public function testBulkDelete()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $data = [
+            'ids' => [
+                Service::latest()->first()->id,
+                Service::first()->id
+            ]
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/services', $data);
+        
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     /**
      * A basic test example.
      *
@@ -81,7 +105,7 @@ class ServiceModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put('api/services/'.$modelput->id , $data);
         
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
