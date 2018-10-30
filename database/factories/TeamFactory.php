@@ -8,6 +8,6 @@ $factory->define(App\Team::class, function (Faker $faker) {
         'company_id' => function () {
         	return factory(App\Company::class)->create()->id;
         },
-        'description' => $faker->paragraph
+        'description' => $faker->realText($maxNbChars = 200, $indexSize = 1)
     ];
 });
