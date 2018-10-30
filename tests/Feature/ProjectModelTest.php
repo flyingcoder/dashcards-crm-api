@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\User;
 use App\Project;
+use App\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
@@ -12,26 +13,31 @@ class ProjectModelTest extends TestCase
 
     public function testCreateProject()
     {
+        $this->withoutExceptionHandling();
+
         $user = User::find(1);
-        /*
+        
         $data = [
             'title' => 'Test',
-            'client_id' => 2,
-            'service_id' => 1,
+            'client_id' => User::where('job_title','Client')->first()->id,
+            'service_id' => Service::latest()->first()->id,
             'start_at' => '2018-12-19',
             'end_at' => '2018-12-19',
             'location' => 'required',
             'description' => 'required',
             'comment' => 'test comment',
-            'members' => [5,8,3,4]
+            'members' => [
+                User::latest()->first()->id,
+                User::latest()->first()->id - 1
+            ]
         ];
         
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/projects', $data);
 
-        //dd($response->content());
-        $response->assertStatus(200);*/
+        dd($response->content());
+        $response->assertStatus(200);
     }
 
     public function testUpdateProject()
