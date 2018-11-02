@@ -11,6 +11,37 @@ use Kodeine\Acl\Models\Eloquent\Permission;
 
 class PermissionTest extends TestCase
 {
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testStore()
+    {
+       $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $data = [ 
+            'name'        => 'project_'.rand(),
+            'slug'        => [          // pass an array of permissions.
+                'create'     => true,
+                'view'       => true,
+                'update'     => true,
+                'delete'     => true,
+            ],
+            'description' => 'project task permissions'
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/permission', $data);
+
+        //dd($response->content());
+        $response->assertStatus(201);
+        //$this->assertTrue(true);
+    }
+
 	/**
      * A basic test example.
      *
@@ -26,40 +57,11 @@ class PermissionTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/permission');
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 
-	/**
-     * A basic test example.
-     *
-     * @return void
-   	 */
-    public function testStore()
-    {
-       $this->withoutExceptionHandling();
-
-        $user = User::findOrFail(1);
-
-        $data = [ 
-		    'name'        => 'project_'.rand(),
-		    'slug'        => [          // pass an array of permissions.
-		        'create'     => true,
-		        'view'       => true,
-		        'update'     => true,
-		        'delete'     => true,
-		    ],
-		    'description' => 'project task permissions'
-		];
-
-        //$response = $this->actingAs($user, 'api')
-        //                 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-        //                 ->post('api/permission', $data);
-
-        //dd($response->content());
-        //$response->assertStatus(201);
-        $this->assertTrue(true);
-    }
+	
 
     /**
      * A basic test example.

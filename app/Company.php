@@ -6,6 +6,7 @@ use DB;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Kodeine\Acl\Models\Eloquent\Role;
+use Kodeine\Acl\Models\Eloquent\Permission;
 use Plank\Metable\Metable;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
@@ -45,6 +46,11 @@ class Company extends Model
     protected $paginate = 10;
 
     protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description'];
+
+    public function permissions()
+    {
+        return $this->hasMany(Permission::class);
+    }
 
     public function teams()
     {

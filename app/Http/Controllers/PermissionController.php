@@ -12,7 +12,31 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        return Permission::all();
+        $paginate = 10;
+        //well change this in the future.
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        $model = auth()->user()->company()->permissions();
+
+        if(request()->has('sort') && !is_null($sortValue))
+            $model->orderBy($sortName, $sortValue);
+        else
+            $model->orderBy('created_at', 'desc');
+
+        if(request()->has('search')){
+            $keyword = request()->search;
+
+            $model->where(function ($query) use ($keyword) {
+                        $query->where('name', 'like', '%' . $keyword . '%');
+                        $query->orWhere('description', 'like', '%' . $keyword . '%');
+                        $query->orWhere('create_at', 'like', '%' . $keyword . '%');
+                      });
+        }
+
+        if(request()->has('per_page'))
+            $paginate = request()->per_page;
+
+        return $model->paginate($paginate);
     }
 
     /*
@@ -20,9 +44,9 @@ class PermissionController extends Controller
      */
     public function store(PermissionRequest $request)
     {
-        $permission = new Permission();
+        $company = auth()->user()->company();
 
-        return $permission->create(request()->all());
+        return $company->permissions()->create(request()->all());
     }
 
     public function update($id)
