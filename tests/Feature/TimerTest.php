@@ -15,21 +15,22 @@ class TimerTest extends TestCase
      */
     public function testStartTime()
     {
-        $user = User::find(4);
-        
-        $data = [
-            'subject_type' => 'App\Company'
-        ];
-        
+        $this->withoutExceptionHandling();
+
+        $user = User::latest()->first();
+
         $response = $this->actingAs($user, 'api')
-                         ->post('api/timer/start', $data);
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/timer/stop');
 
         //dd($response->content());
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 
     public function testTaskStartTime()
     {
+        $this->withoutExceptionHandling();
+
         $user = User::find(1);
         
         $data = [

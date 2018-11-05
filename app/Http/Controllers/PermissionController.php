@@ -53,7 +53,9 @@ class PermissionController extends Controller
     {
         $permission = Permission::findOrfail($id);
 
-        return (int) $permission->update(request()->all());
+        $permission->update(request()->all());
+
+        return $permission;
     }
 
     public function delete($id)

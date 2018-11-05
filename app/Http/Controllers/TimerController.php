@@ -12,22 +12,25 @@ class TimerController extends Controller
 {
     public function timer($action)
     {
-        if(request()->subject_type == 'App\Company'){
-            $last_timer = auth()->user()->lastTimer();
-            $company = auth()->user()->company();
-            $subject_id = $company->id;
-            $description = 'A general timer';
-        } else {
+        $type = request()->subject_type;
+        if(request()->has('subject_type')){
             $task = Task::findOrFail(request()->subject_id);
             $subject_id = request()->subject_id;
             $last_timer = $task->lastTimer();
             $description = 'A task timer';
+        } else {
+            $last_timer = auth()->user()->lastTimer();
+            $company = auth()->user()->company();
+            $subject_id = $company->id;
+            $description = 'A general timer';
+            $type = 'App\Company';
         }
 
-        if($last_timer != null)
+        if($last_timer != null){
             $this->checkAction($last_timer, $action);
-        elseif($last_timer == null && $action != 'start')
-            abort(405, 'Action is not allowed');
+        } else if($last_timer == null && $action != 'start'){
+            return response('Action is not allowed', 405);
+        }
 
         if(request()->has('description'))
             $description = request()->description;
@@ -36,7 +39,7 @@ class TimerController extends Controller
             'timer_name' => auth()->user()->first_name.' Timer',
             'description' => $description,
             'subject_id' => $subject_id,
-            'subject_type' => request()->subject_type,
+            'subject_type' => $type,
             'causer_id' => auth()->user()->id,
             'causer_type' => 'App\User',
             'action' => $action,
