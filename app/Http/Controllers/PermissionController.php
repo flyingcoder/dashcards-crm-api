@@ -23,7 +23,7 @@ class PermissionController extends Controller
         else
             $model->orderBy('created_at', 'desc');
 
-        if(request()->has('search')){
+        if(request()->has('search') && !empty(request()->search)){
             $keyword = request()->search;
 
             $model->where(function ($query) use ($keyword) {

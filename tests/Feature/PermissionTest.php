@@ -55,9 +55,9 @@ class PermissionTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/permission');
+                         ->get('api/permission?page=1&search=&sort=');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
