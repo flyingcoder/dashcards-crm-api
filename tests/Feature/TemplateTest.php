@@ -72,7 +72,7 @@ class TemplateTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/template');
+                         ->get('api/template?page=1&search=&sort=');
 
         //dd($response->content());
         $response->assertStatus(200);

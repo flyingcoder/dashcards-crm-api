@@ -14,7 +14,7 @@ class ProjectModelTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::find(1);
+        $user = User::latest()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -29,7 +29,7 @@ class ProjectModelTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::find(1);
+        $user = User::latest()->first();
         
         $data = [
             'title' => 'Test',
@@ -58,7 +58,7 @@ class ProjectModelTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::find(1);
+        $user = User::latest()->first();
 
         $model = Project::latest()->first();
 
@@ -91,7 +91,7 @@ class ProjectModelTest extends TestCase
 
     public function testTotalTime()
     {
-        $user = User::find(1);
+        $user = User::latest()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -103,7 +103,7 @@ class ProjectModelTest extends TestCase
 
     public function testProjectTasks()
     {
-    	$user = User::find(1);
+    	$user = User::latest()->first();
 
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -116,7 +116,7 @@ class ProjectModelTest extends TestCase
 
     public function testProject()
     {
-    	$user = User::find(1);
+    	$user = User::latest()->first();
 
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -128,7 +128,7 @@ class ProjectModelTest extends TestCase
 
     public function testProjectActivity()
     {
-    	$user = User::find(1);
+    	$user = User::latest()->first();
 
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -140,7 +140,7 @@ class ProjectModelTest extends TestCase
 
     public function testProjectMedia()
     {
-        $user = User::find(1);
+        $user = User::latest()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])

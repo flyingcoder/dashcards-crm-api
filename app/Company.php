@@ -118,15 +118,24 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $templates = $this->templates();
+        $model = $this->templates();
+        $table = 'templates';
 
         if(request()->has('type'))
-            $templates->where('replica_type', request()->type);
+            $model->where('replica_type', request()->type);
 
-        if(request()->has('sort'))
-            $templates->orderBy($sortName, $sortValue);
+        if(request()->has('sort') && !empty(request()->sort))
+            $model->orderBy($sortName, $sortValue);
 
-        return $templates->paginate($this->paginate);
+        if(request()->has('search')){
+            $keyword = request()->search;
+            $model->where(function ($query) use ($keyword, $table) {
+                        $query->where("{$table}.name", "like", "%{$keyword}%");
+                        $query->where("{$table}.status", "like", "%{$keyword}%");
+                  });
+        }
+
+        return $model->paginate($this->paginate);
     }
 
     public function allTeamMembers()
