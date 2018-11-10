@@ -73,6 +73,43 @@ class Company extends Model
         return $this->hasMany(CalendarModel::class);
     }
 
+    public function autocomplete($model)
+    {
+        $model = "search".ucfirst($model);
+
+        return $this->{$model}(request()->q);
+    }
+
+    public function searchService($query)
+    {
+        $model = $this->services()
+             ->where('services.name', 'LIKE', "%{$query}%");
+
+        return $model->get();
+    }
+
+    public function searchMember($query)
+    {
+        $model = $this->members()
+             ->where('users.username', 'LIKE', "%{$query}%")
+             ->orWhere('users.first_name', 'LIKE', "%{$query}%")
+             ->orWhere('users.last_name', 'LIKE', "%{$query}%")
+             ->orWhere('users.email', 'LIKE', "%{$query}%");
+
+        return $model->get();
+    }
+
+    public function searchClient($query)
+    {
+        $model = $this->clients()
+             ->where('users.username', 'LIKE', "%{$query}%")
+             ->orWhere('users.first_name', 'LIKE', "%{$query}%")
+             ->orWhere('users.last_name', 'LIKE', "%{$query}%")
+             ->orWhere('users.email', 'LIKE', "%{$query}%");
+
+        return $model->get();
+    }
+
     public function allPaginatedCalendar(Request $request)
     {
         list($sortName, $sortValue) = parseSearchParam($request);
