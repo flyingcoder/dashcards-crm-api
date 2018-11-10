@@ -19,9 +19,9 @@ class TemplateController extends Controller
         $company = auth()->user()->company();
         
         if(request()->has('all'))
-            return $company->selectTemplate(request());
+            return $company->selectTemplate();
 
-        return $company->paginatedTemplates(request());
+        return $company->paginatedTemplates();
     }
 
     public function milestonesTask($id)

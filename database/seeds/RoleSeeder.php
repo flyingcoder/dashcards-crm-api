@@ -21,6 +21,7 @@ class RoleSeeder extends Seeder
 
         $permission->create(
         	[
+        		'company_id' => 1,
         		'name' => 'user',
 			    'slug' => [
 			        'create'     => true,
@@ -33,6 +34,7 @@ class RoleSeeder extends Seeder
         
         $permission->create(
 	        [
+	        	'company_id' => 1,
         		'name' => 'project_details',
 			    'slug' => [
 			        'create'     => true,
@@ -44,6 +46,7 @@ class RoleSeeder extends Seeder
 	        ]);
         $permission->create(
 	        [
+	        	'company_id' => 1,
         		'name' => 'project_milestones',
 			    'slug' => [
 			        'create'     => true,
@@ -55,6 +58,7 @@ class RoleSeeder extends Seeder
 	        ]);
         $permission->create(
 	        [
+	        	'company_id' => 1,
         		'name' => 'project_own_tasks',
 			    'slug' => [
 			        'create'     => true,
@@ -66,6 +70,7 @@ class RoleSeeder extends Seeder
 	        ]);
         $permission->create(
 	        [
+	        	'company_id' => 1,
         		'name' => 'project_other_tasks',
 			    'slug' => [
 			        'create'     => true,

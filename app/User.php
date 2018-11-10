@@ -14,6 +14,7 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
@@ -22,7 +23,8 @@ class User extends Authenticatable
         Metable, 
         SoftDeletes,
         HasApiTokens,
-        Billable;
+        Billable,
+        Searchable;
 
     /**
      * The attributes that are mass assignable.

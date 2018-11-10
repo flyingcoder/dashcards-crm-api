@@ -27,6 +27,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
 
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'autocomplete'], function () {
+  
+  Route::get('{model}', 'SearchController@autocomplete');
+
+});
+
 
 Route::post('login', 'Auth\ApiLoginController@login');
 
