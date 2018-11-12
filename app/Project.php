@@ -216,7 +216,13 @@ class Project extends Model implements HasMediaConversions
 
     public function manager()
     {
-        return $this->belongsToMany(User::class)->wherePivot('role', 'Manager');
+        return $this->belongsToMany(User::class)
+                    ->wherePivot('role', 'Manager');
+    }
+
+    public function getManager()
+    {
+        return $this->manager()->first();
     }
 
     //not being used as of the moment reffer to api/user/projects

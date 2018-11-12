@@ -197,8 +197,6 @@ class ProjectController extends Controller
         $project->started_at = request()->start_at;
         $project->end_at = request()->end_at;
 
-
-
         if(request()->has('client_id')){
             if(count($project->client) == 0) {
                 $project->members()->attach(request()->client_id, ['role' => 'client']);
@@ -214,9 +212,24 @@ class ProjectController extends Controller
             }
         }
 
+        $client = $project->getClient();
+
         $project->save();
 
-        return $project;
+        //create return
+        $res = $project;
+
+        $res->manager_name = ucfirst($project->getManager()->last_name).", ".ucfirst($project->getManager()->first_name);
+
+        $res->client_image_url = $client->image_url;
+
+        $res->client_name = ucfirst($client->last_name).", ".ucfirst($client->first_name);
+
+        $res->total_time = "00:00:00";
+
+        $res->progress = 0;
+
+        return $res;
     }
 
     public function delete($id)
