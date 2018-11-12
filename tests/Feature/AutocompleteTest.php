@@ -62,7 +62,7 @@ class AutocompleteTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/autocomplete/member?q=alv');
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 }
