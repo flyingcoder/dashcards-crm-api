@@ -83,7 +83,10 @@ class Company extends Model
     public function searchService($query)
     {
         $model = $this->services()
-             ->where('services.name', 'LIKE', "%{$query}%");
+                      ->where(function($q) use ($query) {
+                              $q->where('services.name', 'LIKE', "%{$query}%");
+                      });
+             
 
         return $model->get();
     }
@@ -91,10 +94,14 @@ class Company extends Model
     public function searchMember($query)
     {
         $model = $this->members()
-             ->where('users.username', 'LIKE', "%{$query}%")
-             ->orWhere('users.first_name', 'LIKE', "%{$query}%")
-             ->orWhere('users.last_name', 'LIKE', "%{$query}%")
-             ->orWhere('users.email', 'LIKE', "%{$query}%");
+                      ->select('users.*')
+                      ->where(function($q) use ($query) {
+                              $q->where('users.username', 'LIKE', "%{$query}%")
+                                ->orWhere('users.first_name', 'LIKE', "%{$query}%")
+                                ->orWhere('users.last_name', 'LIKE', "%{$query}%")
+                                ->orWhere('users.email', 'LIKE', "%{$query}%");
+                      });
+             
 
         return $model->get();
     }
@@ -102,10 +109,12 @@ class Company extends Model
     public function searchClient($query)
     {
         $model = $this->clients()
-             ->where('users.username', 'LIKE', "%{$query}%")
-             ->orWhere('users.first_name', 'LIKE', "%{$query}%")
-             ->orWhere('users.last_name', 'LIKE', "%{$query}%")
-             ->orWhere('users.email', 'LIKE', "%{$query}%");
+             ->where(function($q) use ($query) {
+                      $q->where('users.username', 'LIKE', "%{$query}%")
+                        ->orWhere('users.first_name', 'LIKE', "%{$query}%")
+                        ->orWhere('users.last_name', 'LIKE', "%{$query}%")
+                        ->orWhere('users.email', 'LIKE', "%{$query}%");
+            });
 
         return $model->get();
     }

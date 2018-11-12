@@ -113,52 +113,75 @@ class ProjectController extends Controller
         (new ProjectPolicy())->create();
         
         try{
-        DB::beginTransaction();
-        $project = Project::create([
-            'title' => request()->title,
-            //'location' => request()->location,
-            'service_id' => request()->service_id,
-            'description' => request()->description,
-            'started_at' => request()->start_at,
-            'end_at' => request()->end_at,
-            'status' => 'Active',
-            'company_id' => auth()->user()->company()->id
-        ]);
 
-        if(request()->has('comment') && request()->comment != ''){
+            DB::beginTransaction();
 
-            $comment = new Comment([ 
-                'body' => request()->comment,
-                'causer_id' => auth()->user()->id,
-                'causer_type' => 'App\User'
+            $project = Project::create([
+                'title' => request()->title,
+                //'location' => request()->location,
+                'service_id' => request()->service_id,
+                'description' => request()->description,
+                'started_at' => request()->start_at,
+                'end_at' => request()->end_at,
+                'status' => 'Active',
+                'company_id' => auth()->user()->company()->id
             ]);
 
-            $new_comment = $project->comments()->save($comment);
-        }
+            if(request()->has('comment') && request()->comment != ''){
 
-        
-        $project->members()->attach(request()->client_id, ['role' => 'client']);
-        $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
-        if(request()->has('members')){
-            if(in_array(request()->client_id, request()->members)){
-                DB::rollback();
-                return response('Client cant be a member', 422);
-            }
-            elseif(in_array(Auth::user()->id, request()->members)){
-                DB::rollback();
-                return response('Manager cant be a member', 422);
-            }
-            foreach (request()->members as $value) {
-                $project->members()->attach($value, ['role' => 'members']);
-            }
-        }
+                $comment = new Comment([ 
+                    'body' => request()->comment,
+                    'causer_id' => auth()->user()->id,
+                    'causer_type' => 'App\User'
+                ]);
 
-        DB::commit();
-        return response(Project::latest()->first(), 200);
-        }
-        catch(\Exception $e){
-            DB::rollback();            
+                $new_comment = $project->comments()->save($comment);
+            }
+
+            
+            $project->members()->attach(request()->client_id, ['role' => 'client']);
+
+            $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
+
+            if(request()->has('members')){
+                if(in_array(request()->client_id, request()->members)){
+                    DB::rollback();
+                    return response('Client cant be a member', 422);
+                }
+                elseif(in_array(Auth::user()->id, request()->members)){
+                    DB::rollback();
+                    return response('Manager cant be a member', 422);
+                }
+                foreach (request()->members as $value) {
+                    $project->members()->attach($value, ['role' => 'members']);
+                }
+            }
+
+            $client = User::findOrFail(request()->client_id);
+
+            DB::commit();
+
+            //create return
+            $res = $project;
+
+            $res->manager_name = ucfirst(auth()->user()->last_name).", ".ucfirst(auth()->user()->first_name);
+
+            $res->client_image_url = $client->image_url;
+
+            $res->client_name = ucfirst($client->last_name).", ".ucfirst($client->first_name);
+
+            $res->total_time = "00:00:00";
+
+            $res->progress = 0;
+
+            return $res;
+
+        } catch(\Exception $e){
+
+            DB::rollback();      
+
             return response($e->getMessage(), 500);
+            
         }
     }
 

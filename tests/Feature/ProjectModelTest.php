@@ -14,7 +14,7 @@ class ProjectModelTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::latest()->first();
+        $user = User::all()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -29,7 +29,7 @@ class ProjectModelTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::latest()->first();
+        $user = User::all()->first();
         
         $data = [
             'title' => 'Test',
@@ -50,7 +50,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/projects', $data);
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -58,7 +58,7 @@ class ProjectModelTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::latest()->first();
+        $user = User::all()->first();
 
         $model = Project::latest()->first();
 
@@ -91,7 +91,7 @@ class ProjectModelTest extends TestCase
 
     public function testTotalTime()
     {
-        $user = User::latest()->first();
+        $user = User::all()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -103,7 +103,7 @@ class ProjectModelTest extends TestCase
 
     public function testProjectTasks()
     {
-    	$user = User::latest()->first();
+    	$user = User::all()->first();
 
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -116,7 +116,7 @@ class ProjectModelTest extends TestCase
 
     public function testProject()
     {
-    	$user = User::latest()->first();
+    	$user = User::all()->first();
 
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -128,7 +128,7 @@ class ProjectModelTest extends TestCase
 
     public function testProjectActivity()
     {
-    	$user = User::latest()->first();
+    	$user = User::all()->first();
 
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -140,7 +140,7 @@ class ProjectModelTest extends TestCase
 
     public function testProjectMedia()
     {
-        $user = User::latest()->first();
+        $user = User::all()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
