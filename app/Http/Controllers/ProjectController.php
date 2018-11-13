@@ -248,7 +248,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        (new ProjectPolicy())->delete($project);
+        //(new ProjectPolicy())->delete($project);
 
         return $project->destroy($id);
     }
