@@ -95,6 +95,7 @@ class Company extends Model
     {
         $model = $this->members()
                       ->select('users.*')
+                      ->where('users.id', '!=', auth()->user()->id)
                       ->where(function($q) use ($query) {
                               $q->where('users.username', 'LIKE', "%{$query}%")
                                 ->orWhere('users.first_name', 'LIKE', "%{$query}%")
