@@ -259,7 +259,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('/', 'ProjectController@index');// project
     
-  Route::delete('{id}/delete', 'ProjectController@delete');
+  Route::delete('{id}', 'ProjectController@delete');
 
   Route::get('{id}', 'ProjectController@project');
 
