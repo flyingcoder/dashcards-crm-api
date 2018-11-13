@@ -114,7 +114,7 @@ class ProjectController extends Controller
 
         request()->validate([
             'title' => 'required',
-            'started_at' => 'required',
+            'start_at' => 'required',
             'end_at' => 'required',
             'service_id' => 'required',
             'client_id' => 'required'
