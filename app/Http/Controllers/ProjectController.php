@@ -182,6 +182,8 @@ class ProjectController extends Controller
 
             $res->progress = 0;
 
+            $res->service_name = ucfirst($project->service->name);
+
             return $res;
 
         } catch(\Exception $e){
@@ -236,6 +238,8 @@ class ProjectController extends Controller
         $res->total_time = "00:00:00";
 
         $res->progress = 0;
+
+        $res->service_name = ucfirst($project->service->name);
 
         return $res;
     }
