@@ -111,6 +111,14 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         (new ProjectPolicy())->create();
+
+        request()->validate([
+            'title' => 'required',
+            'started_at' => 'required',
+            'end_at' => 'required',
+            'service_id' => 'required',
+            'client_id' => 'required'
+        ]);
         
         try{
 
