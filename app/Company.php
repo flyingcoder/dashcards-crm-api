@@ -391,10 +391,28 @@ class Company extends Model
         if($request->has('status'))
             $projects->where('status', $request->status);
 
-        if($request->has('sort'))
+        if($request->has('sort') && !empty($request->sort))
             $projects->orderBy($sortName, $sortValue);
         else
             $projects->latest();
+
+        if(request()->has('search') && !empty($request->search)) {
+
+            $table = 'projects';
+
+            $keyword = request()->search;
+
+            $projects->where(function ($query) use ($keyword, $table) {
+                        $query->where("{$table}.title", "like", "%{$keyword}%")
+                              ->orWhere("client.first_name", "like", "%{$keyword}%")
+                              ->orWhere("client.last_name", "like", "%{$keyword}%")
+                              ->orWhere("services.name", "like", "%{$keyword}%")
+                              ->orWhere("{$table}.status", "like", "%{$keyword}%")
+                              ->orWhere("manager.first_name", "like", "%{$keyword}%")
+                              ->orWhere("manager.last_name", "like", "%{$keyword}%");
+                  });
+        }
+
 
         $data = $projects->paginate($this->paginate);
 
