@@ -372,6 +372,9 @@ class Company extends Model
                  })
                  ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
                  ->select(
+                    'client.id AS client_id',
+                    'services.id AS service_id',
+                    'manager.id AS manager_id',
                     DB::raw('CONCAT(CONCAT(UCASE(LEFT(manager.last_name, 1)), SUBSTRING(manager.last_name, 2)), ", ", CONCAT(UCASE(LEFT(manager.first_name, 1)), SUBSTRING(manager.first_name, 2))) AS manager_name'),
                     'client.image_url as client_image_url',
                     DB::raw('CONCAT(CONCAT(UCASE(LEFT(client.last_name, 1)), SUBSTRING(client.last_name, 2)), ", ", CONCAT(UCASE(LEFT(client.first_name, 1)), SUBSTRING(client.first_name, 2))) AS client_name'),
