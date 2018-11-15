@@ -170,7 +170,13 @@ class ProjectController extends Controller
             DB::commit();
 
             //create return
+            $project->members;
+
             $res = $project;
+
+            $res->client_id = $client->id;
+
+            $res->service_id = request()->service_id;
 
             $res->manager_name = ucfirst(auth()->user()->last_name).", ".ucfirst(auth()->user()->first_name);
 
