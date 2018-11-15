@@ -334,12 +334,11 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project_id);
 
-        (new ProjectPolicy())->view($project);
+        //(new ProjectPolicy())->view($project);
         
-        return $project->load(['client', 'service','members' => function ($query) {
-            $query->select('id')->wherePivot('role','members');
-        }
-        ]);
+        $project->total_time = $project->totalTime();
+
+        return $project;
     }
 
     /*public function myProjectStatus($status)
