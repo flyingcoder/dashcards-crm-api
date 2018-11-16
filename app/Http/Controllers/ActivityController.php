@@ -17,8 +17,6 @@ class ActivityController extends Controller
     {
     	$project = Project::findOrFail($project_id);
 
-    	$company = auth()->user()->company();
-
-    	return $company->projectTimeline($project);
+        return $project->activity;
     }
 }
