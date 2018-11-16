@@ -10,10 +10,39 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+
+    public function testProjectTasks()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/1/tasks');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testProjectActivity()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/1/timeline');
+
+        dd($response->content());              
+        $response->assertStatus(200);
+    }
+
     public function testProject()
     {
         $this->withoutExceptionHandling();
-        
+
         $user = User::all()->first();
 
         $model = Project::latest()->first();
@@ -22,7 +51,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/'.$model->id);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -115,30 +144,6 @@ class ProjectModelTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }
-
-    public function testProjectTasks()
-    {
-    	$user = User::all()->first();
-
-    	$response = $this->actingAs($user, 'api')
-    					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-    					 ->get('api/projects/1/tasks');
-
-    	//dd($response->content());
-    	$response->assertStatus(200);
-    }
-
-    public function testProjectActivity()
-    {
-    	$user = User::all()->first();
-
-    	$response = $this->actingAs($user, 'api')
-    					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-    					 ->get('api/projects/1/timeline');
-
-    	//dd($response->content());				 
-    	$response->assertStatus(200);
     }
 
     public function testProjectMedia()

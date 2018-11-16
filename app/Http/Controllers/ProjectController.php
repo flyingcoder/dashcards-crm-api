@@ -329,7 +329,7 @@ class ProjectController extends Controller
         
         $project->total_time = $project->totalTime();
 
-        $project->client_name = ucfirst($project->client()->first()->last_name) .", ".ucfirst($project->client()->first()->first_name);
+        $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
 
         $project->service_name = $project->service->name;
 
