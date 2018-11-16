@@ -316,15 +316,6 @@ class ProjectController extends Controller
 
     }
 
-    /*
-    public function myProjects()
-    {
-        (new ProjectPolicy())->index();
-
-        return Project::personal(request());
-
-    }*/
-
     public function countProject()
     {
         return Project::personal(request())->count();
@@ -337,6 +328,10 @@ class ProjectController extends Controller
         //(new ProjectPolicy())->view($project);
         
         $project->total_time = $project->totalTime();
+
+        $project->client_name = ucfirst($project->client()->first()->last_name) .", ".ucfirst($project->client()->first()->first_name);
+
+        $project->service_name = $project->service->name;
 
         return $project;
     }
@@ -365,24 +360,12 @@ class ProjectController extends Controller
         $projects = Project::where('status', $status)->orderBy('created_at', 'desc')->paginate($this->per_page);
         return view('pages.projects', ['projects' => $projects]);
     }
-    //
-    // public function getMembers($project_id)
-    // {
-    //     $project = Project::findOrFail($project_id);
-		// return view('pages.project-hq.members', ['project_id' => $project_id, 'project' => $project]);
-    // }
+
 
     public function getOverview($project_id)
     {
 		return view('pages.project-hq.index', ['project_id' => $project_id]);
     }
-    //
-    // public function getFiles($project_id)
-    // {
-    //     $project = Project::findOrFail($project_id);
-    //
-    //     return view('pages.project-hq.files', ['project' => $project, 'project_id' => $project_id]);
-    // }
 
     public function filesCount($project_id){
           $project = Project::findOrFail($project_id);			

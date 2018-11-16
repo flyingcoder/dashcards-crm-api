@@ -12,6 +12,8 @@ class ProjectModelTest extends TestCase
 {
     public function testProject()
     {
+        $this->withoutExceptionHandling();
+        
         $user = User::all()->first();
 
         $model = Project::latest()->first();
@@ -20,7 +22,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/'.$model->id);
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 
