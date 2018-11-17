@@ -71,6 +71,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
   
   Route::get('/', 'TaskController@index');
 
+  Route::get('mine', 'TaskController@mine');
+
   Route::post('/', 'TaskController@store'); //for independent task no milestone
 
   Route::get('statistics/{id}', 'TaskController@stats');

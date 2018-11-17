@@ -11,6 +11,47 @@ use Carbon\Carbon;
 
 class TaskTest extends TestCase
 {
+    public function testTaskMine()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/task/mine');
+
+       dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testTaskIndex()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/task');
+
+       // dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testTask()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/task/1');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
 
     /**
      * A basic test example.
@@ -93,7 +134,7 @@ class TaskTest extends TestCase
         $user = User::find(1);
         
         $response = $this->actingAs($user, 'api')
-                         ->get('api/tasks/1/comments');
+                         ->get('api/task/1/comments');
 
         //dd($response->content());
         $response->assertStatus(200);
@@ -108,20 +149,8 @@ class TaskTest extends TestCase
         ];
         
         $response = $this->actingAs($user, 'api')
-                         ->post('api/tasks/1/comments', $data);
+                         ->post('api/task/1/comments', $data);
 
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testTaskIndex()
-    {
-        $user = User::find(1);
-        
-        $response = $this->actingAs($user, 'api')
-                         ->get('api/tasks');
-
-        //dd($response->exception->validator->messages());
         //dd($response->content());
         $response->assertStatus(200);
     }
@@ -131,21 +160,9 @@ class TaskTest extends TestCase
         $user = User::find(1);
         
         $response = $this->actingAs($user, 'api')
-                         ->get('api/tasks/statistics/3');
+                         ->get('api/task/statistics/3');
 
         //dd($response->exception->validator->messages());
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testTask()
-    {
-        $user = User::find(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->get('api/tasks/2');
-
-        //deleted items must not be returned
         //dd($response->content());
         $response->assertStatus(200);
     }

@@ -397,7 +397,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project_id);
 
-        (new ProjectPolicy())->view($project);
+        //(new ProjectPolicy())->view($project);
 
         return $project->paginatedProjectMyTasks(request());
     }

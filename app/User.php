@@ -41,6 +41,8 @@ class User extends Authenticatable
         'email', 'first_name', 'id', 'image_url', 'job_title', 'last_name', 'telephone', 'trial_ends', 'username'
     ];
 
+    protected $paginate = 10;
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -146,6 +148,13 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this->belongsToMany(Task::class)->withTimestamps();
+    }
+
+    public function paginatedTasks()
+    {
+        $tasks = $this->tasks();
+
+        return $tasks->paginate($this->paginate);
     }
 
     public function projectsCount()
