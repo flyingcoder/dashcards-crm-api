@@ -15,9 +15,14 @@ class TaskController extends Controller
 
     public function index()
     {
-        $company = auth()->company();
+        $company = auth()->user()->company();
 
         return $company->allCompanyPaginatedTasks();
+    }
+
+    public function mine()
+    {
+        return auth()->user()->paginatedTasks();
     }
 
     /**

@@ -179,7 +179,7 @@ class Project extends Model implements HasMediaConversions
                         'tasks.*')
                       ->where('tasks.deleted_at', null);
 
-        if($request->has('sort')) {
+        if($request->has('sort') && !empty($request->sort)) {
 
             list($sortName, $sortValue) = parseSearchParam($request);
 

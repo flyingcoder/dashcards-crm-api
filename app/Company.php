@@ -471,7 +471,7 @@ class Company extends Model
 
         $tasks = $this->tasks();
 
-        if(request()->has('sort'))
+        if(request()->has('sort') && !empty(request()->sort))
             $tasks->orderBy($sortName, $sortValue);
 
         return $tasks->with('assigned')->paginate($this->paginate);
