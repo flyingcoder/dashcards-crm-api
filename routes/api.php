@@ -288,7 +288,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/timer', 'ProjectController@timer');
 
-  Route::get('{id}/members', 'ProjectController@members');// project-hq
+  Route::get('{id}/member', 'ProjectController@members');// project-hq
+
+  Route::post('{id}/member', 'ProjectController@assignMember');// project-hq
+
+  Route::delete('{id}/member', 'ProjectController@removeMember');// project-hq
 
   Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
   
