@@ -37,6 +37,34 @@ class ProjectController extends Controller
         return $result;
     }
 
+    public function assignMember($id)
+    {
+        request()->validate([
+            'members_id' => 'required|array|min:1',
+            'members_id.*'  => 'required|distinct|exists:users,id'
+        ]);
+
+        $project = Project::findOrFail($id);
+
+        $project->members()->attach(request()->members_id);
+
+        return User::whereIn('id', request()->members_id)->get();
+    }
+
+    public function removeMember($id)
+    {
+         request()->validate([
+            'members_id' => 'required|array|min:1',
+            "members_id.*"  => "required|distinct|exists:users,id"
+        ]);
+
+        $project = Project::findOrFail($id);
+
+        $project->members()->detach(request()->members_id);
+
+        return response(200);
+    }
+
     public function milestoneImport($id)
     {
         $project = Project::findOrFail($id);

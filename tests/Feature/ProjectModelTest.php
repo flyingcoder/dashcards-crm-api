@@ -10,6 +10,54 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testAssignMember()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $model = Project::latest()->first();
+
+        $data = [
+            'members_id' => [
+                User::latest()->first()->id,
+                User::findOrFail(User::latest()->first()->id-1)->id,
+                User::findOrFail(User::latest()->first()->id-2)->id,
+            ]
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/projects/'.$model->id.'/member', $data);
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testRemoveMember()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $model = Project::latest()->first();
+
+        $data = [
+            'members_id' => [
+                User::latest()->first()->id,
+                User::findOrFail(User::latest()->first()->id-1)->id,
+                User::findOrFail(User::latest()->first()->id-2)->id,
+            ]
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/projects/'.$model->id.'/member', $data);
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testProjectMyTasks()
     {
         $this->withoutExceptionHandling();
