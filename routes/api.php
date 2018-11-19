@@ -281,9 +281,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 
-  // not used
-  // Route::get('{id}/overview', 'ProjectController@overview'); 
-
   Route::get('count', 'ProjectController@countProject');
 
   Route::get('{id}/timer', 'ProjectController@timer');

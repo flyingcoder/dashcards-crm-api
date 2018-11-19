@@ -437,7 +437,9 @@ class ProjectController extends Controller
 
     public function members($project_id){
         $project = Project::findOrFail($project_id);
-        return $project->members()->paginate(10);
+
+        
+        return $project->paginatedMembers();
     }
 
     public function membersAll($project_id){
