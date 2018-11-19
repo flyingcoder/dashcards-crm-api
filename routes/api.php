@@ -289,7 +289,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::post('{id}/member', 'ProjectController@assignMember');// project-hq
 
-  Route::delete('{id}/member', 'ProjectController@removeMember');// project-hq
+  Route::delete('{id}/member/{member_id}', 'ProjectController@removeMember');// project-hq
 
   Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
   

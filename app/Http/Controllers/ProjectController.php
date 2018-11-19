@@ -55,18 +55,14 @@ class ProjectController extends Controller
         }
     }
 
-    public function removeMember($id)
+    public function removeMember($id, $member_id)
     {
-         request()->validate([
-            'members_id' => 'required|array|min:1',
-            "members_id.*"  => "required|distinct|exists:users,id"
-        ]);
 
         $project = Project::findOrFail($id);
 
-        $project->members()->detach(request()->members_id);
+        $project->members()->detach($member_id);
 
-        return response(200);
+        return $project->members;
     }
 
     public function milestoneImport($id)

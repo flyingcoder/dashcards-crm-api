@@ -58,17 +58,9 @@ class ProjectModelTest extends TestCase
 
         $model = Project::latest()->first();
 
-        $data = [
-            'members_id' => [
-                User::latest()->first()->id,
-                User::findOrFail(User::latest()->first()->id-1)->id,
-                User::findOrFail(User::latest()->first()->id-2)->id,
-            ]
-        ];
-
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->delete('api/projects/'.$model->id.'/member', $data);
+                         ->delete('api/projects/'.$model->id.'/member/5');
 
         //dd($response->content());
         $response->assertStatus(200);
