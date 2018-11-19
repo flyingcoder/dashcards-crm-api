@@ -208,6 +208,31 @@ class Project extends Model implements HasMediaConversions
         return $this->belongsToMany(User::class)->withPivot('role');
     }
 
+    public function paginatedMembers()
+    {
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        $model = $this->members();
+        $table = 'users';
+
+        if(request()->has('sort') && !empty(request()->sort))
+            $model->orderBy($sortName, $sortValue);
+
+        if(request()->has('search')){
+            $keyword = request()->search;
+            $model->where(function ($query) use ($keyword, $table) {
+                        $query->where("{$table}.first_name", "like", "%{$keyword}%");
+                        $query->where("{$table}.last_name", "like", "%{$keyword}%");
+                        $query->where("{$table}.email", "like", "%{$keyword}%");
+                        $query->where("{$table}.telephone", "like", "%{$keyword}%");
+                        $query->where("{$table}.job_title", "like", "%{$keyword}%");
+                  });
+        }
+
+        return $model->with('tasks')->paginate($this->paginate);
+
+    }
+
     public function client()
     {
         return $this->belongsToMany(User::class)
