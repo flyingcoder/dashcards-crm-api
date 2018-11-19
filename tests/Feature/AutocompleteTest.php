@@ -22,7 +22,7 @@ class AutocompleteTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/autocomplete/client?q=a');
+                         ->get('api/autocomplete/member?q=a');
 
         //dd($response->content());
         $response->assertStatus(200);
@@ -60,7 +60,7 @@ class AutocompleteTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/autocomplete/member?q=alv');
+                         ->get('api/autocomplete/member?q=a&project_id=88');
 
         dd($response->content());
         $response->assertStatus(200);

@@ -103,6 +103,22 @@ class Company extends Model
                                 ->orWhere('users.email', 'LIKE', "%{$query}%");
                       });
              
+        $clients = $this->clients()->get();
+
+        foreach ($clients as $key => $client) {
+            $model = $model->where('users.id', '!=', $client->id);
+        }
+
+        $projectMember = collect();
+
+        if(request()->has('project_id') && !empty(request()->project_id)) {
+            $project = Project::findOrFail(request()->project_id);
+            $projectMember = $project->members()->select('users.id')->get();
+        }
+
+        foreach ($projectMember as $key => $member) {
+            $model = $model->where('users.id', '!=', $member->id);
+        }
 
         return $model->get();
     }
