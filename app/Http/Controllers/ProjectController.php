@@ -44,11 +44,15 @@ class ProjectController extends Controller
             'members_id.*'  => 'required|distinct|exists:users,id'
         ]);
 
-        $project = Project::findOrFail($id);
+        try {
+             $project = Project::findOrFail($id);
 
-        $project->members()->attach(request()->members_id);
+            $project->members()->attach(request()->members_id);
 
-        return User::whereIn('id', request()->members_id)->with('tasks')->get();
+            return User::whereIn('id', request()->members_id)->with('tasks')->get();
+        } catch (Exception $e) {
+            return response($e->getMessage(), $e->getCode());
+        }
     }
 
     public function removeMember($id)
