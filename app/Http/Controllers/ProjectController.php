@@ -48,7 +48,7 @@ class ProjectController extends Controller
 
         $project->members()->attach(request()->members_id);
 
-        return User::whereIn('id', request()->members_id)->get();
+        return User::whereIn('id', request()->members_id)->with('tasks')->get();
     }
 
     public function removeMember($id)
