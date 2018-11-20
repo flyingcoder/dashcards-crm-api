@@ -102,7 +102,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () 
 
 });
 
-//new dynamic parent milestone api
+//new dynamic parent milestone api - alvin
 Route::group(['middleware' => 'auth:api'], function () {
 
   Route::get('{parent}/{id}/milestone', 'MilestoneController@index')
@@ -370,18 +370,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoices'], function () {
   Route::put('{id}', 'InvoiceController@update');
 
   Route::delete('{id}', 'InvoiceController@delete');
-});
-
-
-// Milestones
-Route::group(['middleware' => 'auth:api', 'prefix' => 'project-milestones'], function () {
-
-  Route::get('{id}', 'MilestoneController@index');
-
-  Route::post('{id}', 'MilestoneController@store');
-  
-  Route::get('select/{id}', 'MilestoneController@selectMilestone');
-  
 });
 
 // Forms
