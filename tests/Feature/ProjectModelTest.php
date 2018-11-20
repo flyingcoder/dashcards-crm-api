@@ -10,6 +10,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testMilestoneImport()
+    {
+        # code...
+    }
+
+    
     public function testProjectMember()
     {
         $this->withoutExceptionHandling();

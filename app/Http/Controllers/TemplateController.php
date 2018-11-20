@@ -18,7 +18,7 @@ class TemplateController extends Controller
     {
         $company = auth()->user()->company();
         
-        if(request()->has('all'))
+        if(request()->has('all') && request()->all == true)
             return $company->selectTemplate();
 
         return $company->paginatedTemplates();
