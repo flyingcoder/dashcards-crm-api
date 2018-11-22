@@ -11,6 +11,20 @@ use App\Company;
 
 class TemplateTest extends TestCase
 {
+    public function testIndexProject()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/template?all=true&type=project');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     /**
      * A basic test example.
      *

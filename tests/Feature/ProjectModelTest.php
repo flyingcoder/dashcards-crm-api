@@ -220,17 +220,4 @@ class ProjectModelTest extends TestCase
         //dd($response->content());
         $response->assertStatus(200);
     }
-
-    public function testProjectMedia()
-    {
-        $user = User::all()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/1/files');
-
-        //dd($response->content());              
-        $response->assertStatus(200);
-    }
-
 }
