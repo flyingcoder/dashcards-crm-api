@@ -170,10 +170,12 @@ class Company extends Model
         return $this->hasMany(Template::class);
     }
 
-    public function selectTemplate(Request $request)
+    public function selectTemplate()
     {
+        $type = "App\\" . ucfirst(request()->type);
+
         return $this->templates()
-                    ->where('replica_type', $request->type)
+                    ->where('replica_type', $type)
                     ->get();
     }
 

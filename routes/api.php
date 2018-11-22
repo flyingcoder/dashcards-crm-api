@@ -269,6 +269,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
+  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
+
   Route::post('/', 'ProjectController@store');
 
   Route::put('{id}', 'ProjectController@update'); //no more edit
@@ -278,8 +280,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/comments', 'ProjectController@comments');
 
 	Route::put('{id}/status', 'ProjectController@updateStatus');
-
-  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 
   Route::get('count', 'ProjectController@countProject');
 
@@ -295,13 +295,13 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 
-  Route::get('{id}/files', 'MediaController@projectMedia');// project-hq
+  Route::get('{id}/file', 'MediaController@projectMedia');// project-hq
 
-	Route::post('{id}/files','MediaController@projectFileUpload');// project-hq
+	Route::post('{id}/file','MediaController@projectFileUpload');// project-hq
 
-  Route::post('{id}/links', 'MediaController@addMediaLink');
+  Route::post('{id}/link', 'MediaController@addMediaLink');
 
-  Route::get('{id}/files/grid', 'MediaController@projectMediaAll');
+  Route::get('{id}/file/grid', 'MediaController@projectMediaAll');
 
   Route::get('{id}/timeline', 'ActivityController@project');
 
