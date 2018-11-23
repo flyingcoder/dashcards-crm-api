@@ -40,7 +40,7 @@ class TemplateTest extends TestCase
         $data = [
             'name' => 'SEO Milestones',
             'status' => 'Active',
-            'type' => 'Milestones'
+            'type' => 'Milestone'
         ];
 
         $response = $this->actingAs($user, 'api')

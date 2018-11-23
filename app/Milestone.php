@@ -169,7 +169,7 @@ class Milestone extends Model
         if(request()->has('per_page'))
             $this->paginate = request()->per_page;
 
-        return $model->paginate($this->paginate);
+        return $model->with(['tasks'])->paginate($this->paginate);
     }
 
     /*
