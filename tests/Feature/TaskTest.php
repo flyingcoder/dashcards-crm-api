@@ -11,6 +11,22 @@ use Carbon\Carbon;
 
 class TaskTest extends TestCase
 {
+    public function testDelete()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $model = Task::latest()->first();
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/task/'.$model->id);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testTaskMine()
     {
         $this->withoutExceptionHandling();
@@ -21,7 +37,7 @@ class TaskTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/task/mine');
 
-       dd($response->content());
+       //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -99,20 +115,6 @@ class TaskTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put('api/milestone/1/task/'.$model->id, $data);
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testDelete()
-    {
-        $user = User::find(1);
-
-        $model = Task::latest()->first();
-        
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->delete('api/milestone/1/task/'.$model->id);
 
         //dd($response->content());
         $response->assertStatus(200);
