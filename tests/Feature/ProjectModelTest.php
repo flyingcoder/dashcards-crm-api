@@ -12,7 +12,7 @@ class ProjectModelTest extends TestCase
 {
     public function testMilestoneImport()
     {
-        # code...
+        
     }
 
     
