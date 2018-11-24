@@ -113,7 +113,7 @@ class TaskController extends Controller
      *
      */
 
-    public function delete($milestone_id, $id)
+    public function delete($id)
     {
         $task = Task::findOrFail($id);
 
