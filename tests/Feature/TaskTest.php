@@ -11,6 +11,35 @@ use Carbon\Carbon;
 
 class TaskTest extends TestCase
 {
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testStore()
+    {   
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $model = Milestone::latest()->first();
+
+        $data = [
+            'title' => 'This is a title created in task test.',
+            'description' => 'Mocking the description of task test',
+            'status' => 'open',
+            'days' => 7,
+            'role_id' => 4
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/milestone/'.$model->id.'/task', $data);
+
+        dd($response->content());
+        $response->assertStatus(201);
+    }
+
     public function testDelete()
     {
         $this->withoutExceptionHandling();
@@ -23,7 +52,7 @@ class TaskTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->delete('api/task/'.$model->id);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -69,33 +98,6 @@ class TaskTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testStore()
-    {   
-        $this->withoutExceptionHandling();
-
-        $user = User::find(1);
-
-        $model = Milestone::latest()->first();
-
-        $data = [
-            'title' => 'This is a title created in task test.',
-            'description' => 'Mocking the description of task test',
-            'status' => 'open',
-            'days' => 7
-        ];
-        
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->post('api/milestone/'.$model->id.'/task', $data);
-
-        //dd($response->content());
-        $response->assertStatus(201);
-    }
 
     public function testUpdate()
     {

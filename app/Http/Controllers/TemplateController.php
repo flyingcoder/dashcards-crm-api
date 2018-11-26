@@ -24,14 +24,6 @@ class TemplateController extends Controller
         return $company->paginatedTemplates();
     }
 
-    public function milestonesTask($id)
-    {
-        if(!is_null(Template::find($id)))
-            return view('pages.milestone-task-templates')->with(['id'=>$id]);
-        else
-            return redirect('milestones');
-    }
-
     public function milestones($id)
     {
         if(!request()->ajax())

@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +20,7 @@ class Task extends Model
      */
 
     protected $fillable = [
-        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days'
+        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
     ];
 
     protected $dates = ['deleted_at'];
@@ -27,6 +28,11 @@ class Task extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function assigned_to()
+    {
+        return $this->belongsTo(Role::class);
     }
 
     public function updateTask()
@@ -71,11 +77,10 @@ class Task extends Model
             'end_at' =>$end_at,
             'status' => 'Open'
         ]);
-        if(!empty($request->members)){
-            foreach($request->members as $m){
-                $task->assigned()->attach($m);
-            }
-        }
+
+        if(!empty($request->members))
+            $task->assigned()->attach($request->members);
+
         return [$task->save(), $task];
     }
 
@@ -94,6 +99,11 @@ class Task extends Model
     public function company()
     {
       return $this->milestone->project->company();
+    }
+
+    public function project()
+    {
+        return $this->milestone->project;
     }
 
     public function milestone()
