@@ -159,6 +159,8 @@ class Milestone extends Model
 
         $this->save();
 
+        $this->tasks;
+
         return $this;
     }
 
