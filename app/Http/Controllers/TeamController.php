@@ -185,10 +185,7 @@ class TeamController extends Controller
         if(request()->has('all') && request()->all == true)
             $roles = $company->roles;
 
-        if(request()->ajax())
-            return $roles;
-        
-        return view('pages.groups');
+        return $roles;
     }
 
     public function editgroup($id)

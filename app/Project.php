@@ -164,6 +164,11 @@ class Project extends Model implements HasMediaConversions
             $tasks->orderBy($sortName, $sortValue);
         }
 
+        $tasks->comments;
+
+        if(request()->has('all') && request()->all)
+            return $tasks;
+
         return $tasks->paginate($this->paginate);
         
     }
@@ -185,6 +190,11 @@ class Project extends Model implements HasMediaConversions
 
             $tasks->orderBy($sortName, $sortValue);
         }
+
+        $tasks->comments;
+
+        if(request()->has('all') && request()->all)
+            return $tasks;
 
         return $tasks->paginate($this->paginate);
     }
