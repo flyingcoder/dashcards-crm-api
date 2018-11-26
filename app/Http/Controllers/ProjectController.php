@@ -421,7 +421,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project_id);
 
-        (new ProjectPolicy())->viewTask($project);
+        //(new ProjectPolicy())->viewTask($project);
 
         //if user is admin return all task of a project
         return $project->paginatedProjectTasks(request());
