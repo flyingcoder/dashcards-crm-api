@@ -96,6 +96,33 @@ class Task extends Model
                     ->first();
     }
 
+    //in order to count all time from a task action should always start and pause.
+    public function total_time()
+    {
+        if(is_null($this->lastTimer()))
+            return 0;
+
+        $timer = $this->lastTimer();
+
+        if($timer->action == 'start')
+            return $this->fromNow($timer->action);
+
+        $properties = json_decode($timer->properties);
+
+        return $properties->total_time;
+    }
+
+    public function fromNow($started_at)
+    {
+        $start = Carbon::parse($started_at);
+
+        $end = Carbon::now();
+
+        $total_sec = $end->diffInSeconds($start);
+
+        return gmdate("H:i:s", $total_sec);
+    }
+
     public function company()
     {
       return $this->milestone->project->company();

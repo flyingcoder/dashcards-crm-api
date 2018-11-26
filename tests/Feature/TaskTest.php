@@ -11,6 +11,20 @@ use Carbon\Carbon;
 
 class TaskTest extends TestCase
 {
+    public function testTask()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/task/1');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     /**
      * A basic test example.
      *
@@ -36,7 +50,7 @@ class TaskTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/milestone/'.$model->id.'/task', $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(201);
     }
 
@@ -81,20 +95,6 @@ class TaskTest extends TestCase
                          ->get('api/task');
 
        // dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testTask()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/task/1');
-
-        //dd($response->content());
         $response->assertStatus(200);
     }
 

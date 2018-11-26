@@ -135,15 +135,19 @@ class TaskController extends Controller
      */
     public function task($id)
     {
-        $task = Task::where('id', $id)
-                    ->where('deleted_at', null)
-                    ->first();
-        return $task->load('assigned');
+        $task = Task::findOrFail($id);
 
-        // if(empty($task)){
-        //     abort(403, 'Task not found!');
-        // }
+        $task->assigned;
 
+        $task->comments;
+
+        $total_time = $task->total_time();
+
+        $task = collect(json_decode($task->toJson()));
+
+        $task->put('total_time', $total_time);
+
+        return $task;
         // (new TaskPolicy())->view($task);
 
     }
