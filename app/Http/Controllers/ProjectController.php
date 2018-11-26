@@ -86,12 +86,20 @@ class ProjectController extends Controller
 
             if($milestone->tasks->count() > 0) {
                 foreach ($milestone->tasks as $key => $task) {
-                   $new_milestone->tasks()->create([
+                   $new_task = $new_milestone->tasks()->create([
                         'title' => $task->title,
                         'description' => $task->description,
                         'status' => $task->status,
                         'days' => $task->days
                    ]);
+
+                   $member = $task->assigned_to->users;
+
+                   $new_task->assigned()->attach($member);
+
+                   $project = $new_milestone->project;
+
+                   $project->members()->attach($member);
                 }
 
             }

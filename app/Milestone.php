@@ -110,7 +110,17 @@ class Milestone extends Model
         if(request()->has('end_at'))
             $data['end_at'] = request()->end_at;
 
-        return $this->tasks()->create($data);
+        if(request()->has('role_id'))
+            $data['role_id'] = request()->role_id;
+
+        $task = $this->tasks()->create($data);
+
+        if(request()->has('assigned_id')) 
+            $task->assigned()->attach(request()->assigned_id);
+
+        $task->assigned;
+
+        return $task;
     }
 
     public function getTasks()
