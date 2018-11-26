@@ -100,7 +100,7 @@ class Task extends Model
     public function total_time()
     {
         if(is_null($this->lastTimer()))
-            return 0;
+            return 00:00:00;
 
         $timer = $this->lastTimer();
 
