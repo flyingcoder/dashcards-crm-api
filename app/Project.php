@@ -165,7 +165,7 @@ class Project extends Model implements HasMediaConversions
         }
 
         if(request()->has('all') && request()->all)
-            return $tasks;
+            return $tasks->get();
 
         return $tasks->paginate($this->paginate);
         
@@ -190,7 +190,7 @@ class Project extends Model implements HasMediaConversions
         }
 
         if(request()->has('all') && request()->all)
-            return $tasks;
+            return $tasks->get();
 
         return $tasks->paginate($this->paginate);
     }

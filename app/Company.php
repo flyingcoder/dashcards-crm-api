@@ -493,7 +493,7 @@ class Company extends Model
             $tasks->orderBy($sortName, $sortValue);
 
         if(request()->has('all') && request()->all)
-            return $tasks->with('assigned');
+            return $tasks->with('assigned')->get();
 
         return $tasks->with('assigned')->paginate($this->paginate);
     }

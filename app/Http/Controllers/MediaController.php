@@ -167,48 +167,43 @@ class MediaController extends Controller
 
     public function projectFileUpload($project_id)
     {
-        $files = request()->file('files');
+        $file = request()->file('file');
 
-        $medias = [];
+        $collectionName = $this->collectionName($file);
 
-        foreach ($files as $key => $file) {
+        if(!$collectionName)
+          return response('Invalid file format.', 422);
 
-          $collectionName = $this->collectionName($file);
+        $type = $this->fileType($file);
 
-          if(!$collectionName)
-            return response('Invalid file format.', 422);
+        $project = Project::findOrFail($project_id);
 
-          $type = $this->fileType($file);
+        $media = $project->addMedia($file)
+                         ->withCustomProperties([
+                          'ext' => $file->extension(),
+                          'user' => auth()->user()
+                         ])
+                         ->toMediaCollection($collectionName);
 
-          $project = Project::findOrFail($project_id);
+        $medias[] = $media;
 
-          $media = $project->addMedia($file)
-                           ->withCustomProperties([
-                            'ext' => $file->extension(),
-                            'user' => auth()->user()
-                           ])
-                           ->toMediaCollection($collectionName);
+        $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
 
-          $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
-
-          activity(auth()->user()->company()->name)
-                                ->performedOn($project)
-                                ->causedBy(auth()->user())
-                                ->withProperties([
-                                      'company_id' => auth()->user()->company()->id,
-                                      'media' => $media,
-                                      'thumb_url' => $media->getUrl('thumb')
-                                    ])
-                                ->log($log);
+        activity(auth()->user()->company()->name)
+                              ->performedOn($project)
+                              ->causedBy(auth()->user())
+                              ->withProperties([
+                                    'company_id' => auth()->user()->company()->id,
+                                    'media' => $media,
+                                    'thumb_url' => $media->getUrl('thumb')
+                                  ])
+                              ->log($log);
 
 
 
-          $activity = Activity::where('properties->media->id', $media->id)->first();
+        $activity = Activity::where('properties->media->id', $media->id)->first();
 
-          $activity->users()->attach(auth()->user()->company()->membersID());
-
-          $medias[] = $media;
-        }
+        $activity->users()->attach(auth()->user()->company()->membersID());
 
         return $medias;
     }
