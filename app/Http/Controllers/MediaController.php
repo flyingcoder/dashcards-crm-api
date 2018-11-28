@@ -169,6 +169,8 @@ class MediaController extends Controller
     {
         $files = request()->file('files');
 
+        $medias = [];
+
         foreach ($files as $key => $file) {
 
           $collectionName = $this->collectionName($file);
@@ -204,6 +206,10 @@ class MediaController extends Controller
           $activity = Activity::where('properties->media->id', $media->id)->first();
 
           $activity->users()->attach(auth()->user()->company()->membersID());
+
+          $medias[] = $media;
         }
+
+        return $medias;
     }
 }
