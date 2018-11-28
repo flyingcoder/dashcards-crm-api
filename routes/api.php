@@ -359,7 +359,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 
 
 // Invoices
-Route::group(['middleware' => 'auth:api', 'prefix' => 'invoices'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
 
 	Route::get('/', 'InvoiceController@index');
 
