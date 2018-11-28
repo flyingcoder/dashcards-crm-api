@@ -185,8 +185,6 @@ class MediaController extends Controller
                          ])
                          ->toMediaCollection($collectionName);
 
-        $medias[] = $media;
-
         $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
 
         activity(auth()->user()->company()->name)
@@ -205,6 +203,6 @@ class MediaController extends Controller
 
         $activity->users()->attach(auth()->user()->company()->membersID());
 
-        return $medias;
+        return $media;
     }
 }
