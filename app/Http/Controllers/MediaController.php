@@ -203,6 +203,10 @@ class MediaController extends Controller
 
         $activity->users()->attach(auth()->user()->company()->membersID());
 
-        return $media;
+        $media['public_url'] = url($media->getUrl());
+
+        $media['thumb_url'] = url($media->getUrl('thumb'));
+
+        return $media->toJson();
     }
 }
