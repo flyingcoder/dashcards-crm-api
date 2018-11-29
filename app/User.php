@@ -154,6 +154,9 @@ class User extends Authenticatable
     {
         $tasks = $this->tasks();
 
+        if(request()->has('all') && request()->all)
+            return $tasks->get();
+
         return $tasks->paginate($this->paginate);
     }
 
