@@ -540,9 +540,7 @@ class Company extends Model
     {
         $members = $this->membersID();
 
-        $activity = Activity::whereHas('causer', function ($q) use ($members) {
-               $q->whereIn('id', $members);
-            });
+        $activity = Activity::whereIn('causer_id', $members);
 
         return $activity;
     }
