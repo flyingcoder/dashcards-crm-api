@@ -10,6 +10,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testProjectActivity()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/1/timeline');
+
+        dd($response->content());              
+        $response->assertStatus(200);
+    }
+
     public function testMilestoneImport()
     {
         
@@ -97,20 +111,6 @@ class ProjectModelTest extends TestCase
                          ->get('api/projects/1/tasks');
 
         //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testProjectActivity()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/1/timeline');
-
-        //dd($response->content());              
         $response->assertStatus(200);
     }
 

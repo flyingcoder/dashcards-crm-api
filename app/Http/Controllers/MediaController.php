@@ -30,10 +30,10 @@ class MediaController extends Controller
     public function projectMedia($project_id)
     {
         $medias = Media::where('model_id', $project_id)
-                      ->where('model_type', 'App\Project');
+                       ->where('model_type', 'App\Project');
                       
-
         if(request()->has('type')) {
+          
           switch (request()->type) {
             case 'images':
               $medias->where('mime_type', 'like', 'image/%');

@@ -10,6 +10,7 @@ class ActivityController extends Controller
     public function index()
     {
     	$company = auth()->user()->company();
+        
     	return $company->allTimeline();
     }
 

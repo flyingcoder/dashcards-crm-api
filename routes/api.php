@@ -131,6 +131,7 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function
 Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
   
   Route::get('/', 'EventController@index');
+  
   Route::get('{id}/delete', 'EventController@delete');
 
 });
