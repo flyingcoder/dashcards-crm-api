@@ -20,7 +20,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/1/timeline');
 
-        dd($response->content());              
+        //dd($response->content());              
         $response->assertStatus(200);
     }
 

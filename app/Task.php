@@ -112,6 +112,16 @@ class Task extends Model
         return $properties->total_time;
     }
 
+    public function timerStatus()
+    {
+        $task = $this->lastTimer();
+
+        if( $task->action == 'start' || $task->action == 'back' )
+            return 'Ongoing';
+        else
+            return $task->action;
+    }
+
     public function fromNow($started_at)
     {
         $start = Carbon::parse($started_at);

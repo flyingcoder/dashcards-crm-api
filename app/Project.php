@@ -157,17 +157,27 @@ class Project extends Model implements HasMediaConversions
                        'tasks.*')
                       ->where('tasks.deleted_at', null);
 
-        if($request->has('sort')) {
+        if( $request->has('sort') && !empty(request()->sort) ) {
 
             list($sortName, $sortValue) = parseSearchParam($request);
 
             $tasks->orderBy($sortName, $sortValue);
         }
 
-        if(request()->has('all') && request()->all)
-            return $tasks->get();
 
-        return $tasks->paginate($this->paginate);
+
+        if(request()->has('all') && request()->all)
+            $data = $tasks->get();
+        else
+            $data = $tasks->paginate($this->paginate);
+
+        $data->map(function ($model) {
+
+            $model['total_time'] = $model->totalTime();
+
+            return $model;
+            
+        });
         
     }
 

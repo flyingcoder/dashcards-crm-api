@@ -126,8 +126,6 @@ class TaskController extends Controller
         }
     }
     
-    
-
     /**
      *
      * get a single task
@@ -141,11 +139,15 @@ class TaskController extends Controller
 
         $task->comments;
 
+        $status = $task->timerStatus();
+
         $total_time = $task->total_time();
 
         $task = collect(json_decode($task->toJson()));
 
         $task->put('total_time', $total_time);
+
+        $task->put('timer_status', $status);
 
         return $task;
         // (new TaskPolicy())->view($task);

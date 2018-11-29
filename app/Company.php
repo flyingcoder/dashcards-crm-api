@@ -492,10 +492,12 @@ class Company extends Model
         if(request()->has('sort') && !empty(request()->sort))
             $tasks->orderBy($sortName, $sortValue);
 
-        if(request()->has('all') && request()->all)
-            return $tasks->with('assigned')->get();
+        $tasks->with('assigned');
 
-        return $tasks->with('assigned')->paginate($this->paginate);
+        if(request()->has('all') && request()->all)
+            return $tasks->get();
+
+        return $tasks->paginate($this->paginate);
     }
 
     public function clients()
