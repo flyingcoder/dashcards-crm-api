@@ -8,6 +8,24 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TimerTest extends TestCase
 {
+    public function testTimerTask()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+        
+        $data = [
+            'type' => 'task',
+            'id' => 5
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->post('api/timer', $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testTaskStartTime()
     {
         $this->withoutExceptionHandling();
@@ -22,7 +40,7 @@ class TimerTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->post('api/timer/pause', $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

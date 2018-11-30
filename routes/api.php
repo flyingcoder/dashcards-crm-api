@@ -131,7 +131,7 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function
 Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
   
   Route::get('/', 'EventController@index');
-  
+
   Route::get('{id}/delete', 'EventController@delete');
 
 });
@@ -216,6 +216,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
 //timer
 Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
+
+  Route::post('/', 'TimerController@task');
 
   Route::post('{action}', 'TimerController@timer');
 
