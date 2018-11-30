@@ -10,6 +10,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testProjectTasks()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/1/tasks?all=true');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testProjectActivity()
     {
         $this->withoutExceptionHandling();
@@ -95,20 +109,6 @@ class ProjectModelTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/1/tasks/mine');
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testProjectTasks()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/1/tasks');
 
         //dd($response->content());
         $response->assertStatus(200);
