@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Auth;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Database\Eloquent\Model;
@@ -105,7 +106,7 @@ class Task extends Model
         $timer = $this->lastTimer();
 
         if($timer->action == 'start')
-            return $this->fromNow($timer->action);
+            return $this->fromNow($timer->created_at);
 
         $properties = json_decode($timer->properties);
 
@@ -116,7 +117,7 @@ class Task extends Model
     {
         if(is_null($this->lastTimer()))
             return "stop";
-        
+
         $task = $this->lastTimer();
 
         if( $task->action == 'start' || $task->action == 'back' )

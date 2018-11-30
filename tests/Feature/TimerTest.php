@@ -16,13 +16,13 @@ class TimerTest extends TestCase
         
         $data = [
             'type' => 'task',
-            'id' => 1
+            'id' => 5
         ];
         
         $response = $this->actingAs($user, 'api')
-                         ->post('api/timer/stop', $data);
+                         ->post('api/timer/start', $data);
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 
