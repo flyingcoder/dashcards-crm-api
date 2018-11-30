@@ -19,7 +19,7 @@ class TaskTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/task/1');
+                         ->get('api/task/5');
 
         dd($response->content());
         $response->assertStatus(200);

@@ -114,10 +114,13 @@ class Task extends Model
 
     public function timerStatus()
     {
+        if(is_null($this->lastTimer()))
+            return "stop";
+        
         $task = $this->lastTimer();
 
         if( $task->action == 'start' || $task->action == 'back' )
-            return 'Ongoing';
+            return "ongoing";
         else
             return $task->action;
     }
