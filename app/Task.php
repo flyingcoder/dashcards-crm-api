@@ -100,8 +100,15 @@ class Task extends Model
     //in order to count all time from a task action should always start and pause.
     public function total_time()
     {
+        $total_sec = $this->totalSec();
+
+        return gmdate("H:i:s", $total_sec);
+    }
+
+    public function totalSec()
+    {
         if(is_null($this->lastTimer()))
-            return "00:00:00";
+            return 0;
 
         $last_timer = $this->lastTimer();
 
@@ -132,7 +139,7 @@ class Task extends Model
             $total_sec = $total_sec + intval($properties->total_seconds);
         }
 
-        return gmdate("H:i:s", $total_sec);
+        return $total_sec;
     }
 
     public function timerStatus()
@@ -156,7 +163,7 @@ class Task extends Model
 
         $total_sec = $end->diffInSeconds($start);
 
-        return gmdate("H:i:s", $total_sec);
+        return $total_sec;
     }
 
     public function company()
