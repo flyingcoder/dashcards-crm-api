@@ -103,14 +103,36 @@ class Task extends Model
         if(is_null($this->lastTimer()))
             return "00:00:00";
 
-        $timer = $this->lastTimer();
+        $last_timer = $this->lastTimer();
 
-        if($timer->action == 'start')
-            return $this->fromNow($timer->created_at);
+        if($last_timer->action == 'start')
+            return $this->fromNow($last_timer->created_at);
 
-        $properties = json_decode($timer->properties);
 
-        return $properties->total_time;
+        $model = $this;
+        
+        $open_timer = $model->timers()
+                            ->where('status', 'open');
+
+        $total_sec = 0;
+
+        if($last_timer->action == 'back') {
+            
+            $start = Carbon::parse($last_timer->created_at);
+
+            $end = Carbon::now();
+
+            $total_sec = $end->diffInSeconds($start);
+        }
+
+        $paused_timer = $open_timer->where('action', 'pause')->get();
+
+        foreach ($paused_timer as $value) {
+            $properties = json_decode($value->properties);
+            $total_sec = $total_sec + intval($properties->total_seconds);
+        }
+
+        return gmdate("H:i:s", $total_sec);
     }
 
     public function timerStatus()
