@@ -20,7 +20,7 @@ class TimerTest extends TestCase
         ];
         
         $response = $this->actingAs($user, 'api')
-                         ->post('api/timer/start', $data);
+                         ->post('api/timer/pause', $data);
 
         dd($response->content());
         $response->assertStatus(200);

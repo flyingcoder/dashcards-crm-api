@@ -164,7 +164,7 @@ class Timer extends Model
         if($last_timer->action == 'stop' && $action != 'start')
             abort(405, 'Action is not allowed');
 
-        if($last_timer->action == 'back' && $action != 'stop')
+        if($last_timer->action == 'back' && $action == 'start')
             abort(405, 'Action is not allowed');
     }
 
