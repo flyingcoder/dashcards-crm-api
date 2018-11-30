@@ -172,11 +172,11 @@ class Project extends Model implements HasMediaConversions
             $data = $tasks->paginate($this->paginate);
 
         $data->map(function ($model) {
-
-            $model['total_time'] = $model->totalTime();
+            dd($model);
+            $model['total_time'] = $model->total_time();
 
             return $model;
-            
+
         });
         
     }
