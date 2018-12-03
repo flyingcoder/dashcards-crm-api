@@ -13,11 +13,23 @@ class CreateNewInvoicesTable extends Migration
      */
     public function up()
     {
+
         Schema::dropIfExists('invoices');
+
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('project_id')
+                  ->nullable()
+                  ->unsigned()
+                  ->foreign()
+                  ->references("id")
+                  ->on("projects")
+                  ->onDelete("cascade");
+            
+            $table->softDeletes();
             $table->timestamps();
         });
+
     }
 
     /**

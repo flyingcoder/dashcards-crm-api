@@ -60,7 +60,7 @@ class ClientController extends Controller
             'first_name' => 'required|string',
             'email' => 'required|email|unique:users',
             'telephone' => 'required', 
-            'password' => 'required', //Remove Confirm Handled in frontend by: Dustin 04-20-2018
+            'password' => 'required',
             'status' => 'required',
             'company_name' => 'required',
             // 'company_email' => 'required', //Commented by: Dustin 04-20-2018 //No data in form
@@ -145,7 +145,7 @@ class ClientController extends Controller
         $client = User::findOrFail($id);
 
         request()->validate([
-            'username' => 'required|string',
+            //'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'email' => [
@@ -154,7 +154,7 @@ class ClientController extends Controller
              ],
             'telephone' => 'required',
             'status' => 'required',
-            'company_name' => 'required'
+            'company_name' => 'required',
         ]);
 
         $client->first_name = request()->first_name;

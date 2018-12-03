@@ -19,7 +19,7 @@ class AddColumnTasksTable extends Migration
                   ->unsigned()
                   ->foreign()
                   ->references("id")
-                  ->on("role")
+                  ->on("roles")
                   ->onDelete("cascade");
         });
     }
