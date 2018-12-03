@@ -107,6 +107,7 @@ class ClientController extends Controller
         $client->assignRole('client');
 
         $client['status'] = $client->getMeta('status');
+        $client['company_name'] = $client->getMeta('company_name');
 
         return $client;
     }
@@ -164,6 +165,7 @@ class ClientController extends Controller
         $client->save();
 
         $client['status'] = $client->getMeta('status');
+        $client['company_name'] = $client->getMeta('company_name');
 
         return $client;
     }
