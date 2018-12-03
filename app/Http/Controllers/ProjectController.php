@@ -32,9 +32,10 @@ class ProjectController extends Controller
 
         $company = Auth::user()->company();
 
-        $result = $company->paginatedCompanyProjects(request());
+        if(request()->has('all') && request()->all)
+            return $company->allCompanyProjects();
 
-        return $result;
+        return $company->paginatedCompanyProjects(request());
     }
 
     public function assignMember($id)

@@ -434,7 +434,6 @@ class Company extends Model
                   });
         }
 
-
         $data = $projects->paginate($this->paginate);
 
         $data->map(function ($project) {
