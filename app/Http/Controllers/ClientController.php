@@ -63,8 +63,6 @@ class ClientController extends Controller
             'password' => 'required',
             'status' => 'required',
             'company_name' => 'required',
-            // 'company_email' => 'required', //Commented by: Dustin 04-20-2018 //No data in form
-            // 'company_tel' => 'required' //Commented by: Dustin 04-20-2018 //No data in form
         ]);
 
         $username = explode('@', request()->email)[0];
@@ -107,13 +105,8 @@ class ClientController extends Controller
         $team->members()->attach($client);
 
         $client->assignRole('client');
-        
-        // Commented unable to use session in API
-        // request()->session()->flash('message.level', 'success'); 
-        // request()->session()->flash('message.content', 'User was successfully added!');
 
-        // Commented need to newly added client return instead.
-        // return back();
+        $client['status'] = $client->getMeta('status');
 
         return $client;
     }
@@ -170,8 +163,7 @@ class ClientController extends Controller
         
         $client->save();
 
-        //request()->session()->flash('message.level', 'success');
-        //request()->session()->flash('message.content', 'User was successfully updated!');
+        $client['status'] = $client->getMeta('status');
 
         return $client;
     }
