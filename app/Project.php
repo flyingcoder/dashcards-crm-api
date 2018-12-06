@@ -35,6 +35,19 @@ class Project extends Model implements HasMediaConversions
         return $this->morphMany(Activity::class, 'subject');
     }
 
+    public function storeInvoice()
+    {
+        $invoice = $this->invoices()->create(request()->all());
+
+        $client = $this->getClient();
+
+        $invoice->bill_to = ucfirst($client->last_name) . ', ' . ucfirst($client->first_name);
+
+        $invoice->bill_from = ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name);
+
+        return $invoice;
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
@@ -187,10 +200,23 @@ class Project extends Model implements HasMediaConversions
             $model->orderBy($sortName, $sortValue);
         }
 
-        if(request()->has('all') && request()->all)
-            return $model->get();
+        $data = $model->paginate($this->paginate);
 
-        return $model->paginate($this->paginate);
+        if(request()->has('all') && request()->all)
+            $data = $model->get();
+
+        $data->map(function ($model) {
+
+            $client = $this->getClient();
+
+            $model['bill_to'] = ucfirst($client->last_name) . ', ' . ucfirst($client->first_name);
+
+            $model['bill_from'] = ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name);
+
+            return $model;
+        });
+
+        return $data;
     }
 
     public function company()

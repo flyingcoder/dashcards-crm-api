@@ -1,4 +1,5 @@
 <?php
+use App\Milestone;
 use Illuminate\Database\Seeder;
 
 class ProjectTableSeeder extends Seeder
@@ -11,35 +12,30 @@ class ProjectTableSeeder extends Seeder
     public function run()
     {
         //project seeder
-        factory(App\Project::class, 5)->create()->each(function ($project) {
+        factory(App\Project::class, 10)->create()->each(function ($project) {
             $project->members()->attach(1, ['role' => 'Manager']);
             $project->members()->attach(3, ['role' => 'Client']);
             //$project->members()->attach(3, ['role' => 'Developers']);
 
-            $milestone = factory(App\Milestone::class)->create();
-            $milestone->tasks()->save(factory(App\Task::class)->create());
-            $milestone->tasks()->save(factory(App\Task::class)->create());
-            $milestone->tasks()->save(factory(App\Task::class)->create());
-            $project->milestones()->save($milestone);
-
-            $milestone2 = factory(App\Milestone::class)->create();
-            $milestone2->tasks()->save(factory(App\Task::class)->create());
-            $milestone2->tasks()->save(factory(App\Task::class)->create());
-            $milestone2->tasks()->save(factory(App\Task::class)->create());
-            $project->milestones()->save($milestone2);
-
-            $milestone3 = factory(App\Milestone::class)->create();
-            $milestone3->tasks()->save(factory(App\Task::class)->create());
-            $milestone3->tasks()->save(factory(App\Task::class)->create());
-            $milestone3->tasks()->save(factory(App\Task::class)->create());
-            $project->milestones()->save($milestone3);
-
-            $milestone4 = factory(App\Milestone::class)->create();
-            $milestone4->tasks()->save(factory(App\Task::class)->create());
-            $milestone4->tasks()->save(factory(App\Task::class)->create());
-            $milestone4->tasks()->save(factory(App\Task::class)->create());
-            $project->milestones()->save($milestone4);
+            for($i=0;$i<10;$i++) {
+                $project->milestones()
+                    ->save(
+                        factory(App\Milestone::class)
+                        ->make()
+                    );
+            }
         });
+
+        $milestones = Milestone::all();
+
+        foreach ($milestones as $milestone) {
+            for($i=0;$i<10;$i++) {
+                $milestone->tasks()
+                          ->save(factory(App\Task::class)
+                            ->make()
+                        );
+            }
+        }
 
         $tasks = App\Task::all();
 

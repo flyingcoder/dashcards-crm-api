@@ -34,16 +34,6 @@ class InvoiceController extends Controller
         return $invoice;
     }
 
-    public function form()
-    {       
-        return view('pages.invoice-form'); 
-    }
-
-    public function template()
-    {       
-        return view('pages.invoice-template'); 
-    }
-
     public function store()
     {       
         $invoice = Invoice::store(request());

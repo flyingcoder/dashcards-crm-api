@@ -310,6 +310,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/invoice', 'ProjectController@invoice');
 
+  Route::post('{id}/invoice', 'ProjectController@saveInvoice');
+
 });
 
 // Forms

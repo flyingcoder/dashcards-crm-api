@@ -38,6 +38,13 @@ class ProjectController extends Controller
         return $company->paginatedCompanyProjects(request());
     }
 
+    public function saveInvoice($project_id)
+    {
+        $model = Project::findOrFail($project_id);
+
+        return $model->storeInvoice();
+    }
+
     public function invoice($project_id)
     {
         //(new ProjectPolicy())->index();
