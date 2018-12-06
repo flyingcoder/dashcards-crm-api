@@ -175,6 +175,24 @@ class Project extends Model implements HasMediaConversions
         return $this->hasMany(Invoice::class);
     }
 
+    public function paginatedInvoices()
+    {
+        $model = $this->invoices()
+                      ->where('invoices.deleted_at', null);
+
+        if(request()->has('sort') && !empty(request()->sort)) {
+
+            list($sortName, $sortValue) = parseSearchParam(request());
+
+            $model->orderBy($sortName, $sortValue);
+        }
+
+        if(request()->has('all') && request()->all)
+            return $model->get();
+
+        return $model->paginate($this->paginate);
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);

@@ -12,21 +12,13 @@ class Invoice extends Model
 
     protected $fillable = [
         'title', 
-        'name', 
-        'last_name', 
-        'address', 
-        'city', 
-        'state', 
-        'phone', 
-        'zip_code', 
-        'description', 
-        'rate', 
-        'tax', 
-        'quantity', 
-        'billed_date', 
-        'due_date', 
-        'notes',
-        'other_info'
+        'project_id',
+        'due_date',
+        'items',
+        'total_amount',
+        'terms',
+        'tax',
+        'due_date'
     ];
 
     protected $dates = ['deleted_at'];

@@ -38,6 +38,15 @@ class ProjectController extends Controller
         return $company->paginatedCompanyProjects(request());
     }
 
+    public function invoice($project_id)
+    {
+        //(new ProjectPolicy())->index();
+
+        $project = Project::findOrFail($project_id);
+
+        return $project->paginatedInvoices();
+    }
+
     public function assignMember($id)
     {
         request()->validate([

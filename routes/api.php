@@ -308,6 +308,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/timeline', 'ActivityController@project');
 
+  Route::get('{id}/invoice', 'ProjectController@invoice');
+
 });
 
 // Forms

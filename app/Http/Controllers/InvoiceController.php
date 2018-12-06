@@ -17,6 +17,9 @@ class InvoiceController extends Controller
 
         $company = auth()->user()->company();
 
+        if(request()->has('all') && request()->all)
+            return $company->allCompanyInvoices();
+
         return $company->paginatedCompanyInvoices(request());
     }
 

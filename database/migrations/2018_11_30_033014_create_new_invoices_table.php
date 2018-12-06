@@ -18,6 +18,7 @@ class CreateNewInvoicesTable extends Migration
 
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
             $table->integer('project_id')
                   ->nullable()
                   ->unsigned()
@@ -25,7 +26,11 @@ class CreateNewInvoicesTable extends Migration
                   ->references("id")
                   ->on("projects")
                   ->onDelete("cascade");
-            
+            $table->string('terms')->nullable();
+            $table->decimal('total_amount', 10, 2)->nullable();
+            $table->decimal('tax', 10, 2)->nullable();
+            $table->date('due_date')->nullable();
+            $table->json('items')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
