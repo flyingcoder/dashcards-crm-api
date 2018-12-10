@@ -142,8 +142,11 @@ class Company extends Model
 
         $calendars = $this->calendars();
 
-        if($request->has('sort'))
+        if($request->has('sort') && !empty(request()->sort))
             $calendars->orderBy($sortName, $sortValue);
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $calendars->paginate($this->paginate);
     }
@@ -159,8 +162,11 @@ class Company extends Model
 
         $invoices = $this->invoices();
 
-        if($request->has('sort'))
+        if($request->has('sort') && !empty(request()->sort))
             $invoices->orderBy($sortName, $sortValue);
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $invoices->paginate($this->paginate);
     }
@@ -199,6 +205,9 @@ class Company extends Model
                         $query->where("{$table}.status", "like", "%{$keyword}%");
                   });
         }
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $model->paginate($this->paginate);
     }
@@ -255,10 +264,13 @@ class Company extends Model
                             'users.telephone'
                         )->with('tasks', 'projects', 'teams');
 
-        if($request->has('sort'))
+        if($request->has('sort') && !empty(request()->sort))
             $members->orderBy($sortName, $sortValue);
         else
             $members->orderBy('users.created_at', 'DESC');
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $members->paginate($this->paginate);
     }
@@ -336,8 +348,8 @@ class Company extends Model
                       });
         }
 
-        if($request->has('per_page'))
-            $this->paginate = $request->per_page;
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $model->paginate($this->paginate);
     }
@@ -366,6 +378,9 @@ class Company extends Model
                               ->orWhere('roles.description', 'like', '%' . $keyword . '%');
                       });
         }
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $model->paginate($this->paginate);
     }
@@ -434,6 +449,9 @@ class Company extends Model
                   });
         }
 
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
         $data = $projects->paginate($this->paginate);
 
         $data->map(function ($project) {
@@ -496,6 +514,9 @@ class Company extends Model
         if(request()->has('all') && request()->all)
             return $tasks->get();
 
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
         return $tasks->paginate($this->paginate);
     }
 
@@ -529,12 +550,15 @@ class Company extends Model
 
         $clients = $this->clients();
 
-        if($request->has('sort'))
-            $clients->orderBy($sortName, $sortValue);
-        else
-            $clients->latest();
+        $clients->latest();
 
-        return $clients->paginate(10);
+        if($request->has('sort') && !empty(request()->sort))
+            $clients->orderBy($sortName, $sortValue);
+        
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
+        return $clients->paginate($this->paginate);
     }
 
     public function timeline()
@@ -575,8 +599,14 @@ class Company extends Model
 
         $form = $this->forms();
 
-        if($request->has('sort'))
+        if($request->has('sort') && !empty(request()->sort))
             $form->orderBy($sortName, $sortValue);
+
+        if(request()->has('all') && request()->all)
+            return $form->get();
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $form->paginate($this->paginate);
     }

@@ -140,7 +140,7 @@ class Milestone extends Model
         if(request()->has('sort'))
             $model->orderBy($sortName, $sortValue);
 
-        if(request()->has('per_page'))
+        if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
         return $model->paginate($this->paginate);
@@ -185,7 +185,7 @@ class Milestone extends Model
         if(request()->has('sort'))
             $model->orderBy($sortName, $sortValue);
 
-        if(request()->has('per_page'))
+        if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
         if(request()->has('all') && request()->all == true)

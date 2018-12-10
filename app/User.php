@@ -157,6 +157,9 @@ class User extends Authenticatable
         if(request()->has('all') && request()->all)
             return $tasks->get();
 
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
         return $tasks->paginate($this->paginate);
     }
 
@@ -208,10 +211,13 @@ class User extends Authenticatable
         if($request->has('status'))
             $projects->where('status', $request->status);
 
-        if($request->has('sort'))
+        if($request->has('sort') && !empty(request()->sort))
             $projects->orderBy($sortName, $sortValue);
         else
             $projects->latest();
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $projects->with('tasks')->paginate($this->paginate);
     }

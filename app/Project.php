@@ -186,12 +186,14 @@ class Project extends Model implements HasMediaConversions
             $tasks->orderBy($sortName, $sortValue);
         }
 
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
+        $data = $tasks->paginate($this->paginate);
 
         if(request()->has('all') && request()->all)
             $data = $tasks->get();
-        else
-            $data = $tasks->paginate($this->paginate);
+        
 
         $data->map(function ($model) {
             $model['total_time'] = $model->total_time();
@@ -225,6 +227,9 @@ class Project extends Model implements HasMediaConversions
         if(request()->has('all') && request()->all)
             return $tasks->get();
 
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
         return $tasks->paginate($this->paginate);
     }
     
@@ -248,6 +253,9 @@ class Project extends Model implements HasMediaConversions
 
             $model->orderBy($sortName, $sortValue);
         }
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         $data = $model->paginate($this->paginate);
 
@@ -298,6 +306,9 @@ class Project extends Model implements HasMediaConversions
                         $query->where("{$table}.job_title", "like", "%{$keyword}%");
                   });
         }
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
 
         return $model->with('tasks')->paginate($this->paginate);
 
