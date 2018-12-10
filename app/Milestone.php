@@ -180,13 +180,18 @@ class Milestone extends Model
 
         $model = $parent_model->milestones();
 
+        $model->with(['tasks']);
+
         if(request()->has('sort'))
             $model->orderBy($sortName, $sortValue);
 
         if(request()->has('per_page'))
             $this->paginate = request()->per_page;
 
-        return $model->with(['tasks'])->paginate($this->paginate);
+        if(request()->has('all') && request()->all == true)
+            return $model->get();
+
+        return $model->paginate($this->paginate);
     }
 
     /*

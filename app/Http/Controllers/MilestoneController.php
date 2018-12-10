@@ -15,9 +15,6 @@ class MilestoneController extends Controller
     {
         $milestone = new Milestone();
 
-        if(request()->has('all') && request()->all == true)
-            return $milestone->paginated($parent, $parent_id);
-
         return $milestone->paginated($parent, $parent_id);
     }
     
