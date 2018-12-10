@@ -588,52 +588,57 @@ class Company extends Model
 
     public static function boot() 
     {
-        Company::created(function ($company) {
-            $dashboard = $company->dashboards()->create([
-                'title' => $company->name,
-                'description' => $company->name.' Dashboard'
-            ]);
+        if(Company::all()->count() > 0) {
 
-            $role = new Role();
+            Company::creating(function ($company) {
+                $dashboard = $company->dashboards()->create([
+                    'title' => $company->name,
+                    'description' => $company->name.' Dashboard'
+                ]);
 
-            $roleAdmin = $role->create(
-                [
-                    'name' => 'Administrator',
-                    'slug' => 'default-admin-'.$company->id,
-                    'description' => 'manage administration privileges',
-                ]
-            );
+                $role = new Role();
 
-            $roleClient = $role->create(
-                [
-                    'name' => 'Client',
-                    'slug' => 'client-'.$company->id,
-                    'description' => 'Client privileges',
-                ]
-            );
+                $roleAdmin = $role->create(
+                    [
+                        'name' => 'Administrator',
+                        'slug' => 'default-admin-'.$company->id,
+                        'description' => 'manage administration privileges',
+                    ]
+                );
 
-            $roleManager = $role->create(
-                [
-                    'name' => 'Manager',
-                    'slug' => 'manager-'.$company->id,
-                    'description' => 'manage a team privileges',
-                ]
-            );
+                $roleClient = $role->create(
+                    [
+                        'name' => 'Client',
+                        'slug' => 'client-'.$company->id,
+                        'description' => 'Client privileges',
+                    ]
+                );
 
-            $company->roles()->attach([
-                $roleAdmin->id,
-                $roleClient->id,
-                $roleManager->id
-            ]);
+                $roleManager = $role->create(
+                    [
+                        'name' => 'Manager',
+                        'slug' => 'manager-'.$company->id,
+                        'description' => 'manage a team privileges',
+                    ]
+                );
 
-            $team = Team::create([
-                'name' => $company->name.' Default Team',
-                'company_id' => $company->id,
-                'description' => 'This is the default team for a company'
-            ]);
+                $company->roles()->attach([
+                    $roleAdmin->id,
+                    $roleClient->id,
+                    $roleManager->id
+                ]);
 
-            $company->teams()->save($team);
-        });
+                $team = Team::create([
+                    'name' => $company->name.' Default Team',
+                    'company_id' => $company->id,
+                    'description' => 'This is the default team for a company'
+                ]);
+
+                $company->teams()->save($team);
+            });
+            
+        }
+        
 
         Company::deleting(function($company) {
             foreach(['roles', 'teams'] as $relation)

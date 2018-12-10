@@ -44,6 +44,7 @@ class RoleSeeder extends Seeder
 			    ],
 			    'description' => 'My Project Details'
 	        ]);
+
         $permission->create(
 	        [
 	        	'company_id' => 1,
@@ -56,6 +57,7 @@ class RoleSeeder extends Seeder
 			    ],
 			    'description' => 'My Project Milestones'
 	        ]);
+
         $permission->create(
 	        [
 	        	'company_id' => 1,
@@ -68,6 +70,7 @@ class RoleSeeder extends Seeder
 			    ],
 			    'description' => 'My Project Own Task'
 	        ]);
+        
         $permission->create(
 	        [
 	        	'company_id' => 1,
@@ -81,7 +84,7 @@ class RoleSeeder extends Seeder
 			    'description' => 'My Project Other Task'
 	        ]);
 
-    	$role = new Role();
+    		$role = new Role();
 
     	$company = Company::findOrfail(1);
 
