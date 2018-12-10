@@ -20,8 +20,6 @@ use DB;
 
 class ProjectController extends Controller
 {
-    protected $per_page = 5;
-    protected $paginate = 5;
 
     public function index()
     {
@@ -91,7 +89,7 @@ class ProjectController extends Controller
         //get milestones
 
         if($template->milestones->count() <= 0)
-            return response(500, 'Template has no milestones.');
+            return response('Template has no milestones.', 500);
 
         foreach ($template->milestones as $key => $milestone) {
 
