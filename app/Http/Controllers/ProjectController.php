@@ -87,9 +87,8 @@ class ProjectController extends Controller
         $template = Template::findOrFail(request()->template_id);
 
         //get milestones
-
         if($template->milestones->count() <= 0)
-            return response('Template has no milestones.', 500);
+            return response(['message' => 'Template has no milestones.'], 500);
 
         foreach ($template->milestones as $key => $milestone) {
 
