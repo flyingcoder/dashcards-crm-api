@@ -95,6 +95,11 @@ class Milestone extends Model
 
     public function addTask()
     {
+        request()->validate([
+            'title' => 'required',
+            'status' => 'required'
+        ]);
+
         $data = [
             'title' => request()->title,
             'description' => request()->description,
