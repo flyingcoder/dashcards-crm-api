@@ -84,40 +84,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        $template = Template::findOrFail(request()->template_id);
-
-        //get milestones
-        if($template->milestones->count() <= 0)
-            return response(['message' => 'Template has no milestones.'], 500);
-
-        foreach ($template->milestones as $key => $milestone) {
-
-            $new_milestone = $milestone->replicate();
-
-            $new_milestone->project_id = $project->id;
-
-            $new_milestone->save();
-
-            if($milestone->tasks->count() > 0) {
-                foreach ($milestone->tasks as $key => $task) {
-                   $new_task = $new_milestone->tasks()->create([
-                        'title' => $task->title,
-                        'description' => $task->description,
-                        'status' => $task->status,
-                        'days' => $task->days
-                   ]);
-
-                   $member = $task->assigned_to->users;
-
-                   $new_task->assigned()->attach($member);
-
-                   $project = $new_milestone->project;
-
-                   $project->members()->attach($member);
-                }
-
-            }
-        }
+        return $project->importMilestones();
     }
 
     public function updateStatus($id)
