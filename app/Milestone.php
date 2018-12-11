@@ -89,6 +89,8 @@ class Milestone extends Model
             $model->milestones()->attach($milestone);
         }
 
+        $milestone['tasks'] = [];
+
         return $milestone;
 
     }

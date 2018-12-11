@@ -26,7 +26,7 @@ class PaymentController extends Controller
 
         $result = auth()->user()
                         ->newSubscription($subscription, $plan_id)
-                        ->create(request()->token);
+                        ->create(request()->token->id);
 
         return $result;
 
