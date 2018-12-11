@@ -573,6 +573,7 @@ class Company extends Model
     public function allTimeline()
     {
         return $this->timeline()
+                    ->latest()
                     ->get();
     }
 

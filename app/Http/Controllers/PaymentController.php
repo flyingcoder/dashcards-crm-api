@@ -23,11 +23,11 @@ class PaymentController extends Controller
         if(request()->has('plan'))
             $plan_id = request()->plan;
 
-        $result = auth()->user()
-                        ->newSubscription($subscription, $plan_id)
-                        ->create(request()->token);
+        auth()->user()
+              ->newSubscription($subscription, $plan_id)
+              ->create(request()->token);
 
-        return $result;
+        return auth()->user();
 
     }
 }
