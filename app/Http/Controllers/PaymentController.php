@@ -14,8 +14,8 @@ class PaymentController extends Controller
 
     public function checkout()
     {
-    	$subscription = 'Gold';
-        $plan_id = 'prod_DK73slEWcSZ76f'; //gold
+    	$subscription = 'Monthly';
+        $plan_id = 'plan_E8UgXycLjHZYJ4'; //gold
 
         if(request()->has('subscription'))
             $subscription = request()->subscription;
@@ -24,7 +24,7 @@ class PaymentController extends Controller
             $plan_id = request()->plan;
 
         $result = auth()->user()
-                        ->newSubscription('main', $plan_id)
+                        ->newSubscription($subscriptio, $plan_id)
                         ->create(request()->token);
 
         return $result;
