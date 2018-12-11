@@ -24,6 +24,11 @@ class Template extends Model
         'company_id', 'status', 'name', 'replica_type'
     ];
 
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A Template has been {$eventName}";
+    }
+
     protected $dates = ['deleted_at'];
 
     public function milestones()
