@@ -14,7 +14,7 @@ class PaymentController extends Controller
 
     public function checkout()
     {
-        
+        dd(request()->token);
     	$subscription = 'Gold';
         $plan_id = 'prod_DK73slEWcSZ76f'; //gold
 
