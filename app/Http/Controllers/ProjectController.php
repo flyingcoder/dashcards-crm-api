@@ -347,6 +347,8 @@ class ProjectController extends Controller
 
         $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
 
+        $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
+
         $project->service_name = $project->service->name;
 
         return $project;

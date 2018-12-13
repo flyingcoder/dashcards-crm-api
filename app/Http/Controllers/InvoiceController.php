@@ -36,7 +36,8 @@ class InvoiceController extends Controller
 
     public function store()
     {       
-        $invoice = Invoice::store(request());
+        $invoice = Invoice::store();
+        
         return $invoice;
     }
 

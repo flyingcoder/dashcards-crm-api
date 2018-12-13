@@ -86,8 +86,16 @@ class Project extends Model implements HasMediaConversions
 
     public function storeInvoice()
     {
-        $invoice = $this->invoices()->create(request()->all());
+        $request->validate( [
+            'date' => 'date',
+            'due_date' => 'required|date',
+            'title' => 'required',
+            'total_amount' => 'required',
+            'items' => 'required'
+        ]);
 
+        $invoice = $this->invoices()->create(request()->all());
+            
         $client = $this->getClient();
 
         $invoice->bill_to = ucfirst($client->last_name) . ', ' . ucfirst($client->first_name);
