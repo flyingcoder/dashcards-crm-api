@@ -86,7 +86,7 @@ class Project extends Model implements HasMediaConversions
 
     public function storeInvoice()
     {
-        $request->validate( [
+        request()->validate( [
             'date' => 'date',
             'due_date' => 'required|date',
             'title' => 'required',
