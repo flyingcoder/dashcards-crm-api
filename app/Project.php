@@ -96,6 +96,7 @@ class Project extends Model implements HasMediaConversions
 
         $data = [
             'date' => request()->date,
+            'user_id' => auth()->user()->id,
             'due_date' => request()->due_date,
             'title' => request()->title,
             'total_amount' => request()->total_amount,
