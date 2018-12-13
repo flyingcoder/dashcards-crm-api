@@ -51,7 +51,7 @@ class LoginController extends Controller
         }
 
         return redirect('/login')->withErrors([
-            'error' => 'These credentials do not match our records.',
+            'message' => 'These credentials do not match our records.',
         ]);
     }
 }
