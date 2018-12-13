@@ -89,7 +89,7 @@ class Project extends Model implements HasMediaConversions
         request()->validate( [
             'date' => 'date',
             'due_date' => 'required|date',
-            'title' => 'required',
+            'description' => 'required',
             'total_amount' => 'required',
             'items' => 'required'
         ]);
