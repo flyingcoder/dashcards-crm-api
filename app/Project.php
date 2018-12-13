@@ -94,7 +94,20 @@ class Project extends Model implements HasMediaConversions
             'items' => 'required'
         ]);
 
-        $invoice = $this->invoices()->create(request()->all());
+        $data = [
+            'date' => request()->date,
+            'due_date' => request()->due_date,
+            'title' => request()->title,
+            'total_amount' => request()->total_amount,
+            'items' => collect(request()->items),
+            'terms' => request()->terms,
+            'tax' => request()->tax,
+        ];
+
+        if(request()->has('discount'))
+            $data['discount'] = request()->discount;
+
+        $invoice = $this->invoices()->create($data);
             
         $client = $this->getClient();
 
