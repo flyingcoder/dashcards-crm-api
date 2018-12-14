@@ -351,6 +351,8 @@ class ProjectController extends Controller
 
         $project->service_name = $project->service->name;
 
+        $project->tasks;
+
         return $project;
     }
 
