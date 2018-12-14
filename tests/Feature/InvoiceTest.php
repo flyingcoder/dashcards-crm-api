@@ -10,6 +10,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvoiceTest extends TestCase
 {
+    public function testInvoiceIndex()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/invoice');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testProjectInvoice()
     {
         $this->withoutExceptionHandling();
@@ -45,20 +59,6 @@ class InvoiceTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }
-
-    public function testInvoiceIndex()
-    {
-        $this->withoutExceptionHandling();
-
-    	$user = User::all()->first();
-
-    	$response = $this->actingAs($user, 'api')
-    					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-    					 ->get('api/invoice');
-
-    	//dd($response->content());
-    	$response->assertStatus(200);
     }
 
     public function testInvoice()

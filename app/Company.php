@@ -60,6 +60,7 @@ class Company extends Model
     public function invoices()
     {
         return $this->members()
+                    ->select('invoices.*')
                     ->join('invoices', 'invoices.user_id', '=', 'users.id');
     }
 
