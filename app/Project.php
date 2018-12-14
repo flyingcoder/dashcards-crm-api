@@ -106,7 +106,7 @@ class Project extends Model implements HasMediaConversions
             'terms' => request()->terms,
             'tax' => request()->tax,
             'billed_to' => ucfirst($client->last_name) . ', ' . ucfirst($client->first_name),
-            'billed_from' = ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name)
+            'billed_from' => ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name)
         ];
 
         if(request()->has('billed_to'))
