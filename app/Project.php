@@ -94,6 +94,8 @@ class Project extends Model implements HasMediaConversions
             'items' => 'required'
         ]);
 
+        $client = $this->getClient();
+
         $data = [
             'date' => request()->date,
             'user_id' => auth()->user()->id,
@@ -103,18 +105,20 @@ class Project extends Model implements HasMediaConversions
             'items' => collect(request()->items),
             'terms' => request()->terms,
             'tax' => request()->tax,
+            'billed_to' => ucfirst($client->last_name) . ', ' . ucfirst($client->first_name),
+            'billed_from' = ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name)
         ];
+
+        if(request()->has('billed_to'))
+            $data['billed_to'] = request()->billed_to;
+
+        if(request()->has('billed_from'))
+            $data['billed_from'] = request()->billed_from;
 
         if(request()->has('discount'))
             $data['discount'] = request()->discount;
 
         $invoice = $this->invoices()->create($data);
-            
-        $client = $this->getClient();
-
-        $invoice->bill_to = ucfirst($client->last_name) . ', ' . ucfirst($client->first_name);
-
-        $invoice->bill_from = ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name);
 
         return $invoice;
     }

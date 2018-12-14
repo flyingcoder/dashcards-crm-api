@@ -69,6 +69,46 @@ class User extends Authenticatable
                 ->where('id', $this->id)
                 ->first();
     }
+
+    public function storeInvoice()
+    {
+        request()->validate( [
+            'date' => 'date',
+            'due_date' => 'required|date',
+            'title' => 'required',
+            'total_amount' => 'required',
+            'items' => 'required'
+        ]);
+
+        $data = [
+            'date' => request()->date,
+            'user_id' => auth()->user()->id,
+            'due_date' => request()->due_date,
+            'title' => request()->title,
+            'total_amount' => request()->total_amount,
+            'items' => collect(request()->items),
+            'terms' => request()->terms,
+            'tax' => request()->tax,
+        ];
+
+        if(request()->has('billed_to'))
+            $data['billed_to'] = request()->billed_to;
+
+        if(request()->has('billed_from'))
+            $data['billed_from'] = request()->billed_from;
+
+        if(request()->has('discount'))
+            $data['discount'] = request()->discount;
+
+        $invoice = $this->invoices()->create($data);
+            
+        return $invoice;
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
     
 
     /**
