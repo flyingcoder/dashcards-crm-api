@@ -346,12 +346,20 @@ class ProjectController extends Controller
         $project->total_time = $project->totalTime();
 
         $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
+        
+        $project->billed_to = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
 
         $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
+
+        $project->billed_from = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
 
         $project->service_name = $project->service->name;
 
         $project->tasks;
+
+        $project->tasks->map(function ($item, $key) {
+            $item['total_time'] = $item->total_time();
+        });
 
         return $project;
     }
