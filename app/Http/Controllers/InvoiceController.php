@@ -36,26 +36,42 @@ class InvoiceController extends Controller
 
     public function store()
     {       
-        $invoice = Invoice::store();
-        
-        return $invoice;
+        return auth()->user()->storeInvoice();
     }
 
     public function update($id)
     {
         $invoice = Invoice::findOrFail($id);
 
-        request()->validate([
-            'billed_date' => 'required|date',
-            'due_date' => 'required|date'
+        request()->validate( [
+            'date' => 'date',
+            'due_date' => 'required|date',
+            'title' => 'required',
+            'total_amount' => 'required',
+            'items' => 'required',
+            'type' => 'required'
         ]);
 
-        $invoice->billed_date = request()->billed_date;
+        $invoice->date = request()->date;
         $invoice->due_date = request()->due_date;
-        $invoice->notes = request()->notes;
-        
-        $invoice->save();
+        $invoice->title = request()->title;
+        $invoice->total_amount = request()->total_amount;
+        $invoice->items = request()->items;
+        $invoice->type = request()->type;
 
+        if(request()->has('project_id'))
+            $invoice->project_id = request()->project_id;
+
+        if(request()->has('billed_to'))
+            $$invoice->billed_to = request()->billed_to;
+
+        if(request()->has('billed_from'))
+            $$invoice->billed_from = request()->billed_from;
+
+        if(request()->has('discount'))
+            $$invoice->discount = request()->discount;
+
+            
         return $invoice;
     }
 

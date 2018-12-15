@@ -77,10 +77,12 @@ class User extends Authenticatable
             'due_date' => 'required|date',
             'title' => 'required',
             'total_amount' => 'required',
-            'items' => 'required'
+            'items' => 'required',
+            'type' => 'required'
         ]);
 
         $data = [
+            'type' => request()->type,
             'date' => request()->date,
             'user_id' => auth()->user()->id,
             'due_date' => request()->due_date,
@@ -90,6 +92,9 @@ class User extends Authenticatable
             'terms' => request()->terms,
             'tax' => request()->tax,
         ];
+
+        if(request()->has('project_id'))
+            $data['project_id'] = request()->project_id;
 
         if(request()->has('billed_to'))
             $data['billed_to'] = request()->billed_to;
