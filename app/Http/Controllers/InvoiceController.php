@@ -63,13 +63,13 @@ class InvoiceController extends Controller
             $invoice->project_id = request()->project_id;
 
         if(request()->has('billed_to'))
-            $$invoice->billed_to = request()->billed_to;
+            $invoice->billed_to = request()->billed_to;
 
         if(request()->has('billed_from'))
-            $$invoice->billed_from = request()->billed_from;
+            $invoice->billed_from = request()->billed_from;
 
         if(request()->has('discount'))
-            $$invoice->discount = request()->discount;
+            $invoice->discount = request()->discount;
 
             
         return $invoice;
