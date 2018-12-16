@@ -10,34 +10,22 @@ use App\Company;
 
 class TeamModelTest extends TestCase
 {
-    /**
+     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testServicesFunction()
-    {
-    	$user = User::findOrFail(1);
-
-        $this->assertTrue(true);
-    }
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     
     public function testStore()
     {
         
         $this->withoutExceptionHandling();
 
-        $user = User::findOrFail(1);
+        $user = User::all()->first();
 
         $data = [
             'first_name' => 'Alvin',
             'last_name' => 'Pacot',
-            'email' => 'sample1@email.com',
+            'email' => 'sample123@email.com',
             'password' => 'securepassword',
             'telephone' => '+1323453234',
             'password_confirmation' => 'securepassword',
@@ -49,10 +37,31 @@ class TeamModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/company/teams', $data);
 
-        //dd($response->content());
+        dd($response->content());
         //$response->assertStatus(201);
         $this->assertTrue(true);
-    }*/
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testIndexFunction()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $userput = User::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/company/teams/');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
 
      /**
      * A basic test example.
