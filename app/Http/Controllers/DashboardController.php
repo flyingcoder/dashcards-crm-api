@@ -27,7 +27,7 @@ class DashboardController extends Controller
                 $defaultDash->dashitems()->attach($id, ['order' => $k+1, 'visible' => 1]);
         }
 
-        return $defaultDash->dashitems;
+        return Dashboard::findOrFail($defaultDash->id)->dashitems;
     }
 
     public function counts() {

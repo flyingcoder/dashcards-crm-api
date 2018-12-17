@@ -10,6 +10,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class DashboardTest extends TestCase
 {
 
+    public function testAddDashitem()
+    {
+        $user = User::all()->first();
+
+        $data = [
+            'dashitem_id' => [1,2,3]
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/dashboard/default/dashitems', $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testDeleteAllDashitem()
     {
         $user = User::find(1);
