@@ -53,6 +53,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+         if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
+
+        parent::report($exception);
+    
         if(!$this->isApiCall($request)) {
             $retval = parent::render($request, $e);
         } else {
