@@ -186,7 +186,7 @@ class TeamController extends Controller
             $roles = $company->roles;
 
         $roles->map(function ($index, $key) {
-            $index['group_name'] = $index->group_name;
+            $index['group_name'] = $index->name;
         });
 
         return $roles;
