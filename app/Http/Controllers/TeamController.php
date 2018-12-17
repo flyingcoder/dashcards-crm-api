@@ -185,6 +185,10 @@ class TeamController extends Controller
         if(request()->has('all') && request()->all == true)
             $roles = $company->roles;
 
+        $roles->map(function ($index, $key) {
+            $index['group_name'] = $index->group_name;
+        });
+
         return $roles;
     }
 

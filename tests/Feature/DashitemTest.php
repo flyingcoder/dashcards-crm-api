@@ -9,6 +9,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DashitemTest extends TestCase
 {
+    public function testGetDashitems()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/dashitems');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     /**
      * A basic test example.
      *
@@ -25,18 +39,6 @@ class DashitemTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/dashboard/default/dashitems', $data);
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testGetDashitems()
-    {
-        $user = User::find(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/dashitems');
 
         //dd($response->content());
         $response->assertStatus(200);
