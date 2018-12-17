@@ -10,16 +10,27 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GroupTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
+    public function testAssign()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $model = Role::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/groups/'.$model->id.'/permission');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testGroups()
     {
         $this->withoutExceptionHandling();
 
-    	$user = User::find(1);
+    	$user = User::all()->first();
 
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -27,26 +38,6 @@ class GroupTest extends TestCase
 
     	//dd($response->content());
     	$response->assertStatus(200);
-    }
-
-    public function testAssign()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::find(1);
-
-        $data = [
-            'permission_id' => [2,3,4]
-        ];
-
-        $model = Role::latest()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->post('api/groups/'.$model->id.'/permission', $data);
-
-        //dd($response->content());
-        $response->assertStatus(200);
     }
 
     /**
@@ -83,7 +74,7 @@ class GroupTest extends TestCase
     {
        $this->withoutExceptionHandling();
 
-        $user = User::findOrFail(1);
+        $user = User::all()->first();
 
         $modelput = Role::latest()->first();
 
@@ -103,7 +94,7 @@ class GroupTest extends TestCase
     {
        $this->withoutExceptionHandling();
 
-        $user = User::findOrFail(1);
+        $user = User::all()->first();
 
         $modeldelete = Role::latest()->first();
 
@@ -117,7 +108,7 @@ class GroupTest extends TestCase
 
     public function testCompanyTeams()
     {
-        $user = User::find(1);
+        $user = User::all()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
@@ -136,7 +127,7 @@ class GroupTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::find(1);
+        $user = User::all()->first();
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
