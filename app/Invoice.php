@@ -21,7 +21,8 @@ class Invoice extends Model
         'total_amount',
         'terms',
         'tax',
-        'due_date'
+        'due_date',
+        'company_logo'
     ];
 
     protected $dates = ['deleted_at'];
