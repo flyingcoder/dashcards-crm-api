@@ -72,6 +72,9 @@ class User extends Authenticatable
 
     public function storeInvoice()
     {
+
+        dd(request()->all());
+        
         request()->validate( [
             'date' => 'date',
             'due_date' => 'required|date',
