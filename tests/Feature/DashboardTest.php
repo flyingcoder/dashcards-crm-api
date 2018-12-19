@@ -10,6 +10,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class DashboardTest extends TestCase
 {
 
+    public function testDeleteDashitem()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/dashboard/default/dashitems');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testAddDashitem()
     {
         $user = User::all()->first();
@@ -22,7 +36,7 @@ class DashboardTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/dashboard/default/dashitems', $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -33,18 +47,6 @@ class DashboardTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->delete('api/dashboard/default/dashitems/1');
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testDeleteDashitem()
-    {
-        $user = User::find(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->delete('api/dashboard/default/dashitems');
 
         //dd($response->content());
         $response->assertStatus(200);
