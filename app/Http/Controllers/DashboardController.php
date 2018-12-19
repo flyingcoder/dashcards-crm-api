@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 namespace App\Http\Controllers;
 
@@ -22,9 +22,10 @@ class DashboardController extends Controller
             'dashitem_id' => 'required|array'
         ]);
 
+        $defaultDash->dashitems()->detach();
+
         foreach (request()->dashitem_id as $k => $id) {
-            if(!$defaultDash->dashitems->contains($id))
-                $defaultDash->dashitems()->attach($id, ['order' => $k+1, 'visible' => 1]);
+            $defaultDash->dashitems()->attach($id, ['order' => $k+1, 'visible' => 1]);
         }
 
         return Dashboard::findOrFail($defaultDash->id)->dashitems;
