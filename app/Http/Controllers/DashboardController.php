@@ -86,7 +86,7 @@ class DashboardController extends Controller
     	$company = auth()->user()->company();
 
     	$defaultDash = $company->dashboards()->first();
-        dd($defaultDash->dashitems);
+
     	return $defaultDash->dashitems;
     }
 }
