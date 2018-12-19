@@ -106,7 +106,7 @@ class User extends Authenticatable
             $data['discount'] = request()->discount;
 
         if(request()->hasFile('company_logo'))
-            $data['company_logo'] = request()->company_logo->store('invoice');
+            $data['company_logo'] = request()->file('company_logo')->store('invoice');
 
         $invoice = $this->invoices()->create($data);
             
