@@ -45,11 +45,24 @@ class ProjectController extends Controller
 
     public function forInvoice($project_id)
     {
-        $model = Project::findOrFail($project_id);
+        $project = Project::findOrFail($project_id);
 
-        return $model->tasks()
-                     ->where('status', 'completed')
-                     ->get();
+        $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
+        
+        $project->billed_to = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
+
+        $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
+
+        $project->billed_from = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
+
+        $project->service_name = $project->service->name;
+
+        $project->tasks->map(function ($item, $key) {
+            $item['tasks'] = $item->taskWhereStatus('completed');
+            $item['total_time'] = $item->total_time();
+        });
+
+        return $project;
     }
 
     public function invoice($project_id)

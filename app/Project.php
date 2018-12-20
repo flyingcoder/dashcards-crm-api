@@ -84,6 +84,13 @@ class Project extends Model implements HasMediaConversions
         }
     }
 
+    public function taskWhereStatus($status)
+    {
+        return $this->tasks()
+                     ->where('tasks.status', $status)
+                     ->get();
+    }
+
     public function storeInvoice()
     {
         request()->validate( [
