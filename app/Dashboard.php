@@ -10,7 +10,7 @@ class Dashboard extends Model
 
     public function dashitems()
     {
-    	return $this->belongsToMany(Dashitem::class)->withPivot('order');
+    	return $this->belongsToMany(Dashitem::class)->withPivot('order', 'visible');
     }
 
  	public function company()

@@ -10,12 +10,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class DashboardTest extends TestCase
 {
 
+    public function testDashboard()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/dashboard/default/dashitems');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testDeleteDashitem()
     {
         $this->withoutExceptionHandling();
 
-        dd(Storage::url(''));
-        
         $user = User::all()->first();
 
         $response = $this->actingAs($user, 'api')
@@ -54,20 +64,5 @@ class DashboardTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testDashboard()
-    {
-        $user = User::find(1);
-
-    	$response = $this->actingAs($user, 'api')
-    					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-    					 ->get('api/dashboard/default/dashitems');
-
-    	//dd($response->content());
-    	$response->assertStatus(200);
-    }
+    
 }

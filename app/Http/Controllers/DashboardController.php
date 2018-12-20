@@ -90,6 +90,8 @@ class DashboardController extends Controller
 
     	$defaultDash = $company->dashboards()->first();
 
-    	return $defaultDash->dashitems;
+    	return $defaultDash->dashitems()
+                           ->orderBy('pivot_order', 'ASC')
+                           ->get();
     }
 }
