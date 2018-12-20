@@ -71,10 +71,7 @@ class User extends Authenticatable
     }
 
     public function storeInvoice()
-    {
-
-        dd(request()->hasFile('company_logo'));
-        
+    {   
         request()->validate( [
             'date' => 'date',
             'due_date' => 'required|date',
