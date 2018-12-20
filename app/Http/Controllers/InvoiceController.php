@@ -41,6 +41,8 @@ class InvoiceController extends Controller
 
     public function update($id)
     {
+        dd(request()->hasFile('company_logo'));
+        
         $invoice = Invoice::findOrFail($id);
 
         request()->validate( [
