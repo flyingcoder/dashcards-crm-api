@@ -54,6 +54,9 @@ class DashboardController extends Controller
 	        	'outbound' => 0 //replied questionaires
     		];
     	}
+
+        $counts['notification'] = auth()->user()->CountUnreadActivity();
+        $counts['chats'] = auth()->user()->CountChats();
     }
 
     public function hideAllDashitem()

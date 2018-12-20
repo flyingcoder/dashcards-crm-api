@@ -73,7 +73,7 @@ class User extends Authenticatable
     public function storeInvoice()
     {
 
-        dd(request()->all());
+        dd(request()->hasFile('company_logo'));
         
         request()->validate( [
             'date' => 'date',
@@ -139,6 +139,20 @@ class User extends Authenticatable
                     ->whereNull('read_at')
                     ->with('causer')
                     ->get();
+    }
+
+    public function CountUnreadActivity()
+    {
+        return $this->acts()
+                    ->whereNull('read_at')
+                    ->count();
+    }
+
+    public function CountChats()
+    {
+        return $this->chats()
+                    ->where('')
+                    ->count();
     }
 
     /**

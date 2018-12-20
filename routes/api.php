@@ -310,6 +310,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/invoice', 'ProjectController@invoice');
 
+  Route::get('{id}/tasks-for-invoice', 'ProjectController@forInvoice');
+
   Route::post('{id}/invoice', 'ProjectController@saveInvoice');
 
 });
@@ -368,7 +370,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 // Invoices
 Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
 
-	Route::get('/', 'InvoiceController@index');
+  Route::get('/', 'InvoiceController@index');
 
   Route::post('/', 'InvoiceController@store');
 

@@ -43,6 +43,15 @@ class ProjectController extends Controller
         return $model->storeInvoice();
     }
 
+    public function forInvoice($project_id)
+    {
+        $model = Project::findOrFail($project_id);
+
+        return $model->tasks()
+                     ->where('status', 'completed')
+                     ->get();
+    }
+
     public function invoice($project_id)
     {
         //(new ProjectPolicy())->index();
