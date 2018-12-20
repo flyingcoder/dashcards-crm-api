@@ -22,6 +22,9 @@ class Invoice extends Model
         'terms',
         'tax',
         'due_date',
+        'billed_from',
+        'billed_to',
+        'type',
         'company_logo'
     ];
 

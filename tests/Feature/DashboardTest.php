@@ -14,6 +14,8 @@ class DashboardTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
+        dd(Storage::url(''));
+        
         $user = User::all()->first();
 
         $response = $this->actingAs($user, 'api')
