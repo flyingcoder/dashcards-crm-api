@@ -28,7 +28,10 @@ class DashboardController extends Controller
             $defaultDash->dashitems()->attach($id, ['order' => $k+1, 'visible' => 1]);
         }
 
-        return Dashboard::findOrFail($defaultDash->id)->dashitems;
+        return Dashboard::findOrFail($defaultDash->id)
+                        ->dashitems()
+                        ->orderBy('pivot_order', 'ASC')
+                        ->get();
     }
 
     public function counts() {
