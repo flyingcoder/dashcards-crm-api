@@ -47,6 +47,8 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project_id);
 
+        $project->total_time = $project->totalTime();
+
         $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
         
         $project->billed_to = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
@@ -57,8 +59,9 @@ class ProjectController extends Controller
 
         $project->service_name = $project->service->name;
 
+        $project->tasks = $project->taskWhereStatus('completed');
+
         $project->tasks->map(function ($item, $key) {
-            $item['tasks'] = $item->taskWhereStatus('completed');
             $item['total_time'] = $item->total_time();
         });
 
