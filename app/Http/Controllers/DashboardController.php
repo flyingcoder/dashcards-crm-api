@@ -60,6 +60,8 @@ class DashboardController extends Controller
 
         $counts['notification'] = auth()->user()->CountUnreadActivity();
         $counts['chats'] = auth()->user()->CountChats();
+
+        return $counts;
     }
 
     public function hideAllDashitem()

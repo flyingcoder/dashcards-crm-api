@@ -9,6 +9,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DashboardTest extends TestCase
 {
+    public function testDashboardCount()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/dashboard/counts');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
 
     public function testDashboard()
     {
@@ -32,7 +45,7 @@ class DashboardTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/dashboard/default/dashitems');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

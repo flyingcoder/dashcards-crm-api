@@ -4,6 +4,9 @@ namespace App;
 
 use Auth;
 use DB;
+use Chat;
+use Musonza\Chat\Notifications\MessageNotification;
+use Musonza\Chat\Messages\Message;
 use Plank\Metable\Metable;
 use Kodeine\Acl\Traits\HasRole;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -24,11 +27,6 @@ class User extends Authenticatable
         HasApiTokens,
         Billable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
@@ -43,11 +41,6 @@ class User extends Authenticatable
 
     protected $paginate = 10;
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -118,12 +111,6 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class);
     }
     
-
-    /**
-     *
-     * activity_user table relationship
-     *
-     */
     public function acts()
     {
         return $this->belongsToMany('App\Activity', 'activity_user', 'user_id', 'activity_id')
@@ -145,18 +132,22 @@ class User extends Authenticatable
                     ->count();
     }
 
-    public function CountChats()
+    public function messages()
     {
-        return $this->chats()
-                    ->where('')
-                    ->count();
+        return $this->hasMany(Message::class);
     }
 
-    /**
-     *
-     * Recursive relationship
-     *
-     */
+    public function convo()
+    {
+        return $this->hasMany(MessageNotification::class);
+    }
+
+    public function CountChats()
+    {
+        return $this->convo()
+                    ->where('mc_message_notification.is_seen', 0)
+                    ->count();
+    }
 
     public function children()
     {
@@ -186,21 +177,10 @@ class User extends Authenticatable
                     ->first();
     }
 
-    /**
-     *
-     * Forms relationship
-     *
-     */
     public function forms()
     {
         return $this->hasMany(Form::class);
     }
-
-    /**
-     *
-     * user relationships
-     *
-     */
 
     public function teams()
     {
