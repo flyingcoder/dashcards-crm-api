@@ -8,6 +8,7 @@ use App\Task;
 use App\Team;
 use App\Service;
 use App\Project;
+use App\Report;
 use App\Comment;
 use App\Template;
 use Carbon\Carbon;
@@ -34,6 +35,27 @@ class ProjectController extends Controller
             return $company->allCompanyProjects();
 
         return $company->paginatedCompanyProjects(request());
+    }
+
+    public function reports($id)
+    {
+        $model = Project::findOrFail($id);
+
+        return $model->projectReports();
+    }
+
+    public function newReport($id)
+    {
+        $model = Project::findOrFail($id);
+
+        return $model->createReports();
+    }
+
+    public function updateReport($id, $report_id)
+    {
+        $model = Report::findOrFail($id);
+
+        return $model->updateReports();
     }
 
     public function saveInvoice($project_id)

@@ -30,6 +30,47 @@ class Project extends Model implements HasMediaConversions
         'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
     ];
 
+    public function projectReports()
+    {
+        $model = $this->reports();
+
+        if(request()->has('sort') && !empty(request()->sort)) {
+
+            list($sortName, $sortValue) = parseSearchParam(request());
+
+            $model->orderBy($sortName, $sortValue);
+        }
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
+        $data = $model->paginate($this->paginate);
+
+        if(request()->has('all') && request()->all)
+            $data = $model->get();
+
+        return $data;
+    }
+
+    public function createReports()
+    {   
+        request()->validate([
+            'title' => 'required',
+            'url' => 'required'
+        ]);
+
+        return $this->reports()->create([
+            'title' => request()->title,
+            'description' => request()->description,
+            'url' => request()->url
+        ]);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Reports::class);
+    }
+
     public function activity()
     {
         return $this->morphMany(Activity::class, 'subject');

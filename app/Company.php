@@ -47,6 +47,57 @@ class Company extends Model
 
     protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description'];
 
+    public function companyReports()
+    {
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        $model = $this->reports();
+
+        if(request()->has('sort') && !is_null($sortValue))
+            $model->orderBy($sortName, $sortValue);
+        else
+            $model->orderBy('created_at', 'desc');
+
+        if(request()->has('search') && !empty(request()->search)){
+            $keyword = request()->search;
+
+            $model->where(function ($query) use ($keyword) {
+                        $query->where('title', 'like', '%' . $keyword . '%');
+                        $query->orWhere('description', 'like', '%' . $keyword . '%');
+                        $query->orWhere('create_at', 'like', '%' . $keyword . '%');
+                      });
+        }
+
+        if(request()->has('per_page'))
+            $this->paginate = request()->per_page;
+
+        $data = $model->paginate($this->paginate);
+
+        if(request()->has('all') && requet()->all)
+            $data = $model->get();
+
+        return $data;
+    }
+
+    public function createReports()
+    {   
+        request()->validate([
+            'title' => 'required',
+            'url' => 'required'
+        ]);
+
+        return $this->reports()->create([
+            'title' => request()->title,
+            'description' => request()->description,
+            'url' => request()->url
+        ]);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Reports::class);
+    }
+
     public function paginatedPermissions()
     {
         list($sortName, $sortValue) = parseSearchParam(request());

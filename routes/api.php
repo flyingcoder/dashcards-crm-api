@@ -27,6 +27,16 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
 
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'report'], function () {
+  
+  Route::get('/', 'ReportController@index');
+
+  Route::post('/', 'ReportController@newReport');
+
+  Route::put('{id}', 'ReportController@update');
+
+});
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'autocomplete'], function () {
   
   Route::get('{model}', 'SearchController@autocomplete');
@@ -313,6 +323,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/tasks-for-invoice', 'ProjectController@forInvoice');
 
   Route::post('{id}/invoice', 'ProjectController@saveInvoice');
+
+  Route::get('{id}/report', 'ProjectController@reports');
+
+  Route::post('{id}/report', 'ProjectController@newReport');
+
+  Route::put('{id}/report/{report_id}', 'ProjectController@updateReport');
 
 });
 
