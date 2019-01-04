@@ -46,7 +46,8 @@ class ApiLoginController extends Controller
             $user = Auth::user();
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 
-                'user' => $user->scopeDefaultColumn()
+                'user' => $user->scopeDefaultColumn(),
+                'company_id' => $user->company()->id
             ], $this->successStatus); 
         } 
         else{ 
