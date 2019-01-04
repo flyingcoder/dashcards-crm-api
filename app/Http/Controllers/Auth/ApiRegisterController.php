@@ -82,9 +82,17 @@ class ApiRegisterController extends Controller
 
             $default_team->members()->attach($user);
 
+            $userObject = $user->scopeDefaultColumn();
+
+            $userObject->company_id = $company->id;
+
+            $user->is_online = 1;
+
+            $user->save();
+
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 
-                'user' => $user->scopeDefaultColumn()
+                'user' => $userObject
             ], 200);
 
          } catch (Exception $e) {
@@ -95,10 +103,7 @@ class ApiRegisterController extends Controller
                                 'error' => 'The company email you have entered is already registered.'
                            ], 500);
                     break;
-                case 1048:
-                    return response()->json([
-                                'error' => 'Some fields are missing.'
-                           ], 500);
+                
                 default:
                     return response()->json([
                                 'error' => $e

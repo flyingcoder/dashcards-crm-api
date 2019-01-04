@@ -42,22 +42,30 @@ class ApiLoginController extends Controller
      * @return \Illuminate\Http\Response 
      */ 
     public function login(){
+
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
-            $user = Auth::user();
             
+            $user = Auth::user();
+
             $userObject = $user->scopeDefaultColumn();
 
             $userObject->company_id = $user->company()->id;
 
+            $user->is_online = 1;
+
+            $user->save();
+
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 
                 'user' => $userObject
-            ], $this->successStatus); 
+            ], $this->successStatus);
         } 
         else{ 
             return response()->json(['message' => 'Invalid email or password!'], 401); 
         } 
     }
+
+    
 
     /*
     public function login(Request $request) {

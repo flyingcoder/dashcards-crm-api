@@ -708,8 +708,9 @@ class Company extends Model
     public static function boot() 
     {
         if(Company::all()->count() > 0) {
+            
+            Company::created(function ($company) {
 
-            Company::creating(function ($company) {
                 $dashboard = $company->dashboards()->create([
                     'title' => $company->name,
                     'description' => $company->name.' Dashboard'
