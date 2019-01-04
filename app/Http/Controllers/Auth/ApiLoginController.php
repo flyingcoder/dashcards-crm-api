@@ -55,6 +55,8 @@ class ApiLoginController extends Controller
 
             $user->save();
 
+            UserLogin::dispatch($user);
+
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 
                 'user' => $userObject
