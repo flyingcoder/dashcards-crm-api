@@ -324,12 +324,16 @@ class Company extends Model
 
     public function allCompanyMembers()
     {
-        return $this->members()
+        $model = $this->members()
                     ->select(
                         'users.id',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
-                    )->orderBy('users.created_at', 'DESC')
-                    ->get();
+                    )->orderBy('users.created_at', 'DESC');
+                    
+        if( request()->has('online') && request()->online )
+            $model->where('is_online', 1);
+
+        return $model->get();
                     
     }
 
