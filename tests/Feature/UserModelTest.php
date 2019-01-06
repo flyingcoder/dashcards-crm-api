@@ -8,6 +8,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserModelTest extends TestCase
 {
+    public function testLogout()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/logout');
+
+        dd($response->content());
+        $response->assertStatus(200);
+
+    }
     /**
      * A basic test example.
      *
@@ -31,7 +45,7 @@ class UserModelTest extends TestCase
         $response = $this->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/register', $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

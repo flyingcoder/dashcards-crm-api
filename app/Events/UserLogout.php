@@ -17,8 +17,6 @@ class UserLogout implements ShouldBroadcast
 
     public $user;
 
-    public $company;
-
     /**
      * Create a new event instance.
      *
@@ -27,8 +25,6 @@ class UserLogout implements ShouldBroadcast
     public function __construct(User $user)
     {
         $this->user = $user;
-
-        $this->company = $user->company();
     }
 
     /**

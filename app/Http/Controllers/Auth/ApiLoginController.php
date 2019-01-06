@@ -67,12 +67,6 @@ class ApiLoginController extends Controller
         } 
     }
 
-    public function logout()
-    {
-        if(Auth::check())
-            Auth::logout();
-    }
-
     /*
     public function login(Request $request) {
 
