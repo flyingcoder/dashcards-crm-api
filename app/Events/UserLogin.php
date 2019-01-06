@@ -34,6 +34,6 @@ class UserLogin implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('user.login.'.$this->company->id);
+        return new PrivateChannel('user.login.'.$this->user->company()->id);
     }
 }

@@ -34,6 +34,6 @@ class UserLogout implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('user.logout.'.$this->company->id);
+        return new PrivateChannel('user.logout.'.$this->user->company()->id);
     }
 }
