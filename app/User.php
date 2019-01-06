@@ -63,6 +63,10 @@ class User extends Authenticatable
                 ->first();
     }
 
+    public function AauthAcessToken(){
+        return $this->hasMany(OauthAccessToken::class);
+    }
+
     public function storeInvoice()
     {   
         request()->validate( [

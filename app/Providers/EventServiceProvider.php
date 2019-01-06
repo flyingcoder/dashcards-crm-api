@@ -16,9 +16,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewActivity' => [
                 'App\Listeners\NewActivityListener ',
         ],
-        'auth.logout' => [
-                'App\Listeners\LogoutListener',
-        ],
     ];
 
     /**

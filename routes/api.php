@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('logout', 'Auth\ApiLoginController@logout');
+Route::post('logout', 'Auth\ApiLoginController@logout');
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function () {
 

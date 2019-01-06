@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Auth;
 use App\Events\UserLogin;
+use App\Events\UserLogout;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -65,6 +66,24 @@ class ApiLoginController extends Controller
         else{ 
             return response()->json(['message' => 'Invalid email or password!'], 401); 
         } 
+    }
+
+    public function logout()
+    {
+        $user = auth()->user();
+
+        if (Auth::check()) {
+
+           $user->is_online = 0;
+
+           $user->save();
+
+           Auth::user()->AauthAcessToken()->delete();
+
+           UserLogout::dispatch($user);
+
+        }
+        
     }
 
     /*
