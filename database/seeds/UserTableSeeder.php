@@ -22,7 +22,7 @@ class UserTableSeeder extends Seeder
                 'image_url' => 'img/members/alfred.png',
         		'password' => bcrypt(env('ADMIN_PASSWORD', '12345')),
         		'job_title' => 'Administrator',
-        		'telephone' => '123456789'
+        		'telephone' => '1234567898'
         	]
         );
         $userBen->assignRole('admin');
@@ -36,7 +36,7 @@ class UserTableSeeder extends Seeder
                 'image_url' => 'img/members/alfred.png',
         		'password' => bcrypt(env('ADMIN_PASSWORD', 'admin')),
         		'job_title' => 'Administrator',
-        		'telephone' => '123456789'
+        		'telephone' => '1234567898'
         	]
         );
         $userdust->assignRole('admin');
@@ -61,7 +61,7 @@ class UserTableSeeder extends Seeder
                 'image_url' => 'img/members/alfred.png',
                 'password' => bcrypt('alvin2018'),
                 'job_title' => 'Client',
-                'telephone' => '123456789'
+                'telephone' => '1234567898'
             ]
         );
 
