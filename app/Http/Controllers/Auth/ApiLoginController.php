@@ -82,6 +82,7 @@ class ApiLoginController extends Controller
 
            UserLogout::dispatch($user);
 
+           return $user;
         }
         
     }
