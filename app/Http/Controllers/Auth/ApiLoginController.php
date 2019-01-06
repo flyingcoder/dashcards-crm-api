@@ -52,7 +52,7 @@ class ApiLoginController extends Controller
 
             $userObject->company_id = $user->company()->id;
 
-            $userObject->is_admin = $user->is('admin');
+            $userObject->is_admin = $user->hasRole('admin');
 
             $user->is_online = 1;
 
