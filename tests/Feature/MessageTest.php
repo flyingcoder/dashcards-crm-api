@@ -22,7 +22,7 @@ class MessageTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/chat/private/'.$user->id.'/'.$user2->id);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
     
@@ -35,9 +35,9 @@ class MessageTest extends TestCase
         $user2 = User::latest()->first();
 
         $data = [
-        	'message' => 'Hello',
-        	'from_id' => $user2->id,
-        	'to_id' => $user->id
+        	'message' => 'uyab nata',
+        	'from_id' => $user->id,
+        	'to_id' => $user2->id
         ];
 
         $response = $this->actingAs($user, 'api')

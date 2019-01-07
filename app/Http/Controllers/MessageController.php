@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Chat;
 use App\User;
+use App\Events\ChatSent;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -39,6 +40,8 @@ class MessageController extends Controller
 			           ->from($from)
 			           ->to($conversation)
 			           ->send();
+
+        ChatSent::dispatch($message);
 
 		return $message;
     }
