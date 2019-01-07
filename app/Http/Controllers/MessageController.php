@@ -9,16 +9,14 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-	public function fetchPrivateMessages($user1_id, $user2_id)
+	public function fetchPrivateMessages($friend_id)
 	{
-        $user1 = User::findOrFail($user1_id);
+        $friend = User::findOrFail($friend_id);
 
-        $user2 = User::findOrFail($user2_id);
-
-		$conversation = Chat::conversations()->between($user1, $user2);
+		$conversation = Chat::conversations()->between(auth()->user(), $friend);
 
         return Chat::conversation($conversation)
-               ->for($user1)
+               ->for(auth()->user())
                ->getMessages();
 	}
 
