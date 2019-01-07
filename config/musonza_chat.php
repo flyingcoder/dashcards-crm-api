@@ -1,21 +1,19 @@
 <?php
 
 return [
-    'user_model'            => 'App\User',
-
-    /**
-     * This will allow you to broadcast an event when a message is sent
-     * Example:
-     * Channel: private-mc-chat-conversation.2, 
-     * Event: Musonza\Chat\Messages\MessageWasSent 
-     */
-    'broadcasts'            => true,
+    'user_model' => 'App\User',
 
     /*
-     * If set to true, this will use Laravel notifications table to store each
-     * user message notification.
-     * Otherwise it will use mc_message_notification table.
-     * If your database doesn't support JSON columns you will need to set this to false.
+     * This will allow you to broadcast an event when a message is sent
+     * Example:
+     * Channel: mc-chat-conversation.2,
+     * Event: Musonza\Chat\Eventing\MessageWasSent
      */
-    'laravel_notifications' => true,
+    'broadcasts' => true,
+
+    /**
+     * The event to fire when a message is sent
+     * See Musonza\Chat\Eventing\MessageWasSent if you want to customize.
+     */
+    'sent_message_event' => 'Musonza\Chat\Eventing\MessageWasSent',
 ];
