@@ -17,6 +17,10 @@ class PrivateChatSent implements ShouldBroadcast
 
     public $message;
 
+    public $sender;
+
+    public $receiver;
+
     /**
      * Create a new event instance.
      *
@@ -24,19 +28,15 @@ class PrivateChatSent implements ShouldBroadcast
      */
     public function __construct($message, User $to)
     {
-        $sender = $message->sender;
+        $this->sender = $message->sender;
+
+        $this->receiver = $to;
 
         unset($message->sender);
 
         unset($message->conversation);
 
-        $msg = collect([
-            'message' => $message,
-            'sender' => $sender,
-            'receiver' => $to
-        ]);
-
-        $this->message = $msg;
+        $this->message = $message;
     }
 
     /**
@@ -46,6 +46,6 @@ class PrivateChatSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.pm.new-message');
+        return new PrivateChannel('chat.new-message.'.$this->receiver->id);
     }
 }

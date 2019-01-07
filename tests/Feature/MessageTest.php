@@ -35,9 +35,9 @@ class MessageTest extends TestCase
         $user2 = User::latest()->first();
 
         $data = [
-        	'message' => 'cge',
-        	'from_id' => $user2->id,
-        	'to_id' => $user->id
+        	'message' => 'bitaw ba',
+        	'from_id' => $user->id,
+        	'to_id' => $user2->id
         ];
 
         $response = $this->actingAs($user, 'api')
