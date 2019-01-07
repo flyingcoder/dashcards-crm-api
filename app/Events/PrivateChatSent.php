@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -10,19 +11,32 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ChatSent implements ShouldBroadcast
+class PrivateChatSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, User $to)
     {
-        $this->message = $message;
+        $sender = $message->sender;
+
+        unset($message->sender);
+
+        unset($message->conversation);
+
+        $msg = collect([
+            'message' => $message,
+            'sender' => $sender,
+            'receiver' => $to
+        ]);
+
+        $this->message = $msg;
     }
 
     /**
@@ -32,6 +46,6 @@ class ChatSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.new-message');
+        return new PrivateChannel('chat.pm.new-message');
     }
 }
