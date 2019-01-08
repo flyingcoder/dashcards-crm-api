@@ -22,7 +22,7 @@ class MessageTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/chat/private/2');
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
     
