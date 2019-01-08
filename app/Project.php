@@ -60,6 +60,7 @@ class Project extends Model implements HasMediaConversions
         ]);
 
         return $this->reports()->create([
+            'company_id' => auth()->user()->company()->id,
             'title' => request()->title,
             'description' => request()->description,
             'url' => request()->url

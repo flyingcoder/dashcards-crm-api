@@ -14,7 +14,7 @@ class Reports extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'title', 'description', 'url'
+        'title', 'description', 'url', 'company_id'
     ];
 
     protected static $logAttributes = [
