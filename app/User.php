@@ -61,6 +61,14 @@ class User extends Authenticatable
                 ->first();
     }
 
+    public function CountChats()
+    {
+        return Chat::conversations()
+                   ->for(auth()->user())
+                   ->get()
+                   ->count();
+    }
+
     public function AauthAcessToken(){
         return $this->hasMany(OauthAccessToken::class);
     }
