@@ -15,6 +15,9 @@ class MessageController extends Controller
 
 		$conversation = Chat::conversations()->between(auth()->user(), $friend);
 
+        if(is_null($conversation))
+            $conversation = Chat::createConversation([auth()->user(), $friend]);
+
         return Chat::conversation($conversation)
                ->for(auth()->user())
                ->getMessages();
@@ -33,7 +36,10 @@ class MessageController extends Controller
         $to = User::findOrFail(request()->to_id);
 
         $conversation = Chat::conversations()->between($from, $to);
-
+        
+        if(is_null($conversation))
+            $conversation = Chat::createConversation([auth()->user(), $friend]);
+        
     	$message = Chat::message(request()->message)
 			           ->from($from)
 			           ->to($conversation)

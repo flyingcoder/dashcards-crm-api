@@ -5,7 +5,6 @@ namespace App;
 use Auth;
 use DB;
 use Chat;
-use Musonza\Chat\Messages\Message;
 use Plank\Metable\Metable;
 use Kodeine\Acl\Traits\HasRole;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -132,23 +131,6 @@ class User extends Authenticatable
     {
         return $this->acts()
                     ->whereNull('read_at')
-                    ->count();
-    }
-
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-
-    public function convo()
-    {
-        return $this->hasMany(MessageNotification::class);
-    }
-
-    public function CountChats()
-    {
-        return $this->convo()
-                    ->where('mc_message_notification.is_seen', 0)
                     ->count();
     }
 
