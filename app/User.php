@@ -5,7 +5,6 @@ namespace App;
 use Auth;
 use DB;
 use Chat;
-use Musonza\Chat\Notifications\MessageNotification;
 use Musonza\Chat\Messages\Message;
 use Plank\Metable\Metable;
 use Kodeine\Acl\Traits\HasRole;
