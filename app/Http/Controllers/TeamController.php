@@ -210,6 +210,9 @@ class TeamController extends Controller
         $role->name = request()->name;
         $role->description = request()->description;
 
+        if(request()->has('permission_id'))
+            $role->assignPermission(request()->permission_id);
+
         $role->save();
 
         return $role;

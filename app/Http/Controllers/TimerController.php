@@ -10,13 +10,18 @@ use Illuminate\Http\Request;
 
 class TimerController extends Controller
 {
+	public function index()
+	{
+		return auth()->user()
+					 ->company()
+					 ->allTimers();
+	}
+
 	public function task()
 	{
 		return Timer::where('subject_type', 'App\Task')
 						->where('subject_id', request()->id)
 						->get();
-
-
 	}
 
     public function timer($action)

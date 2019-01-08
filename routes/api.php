@@ -240,6 +240,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 //timer
 Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
 
+  Route::get('/', 'TimerController@index');
+
   Route::post('/', 'TimerController@task');
 
   Route::post('{action}', 'TimerController@timer');

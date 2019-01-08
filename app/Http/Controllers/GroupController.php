@@ -47,12 +47,15 @@ class GroupController extends Controller
 
         $description = isset(request()->description) ? request()->description : '' ;
 
-        $roles = $company->roles()->create([
+        $role = $company->roles()->create([
                         'name' => request()->name,
                         'slug' => $slug,
                         'description' => $description
                     ]);
 
-        return $roles;
+        if(request()->has('permission_id'))
+            $role->assignPermission(request()->permission_id);
+
+        return $role;
     }
 }
