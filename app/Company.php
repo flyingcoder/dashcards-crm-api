@@ -79,6 +79,43 @@ class Company extends Model
         return $data;
     }
 
+    public function timers()
+    {
+        return $this->hasMany(Timer::class);
+    }
+
+    public function allTimers()
+    {
+        $model = $this->timers();
+
+        $model->with('causer');
+
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        if(request()->has('sort') && !is_null($sortValue))
+            $model->orderBy($sortName, $sortValue);
+        else
+            $model->orderBy('created_at', 'desc');
+
+        if(request()->has('search') && !empty(request()->search)){
+            $keyword = request()->search;
+
+            $model->where(function ($query) use ($keyword) {
+                        $query->where('timers.timer_name', 'like', '%' . $keyword . '%');
+                      });
+        }
+
+        if(request()->has('per_page'))
+            $this->paginate = request()->per_page;
+
+        $data = $model->paginate($this->paginate);
+
+        if(request()->has('all') && requet()->all)
+            $data = $model->get();
+
+        return $data;
+    }
+
     public function createReports()
     {   
         request()->validate([

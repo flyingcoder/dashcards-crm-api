@@ -62,6 +62,7 @@ class Timer extends Model
             $description = request()->description;
 
         $timer = Timer::create([
+            'company_id' => auth()->user()->company()->id,
             'timer_name' => auth()->user()->first_name.' Timer',
             'description' => $description,
             'subject_id' => $subject_id,
