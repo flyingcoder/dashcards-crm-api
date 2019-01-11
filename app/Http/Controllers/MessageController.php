@@ -23,7 +23,7 @@ class MessageController extends Controller
                ->setPaginationParams([
                 'perPage' => 10,
                 ])
-                ->get();
+                ->getMessages();
 	}
 
     public function sendPrivateMessage()
