@@ -20,7 +20,10 @@ class MessageController extends Controller
 
         return Chat::conversation($conversation)
                ->for(auth()->user())
-               ->getMessages();
+               ->setPaginationParams([
+                'perPage' => 10,
+                ])
+                ->get();
 	}
 
     public function sendPrivateMessage()
