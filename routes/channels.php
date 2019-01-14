@@ -11,8 +11,19 @@
 |
 */
 
+
+Broadcast::channel('auto-logout', function ($user, $id) {
+    return true;
+});
+
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('chat.typing-{companyId}', function ($user, $companyId) {
+	if((int) $user->company()->id === (int) $companyId){
+		return $user;
+	}
 });
 
 Broadcast::channel('chat.new-message.{toId}', function ($user, $toId) {
