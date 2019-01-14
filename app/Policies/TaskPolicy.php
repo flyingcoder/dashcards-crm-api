@@ -19,7 +19,7 @@ class TaskPolicy
      */
     public function index()
     {
-        if( !auth()->user()->hasRole('admin|manager') && auth()->user()->can('view.all-task') )
+        if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && auth()->user()->can('view.all-task') )
             abort(403, 'Not enought permission!');
     }
 
@@ -43,7 +43,7 @@ class TaskPolicy
      */
     public function create()
     {
-       if( !auth()->user()->hasRole('admin|manager') && !auth()->user()->can('create.task') )
+       if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('create.task') )
           abort(403, 'Not enought permission to create a task!');
     }
 
@@ -56,7 +56,7 @@ class TaskPolicy
      */
     public function update()
     {
-        if(!auth()->user()->hasRole('admin') && !auth()->user()->can('update.task') )
+        if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('update.task') )
           abort(403, 'Not enought permission!');
     }
 
@@ -69,7 +69,7 @@ class TaskPolicy
      */
     public function delete(Task $task)
     {
-        if( !auth()->user()->hasRole('admin') && !auth()->user()->can('delete.task') )
+        if( !auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('delete.task') )
             abort(403, 'Not enought permission!');
 
         if( $task->company() != auth()->user()->company() )
