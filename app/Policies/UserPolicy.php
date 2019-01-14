@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function create()
     {
-       if(!auth()->user()->hasRole('admin'))
+       if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id))
           abort(403, 'Not enought permission!');
     }
 
@@ -42,7 +42,7 @@ class UserPolicy
      */
     public function update()
     {
-        if(!auth()->user()->hasRole('admin'))
+        if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id))
           abort(403, 'Not enought permission!');
     }
 
@@ -55,7 +55,7 @@ class UserPolicy
      */
     public function delete(User $ben)
     {
-        if(!auth()->user()->hasRole('admin'))
+        if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id))
             abort(403, 'Not enought permission!');
 
         if($ben->company() != auth()->user()->company())
