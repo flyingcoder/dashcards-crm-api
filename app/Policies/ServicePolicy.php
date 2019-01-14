@@ -29,7 +29,7 @@ class ServicePolicy
      */
     public function index()
     {
-        if( !auth()->user()->hasRole('admin|manager') && auth()->user()->can('view.all-service') )
+        if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && auth()->user()->can('view.all-service') )
             abort(403, 'Not enought permission!');
     }
 
