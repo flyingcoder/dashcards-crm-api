@@ -12,8 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RoleSeeder::class);
-        //$this->call(UserTableSeeder::class);
-        //$this->call(ProjectTableSeeder::class);
+        if(env('APP_STAGING')) {
+            $this->call(UserTableSeeder::class);
+            $this->call(ProjectTableSeeder::class);
+        }
         $this->call(DashitemSeeder::class);
     }
 }

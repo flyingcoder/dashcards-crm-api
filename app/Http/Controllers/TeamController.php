@@ -95,18 +95,6 @@ class TeamController extends Controller
 
             $team->members()->attach($member);
 
-            $role = $company->roles()
-                            ->where('slug', strtolower(request()->group_name))
-                            ->count();
-
-            if(!$role) {
-                $company->roles()->create([
-                    'name' => request()->group_name,
-                    'slug' => strtolower(request()->group_name),
-                    'description' => 'Priveleges of '.request()->group_name
-                ]);
-            }
-
             $member->assignRole(strtolower(request()->group_name));
 
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));

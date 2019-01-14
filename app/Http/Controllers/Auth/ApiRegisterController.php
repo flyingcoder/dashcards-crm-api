@@ -50,7 +50,7 @@ class ApiRegisterController extends Controller
     protected function create(Request $request)
     {
         //will add the validation later not required
-        /*
+        
         $request->validate([
             'company_name' => 'required|string|max:255',
             'company_email' => 'required|string|email|max:255|unique:companies,email',
@@ -58,7 +58,7 @@ class ApiRegisterController extends Controller
             'first_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6'
-        ]);*/
+        ]);
 
         try {
 
