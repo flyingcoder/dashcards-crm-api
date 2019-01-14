@@ -18,9 +18,8 @@ class MessageController extends Controller
         if(is_null($conversation))
             $conversation = Chat::createConversation([auth()->user(), $friend]);
 
-        return Chat::conversation($conversation)
-               ->for(auth()->user())
-               ->getMessages();
+        return $conversation->messages()
+                            ->paginate(10);
 	}
 
     public function sendPrivateMessage()

@@ -11,6 +11,7 @@ use App\Company;
 
 class TemplateTest extends TestCase
 {
+    
     public function testIndexProject()
     {
         $this->withoutExceptionHandling();

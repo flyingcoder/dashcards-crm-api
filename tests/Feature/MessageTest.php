@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MessageTest extends TestCase
 {	
-	
+
 	public function testFetch()
     {
         $this->withoutExceptionHandling();
@@ -20,7 +20,7 @@ class MessageTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/chat/private/2');
+                         ->get('api/chat/private/1?page=2');
 
         dd($response->content());
         $response->assertStatus(200);

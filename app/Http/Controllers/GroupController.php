@@ -56,6 +56,8 @@ class GroupController extends Controller
         if(request()->has('permission_id'))
             $role->assignPermission(request()->permission_id);
 
+        $role->permission;
+        
         return $role;
     }
 }
