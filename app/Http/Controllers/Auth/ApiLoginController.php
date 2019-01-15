@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
-use App\Events\UserLogin;
-use App\Events\UserLogout;
+use App\Events\UsersPresence;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -58,7 +57,7 @@ class ApiLoginController extends Controller
 
             $user->save();
 
-            UserLogin::dispatch($user);
+            UsersPresence::dispatch($user);
 
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 
@@ -82,7 +81,7 @@ class ApiLoginController extends Controller
 
            Auth::user()->AauthAcessToken()->delete();
 
-           UserLogout::dispatch($user);
+           UsersPresence::dispatch($user);
 
            return $user;
         }

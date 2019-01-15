@@ -6,6 +6,7 @@ use App\User;
 use App\Company;
 use App\Team;
 use App\Dashboard;
+use App\Events\UsersPresence;
 use Kodeine\Acl\Models\Eloquent\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -89,6 +90,8 @@ class ApiRegisterController extends Controller
             $user->is_online = 1;
 
             $user->save();
+
+            UsersPresence::dispatch($user);
 
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 
