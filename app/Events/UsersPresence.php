@@ -15,7 +15,9 @@ class UsersPresence implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $content;
+
+    protected $user;
 
     /**
      * Create a new event instance.
@@ -25,6 +27,12 @@ class UsersPresence implements ShouldBroadcast
     public function __construct(User $user)
     {
          $this->user = $user;
+
+         $this->content = collect([
+            'id' => $user->id,
+            'name' => $user->first_name.' '.$user->last_name,
+            'is_online' => $user->is_online
+         ]);
     }
 
     /**
