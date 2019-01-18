@@ -497,7 +497,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $model = $this->roles()->where('roles.id', '!=', 'client-'.$this->id);
+        $model = $this->roles()->where('roles.slug', '!=', 'client-'.$this->id);
 
         if($request->has('sort') && !is_null($sortValue))
             $model->orderBy($sortName, $sortValue);
