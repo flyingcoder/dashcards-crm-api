@@ -515,7 +515,13 @@ class Company extends Model
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $model->paginate($this->paginate);
+        $data = $model->paginate($this->paginate);
+
+        if(request()->has('all') && request()->all == true)
+            $data = $company->roles;
+
+        return $data;
+
     }
 
     public function projects()
