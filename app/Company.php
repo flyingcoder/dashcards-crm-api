@@ -518,7 +518,7 @@ class Company extends Model
         $data = $model->paginate($this->paginate);
 
         if(request()->has('all') && request()->all == true)
-            $data = $company->roles;
+            $data = $model->get();
 
         return $data;
 
