@@ -23,7 +23,7 @@ class TeamModelTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/company/teams');
+                         ->get('api/company/teams?all=true');
 
         dd($response->content());
         $response->assertStatus(200);
