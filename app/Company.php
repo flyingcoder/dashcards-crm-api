@@ -561,7 +561,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $projects = $this->projects()->with(['tasks', 'members']);
+        $projects = $this->projects();
 
         if($request->has('status'))
             $projects->where('status', $request->status);
@@ -596,9 +596,9 @@ class Company extends Model
         $data->map(function ($project) {
             $project['total_time'] = $project->totalTime();
             $project['progress'] = $project->progress();
-            $tasks = $project->tasks->count();
-            unset($project['tasks']);
-            $project['tasks'] = $tasks;
+            $project['tasks'] = $project->tasks()->count();
+            $members = $project->members()->where('project_user.role', '!=', 'Client')->get();
+            $project['members'] = $members;
             return $project;
         });
 

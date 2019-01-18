@@ -24,9 +24,6 @@ class ProjectController extends Controller
 
     public function index()
     {
-        if(!request()->ajax())
-            return view('pages.projects', ['projects' => [], 'personal' => false]);
-
         (new ProjectPolicy())->index();
 
         $company = Auth::user()->company();
