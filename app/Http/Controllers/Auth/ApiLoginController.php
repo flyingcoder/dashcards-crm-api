@@ -75,7 +75,7 @@ class ApiLoginController extends Controller
 
         if(request()->has('user_id')) {
             if($user->id != response()->user_id)
-                $user = User::findOrFail(response()->user_id);
+                $user = User::findOrFail(response()->user_id); 
         }
 
         if (Auth::check()) {

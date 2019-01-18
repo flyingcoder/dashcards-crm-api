@@ -76,18 +76,19 @@ class TeamController extends Controller
             ]);
 
             $company = auth()->user()->company();
-
+            
+            /*
             $team = $company->teams()
                     ->where('slug', strtolower(request()->group_name))
                     ->count();
-
+            
             if(!$team) {
                 $company->teams()->create([
                     'name' => request()->group_name,
                     'description' => request()->group_name.' of '.$company->name,
                     'slug' => strtolower(request()->group_name)
                 ]);
-            }
+            }*/
 
             $team = $company->teams()
                             ->where('slug', strtolower(request()->group_name))
