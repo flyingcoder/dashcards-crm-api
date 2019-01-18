@@ -405,7 +405,7 @@ class Company extends Model
 
     public function defaultTeam()
     {
-        return $this->teams()->where('teams.slug', 'default-'.$this->id)->first()
+        return $this->teams()->where('teams.slug', 'default-'.$this->id)->first();
     }
 
     public function membersID()
