@@ -74,6 +74,7 @@ class ApiRegisterController extends Controller
                'last_name' => $request->last_name,
                'image_url' => 'img/members/alfred.png',
                'email' => $request->email,
+               'job_title' => 'Administrator',
                'password' => bcrypt($request->password),
             ]);
 
