@@ -377,18 +377,11 @@ class Company extends Model
 
     public function paginatedCompanyMembers(Request $request)
     {
-         list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam($request);
 
-        $members = $this->members()
-                        ->select(
-                            'users.id',
-                            'users.job_title',
-                            'users.email',
-                            'users.first_name',
-                            'users.last_name',
-                            'users.image_url',
-                            'users.telephone'
-                        )->with('tasks', 'projects', 'teams');
+        $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
+
+        $members = $team->members();
 
         if($request->has('sort') && !empty(request()->sort))
             $members->orderBy($sortName, $sortValue);
@@ -398,7 +391,16 @@ class Company extends Model
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $members->paginate($this->paginate);
+        $data = $members->paginate($this->paginate);
+
+        $data->map(function ($user) {
+            $user['tasks'] = $user->tasks->count();
+            $user['projects'] = $user->projects->count();
+            $user['roles'] = $user->getRoles();
+            return $user;
+        });
+
+        return $data;
     }
 
     public function membersID()
