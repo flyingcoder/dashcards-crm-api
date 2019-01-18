@@ -394,6 +394,8 @@ class Company extends Model
         $data = $members->paginate($this->paginate);
 
         $data->map(function ($user) {
+            $user['tasks'] = $user->tasks()->count();
+            $user['projects'] = $user->projects()->count();
             $user['group_name'] = $user->roles()->first()->id;
         });
 
