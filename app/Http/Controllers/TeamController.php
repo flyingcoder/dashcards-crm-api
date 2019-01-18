@@ -77,7 +77,7 @@ class TeamController extends Controller
 
             $company = auth()->user()->company();
 
-            $team = $company->teams()->first();
+            $team = $company->defaultTeam();
 
             $team->members()->attach($member);
 

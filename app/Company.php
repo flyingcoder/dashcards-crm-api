@@ -403,6 +403,11 @@ class Company extends Model
         return $data;
     }
 
+    public function defaultTeam()
+    {
+        return $this->teams()->where('teams.slug', 'default-'.$this->id)->first()
+    }
+
     public function membersID()
     {
         $members = [];
