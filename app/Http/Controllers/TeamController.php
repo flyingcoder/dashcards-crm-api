@@ -76,27 +76,12 @@ class TeamController extends Controller
             ]);
 
             $company = auth()->user()->company();
-            
-            /*
-            $team = $company->teams()
-                    ->where('slug', strtolower(request()->group_name))
-                    ->count();
-            
-            if(!$team) {
-                $company->teams()->create([
-                    'name' => request()->group_name,
-                    'description' => request()->group_name.' of '.$company->name,
-                    'slug' => strtolower(request()->group_name)
-                ]);
-            }*/
 
-            $team = $company->teams()
-                            ->where('slug', strtolower(request()->group_name))
-                            ->first();
+            $team = $company->teams()->first();
 
             $team->members()->attach($member);
 
-            $member->assignRole(strtolower(request()->group_name));
+            $member->assignRole(request()->group_name);
 
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 
