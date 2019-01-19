@@ -245,7 +245,8 @@ class Project extends Model implements HasMediaConversions
 
     public function paginatedProjectTasks(Request $request)
     {
-        return $this->tasks();
+        return $this->tasks()->get();
+        
         $tasks = $this->tasks()
                       ->join('task_user as tu', 'tu.task_id', '=', 'tasks.id')
                       ->join('users', 'users.id', '=', 'tu.user_id')
