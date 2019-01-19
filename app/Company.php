@@ -597,7 +597,7 @@ class Company extends Model
             $project['total_time'] = $project->totalTime();
             $project['progress'] = $project->progress();
             $project['tasks'] = $project->tasks()->count();
-            $members = $project->members()->where('project_user.role', '!=', 'Client')->get();
+            $members = $project->members()->where('project_user.role', 'Members')->get();
             $project['members'] = $members;
             return $project;
         });
