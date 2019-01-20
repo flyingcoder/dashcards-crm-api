@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
-    private $paginate = 5;
+    private $paginate = 10;
 
     public function index()
     {
