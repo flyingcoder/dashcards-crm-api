@@ -87,20 +87,8 @@ class ClientController extends Controller
         $company = Auth::user()->company();
 
         $team = $company->teams()
-                ->where('slug', 'clients')
-                ->count();
-
-        if(!$team) {
-            $company->teams()->create([
-                'name' => 'Clients',
-                'description' => 'Clients of '.$company->name,
-                'slug' => 'clients'
-            ]);
-        }
-
-        $team = $company->teams()
-                ->where('slug', 'clients')
-                ->first();
+                        ->where('slug', 'client-'.$company->id)
+                        ->first();
 
         $team->members()->attach($client);
 
