@@ -499,7 +499,7 @@ class Company extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Group::class, 'company_role', 'company_id', 'role_id');
     }
 
     public function paginatedRoles(Request $request)
