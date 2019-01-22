@@ -335,7 +335,9 @@ class Company extends Model
 
     public function allTeamMembers()
     {
-        return $this->members()
+        $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
+
+        $data = $team->members()
                     ->select(
                         'users.id',
                         'users.job_title',
@@ -344,9 +346,16 @@ class Company extends Model
                         'users.last_name',
                         'users.image_url'
                     )
-                    ->with('tasks', 'projects')
+                    ->where('users.id', '!=', auth()->user()->id)
                     ->orderBy('users.created_at', 'DESC')
                     ->get();
+
+        $data->map(function ($user) {
+            $user['tasks'] = $user->tasks()->count();
+            $user['projects'] = $user->projects()->count();
+        });
+
+        return $data;
     }
     
     public function members()
