@@ -273,6 +273,7 @@ class Project extends Model implements HasMediaConversions
         
 
         $data->map(function ($model) {
+            $model->assigned
             $model['total_time'] = $model->total_time();
         });
 
