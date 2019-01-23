@@ -19,13 +19,15 @@ class DashboardController extends Controller
         $defaultDash = $company->dashboards()->first();
 
         request()->validate([
-            'dashitem_id' => 'required|array'
+            'dashitem_id' => 'array'
         ]);
 
         $defaultDash->dashitems()->detach();
 
-        foreach (request()->dashitem_id as $k => $id) {
-            $defaultDash->dashitems()->attach($id, ['order' => $k+1, 'visible' => 1]);
+        if(request()->has('dashitem_id') && !empty(request()->dashitem_id)) {
+            foreach (request()->dashitem_id as $k => $id) {
+                $defaultDash->dashitems()->attach($id, ['order' => $k+1, 'visible' => 1]);
+            }
         }
 
         return Dashboard::findOrFail($defaultDash->id)
