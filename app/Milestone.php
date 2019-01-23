@@ -123,7 +123,7 @@ class Milestone extends Model
         $task = $this->tasks()->create($data);
 
         if(request()->has('assigned_id')) 
-            $task->assigned()->attach(request()->assigned_id);
+            $task->assigned()->sync(request()->assigned_id);
 
         $task->assigned;
 

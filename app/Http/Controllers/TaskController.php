@@ -150,8 +150,6 @@ class TaskController extends Controller
         $task->put('timer_status', $status);
 
         return $task;
-        // (new TaskPolicy())->view($task);
-
     }
 
 }
