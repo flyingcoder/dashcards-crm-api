@@ -776,6 +776,20 @@ class Company extends Model
                     'description' => $company->name.' Dashboard'
                 ]);
 
+                $company->teams()->create([
+                    'name' => $company->name.' Default Team',
+                    'company_id' => $company->id,
+                    'slug' => 'default-'.$company->id,
+                    'description' => 'This is the default team for a company'
+                ]);
+
+                $company->teams()->create([
+                    'name' => $company->name.' Client Team',
+                    'company_id' => $company->id,
+                    'slug' => 'client-'.$company->id,
+                    'description' => 'This is the client team for a company'
+                ]);
+
                 $role = new Role();
 
                 $roleAdmin = $role->create(
@@ -802,24 +816,10 @@ class Company extends Model
                     ]
                 );
 
-                $company->roles()->attach([
+                $company->roles()->sync([
                     $roleAdmin->id,
                     $roleClient->id,
                     $roleManager->id
-                ]);
-
-                $company->teams()->create([
-                    'name' => $company->name.' Default Team',
-                    'company_id' => $company->id,
-                    'slug' => 'default-'.$company->id,
-                    'description' => 'This is the default team for a company'
-                ]);
-
-                $company->teams()->create([
-                    'name' => $company->name.' Client Team',
-                    'company_id' => $company->id,
-                    'slug' => 'client-'.$company->id,
-                    'description' => 'This is the client team for a company'
                 ]);
             });
             
