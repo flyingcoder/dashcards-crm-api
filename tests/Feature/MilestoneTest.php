@@ -13,6 +13,23 @@ use App\Company;
 
 class MilestoneTest extends TestCase
 {
+    public function testIndexTemplate()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $parent = 'project';
+
+        $model = Project::latest()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get("api/{$parent}/{$model->id}/milestone");
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
 
     public function testAddMilestoneTemplate()
     {
@@ -34,24 +51,6 @@ class MilestoneTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(201);
-    }
-
-    public function testIndexTemplate()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::find(1);
-
-        $parent = 'template';
-
-        $model = Template::latest()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get("api/{$parent}/{$model->id}/milestone");
-
-        //dd($response->content());
-        $response->assertStatus(200);
     }
 
     public function testAddMilestoneProject()

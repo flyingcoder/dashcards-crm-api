@@ -190,10 +190,22 @@ class Milestone extends Model
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        if(request()->has('all') && request()->all == true)
-            return $model->get();
+        $data = $model->paginate($this->paginate);
 
-        return $model->paginate($this->paginate);
+        if(request()->has('all') && request()->all == true)
+            $data = $model->get();
+
+        $data->map(function ($milestone) {
+            $milestone->tasks->map(function ($task) {
+                $id = [];
+                foreach ($task->assigned()->get() as $value) {
+                    $id[] = $value->id;
+                }
+                $task['assigned_id'] = $id;
+            });
+        });
+
+        return $data;
     }
 
     /*
