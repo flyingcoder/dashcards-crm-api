@@ -10,6 +10,33 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GroupTest extends TestCase
 {
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testStore()
+    {
+        
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $data = [
+            'name' => 'Sales Agent',
+            'description' => 'taetasdfsa',
+            'permission_id' => [1,2]
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/groups', $data);
+
+        dd($response->content());
+        $response->assertStatus(201);
+        //$this->assertTrue(true);
+    }
+
     public function testAssign()
     {
         $this->withoutExceptionHandling();
@@ -39,31 +66,6 @@ class GroupTest extends TestCase
     	//dd($response->content());
     	$response->assertStatus(200);
     }
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     
-    public function testStore()
-    {
-        
-        $this->withoutExceptionHandling();
-
-        $user = User::findOrFail(1);
-
-        $data = [
-            'name' => 'Sales Agent'
-        ];
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->post('api/groups', $data);
-
-        //dd($response->content());
-        $response->assertStatus(201);
-        //$this->assertTrue(true);
-    }*/
 
      /**
      * A basic test example.

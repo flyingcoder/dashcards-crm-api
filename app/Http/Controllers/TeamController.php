@@ -77,29 +77,15 @@ class TeamController extends Controller
 
             $company = auth()->user()->company();
 
-            $team = $company->teams()
-                    ->where('slug', strtolower(request()->group_name))
-                    ->count();
-
-            if(!$team) {
-                $company->teams()->create([
-                    'name' => request()->group_name,
-                    'description' => request()->group_name.' of '.$company->name,
-                    'slug' => strtolower(request()->group_name)
-                ]);
-            }
-
-            $team = $company->teams()
-                            ->where('slug', strtolower(request()->group_name))
-                            ->first();
+            $team = $company->defaultTeam();
 
             $team->members()->attach($member);
 
-            $member->assignRole(strtolower(request()->group_name));
+            $member->assignRole(request()->group_name);
 
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 
-            return $member->load('teams', 'projects', 'tasks');
+            return $member->load('roles', 'projects', 'tasks');
 
         } catch (Exception $e) {
 
@@ -169,9 +155,6 @@ class TeamController extends Controller
         $company = auth()->user()->company();
 
         $roles = $company->paginatedRoles(request());
-
-        if(request()->has('all') && request()->all == true)
-            $roles = $company->roles;
 
         $roles->map(function ($index, $key) {
             $index['group_name'] = $index->name;

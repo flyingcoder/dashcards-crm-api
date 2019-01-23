@@ -3,6 +3,7 @@
 namespace App;
 
 use Kodeine\Acl\Models\Eloquent\Role;
+use Kodeine\Acl\Models\Eloquent\Permission;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
@@ -13,6 +14,7 @@ class Group extends Role
 		SoftDeletes,
 		Sluggable;
 
+    protected $table = 'roles';
     /**
      * Return the sluggable configuration array for this model.
      *
@@ -52,4 +54,10 @@ class Group extends Role
    	{
    		return $this->belongsTo(Company::class);
    	}
+
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_role', 'role_id', 'permission_id');
+    }
 }

@@ -14,7 +14,7 @@ class CompanyController extends Controller
 
     public function teams()
     {
-    	if(request()->has('view') && request()->view == 'grid')
+    	if(request()->has('all') && request()->all)
             return auth()->user()->company()->allTeamMembers();
     	
         return auth()->user()->company()->paginatedCompanyMembers(request());

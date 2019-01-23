@@ -24,9 +24,6 @@ class ProjectController extends Controller
 
     public function index()
     {
-        if(!request()->ajax())
-            return view('pages.projects', ['projects' => [], 'personal' => false]);
-
         (new ProjectPolicy())->index();
 
         $company = Auth::user()->company();
@@ -210,9 +207,9 @@ class ProjectController extends Controller
             }
 
             
-            $project->members()->attach(request()->client_id, ['role' => 'client']);
+            $project->members()->attach(request()->client_id, ['role' => 'Client']);
 
-            $project->members()->attach(Auth::user()->id, ['role' => 'manager']);
+            $project->members()->attach(Auth::user()->id, ['role' => 'Manager']);
 
             if(request()->has('members')){
                 if(in_array(request()->client_id, request()->members)){
@@ -224,7 +221,7 @@ class ProjectController extends Controller
                     return response('Manager cant be a member', 422);
                 }
                 foreach (request()->members as $value) {
-                    $project->members()->attach($value, ['role' => 'members']);
+                    $project->members()->attach($value, ['role' => 'Members']);
                 }
             }
 

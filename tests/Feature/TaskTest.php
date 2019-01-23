@@ -11,6 +11,36 @@ use Carbon\Carbon;
 
 class TaskTest extends TestCase
 {
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testStoreTask()
+    {   
+        $this->withoutExceptionHandling();
+
+        $user = User::latest()->first();
+
+        $model = Milestone::latest()->first();
+
+        $data = [
+            'title' => 'This is a title created in task test.',
+            'description' => 'Mocking the description of task test',
+            'status' => 'open',
+            'started_at' => now(),
+            'end_at' => now(),
+            'assigned_id' => [1,2]
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/milestone/'.$model->id.'/task', $data);
+
+        dd($response->content());
+        $response->assertStatus(201);
+    }
+
     public function testTask()
     {
         $this->withoutExceptionHandling();

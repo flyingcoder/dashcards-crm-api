@@ -10,6 +10,44 @@ use App\Company;
 
 class TeamModelTest extends TestCase
 {
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testIndexFunction()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/company/teams?all=true');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testGroupFunction()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/groups');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
+    
      /**
      * A basic test example.
      *
@@ -40,27 +78,6 @@ class TeamModelTest extends TestCase
         dd($response->content());
         //$response->assertStatus(201);
         $this->assertTrue(true);
-    }
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testIndexFunction()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::findOrFail(1);
-
-        $userput = User::latest()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/company/teams/');
-
-        //dd($response->content());
-        $response->assertStatus(200);
     }
 
      /**

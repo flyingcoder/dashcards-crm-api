@@ -32,13 +32,7 @@ Broadcast::channel('chat.new-message.{toId}', function ($user, $toId) {
 	}
 });
 
-Broadcast::channel('user.login.{companyId}', function ($user, $companyId) {
-	if((int) $user->company()->id === (int) $companyId){
-		return $user;
-	}
-});
-
-Broadcast::channel('user.logout.{companyId}', function ($user, $companyId) {
+Broadcast::channel('friend-list-{companyId}', function ($user, $companyId) {
 	if((int) $user->company()->id === (int) $companyId){
 		return $user;
 	}

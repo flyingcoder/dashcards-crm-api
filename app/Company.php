@@ -335,7 +335,9 @@ class Company extends Model
 
     public function allTeamMembers()
     {
-        return $this->members()
+        $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
+
+        $data = $team->members()
                     ->select(
                         'users.id',
                         'users.job_title',
@@ -344,9 +346,16 @@ class Company extends Model
                         'users.last_name',
                         'users.image_url'
                     )
-                    ->with('tasks', 'projects')
+                    ->where('users.id', '!=', auth()->user()->id)
                     ->orderBy('users.created_at', 'DESC')
                     ->get();
+
+        $data->map(function ($user) {
+            $user['tasks'] = $user->tasks()->count();
+            $user['projects'] = $user->projects()->count();
+        });
+
+        return $data;
     }
     
     public function members()
@@ -361,15 +370,14 @@ class Company extends Model
 
     public function allCompanyMembers()
     {
-        $model = $this->members()
-                    ->select(
+        $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
+
+        $model = $team->members()
+                      ->select(
                         'users.id',
                         'users.is_online',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
-                    )->orderBy('users.created_at', 'DESC');
-                    
-        if( request()->has('online') && request()->online )
-            $model->where('is_online', 1);
+                      )->orderBy('users.created_at', 'DESC');
 
         return $model->get();
                     
@@ -377,18 +385,11 @@ class Company extends Model
 
     public function paginatedCompanyMembers(Request $request)
     {
-         list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam($request);
 
-        $members = $this->members()
-                        ->select(
-                            'users.id',
-                            'users.job_title',
-                            'users.email',
-                            'users.first_name',
-                            'users.last_name',
-                            'users.image_url',
-                            'users.telephone'
-                        )->with('tasks', 'projects', 'teams');
+        $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
+
+        $members = $team->members();
 
         if($request->has('sort') && !empty(request()->sort))
             $members->orderBy($sortName, $sortValue);
@@ -398,7 +399,22 @@ class Company extends Model
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $members->paginate($this->paginate);
+        $data = $members->paginate($this->paginate);
+
+        $data->map(function ($user) {
+            $user['tasks'] = $user->tasks()->count();
+            $user['projects'] = $user->projects()->count();
+            $roles = $user->roles()->first();
+            if(!is_null($roles))
+                $user['group_name'] = $roles->id;
+        });
+
+        return $data;
+    }
+
+    public function defaultTeam()
+    {
+        return $this->teams()->where('teams.slug', 'default-'.$this->id)->first();
     }
 
     public function membersID()
@@ -483,14 +499,14 @@ class Company extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Group::class, 'company_role', 'company_id', 'role_id');
     }
 
     public function paginatedRoles(Request $request)
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $model = $this->roles();
+        $model = $this->roles()->where('roles.slug', '!=', 'client-'.$this->id);
 
         if($request->has('sort') && !is_null($sortValue))
             $model->orderBy($sortName, $sortValue);
@@ -508,7 +524,13 @@ class Company extends Model
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $model->paginate($this->paginate);
+        $data = $model->paginate($this->paginate);
+
+        if(request()->has('all') && request()->all == true)
+            $data = $model->get();
+
+        return $data;
+
     }
 
     public function projects()
@@ -548,7 +570,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $projects = $this->projects()->with(['tasks', 'members']);
+        $projects = $this->projects();
 
         if($request->has('status'))
             $projects->where('status', $request->status);
@@ -583,9 +605,9 @@ class Company extends Model
         $data->map(function ($project) {
             $project['total_time'] = $project->totalTime();
             $project['progress'] = $project->progress();
-            $tasks = $project->tasks->count();
-            unset($project['tasks']);
-            $project['tasks'] = $tasks;
+            $project['tasks'] = $project->tasks()->count();
+            $members = $project->members()->where('project_user.role', 'Members')->get();
+            $project['members'] = $members;
             return $project;
         });
 
@@ -648,7 +670,7 @@ class Company extends Model
 
     public function clients()
     {   
-        $client_group = $this->teams()->where('slug', 'clients')->first();
+        $client_group = $this->teams()->where('slug', 'client-'.$this->id)->first();
         
         if( ! $client_group )
             abort(204, 'Team not found!');
@@ -786,13 +808,19 @@ class Company extends Model
                     $roleManager->id
                 ]);
 
-                $team = Team::create([
+                $company->teams()->create([
                     'name' => $company->name.' Default Team',
                     'company_id' => $company->id,
+                    'slug' => 'default-'.$company->id,
                     'description' => 'This is the default team for a company'
                 ]);
 
-                $company->teams()->save($team);
+                $company->teams()->create([
+                    'name' => $company->name.' Client Team',
+                    'company_id' => $company->id,
+                    'slug' => 'client-'.$company->id,
+                    'description' => 'This is the client team for a company'
+                ]);
             });
             
         }
