@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+    public function index()
+    {
+        return Chat::messages()->getById(auth()->user()->id);
+    }
+
 	public function fetchPrivateMessages($friend_id)
 	{
         $friend = User::findOrFail($friend_id);
@@ -37,7 +42,7 @@ class MessageController extends Controller
         $conversation = Chat::conversations()->between($from, $to);
         
         if(is_null($conversation))
-            $conversation = Chat::createConversation([auth()->user(), $friend]);
+            $conversation = Chat::createConversation([auth()->user(), $from]);
         
     	$message = Chat::message(request()->message)
 			           ->from($from)
