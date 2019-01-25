@@ -48,14 +48,14 @@ class User extends Authenticatable
     public function unReadMessages()
     {
         $data = $this->messageNotification()
-                    ->where('is_seen', 1)
+                    ->where('is_seen', 0)
                     ->get();
 
         $data->map(function ($model) {
             $model->msg = $model->message()->first();
             $model->sender = $model->msg
                                    ->sender()
-                                   ->select('first_name', 'last_name', 'image_url')
+                                   ->select('id', 'first_name', 'last_name', 'image_url')
                                    ->first();
             $model->body = $model->msg->body;
             unset($model->msg);

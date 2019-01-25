@@ -7,6 +7,7 @@ use App\User;
 use App\Message;
 use App\MessageNotification;
 use App\Events\PrivateChatSent;
+use App\Events\ChatNotification;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -52,6 +53,8 @@ class MessageController extends Controller
 			           ->send();
 
         PrivateChatSent::dispatch($message, $to);
+
+        ChatNotification::dispatch($message, $to);
 
 		return $message;
     }

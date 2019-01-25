@@ -10,6 +10,28 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class MessageTest extends TestCase
 {
 
+    public function testSend()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $user2 = User::latest()->first();
+
+        $data = [
+            'message' => 'ngano diay?',
+            'from_id' => $user->id,
+            'to_id' => $user2->id
+        ];
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/chat/private', $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }   
+
     public function testFetchIndex()
     {
         $this->withoutExceptionHandling();
@@ -23,28 +45,6 @@ class MessageTest extends TestCase
         dd($response->content());
         $response->assertStatus(200);
     }
-
-    public function testSend()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $user2 = User::latest()->first();
-
-        $data = [
-            'message' => 'ngano diay?',
-            'from_id' => $user2->id,
-            'to_id' => $user->id
-        ];
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->post('api/chat/private', $data);
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }	
 
 	public function testFetch()
     {
