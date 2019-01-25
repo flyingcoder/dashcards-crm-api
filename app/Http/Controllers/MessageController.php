@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Chat;
 use App\User;
+use App\Message;
+use App\MessageNotification;
 use App\Events\PrivateChatSent;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    public function index()
+    public function unRead()
     {
-        return Chat::messages()->getById(auth()->user()->id);
+        return auth()->user()->unReadMessages();
     }
 
 	public function fetchPrivateMessages($friend_id)

@@ -45,6 +45,30 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
 
+    public function unReadMessages()
+    {
+        $data = $this->messageNotification()
+                    ->where('is_seen', 1)
+                    ->get();
+
+        $data->map(function ($model) {
+            $model->msg = $model->message()->first();
+            $model->sender = $model->msg
+                                   ->sender()
+                                   ->select('first_name', 'last_name', 'image_url')
+                                   ->first();
+            $model->body = $model->msg->body;
+            unset($model->msg);
+        });
+
+        return $data;
+    }
+
+    public function messageNotification()
+    {
+        return $this->hasMany(MessageNotification::class);
+    }
+
     public function scopeDefaultColumn()
     {
        return $this->select(

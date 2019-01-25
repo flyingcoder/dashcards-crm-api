@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
-  Route::get('/', 'MessageController@index');
+  Route::get('/', 'MessageController@unRead');
 
   Route::get('/private/{friend_id}', 'MessageController@fetchPrivateMessages');
 
