@@ -23,7 +23,7 @@ class ChatNotification implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, User $user)
     {
         $notification = MessageNotification::where([
                             ['message_id', '=', $message->id],
@@ -42,6 +42,8 @@ class ChatNotification implements ShouldBroadcast
         $data->put('sender', $sender);
 
         $this->notification = $data;
+
+        $this->receiver_id = $user->id;
     }
 
     /**
@@ -51,6 +53,6 @@ class ChatNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.notification.'.$this->notification['sender']->id);
+        return new PrivateChannel('chat.notification.'.$this->receiver_id);
     }
 }
