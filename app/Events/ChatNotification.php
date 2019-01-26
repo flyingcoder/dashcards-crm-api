@@ -41,9 +41,9 @@ class ChatNotification implements ShouldBroadcast
 
         $data->put('sender', $sender);
 
-        $this->notification = $data;
+        $data->put('to_id', $user->id);
 
-        $this->receiver_id = $user->id;
+        $this->notification = $data;
     }
 
     /**
@@ -53,6 +53,6 @@ class ChatNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.notification.'.$this->receiver_id);
+        return new PrivateChannel('chat.notification.' . $this->notification['to_id']->id);
     }
 }
