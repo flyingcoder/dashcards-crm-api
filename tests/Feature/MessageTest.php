@@ -20,8 +20,8 @@ class MessageTest extends TestCase
 
         $data = [
             'message' => 'ngano diay?',
-            'from_id' => $user->id,
-            'to_id' => $user2->id
+            'from_id' => 1,
+            'to_id' => 13
         ];
 
         $response = $this->actingAs($user, 'api')

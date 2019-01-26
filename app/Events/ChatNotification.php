@@ -53,6 +53,6 @@ class ChatNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.notification.' . $this->notification['to_id']->id);
+        return new PrivateChannel('chat.notification.' . $this->notification['to_id']);
     }
 }
