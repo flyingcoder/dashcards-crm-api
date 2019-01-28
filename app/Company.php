@@ -139,7 +139,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $model = $this->permissions();
+        $model = Permission::whereIn('company_id', [ 0, $this->id ]);
 
         if(request()->has('sort') && !is_null($sortValue))
             $model->orderBy($sortName, $sortValue);

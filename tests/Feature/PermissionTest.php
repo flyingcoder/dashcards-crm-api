@@ -16,6 +16,25 @@ class PermissionTest extends TestCase
      *
      * @return void
      */
+    public function testIndex()
+    {
+       $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/permission?page=1&search=&sort=');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    /*
+     * A basic test example.
+     *
+     * @return void
+     */
     public function testStore()
     {
        $this->withoutExceptionHandling();
@@ -40,25 +59,6 @@ class PermissionTest extends TestCase
         //dd($response->content());
         $response->assertStatus(201);
         //$this->assertTrue(true);
-    }
-
-	/**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testIndex()
-    {
-       $this->withoutExceptionHandling();
-
-        $user = User::findOrFail(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/permission?page=1&search=&sort=');
-
-        //dd($response->content());
-        $response->assertStatus(200);
     }
 
 	

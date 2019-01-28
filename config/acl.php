@@ -27,4 +27,6 @@ return [
      */
 		
     'cacheMinutes' => 1,
+
+    'ntfs' => false,
 ];
