@@ -51,13 +51,15 @@ class ApiLoginController extends Controller
 
             $userObject->company_id = $user->company()->id;
 
-            $userObject->is_admin = $user->hasRole('admin||default-admin-'.auth()->user()->company()->id);
-
             $user->is_online = 1;
 
             $user->save();
 
-            UsersPresence::dispatch($user);
+            $userObject->push('is_admin', $user->hasRole('admin');
+
+            $userObject->push('permissions', $user->getPermissions());
+
+            UsersPresence::dispatch($userObject);
 
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 

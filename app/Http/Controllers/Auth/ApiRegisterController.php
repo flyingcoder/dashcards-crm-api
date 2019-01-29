@@ -78,7 +78,7 @@ class ApiRegisterController extends Controller
                'password' => bcrypt($request->password),
             ]);
 
-            $user->assignRole('default-admin-'.$company->id); //prone to change
+            $user->assignRole('admin');
 
             $default_team = $company->teams()->first();
 
@@ -92,7 +92,11 @@ class ApiRegisterController extends Controller
 
             $user->save();
 
-            UsersPresence::dispatch($user);
+            $userObject->push('is_admin', $user->hasRole('admin');
+
+            $userObject->push('permissions', $user->getPermissions());
+
+            UsersPresence::dispatch($userObject);
 
             return response()->json([
                 'token' => $user->createToken('MyApp')->accessToken, 
