@@ -55,7 +55,7 @@ class ApiLoginController extends Controller
 
             $user->save();
 
-            $userObject->push('is_admin', $user->hasRole('admin');
+            $userObject->push('is_admin', $user->hasRole('admin'));
 
             $userObject->push('permissions', $user->getPermissions());
 
