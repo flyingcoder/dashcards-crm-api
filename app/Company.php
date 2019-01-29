@@ -499,14 +499,14 @@ class Company extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Group::class, 'company_role', 'company_id', 'role_id');
+        return $this->hasMany(Group::class);
     }
 
     public function paginatedRoles(Request $request)
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $model = $this->roles()->where('roles.slug', '!=', 'client-'.$this->id);
+        $model = Role::whereIn('company_id', [0, $this->id])->where('roles.slug', '!=', 'client');
 
         if($request->has('sort') && !is_null($sortValue))
             $model->orderBy($sortName, $sortValue);
@@ -788,38 +788,6 @@ class Company extends Model
                     'company_id' => $company->id,
                     'slug' => 'client-'.$company->id,
                     'description' => 'This is the client team for a company'
-                ]);
-
-                $role = new Role();
-
-                $roleAdmin = $role->create(
-                    [
-                        'name' => 'Administrator',
-                        'slug' => 'default-admin-'.$company->id,
-                        'description' => 'manage administration privileges',
-                    ]
-                );
-
-                $roleClient = $role->create(
-                    [
-                        'name' => 'Client',
-                        'slug' => 'client-'.$company->id,
-                        'description' => 'Client privileges',
-                    ]
-                );
-
-                $roleManager = $role->create(
-                    [
-                        'name' => 'Manager',
-                        'slug' => 'manager-'.$company->id,
-                        'description' => 'manage a team privileges',
-                    ]
-                );
-
-                $company->roles()->sync([
-                    $roleAdmin->id,
-                    $roleClient->id,
-                    $roleManager->id
                 ]);
             });
             

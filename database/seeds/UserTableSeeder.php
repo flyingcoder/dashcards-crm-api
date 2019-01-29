@@ -41,6 +41,8 @@ class UserTableSeeder extends Seeder
         );
         $userdust->assignRole('admin');
 
+        factory(App\Team::class)->create();
+
         $team = App\Team::first();
 
         $team->members()->attach([1,2]);

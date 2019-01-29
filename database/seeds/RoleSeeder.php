@@ -7,150 +7,210 @@ use Kodeine\Acl\Models\Eloquent\Permission;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+	protected $slug = [
+			[
+				'create' => false,
+				'update' => false,
+				'delete' => false
+			],
+			[
+				'update' => false,
+				'delete' => false
+			],
+			[
+				'delete' => false
+			]
+		];
+
+	protected $parentPermission = [
+			'hq_files_own',
+			'hq_files',
+			'hq_project_details',
+			'hq_milestones',
+			'hq_tasks_own',
+			'hq_tasks',
+			'hq_client_messages',
+			'hq_messages_own',
+			'hq_team_messages',
+			'hq_invoices',
+			'hq_reports',
+			'hq_timers_own',
+			'hq_timers',
+			'hq_members',
+			'projects_own',
+			'projects',
+			'clients',
+			'services',
+			'responses',
+			'forms',
+			'users',
+			'user_profile',
+			'invoices',
+			'calendars_own',
+			'calendars',
+			'messages',
+			'client_users',
+			'client_profile',
+			'template_milestones',
+			'template_invoices',
+			'timers_own',
+			'timers'
+		];
+
+	protected $managerPerm = [
+    		'hq_files_own' => 4,
+			'hq_files' => 1,
+			'hq_project_details' => 4,
+			'hq_milestones' => 4,
+			'hq_tasks_own' => 3,
+			'hq_tasks' => 3,
+			'hq_client_messages' => 4,
+			'hq_messages_own' => 4,
+			'hq_team_messages' => 3,
+			'hq_reports' => 4,
+			'hq_timers_own' => 1,
+			'hq_timers' => 1,
+			'hq_members' => 4,
+			'projects_own' => 3,
+			'services' => 4,
+			'responses' => 1,
+			'forms' => 1,
+			'user_profile' => 3,
+			'calendars_own' => 4,
+			'calendars' => 4,
+			'messages' => 4,
+			'timers_own' => 1,
+			'timers' => 1,
+    	];
+
+    protected $memberPerm = [
+    		'hq_files_own' => 4,
+			'hq_files' => 1,
+			'hq_project_details' => 1,
+			'hq_milestones' => 1,
+			'hq_tasks_own' => 1,
+			'hq_client_messages' => 3,
+			'hq_messages_own' => 4,
+			'hq_team_messages' => 3,
+			'hq_reports' => 1,
+			'hq_timers_own' => 1,
+			'hq_members' => 1,
+			'projects_own' => 3,
+			'user_profile' => 3,
+			'calendars_own' => 4,
+			'calendars' => 1,
+			'messages' => 4,
+			'timers_own' => 1,
+    	];
+
+    protected $clientPerm = [
+			'hq_files_own' => 4,
+			'hq_files' => 1,
+			'hq_project_details' => 1,
+			'hq_milestones' => 1,
+			'hq_tasks_own' => 1,
+			'hq_client_messages' => 3,
+			'hq_messages_own' => 4,
+			'hq_invoices' => 1,
+			'hq_reports' => 1,
+			'hq_timers' => 1,
+			'hq_members' => 4,
+			'projects_own' => 1,
+			'invoices' => 1,
+			'calendars_own' => 4,
+			'messages' => 4,
+			'client_users' => 4,
+			'client_profile' => 4,
+		];
+
+	protected $roles = [
+    		'Admin',
+    		'Client',
+    		'Manager',
+    		'Member'
+    	];
+
+
     public function run()
     {
-    	//team seeder
-        factory(App\Team::class)->create();
+    	$this->createRole();
 
+    	$this->createParentPermission();
+
+    	$this->createChildPermission('manager', $this->managerPerm);
+
+    	$this->createChildPermission('member', $this->memberPerm);
+
+    	$this->createChildPermission('client', $this->clientPerm);
+    	
+    }
+
+    public function createRole()
+    {
+    	$role = new Role();
+
+    	foreach ($this->roles as $value) {
+    		$role->create(
+				[
+					'company_id' => 0,
+				    'name' => $value,
+				    'slug' => strtolower($value),
+					'description' => env('APP_NAME') .' '. $value .' Privileges',
+				]
+			);
+    	}
+    }
+
+    public function createParentPermission()
+    {
+    	foreach ($this->parentPermission as $value) {
+
+    		$permission = new Permission();
+
+    		$permission->create(
+		        [
+		        	'company_id' => 0,
+	        		'name' => $value,
+				    'slug' => [
+				        'create'     => true,
+				        'view'       => true,
+				        'update'     => true,
+				        'delete'     => true
+				    ],
+				    'description' => env('APP_NAME').' Default Permissions'
+		        ]);
+    	}
+    }
+
+    public function createChildPermission($role, $rolePermission)
+    {
     	$permission = new Permission();
 
-        $usersPermission = $permission->create(
-        	[
-        		'company_id' => 0,
-        		'name' => 'users',
-			    'slug' => [
-			        'create'     => true,
-			        'view'       => true,
-			        'update'     => true,
-			        'delete'     => true
-			    ],
-			    'description' => 'Users Permissions'
-	        ]);
+    	foreach ($rolePermission as $key => $value) {
 
-        $managerPermission = $permission->create(
-        	[
-        		'company_id' => 0,
-        		'name' => 'users.manager',
-			    'slug' => [
-			        'delete'     => false
-			    ],
-			    'inherit_id' => $usersPermission->getKey(),
-			    'description' => 'Users Manager Permissions'
-	        ]);
+    		$parentPerm = Permission::where('name', $key)->first();
 
-        $permission->create(
-        	[
-        		'company_id' => 0,
-        		'name' => 'hq_files_own',
-			    'slug' => [
-			        'create'     => true,
-			        'view'       => true,
-			        'update'     => true,
-			        'delete'     => true
-			    ],
-			    'description' => 'Project Own Files'
-	        ]);
-        
-        $permission->create(
-	        [
-	        	'company_id' => 0,
-        		'name' => 'hq_project_details',
-			    'slug' => [
-			        'create'     => true,
-			        'view'       => true,
-			        'update'     => true,
-			        'delete'     => true
-			    ],
-			    'description' => 'Project Details'
-	        ]);
+    		if(is_null($parentPerm)) 
+    			dd($key);
 
-        $permission->create(
-	        [
-	        	'company_id' => 0,
-        		'name' => 'hq_milestones',
-			    'slug' => [
-			        'create'     => true,
-			        'view'       => true,
-			        'update'     => true,
-			        'delete'     => true
-			    ],
-			    'description' => 'Project Milestones'
-	        ]);
+    		$roleModel = Role::where('slug', $role)->first();
 
-        $permission->create(
-	        [
-	        	'company_id' => 0,
-        		'name' => 'hq_tasks_own',
-			    'slug' => [
-			        'create'     => true,
-			        'view'       => true,
-			        'update'     => true,
-			        'delete'     => true
-			    ],
-			    'description' => 'Project Own Task'
-	        ]);
-        
-        $permission->create(
-	        [
-	        	'company_id' => 1,
-        		'name' => 'hq_tasks',
-			    'slug' => [
-			        'create'     => true,
-			        'view'       => true,
-			        'update'     => true,
-			        'delete'     => true
-			    ],
-			    'description' => 'Project Other Task'
-	        ]);
+    		if($value == 4) {
+    			$roleModel->assignPermission($key);
+    			continue;
+    		}
 
-    		$role = new Role();
+    		$perm = $permission->create(
+			        	[
+			        		'company_id' => 0,
+			        		'name' => $key.'.'.$role,
+						    'slug' => $this->slug[$value-1],
+						    'inherit_id' => $parentPerm->getKey(),
+						    'description' => env('APP_NAME').' Default Permissions'
+				        ]);
 
-    	$company = Company::findOrfail(1);
+			$roleModel->assignPermission($perm->id);
 
-		$roleAdmin = $role->create(
-			[
-			    'name' => 'Administrator',
-			    'slug' => 'admin',
-				'description' => 'manage administration privileges',
-			]
-		);
-
-		$roleClient = $role->create(
-			[
-			    'name' => 'Client',
-			    'slug' => 'client',
-				'description' => 'Client privileges',
-			]
-		);
-
-		$roleManager = $role->create(
-			[
-			    'name' => 'Manager',
-			    'slug' => 'manager',
-				'description' => 'manage a team privileges',
-			]
-		);
-
-		$roleAgent = $role->create(
-			[
-			    'name' => 'Member',
-			    'slug' => 'agent',
-				'description' => 'manage member privileges',
-			]
-		);
-
-		$company->roles()->attach([ 
-			$roleAdmin->id,
-			$roleManager->id,
-			$roleAgent->id,
-			$roleClient->id,
-		]);
-
-
+    	}
     }
 }
