@@ -54,7 +54,9 @@ class RoleSeeder extends Seeder
 			'template_milestones',
 			'template_invoices',
 			'timers_own',
-			'timers'
+			'timers',
+			'tasks',
+			'tasks_own',
 		];
 
 	protected $managerPerm = [
@@ -81,6 +83,8 @@ class RoleSeeder extends Seeder
 			'messages' => 4,
 			'timers_own' => 1,
 			'timers' => 1,
+			'tasks' => 3,
+			'tasks_own' => 3,
     	];
 
     protected $memberPerm = [
@@ -101,6 +105,7 @@ class RoleSeeder extends Seeder
 			'calendars' => 1,
 			'messages' => 4,
 			'timers_own' => 1,
+			'tasks_own' => 1,
     	];
 
     protected $clientPerm = [
@@ -121,6 +126,7 @@ class RoleSeeder extends Seeder
 			'messages' => 4,
 			'client_users' => 4,
 			'client_profile' => 4,
+			'tasks_own' => 1,
 		];
 
 	protected $roles = [
