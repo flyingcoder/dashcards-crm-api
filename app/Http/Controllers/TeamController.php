@@ -145,6 +145,9 @@ class TeamController extends Controller
 
         $member->group_name = request()->group_name;
 
+        if(auth()->user()->id == $member->id)
+            $member->can = $member->getPermissions();
+
         return $member->load('projects', 'tasks');
     }
 
