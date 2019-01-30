@@ -83,9 +83,11 @@ class TeamController extends Controller
 
             $member->assignRole(request()->group_name);
 
+            $member->group_name = request()->group_name;
+
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 
-            return $member->load('roles', 'projects', 'tasks');
+            return $member->load('projects', 'tasks');
 
         } catch (Exception $e) {
 
@@ -141,7 +143,9 @@ class TeamController extends Controller
         
         $member->save();
 
-        return $member->load('roles', 'projects', 'tasks');
+        $member->group_name = request()->group_name;
+
+        return $member->load('projects', 'tasks');
     }
 
     public function delete($id)
