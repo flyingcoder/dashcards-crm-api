@@ -131,12 +131,17 @@ class TeamController extends Controller
         $member->job_title = request()->job_title; //Added for job_title update 04/07/2018
         $member->email = request()->email;
         $member->telephone = request()->telephone;
+
         if(request()->has('password'))
             $member->password = request()->password;
+
+        $member->revokeAllRoles();
+
+        $member->assignRole(request()->group_name);
         
         $member->save();
 
-        return $member->load('teams');
+        return $member->load('roles', 'projects', 'tasks');
     }
 
     public function delete($id)
