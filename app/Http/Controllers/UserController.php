@@ -25,17 +25,16 @@ class UserController extends Controller
     {
         //(new UserPolicy())->update($model);
 
-        $path = request()->file('file')->store('public/'.$id.'/avatars');
+        $file = request()->file('file');
 
         $model = User::findOrFail($id);
 
-        $model->image_url = Storage::url($path);
+        $media = $model->addMedia($file)
+                       ->toMediaCollection('avatars')
+
+        $model->image_url = $media->getUrl();
 
         $model->save();
-
-        unset($model->image_url);
-
-        $model->image_url = getUrl(Storage::url($path));
 
         return $model;
     }

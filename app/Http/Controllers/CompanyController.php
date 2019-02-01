@@ -24,12 +24,6 @@ class CompanyController extends Controller
     {
     	$user = User::findOrFail($id);
 
-        $path = $user->image_url;
-
-        unset($user->image_url);
-
-        $user->image_url = getUrl($path);
-
     	return $user->load('teams');
     }
 }

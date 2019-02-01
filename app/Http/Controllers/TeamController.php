@@ -58,7 +58,7 @@ class TeamController extends Controller
 
             $username = explode('@', request()->email)[0];
 
-            $image_url = 'img/members/alfred.png';
+            $image_url = env('APP_URL').'img/members/alfred.png';
 
             if(request()->has('image_url'))
                 $image_url = request()->image_url;

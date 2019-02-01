@@ -15,14 +15,17 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable, 
         HasRole, 
         Metable, 
         SoftDeletes,
         HasApiTokens,
+        HasMediaTrait,
         Billable;
 
     protected $fillable = [
@@ -44,6 +47,14 @@ class User extends Authenticatable
     ];
 
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+              ->width(368)
+              ->height(232)
+              ->sharpen(10);
+    }
 
     public function unReadMessages()
     {

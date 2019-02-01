@@ -16,8 +16,3 @@ function parseSearchParam(Request $request) {
 
     return [$params[0], $params[1]];
 }
-
-function getUrl($path)
-{
-	return env('APP_URL').$path;
-}
