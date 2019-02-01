@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         //(new UserPolicy())->update($model);
 
-        $path = request()->file('file')->store('avatars');
+        $path = request()->file('file')->store('public/'.$id.'/avatars');
 
         $model = User::findOrFail($id);
 
