@@ -26,10 +26,6 @@ class UserController extends Controller
 
         //(new UserPolicy())->update($model);
 
-        request()->validate([
-            'file' => 'required'
-        ]);
-
         $path = request()->file('file')->store('avatars');
 
         $model->image_url = $path;
