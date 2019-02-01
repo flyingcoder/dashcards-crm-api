@@ -25,7 +25,8 @@ class UserController extends Controller
         $model = User::findOrFail($id);
 
         //(new UserPolicy())->update($model);
-        dd(request()->all);
+        return request()->all();
+        
         $path = request()->file('file')->store('avatars');
 
         $model->image_url = $path;
