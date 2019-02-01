@@ -20,6 +20,25 @@ class UserController extends Controller
         return auth()->user()->notifications;
     }
 
+    public function editProfilePicture($id)
+    {
+        $model = User::findOrFail($id);
+
+        //(new UserPolicy())->update($model);
+
+        request()->validate([
+            'file' => 'required'
+        ]);
+
+        $path = request()->file('file')->store('avatars');
+
+        $model->image_url = $path;
+
+        $model->save();
+
+        return $model;
+    }
+
     public function store(Request $request)
     {
         (new UserPolicy())->create();
