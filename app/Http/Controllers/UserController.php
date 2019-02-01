@@ -35,7 +35,7 @@ class UserController extends Controller
 
         unset($model->image_url);
 
-        $model->image_url = Storage::url($path);
+        $model->image_url = getUrl($path);
 
         return $model;
     }

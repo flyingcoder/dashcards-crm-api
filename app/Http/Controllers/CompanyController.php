@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Storage;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -29,7 +28,7 @@ class CompanyController extends Controller
 
         unset($user->image_url);
 
-        $user->image_url = Storage::url($path);
+        $user->image_url = getUrl($path);
 
     	return $user->load('teams');
     }
