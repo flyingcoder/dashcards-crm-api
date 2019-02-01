@@ -23,7 +23,7 @@ class UserController extends Controller
     public function editProfilePicture($id)
     {
         //(new UserPolicy())->update($model);
-        
+
         $path = request()->file('file')->store('avatars');
 
         $model = User::findOrFail($id);
@@ -31,6 +31,10 @@ class UserController extends Controller
         $model->image_url = $path;
 
         $model->save();
+
+        unset($model->image_url);
+
+        $model->image_url = Storage::url($path);
 
         return $model;
     }
