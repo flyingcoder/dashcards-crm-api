@@ -15,10 +15,10 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMediaConversions
 {
     use Notifiable, 
         HasRole, 
