@@ -78,6 +78,13 @@ class ApiRegisterController extends Controller
                'password' => bcrypt($request->password),
             ]);
 
+            $company->teams()->create([
+                'name' => $company->name.' Default Team',
+                'company_id' => $company->id,
+                'slug' => 'default-'.$company->id,
+                'description' => 'This is the default team for a company'
+            ]);
+
             $user->assignRole('admin');
 
             $default_team = $company->teams()->first();
