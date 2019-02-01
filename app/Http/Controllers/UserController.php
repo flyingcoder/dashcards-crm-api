@@ -22,12 +22,11 @@ class UserController extends Controller
 
     public function editProfilePicture($id)
     {
-        $model = User::findOrFail($id);
-
         //(new UserPolicy())->update($model);
-        return request()->file('image_url');
+        
+        $path = request()->file('file')->store('avatars');
 
-        $path = request()->file('image_url')->store('avatars');
+        $model = User::findOrFail($id);
 
         $model->image_url = $path;
 

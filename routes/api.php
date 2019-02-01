@@ -211,7 +211,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/', 'UserController@user');
 
-  Route::put('{id}', 'UserController@editProfilePicture');
+  Route::post('{id}', 'UserController@editProfilePicture');
 
   Route::post('/', 'Auth\RegisterController@create');
 
