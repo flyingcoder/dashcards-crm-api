@@ -19,5 +19,5 @@ function parseSearchParam(Request $request) {
 
 function getUrl($path)
 {
-	return env('APP_URL').'/storage/'.$path;
+	return env('APP_URL').'/'.$path;
 }
