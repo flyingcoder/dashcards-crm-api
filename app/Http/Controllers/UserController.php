@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Storage;
 use App\User;
-use App\Storage;
 use App\Mail\UserCredentials;
 use Illuminate\Http\Request;
 use App\Policies\UserPolicy;
