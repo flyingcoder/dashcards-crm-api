@@ -148,7 +148,15 @@ class TeamController extends Controller
         if(auth()->user()->id == $member->id)
             $member->can = $member->getPermissions();
 
-        return $member->load('projects', 'tasks');
+        unset($member->projects);
+
+        unset($member->tasks);
+
+        $member->tasks = $member->tasks()->count();
+
+        $member->projects = $member->projects()->count();
+
+        return $member;
     }
 
     public function delete($id)
