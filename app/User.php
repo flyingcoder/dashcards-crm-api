@@ -15,6 +15,7 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
@@ -47,6 +48,14 @@ class User extends Authenticatable implements HasMediaConversions
     ];
 
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+              ->width(368)
+              ->height(232)
+              ->sharpen(10);
+    }
 
     public function unReadMessages()
     {
