@@ -30,7 +30,7 @@ class UserController extends Controller
         $model = User::findOrFail($id);
 
         $media = $model->addMedia($file)
-                       ->toMediaCollection('avatars')
+                       ->toMediaCollection('avatars');
 
         $model->image_url = $media->getUrl();
 
