@@ -48,14 +48,6 @@ class User extends Authenticatable implements HasMediaConversions
 
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
 
-    public function registerMediaConversions(Media $media = null)
-    {
-        $this->addMediaConversion('thumb')
-              ->width(368)
-              ->height(232)
-              ->sharpen(10);
-    }
-
     public function unReadMessages()
     {
         $data = $this->messageNotification()
