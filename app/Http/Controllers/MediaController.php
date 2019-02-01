@@ -72,8 +72,8 @@ class MediaController extends Controller
         $medias = $medias->latest()->paginate(10);
 
         $medias->map(function ($media) {
-           $media['public_url'] = $media->getUrl();
-           $media['thumb_url'] = $media->getUrl('thumb');
+           $media['public_url'] = url($media->getUrl());
+           $media['thumb_url'] = url($media->getUrl('thumb'));
            return $media;
         });
 

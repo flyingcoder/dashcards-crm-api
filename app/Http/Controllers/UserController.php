@@ -32,7 +32,7 @@ class UserController extends Controller
         $media = $model->addMedia($file)
                        ->toMediaCollection('avatars');
 
-        $model->image_url = $media->getUrl();
+        $model->image_url = url($media->getUrl('thumb'));
 
         $model->save();
 
