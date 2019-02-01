@@ -29,7 +29,7 @@ class UserController extends Controller
 
         $model = User::findOrFail($id);
 
-        $model->image_url = explode('public/', $path);
+        $model->image_url = str_replace('public/', '',$path);
 
         $model->save();
 
