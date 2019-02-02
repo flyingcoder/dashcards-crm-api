@@ -4,6 +4,7 @@ namespace App;
 
 use Auth;
 use DB;
+use Chat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Media;
@@ -29,6 +30,23 @@ class Project extends Model implements HasMediaConversions
     protected static $logAttributes = [
         'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
     ];
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
+
+    public function projectMessages()
+    {
+        $model = $this->conversations();
+
+        if(request()->has('type') && request()->type == 'team')
+            $model->where('type', 'team');
+        else
+            $model->where('type', 'client');
+
+        
+    }
 
     public function projectReports()
     {

@@ -18,6 +18,22 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'note'], function () {
+
+  Route::get('/', 'NoteController@index');
+
+  Route::put('{id}', 'NoteController@update');
+
+  Route::put('{id}/{action}', 'NoteController@pinning')->where('action', 'pin|unpin');
+
+  Route::post('/', 'NoteController@store');
+
+  Route::post('{id}/collaborators', 'NoteController@collaborators');
+
+  Route::delete('{id}', 'NoteController@delete');
+
+});
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
   Route::get('unread', 'MessageController@unRead');
@@ -300,6 +316,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}', 'ProjectController@project');
 
   Route::post('{id}/milestone-import', 'ProjectController@milestoneImport');
+
+  Route::get('{id}/messages', 'ProjectController@messages');
 
   Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 

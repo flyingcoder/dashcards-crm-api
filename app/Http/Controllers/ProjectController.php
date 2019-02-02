@@ -34,6 +34,13 @@ class ProjectController extends Controller
         return $company->paginatedCompanyProjects(request());
     }
 
+    public function messages($id)
+    {
+        $model = Project::findOrFail($id);
+
+        return $model->projectMessages();
+    }
+
     public function reports($id)
     {
         $model = Project::findOrFail($id);

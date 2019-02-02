@@ -57,6 +57,74 @@ class User extends Authenticatable implements HasMediaConversions
               ->sharpen(10);
     }
 
+    public function notes()
+    {
+        return $this->belongsToMany(Note::class)->withPivot('is_pinned');
+    }
+
+    public function addNotes()
+    {
+        request()->validate([
+            'content' => 'required'
+        ]);
+
+        $data = [
+            'title' => request()->title,
+            'content' => request()->content,
+            'remind_date' => request()->remind_date
+        ];
+
+        $note = $this->notes()->create($data);
+
+        $note->collaborator = $note->users()->select(
+                                        'users.first_name',
+                                        'users.last_name',
+                                        'users.image_url'
+                                   )->get();
+        return $note;
+    }
+
+    public function getNotes()
+    {
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        $model = $this->notes();
+
+        if(request()->has('sort') && !is_null($sortValue)) {
+            $query = "note_user.is_pinned DESC, CASE WHEN note_user.is_pinned = 1 THEN notes.id ELSE 0 END, {$sortName} {$sortValue}";
+
+            $model->orderByRaw($query);
+        } else {
+            $query = "note_user.is_pinned DESC, CASE WHEN note_user.is_pinned = 1 THEN notes.id ELSE 0 END, created_at DESC";
+
+            $model->orderByRaw($query);
+        }
+
+        if(request()->has('search') && !empty(request()->search)){
+            $keyword = request()->search;
+
+            $model->where(function ($query) use ($keyword) {
+                        $query->where('notes.title', 'like', '%' . $keyword . '%');
+                        $query->orWhere('notes.content', 'like', '%' . $keyword . '%');
+                        $query->orWhere('notes.create_at', 'like', '%' . $keyword . '%');
+                      });
+        }
+
+        if(request()->has('per_page'))
+            $this->paginate = request()->per_page;
+
+        $data = $model->paginate($this->paginate);
+
+        if(request()->has('all') && requet()->all)
+            $data = $model->get();
+
+        $data->map(function ($note) {
+            $note['collaborators'] = $note->collaborators();
+        });
+
+        return $data;
+    }
+
     public function unReadMessages()
     {
         $data = $this->messageNotification()
