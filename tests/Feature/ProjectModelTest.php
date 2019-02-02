@@ -10,6 +10,34 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testCreateProject()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+        
+        $data = [
+            'title' => 'Test',
+            'client_id' => User::where('job_title','Client')->first()->id,
+            'service_id' => Service::latest()->first()->id,
+            'start_at' => '2018-12-19',
+            'end_at' => '2018-12-19',
+            'location' => 'required',
+            'description' => 'required',
+            'comment' => 'test comment',
+            'members' => [
+               2,5
+            ]
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/projects', $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testProjects()
     {
         $this->withoutExceptionHandling();
@@ -139,36 +167,6 @@ class ProjectModelTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/5');
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-
-    public function testCreateProject()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-        
-        $data = [
-            'title' => 'Test',
-            'client_id' => User::where('job_title','Client')->first()->id,
-            'service_id' => Service::latest()->first()->id,
-            'start_at' => '2018-12-19',
-            'end_at' => '2018-12-19',
-            'location' => 'required',
-            'description' => 'required',
-            'comment' => 'test comment',
-            'members' => [
-                User::latest()->first()->id,
-                User::latest()->first()->id - 1
-            ]
-        ];
-        
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->post('api/projects', $data);
 
         //dd($response->content());
         $response->assertStatus(200);

@@ -36,7 +36,32 @@ class Project extends Model implements HasMediaConversions
         return $this->hasMany(Conversation::class);
     }
 
-    public function projectMessages()
+    public function sendMessages()
+    {
+        request()->validate([
+            'type' => 'required',
+            'message' => 'required|string',
+            'from_id' => 'required|exists:users,id'
+        ]);
+
+        $model = $this->conversations();
+
+        if(request()->type == 'team')
+            $model->where('type', 'team');
+        else
+            $model->where('type', 'client');
+
+        $convo = $model->first();
+
+        $from = User::findOrFail(request()->from_id);
+
+        return Chat::message(request()->message)
+                   ->from($from)
+                   ->to($convo)
+                   ->send();
+    }
+
+    public function messages()
     {
         $model = $this->conversations();
 
@@ -45,7 +70,10 @@ class Project extends Model implements HasMediaConversions
         else
             $model->where('type', 'client');
 
-        
+        $convo = $model->first();
+
+        return $convo->messages()
+                     ->paginate(10);
     }
 
     public function projectReports()
@@ -427,54 +455,43 @@ class Project extends Model implements HasMediaConversions
     {
         return $this->manager()->first();
     }
-
-    //not being used as of the moment reffer to api/user/projects
-    /*
-    public static function personal(Request $request)
-    {
-        list($sortName, $sortValue)  = parseSearchParam(request());
-
-        $projects = Auth::user()->projects()
-                    ->join('services', 'services.id', '=', 'projects.service_id')
-                    ->join('project_user as manager_pivot', function ($join) {
-                        $join->on('manager_pivot.project_id', '=', 'projects.id')
-                             ->where('manager_pivot.role', '=', 'Manager');
-                    })
-                    ->join('users as manager', 'manager_pivot.user_id', '=', 'manager.id')
-                    ->join('project_user as client_pivot', function ($join) {
-                        $join->on('client_pivot.project_id', '=', 'projects.id')
-                             ->where('client_pivot.role', '=', 'Client');
-                    })
-                    ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
-                    ->with('milestones')
-                    ->select(
-                        DB::raw('CONCAT(manager.last_name, ", ", manager.first_name) AS manager_name'),
-                        'client.image_url as client_image_url',
-                        DB::raw('CONCAT(client.last_name, ", ", client.first_name) AS client_name'),
-                        'projects.*',
-                        'services.name as service_name'
-                    )->where('projects.deleted_at', null);
-
-        if($request->has('status'))
-            $projects->where('status', $request->status);
-
-        if($request->has('sort'))
-            $projects->orderBy($sortName, $sortValue);
-        
-        return $projects->paginate(10);
-    }*/
-
     /**
      *
      * boot events log activity per events
      *
      */
     
-    /*
+    
     public static function boot()
     {
+        Project::created(function ($project) {
+
+            $participants = collect($project->members()
+                                    ->select('id')
+                                    ->get());
+
+            $participants->flatten();
+
+            $client_convo = Chat::createConversation($participants->all());
+
+            $client_convo->project_id = $project->id;
+
+            $client_convo->type = 'client';
+
+            $client_convo->save();
+
+            $team_convo = Chat::createConversation($participants->all());
+
+            $team_convo->project_id = $project->id;
+
+            $team_convo->type = 'team';
+
+            $team_convo->save();
+
+        });
+
         if(!is_null(Auth::user())) {
-            Project::created(function ($project) {
+            /*Project::created(function ($project) {
                 activity(Auth::user()->company()->name)
                    ->performedOn($project)
                    ->causedBy(Auth::user())
@@ -496,7 +513,7 @@ class Project extends Model implements HasMediaConversions
                    ->causedBy(Auth::user())
                    ->withProperties(['company_id', Auth::user()->company()->id])
                    ->log('Updated');
-            });
+            });*/
         }
         
         Project::deleting(function($project) {
@@ -508,5 +525,5 @@ class Project extends Model implements HasMediaConversions
                 }
             }
         });
-    }*/
+    }
 }

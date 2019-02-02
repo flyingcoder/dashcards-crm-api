@@ -7,5 +7,5 @@ use Musonza\Chat\Models\Conversation as Parent;
 
 class Conversation extends Parent
 {
-    
+	
 }
