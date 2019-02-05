@@ -72,7 +72,7 @@ class ApiRegisterController extends Controller
                'username' => explode('@', $request->email)[0],
                'first_name' => $request->first_name,
                'last_name' => $request->last_name,
-               'image_url' => env('APP_URL').'/img/members/alfred.png';,
+               'image_url' => env('APP_URL').'/img/members/alfred.png',
                'email' => $request->email,
                'job_title' => 'Administrator',
                'password' => bcrypt($request->password),
