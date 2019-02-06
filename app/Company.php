@@ -376,6 +376,7 @@ class Company extends Model
                       ->select(
                         'users.id',
                         'users.is_online',
+                        'users.image_url',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
                       )->orderBy('users.created_at', 'DESC');
 
