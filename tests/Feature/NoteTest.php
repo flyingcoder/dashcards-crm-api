@@ -10,20 +10,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class NoteTest extends TestCase
 {
-    public function testIndex()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::find(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get("api/note");
-
-        dd($response->content());
-        $response->assertStatus(200);
-    }
-
     public function testPinning()
     {
         $this->withoutExceptionHandling();
@@ -38,9 +24,47 @@ class NoteTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put("api/note/".$model->id."/pin");
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
 
+    }
+
+    public function testUpdate()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $model = Note::latest()->first();
+
+        $data = [
+            'title' => 'Take note',
+            'content' => 'this content has been updated'
+        ];
+
+        //$this->assertTrue(true);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put("api/note/".$model->id, $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+
+    }
+
+    public function testIndex()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get("api/note");
+
+        dd($response->content());
+        $response->assertStatus(200);
     }
 
     public function testStore()
@@ -83,29 +107,5 @@ class NoteTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }
-
-    public function testUpdate()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::find(1);
-
-        $model = Note::latest()->first();
-
-        $data = [
-            'title' => 'Take note',
-            'content' => 'this content has been updated'
-        ];
-
-        //$this->assertTrue(true);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->put("api/note/".$model->id, $data);
-
-        //dd($response->content());
-        $response->assertStatus(200);
-
     }
 }

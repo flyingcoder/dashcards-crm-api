@@ -22,9 +22,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'note'], function () {
 
   Route::get('/', 'NoteController@index');
 
-  Route::put('{id}', 'NoteController@update');
-
   Route::put('{id}/{action}', 'NoteController@pinning')->where('action', 'pin|unpin');
+
+  Route::put('{id}', 'NoteController@update');
 
   Route::post('/', 'NoteController@store');
 
