@@ -48,7 +48,7 @@ class NoteTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->put("api/note/".$model->id, $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
 
     }
@@ -63,7 +63,7 @@ class NoteTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get("api/note");
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 

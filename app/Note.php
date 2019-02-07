@@ -30,7 +30,7 @@ class Note extends Model
 				['is_pinned' => $value]
 			 );
 
-        return $value;
+        return (int) $value;
     }
 
     public function collaborators()
