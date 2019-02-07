@@ -22,13 +22,15 @@ class Note extends Model
 
     public function pinning($action)
     {
-    	$value = $action == 'pin' ? true : false;
+    	$value = $action === 'pin' ? true : false;
 
-    	return $this->users()
-					->updateExistingPivot(
-						auth()->user()->id, 
-						['is_pinned' => $value]
-					);
+    	$this->users()
+			 ->updateExistingPivot(
+				auth()->user()->id, 
+				['is_pinned' => $value]
+			 );
+
+        return $value;
     }
 
     public function collaborators()

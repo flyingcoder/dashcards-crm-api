@@ -35,11 +35,6 @@ class NoteController extends Controller
 
         return $note->pinning($action);
     }
-
-    public function unpin($id)
-    {
-        # code...
-    }
     
     public function show(Notes $notes)
     {
