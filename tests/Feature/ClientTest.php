@@ -11,6 +11,8 @@ class ClientTest extends TestCase
 {
     public function testSingleClient()
     {
+        $this->withoutExceptionHandling();
+        
         $user = User::find(1);
 
         $response = $this->actingAs($user, 'api')

@@ -14,6 +14,9 @@ class CompanyController extends Controller
 
     public function teams()
     {
+        if(auth()->user()->is('client'))
+            return auth()->user()->clientStaffs();
+
     	if(request()->has('all') && request()->all)
             return auth()->user()->company()->allTeamMembers();
     	

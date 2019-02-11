@@ -47,14 +47,13 @@ class TeamController extends Controller
     public function store()
     {
         try {
-            
+
             request()->validate([
                 'last_name' => 'required|string',
                 'first_name' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'telephone' => 'required',
-                'password' => 'required|confirmed',
-                'group_name' => 'required',
+                'password' => 'required|confirmed'
             ]);
 
             $username = explode('@', request()->email)[0];
@@ -78,13 +77,23 @@ class TeamController extends Controller
 
             $company = auth()->user()->company();
 
+            $role = request()->group_name;
+
             $team = $company->defaultTeam();
+
+            if(auth()->user()->is('client')) {
+
+                $team = $company->clientStaffTeam();
+
+                $role = 'client';
+
+            } 
 
             $team->members()->attach($member);
 
-            $member->assignRole(request()->group_name);
+            $member->assignRole($role);
 
-            $member->group_name = request()->group_name;
+            $member->group_name = $role;
 
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 

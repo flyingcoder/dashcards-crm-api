@@ -57,6 +57,35 @@ class User extends Authenticatable implements HasMediaConversions
               ->sharpen(10);
     }
 
+    public function clientStaffs()
+    {
+        list($sortName, $sortValue) = parseSearchParam($request);
+
+        $model = $this->children();
+
+        if($request->has('sort') && !empty(request()->sort))
+            $model->orderBy($sortName, $sortValue);
+        else
+            $model->orderBy('users.created_at', 'DESC');
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
+        $data = $model->paginate($this->paginate);
+
+        $data->map(function ($user) {
+            unset($user['tasks']);
+            unset($user['projects']);
+            $user['tasks'] = $user->tasks()->count();
+            $user['projects'] = $user->projects()->count();
+            $roles = $user->roles()->first();
+            if(!is_null($roles))
+                $user['group_name'] = $roles->id;
+        });
+
+        return $data;
+    }
+
     public function notes()
     {
         return $this->belongsToMany(Note::class)->withPivot('is_pinned');
