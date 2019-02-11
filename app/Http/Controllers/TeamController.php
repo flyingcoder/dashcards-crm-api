@@ -81,7 +81,7 @@ class TeamController extends Controller
 
             $team = $company->defaultTeam();
 
-            if(auth()->user()->is('client')) {
+            if(auth()->user()->hasRole('client')) {
 
                 $team = $company->clientStaffTeam();
 
