@@ -59,7 +59,7 @@ class User extends Authenticatable implements HasMediaConversions
 
     public function clientStaffs()
     {
-        list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam(request());
 
         $model = $this->children();
 

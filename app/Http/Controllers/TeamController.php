@@ -60,9 +60,6 @@ class TeamController extends Controller
 
             $image_url = env('APP_URL').'/img/members/alfred.png';
 
-            if(request()->has('image_url'))
-                $image_url = request()->image_url;
-
             $member = User::create([
                 'username' => $username.rand(0,20),
                 'last_name' => request()->last_name,
