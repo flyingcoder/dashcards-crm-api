@@ -47,6 +47,7 @@ class TeamController extends Controller
     public function store()
     {
         try {
+            
             request()->validate([
                 'last_name' => 'required|string',
                 'first_name' => 'required|string',

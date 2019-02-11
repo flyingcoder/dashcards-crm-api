@@ -38,6 +38,12 @@ class ClientController extends Controller
 
         $client->getAllMeta();
 
+        $client->invoices;
+
+        $client->staffs = $client->children();
+
+        $client->tasks;
+
         return $client;
     }
 

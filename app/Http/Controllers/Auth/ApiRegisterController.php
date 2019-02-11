@@ -53,8 +53,8 @@ class ApiRegisterController extends Controller
         //will add the validation later not required
         
         $request->validate([
+            //'company_email' => 'required|string|email|max:255|unique:companies,email',
             'company_name' => 'required|string|max:255',
-            'company_email' => 'required|string|email|max:255|unique:companies,email',
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -65,7 +65,7 @@ class ApiRegisterController extends Controller
 
             $company = Company::create([
                 'name' => $request->company_name,
-                'email' => $request->company_email,
+                //'email' => $request->company_email,
             ]);
 
             $user = User::create([
@@ -82,7 +82,7 @@ class ApiRegisterController extends Controller
                 'name' => $company->name.' Default Team',
                 'company_id' => $company->id,
                 'slug' => 'default-'.$company->id,
-                'description' => 'This is the default team for a company'
+                'description' => 'This is the default team for '. $company->name
             ]);
 
             $user->assignRole('admin');

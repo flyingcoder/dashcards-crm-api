@@ -9,6 +9,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ClientTest extends TestCase
 {
+    public function testSingleClient()
+    {
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/clients/3');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     /*
     public function testStoreClients()
     {
