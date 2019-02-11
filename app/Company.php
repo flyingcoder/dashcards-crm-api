@@ -519,7 +519,13 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $model = Role::whereIn('company_id', [0, $this->id])->where('roles.slug', '!=', 'client');
+        $model = Role::whereIn('company_id', [0, $this->id])
+                     ->where('roles.slug', '!=', 'client');
+
+        if(auth()->user()->hasRole('manager|client')) {
+            $model->where('roles.slug', '!=', 'admin')
+                  ->where('roles.slug', '!=', 'manager');
+        }
 
         if($request->has('sort') && !is_null($sortValue))
             $model->orderBy($sortName, $sortValue);
