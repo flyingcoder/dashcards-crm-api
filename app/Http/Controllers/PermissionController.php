@@ -24,12 +24,6 @@ class PermissionController extends Controller
     {
         $company = auth()->user()->company();
 
-        request()->validate([
-            'permission_id' => 'required|integer',
-            'group' => 'required|string',
-            'slug' => 'required'
-        ]);
-
         $parentPerm = Permission::findOrfail(request()->permission_id);
 
         $description = ucfirst($company->name). "custom permission";
