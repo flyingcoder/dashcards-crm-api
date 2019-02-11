@@ -392,7 +392,7 @@ class Company extends Model
 
         $members = $team->members();
 
-        if($request->has('sort') && !empty(request()->sort))
+        if(request()->has('sort') && !empty(request()->sort))
             $members->orderBy($sortName, $sortValue);
         else
             $members->orderBy('users.created_at', 'DESC');

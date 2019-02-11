@@ -63,7 +63,7 @@ class User extends Authenticatable implements HasMediaConversions
 
         $model = $this->children();
 
-        if($request->has('sort') && !empty(request()->sort))
+        if(request()->has('sort') && !empty(request()->sort))
             $model->orderBy($sortName, $sortValue);
         else
             $model->orderBy('users.created_at', 'DESC');
