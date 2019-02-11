@@ -73,6 +73,8 @@ class ClientController extends Controller
 
         $username = explode('@', request()->email)[0];
 
+        $image_url = env('APP_URL').'/img/members/alfred.png';
+
         $client = User::create([
             'username' => $username,
             'last_name' => request()->last_name,
@@ -81,7 +83,7 @@ class ClientController extends Controller
             'telephone' => request()->telephone, 
             'job_title' => 'Client',
             'password' => bcrypt(request()->password),
-            'image_url' => 'img/members/alfred.png'
+            'image_url' => $image_url
         ]);
 
         $client->setMeta('company_name', request()->company_name);
