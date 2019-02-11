@@ -101,6 +101,8 @@ class ApiRegisterController extends Controller
 
             $userObject->is_admin = true;
 
+            $userObject->role = $user->userRole();
+
             $userObject->can = $user->getPermissions();
 
             UsersPresence::dispatch($userObject);

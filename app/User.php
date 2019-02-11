@@ -49,6 +49,11 @@ class User extends Authenticatable implements HasMediaConversions
 
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
 
+    public function userRole()
+    {
+        return collect($this->getRoles())->first();
+    }
+
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')

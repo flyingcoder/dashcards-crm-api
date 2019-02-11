@@ -57,6 +57,8 @@ class ApiLoginController extends Controller
 
             $userObject->is_admin = $user->hasRole('admin');
 
+            $userObject->role = $user->userRole();
+
             $userObject->can = $user->getPermissions();
 
             UsersPresence::dispatch($userObject);
