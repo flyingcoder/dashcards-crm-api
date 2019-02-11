@@ -41,6 +41,18 @@ class PermissionController extends Controller
         return $company->permissions()->create($data);
     }
 
+    public function search()
+    {
+        $query = request()->q;
+
+        $result = Permission::where(function($q) use ($query) {
+                              $q->where('permissions.name', 'LIKE', "%{$query}%")
+                                ->where('permissions.inherit_id', null);
+                      });
+
+        return $result->get();
+    }
+
     public function update($id)
     {
         $permission = Permission::findOrfail($id);

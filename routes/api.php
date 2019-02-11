@@ -86,6 +86,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function ()
 
   Route::post('/', 'PermissionController@store');
 
+  Route::get('autocomplete', 'PermissionController@search');
+
   Route::put('{id}', 'PermissionController@update');
 
   Route::delete('{id}', 'PermissionController@delete');

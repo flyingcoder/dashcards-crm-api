@@ -16,6 +16,25 @@ class PermissionTest extends TestCase
      *
      * @return void
      */
+    public function testSearch()
+    {
+       $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/permission/autocomplete?q=hq');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
     public function testIndex()
     {
        $this->withoutExceptionHandling();
@@ -26,7 +45,7 @@ class PermissionTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/groups?all=true');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
