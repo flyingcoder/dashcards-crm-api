@@ -19,9 +19,6 @@ class ClientController extends Controller
 
     public function index()
     {
-        if(!request()->ajax())
-            return view('pages.clients');
-
         $company = Auth::user()->company();
 
         $result = $company->paginatedCompanyClients(request());

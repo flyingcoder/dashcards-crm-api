@@ -692,7 +692,7 @@ class Company extends Model
         $client_group = $this->teams()->where('slug', 'client-'.$this->id)->first();
         
         if( ! $client_group )
-            abort(204, 'Team not found!');
+            abort('Team not found!', 204);
 
         return $client_group->members()
                     ->join('meta as company', function ($join) {
