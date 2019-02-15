@@ -292,12 +292,6 @@ class Company extends Model
 
         $data = $invoices->paginate($this->paginate);
 
-        $data->map(function ($invoice) {
-            $items = $invoice->items;
-            unset($invoice->items);
-            $invoice->items = json_decode($items);
-        });
-
         return $data;
     }
 
