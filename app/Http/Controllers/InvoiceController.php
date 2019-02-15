@@ -79,7 +79,7 @@ class InvoiceController extends Controller
 
         unset($invoice->items);
 
-        $invoice->items = json_decode($items);
+        $invoice->items = collect($items);
 
         return $invoice;
     }

@@ -295,7 +295,7 @@ class Company extends Model
         $data->map(function ($invoice) {
             $items = $invoice->items;
             unset($invoice->items);
-            $invoice->items = json_decode($items);
+            $invoice->items = collect($items);
         });
 
         return $data;
