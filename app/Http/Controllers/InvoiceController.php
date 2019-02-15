@@ -57,7 +57,7 @@ class InvoiceController extends Controller
         $invoice->due_date = request()->due_date;
         $invoice->title = request()->title;
         $invoice->total_amount = request()->total_amount;
-        $invoice->items = request()->items;
+        $invoice->items = json_decode(request()->items);
         $invoice->type = request()->type;
 
         if(request()->has('project_id'))
@@ -74,12 +74,6 @@ class InvoiceController extends Controller
 
         if(request()->hasFile('company_logo'))
             $invoice->company_logo = request()->file('company_logo')->store('invoice');
-        
-        $items = $invoice->items;
-
-        unset($invoice->items);
-
-        $invoice->items = collect($items);
 
         return $invoice;
     }
