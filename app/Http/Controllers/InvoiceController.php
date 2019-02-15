@@ -75,10 +75,11 @@ class InvoiceController extends Controller
         if(request()->hasFile('company_logo'))
             $invoice->company_logo = request()->file('company_logo')->store('invoice');
         
+        $items = $invoice->items;
 
         unset($invoice->items);
 
-        $invoice->items = json_decode(request()->items);
+        $invoice->items = json_decode($items);
 
         return $invoice;
     }
