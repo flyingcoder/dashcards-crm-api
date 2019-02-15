@@ -181,7 +181,7 @@ class Company extends Model
     {
         return $this->members()
                     ->select('invoices.*')
-                    ->where('deleted_at', null)
+                    ->where('invoices.deleted_at', null)
                     ->join('invoices', 'invoices.user_id', '=', 'users.id');
     }
 
