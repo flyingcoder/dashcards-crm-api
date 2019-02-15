@@ -57,7 +57,7 @@ class InvoiceController extends Controller
         $invoice->due_date = request()->due_date;
         $invoice->title = request()->title;
         $invoice->total_amount = request()->total_amount;
-        $invoice->items = json_decode(request()->items);
+        $invoice->items = json_encode(request()->items);
         $invoice->type = request()->type;
 
         if(request()->has('project_id'))
