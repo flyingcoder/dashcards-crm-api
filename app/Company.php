@@ -290,7 +290,14 @@ class Company extends Model
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $invoices->paginate($this->paginate);
+        $data = $invoices->paginate($this->paginate);
+
+        $data->map(function ($invoice) {
+            unset($invoice->items);
+            $invoice->items = json_decode(request()->items);
+        });
+
+        return $data;
     }
 
     public function templates()
