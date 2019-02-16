@@ -53,13 +53,13 @@ class InvoiceController extends Controller
             'type' => 'required'
         ]);
 
-        $items = collect(json_decode(html_entity_decode(request()->items)))->first();
+        dd(request()->items);
 
         $invoice->date = request()->date;
         $invoice->due_date = request()->due_date;
         $invoice->title = request()->title;
         $invoice->total_amount = request()->total_amount;
-        $invoice->items = $items;
+        //$invoice->items = $items;
         $invoice->type = request()->type;
 
         if(request()->has('project_id'))
