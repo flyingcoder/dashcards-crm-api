@@ -250,7 +250,11 @@ class User extends Authenticatable implements HasMediaConversions
             $data['company_logo'] = request()->file('company_logo')->store('invoice');
 
         $invoice = $this->invoices()->create($data);
-            
+
+        $items = collect(json_decode($invoice->items));
+        unset($invoice->items);
+        $invoice->items = $items;
+        
         return $invoice;
     }
 
