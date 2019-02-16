@@ -229,7 +229,7 @@ class User extends Authenticatable implements HasMediaConversions
             'due_date' => request()->due_date,
             'title' => request()->title,
             'total_amount' => request()->total_amount,
-            'items' => request()->items,
+            'items' => json_decode(request()->items),
             'terms' => request()->terms,
             'tax' => request()->tax,
         ];
