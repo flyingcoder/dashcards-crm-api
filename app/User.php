@@ -218,7 +218,7 @@ class User extends Authenticatable implements HasMediaConversions
             'due_date' => 'required|date',
             'title' => 'required',
             'total_amount' => 'required',
-            'items' => 'required',
+            'items' => 'required|string',
             'type' => 'required'
         ]);
 
@@ -229,7 +229,7 @@ class User extends Authenticatable implements HasMediaConversions
             'due_date' => request()->due_date,
             'title' => request()->title,
             'total_amount' => request()->total_amount,
-            'items' => collect(request()->items),
+            'items' => request()->items,
             'terms' => request()->terms,
             'tax' => request()->tax,
         ];
