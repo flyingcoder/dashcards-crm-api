@@ -49,7 +49,7 @@ class InvoiceController extends Controller
             'due_date' => 'required|date',
             'title' => 'required',
             'total_amount' => 'required',
-            'items' => 'required',
+            'items' => 'required|string',
             'type' => 'required'
         ]);
 
