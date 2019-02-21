@@ -116,7 +116,7 @@ class ClientController extends Controller
     {
         $client = User::findOrFail($id);
 
-        return $client->children()->get();
+        return $client->clientStaffs();
     }
 
     public function invoices($id)
