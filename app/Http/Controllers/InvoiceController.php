@@ -78,6 +78,8 @@ class InvoiceController extends Controller
 
         $invoice->save();
 
+        $invoice->id = $id;
+
         return $invoice;
     }
 
