@@ -436,7 +436,7 @@ class Company extends Model
 
     public function clientStaffTeam()
     {
-        return $this->teams()->where('teams.slug', 'client-staff-'.$this->id)->first();
+        return $this->teams()->where('teams.slug', 'client-staffs-'.$this->id)->first();
     }
 
     public function membersID()

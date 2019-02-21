@@ -38,6 +38,73 @@ class ClientController extends Controller
         return $client;
     }
 
+    public function addStaffs($id)
+    {
+        try {
+
+            request()->validate([
+                'last_name' => 'required|string',
+                'first_name' => 'required|string',
+                'email' => 'required|email|unique:users',
+                'telephone' => 'required',
+                'password' => 'required|confirmed'
+            ]);
+
+            $username = explode('@', request()->email)[0];
+
+            $image_url = env('APP_URL').'/img/members/alfred.png';
+
+            $member = User::create([
+                'username' => $username.rand(0,20),
+                'last_name' => request()->last_name,
+                'first_name' => request()->first_name,
+                'email' => request()->email,
+                'telephone' => request()->telephone, 
+                'job_title' => request()->job_title,
+                'password' => bcrypt(request()->password),
+                'image_url' => $image_url,
+                'created_by' => $id
+            ]);
+
+            $company = auth()->user()->company();
+            
+            $team = $company->clientStaffTeam();
+
+            $role = 'client';
+
+            $team->members()->attach($member);
+
+            $member->assignRole($role);
+
+            $member->group_name = $role;
+
+            //\Mail::to($member)->send(new UserCredentials($member, request()->password));
+
+            return $member->load('projects', 'tasks');
+
+        } catch (Exception $e) {
+
+            $error_code = $e->errorInfo[1];
+
+            switch ($error_code) {
+                case 1062:
+                    return response()->json([
+                                'error' => 'The company email you have entered is already registered.'
+                           ], 500);
+                    break;
+                case 1048:
+                    return response()->json([
+                                'error' => 'Some fields are missing.'
+                           ], 500);
+                default:
+                    return response()->json([
+                                'error' => $e."test"
+                           ], 500);
+                    break;
+            }
+        }
+    }
+
     public function tasks($id)
     {
         $client = User::findOrFail($id);
