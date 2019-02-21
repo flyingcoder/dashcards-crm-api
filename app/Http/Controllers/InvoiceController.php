@@ -76,6 +76,8 @@ class InvoiceController extends Controller
         if(request()->hasFile('company_logo'))
             $invoice->company_logo = request()->file('company_logo')->store('invoice');
 
+        $invoice->save();
+
         return $invoice;
     }
 
