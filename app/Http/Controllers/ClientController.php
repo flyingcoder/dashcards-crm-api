@@ -45,7 +45,7 @@ class ClientController extends Controller
         return $client->tasks()->get();
     }
 
-    public function staff($id)
+    public function staffs($id)
     {
         $client = User::findOrFail($id);
 
