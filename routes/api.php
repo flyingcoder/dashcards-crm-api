@@ -439,7 +439,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
 
   Route::get('{id}', 'InvoiceController@invoice');
 
-  Route::post('{id}', 'InvoiceController@update');
+  Route::put('{id}', 'InvoiceController@update');
 
   Route::delete('{id}', 'InvoiceController@delete');
 });
