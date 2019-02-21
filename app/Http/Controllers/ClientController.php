@@ -35,13 +35,28 @@ class ClientController extends Controller
 
         $client->getAllMeta();
 
-        $client->invoices;
-
-        $client->staffs = $client->children();
-
-        $client->tasks;
-
         return $client;
+    }
+
+    public function tasks($id)
+    {
+        $client = User::findOrFail($id);
+
+        return $client->tasks()->get();
+    }
+
+    public function staff($id)
+    {
+        $client = User::findOrFail($id);
+
+        return $client->children();
+    }
+
+    public function invoices($id)
+    {
+        $client = User::findOrFail($id);
+
+        return $client->invoices()->get();
     }
 
     public function details($id)

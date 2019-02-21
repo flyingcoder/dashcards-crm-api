@@ -397,6 +397,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
   Route::delete('{id}', 'ClientController@delete');
 
+  Route::get('{id}/tasks', 'ClientController@tasks');
+
+  Route::get('{id}/staffs', 'ClientController@staffs');
+
+  Route::get('{id}/invoices', 'ClientController@invoices');
+
 });
 
 // Groups

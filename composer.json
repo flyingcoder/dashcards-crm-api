@@ -18,6 +18,7 @@
         "laravel/passport": "^5.0",
         "laravel/scout": "^6.0",
         "laravel/tinker": "~1.0",
+        "maatwebsite/excel": "^3.1",
         "maddhatter/laravel-fullcalendar": "^1.3",
         "musonza/chat": "^3.1",
         "nicolaslopezj/searchable": "^1.10",
