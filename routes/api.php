@@ -404,7 +404,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
   Route::get('{id}/invoices', 'ClientController@invoices');
 
 });
-teams
+
 // Groups
 Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 
@@ -439,7 +439,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
 
   Route::get('{id}', 'InvoiceController@invoice');
 
-  Route::put('{id}', 'InvoiceController@update');
+  Route::post('{id}', 'InvoiceController@update');
 
   Route::delete('{id}', 'InvoiceController@delete');
 });
