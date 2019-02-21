@@ -49,7 +49,7 @@ class ClientController extends Controller
     {
         $client = User::findOrFail($id);
 
-        return $client->children();
+        return $client->children()->get();
     }
 
     public function invoices($id)
