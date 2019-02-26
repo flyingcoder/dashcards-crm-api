@@ -51,6 +51,9 @@ class Task extends Model
         if(request()->has('end_at'))
             $this->end_at = request()->end_at;
 
+        if(request()->has('role_id'))
+            $this->role_id = request()->role_id;
+
         $this->save();
 
         return $this;
