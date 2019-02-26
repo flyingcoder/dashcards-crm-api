@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
   Route::post('/private', 'MessageController@sendPrivateMessage');
 
+  Route::get('/private', 'MessageController@sendPrivateMessage');
+
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function () {
