@@ -140,7 +140,7 @@ class Company extends Model
         list($sortName, $sortValue) = parseSearchParam(request());
 
         if(request()->has('all') && request()->all)
-            return Permission::where('company_id', 0)->get();
+            return Permission::whereIn('company_id', [0])->get();
 
         $model = $this->permissions();
 
@@ -526,9 +526,6 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        if(request()->has('all') && request()->all == true && !request()->has('assigned'))
-            return Role::where('company_id', $this->id)->get();
-
         $model = Role::whereIn('company_id', [0, $this->id])
                      ->where('roles.slug', '!=', 'client');
 
@@ -553,7 +550,12 @@ class Company extends Model
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $model->paginate($this->paginate);
+        if(request()->has('all') && request()->all == true)
+            $data = $model->get();
+        else 
+            $model->paginate($this->paginate);
+
+        return $data;
 
     }
 
