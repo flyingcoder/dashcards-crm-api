@@ -526,7 +526,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        if(request()->has('all') && request()->all == true)
+        if(request()->has('all') && request()->all == true && !request()->has('assigned'))
             return Role::where('company_id', $this->id)->get();
 
         $model = Role::whereIn('company_id', [0, $this->id])
