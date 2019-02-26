@@ -139,7 +139,7 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $model = Permission::whereIn('company_id', [ 0, $this->id ]);
+        $model = $this->permissions();
 
         if(request()->has('sort') && !is_null($sortValue))
             $model->orderBy($sortName, $sortValue);
@@ -159,10 +159,10 @@ class Company extends Model
         if(request()->has('per_page'))
             $this->paginate = request()->per_page;
 
-        $data = $model->paginate($this->paginate);
-
         if(request()->has('all') && request()->all)
             $data = $model->get();
+        else
+            $data = $model->paginate($this->paginate);
 
         return $data;
     }
