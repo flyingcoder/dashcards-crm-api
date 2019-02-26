@@ -94,7 +94,13 @@ class TeamController extends Controller
 
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 
-            return $member->load('projects', 'tasks');
+            unset($member->tasks); unset($member->projects);
+
+            $member->tasks = $member->tasks()->count();
+
+            $member->projects = $member->projects()->count();
+
+            return $member;
 
         } catch (Exception $e) {
 
