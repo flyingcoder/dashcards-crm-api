@@ -21,7 +21,7 @@ class MessageController extends Controller
     {
         $company = auth()->user()->company();
 
-        return $company->members()->get();
+        return $company->allCompanyMembers();
     }
 
 	public function fetchPrivateMessages($friend_id)
