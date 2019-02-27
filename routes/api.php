@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
   Route::get('unread', 'MessageController@unRead');
 
+  Route::get('list', 'MessageController@list');
+
   Route::get('mark-read', 'MessageController@markRead');
 
   Route::get('/private/{friend_id}', 'MessageController@fetchPrivateMessages');

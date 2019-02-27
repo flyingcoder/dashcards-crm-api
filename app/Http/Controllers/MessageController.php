@@ -17,6 +17,13 @@ class MessageController extends Controller
         return auth()->user()->unReadMessages();
     }
 
+    public function list()
+    {
+        $company = auth()->user()->company();
+
+        return $company->members()->get();
+    }
+
 	public function fetchPrivateMessages($friend_id)
 	{
         $friend = User::findOrFail($friend_id);
