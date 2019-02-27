@@ -56,7 +56,8 @@ class RoleSeeder extends Seeder
 			'timers_own',
 			'timers',
 			'tasks',
-			'tasks_own',
+			'settings_group',
+			'settings_permission'
 		];
 
 	protected $managerPerm = [
@@ -85,6 +86,8 @@ class RoleSeeder extends Seeder
 			'timers' => 1,
 			'tasks' => 3,
 			'tasks_own' => 3,
+			'settings_group' => 3,
+			'settings_permission' => 3
     	];
 
     protected $memberPerm = [
