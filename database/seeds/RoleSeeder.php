@@ -56,6 +56,7 @@ class RoleSeeder extends Seeder
 			'timers_own',
 			'timers',
 			'tasks',
+			'tasks_own',
 			'settings_group',
 			'settings_permission'
 		];
