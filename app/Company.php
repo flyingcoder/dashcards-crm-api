@@ -553,7 +553,7 @@ class Company extends Model
         if(request()->has('all') && request()->all == true)
             $data = $model->get();
         else 
-            $model->paginate($this->paginate);
+            $data = $model->paginate($this->paginate);
 
         return $data;
 
