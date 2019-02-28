@@ -88,7 +88,7 @@ class ProjectController extends Controller
 
         $project->billed_from = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
 
-        $project->service_name = $project->service->name;
+        $project->service_name = $project->service()->get()->first()->name;
 
         $tasks = $project->taskWhereStatus('completed');
 
