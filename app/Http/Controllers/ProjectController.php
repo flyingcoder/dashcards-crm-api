@@ -94,8 +94,8 @@ class ProjectController extends Controller
 
         $project->tasks = $project->taskWhereStatus('completed');
 
-        $project->tasks->map(function ($item, $key) {
-            $item['total_time'] = $item->total_time();
+        $project->tasks->map(function ($item) {
+            $item->total_time = $item->total_time();
         });
 
         return $project;
