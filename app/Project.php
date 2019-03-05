@@ -73,7 +73,7 @@ class Project extends Model implements HasMediaConversions
         $convo = $model->first();
 
         return $convo->messages()
-                     ->paginate(10);
+                     ->paginate($this->paginate);
     }
 
     public function projectReports()
