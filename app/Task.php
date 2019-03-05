@@ -59,6 +59,8 @@ class Task extends Model
         if(request()->has('assigned_id') && !empty(request()->assigned_id))
             $this->assigned()->attach(request()->assigned_id);
 
+        $this->assigned_id = request()->assigned_id;
+
         return $this;
     }
 
