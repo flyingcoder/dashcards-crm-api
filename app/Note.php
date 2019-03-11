@@ -5,14 +5,23 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+
 
 class Note extends Model
 {
-	use SoftDeletes;
+	use SoftDeletes, LogsActivity;
 
 	protected $fillable = ['company_id', 'title', 'content', 'remind_date'];
 
 	protected $date = ['deleted_at'];
+
+    protected static $logAttributes = ['company_id', 'title', 'content', 'remind_date'];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A note has been {$eventName}";
+    }
 
     public function users()
     {

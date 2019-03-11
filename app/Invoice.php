@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Invoice extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'date',
@@ -27,6 +28,29 @@ class Invoice extends Model
         'type',
         'company_logo'
     ];
+
+    protected static $logAttributes = [
+        'date',
+        'user_id',
+        'discount',
+        'title', 
+        'project_id',
+        'due_date',
+        'items',
+        'total_amount',
+        'terms',
+        'tax',
+        'due_date',
+        'billed_from',
+        'billed_to',
+        'type',
+        'company_logo'
+    ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A invoice has been {$eventName}";
+    }
 
     protected $dates = ['deleted_at'];
 

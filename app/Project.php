@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 class Project extends Model implements HasMediaConversions
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes, HasMediaTrait, LogsActivity;
 
     protected $paginate = 10;
 
@@ -30,6 +30,11 @@ class Project extends Model implements HasMediaConversions
     protected static $logAttributes = [
         'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
     ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A project has been {$eventName}";
+    }
 
     public function conversations()
     {

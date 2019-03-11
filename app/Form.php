@@ -7,15 +7,24 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Form extends Model
 {
 	use SoftDeletes,
-		Sluggable;
+		Sluggable,
+        LogsActivity;
 
     protected $fillable = ['title', 'status', 'questions'];
 
     protected $dates = ['deleted_at'];
+
+    protected static $logAttributes = ['title', 'status', 'questions'];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A form has been {$eventName}";
+    }
 
     public function sluggable()
     {

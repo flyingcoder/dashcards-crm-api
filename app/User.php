@@ -27,7 +27,8 @@ class User extends Authenticatable implements HasMediaConversions
         SoftDeletes,
         HasApiTokens,
         HasMediaTrait,
-        Billable;
+        Billable,
+        LogsActivity;
 
     protected $fillable = [
         'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by'
@@ -36,6 +37,11 @@ class User extends Authenticatable implements HasMediaConversions
     protected static $logAttributes = [
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A user has been {$eventName}";
+    }
 
     protected $default_columns = [
         'email', 'first_name', 'id', 'image_url', 'job_title', 'last_name', 'telephone', 'trial_ends', 'username'

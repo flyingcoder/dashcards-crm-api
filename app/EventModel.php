@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use \MaddHatter\LaravelFullcalendar\Event;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class EventModel extends Model implements Event
 {
-	use SoftDeletes;
+	use SoftDeletes, LogsActivity;
 
     protected $table = 'events';
 
@@ -23,6 +24,21 @@ class EventModel extends Model implements Event
     ];
 
     protected $dates = ['start', 'end', 'deleted_at'];
+
+    protected static $logAttributes = [
+        'title', 
+        'calendar_id', 
+        'all_day',
+        'start',
+        'end',
+        'description',
+        'properties'
+    ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A calendar event has been {$eventName}";
+    }
 
     public function calendar()
     {

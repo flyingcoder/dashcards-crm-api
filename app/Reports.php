@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Reports extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     protected $paginate = 10;
 
@@ -18,8 +19,13 @@ class Reports extends Model
     ];
 
     protected static $logAttributes = [
-        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
+        'title', 'description', 'url', 'company_id'
     ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A reports has been {$eventName}";
+    }
 
     public function updateReports()
     {   

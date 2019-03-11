@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class Milestone extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
     
     /**
      * The attributes that are mass assignable.
@@ -31,6 +31,11 @@ class Milestone extends Model
         'started_at' => 'required|date',
         'end_at' => 'required|date'
     ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A milestone has been {$eventName}";
+    }
 
     protected $dates = ['deleted_at'];
 

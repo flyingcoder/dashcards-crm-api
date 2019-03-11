@@ -5,10 +5,11 @@ namespace App;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Service extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +20,14 @@ class Service extends Model
         'user_id', 'name' 
     ];
 
-     protected static $logAttributes = [
+    protected static $logAttributes = [
         'user_id', 'name' 
     ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A service has been {$eventName}";
+    }
 
     public function company()
     {

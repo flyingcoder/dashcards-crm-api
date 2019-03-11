@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class Task extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
      /**
      * The attributes that are mass assignable.
@@ -23,6 +23,15 @@ class Task extends Model
     protected $fillable = [
         'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
     ];
+
+    protected static $logAttributes = [
+        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
+    ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A task has been {$eventName}";
+    }
 
     protected $dates = ['deleted_at'];
 

@@ -7,19 +7,24 @@ use Kodeine\Acl\Models\Eloquent\Permission;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Group extends Role
 {
 	use SearchableTrait,
 		SoftDeletes,
-		Sluggable;
+		Sluggable,
+        LogsActivity;
 
     protected $table = 'roles';
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
+
+    protected static $logAttributes = ['name'];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A group has been {$eventName}";
+    }
+
     public function sluggable()
     {
         return [
