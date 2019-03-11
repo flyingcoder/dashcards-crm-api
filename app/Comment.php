@@ -14,6 +14,8 @@ class Comment extends Model
 
 	protected static $logAttributes = ['body', 'causer_id', 'causer_type'];
 
+    protected static $logName = 'system';
+
 	public function getDescriptionForEvent(string $eventName): string
     {
         return "A Comment has been {$eventName}";

@@ -13,6 +13,8 @@ class EventModel extends Model implements Event
 
     protected $table = 'events';
 
+    protected static $logName = 'system';
+
     protected $fillable = [
     	'title', 
     	'calendar_id', 

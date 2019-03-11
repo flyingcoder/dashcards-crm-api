@@ -29,6 +29,8 @@ class Invoice extends Model
         'company_logo'
     ];
 
+    protected static $logName = 'system';
+
     protected static $logAttributes = [
         'date',
         'user_id',

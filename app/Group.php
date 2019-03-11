@@ -20,6 +20,8 @@ class Group extends Role
 
     protected static $logAttributes = ['name'];
 
+    protected static $logName = 'system';
+
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A group has been {$eventName}";

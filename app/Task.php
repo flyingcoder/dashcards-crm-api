@@ -28,6 +28,8 @@ class Task extends Model
         'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
     ];
 
+    protected static $logName = 'system';
+
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A task has been {$eventName}";

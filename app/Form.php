@@ -17,7 +17,11 @@ class Form extends Model
 
     protected $fillable = ['title', 'status', 'questions'];
 
+    protected static $logName = 'system';
+
     protected $dates = ['deleted_at'];
+
+    protected static $logName = 'system';
 
     protected static $logAttributes = ['title', 'status', 'questions'];
 

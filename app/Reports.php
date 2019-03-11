@@ -18,6 +18,8 @@ class Reports extends Model
         'title', 'description', 'url', 'company_id'
     ];
 
+    protected static $logName = 'system';
+
     protected static $logAttributes = [
         'title', 'description', 'url', 'company_id'
     ];

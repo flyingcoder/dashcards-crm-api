@@ -22,6 +22,8 @@ class Milestone extends Model
         'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];
 
+    protected static $logName = 'system';
+
     protected static $logAttributes = [
         'title', 'project_id', 'started_at', 'end_at', 'days', 'status'
     ];

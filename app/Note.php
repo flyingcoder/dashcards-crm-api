@@ -15,6 +15,8 @@ class Note extends Model
 	protected $fillable = ['company_id', 'title', 'content', 'remind_date'];
 
 	protected $date = ['deleted_at'];
+    
+    protected static $logName = 'system';
 
     protected static $logAttributes = ['company_id', 'title', 'content', 'remind_date'];
 

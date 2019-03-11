@@ -20,6 +20,8 @@ class Service extends Model
         'user_id', 'name' 
     ];
 
+    protected static $logName = 'system';
+
     protected static $logAttributes = [
         'user_id', 'name' 
     ];

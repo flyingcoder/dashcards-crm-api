@@ -12,6 +12,8 @@ class Dashboard extends Model
 
 	protected $fillable = ['title', 'email', 'description'];
 
+    protected static $logName = 'system';
+
 	protected static $logAttributes = ['title', 'email', 'description'];
 
 	public function getDescriptionForEvent(string $eventName): string

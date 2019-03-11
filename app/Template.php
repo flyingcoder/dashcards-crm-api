@@ -20,6 +20,8 @@ class Template extends Model
         'company_id', 'status', 'name', 'replica_type'
     ];
 
+    protected static $logName = 'system';
+    
     protected static $logAttributes = [
         'company_id', 'status', 'name', 'replica_type'
     ];
