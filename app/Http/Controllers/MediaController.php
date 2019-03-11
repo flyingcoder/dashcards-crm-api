@@ -103,15 +103,15 @@ class MediaController extends Controller
 
         $log = auth()->user()->first_name.' linked a .'.request()->extention.' file.';
 
-        $activity = activity(auth()->user()->company()->name)
-                                   ->performedOn($project)
-                                   ->causedBy(auth()->user())
-                                   ->withProperties([
-                                      'company_id' => auth()->user()->company()->id,
-                                      'media' => $media,
-                                      'thumb_url' => $media->getUrl('thumb')
-                                    ])
-                                   ->log($log);
+        $activity = activity('files')
+                       ->performedOn($project)
+                       ->causedBy(auth()->user())
+                       ->withProperties([
+                          'company_id' => auth()->user()->company()->id,
+                          'media' => $media,
+                          'thumb_url' => $media->getUrl('thumb')
+                        ])
+                       ->log($log);
 
         $activity = Activity::latest()->first();
 
@@ -187,15 +187,15 @@ class MediaController extends Controller
 
         $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
 
-        activity(auth()->user()->company()->name)
-                              ->performedOn($project)
-                              ->causedBy(auth()->user())
-                              ->withProperties([
-                                    'company_id' => auth()->user()->company()->id,
-                                    'media' => $media,
-                                    'thumb_url' => $media->getUrl('thumb')
-                                  ])
-                              ->log($log);
+        activity('files')
+              ->performedOn($project)
+              ->causedBy(auth()->user())
+              ->withProperties([
+                    'company_id' => auth()->user()->company()->id,
+                    'media' => $media,
+                    'thumb_url' => $media->getUrl('thumb')
+                  ])
+              ->log($log);
 
 
 

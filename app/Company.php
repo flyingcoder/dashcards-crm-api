@@ -747,6 +747,7 @@ class Company extends Model
     public function allTimeline()
     {
         return $this->timeline()
+                    ->where('log_name', 'files')
                     ->latest()
                     ->get();
     }
