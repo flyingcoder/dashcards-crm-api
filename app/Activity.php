@@ -11,4 +11,6 @@ class Activity extends Act
     	return $this->belongsToMany(User::class, 'activity_user', 'activity_id', 'user_id')
     				->withPivot('read_at');
     }
+
+    
 }

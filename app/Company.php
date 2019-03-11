@@ -744,6 +744,14 @@ class Company extends Model
         return $activity;
     }
 
+    public function activityLog()
+    {
+        return $this->timeline()
+                    ->where('log_name', 'system')
+                    ->latest()
+                    ->get();
+    }
+
     public function allTimeline()
     {
         return $this->timeline()

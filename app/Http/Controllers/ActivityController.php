@@ -14,6 +14,13 @@ class ActivityController extends Controller
     	return $company->allTimeline();
     }
 
+    public function log()
+    {
+        $company = auth()->user()->company();
+        
+        return $company->activityLog();
+    }
+
     public function project($project_id)
     {
     	$project = Project::findOrFail($project_id);
