@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Http\Request;
-
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Milestone extends Model
 {
@@ -33,6 +34,11 @@ class Milestone extends Model
         'started_at' => 'required|date',
         'end_at' => 'required|date'
     ];
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
+    }
 
     public function getDescriptionForEvent(string $eventName): string
     {

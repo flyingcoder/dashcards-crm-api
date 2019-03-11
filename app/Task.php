@@ -9,16 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Task extends Model
 {
     use SoftDeletes, LogsActivity;
-
-     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
 
     protected $fillable = [
         'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
@@ -33,6 +29,11 @@ class Task extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A task has been {$eventName}";
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
     }
 
     protected $dates = ['deleted_at'];

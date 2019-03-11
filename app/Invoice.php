@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Invoice extends Model
 {
@@ -48,6 +50,11 @@ class Invoice extends Model
         'type',
         'company_logo'
     ];
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
+    }
 
     public function getDescriptionForEvent(string $eventName): string
     {

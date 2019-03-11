@@ -8,6 +8,8 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Group extends Role
 {
@@ -25,6 +27,11 @@ class Group extends Role
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A group has been {$eventName}";
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
     }
 
     public function sluggable()

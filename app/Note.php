@@ -6,7 +6,8 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
-
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Note extends Model
 {
@@ -24,6 +25,12 @@ class Note extends Model
     {
         return "A note has been {$eventName}";
     }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
+    }
+
 
     public function users()
     {

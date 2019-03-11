@@ -6,6 +6,8 @@ use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Service extends Model
 {
@@ -25,6 +27,11 @@ class Service extends Model
     protected static $logAttributes = [
         'user_id', 'name' 
     ];
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
+    }
 
     public function getDescriptionForEvent(string $eventName): string
     {

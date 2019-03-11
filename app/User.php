@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class User extends Authenticatable implements HasMediaConversions
 {
@@ -39,6 +41,11 @@ class User extends Authenticatable implements HasMediaConversions
     protected static $logAttributes = [
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
+    }
 
     public function getDescriptionForEvent(string $eventName): string
     {

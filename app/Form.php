@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Form extends Model
 {
@@ -28,6 +30,11 @@ class Form extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A form has been {$eventName}";
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
     }
 
     public function sluggable()

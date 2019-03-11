@@ -13,7 +13,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-
+use Spatie\Activitylog\Models\Activity;
+use App\Events\ActivityEvent;
 
 class Project extends Model implements HasMediaConversions
 {
@@ -32,6 +33,11 @@ class Project extends Model implements HasMediaConversions
     protected static $logAttributes = [
         'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
     ];
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        ActivityEvent::dispatch($activity);
+    }
 
     public function getDescriptionForEvent(string $eventName): string
     {
