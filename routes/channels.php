@@ -10,7 +10,9 @@
 | used to check if an authenticated user can listen to the channel.
 |
 */
-
+Broadcast::channel('activity.log.{id}', function ($user, $companyId) {
+    return (int) $user->id === (int) $id;
+});
 
 Broadcast::channel('auto-logout', function ($user, $id) {
     return true;
