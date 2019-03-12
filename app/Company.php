@@ -271,11 +271,6 @@ class Company extends Model
         return $calendars->paginate($this->paginate);
     }
 
-    public function allCompanyInvoices()
-    {
-        return $this->invoices()->get();
-    }
-
     public function paginatedCompanyInvoices(Request $request)
     {
         list($sortName, $sortValue) = parseSearchParam($request);
@@ -290,9 +285,15 @@ class Company extends Model
 
         $data = $invoices->paginate($this->paginate);
 
+        if(request()->has('all') && request()->all)
+            $data = $invoices->get();
+
         $data->map(function ($invoice) {
             $items = collect(json_decode($invoice->items));
             unset($invoice->items);
+            $url = url($invoice->company_logo);
+            unset($invoice->company_logo);
+            $invoice->company_logo = $url;
             $invoice->items = $items;
         });
 
