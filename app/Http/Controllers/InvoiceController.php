@@ -71,10 +71,11 @@ class InvoiceController extends Controller
             $invoice->discount = request()->discount;
 
         if(request()->hasFile('company_logo')) {
-            
+
             $media = $invoice->addMedia(request()->file('company_logo'))->toMediaCollection('invoice');
 
             $invoice->company_logo = url($media->getUrl());
+            
         }
 
         $invoice->save();

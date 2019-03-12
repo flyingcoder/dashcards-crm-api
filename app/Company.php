@@ -291,9 +291,6 @@ class Company extends Model
         $data->map(function ($invoice) {
             $items = collect(json_decode($invoice->items));
             unset($invoice->items);
-            $url = url($invoice->company_logo);
-            unset($invoice->company_logo);
-            $invoice->company_logo = $url;
             $invoice->items = $items;
         });
 
