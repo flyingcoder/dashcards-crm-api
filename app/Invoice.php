@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Models\Activity;
 use App\Events\ActivityEvent;
+use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Invoice extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes,
+        HasMediaTrait,
+        LogsActivity;
 
     protected $fillable = [
         'date',
