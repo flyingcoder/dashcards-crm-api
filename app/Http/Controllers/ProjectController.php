@@ -477,7 +477,7 @@ class ProjectController extends Controller
         //(new ProjectPolicy())->viewTask($project);
 
         //if user is admin return all task of a project
-        return $project->paginatedProjectTasks(request());
+        return $project->paginatedProjectTasks();
     }
 
     //will return all task of the project

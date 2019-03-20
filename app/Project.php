@@ -302,10 +302,8 @@ class Project extends Model implements HasMediaConversions
         return $this->hasManyThrough(Task::class, Milestone::class);
     }
 
-    public function paginatedProjectTasks(Request $request)
-    {
-        return $this->tasks()->get();
-        
+    public function paginatedProjectTasks()
+    { 
         $tasks = $this->tasks()
                       ->join('task_user as tu', 'tu.task_id', '=', 'tasks.id')
                       ->join('users', 'users.id', '=', 'tu.user_id')
@@ -315,9 +313,9 @@ class Project extends Model implements HasMediaConversions
                        'tasks.*')
                       ->where('tasks.deleted_at', null);
 
-        if( $request->has('sort') && !empty(request()->sort) ) {
+        if( request()->has('sort') && !empty(request()->sort) ) {
 
-            list($sortName, $sortValue) = parseSearchParam($request);
+            list($sortName, $sortValue) = parseSearchParam(request());
 
             $tasks->orderBy($sortName, $sortValue);
         }
