@@ -135,8 +135,6 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $task->assigned;
-
         $task->comments;
 
         $status = $task->timerStatus();
@@ -148,6 +146,11 @@ class TaskController extends Controller
         $task->put('total_time', $total_time);
 
         $task->put('timer_status', $status);
+
+        $task->assignee_url = '';
+
+        if(is_object($model->assigned()->first()))
+                $task->assignee_url = $task->assigned()->first()->image_url;
 
         return $task;
     }
