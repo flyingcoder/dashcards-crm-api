@@ -76,31 +76,31 @@ class Task extends Model
         return $this;
     }
 
-    public static function store(Request $request)
+    public static function store()
     {
-        if($request->started_at != null){
-            $request->validate([
+        if(request()->started_at != null){
+            request()->validate([
                 'end_at' => 'after:started_at',
             ]);
-            $started_at = $request->started_at;
-            $end_at = $request->end_at;
+            $started_at = request()->started_at;
+            $end_at = request()->end_at;
         }
         else{
             $started_at = date("Y-m-d",strtotime("now"));
-            $end_at = date("Y-m-d",strtotime($request->days . ' days'));
+            $end_at = date("Y-m-d",strtotime(request()->days . ' days'));
         }
         
         $task = self::create([
-            'title' =>$request->title,
-            'description' =>$request->description,
-            'milestone_id' =>$request->milestone_id,
+            'title' => request()->title,
+            'description' => request()->description,
+            'milestone_id' => request()->milestone_id,
             'started_at' =>$started_at,
             'end_at' =>$end_at,
             'status' => 'Open'
         ]);
 
-        if(!empty($request->members))
-            $task->assigned()->attach($request->members);
+        if(!empty(request()->members))
+            $task->assigned()->attach(request()->members);
 
         return [$task->save(), $task];
     }
