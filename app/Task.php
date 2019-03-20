@@ -99,10 +99,14 @@ class Task extends Model
             'status' => 'Open'
         ]);
 
-        if(!empty(request()->members))
-            $task->assigned()->attach(request()->members);
+        if(!empty(request()->assigned_id))
+            $task->assigned()->attach(request()->assigned_id);
 
-        return [$task->save(), $task];
+        $task->save();
+
+        $task->assigned_id = request()->assigned_id;
+
+        return $task;
     }
 
     public function timers()
