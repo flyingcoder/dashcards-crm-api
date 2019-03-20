@@ -99,8 +99,8 @@ class Task extends Model
             'status' => 'Open'
         ]);
 
-        if(!empty(request()->assigned_ids))
-            $task->assigned()->attach(request()->assigned_id);
+        if(request()->has('assigned_ids'))
+            $task->assigned()->sync(request()->assigned_ids);
 
         $task->save();
 
