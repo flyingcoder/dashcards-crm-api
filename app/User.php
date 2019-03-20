@@ -357,7 +357,7 @@ class User extends Authenticatable implements HasMediaConversions
 
         $data = $tasks->paginate($this->paginate);
 
-        $data = 
+        return $data;
     }
 
     public function projectsCount()
