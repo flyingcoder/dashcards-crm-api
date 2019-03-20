@@ -68,14 +68,15 @@ class Task extends Model
 
         $this->save();
 
-        if(request()->has('assigned_id') && !empty(request()->assigned_id))
+        if(request()->has('assigned_id') && !empty(request()->assigned_id)) {
             $this->assigned()->sync(request()->assigned_id);
 
-        $this->assigned_id = request()->assigned_id;
+            $this->assigned_id = request()->assigned_id;
 
-        $user = User::findOrFail(request()->assigned_id);
+            $user = User::findOrFail(request()->assigned_id);
 
-        $this->assignee_url = $user->image_url;
+            $this->assignee_url = $user->image_url;
+        }
 
         return $this;
     }
@@ -103,16 +104,17 @@ class Task extends Model
             'status' => 'Open'
         ]);
 
-        if(request()->has('assigned_ids'))
-            $task->assigned()->sync(request()->assigned_ids);
-
         $task->save();
 
-        $task->assigned_ids = request()->assigned_ids;
+        if(request()->has('assigned_ids')) {
+            $task->assigned()->sync(request()->assigned_ids);
 
-        $user = User::findOrFail(request()->assigned_ids);
+            $task->assigned_ids = request()->assigned_ids;
 
-        $task->assignee_url = $user->image_url;
+            $user = User::findOrFail(request()->assigned_ids);
+
+            $task->assignee_url = $user->image_url;
+        }
 
         return $task;
     }

@@ -333,7 +333,8 @@ class Project extends Model implements HasMediaConversions
 
         $data->map(function ($model) {
             $model['total_time'] = $model->total_time();
-            $model['assignee_url'] = $model->assigned()->first()->image_url;
+            if(!empty($model->assigned()->get()))
+                $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
         return $data;
