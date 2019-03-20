@@ -691,6 +691,7 @@ class Company extends Model
 
         $data->map(function ($model) {
             $model['total_time'] = $model->total_time();
+            $model['assignee_url'] = '';
             if(is_object($model->assigned()->first()))
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
