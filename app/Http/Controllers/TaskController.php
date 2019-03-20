@@ -149,7 +149,7 @@ class TaskController extends Controller
 
         $task->assignee_url = '';
 
-        if(is_object($model->assigned()->first()))
+        if(is_object($task->assigned()->first()))
                 $task->assignee_url = $task->assigned()->first()->image_url;
 
         return $task;
