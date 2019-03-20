@@ -366,7 +366,7 @@ class User extends Authenticatable implements HasMediaConversions
 
         $data->map(function ($model) {
             $model['total_time'] = $model->total_time();
-            if(!empty($model->assigned()->get()))
+            if(is_object($model->assigned()->first()))
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
