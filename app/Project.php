@@ -333,6 +333,7 @@ class Project extends Model implements HasMediaConversions
 
         $data->map(function ($model) {
             $model['total_time'] = $model->total_time();
+            $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
         return $data;
@@ -357,13 +358,20 @@ class Project extends Model implements HasMediaConversions
             $tasks->orderBy($sortName, $sortValue);
         }
 
-        if(request()->has('all') && request()->all)
-            return $tasks->get();
-
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $tasks->paginate($this->paginate);
+        $data = $tasks->paginate($this->paginate);
+
+        if(request()->has('all') && request()->all)
+            $data = $tasks->get();
+
+        $data->map(function ($model) {
+            $model['total_time'] = $model->total_time();
+            $model['assignee_url'] = $model->assigned()->first()->image_url;
+        });
+
+        return $data;
     }
     
     public function milestones()

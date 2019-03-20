@@ -73,6 +73,10 @@ class Task extends Model
 
         $this->assigned_id = request()->assigned_id;
 
+        $user = User::findOrFail(request()->assigned_id);
+
+        $this->assignee_url = $user->image_url;
+
         return $this;
     }
 
@@ -105,6 +109,10 @@ class Task extends Model
         $task->save();
 
         $task->assigned_ids = request()->assigned_ids;
+
+        $user = User::findOrFail(request()->assigned_ids);
+
+        $task->assignee_url = $user->image_url;
 
         return $task;
     }
