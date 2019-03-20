@@ -141,16 +141,18 @@ class TaskController extends Controller
 
         $total_time = $task->total_time();
 
+        $assignee_url = '';
+
+        if(is_object($task->assigned()->first()))
+                $assignee_url = $task->assigned()->first()->image_url;
+
         $task = collect(json_decode($task->toJson()));
 
         $task->put('total_time', $total_time);
 
         $task->put('timer_status', $status);
 
-        $task->assignee_url = '';
-
-        if(is_object($task->assigned()->first()))
-                $task->assignee_url = $task->assigned()->first()->image_url;
+        $task->put('assignee_url', $assignee_url);
 
         return $task;
     }
