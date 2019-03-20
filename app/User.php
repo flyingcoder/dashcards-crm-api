@@ -350,14 +350,12 @@ class User extends Authenticatable implements HasMediaConversions
         $tasks = $this->tasks();
 
         if(request()->has('all') && request()->all)
-            $data = $tasks->get();
+            return $tasks->get();
 
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        $data = $tasks->paginate($this->paginate);
-
-        return $data;
+        return $tasks->paginate($this->paginate);
     }
 
     public function projectsCount()
