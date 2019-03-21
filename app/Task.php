@@ -111,7 +111,7 @@ class Task extends Model
 
             $task->assigned_ids = request()->assigned_ids;
 
-            $user = User::findOrFail(request()->assigned_ids);
+            $user = User::findOrFail(request()->assigned_ids[0]);
 
             $task->assignee_url = $user->image_url;
         }
