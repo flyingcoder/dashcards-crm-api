@@ -487,7 +487,7 @@ class ProjectController extends Controller
 
         //(new ProjectPolicy())->view($project);
 
-        return $project->paginatedProjectMyTasks(request());
+        return $project->paginatedProjectMyTasks();
     }
 
     public function invoices($project_id){
