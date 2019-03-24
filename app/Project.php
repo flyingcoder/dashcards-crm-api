@@ -333,6 +333,7 @@ class Project extends Model implements HasMediaConversions
             $model['total_time'] = $model->total_time();
             $model['assignee_url'] = '';
             if(is_object($model->assigned()->first()))
+                $model['assignee_ids'] = $model->assigned()->first()->id;
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
