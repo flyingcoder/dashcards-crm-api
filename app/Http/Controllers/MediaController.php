@@ -73,7 +73,7 @@ class MediaController extends Controller
         $medias = $medias->latest()->paginate(10);
 
         $medias->map(function ($media) {
-           $media['download_url'] = URL::signedRoute('download', ['user' => auth()->user()->id]);
+           $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
            $media['public_url'] = url($media->getUrl());
            $media['thumb_url'] = url($media->getUrl('thumb'));
            return $media;
