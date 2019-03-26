@@ -379,7 +379,7 @@ class Company extends Model
 
         $model = $team->members()
                       ->select(
-                        'users.*'
+                        'users.*',
                         'users.is_online',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
                       )->orderBy('users.created_at', 'DESC');
