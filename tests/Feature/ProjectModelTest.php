@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
-    public function testProjectTasks()
+    public function testProjectMessages()
     {
         $this->withoutExceptionHandling();
 
@@ -18,7 +18,7 @@ class ProjectModelTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/1/tasks/mine?all=true');
+                         ->get('api/projects/2/messages?type=team');
 
         dd($response->content());
         $response->assertStatus(200);
@@ -48,7 +48,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/projects', $data);
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -62,7 +62,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects?page=1&search=ross&sort=&per_page=5');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -76,7 +76,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/1/tasks?all=true');
 
-        dd($response->content());
+       //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -93,12 +93,6 @@ class ProjectModelTest extends TestCase
         //dd($response->content());              
         $response->assertStatus(200);
     }
-
-    public function testMilestoneImport()
-    {
-        
-    }
-
     
     public function testProjectMember()
     {
