@@ -72,6 +72,7 @@ class MediaController extends Controller
         $medias = $medias->latest()->paginate(10);
 
         $medias->map(function ($media) {
+           $media['download'] = Storage::download($media->getUrl());
            $media['public_url'] = url($media->getUrl());
            $media['thumb_url'] = url($media->getUrl('thumb'));
            return $media;
