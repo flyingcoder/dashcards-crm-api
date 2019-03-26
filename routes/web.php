@@ -17,6 +17,12 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
+Route::group(['prefix' => 'download'], function () {
+
+  Route::get('/', 'HomeController@download');
+
+});
+
 Route::get('test-act', 'ActivityController@index');
 
 // Public routes

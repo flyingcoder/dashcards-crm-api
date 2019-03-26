@@ -18,12 +18,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'download'], function () {
-
-  Route::get('/', 'HomeController@download');
-
-});
-
 Route::group(['middleware' => 'auth:api', 'prefix' => 'note'], function () {
 
   Route::get('/', 'NoteController@index');

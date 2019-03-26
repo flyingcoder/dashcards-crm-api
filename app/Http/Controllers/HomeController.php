@@ -31,7 +31,7 @@ class HomeController extends Controller
     public function download()
     {
         $media = Media::findOrFail(request()->media_id);
-        
-        $media['download'] = Storage::download("public/".str_replace("storage/", "", $media->getUrl()));
+
+        return Storage::download("public/".str_replace("storage/", "", $media->getUrl()));
     }
 }
