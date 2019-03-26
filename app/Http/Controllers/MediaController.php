@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use App\Project;
 use Storage;
+use URL;
 
 class MediaController extends Controller
 {
@@ -72,6 +73,7 @@ class MediaController extends Controller
         $medias = $medias->latest()->paginate(10);
 
         $medias->map(function ($media) {
+           $media['download_url'] = URL::signedRoute('download', ['user' => auth()->user()->id]);
            $media['public_url'] = url($media->getUrl());
            $media['thumb_url'] = url($media->getUrl('thumb'));
            return $media;
