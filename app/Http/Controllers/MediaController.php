@@ -72,7 +72,8 @@ class MediaController extends Controller
         $medias = $medias->latest()->paginate(10);
 
         $medias->map(function ($media) {
-           $media['download'] = Storage::download("public/".$media->custom_properties->user->id."/".$media->file_name);
+           $user = json_decode($media->custom_properties);
+           $media['download'] = $user; //Storage::download("public/".."/".$media->file_name);
            $media['public_url'] = url($media->getUrl());
            $media['thumb_url'] = url($media->getUrl('thumb'));
            return $media;
