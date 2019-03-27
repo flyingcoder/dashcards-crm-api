@@ -10,6 +10,32 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testUpdateProject()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $model = Project::latest()->first();
+
+        $data = [
+            'title' => 'Test',
+            'client_id' => User::where('job_title','Client')->first()->id,
+            'service_id' => 1,
+            'start_at' => '2018-12-19',
+            'end_at' => '2018-12-19',
+            'location' => 'required',
+            'description' => 'required'
+        ];
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->put('api/projects/'.$model->id , $data);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testProjectMessages()
     {
         $this->withoutExceptionHandling();
@@ -20,7 +46,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/2/messages?type=team');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -175,32 +201,6 @@ class ProjectModelTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects/5');
-
-        //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    public function testUpdateProject()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $model = Project::latest()->first();
-
-        $data = [
-            'title' => 'Test',
-            'client_id' => User::where('job_title','Client')->first()->id,
-            'service_id' => 1,
-            'start_at' => '2018-12-19',
-            'end_at' => '2018-12-19',
-            'location' => 'required',
-            'description' => 'required'
-        ];
-        
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->put('api/projects/'.$model->id , $data);
 
         //dd($response->content());
         $response->assertStatus(200);
