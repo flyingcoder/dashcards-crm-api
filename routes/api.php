@@ -314,6 +314,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
 });
 
+//media
+Route::group(['middleware' => 'auth:api', 'prefix' => 'file'], function () {
+  Route::delete('{id}', 'MediaController@delete');
+}
+
 // Projects
 Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
