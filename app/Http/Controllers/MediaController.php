@@ -212,7 +212,7 @@ class MediaController extends Controller
         return $media->toJson();
     }
 
-    public function delete()
+    public function delete($id)
     {
         $model = Media::findOrFail($id);
         
