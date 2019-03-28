@@ -286,8 +286,8 @@ class ProjectController extends Controller
 
         (new ProjectPolicy())->update($project);
 
-        dd($project);
-        
+        dd($project->getManager());
+
         $project->title = request()->title;
         $project->service_id = request()->service_id;
         $project->description = request()->description;
