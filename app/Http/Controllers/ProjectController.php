@@ -175,7 +175,7 @@ class ProjectController extends Controller
         (new ProjectPolicy())->create();
 
         $clients =  Role::where('slug', 'client')->first()->users;
-        
+
         $company = Auth::user()->company();
 
         return view('pages.projects-new', [
@@ -286,6 +286,8 @@ class ProjectController extends Controller
 
         (new ProjectPolicy())->update($project);
 
+        dd($project);
+        
         $project->title = request()->title;
         $project->service_id = request()->service_id;
         $project->description = request()->description;
@@ -294,10 +296,10 @@ class ProjectController extends Controller
 
         if(request()->has('client_id')){
             if(count($project->client) == 0) {
-                $project->members()->attach(request()->client_id, ['role' => 'Client']);
+                $project->members()->sync(request()->client_id, ['role' => 'Client']);
             } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
                 $project->members()->detach($project->client()->first()->id);
-                $project->members()->attach(request()->client_id, ['role' => 'Client']);
+                $project->members()->sync(request()->client_id, ['role' => 'Client']);
             }
         }
 
