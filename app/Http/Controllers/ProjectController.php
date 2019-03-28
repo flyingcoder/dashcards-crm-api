@@ -285,15 +285,15 @@ class ProjectController extends Controller
 
         (new ProjectPolicy())->update($project);
 
+        $client_old = $project->getClient();
+
+        dd($client_old);
+
         $project->title = request()->title;
         $project->service_id = request()->service_id;
         $project->description = request()->description;
         $project->started_at = request()->start_at;
         $project->end_at = request()->end_at;
-
-        $client_old = $project->getClient();
-
-        dd($client_old);
 
         if(request()->has('client_id') && $client_old->id != request()->client_id){
             if(count($project->client) == 0) {
