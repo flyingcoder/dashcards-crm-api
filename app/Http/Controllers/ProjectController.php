@@ -293,6 +293,8 @@ class ProjectController extends Controller
 
         $client_old = $project->getClient();
 
+        dd($client_old);
+
         if(request()->has('client_id') && $client_old->id != request()->client_id){
             if(count($project->client) == 0) {
                 $project->members()->attach(request()->client_id, ['role' => 'Client']);
