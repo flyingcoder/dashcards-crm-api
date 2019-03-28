@@ -316,7 +316,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
 //media
 Route::group(['middleware' => 'auth:api', 'prefix' => 'file'], function () {
+
   Route::delete('{id}', 'MediaController@delete');
+
 });
 
 // Projects
@@ -359,6 +361,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::delete('{id}/member/{member_id}', 'ProjectController@removeMember');// project-hq
 
   Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
+
+  Route::get('{id}/new-members', 'ProjectController@newMembers');// project-hq
   
   Route::get('{id}/files-count', 'ProjectController@filesCount');
 

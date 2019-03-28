@@ -504,6 +504,25 @@ class ProjectController extends Controller
         return $project->paginatedMembers();
     }
 
+    public function newMembers($project_id)
+    {
+        $project = Project::findOrFail($project_id);
+
+        $p_members = $project->members()->get();
+
+        $company = auth()->user()->company();
+
+        $data = $company->members()->get();
+
+        $data->filter(function ($user, $key) use ($p_members) {
+            foreach ($p_members as $key => $pm) {
+                return $user->id == $pm->id;
+            }
+        });
+        
+        return $data;
+    }
+
     public function membersAll($project_id){
         $project = Project::findOrFail($project_id);
         return $project->members()->get();
