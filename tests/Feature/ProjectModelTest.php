@@ -20,7 +20,7 @@ class ProjectModelTest extends TestCase
         
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/'.$model->id.'/new-members');
+                         ->get('api/projects/1/new-members');
 
         dd($response->content());
         $response->assertStatus(200);

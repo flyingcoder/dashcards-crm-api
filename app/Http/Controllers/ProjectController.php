@@ -507,20 +507,27 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project_id);
 
-        $p_members = $project->members()->get();
+        $p_members = $project->members()
+                             ->select('users.id')
+                             ->get();
+
+        $p_members->map(function ($user){
+           unset($user->pivot);
+        });
+
+        $arr = $p_members->pluck('id');
 
         $company = auth()->user()->company();
 
-        $data = $company->members()
-                        ->select('users.*')
+        $c_user = $company->members()
+                        ->select('users.id')
                         ->get();
 
-        $data->filter(function ($user, $key) use ($p_members) {
-            foreach ($p_members as $key => $pm) {
-                return $user->id != $pm->id;
-            }
-        });
-        
+        foreach ($c_user as $key => $user) {
+            if(!in_array($user->id, $arr->all()))
+                $data[] = $user;
+        }
+
         return $data;
     }
 
