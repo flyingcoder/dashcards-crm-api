@@ -520,7 +520,7 @@ class ProjectController extends Controller
         $company = auth()->user()->company();
 
         $c_user = $company->members()
-                        ->select('users.id')
+                        ->select('users.*')
                         ->get();
 
         foreach ($c_user as $key => $user) {
