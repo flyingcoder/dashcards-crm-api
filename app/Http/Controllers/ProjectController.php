@@ -311,6 +311,8 @@ class ProjectController extends Controller
 
         $project->save();
 
+        return $project->manager()->get();
+
         $project->members;
 
         //create return
@@ -522,7 +524,7 @@ class ProjectController extends Controller
         $c_user = $company->allCompanyMembers();
 
         $data = [];
-        
+
         foreach ($c_user as $key => $user) {
             if(!in_array($user->id, $arr->all()))
                 $data[] = $user;
