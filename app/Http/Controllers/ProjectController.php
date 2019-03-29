@@ -311,7 +311,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return $project->manager()->get();
+        return $project;
 
         $project->members;
 
