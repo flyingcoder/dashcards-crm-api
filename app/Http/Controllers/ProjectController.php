@@ -311,12 +311,14 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return $project;
+        $p = Project::findOrFail($project->id);
 
-        $project->members;
+        $p->members;
+
+        return $p;
 
         //create return
-        $res = $project;
+        $res = $p;
 
         $res->client_id = $client->id;
 
