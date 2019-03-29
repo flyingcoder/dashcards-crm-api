@@ -294,10 +294,10 @@ class ProjectController extends Controller
 
         if(request()->has('client_id')){
             if(count($project->client) == 0) {
-                $project->members()->sync(request()->client_id, ['role' => 'Client']);
+                $project->members()->attach(request()->client_id, ['role' => 'Client']);
             } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
-                //$project->members()->detach($project->client()->first()->id);
-                $project->members()->sync(request()->client_id, ['role' => 'Client']);
+                $project->members()->detach($project->client()->first()->id);
+                $project->members()->attach(request()->client_id, ['role' => 'Client']);
             }
         }
 
@@ -311,20 +311,18 @@ class ProjectController extends Controller
 
         $project->save();
 
-        $p = Project::findOrFail($project->id);
-
-        $p->members;
+        $project->members;
 
         //create return
-        $res = $p;
+        $res = $project;
 
         $res->client_id = $client->id;
 
         $res->service_id = request()->service_id;
 
-        $res->manager_id = $p->getManager()->id;
+        $res->manager_id = $project->getManager()->id;
 
-        $res->manager_name = ucfirst($p->getManager()->last_name).", ".ucfirst($p->getManager()->first_name);
+        $res->manager_name = ucfirst($project->getManager()->last_name).", ".ucfirst($project->getManager()->first_name);
 
         $res->client_image_url = $client->image_url;
 
@@ -334,7 +332,7 @@ class ProjectController extends Controller
 
         $res->progress = 0;
 
-        $res->service_name = ucfirst($p->service->name);
+        $res->service_name = ucfirst($project->service->name);
 
         return $res;
     }
