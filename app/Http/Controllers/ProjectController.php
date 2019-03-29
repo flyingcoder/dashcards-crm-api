@@ -519,10 +519,10 @@ class ProjectController extends Controller
 
         $company = auth()->user()->company();
 
-        $c_user = $company->members()
-                        ->select('users.*')
-                        ->get();
+        $c_user = $company->allCompanyMembers();
 
+        $data = [];
+        
         foreach ($c_user as $key => $user) {
             if(!in_array($user->id, $arr->all()))
                 $data[] = $user;
