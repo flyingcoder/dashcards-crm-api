@@ -511,11 +511,13 @@ class ProjectController extends Controller
 
         $company = auth()->user()->company();
 
-        $data = $company->members()->get();
+        $data = $company->members()
+                        ->select('users.*')
+                        ->get();
 
         $data->filter(function ($user, $key) use ($p_members) {
             foreach ($p_members as $key => $pm) {
-                return $user->id == $pm->id;
+                return $user->id != $pm->id;
             }
         });
         

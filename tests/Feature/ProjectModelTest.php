@@ -10,6 +10,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testProjectNewMembers()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $model = Project::latest()->first();
+        
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/'.$model->id.'/new-members');
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testUpdateProject()
     {
         $this->withoutExceptionHandling();
@@ -33,22 +49,6 @@ class ProjectModelTest extends TestCase
                          ->put('api/projects/'.$model->id , $data);
 
         //dd($response->content());
-        $response->assertStatus(200);
-    }
-    
-    public function testProjectNewMembers()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $model = Project::latest()->first();
-        
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/'.$model->id.'/new-members');
-
-        //d($response->content());
         $response->assertStatus(200);
     }
 
