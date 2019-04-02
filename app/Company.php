@@ -385,7 +385,7 @@ class Company extends Model
                       )->orderBy('users.created_at', 'DESC');
 
         if(request()->has('for') && request()->for == 'project')
-            $model->where('users.id', '!=', auth()->id);
+            $model->where('users.id', '!=', auth()->user()->id);
 
         return $model->get();
                     

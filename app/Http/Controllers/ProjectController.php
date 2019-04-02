@@ -464,7 +464,8 @@ class ProjectController extends Controller
           $videos = $project->getMedia('project.files.videos')->count();
           $documents = $project->getMedia('project.files.documents')->count();
 		  $others = $project->getMedia('project.files.others')->count();
-		  return response()->json([ 'images' => $images, 
+		  return response()->json([ 
+                            'images' => $images, 
 							'videos' => $videos, 
 							'documents' => $documents, 
 							'others' => $others
