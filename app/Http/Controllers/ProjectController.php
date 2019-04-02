@@ -305,7 +305,9 @@ class ProjectController extends Controller
             foreach (request()->members as $value) {
                 if($value == request()->client_id)
                     abort(422, "Client can't be a member");
-                $project->members()->attach($value);
+
+                if(!$project->members->contains($value))
+                    $project->members()->attach($value, ['role' => 'Members']);
             }
         }
 
