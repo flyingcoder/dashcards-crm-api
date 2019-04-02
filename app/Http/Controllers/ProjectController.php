@@ -197,89 +197,79 @@ class ProjectController extends Controller
             'client_id' => 'required'
         ]);
         
-        try{
+        DB::beginTransaction();
 
-            DB::beginTransaction();
+        $project = Project::create([
+            'title' => request()->title,
+            //'location' => request()->location,
+            'service_id' => request()->service_id,
+            'description' => request()->description,
+            'started_at' => request()->start_at,
+            'end_at' => request()->end_at,
+            'status' => 'Active',
+            'company_id' => auth()->user()->company()->id
+        ]);
 
-            $project = Project::create([
-                'title' => request()->title,
-                //'location' => request()->location,
-                'service_id' => request()->service_id,
-                'description' => request()->description,
-                'started_at' => request()->start_at,
-                'end_at' => request()->end_at,
-                'status' => 'Active',
-                'company_id' => auth()->user()->company()->id
+        if(request()->has('comment') && request()->comment != ''){
+
+            $comment = new Comment([ 
+                'body' => request()->comment,
+                'causer_id' => auth()->user()->id,
+                'causer_type' => 'App\User'
             ]);
 
-            if(request()->has('comment') && request()->comment != ''){
-
-                $comment = new Comment([ 
-                    'body' => request()->comment,
-                    'causer_id' => auth()->user()->id,
-                    'causer_type' => 'App\User'
-                ]);
-
-                $new_comment = $project->comments()->save($comment);
-            }
-
-            
-            $project->members()->attach(request()->client_id, ['role' => 'Client']);
-
-            $project->members()->attach(Auth::user()->id, ['role' => 'Manager']);
-
-            if(request()->has('members')){
-                if(in_array(request()->client_id, request()->members)){
-                    DB::rollback();
-                    return response('Client cant be a member', 422);
-                }
-                elseif(in_array(Auth::user()->id, request()->members)){
-                    DB::rollback();
-                    return response('Manager cant be a member', 422);
-                }
-                foreach (request()->members as $value) {
-                    $project->members()->attach($value, ['role' => 'Members']);
-                }
-            }
-
-            $client = User::findOrFail(request()->client_id);
-
-            DB::commit();
-
-            //create return
-            unset($project->members);
-
-            $project->members = $project->members()->wherePivot(['role', 'Members'])->get();
-
-            $res = $project;
-
-            $res->client_id = $client->id;
-
-            $res->service_id = request()->service_id;
-
-            $res->manager_id = auth()->user()->id;
-
-            $res->manager_name = ucfirst(auth()->user()->last_name).", ".ucfirst(auth()->user()->first_name);
-
-            $res->client_image_url = $client->image_url;
-
-            $res->client_name = ucfirst($client->last_name).", ".ucfirst($client->first_name);
-
-            $res->total_time = "00:00:00";
-
-            $res->progress = 0;
-
-            $res->service_name = ucfirst($project->service->name);
-
-            return $res;
-
-        } catch(\Exception $e){
-
-            DB::rollback();      
-
-            return response($e->getMessage(), 500);
-            
+            $new_comment = $project->comments()->save($comment);
         }
+
+        
+        $project->members()->attach(request()->client_id, ['role' => 'Client']);
+
+        $project->members()->attach(Auth::user()->id, ['role' => 'Manager']);
+
+        if(request()->has('members')){
+            if(in_array(request()->client_id, request()->members)){
+                DB::rollback();
+                return response('Client cant be a member', 422);
+            }
+            elseif(in_array(Auth::user()->id, request()->members)){
+                DB::rollback();
+                return response('Manager cant be a member', 422);
+            }
+            foreach (request()->members as $value) {
+                $project->members()->attach($value, ['role' => 'Members']);
+            }
+        }
+
+        $client = User::findOrFail(request()->client_id);
+
+        DB::commit();
+
+        //create return
+        unset($project->members);
+
+        $project->members = $project->members()->wherePivot(['role', 'Members'])->get();
+
+        $res = $project;
+
+        $res->client_id = $client->id;
+
+        $res->service_id = request()->service_id;
+
+        $res->manager_id = auth()->user()->id;
+
+        $res->manager_name = ucfirst(auth()->user()->last_name).", ".ucfirst(auth()->user()->first_name);
+
+        $res->client_image_url = $client->image_url;
+
+        $res->client_name = ucfirst($client->last_name).", ".ucfirst($client->first_name);
+
+        $res->total_time = "00:00:00";
+
+        $res->progress = 0;
+
+        $res->service_name = ucfirst($project->service->name);
+
+        return $res;
     }
 
     public function update($id, ProjectRequest $request)
