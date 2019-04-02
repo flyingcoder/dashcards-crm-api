@@ -247,7 +247,7 @@ class ProjectController extends Controller
         //create return
         unset($project->members);
 
-        $project->members = $project->members()->wherePivot(['role', 'Members'])->get();
+        $project->members = $project->getMembers()->wherePivot(['role', 'Members'])->get();
 
         $res = $project;
 

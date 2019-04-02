@@ -465,6 +465,13 @@ class Project extends Model implements HasMediaConversions
                     ->wherePivot('role', 'Client');
     }
 
+    public function getMembers()
+    {
+        return $this->belongsToMany(User::class)
+                    ->wherePivot('role', 'Members')
+                    ->get();
+    }
+
     public function getClient()
     {
         return $this->client()->first();
