@@ -307,7 +307,9 @@ class ProjectController extends Controller
 
         $project->save();
 
-        $project->members;
+        unset($project->members);
+
+        $project->members = $project->getMembers();
 
         //create return
         $res = $project;
