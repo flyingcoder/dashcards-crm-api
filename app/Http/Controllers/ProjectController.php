@@ -293,15 +293,17 @@ class ProjectController extends Controller
         $project->end_at = request()->end_at;
 
         if(request()->has('client_id')){
-             $project->members()->detach($project->client()->first()->id);
-             $project->members()->attach(request()->client_id, ['role' => 'Client']);
+            if(count($project->client) == 0) {
+                $project->members()->attach(request()->client_id, ['role' => 'Client']);
+            } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
+                $project->members()->detach($project->client()->first()->id);
+                $project->members()->attach(request()->client_id, ['role' => 'Client']);
+            }
         }
 
         if(request()->has('members')) {
-            $members = $project->members;
             foreach (request()->members as $value) {
-                if(!$members->contains($value))
-                    $project->members()->attach($value);
+                $project->members()->attach($value);
             }
         }
 
@@ -460,8 +462,7 @@ class ProjectController extends Controller
           $videos = $project->getMedia('project.files.videos')->count();
           $documents = $project->getMedia('project.files.documents')->count();
 		  $others = $project->getMedia('project.files.others')->count();
-		  return response()->json([ 
-                            'images' => $images, 
+		  return response()->json([ 'images' => $images, 
 							'videos' => $videos, 
 							'documents' => $documents, 
 							'others' => $others
