@@ -320,8 +320,6 @@ class ProjectController extends Controller
 
         $res->service_id = request()->service_id;
 
-        $res->manager_id = $project->getManager()->id;
-
         $res->manager_name = ucfirst($project->getManager()->last_name).", ".ucfirst($project->getManager()->first_name);
 
         $res->client_image_url = $client->image_url;
