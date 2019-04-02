@@ -304,7 +304,7 @@ class ProjectController extends Controller
         if(request()->has('members')) {
             $members = $project->members;
             foreach (request()->members as $value) {
-                if(!$members->contains($valu))
+                if(!$members->contains($value))
                     $project->members()->attach($value);
             }
         }
