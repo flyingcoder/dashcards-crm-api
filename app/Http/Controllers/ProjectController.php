@@ -303,6 +303,8 @@ class ProjectController extends Controller
 
         if(request()->has('members')) {
             foreach (request()->members as $value) {
+                if($value == request()->client_id)
+                    abort(422, "Client can't be a member");
                 $project->members()->attach($value);
             }
         }
