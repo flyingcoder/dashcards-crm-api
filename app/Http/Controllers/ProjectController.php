@@ -293,12 +293,8 @@ class ProjectController extends Controller
         $project->end_at = request()->end_at;
 
         if(request()->has('client_id')){
-            if(count($project->client) == 0) {
-                $project->members()->attach(request()->client_id, ['role' => 'Client']);
-            } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
-                $project->members()->detach($project->client()->first()->id);
-                $project->members()->attach(request()->client_id, ['role' => 'Client']);
-            }
+             $project->members()->detach($project->client()->first()->id);
+             $project->members()->attach(request()->client_id, ['role' => 'Client']);
         }
 
         if(request()->has('members')) {
