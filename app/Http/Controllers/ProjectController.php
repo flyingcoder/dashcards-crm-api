@@ -302,8 +302,10 @@ class ProjectController extends Controller
         }
 
         if(request()->has('members')) {
+            $members = $project->members;
             foreach (request()->members as $value) {
-                $project->members()->sync(request()->members);
+                if(!$members->contains($valu))
+                    $project->members()->attach($value);
             }
         }
 
@@ -319,6 +321,8 @@ class ProjectController extends Controller
         $res->client_id = $client->id;
 
         $res->service_id = request()->service_id;
+
+        $res->manager_id = $project->getManager()->id;
 
         $res->manager_name = ucfirst($project->getManager()->last_name).", ".ucfirst($project->getManager()->first_name);
 
