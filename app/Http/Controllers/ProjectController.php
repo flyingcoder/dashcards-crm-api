@@ -247,7 +247,9 @@ class ProjectController extends Controller
             DB::commit();
 
             //create return
-            $project->members;
+            unset($project->members);
+
+            $project->members = $project->members()->wherePivot(['role', 'Members'])->get();
 
             $res = $project;
 
