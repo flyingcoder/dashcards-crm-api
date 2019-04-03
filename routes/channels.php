@@ -10,6 +10,7 @@
 | used to check if an authenticated user can listen to the channel.
 |
 */
+
 Broadcast::channel('activity.log.{id}', function ($user, $companyId) {
     return (int) $user->id === (int) $id;
 });
@@ -52,9 +53,13 @@ Broadcast::channel('comment.task.{taskId}', function ($comment, $taskId) {
 	}
 });
 
+use App\Project;
 
-Broadcast::channel('project.notification.{companyId}', function ($user, $companyId) {
-	if((int) $user->company()->id === (int) $companyId){
+Broadcast::channel('project.new-message.{projectId}', function ($user, $projectId) {
+
+	$project = Project::findOrFail($projectId);
+	$user_id = (int) $user->id;
+
+	if($project->members->contains($user_id))
 		return $user;
-	}
 });

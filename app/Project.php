@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\Activitylog\Models\Activity;
 use App\Events\ActivityEvent;
+use App\Events\ProjectMessage;
 
 class Project extends Model implements HasMediaConversions
 {
@@ -68,10 +69,14 @@ class Project extends Model implements HasMediaConversions
 
         $from = User::findOrFail(request()->from_id);
 
-        return Chat::message(request()->message)
+        $message = Chat::message(request()->message)
                    ->from($from)
                    ->to($convo)
                    ->send();
+
+        ProjectMessage::dispatch($message, $from);
+
+        return $message;
     }
 
     public function messages()
