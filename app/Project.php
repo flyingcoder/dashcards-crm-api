@@ -50,15 +50,13 @@ class Project extends Model implements HasMediaConversions
         return $this->hasMany(Conversation::class);
     }
 
-    public function sendMessages($id)
+    public function sendMessages()
     {
         request()->validate([
             'type' => 'required',
             'message' => 'required|string',
             'from_id' => 'required|exists:users,id'
         ]);
-
-        $project = Project::findOrFail($id);
 
         $model = $this->conversations();
 
@@ -71,14 +69,10 @@ class Project extends Model implements HasMediaConversions
 
         $from = User::findOrFail(request()->from_id);
 
-        $message = Chat::message(request()->message)
+        return Chat::message(request()->message)
                    ->from($from)
                    ->to($convo)
                    ->send();
-
-        ProjectMessage::dispatch($message, $project);
-
-        return $message;
     }
 
     public function messages()

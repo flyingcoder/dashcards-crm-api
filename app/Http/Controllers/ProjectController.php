@@ -38,7 +38,11 @@ class ProjectController extends Controller
     {
         $model = Project::findOrFail($id);
 
-        return $model->sendMessages();
+        $message = $model->sendMessages();
+
+        ProjectMessage::dispatch($message, $model->id);
+
+        return $message;
     }
 
     public function messages($id)
