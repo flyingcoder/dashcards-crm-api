@@ -135,6 +135,8 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
+        $task->assigned;
+        
         $assigned = $task->assigned()->get();
         
         $task->comments;
