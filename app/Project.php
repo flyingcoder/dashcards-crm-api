@@ -330,6 +330,7 @@ class Project extends Model implements HasMediaConversions
                 $arr[] = $value->id;
             }
             $model['assigned_id'] = $arr;
+            $model['assigned_ids'] = $arr;
 
             if(is_object($model->assigned()->first()))
                 $model['assignee_ids'] = $model->assigned()->first()->id;
