@@ -156,6 +156,14 @@ class TaskController extends Controller
 
         $task->put('assignee_url', $assignee_url);
 
+        $arr = [];
+        foreach ($task->assigned()->get() as $key => $value) {
+            $arr[] = $value->id;
+        }
+
+        $task->put('assigned_ids', $arr);
+        $task->put('assigned_id', $arr);
+
         return $task;
     }
 
