@@ -135,7 +135,7 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $task->assigned;
+        $assigned = $task->assigned()->get();
         
         $task->comments;
 
@@ -157,7 +157,7 @@ class TaskController extends Controller
         $task->put('assignee_url', $assignee_url);
 
         $arr = [];
-        foreach ($task->assigned as $key => $value) {
+        foreach ($assigned as $key => $value) {
             $arr[] = $value->id;
         }
 
