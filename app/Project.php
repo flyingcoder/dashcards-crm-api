@@ -307,9 +307,6 @@ class Project extends Model implements HasMediaConversions
         $tasks = $this->tasks()
                       ->where('tasks.deleted_at', null);
 
-
-        return $tasks->assigned;
-
         if( request()->has('sort') && !empty(request()->sort) ) {
 
             list($sortName, $sortValue) = parseSearchParam(request());
@@ -325,11 +322,15 @@ class Project extends Model implements HasMediaConversions
         if(request()->has('all') && request()->all)
             $data = $tasks->get();
         
-
         $data->map(function ($model) {
             $model['total_time'] = $model->total_time();
             $model['assignee_url'] = '';
-            $model['assigned_id'] = $model->assigned;
+            $arr = [];
+            foreach ($model->assigned()->get() as $key => $value) {
+                $arr[] = $value->id;
+            }
+            $model['assigned_id'] = $arr;
+
             if(is_object($model->assigned()->first()))
                 $model['assignee_ids'] = $model->assigned()->first()->id;
                 $model['assignee_url'] = $model->assigned()->first()->image_url;

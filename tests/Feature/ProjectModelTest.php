@@ -10,6 +10,35 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectModelTest extends TestCase
 {
+    public function testProjectTasks()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/1/tasks?all=true');
+
+       dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    public function testProjectMember()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $model = Project::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/projects/'.$model->id.'/member?all=true');
+
+        //dd($response->content());
+        $response->assertStatus(200);
+    }
 
     public function testProjects()
     {
@@ -21,7 +50,7 @@ class ProjectModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/projects');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -109,20 +138,6 @@ class ProjectModelTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testProjectTasks()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/1/tasks?all=true');
-
-       //dd($response->content());
-        $response->assertStatus(200);
-    }
-
     public function testProjectActivity()
     {
         $this->withoutExceptionHandling();
@@ -134,22 +149,6 @@ class ProjectModelTest extends TestCase
                          ->get('api/projects/1/timeline');
 
         //dd($response->content());              
-        $response->assertStatus(200);
-    }
-    
-    public function testProjectMember()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $model = Project::all()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/projects/'.$model->id.'/member?sort=&page=1&search=');
-
-        //dd($response->content());
         $response->assertStatus(200);
     }
 
