@@ -71,7 +71,7 @@ class Task extends Model
         if(request()->has('assigned_id') && !empty(request()->assigned_id)) {
             $this->assigned()->sync(request()->assigned_id);
 
-            $this->assigned_id = request()->assigned_id[0];
+            $this->assigned_id = request()->assigned_id;
 
             $user = User::findOrFail(request()->assigned_id[0]);
 

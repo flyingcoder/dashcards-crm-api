@@ -138,7 +138,7 @@ class Milestone extends Model
         if(request()->has('assigned_id')) 
             $task->assigned()->sync(request()->assigned_id);
 
-        $task->assigned_id = (array) request()->assigned_id;
+        $task->assigned_id = request()->assigned_id;
 
         return $task;
     }
