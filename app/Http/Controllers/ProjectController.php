@@ -423,6 +423,14 @@ class ProjectController extends Controller
 
         $project->tasks->map(function ($item, $key) {
             $item['total_time'] = $item->total_time();
+            $loc = $project->getClient()->getMeta('location');
+            
+            if(is_null($loc))
+                $item['location'] = '';
+            else
+                $item['location'] = $loc;
+
+            $item['company_name'] = $project->getClient()->getMeta('company_name');
         });
 
         return $project;
