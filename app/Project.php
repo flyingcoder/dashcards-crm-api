@@ -303,21 +303,12 @@ class Project extends Model implements HasMediaConversions
     }
 
     public function paginatedProjectTasks()
-    { 
-        /*
-        $tasks = $this->tasks()
-                      ->join('task_user as tu', 'tu.task_id', '=', 'tasks.id')
-                      ->join('users', 'users.id', '=', 'tu.user_id')
-                      ->select(
-                        'users.image_url as image',
-                       DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS assignee'),
-                       'tasks.*')
-                      ->where('tasks.deleted_at', null);
-
-        */
-
+    {
         $tasks = $this->tasks()
                       ->where('tasks.deleted_at', null);
+
+
+        return $tasks->assigned;
 
         if( request()->has('sort') && !empty(request()->sort) ) {
 
@@ -338,7 +329,7 @@ class Project extends Model implements HasMediaConversions
         $data->map(function ($model) {
             $model['total_time'] = $model->total_time();
             $model['assignee_url'] = '';
-            $model['assigned_id'] = $model->assigned();
+            $model['assigned_id'] = $model->assigned;
             if(is_object($model->assigned()->first()))
                 $model['assignee_ids'] = $model->assigned()->first()->id;
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
@@ -467,8 +458,13 @@ class Project extends Model implements HasMediaConversions
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        return $model->with('tasks')->paginate($this->paginate);
 
+        $data = $model->with('tasks')->paginate($this->paginate);
+
+        if(request()->has('all') && request()->all)
+            $data = $model->with('tasks')->get();
+
+        return $data;
     }
 
     public function client()
