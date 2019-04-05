@@ -333,7 +333,10 @@ class Project extends Model implements HasMediaConversions
 
             if(is_object($model->assigned()->first()))
                 $model['assignee_ids'] = $model->assigned()->first()->id;
-                $model['assignee_url'] = $model->assigned()->first()->image_url;
+                if(is_null($model->assigned()->first()))
+                    $model['assignee_url'] = '';
+                else
+                    $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
         return $data;
