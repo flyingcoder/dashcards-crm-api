@@ -17,6 +17,7 @@ use App\Policies\ProjectPolicy;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\ProjectRequest;
+use App\Events\ProjectMessage;
 use DB;
 
 class ProjectController extends Controller

@@ -15,7 +15,6 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\Activitylog\Models\Activity;
 use App\Events\ActivityEvent;
-use App\Events\ProjectMessage;
 
 class Project extends Model implements HasMediaConversions
 {
