@@ -584,7 +584,6 @@ class Company extends Model
                     'manager.id AS manager_id',
                     DB::raw('CONCAT(CONCAT(UCASE(LEFT(manager.last_name, 1)), SUBSTRING(manager.last_name, 2)), ", ", CONCAT(UCASE(LEFT(manager.first_name, 1)), SUBSTRING(manager.first_name, 2))) AS manager_name'),
                     'client.image_url as client_image_url',
-                    DB::raw('CONCAT(CONCAT(UCASE(LEFT(client.last_name, 1)), SUBSTRING(client.last_name, 2)), ", ", CONCAT(UCASE(LEFT(client.first_name, 1)), SUBSTRING(client.first_name, 2))) AS client_name'),
                     'projects.*',
                     DB::raw('CONCAT(UCASE(LEFT(services.name, 1)), SUBSTRING(services.name, 2)) as service_name')
                  )->where('projects.deleted_at', null);
@@ -634,6 +633,16 @@ class Company extends Model
             $project['tasks'] = $project->tasks()->count();
             $members = $project->members()->where('project_user.role', 'Members')->get();
             $project['members'] = $members;
+
+            $user = User::findOrFail($project->client_id);
+
+            if(is_null($user->getMeta('location')))
+                $project['location'] = '';
+            else
+                $project['location'] = $user->getMeta('location');
+
+            $project['business_name'] = $user->getMeta('company_name');
+
             return $project;
         });
 
