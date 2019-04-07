@@ -442,11 +442,11 @@ class ProjectController extends Controller
          $loc = $project->getClient()->getMeta('location');
             
         if(is_null($loc))
-            $item['location'] = '';
+            $project->location = '';
         else
-            $item['location'] = $loc;
+            $project->location = $loc;
 
-        $item['company_name'] = $project->getClient()->getMeta('company_name');
+        $project->business_name = $project->getClient()->getMeta('company_name');
 
         return $project;
     }
