@@ -258,6 +258,13 @@ class ProjectController extends Controller
 
         $res->client_id = $client->id;
 
+        if(is_null($client->getMeta('location')))
+            $project->location = '';
+        else
+            $project->location = $client->getMeta('location');
+
+        $project->business_name = $client->getMeta('company_name');
+
         $res->service_id = request()->service_id;
 
         $res->manager_id = auth()->user()->id;
@@ -320,6 +327,13 @@ class ProjectController extends Controller
         $res = $project;
 
         $res->client_id = $client->id;
+
+        if(is_null($client->getMeta('location')))
+            $project->location = '';
+        else
+            $project->location = $client->getMeta('location');
+
+        $project->business_name = $client->getMeta('company_name');
 
         $res->service_id = request()->service_id;
 
