@@ -446,7 +446,7 @@ class ProjectController extends Controller
         else
             $project->location = $loc;
 
-        $project->business_name = $project->getClient()->getMeta('company_name');
+        $project->business = $project->getClient()->getMeta('company_name');
 
         return $project;
     }
