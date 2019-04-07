@@ -69,8 +69,6 @@ class ServiceController extends Controller
 
             $res = [];
 
-            (new ServicePolicy())->create();
-
             foreach($services as $s){
                 $service = Service::create([
                             'user_id' => Auth::user()->id,

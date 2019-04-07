@@ -53,7 +53,7 @@ class ServicePolicy
      */
     public function create()
     {
-       if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('create.service') )
+       if( !auth()->user()->hasRole('admin|manager') && !auth()->user()->can('create.service') )
           abort(403, 'Not enought permission to create a service!');
     }
 
@@ -66,7 +66,7 @@ class ServicePolicy
      */
     public function update()
     {
-        if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('update.service') )
+        if(!auth()->user()->hasRole('admin') && !auth()->user()->can('update.service') )
           abort(403, 'Not enought permission!');
     }
 
