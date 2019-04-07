@@ -177,7 +177,7 @@ class Project extends Model implements HasMediaConversions
                                           ->first();
 
                         if(!$this->members->contains($role_user))
-                            $this->members()->attach($role_user->id, ['role' => 'Members']);
+                            $this->members()->attach($role_user, ['role' => 'Members']);
 
                         $new_task->assigned()->attach($role_user->id);
 
