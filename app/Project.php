@@ -176,10 +176,8 @@ class Project extends Model implements HasMediaConversions
                                                    })
                                           ->first();
 
-                        $project = $new_milestone->project;
-
-                        if(!$project->members->contains($role_user))
-                            $project->members()->attach($role_user->id, ['role' => 'Members']);
+                        if(!$this->members->contains($role_user))
+                            $this->members()->attach($role_user->id, ['role' => 'Members']);
 
                         $new_task->assigned()->attach($role_user->id);
 
