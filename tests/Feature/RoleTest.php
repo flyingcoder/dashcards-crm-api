@@ -8,6 +8,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RoleTest extends TestCase
 {
+    public function testCompanyRole()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/test');
+        
+        dd($response->content());
+        $response->assertStatus(200);
+    }
 
     public function testGroupMembers()
     {

@@ -163,18 +163,22 @@ class Project extends Model implements HasMediaConversions
                         'days' => $task->days
                    ]);
 
-                   if(empty($task->role_id)) {
+                   if(!empty($task->role_id)) {
 
-                        $role = Role::findOrFail($task->role_id);
+                        $role_user = auth()->user()
+                                          ->company()
+                                          ->members()
+                                          ->join('role_user as ru', function($join) use ($role_id) {
+                                                        $join->on('ru.user_id', '=', 'users.id')
+                                                             ->where('ru.role_id', $role_id);
+                                                   })
+                                          ->first();
 
-                        foreach ($role->users as $key => $user) {
+                        $project = $new_milestone->project;
 
-                           $new_task->assigned()->attach($member);
+                        $project->members()->attach($role_user->id);
 
-                            $project = $new_milestone->project;
-
-                            $project->members()->attach($member);
-                        }
+                        $new_task->assigned()->attach($role_user->id);
 
                    }
 
