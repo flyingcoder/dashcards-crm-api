@@ -165,6 +165,8 @@ class Project extends Model implements HasMediaConversions
 
                    if(!empty($task->role_id)) {
 
+                        $role_id = $task->role_id;
+                        
                         $role_user = auth()->user()
                                           ->company()
                                           ->members()
