@@ -166,7 +166,7 @@ class Project extends Model implements HasMediaConversions
                    if(!empty($task->role_id)) {
 
                         $role_id = $task->role_id;
-                        
+
                         $role_user = auth()->user()
                                           ->company()
                                           ->members()
@@ -178,7 +178,8 @@ class Project extends Model implements HasMediaConversions
 
                         $project = $new_milestone->project;
 
-                        $project->members()->attach($role_user->id);
+                        if(!$project->members()->contains($role_user))
+                            $project->members()->attach($role_user->id, ['role', 'Members']);
 
                         $new_task->assigned()->attach($role_user->id);
 
