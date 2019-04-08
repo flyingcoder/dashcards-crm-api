@@ -8,6 +8,21 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserModelTest extends TestCase
 {
+    public function testCountProject()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::find(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->delete('api/clients/3');
+
+        //dd($response->exception->validator->messages());
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
     public function testLogout()
     {
         $this->withoutExceptionHandling();
@@ -18,7 +33,7 @@ class UserModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/logout');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
 
     }

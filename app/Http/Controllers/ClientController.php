@@ -252,9 +252,9 @@ class ClientController extends Controller
     {
         $client = User::findOrFail($id);
 
-        if($client->projectsCount() != 0)
+        if($client->projects()->count() != 0)
             abort(401, "This client has open project please delete the project first.");
-        
+
         if($client->delete()){
             return response('success', 200);
         } else {
