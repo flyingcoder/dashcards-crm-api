@@ -261,9 +261,9 @@ class ProjectController extends Controller
         if(is_null($client->getMeta('location')))
             $project->location = '';
         else
-            $project->location = $client->getMeta('location');
+            $project->location = ucfirst($client->getMeta('location'));
 
-        $project->business_name = $client->getMeta('company_name');
+        $project->business_name =ucfirst($client->getMeta('company_name'));
 
         $res->service_id = request()->service_id;
 
@@ -331,9 +331,9 @@ class ProjectController extends Controller
         if(is_null($client->getMeta('location')))
             $project->location = '';
         else
-            $project->location = $client->getMeta('location');
+            $project->location = ucfirst($client->getMeta('location'));
 
-        $project->business_name = $client->getMeta('company_name');
+        $project->business_name = ucfirst($client->getMeta('company_name'));
 
         $res->service_id = request()->service_id;
 
@@ -444,9 +444,9 @@ class ProjectController extends Controller
         if(is_null($loc))
             $project->location = '';
         else
-            $project->location = $loc;
+            $project->location = ucfirst($loc);
 
-        $project->business = $project->getClient()->getMeta('company_name');
+        $project->business_name = ucfirst($project->getClient()->getMeta('company_name'));
 
         return $project;
     }
