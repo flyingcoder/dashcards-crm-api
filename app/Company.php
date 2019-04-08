@@ -636,7 +636,7 @@ class Company extends Model
 
             $user = User::find($project->client_id);
 
-            if(is_null($user)) {
+            if(!is_null($user)) {
                 if(is_null($user->getMeta('location')))
                     $project['location'] = '';
                 else
