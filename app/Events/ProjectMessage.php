@@ -17,14 +17,22 @@ class ProjectMessage implements ShouldBroadcast
 
     public $project;
 
+    public $message;
+
+    public $type;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message, Project $project)
+    public function __construct($message, Project $project, $type)
     {
         $this->project = $project;
+
+        $this->message = $message;
+
+        $this->type = $type;
     }
 
     /**
