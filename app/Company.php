@@ -634,15 +634,18 @@ class Company extends Model
             $members = $project->members()->where('project_user.role', 'Members')->get();
             $project['members'] = $members;
 
-            $user = User::findOrFail($project->client_id);
+            $user = User::find($project->client_id);
 
-            if(is_null($user->getMeta('location')))
-                $project['location'] = '';
-            else
-                $project['location'] = $user->getMeta('location');
+            if(is_null($user)) {
+                if(is_null($user->getMeta('location')))
+                    $project['location'] = '';
+                else
+                    $project['location'] = $user->getMeta('location');
 
-            $project['business_name'] = $user->getMeta('company_name');
-
+                $project['business_name'] = $user->getMeta('company_name');
+            }
+            $project['location'] = '';
+            $project['business_name'] = '';
             return $project;
         });
 
