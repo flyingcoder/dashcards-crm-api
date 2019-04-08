@@ -166,6 +166,8 @@ class ClientController extends Controller
         ]);
 
         $client->setMeta('company_name', request()->company_name);
+        if(request()->has('location'))
+            $client->setMeta('location', request()->location);
         // $client->setMeta('company_email', request()->company_email); //Commented by: Dustin 04-20-2018 //No data in form
         // $client->setMeta('company_tel', request()->company_tel); //Commented by: Dustin 04-20-2018 //No data in form
         $client->setMeta('status', request()->status);
@@ -181,8 +183,9 @@ class ClientController extends Controller
 
         $client->assignRole('client');
 
-        $client['status'] = $client->getMeta('status');
-        $client['company_name'] = $client->getMeta('company_name'); 
+        $client['status'] =request()->status;
+        $client['company_name'] = request()->company_name; 
+        $client['location'] = request()->location; 
 
         return $client;
     }
