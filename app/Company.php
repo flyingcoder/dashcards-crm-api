@@ -644,8 +644,10 @@ class Company extends Model
 
                 $project['business_name'] = $user->getMeta('company_name');
             }
+
             $project['location'] = '';
             $project['business_name'] = '';
+            
             return $project;
         });
 

@@ -250,12 +250,14 @@ class ClientController extends Controller
 
     public function delete($id)
     {
-        // updated by dustin 09-20-2018 handle failed delete
         $client = User::findOrFail($id);
+
+        if($client->projectsCount() != 0)
+            abort(401, "This client has open project please delete the project first.");
+        
         if($client->delete()){
             return response('success', 200);
-        }
-        else {
+        } else {
             return response('failed', 500);
         }
         
