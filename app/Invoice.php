@@ -10,6 +10,7 @@ use Spatie\Activitylog\Models\Activity;
 use App\Events\ActivityEvent;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 class Invoice extends Model implements HasMediaConversions
 {
