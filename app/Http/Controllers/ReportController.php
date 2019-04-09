@@ -29,4 +29,11 @@ class ReportController extends Controller
 
        return $report->updateReports();
     }
+
+    public function delete($id)
+    {
+        $report = Report::findOrFail($id);
+
+        return $report->destroy();
+    }
 }

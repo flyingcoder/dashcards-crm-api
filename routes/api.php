@@ -388,6 +388,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::put('{id}/report/{report_id}', 'ProjectController@updateReport');
 
+  Route::delete('{id}/report/{report_id}', 'ProjectController@delete');
+
 });
 
 // Forms
