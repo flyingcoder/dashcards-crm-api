@@ -11,7 +11,7 @@ use App\Events\ActivityEvent;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Invoice extends Model
+class Invoice extends Model implements HasMediaConversions
 {
     use SoftDeletes,
         HasMediaTrait,
