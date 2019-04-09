@@ -10,9 +10,9 @@ use Spatie\Activitylog\Models\Activity;
 use App\Events\ActivityEvent;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
-class Invoice extends Model implements HasMediaConversions
+class Invoice extends Model implements HasMedia
 {
     use SoftDeletes,
         HasMediaTrait,
