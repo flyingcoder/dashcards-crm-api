@@ -823,9 +823,11 @@ class Company extends Model
 
     public static function boot() 
     {
-        if(self::all()->count() > 0) {
+        parent::boot();
+        
+        if(Company::all()->count() > 0) {
             
-            self::created(function ($company) {
+            Company::created(function ($company) {
 
                 $dashboard = $company->dashboards()->create([
                     'title' => $company->name,
@@ -850,7 +852,7 @@ class Company extends Model
         }
         
 
-        self::deleting(function($company) {
+        Company::deleting(function($company) {
             foreach(['roles', 'teams'] as $relation)
             {
                 foreach($company->{$relation} as $item)
