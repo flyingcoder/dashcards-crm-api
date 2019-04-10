@@ -193,23 +193,21 @@ class ClientController extends Controller
     public function updatePicture($id)
     {
         $client = User::findOrFail($id);
+
+        //(new UserPolicy())->update($model);
+
+        $file = request()->file('file');
         
-        $path = "";
+        $model = User::findOrFail($id);
 
-        if(request()->has('file')) {
-            $path = request()->file('file')->store(
-                        'avatars/'.$client->id, 'public'
-                    );
+        $media = $model->addMedia($file)
+                       ->toMediaCollection('avatars');
 
-            $client->image_url = $path;
+        $model->image_url = url($media->getUrl('thumb'));
 
-            $client->save();
+        $model->save();
 
-        } else {
-            return response('File is missing', 500);
-        }
-
-        return $path;
+        return $model;
     }
 
     public function update($id)
