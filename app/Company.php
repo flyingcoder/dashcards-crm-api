@@ -850,7 +850,7 @@ class Company extends Model
         }
         
 
-        Company::deleting(function($company) {
+        self::deleting(function($company) {
             foreach(['roles', 'teams'] as $relation)
             {
                 foreach($company->{$relation} as $item)

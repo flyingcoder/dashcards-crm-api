@@ -15,17 +15,17 @@ class Team extends Model
 
     public function owner()
     {
-    	return $this->belongsTo(User::class, 'owner_id', 'id');
+    	return $this->belongsTo('App\User', 'owner_id', 'id');
     }
 
     public function members()
     {
-    	return $this->belongsToMany(User::class);
+    	return $this->belongsToMany('App\User');
     }
     
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo('App\Company');
     }
 
 }
