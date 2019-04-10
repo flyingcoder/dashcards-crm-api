@@ -196,8 +196,8 @@ class ClientController extends Controller
         
         $path = "";
 
-        if(request()->has('avatar')) {
-            $path = request()->file('avatar')->store(
+        if(request()->has('file')) {
+            $path = request()->file('file')->store(
                         'avatars/'.$client->id, 'public'
                     );
 
@@ -206,7 +206,7 @@ class ClientController extends Controller
             $client->save();
 
         } else {
-            return response(500, 'File is missing');
+            return response('File is missing', 500);
         }
 
         return $path;
