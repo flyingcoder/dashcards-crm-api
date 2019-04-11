@@ -28,7 +28,7 @@ class ActivityEvent implements ShouldBroadcast
     {
          $this->cause_by = User::find($activity->causer_id);
 
-         $this->description = $activity->description;
+         $this->description = $description;
     }
 
     /**
