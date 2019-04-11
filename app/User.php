@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Contracts\Activity;
 use App\Events\ActivityEvent;
 
 class User extends Authenticatable implements HasMediaConversions
