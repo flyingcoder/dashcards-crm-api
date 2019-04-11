@@ -56,6 +56,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
 
   Route::get('log', 'ActivityController@log');
 
+  Route::get('{id}/mark-read', 'ActivityController@markRead');
+
+  Route::get('unread', 'ActivityController@unread');
+
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {

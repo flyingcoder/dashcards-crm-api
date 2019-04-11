@@ -27,4 +27,16 @@ class ActivityController extends Controller
 
         return $project->activity;
     }
+
+    public function markRead($id)
+    {
+        $company = Activity::findOrFail($id);
+    }
+
+    public function unread()
+    {
+        $company = auth()->user()->company();
+        
+        return $company->activityLogUnRead();
+    }
 }

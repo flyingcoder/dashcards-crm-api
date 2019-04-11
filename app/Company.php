@@ -773,6 +773,15 @@ class Company extends Model
                     ->get();
     }
 
+    public function activityLogUnRead()
+    {
+        return $this->timeline()
+                    ->where('log_name', 'system')
+                    ->where('read', false)
+                    ->latest()
+                    ->get();
+    }
+
     public function allTimeline()
     {
         return $this->timeline()
