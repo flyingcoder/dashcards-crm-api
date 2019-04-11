@@ -2,9 +2,9 @@
 
 namespace App\Events;
 
+use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Activitylog\Contracts\Activity;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -15,16 +15,20 @@ class ActivityEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $activity;
+    public $cause_by;
+
+    public $description;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Activity $activity)
+    public function __construct($activity, $description)
     {
-        $this->activity = $activity;
+         $this->cause_by = User::find($activity->causer_id);
+
+         $this->description = $activity->description;
     }
 
     /**

@@ -10,7 +10,7 @@ use Kodeine\Acl\Models\Eloquent\Permission;
 use Plank\Metable\Metable;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
-use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
 

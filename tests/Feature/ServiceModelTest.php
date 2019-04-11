@@ -9,6 +9,22 @@ use App\User;
 
 class ServiceModelTest extends TestCase
 {
+    public function testStore()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->assertTrue(true);
+        
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->post('api/services', [['name' => 'Alvin'], ['name' => 'Alvintong']]);
+        
+        dd($response->content());                 
+        $response->assertStatus(200);
+    }
+
     public function testIndexWithParams()
     {
          $this->withoutExceptionHandling();
@@ -55,27 +71,6 @@ class ServiceModelTest extends TestCase
                          ->delete('api/services', $data);
         
         //dd($response->content());
-        $response->assertStatus(200);
-    }
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testStore()
-    {
-        $this->withoutExceptionHandling();
-
-        $this->assertTrue(true);
-        
-    	$user = User::findOrFail(1);
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->post('api/services', [['name' => 'Alvin'], ['name' => 'Alvintong']]);
-        
-        //dd($response->content());                 
         $response->assertStatus(200);
     }
 
