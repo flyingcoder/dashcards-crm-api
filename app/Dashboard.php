@@ -25,7 +25,8 @@ class Dashboard extends Model
 
     public function tapActivity(Activity $activity, string $eventName)
     {
-        ActivityEvent::dispatch($activity);
+        $description = $this->getDescriptionForEvent($eventName);
+        ActivityEvent::dispatch($activity, $description);
     }
 
     public function dashitems()
