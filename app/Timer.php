@@ -171,6 +171,8 @@ class Timer extends Model
 
     public static function boot()
     {
+        parent::boot();
+        
         Timer::creating(function ($timer) {
             
         });
