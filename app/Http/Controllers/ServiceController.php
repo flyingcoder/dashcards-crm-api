@@ -155,7 +155,7 @@ class ServiceController extends Controller
 
         (new ServicePolicy())->delete($service);
 
-        if($service->destroy($id))
+        if($service->delete($id))
             return response(['message' => 'Successfully deleted services.'], 200);
         else
             return response(['message' => 'Services deletion failed.'], 500);
