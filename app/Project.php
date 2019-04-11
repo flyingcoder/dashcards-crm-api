@@ -514,6 +514,8 @@ class Project extends Model implements HasMediaConversions
     
     public static function boot()
     {
+        parent::boot();
+        
         Project::created(function ($project) {
 
             $participants = collect($project->members()
