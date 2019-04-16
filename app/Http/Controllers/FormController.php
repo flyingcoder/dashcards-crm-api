@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Form;
+use App\Service;
 use App\Policies\FormPolicy;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,20 @@ class FormController extends Controller
             return view('pages.questionnaire');
 
         return $company->paginatedCompanyForms(request());
+    }
+
+    public function projectDetails()
+    {
+        request()->validate([
+            'service_id' => 'exist|services'
+        ]);
+
+
+    }
+
+    public function getProjectDetails($id)
+    {
+        $service = Service::findOrFail($id);
     }
 
     public function save()

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Auth;
 use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -38,6 +39,9 @@ class ActivityEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('activity.log.'.auth()->user()->id);
+        if(Auth::check())
+            return new PrivateChannel('activity.log.'.auth()->user()->id);
+
+        return new PrivateChannel('activity.log');
     }
 }

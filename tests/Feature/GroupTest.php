@@ -23,9 +23,9 @@ class GroupTest extends TestCase
         $user = User::findOrFail(1);
 
         $data = [
-            'name' => 'Sales Agent',
-            'description' => 'taetasdfsa',
-            'permission_id' => [1,2]
+            'name' => 'Sales Agent 3',
+            'description' => 'taeasdfasdftasdfsa',
+            'selected_group' => 3
         ];
 
         $response = $this->actingAs($user, 'api')

@@ -15,6 +15,10 @@ Broadcast::channel('activity.log.{id}', function ($user, $id) {
     return $user->hasRole('admin') && (int) $user->id === (int) $id;
 });
 
+Broadcast::channel('activity.log', function ($user) {
+    return true;
+});
+
 Broadcast::channel('auto-logout', function ($user, $id) {
     return true;
 });

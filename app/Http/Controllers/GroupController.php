@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Group;
+use Kodeine\Acl\Models\Eloquent\Permission;
 use Illuminate\Http\Request;
 use App\Policies\GroupPolicy;
 use Kodeine\Acl\Models\Eloquent\Role;
@@ -53,12 +54,26 @@ class GroupController extends Controller
                         'description' => $description
                     ]);
 
-        if(request()->has('permission_id'))
-            $role->assignPermission(request()->permission_id);
+        if(request()->has('selected_group')) {
 
-        unset($role->permissions);
+            $copy_role = Role::findOrFail(request()->selected_group);
 
-        $role->permission_id = request()->permission_id;
+            $perms = $copy_role->getPermissions();
+
+            foreach ($perms as $key => $value) {
+
+                $parent = Permission::where('name', $key)->first();
+
+                $perm = $company->permissions()->create([
+                    'company_id' => $company->id,
+                    'name' => $key.'.'.$slug,
+                    'slug' => [],
+                    'inherit_id' => $parent->id
+                ]);
+
+                $role->assignPermission($perm->id);
+            }
+        }
         
         return $role;
     }

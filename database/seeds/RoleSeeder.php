@@ -192,8 +192,7 @@ class RoleSeeder extends Seeder
     	}
     }
 
-    public function createChildPermission($role, $rolePermission)
-    {
+    public function createChildPermission($role, $rolePermission) {
     	$permission = new Permission();
 
     	foreach ($rolePermission as $key => $value) {

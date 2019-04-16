@@ -403,6 +403,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 
     Route::post('/', 'FormController@store');
 
+    Route::post('project-details', 'FormController@projectDetails');
+
+    Route::get('project-details/{id}', 'FormController@getProjectDetails');
+
 });
 
 // Clients
