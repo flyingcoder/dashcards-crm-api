@@ -26,12 +26,17 @@ class FormController extends Controller
             'service_id' => 'exist|services'
         ]);
 
-
+        
     }
 
     public function getProjectDetails($id)
     {
         $service = Service::findOrFail($id);
+
+        $details = $service->forms();
+
+        return $details;
+
     }
 
     public function save()

@@ -48,6 +48,11 @@ class Service extends Model
     {
     	return $this->hasMany(Project::class);
     }
+    
+    public function forms()
+    {
+        return $this->belongsTo(Form::class);
+    }
 
     public function user()
     {
