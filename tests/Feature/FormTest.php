@@ -15,13 +15,14 @@ class FormTest extends TestCase
      */
     public function testIndex()
     {
+        $this->withoutExceptionHandling();
         $user = User::find(1);
-        /*
+        
     	$response = $this->actingAs($user, 'api')
     					 ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-    					 ->get('api/forms');
+    					 ->get('api/forms/project-details/1');
 
-    	//dd($response->content());
-    	$response->assertStatus(200);*/
+    	dd($response->content());
+    	$response->assertStatus(200);
     }
 }

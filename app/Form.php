@@ -23,8 +23,6 @@ class Form extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected static $logName = 'system';
-
     protected static $logAttributes = ['title', 'status', 'questions'];
 
     public function getDescriptionForEvent(string $eventName): string
