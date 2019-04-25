@@ -47,7 +47,7 @@ class Form extends Model
 
     public function service()
     {
-        return $this->belongsToMany(Service::class)
+        return $this->belongsToMany(Service::class);
     }
 
     public function user()
