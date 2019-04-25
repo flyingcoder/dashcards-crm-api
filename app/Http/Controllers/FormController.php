@@ -50,7 +50,7 @@ class FormController extends Controller
     {
         $service = Service::findOrFail($id);
 
-        $data = $service->forms;
+        $data = $service->forms()->first();
 
         $data->fields = $data->questions;
 
