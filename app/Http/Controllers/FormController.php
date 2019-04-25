@@ -6,6 +6,7 @@ use App\Form;
 use App\Service;
 use App\Policies\FormPolicy;
 use Illuminate\Http\Request;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class FormController extends Controller
 {
