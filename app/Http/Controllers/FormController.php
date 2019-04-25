@@ -35,8 +35,7 @@ class FormController extends Controller
             'questions' => request()->fields,
             'user_id' => auth()->user()->id,
             'title' => $service->name.' details',
-            'status' => 'active',
-            'slug' => $slug
+            'status' => 'active'
         ]);
 
         //$form->fields = request()->fields;
