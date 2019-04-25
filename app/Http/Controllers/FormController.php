@@ -39,6 +39,8 @@ class FormController extends Controller
             'slug' => $slug
         ]);
 
+        unset($form->questions);
+
         $form->fields = collect(request()->fields);
 
         return $form;
@@ -48,7 +50,13 @@ class FormController extends Controller
     {
         $service = Service::findOrFail($id);
 
-        return $service->forms;
+        $data = $service->forms;
+
+        $data->fields = $data->questions;
+
+        unset($data->questions);
+
+        return $data;
     }
 
     public function save()
