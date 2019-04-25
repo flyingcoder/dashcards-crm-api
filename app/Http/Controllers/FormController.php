@@ -32,10 +32,11 @@ class FormController extends Controller
         $slug = SlugService::createSlug(Form::class, 'slug', $service->name.' details');
 
         $form = $service->forms()->create([
-            'questions' => request()->fields,
+            'questions' => collect(request()->fields),
             'user_id' => auth()->user()->id,
             'title' => $service->name.' details',
-            'status' => 'active'
+            'status' => 'active',
+            'slug' => $slug
         ]);
 
         //$form->fields = request()->fields;
