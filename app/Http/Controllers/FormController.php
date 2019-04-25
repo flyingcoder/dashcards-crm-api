@@ -26,7 +26,7 @@ class FormController extends Controller
             'service_id' => 'exists:services,id'
         ]);
 
-        $service = Service::findOrFail($service_id);
+        $service = Service::findOrFail(request()->service_id);
 
         $slug = SlugService::createSlug(Form::class, 'slug', $service->name.' details');
 
