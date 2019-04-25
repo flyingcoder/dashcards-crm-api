@@ -17,7 +17,7 @@ class Form extends Model
 		Sluggable,
         LogsActivity;
 
-    protected $fillable = ['title', 'status', 'questions', 'slug', 'user_id'];
+    protected $fillable = ['title', 'status', 'questions', 'slug'];
 
     protected static $logName = 'system';
 
