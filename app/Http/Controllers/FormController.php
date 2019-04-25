@@ -39,7 +39,7 @@ class FormController extends Controller
             'slug' => $slug
         ]);
 
-        //$form->fields = request()->fields;
+        $form->fields = collect(request()->fields);
 
         return $form;
     }
