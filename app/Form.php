@@ -17,13 +17,13 @@ class Form extends Model
 		Sluggable,
         LogsActivity;
 
-    protected $fillable = ['title', 'status', 'questions'];
+    protected $fillable = ['title', 'status', 'questions', 'slug', 'user_id'];
 
     protected static $logName = 'system';
 
     protected $dates = ['deleted_at'];
 
-    protected static $logAttributes = ['title', 'status', 'questions'];
+    protected static $logAttributes = ['title', 'status', 'questions', 'slug'];
 
     public function getDescriptionForEvent(string $eventName): string
     {
