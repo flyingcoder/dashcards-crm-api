@@ -52,7 +52,7 @@ class FormController extends Controller
 
         $data = $service->forms()->first();
 
-        $data->fields = $data->questions;
+        $data->fields = json_decode($data->questions);
 
         unset($data->questions);
 
