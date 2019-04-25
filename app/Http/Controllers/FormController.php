@@ -23,7 +23,7 @@ class FormController extends Controller
     public function projectDetails()
     {
         request()->validate([
-            'service_id' => 'exists:services'
+            'service_id' => 'exists:services,id'
         ]);
 
         $service = Service::findOrFail($service_id);
