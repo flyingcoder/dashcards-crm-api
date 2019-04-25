@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Policies\ServicePolicy;
 use App\Rules\CollectionUnique;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class ServiceController extends Controller
 {
@@ -32,8 +33,6 @@ class ServiceController extends Controller
             $result = $company->servicesList();
 
         return $result;
-
-        
     }
 
     public function save()

@@ -23,20 +23,31 @@ class FormController extends Controller
     public function projectDetails()
     {
         request()->validate([
-            'service_id' => 'exist|services'
+            'service_id' => 'exists|services'
         ]);
 
+        $service = Service::findOrFail($service_id);
 
+        $slug = SlugService::createSlug(Form::class, 'slug', $service->name.' details')
+
+        $form = $service->forms()->create([
+            'questions' => request()->fields,
+            'user_id' => auth()->user()->id,
+            'title' => $service->name.' details',
+            'status' => 'active',
+            'slug' => $slug
+        ]);
+
+        $form->fields = request()->fields;
+
+        return $form;
     }
 
     public function getProjectDetails($id)
     {
         $service = Service::findOrFail($id);
 
-        $details = $service->forms()->first();
-
-        return $details;
-
+        return $service->forms;
     }
 
     public function save()
