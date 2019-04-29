@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Auth;
 use DB;
+use Auth;
 use Chat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -134,7 +134,7 @@ class Project extends Model implements HasMediaConversions
 
     public function activity()
     {
-        return $this->morphMany(Activity::class, 'subject');
+        return $this->morphMany('App\Activity', 'subject');
     }
 
     public function importMilestones()
