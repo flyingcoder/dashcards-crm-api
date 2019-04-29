@@ -111,8 +111,8 @@ class ProjectController extends Controller
     public function invoice($id)
     {
         //(new ProjectPolicy())->index();
-        $project = Project::find($id);
-        dd($project);
+        $project = Project::findOrFail($id);
+        
         return $project->paginatedInvoices();
     }
 
