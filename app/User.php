@@ -261,12 +261,13 @@ class User extends Authenticatable implements HasMediaConversions
         if(request()->has('discount'))
             $data['discount'] = request()->discount;
 
+        /*
         if(request()->hasFile('company_logo')) {
-            dd('this');
+            
             $media = $invoice->addMedia(request()->file('company_logo'))->toMediaCollection('invoice');
 
             $invoice->company_logo = url($media->getUrl());
-        }
+        }*/
 
         $invoice = $this->invoices()->create($data);
 
