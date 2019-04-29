@@ -8,7 +8,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Contracts\Activity;
 use App\Events\ActivityEvent;
 
-class Reports extends Model
+class Report extends Model
 {
     use SoftDeletes, LogsActivity;
 
