@@ -237,11 +237,13 @@ class ClientController extends Controller
 
         $client->setMeta('company_name', request()->company_name);
         $client->setMeta('status', request()->status);
+        $client->setMeta('location', request()->location);
         
         $client->save();
 
         $client['status'] = $client->getMeta('status');
         $client['company_name'] = $client->getMeta('company_name');
+        $client['location'] = $client->getMeta('location');
 
         return $client;
     }
