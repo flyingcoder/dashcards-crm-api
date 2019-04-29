@@ -129,7 +129,7 @@ class Project extends Model implements HasMediaConversions
 
     public function reports()
     {
-        return $this->hasMany(Reports::class);
+        return $this->hasMany(Report::class);
     }
 
     public function activity()
