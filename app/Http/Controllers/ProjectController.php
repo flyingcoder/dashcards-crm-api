@@ -113,7 +113,7 @@ class ProjectController extends Controller
         //(new ProjectPolicy())->index();
 
         $project = Project::findOrFail($project_id);
-
+        dd($project);
         return $project->paginatedInvoices();
     }
 
