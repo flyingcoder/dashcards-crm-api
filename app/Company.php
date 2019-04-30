@@ -410,7 +410,6 @@ class Company extends Model
         $data = $members->paginate($this->paginate);
 
         $data->map(function ($user) {
-            unset($user['tasks']);
             unset($user['projects']);
             $user['tasks'] = $user->tasks()->where('tasks.deleted_at', null)->count();
             $user['projects'] = $user->projects()->where('projects.deleted_at', null)->count();
