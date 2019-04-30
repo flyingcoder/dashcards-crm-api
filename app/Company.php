@@ -412,8 +412,8 @@ class Company extends Model
         $data->map(function ($user) {
             unset($user['tasks']);
             unset($user['projects']);
-            $user['tasks'] = $user->tasks()->count();
-            $user['projects'] = $user->projects()->count();
+            $user['tasks'] = $user->tasks()->where('tasks.deleted_at', null)->count();
+            $user['projects'] = $user->projects()->where('projects.deleted_at', null)->count();
             $roles = $user->roles()->first();
             if(!is_null($roles))
                 $user['group_name'] = $roles->id;
