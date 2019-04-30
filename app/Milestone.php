@@ -222,10 +222,11 @@ class Milestone extends Model
         return $data;
     }
 
-    /*
+    
     public static function boot()
     {
-
+        parent::boot();
+        /*
         if(!is_null(Auth::user())) {
             Milestone::created(function ($milestone) {
                 activity(Auth::user()->company())
@@ -248,7 +249,7 @@ class Milestone extends Model
                    ->log('Updated');
             });
         }
-
+        */
         Milestone::deleting(function($milestone) {
             foreach(['tasks'] as $relation)
             {
@@ -258,5 +259,5 @@ class Milestone extends Model
                 }
             }
         });
-    }*/
+    }
 }
