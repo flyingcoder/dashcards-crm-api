@@ -113,7 +113,20 @@ class ApiRegisterController extends Controller
             ], 200);
 
          } catch (Exception $e) {
-            return $e;
+            $error_code = $e->errorInfo[1];
+            switch ($error_code) {
+                case 1062:
+                    return response()->json([
+                                'error' => 'The company email you have entered is already registered.'
+                           ], 500);
+                    break;
+                
+                default:
+                    return response()->json([
+                                'error' => $e
+                           ], 500);
+                    break;
+            }
          }
     }
 }
