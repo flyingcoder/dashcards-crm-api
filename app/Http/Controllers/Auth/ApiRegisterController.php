@@ -113,6 +113,7 @@ class ApiRegisterController extends Controller
             ], 200);
 
          } catch (Exception $e) {
+            dd($e);
             $error_code = $e->errorInfo[1];
             switch ($error_code) {
                 case 1062:
