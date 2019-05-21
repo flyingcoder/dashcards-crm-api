@@ -43,7 +43,7 @@ class TaskController extends Controller
      *
      */
 
-    public function update($milestone_id, $task_id, TaskRequest $request)
+    public function update($task_id, TaskRequest $request)
     {
         $task = Task::findOrFail($task_id);
 
