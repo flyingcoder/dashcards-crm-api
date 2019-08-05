@@ -58,7 +58,8 @@ class Invoice extends Model implements HasMedia
 
     public function tapActivity(Activity $activity, string $eventName)
     {
-        ActivityEvent::dispatch($activity);
+        $description = $this->getDescriptionForEvent($eventName);
+        ActivityEvent::dispatch($activity, $description);
     }
 
     public function getDescriptionForEvent(string $eventName): string
