@@ -74,7 +74,11 @@ class GroupController extends Controller
                 $role->assignPermission($perm->id);
             }
         }
+
+        $rol = Role::findOrFail($role->id);
+
+        $rol->permissions;
         
-        return $role;
+        return $rol;
     }
 }
