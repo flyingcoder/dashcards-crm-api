@@ -635,6 +635,9 @@ class Company extends Model
 
             $user = User::find($project->client_id);
 
+            $project['location'] = '';
+            $project['business_name'] = '';
+
             if(!is_null($user)) {
                 if(is_null($user->getMeta('location')))
                     $project['location'] = '';
@@ -643,9 +646,6 @@ class Company extends Model
 
                 $project['business_name'] = $user->getMeta('company_name');
             }
-
-            $project['location'] = '';
-            $project['business_name'] = '';
             
             return $project;
         });
@@ -655,9 +655,13 @@ class Company extends Model
 
     public function allCompanyProjects()
     {
-        return $this->projects()
+        $data = $this->projects()
                     ->with('milestones')
                     ->get();
+
+        $data->map(function ($item, $key) {
+            
+        });
     }
 
     public function milestones()
