@@ -54,7 +54,9 @@ class DashboardController extends Controller
     			'projects' => auth()->user()->projects()->count(),
 	        	'tasks' => auth()->user()->tasks()->where('status', 'open')->count(),
 	        	'calendars' => 0, //to be added soon
-	        	'timer' => auth()->user()->tasks()->where('status', 'open')->count(),
+	        	'timer' => auth()->user()
+                                 ->timers()
+                                 ->count(),
 	        	'inbound' => 0, //this is about forms questionaires
 	        	'outbound' => 0 //replied questionaires
     		];
