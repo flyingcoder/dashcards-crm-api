@@ -45,7 +45,8 @@ class DashboardController extends Controller
 	        	'projects' => $company->projects()->count(),
 	        	'tasks' => $company->tasks()->where('status', 'open')->count(),
 	        	'calendars' => 0, //to be added soon
-	        	'timer' => $company->tasks()->where('status', 'open')->count(),
+	        	'timer' => $company->tasks()->where('status', 'open')
+                                   ->where('deleted_at', null)->count(),
 	        	'inbound' => 0, //this is about forms questionaires
 	        	'outbound' => 0 //replied questionaires
 	        ];
