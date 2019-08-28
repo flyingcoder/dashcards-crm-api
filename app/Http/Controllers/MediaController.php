@@ -91,10 +91,10 @@ class MediaController extends Controller
 
     public function addMediaLink($project_id)
     {
-        $collectionName = $this->collectionName(request());
+        //$collectionName = $this->collectionName(request());
 
-        if(!$collectionName)
-          return response('Invalid file format.', 422);
+        //if(!$collectionName)
+          //return response('Invalid file format.', 422);
         //$type = $this->fileType(request());
 
         $project = Project::findOrFail($project_id);
