@@ -99,7 +99,7 @@ class MediaController extends Controller
 
         $project = Project::findOrFail($project_id);
 
-        dd(file_get_contents(request()->url));
+        dd(readfile(request()->url));
 
         /*
         $media = $project->addMedia(request()->url)
