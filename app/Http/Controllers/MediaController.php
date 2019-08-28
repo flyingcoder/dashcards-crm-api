@@ -99,6 +99,9 @@ class MediaController extends Controller
 
         $project = Project::findOrFail($project_id);
 
+        dd(pathinfo(request()->url));
+
+        /*
         $media = $project->addMedia(request()->url)
                 ->withCustomProperties(['ext' => request()->extention])
                 ->toMediaCollection($collectionName);
@@ -119,7 +122,7 @@ class MediaController extends Controller
 
         $activity->users()->attach(auth()->user()->company()->membersID());
 
-        return $activity;
+        return $activity;*/
         
     }
 
