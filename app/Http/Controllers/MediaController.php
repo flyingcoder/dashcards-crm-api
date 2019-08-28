@@ -205,6 +205,8 @@ class MediaController extends Controller
 
         $activity->users()->attach(auth()->user()->company()->membersID());
 
+        $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
+
         $media['public_url'] = url($media->getUrl());
 
         $media['thumb_url'] = url($media->getUrl('thumb'));
