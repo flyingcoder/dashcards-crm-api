@@ -6,6 +6,7 @@ use App\Activity;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
 use App\Project;
+use GuzzleHttp\Client;
 use Storage;
 use URL;
 
@@ -97,9 +98,13 @@ class MediaController extends Controller
           //return response('Invalid file format.', 422);
         //$type = $this->fileType(request());
 
+        $client = new Client();
+
         $project = Project::findOrFail($project_id);
 
-        dd(readfile(request()->url));
+        $res = $client->post(request()->url);
+
+        dd($res);
 
         /*
         $media = $project->addMedia(request()->url)
