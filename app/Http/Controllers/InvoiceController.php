@@ -38,8 +38,6 @@ class InvoiceController extends Controller
 
     public function update($id)
     {
-        return collect(request()->all());
-
         $invoice = Invoice::findOrFail($id);
 
         request()->validate( [
