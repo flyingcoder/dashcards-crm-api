@@ -26,6 +26,6 @@ class HomeController extends Controller
 
         $media = Media::findOrFail(request()->media_id);
 
-        return Storage::download("public/".str_replace("storage/", "", $media->getUrl()));
+        return Storage::download("public/".str_replace(["storage/","%20"], ["", " "], $media->getUrl()));
     }
 }
