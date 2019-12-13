@@ -18,7 +18,7 @@ class TeamController extends Controller
 {
     public function index()
     {
-       // $company = auth()->company();
+        // $company = auth()->company();
 
         //return $company->paginatedTemplates();
     }
@@ -47,13 +47,12 @@ class TeamController extends Controller
     public function store()
     {
         try {
-
             request()->validate([
                 'last_name' => 'required|string',
                 'first_name' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'telephone' => 'required',
-                'password' => 'required|confirmed'
+                // 'password' => 'required|confirmed'
             ]);
 
             $username = explode('@', request()->email)[0];
@@ -61,15 +60,16 @@ class TeamController extends Controller
             $image_url = env('APP_URL').'/img/members/alfred.png';
 
             $member = User::create([
-                'username' => $username.rand(0,20),
+                'username' => $username.rand(0, 20),
                 'last_name' => request()->last_name,
                 'first_name' => request()->first_name,
                 'email' => request()->email,
-                'telephone' => request()->telephone, 
+                'telephone' => request()->telephone,
                 'job_title' => request()->job_title,
-                'password' => bcrypt(request()->password),
+                'password' => bcrypt(str_random(12)), //set random password
                 'image_url' => $image_url,
-                'created_by' => auth()->user()->id
+                'created_by' => auth()->user()->id,
+                'code' => generateSetPasswordCode()
             ]);
 
             $company = auth()->user()->company();
@@ -78,13 +78,11 @@ class TeamController extends Controller
 
             $team = $company->defaultTeam();
 
-            if(auth()->user()->hasRole('client')) {
-
+            if (auth()->user()->hasRole('client')) {
                 $team = $company->clientStaffTeam();
 
                 $role = 'client';
-
-            } 
+            }
 
             $team->members()->attach($member);
 
@@ -92,18 +90,18 @@ class TeamController extends Controller
 
             $member->group_name = $role;
 
+            \Mail::to($member->email)->send(new UserCredentials($member));
             //\Mail::to($member)->send(new UserCredentials($member, request()->password));
 
-            unset($member->tasks); unset($member->projects);
+            unset($member->tasks);
+            unset($member->projects);
 
             $member->tasks = $member->tasks()->count();
 
             $member->projects = $member->projects()->count();
 
             return $member;
-
         } catch (Exception $e) {
-
             $error_code = $e->errorInfo[1];
 
             switch ($error_code) {
@@ -123,7 +121,6 @@ class TeamController extends Controller
                     break;
             }
         }
-        
     }
 
     public function update($id)
@@ -147,8 +144,9 @@ class TeamController extends Controller
         $member->email = request()->email;
         $member->telephone = request()->telephone;
 
-        if(request()->has('password'))
+        if (request()->has('password')) {
             $member->password = request()->password;
+        }
 
         $member->revokeAllRoles();
 
@@ -158,8 +156,9 @@ class TeamController extends Controller
 
         $member->group_name = request()->group_name;
 
-        if(auth()->user()->id == $member->id)
+        if (auth()->user()->id == $member->id) {
             $member->can = $member->getPermissions();
+        }
 
         unset($member->projects);
 
@@ -175,7 +174,7 @@ class TeamController extends Controller
     public function delete($id)
     {
         $member = User::findOrFail($id);
-        if($member->destroy($id)){
+        if ($member->destroy($id)) {
             return response('User is successfully deleted.', 200);
         } else {
             return response('Failed to delete user.', 500);
@@ -214,8 +213,9 @@ class TeamController extends Controller
         $role->name = request()->name;
         $role->description = request()->description;
 
-        if(request()->has('permission_id'))
+        if (request()->has('permission_id')) {
             $role->assignPermission(request()->permission_id);
+        }
 
         $role->save();
 
@@ -226,7 +226,7 @@ class TeamController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        if($role->destroy($id)){
+        if ($role->destroy($id)) {
             return response('Group is successfully deleted.', 200);
         } else {
             return response('Failed to delete group.', 500);
@@ -246,9 +246,9 @@ class TeamController extends Controller
         $to = Role::findOrFail(request()->to);
         $from = Role::findOrFail(request()->from);
         $users = User::where('job_title', $from->name)->get();
-        foreach($users as $user){
-          $user->job_title = $to->name;
-          $user->save();
+        foreach ($users as $user) {
+            $user->job_title = $to->name;
+            $user->save();
         }
     }
 }

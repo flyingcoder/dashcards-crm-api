@@ -2,17 +2,33 @@
 
 use Illuminate\Http\Request;
 
-function parseSearchParam(Request $request) {
-
-	if(!$request->has('sort'))
-		return false;
+if (! function_exists('parseSearchParam')) {
 	
-    $sort = $request->sort;
+	function parseSearchParam(Request $request) {
 
-    $params = explode('|', $sort);
+		if(!$request->has('sort'))
+			return false;
+		
+	    $sort = $request->sort;
 
-    if(count($params) == 1)
-    	return false;
+	    $params = explode('|', $sort);
 
-    return [$params[0], $params[1]];
+	    if(count($params) == 1)
+	    	return false;
+
+	    return [$params[0], $params[1]];
+	}
+}
+
+if (! function_exists('generateSetPasswordCode')) {
+
+	function generateSetPasswordCode() {
+
+		do {
+	        $code = str_random(64);
+	        $exist = \App\User::where('code', $code)->first();
+	    } while ( $exist );
+
+	    return $code;
+	}
 }
