@@ -49,12 +49,18 @@ class UserController extends Controller
             'group' => 'integer|exist:role,id',
             'job_title' => 'string',
             'telephone' => 'string',
-            'password' => 'required|string|min:6|confirmed',
+            // 'password' => 'required|string|min:6|confirmed', 
+            //removed password, user can set their own password after following the unique link sent to their emails
     	]);
+        
+        $additionalInfo = [
+            'password' => bcrypt(str_random(12)), 
+            'code' => generateSetPasswordCode()
+        ];
 
-        $user = User::create(request()->all());
+        $user = User::create(request()->all() + $additionalInfo);
 
-        \Mail::to($user)->send(new UserCredentials);
+        \Mail::to($user->email)->send(new UserCredentials($user));
 
         return $user;
 
@@ -167,4 +173,5 @@ class UserController extends Controller
             return response()->json(User::all()->paginate($per_page));
         return view('user.index', ['user' => User::all()->paginate($per_page)]);
     }
+
 }

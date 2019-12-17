@@ -13,17 +13,17 @@ class UserCredentials extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
-    public $password;
+    public $link;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $password)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->password = $password; //this is not ideal but will update this to much safer later
+        $this->link = config('app.frontend_url').'/set-password/'.$user->code; //one-time use unique codes link for setting password
     }
 
     /**

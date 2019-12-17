@@ -32,7 +32,7 @@ class User extends Authenticatable implements HasMediaConversions
         LogsActivity;
 
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by'
+        'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by', 'code'
     ];
 
     protected static $logName = 'system';
