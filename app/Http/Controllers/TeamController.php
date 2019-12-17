@@ -58,7 +58,7 @@ class TeamController extends Controller
 
             $username = explode('@', request()->email)[0];
 
-            $image_url = env('APP_URL').'/img/members/alfred.png';
+            $image_url = config('app.url').'/public/img/members/alfred.png';
 
             $member = User::create([
                 'username' => $username.rand(0,20),
