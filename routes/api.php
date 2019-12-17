@@ -179,6 +179,10 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function () {
 
   Route::post('/', 'Auth\ApiRegisterController@create');
+  
+  Route::post('/set-password', 'Auth\ApiRegisterController@setPassword');
+
+  Route::post('/get-user-id', 'Auth\ApiRegisterController@getUserId');
 
 });
 

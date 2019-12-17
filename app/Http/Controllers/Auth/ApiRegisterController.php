@@ -129,4 +129,41 @@ class ApiRegisterController extends Controller
             }
          }
     }
+
+
+    public function getUserId(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string'
+        ]);
+
+        $user = User::where('code', $request->code)->first();
+
+        if (!$user) {
+            return response()->json([ 'error' => 'Invalid code' ], 500);
+        }
+
+        return response()->json([ 'user_id' => $user->id ], 200);
+    }
+
+    public function setPassword(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string',
+            'user_id' => 'required',
+            'password' => 'required|string|min:6'
+        ]);
+
+        $user = User::where('code', $request->code)->where('id', $request->user_id)->first();
+        
+        if (!$user) {
+            return response()->json([ 'error' => 'This user code was already expired.' ], 500);
+        }
+
+        $user->password = bcrypt($request->password);
+        $user->code = null; //set to null so it cant be used again
+        $user->save();
+
+        return response()->json([ 'user' => $user ], 200);
+    }
 }
