@@ -31,6 +31,8 @@ class CompanyController extends Controller
 
         $user->getAllMeta();
 
+        $user['week_hours'] = $user->totalTimeThisWeek();
+
         return $user;
     }
 }

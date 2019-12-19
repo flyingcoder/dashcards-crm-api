@@ -44,7 +44,7 @@ class TeamModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/company/teams?all=true');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -94,7 +94,7 @@ class TeamModelTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/company/teams', $data);
 
-        dd($response->content());
+        //dd($response->content());
         //$response->assertStatus(201);
         $this->assertTrue(true);
     }
