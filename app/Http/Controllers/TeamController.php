@@ -72,6 +72,10 @@ class TeamController extends Controller
                 'code' => generateSetPasswordCode()
             ]);
 
+            $member->setMeta('address', request()->address);
+
+            $member->setMeta('rate', request()->rate);
+
             $company = auth()->user()->company();
 
             $role = request()->group_name;
