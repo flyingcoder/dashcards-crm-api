@@ -33,6 +33,8 @@ class CompanyController extends Controller
 
         $user['week_hours'] = $user->totalTimeThisWeek();
 
+        $user->tasks;
+
         return $user;
     }
 }
