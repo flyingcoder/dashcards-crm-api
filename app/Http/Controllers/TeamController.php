@@ -16,33 +16,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class TeamController extends Controller
 {
-    public function index()
-    {
-        // $company = auth()->company();
-
-        //return $company->paginatedTemplates();
-    }
-
-    public function memberProfile($id)
-    {
-        //add some meta
-        $user = User::findOrFail($id);
-        $user->setMeta('gender', 'Male');
-        $user->setMeta('location', 'Iligan');
-        $user->setMeta('dob', '17/08/1986');
-        $user->setMeta('contact_no', '040-123456789');
-        return view('pages.team-profile', ['member' => $user]);
-    }
-
-    public function save()
-    {
-        $company = Auth::user()->company();
-
-        return view('pages.team-new', [
-            'roles' => collect($company->roles),
-            'action' => 'add'
-        ]);
-    }
 
     public function store()
     {
@@ -171,6 +144,10 @@ class TeamController extends Controller
         $member->tasks = $member->tasks()->count();
 
         $member->projects = $member->projects()->count();
+
+        $member->setMeta('address', request()->address);
+
+        $member->setMeta('rate', request()->rate);
 
         return $member;
     }

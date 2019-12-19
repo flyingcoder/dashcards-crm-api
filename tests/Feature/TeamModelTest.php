@@ -15,6 +15,25 @@ class TeamModelTest extends TestCase
      *
      * @return void
      */
+    public function testSingleTeamFunction()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/company/teams/'.$user->id);
+
+        dd($response->content());
+        $response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
     public function testIndexFunction()
     {
         $this->withoutExceptionHandling();

@@ -27,6 +27,10 @@ class CompanyController extends Controller
     {
     	$user = User::findOrFail($id);
 
-    	return $user->load('teams');
+    	$user->load('teams');
+
+        $user->getAllMeta();
+
+        return $user;
     }
 }
