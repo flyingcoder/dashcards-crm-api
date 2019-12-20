@@ -362,6 +362,15 @@ class ProjectController extends Controller
         return $project->destroy($id);
     }
 
+    public function deleteReport($id, $report_id)
+    {
+        $report = Report::findOrFail($report_id);
+
+        //(new ProjectPolicy())->delete($project);
+
+        return $report->destroy($report_id);
+    }
+
     public function edit($id)
     {
 
@@ -445,7 +454,7 @@ class ProjectController extends Controller
         else
             $project->location = ucfirst($loc);
 
-        $project->business_name = ucfirst($project->getClient()->getMeta('company_name'));
+        $project->company_name = ucfirst($project->getClient()->getMeta('company_name'));
 
         return $project;
     }
