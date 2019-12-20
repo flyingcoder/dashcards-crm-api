@@ -21,10 +21,11 @@ class ClientController extends Controller
     {
         $company = Auth::user()->company();
 
-        $result = $company->paginatedCompanyClients(request());
-
-        if(request()->has('all') && request()->all == true)
+        if(request()->has('all') && request()->all == true) {
             $result = $company->clients()->get();
+        } else {
+            $result = $company->paginatedCompanyClients(request());
+        }
 
         return $result;
     }
@@ -178,8 +179,8 @@ class ClientController extends Controller
         $team = $company->teams()
                         ->where('slug', 'client-'.$company->id)
                         ->first();
-
-        $team->members()->attach($client);
+        if($team)
+            $team->members()->attach($client);
 
         $client->assignRole('client');
 
