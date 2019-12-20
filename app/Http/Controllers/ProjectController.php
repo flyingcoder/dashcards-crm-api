@@ -262,7 +262,7 @@ class ProjectController extends Controller
         else
             $project->location = ucfirst($client->getMeta('location'));
 
-        $project->business_name =ucfirst($client->getMeta('company_name'));
+        $project->company_name =ucfirst($client->getMeta('company_name'));
 
         $res->service_id = request()->service_id;
 
@@ -332,7 +332,7 @@ class ProjectController extends Controller
         else
             $project->location = ucfirst($client->getMeta('location'));
 
-        $project->business_name = ucfirst($client->getMeta('company_name'));
+        $project->company_name = ucfirst($client->getMeta('company_name'));
 
         $res->service_id = request()->service_id;
 
