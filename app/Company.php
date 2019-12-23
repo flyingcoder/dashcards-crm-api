@@ -636,7 +636,7 @@ class Company extends Model
             $user = User::find($project->client_id);
 
             $project['location'] = '';
-            $project['business_name'] = '';
+            $project['company_name'] = '';
 
             if(!is_null($user)) {
                 if(is_null($user->getMeta('location')))
@@ -644,7 +644,7 @@ class Company extends Model
                 else
                     $project['location'] = $user->getMeta('location');
 
-                $project['business_name'] = $user->getMeta('company_name');
+                $project['company_name'] = $user->getMeta('company_name');
             }
             $project['extra_fields'] = $project->getMeta('extra_fields');
             return $project;
