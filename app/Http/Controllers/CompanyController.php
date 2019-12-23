@@ -30,6 +30,14 @@ class CompanyController extends Controller
         $user->total_hours = '244'; //todo calculation
         $user->rate_per_hour = '$55'; //todo calculation
 
-    	return $user->load('teams');
+    	$user->load('teams');
+
+        $user->getAllMeta();
+
+        $user['week_hours'] = $user->totalTimeThisWeek();
+
+        $user->tasks;
+
+        return $user;
     }
 }

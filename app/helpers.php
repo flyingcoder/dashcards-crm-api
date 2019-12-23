@@ -20,6 +20,26 @@ if (! function_exists('parseSearchParam')) {
 	}
 }
 
+if (! function_exists('secondsForHumans')) {
+
+	function secondsForHumans($seconds, $display_sec = false) {
+
+		$hours = floor($seconds / 3600);
+
+		$minutes = floor(($seconds / 60) % 60);
+		
+		$seconds = $seconds % 60;
+
+		$formatted =  $hours."h ".$minutes."m ";
+
+		if($display_sec)
+			$formatted .= $seconds."s";
+
+		return $formatted;
+	}
+
+}
+
 if (! function_exists('generateSetPasswordCode')) {
 
 	function generateSetPasswordCode() {

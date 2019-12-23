@@ -8,6 +8,25 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TimerTest extends TestCase
 {
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testStartTime()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::all()->first();
+
+        $response = $this->actingAs($user, 'api')
+                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
+                         ->get('api/timer/stop');
+
+        dd($response->content());
+        $response->assertStatus(201);
+    }
+
     public function testGetTimer()
     {
         $this->withoutExceptionHandling();
@@ -18,7 +37,7 @@ class TimerTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/timer');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -36,7 +55,7 @@ class TimerTest extends TestCase
         $response = $this->actingAs($user, 'api')
                          ->post('api/timer/pause', $data);
 
-        //dd($response->content());
+        dd($response->content());
         $response->assertStatus(200);
     }
 
@@ -56,24 +75,5 @@ class TimerTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testStartTime()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::all()->first();
-
-        $response = $this->actingAs($user, 'api')
-                         ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
-                         ->get('api/timer/stop');
-
-        //dd($response->content());
-        $response->assertStatus(201);
     }
 }

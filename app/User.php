@@ -5,6 +5,7 @@ namespace App;
 use Auth;
 use DB;
 use Chat;
+use Carbon\Carbon;
 use Plank\Metable\Metable;
 use Kodeine\Acl\Traits\HasRole;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -323,6 +324,28 @@ class User extends Authenticatable implements HasMediaConversions
     {
         return $this->morphMany(Timer::class, 'causer')
                     ->where('subject_type', 'App\Company');
+    }
+
+    public function totalTimeThisWeek()
+    {
+        $timers = $this->morphMany(Timer::class, 'causer')
+                    ->where('subject_type', 'App\Company')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->get();
+        $total_sec = 0;
+
+        foreach ($timers as $key => $timer) {
+
+            if(is_null($timer->properties))
+                continue;
+
+            $prop = json_decode($timer->properties);
+
+            $total_sec += (int) $prop->total_seconds; 
+        }
+
+        return secondsForHumans($total_sec);
+
     }
 
     public function lastTimer()

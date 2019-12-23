@@ -92,26 +92,13 @@ class MediaController extends Controller
 
     public function addMediaLink($project_id)
     {
-        //$collectionName = $this->collectionName(request());
+        $type = $this->fileType(request());
 
-        //if(!$collectionName)
-          //return response('Invalid file format.', 422);
-        //$type = $this->fileType(request());
-
-        $client = new Client();
-
-        $project = Project::findOrFail($project_id);
-
-        $res = $client->post(request()->url);
-
-        dd($res);
-
-        /*
         $media = $project->addMedia(request()->url)
-                ->withCustomProperties(['ext' => request()->extention])
+                ->withCustomProperties(['type' => 'link'])
                 ->toMediaCollection($collectionName);
 
-        $log = auth()->user()->first_name.' linked a .'.request()->extention.' file.';
+        $log = auth()->user()->first_name.' linked a file.';
 
         $activity = activity('files')
                        ->performedOn($project)
@@ -127,7 +114,7 @@ class MediaController extends Controller
 
         $activity->users()->attach(auth()->user()->company()->membersID());
 
-        return $activity;*/
+        return $activity;
         
     }
 
