@@ -321,6 +321,10 @@ class ProjectController extends Controller
 
         $project->save();
 
+        if(request()->has('extra_fields') && !empty(request()->extra_fields)){
+            $project->setMeta('extra_fields', request()->extra_fields);
+        }
+
         unset($project->members);
 
         $project->members = $project->getMembers();
