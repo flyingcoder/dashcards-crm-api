@@ -646,7 +646,7 @@ class Company extends Model
 
                 $project['business_name'] = $user->getMeta('company_name');
             }
-            
+            $project['extra_fields'] = $project->getMeta('extra_fields');
             return $project;
         });
 
