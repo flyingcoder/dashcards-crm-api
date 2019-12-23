@@ -225,6 +225,9 @@ class ProjectController extends Controller
             $new_comment = $project->comments()->save($comment);
         }
 
+        if(request()->has('extra_fields') && !empty(request()->extra_fields)){
+            $project->setMeta('extra_fields', request()->extra_fields);
+        }
         
         $project->members()->attach(request()->client_id, ['role' => 'Client']);
 
