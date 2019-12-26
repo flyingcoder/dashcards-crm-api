@@ -646,7 +646,7 @@ class Company extends Model
 
                 $project['company_name'] = $user->getMeta('company_name');
             }
-            
+            $project['extra_fields'] = $project->getMeta('extra_fields');
             return $project;
         });
 
@@ -723,7 +723,7 @@ class Company extends Model
         $client_group = $this->teams()->where('slug', 'client-'.$this->id)->first();
         
         if( ! $client_group )
-            abort('Team not found!', 204);
+            abort(204, 'Team not found!');
 
         return $client_group->members()
                     ->join('meta as company', function ($join) {

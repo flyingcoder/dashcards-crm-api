@@ -26,6 +26,9 @@ class CompanyController extends Controller
     public function member($id)
     {
     	$user = User::findOrFail($id);
+        $user->location  = $user->getMeta('location', 'Somewhere');
+        $user->total_hours = '244'; //todo calculation
+        $user->rate_per_hour = '$55'; //todo calculation
 
     	$user->load('teams');
 

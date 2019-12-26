@@ -29,15 +29,22 @@ class FormController extends Controller
 
         $service = Service::findOrFail(request()->service_id);
 
-        $slug = SlugService::createSlug(Form::class, 'slug', $service->name.' details');
+        $form = $service->forms()->first();
 
-        $form = $service->forms()->create([
-            'questions' => collect(request()->fields),
-            'user_id' => auth()->user()->id,
-            'title' => $service->name.' details',
-            'status' => 'active',
-            'slug' => $slug
-        ]);
+        if (!$form) {
+            $slug = SlugService::createSlug(Form::class, 'slug', $service->name.' Extra Inputs');
+            $form = $service->forms()->create([
+                'questions' => collect(request()->fields),
+                'user_id' => auth()->user()->id,
+                'title' => $service->name.' Extra Inputs',
+                'status' => 'active',
+                'slug' => $slug
+            ]);
+        } else {
+            $form->update([
+                'questions' => collect(request()->fields)
+            ]);
+        }
 
         unset($form->questions);
 
@@ -52,9 +59,10 @@ class FormController extends Controller
 
         $data = $service->forms()->first();
 
-        $data->fields = json_decode($data->questions);
-
-        unset($data->questions);
+        if ($data && property_exists($data, 'questions')) {    
+            $data->fields = json_decode($data->questions);
+            unset($data->questions);
+        }
 
         return $data;
     }

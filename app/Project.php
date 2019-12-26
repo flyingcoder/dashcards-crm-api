@@ -2,23 +2,24 @@
 
 namespace App;
 
-use DB;
+use App\Events\ActivityEvent;
 use Auth;
-use Chat;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Spatie\MediaLibrary\Media;
+use Chat;
+use DB;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use Plank\Metable\Metable;
+use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
+use Spatie\MediaLibrary\Media;
 
 class Project extends Model implements HasMediaConversions
 {
-    use SoftDeletes, HasMediaTrait, LogsActivity;
+    use SoftDeletes, HasMediaTrait, LogsActivity, Metable;
 
     protected $paginate = 10;
 
