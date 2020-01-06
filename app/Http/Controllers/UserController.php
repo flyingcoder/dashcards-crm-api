@@ -25,13 +25,12 @@ class UserController extends Controller
     {
         //(new UserPolicy())->update($model);
 
-        $file = request()->file('file');
-
         $model = User::findOrFail($id);
 
-        $media = $model->addMedia($file)
-                       ->toMediaCollection('avatars');
-
+        $media = $model->addMedia(request()->file('file'))
+                        ->usingFileName('profile-'.$model->id.".png")
+                        ->toMediaCollection('avatars');
+ 
         $model->image_url = url($media->getUrl('thumb'));
 
         $model->save();
