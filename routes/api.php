@@ -76,8 +76,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'report'], function () {
 
   Route::post('/', 'ReportController@newReport');
 
-  Route::put('{id}', 'ReportController@update');
+  Route::put('{id}', 'ReportController@updateReport');
 
+  Route::delete('{id}', 'ReportController@deleteReport');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'autocomplete'], function () {
