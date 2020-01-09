@@ -71,7 +71,12 @@ class ProjectController extends Controller
     {
         $model = Report::findOrFail($id);
 
-        return $model->updateReports();
+        if($model->updateReports()) {
+            $model->fresh();
+            return response()->json($model, 200);
+        }
+
+        return response()->json(['message' => 'error'], 500);
     }
 
     public function saveInvoice($project_id)

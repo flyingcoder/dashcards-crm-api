@@ -46,7 +46,7 @@ class Report extends Model
 
         return $this->update([
             'title' => request()->title,
-            'description' => request()->description,
+            'description' => request()->description ?? null,
             'url' => request()->url
         ]);
     }

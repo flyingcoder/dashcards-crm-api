@@ -125,14 +125,14 @@ class Company extends Model
 
         return $this->reports()->create([
             'title' => request()->title,
-            'description' => request()->description,
+            'description' => request()->description ?? null,
             'url' => request()->url
         ]);
     }
 
     public function reports()
     {
-        return $this->hasMany(Reports::class);
+        return $this->hasMany(Report::class);
     }
 
     public function paginatedPermissions()

@@ -27,13 +27,21 @@ class ReportController extends Controller
     {
        $report = Report::findOrFail($id);
 
-       return $report->updateReports();
+        if($report->updateReports()) {
+            $report->fresh();
+            return response()->json($report, 200);
+        }
+        
+        return response()->json(['message' => 'error'], 500);
     }
 
-    public function delete($id)
+    public function deleteReport($id)
     {
         $report = Report::findOrFail($id);
 
-        return $report->destroy();
+        if($report->delete()) 
+            return response()->json(['message' => 'success'], 200);
+
+        return response()->json(['message' => 'error'], 500);
     }
 }
