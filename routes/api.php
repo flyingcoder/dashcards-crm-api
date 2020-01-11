@@ -363,6 +363,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}/timer', 'ProjectController@timer');
 
+  Route::get('{id}/timers', 'ProjectController@myTimers');
+
   Route::get('{id}/member', 'ProjectController@members');// project-hq
 
   Route::post('{id}/member', 'ProjectController@assignMember');// project-hq

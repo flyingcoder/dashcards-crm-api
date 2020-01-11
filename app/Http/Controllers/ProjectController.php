@@ -179,6 +179,13 @@ class ProjectController extends Controller
         return $project->totalTime();
     }
 
+    public function myTimers($id)
+    {
+        $project = Project::findOrFail($id);
+
+        return $project->timers();
+    }
+
     public function save()
     {
         (new ProjectPolicy())->create();

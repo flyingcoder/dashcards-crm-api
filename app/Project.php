@@ -285,6 +285,28 @@ class Project extends Model implements HasMediaConversions
         return gmdate("H:i:s", $proj_total_sec);
     }
 
+    public function timers()
+    {
+        $tasks = $this->tasks;
+
+        $tasks->load('timers');
+
+        $client = $this->getClient();
+
+        $arr = [];
+
+        foreach ($tasks as $key => $task) {
+            if(count($task->timers)) {
+                $task['total_time'] = $task->total_time();
+                $task['client'] = $client->getMeta('company_name');
+                $task['assignee'] = $task->assigned->first()->first_name.' '.$task->assigned->first()->last_name;
+                $arr[] = $task;
+            }
+        }
+
+        return $arr;
+    }
+
     /**
      *
      * Media library image convertion
