@@ -88,8 +88,6 @@ class Company extends Model
     {
         $model = $this->timers();
 
-        $model->with('causer');
-
         list($sortName, $sortValue) = parseSearchParam(request());
 
         if(request()->has('sort') && !is_null($sortValue))
@@ -101,14 +99,16 @@ class Company extends Model
             $keyword = request()->search;
 
             $model->where(function ($query) use ($keyword) {
-                        $query->where('timers.timer_name', 'like', '%' . $keyword . '%');
-                      });
+                $query->where('timers.timer_name', 'like', '%' . $keyword . '%');
+            });
         }
 
         if(request()->has('per_page'))
             $this->paginate = request()->per_page;
 
         $data = $model->paginate($this->paginate);
+
+        return $data;
 
         if(request()->has('all') && requet()->all)
             $data = $model->get();
