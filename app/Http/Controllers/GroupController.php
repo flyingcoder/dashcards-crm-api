@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Group;
-use Kodeine\Acl\Models\Eloquent\Permission;
-use Illuminate\Http\Request;
 use App\Policies\GroupPolicy;
-use Kodeine\Acl\Models\Eloquent\Role;
+use Auth;
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\Request;
+use Kodeine\Acl\Models\Eloquent\Permission;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 class GroupController extends Controller
 {
@@ -51,7 +52,8 @@ class GroupController extends Controller
         $role = $company->roles()->create([
                         'name' => request()->name,
                         'slug' => $slug,
-                        'description' => $description
+                        'description' => $description,
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);
 
         if(request()->has('selected_group')) {
