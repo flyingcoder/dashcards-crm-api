@@ -88,4 +88,9 @@ class PermissionController extends Controller
     	//if done revoke permission of the first role
     	$role->revokeAllPermissions();
     }
+
+    public function defaultPermissions()
+    {
+        return Permission::whereNull('inherit_id')->where('company_id', 0)->get();
+    }
 }

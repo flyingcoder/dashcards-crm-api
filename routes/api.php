@@ -103,6 +103,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function ()
 
   Route::delete('{id}', 'PermissionController@delete');
 
+  Route::get('/defaults', 'PermissionController@defaultPermissions');
 });
 
 //company
