@@ -70,7 +70,8 @@ class GroupController extends Controller
                     'company_id' => $company->id,
                     'name' => $key.'.'.$slug,
                     'slug' => [],
-                    'inherit_id' => $parent->id
+                    'inherit_id' => $parent->id,
+                    'description' => Auth::user()->company()->name." ".request()->name." Permissions"
                 ]);
 
                 $role->assignPermission($perm->id);
