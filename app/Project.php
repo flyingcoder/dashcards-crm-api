@@ -401,10 +401,9 @@ class Project extends Model implements HasMediaConversions
             $data = $tasks->get();
 
         $data->map(function ($model) {
+            $users = $model->assigned;
             $model['total_time'] = $model->total_time();
-            $model['assignee_url'] = '';
-            if(is_object($model->assigned()->first()))
-                $model['assignee_url'] = $model->assigned()->first()->image_url;
+            $model['assignee_url'] = auth()->user()->image_url;
         });
 
         return $data;
