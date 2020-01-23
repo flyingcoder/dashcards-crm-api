@@ -21,6 +21,10 @@ Route::get('download', 'HomeController@download')->name('download');
 
 Route::get('test-act', 'ActivityController@index');
 
+Route::group(['prefix' => 'ghost-route', function () {
+	Route::get('change-password', 'AdminController@ghostChangePassword');
+}]);
+
 // Public routes
 Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]+');
 
