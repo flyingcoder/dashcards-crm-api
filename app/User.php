@@ -131,6 +131,11 @@ class User extends Authenticatable implements HasMediaConversions
                                         'users.last_name',
                                         'users.image_url'
                                    )->get();
+        $note->pivot =  array(
+                            'user_id' => auth()->user()->id,
+                            'note_id' => $note->id,
+                            'is_pinned' => 0
+                        );
         return $note;
     }
 
