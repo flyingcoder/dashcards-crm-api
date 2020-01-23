@@ -14,7 +14,9 @@ class ProjectTableSeeder extends Seeder
         //project seeder
         factory(App\Project::class, 10)->create()->each(function ($project) {
             $project->members()->attach(1, ['role' => 'Manager']);
+            $project->members()->attach(2, ['role' => 'Client']);
             $project->members()->attach(3, ['role' => 'Client']);
+            $project->members()->attach(4, ['role' => 'Developer']);
             //$project->members()->attach(3, ['role' => 'Developers']);
 
             for($i=0;$i<10;$i++) {
