@@ -43,7 +43,7 @@ class TaskController extends Controller
      *
      */
 
-    public function update($task_id, TaskRequest $request)
+    public function update($milestone_id, $task_id)
     {
         $task = Task::findOrFail($task_id);
 
@@ -113,9 +113,9 @@ class TaskController extends Controller
      *
      */
 
-    public function delete($id)
+    public function delete($milestone_id, $task_id)
     {
-        $task = Task::findOrFail($id);
+        $task = Task::findOrFail($task_id);
 
         // (new TaskPolicy())->delete($task);
 
