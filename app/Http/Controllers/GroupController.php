@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Permission;
 use App\Policies\GroupPolicy;
 use Auth;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
-use Kodeine\Acl\Models\Eloquent\Permission;
 use Kodeine\Acl\Models\Eloquent\Role;
 
 class GroupController extends Controller
@@ -84,4 +84,5 @@ class GroupController extends Controller
         
         return $rol;
     }
+
 }

@@ -9,7 +9,7 @@ return [
      */
 
     'role'       => 'Kodeine\Acl\Models\Eloquent\Role',
-    'permission' => 'Kodeine\Acl\Models\Eloquent\Permission',
+    'permission' => 'App\Permission',
 
     /**
      * Most Permissive Wins right
@@ -29,4 +29,11 @@ return [
     'cacheMinutes' => 1,
 
     'ntfs' => false,
+
+    'default_roles' => [
+        'admin',
+        'manager',
+        'client',
+        'member'
+    ]
 ];

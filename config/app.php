@@ -180,7 +180,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Tolawho\Loggy\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -239,6 +239,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Chat' => Musonza\Chat\Facades\ChatFacade::class,
+        'Loggy' => Tolawho\Loggy\Facades\Loggy::class,
 
     ],
 

@@ -106,6 +106,18 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function ()
   Route::get('/defaults', 'PermissionController@defaultPermissions');
 });
 
+
+//permission
+Route::group(['middleware' => 'auth:api', 'prefix' => 'roles'], function () {
+
+  Route::get('/company', 'RoleController@companyRoles');
+
+  Route::get('/default', 'RoleController@defaultRoles');
+
+  Route::get('{id}/permissions', 'RoleController@getPermissionByRole');
+
+});
+
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
