@@ -64,4 +64,33 @@ class RoleController extends Controller
 
     	return response()->json(['data' => $permissions ] , 200 );
     }
+
+    public function updateRolePermissions($role_id)
+    {
+        //todo policy
+        request()->validate([
+            'role_id' => 'required',
+            'permissions' => 'required' 
+        ]);
+
+        $role = Role::findOrFail($role_id);
+
+        if (!$role) {
+            return response()->json([
+                'message' => "Can't find role!",
+                'type' => 'error'
+            ], 200);
+        }
+
+        foreach (request()->permissions as $key => $permission) {
+            $perm = Permission::findOrFail($permission['id']);
+            $perm->slug = $permission['slug'];
+            $perm->save();
+        }
+
+        return response()->json([
+                'message' => "Permission for role ".$role->name." successfully updated",
+                'type' => 'success'
+            ], 200);
+    }
 }

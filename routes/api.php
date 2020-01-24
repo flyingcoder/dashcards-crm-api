@@ -116,6 +116,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'roles'], function () {
 
   Route::get('{id}/permissions', 'RoleController@getPermissionByRole');
 
+  Route::put('{id}/permissions', 'RoleController@updateRolePermissions');
+
 });
 
 //company
