@@ -37,19 +37,26 @@ class TaskController extends Controller
         return Task::store();
     }
 
-     /**
-     *
-     * Update a task
-     *
-     */
-
-    public function update($milestone_id, $task_id)
+    public function update($task_id)
     {
         $task = Task::findOrFail($task_id);
 
         //(new TaskPolicy())->update($task);
 
         return $task->updateTask();
+    }
+
+    public function delete($task_id)
+    {
+        $task = Task::findOrFail($task_id);
+
+        // (new TaskPolicy())->delete($task);
+
+        if($task->delete()) {
+            return response('Task is successfully deleted.', 200);
+        } else {
+            return response('Failed to delete task.', 500);
+        }
     }
 
     public function comments($id)
@@ -105,25 +112,6 @@ class TaskController extends Controller
         ]);
 
         return $stat;
-    }
-
-    /**
-     *
-     * Delete a specific task
-     *
-     */
-
-    public function delete($milestone_id, $task_id)
-    {
-        $task = Task::findOrFail($task_id);
-
-        // (new TaskPolicy())->delete($task);
-
-        if($task->delete()) {
-            return response('Task is successfully deleted.', 200);
-        } else {
-            return response('Failed to delete task.', 500);
-        }
     }
     
     /**

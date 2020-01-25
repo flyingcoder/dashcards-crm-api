@@ -69,12 +69,23 @@ class Task extends Model
 
         $this->save();
 
-        if(request()->has('assigned_id') && !empty(request()->assigned_id)) {
-            $this->assigned()->sync(request()->assigned_id);
+        if(request()->has('assigned') && !empty(request()->assigned)) {
 
-            $this->assigned_id = request()->assigned_id;
+            $user_ids = request()->assigned;
 
-            $user = User::findOrFail(request()->assigned_id[0]);
+            if(is_array(request()->assigned)) {
+                foreach (request()->assigned as $key => $value) {
+                     $user_ids[] = $value->id;
+                }
+            }
+
+
+            $this->assigned()->sync($user_ids);
+
+            $this->assigned = $this->assigned;
+
+            //check if 
+            $user = User::findOrFail(request()->assigned[0]);
 
             $this->assignee_url = $user->image_url;
         }

@@ -211,11 +211,7 @@ class Milestone extends Model
 
         $data->map(function ($milestone) {
             $milestone->tasks->map(function ($task) {
-                $id = [];
-                foreach ($task->assigned()->get() as $value) {
-                    $id[] = $value->id;
-                }
-                $task['assigned_id'] = $id;
+                $task->assigned;
             });
         });
 

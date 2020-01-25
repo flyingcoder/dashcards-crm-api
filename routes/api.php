@@ -262,6 +262,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/tasks', 'UserController@tasks');
 
+  Route::get('{user_id}/tasks', 'UserController@userTasks');
+
   Route::get('/tasks/count', 'UserController@countTasks');
 
   Route::get('/projects', 'UserController@projects');

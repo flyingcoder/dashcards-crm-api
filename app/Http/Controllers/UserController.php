@@ -155,6 +155,19 @@ class UserController extends Controller
         return User::findOrFail(request()->user()->id)->tasks;
     }
 
+    public function userTasks($user_id)
+    {
+        $user = User::findOrFail($user_id);
+
+        $tasks = $user->tasks;
+
+        $tasks->map(function ($task, $key) use ($user) {
+            $task['assignee_url'] = $user->image_url;
+        });
+
+        return $tasks;
+    }
+
     public function show(Request $request)
     {
         (new UserPolicy())->show(User::findOrFail($request->id));
