@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Company;
-use App\Team;
 use App\Dashboard;
 use App\Events\UsersPresence;
-use Kodeine\Acl\Models\Eloquent\Role;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-
+use App\Team;
+use App\User;
 use Exception;
-
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 class ApiRegisterController extends Controller
 {
@@ -62,6 +61,7 @@ class ApiRegisterController extends Controller
         ]);
 
         try {
+            DB::beginTransaction();
 
             $company = Company::create([
                 'name' => $request->company_name,
@@ -99,6 +99,8 @@ class ApiRegisterController extends Controller
 
             $user->save();
 
+            DB::commit();
+
             $userObject->is_admin = true;
 
             $userObject->role = $user->userRole();
@@ -113,6 +115,8 @@ class ApiRegisterController extends Controller
             ], 200);
 
          } catch (Exception $e) {
+            DB::rollback();
+            
             $error_code = $e->errorInfo[1];
             switch ($error_code) {
                 case 1062:

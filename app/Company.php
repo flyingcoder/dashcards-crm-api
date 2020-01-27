@@ -2,17 +2,17 @@
 
 namespace App;
 
-use DB;
+use App\Permission;
 use Auth;
+use DB;
 use Illuminate\Database\Eloquent\Model;
-use Kodeine\Acl\Models\Eloquent\Role;
-use Kodeine\Acl\Models\Eloquent\Permission;
-use Plank\Metable\Metable;
-use Spatie\MediaLibrary\Media;
-use Illuminate\Http\Request;
-use Spatie\Activitylog\Models\Activity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use Kodeine\Acl\Models\Eloquent\Role;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Plank\Metable\Metable;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\MediaLibrary\Media;
 
 class Company extends Model
 {
@@ -140,7 +140,7 @@ class Company extends Model
         list($sortName, $sortValue) = parseSearchParam(request());
 
         if(request()->has('all') && request()->all)
-            return Permission::whereIn('company_id', [0])->get();
+            return Permission::where('company_id', $this->id)->get();
 
         $model = $this->permissions();
 
@@ -525,12 +525,11 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $model = Role::whereIn('company_id', [0, $this->id])
-                     ->where('roles.slug', '!=', 'client');
-
-        if(auth()->user()->hasRole('manager|client')) {
-            $model->where('roles.slug', '!=', 'admin')
-                  ->where('roles.slug', '!=', 'manager');
+        if(request()->has('default') && request()->default == true) {
+            $model = Role::where('company_id', 0);
+        } else {
+            $model = Role::whereIn('company_id', [0, $this->id])
+                    ->whereNotIn('roles.slug', ['client','manager', 'member']);
         }
 
         if($request->has('sort') && !is_null($sortValue))

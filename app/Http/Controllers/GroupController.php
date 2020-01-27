@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Group;
-use Kodeine\Acl\Models\Eloquent\Permission;
-use Illuminate\Http\Request;
+use App\Permission;
 use App\Policies\GroupPolicy;
-use Kodeine\Acl\Models\Eloquent\Role;
+use Auth;
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 class GroupController extends Controller
 {
@@ -44,41 +46,56 @@ class GroupController extends Controller
             'name' => 'required',
         ]);
 
-        $slug = SlugService::createSlug(Group::class, 'slug', request()->name);
+        try {
+            DB::beginTransaction();
 
-        $description = isset(request()->description) ? request()->description : '' ;
+            $slug = SlugService::createSlug(Group::class, 'slug', request()->name);
 
-        $role = $company->roles()->create([
-                        'name' => request()->name,
-                        'slug' => $slug,
-                        'description' => $description
+            $description = isset(request()->description) ? request()->description : '' ;
+
+            if(request()->has('selected_group') && !empty(request()->selected_group)) {
+
+                $role = $company->roles()->create([
+                            'name' => request()->name,
+                            'slug' => $slug,
+                            'description' => $description,
+                            'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+                        ]);
+
+                $copy_role = Role::findOrFail(request()->selected_group);
+
+                $perms = $copy_role->permissions;
+
+                foreach ($perms as $key => $perm) {
+                    $key_prefix = explode('.', $perm->name)[0];
+                    $perm = $company->permissions()->create([
+                        'company_id' => $company->id,
+                        'name' => $key_prefix.'.'.$slug,
+                        'slug' => $perm->slug ,
+                        'inherit_id' => $perm->inherit_id,
+                        'description' => Auth::user()->company()->name." ".request()->name." Permissions"
                     ]);
-
-        if(request()->has('selected_group')) {
-
-            $copy_role = Role::findOrFail(request()->selected_group);
-
-            $perms = $copy_role->getPermissions();
-
-            foreach ($perms as $key => $value) {
-
-                $parent = Permission::where('name', $key)->first();
-
-                $perm = $company->permissions()->create([
-                    'company_id' => $company->id,
-                    'name' => $key.'.'.$slug,
-                    'slug' => [],
-                    'inherit_id' => $parent->id
-                ]);
-
-                $role->assignPermission($perm->id);
+                    if ($perm) {
+                        $role->assignPermission($perm->id);
+                    }
+                }
             }
+            
+            DB::commit();
+
+            $rol = Role::findOrFail($role->id);
+
+            $rol->permissions;
+            
+            return $rol;
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'type' => 'error'
+            ], 500 );
         }
-
-        $rol = Role::findOrFail($role->id);
-
-        $rol->permissions;
-        
-        return $rol;
     }
+
 }

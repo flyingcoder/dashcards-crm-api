@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use DB;
-use Auth;
-use App\User;
-use App\Team;
 use App\Company;
 use App\Mail\UserCredentials;
-use Illuminate\Validation\Rule;
 use App\Rules\CollectionUnique;
-use Kodeine\Acl\Models\Eloquent\Role;
+use App\Team;
+use App\User;
+use Auth;
+use DB;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Validation\Rule;
+use Kodeine\Acl\Models\Eloquent\Permission;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 class TeamController extends Controller
 {
@@ -206,12 +207,23 @@ class TeamController extends Controller
     public function deletegroup($id)
     {
         $role = Role::findOrFail($id);
+        try {
+            DB::beginTransaction();
+            $perms = $role->getPermissions();
 
-        if ($role->destroy($id)) {
-            return response('Group is successfully deleted.', 200);
-        } else {
+            foreach ($perms as $key => $value) {
+                $permission = Permission::where('name', $key.'.'.$role->slug)->where('company_id', $role->company_id)->first();
+                $permission->delete();
+            }
+
+            $role->destroy($id);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
             return response('Failed to delete group.', 500);
         }
+        return response('Group is successfully deleted.', 200);
     }
 
     public function role()

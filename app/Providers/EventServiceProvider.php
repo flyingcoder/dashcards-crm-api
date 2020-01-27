@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
+use App\Company;
+use App\Observers\CompanyObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,11 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        $this->customObservers();
+    }
+
+    protected function customObservers()
+    {
+        Company::observe(CompanyObserver::class);
     }
 }
