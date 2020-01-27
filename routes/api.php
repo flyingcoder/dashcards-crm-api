@@ -167,9 +167,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () 
 
   Route::post('{id}/task', 'MilestoneController@addTasks');
 
-  Route::put('{milestone_id}/task/{id}', 'TaskController@update');
+  Route::put('{milestone_id}/task/{task_id}', 'TaskController@update');
 
-  Route::delete('{milestone_id}/task/{id}', 'TaskController@delete');
+  Route::delete('{milestone_id}/task/{task_id}', 'TaskController@delete');
 
 });
 
@@ -276,6 +276,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   Route::post('/company/paypal-details', 'UserController@addPaypalDetails');
 
   Route::get('/tasks', 'UserController@tasks');
+
+  Route::get('{user_id}/tasks', 'UserController@userTasks');
 
   Route::get('/tasks/count', 'UserController@countTasks');
 

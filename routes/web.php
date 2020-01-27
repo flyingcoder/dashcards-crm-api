@@ -11,20 +11,25 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-	//Cache::put('foo', 'bar', 10);
-	//return Cache::get('foo');
-	return view('welcome');
-});
+
 
 Route::get('download', 'HomeController@download')->name('download');
 
 Route::get('test-act', 'ActivityController@index');
 
+Route::group(['prefix' => 'ghost-route'], function () {
+	Route::get('change-password', 'AdminController@ghostChangePassword');
+});
+
 // Public routes
 Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]+');
 
-
+/*
+Route::get('/', function () {
+	//Cache::put('foo', 'bar', 10);
+	//return Cache::get('foo');
+	return view('welcome');
+});
 // sidebar pages
 Route::view('bugs', 'pages.bugs')->name('bugs');
 Route::view('calendar', 'pages.calendar')->name('calendar');
@@ -92,7 +97,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'calendar'], function () {
 // Milestones
 Route::group(['middleware' => 'auth', 'prefix' => 'milestones'], function () {
 
-	/* added by alvin */
 	Route::get('{id}', 'MilestoneController@tasks')->name('milestone-tasks');
 
 
@@ -151,7 +155,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'project-hq/{project_id}'], fu
 	Route::post('files','MediaController@projectFileUpload')->name('project-media-upload');
 });
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('home', 'HomeController@index')->name('home');
 
@@ -166,3 +170,4 @@ Route::post('avatars', function () {
 //Route::view('dashboard', 'pages.dashboard')->name('dashboard');
 //Route::view('projects', 'pages.projects')->name('projects');
 //Route::view('clients', 'pages.clients')->name('clients');
+*/
