@@ -40,4 +40,9 @@ class CompanyController extends Controller
 
         return $user;
     }
+
+    public function invoices()
+    {
+        return auth()->user()->company()->invoices()->get();
+    }
 }
