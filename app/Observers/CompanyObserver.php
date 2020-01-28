@@ -29,7 +29,7 @@ class CompanyObserver
             $replicated_role = $company->roles()->create([
                         'name' => $role->name,
                         'slug' => $unique_slug,
-                        'description' => str_replace('Laravel', $company->name, $role->description),
+                        'description' => $role->description,
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);
 

@@ -165,7 +165,7 @@ class RoleSeeder extends Seeder
 					'company_id' => 0,
 				    'name' => $value,
 				    'slug' => strtolower($value),
-					'description' => env('APP_NAME') .' '. $value .' Privileges',
+					'description' => config('acl.default_roles')[strtolower($value)],
 				]
 			);
     	}

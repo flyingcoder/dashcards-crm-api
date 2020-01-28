@@ -719,8 +719,8 @@ class Company extends Model
 
     public function clients()
     {   
-        $client_group = $this->teams()->where('slug', 'client-'.$this->id)->first();
-        
+        $client_group = $this->teams()->where('slug', 'clients-'.$this->id)->first();
+
         if( ! $client_group )
             abort(204, 'Team not found!');
 
@@ -735,21 +735,21 @@ class Company extends Model
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS full_name'),
                         'company.value as company_name',
                         'status.value as status',
-                        'users.*'
+                        'users.*',
                     )->with(['projectsCount'])
                     ->where('users.deleted_at', null);
                     
     }
 
-    public function paginatedCompanyClients(Request $request)
+    public function paginatedCompanyClients()
     {
-        list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam(request());
 
         $clients = $this->clients();
 
         $clients->latest();
 
-        if($request->has('sort') && !empty(request()->sort))
+        if(request()->has('sort') && !empty(request()->sort))
             $clients->orderBy($sortName, $sortValue);
         
         if(request()->has('per_page') && is_numeric(request()->per_page))

@@ -11,6 +11,11 @@ return [
     'role'       => 'Kodeine\Acl\Models\Eloquent\Role',
     'permission' => 'App\Permission',
 
+    'role_description' => [
+        'admin'
+
+    ],
+
     /**
      * Most Permissive Wins right
      * If you have multiple permission aliases assigned, each alias
@@ -31,9 +36,9 @@ return [
     'ntfs' => false,
 
     'default_roles' => [
-        'admin',
-        'manager',
-        'client',
-        'member'
+        'admin' => 'Lorem ipsum dolor amet affogato adaptogen hella, VHS shabby chic umami photo booth.',
+        'manager' => 'Woke listicle adaptogen, direct trade brunch you probably havent heard of them messenger bag bespoke.',
+        'client' => 'Authentic pug vape ramps, paleo live-edge offal 8-bit celiac crucifix portland af.',
+        'member' => 'Gastropub godard sustainable church-key shaman chicharrones.'
     ]
 ];
