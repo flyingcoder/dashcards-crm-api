@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46a12085190293474c15071bb229840c",
+    "content-hash": "c5bb406107c2136be2c8a279b99b7612",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -1631,6 +1631,7 @@
                 "Guzzle",
                 "stream"
             ],
+            "abandoned": true,
             "time": "2014-10-12T19:18:40+00:00"
         },
         {
@@ -6897,6 +6898,49 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2019-10-24T08:53:34+00:00"
+        },
+        {
+            "name": "tolawho/loggy",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tolawho/loggy.git",
+                "reference": "9e159a96f21e6181c708fcad5d3e736d2aef4d56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tolawho/loggy/zipball/9e159a96f21e6181c708fcad5d3e736d2aef4d56",
+                "reference": "9e159a96f21e6181c708fcad5d3e736d2aef4d56",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tolawho\\Loggy\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Loggy": "Tolawho\\Loggy\\Facades\\Loggy"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tolawho\\Loggy\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "tolawho",
+                    "email": "tolawho@gmail.com"
+                }
+            ],
+            "description": "Laravel 5 log with multiple channel",
+            "time": "2019-11-19T07:22:38+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
