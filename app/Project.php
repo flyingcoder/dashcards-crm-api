@@ -25,14 +25,14 @@ class Project extends Model implements HasMediaConversions
 
     protected $dates = ['deleted_at'];
 
-    protected static $logName = 'system';
+    protected static $logName = 'project';
 
     protected $fillable = [
         'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
     ];
 
     protected static $logAttributes = [
-        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
+        'title', 'started_at', 'service_id', 'end_at', 'status', 'company_id'
     ];
 
     public function tapActivity(Activity $activity, string $eventName)
