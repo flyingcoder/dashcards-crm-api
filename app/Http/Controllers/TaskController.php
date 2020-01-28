@@ -52,11 +52,7 @@ class TaskController extends Controller
 
         // (new TaskPolicy())->delete($task);
 
-        if($task->delete()) {
-            return response('Task is successfully deleted.', 200);
-        } else {
-            return response('Failed to delete task.', 500);
-        }
+        return $task->destroy($task_id);
     }
 
     public function comments($id)
