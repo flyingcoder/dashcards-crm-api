@@ -391,9 +391,9 @@ class Company extends Model
                     
     }
 
-    public function paginatedCompanyMembers(Request $request)
+    public function paginatedCompanyMembers()
     {
-        list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam(request());
 
         $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
 
@@ -411,6 +411,7 @@ class Company extends Model
 
         $data->map(function ($user) {
             unset($user['projects']);
+            $user->getAllMeta();
             $user['tasks'] = $user->tasks()->where('tasks.deleted_at', null)->count();
             $user['projects'] = $user->projects()->where('projects.deleted_at', null)->count();
             $roles = $user->roles()->first();
