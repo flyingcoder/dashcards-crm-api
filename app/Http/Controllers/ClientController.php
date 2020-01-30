@@ -20,14 +20,11 @@ class ClientController extends Controller
     public function index()
     {
         $company = Auth::user()->company();
-
-        if(request()->has('all') && request()->all == true) {
-            $result = $company->clients()->get();
-        } else {
-            $result = $company->paginatedCompanyClients();
+        if(request()->has('all') && request()->all ) {
+            return $company->clients()->get();
         }
-
-        return $result;
+        
+        return $company->paginatedCompanyClients();
     }
 
     public function client($id)
