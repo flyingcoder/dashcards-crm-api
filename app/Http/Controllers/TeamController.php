@@ -150,6 +150,8 @@ class TeamController extends Controller
 
         $member->setMeta('rate', request()->rate);
 
+        $member->week_hours = $member->totalTimeThisWeek();
+
         return $member;
     }
 

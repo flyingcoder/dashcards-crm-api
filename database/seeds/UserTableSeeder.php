@@ -47,7 +47,7 @@ class UserTableSeeder extends Seeder
 
         $team->members()->attach([1,2]);
 
-        App\Team::create([
+        $team = App\Team::create([
             'name' => 'Clients teams',
             'description' => 'Clients team of seed company',
             'company_id' => 1,
@@ -74,10 +74,6 @@ class UserTableSeeder extends Seeder
 
         $userBentong->assignRole('client');
 
-        $team = App\Team::where('company_id', 1)
-                        ->where('slug', 'client-1')
-                        ->get();
-
-        $userBentong->teams()->attach($team);
+        $userBentong->teams()->attach($team->id);
     }
 }
