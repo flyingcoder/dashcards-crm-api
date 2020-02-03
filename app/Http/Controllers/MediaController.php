@@ -171,44 +171,54 @@ class MediaController extends Controller
         $collectionName = $this->collectionName($file);
 
         if(!$collectionName)
-          return response('Invalid file format.', 422);
+          return response()->json(['Invalid file format.'], 422);
+          
+        try {
+          DB::beginTransaction();
 
-        $type = $this->fileType($file);
+          $type = $this->fileType($file);
 
-        $project = Project::findOrFail($project_id);
+          $project = Project::findOrFail($project_id);
 
-        $media = $project->addMedia($file)
-                         ->withCustomProperties([
-                          'ext' => $file->extension(),
-                          'user' => auth()->user()
-                         ])
-                         ->toMediaCollection($collectionName);
+          $media = $project->addMedia($file)
+                           ->withCustomProperties([
+                            'ext' => $file->extension(),
+                            'user' => auth()->user()
+                           ])
+                           ->toMediaCollection($collectionName);
 
-        $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
+          $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
 
-        activity('files')
-              ->performedOn($project)
-              ->causedBy(auth()->user())
-              ->withProperties([
-                    'company_id' => auth()->user()->company()->id,
-                    'media' => $media,
-                    'thumb_url' => $media->getUrl('thumb')
-                  ])
-              ->log($log);
+          activity('files')
+                ->performedOn($project)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                      'company_id' => auth()->user()->company()->id,
+                      'media' => $media,
+                      'thumb_url' => $media->getUrl('thumb')
+                    ])
+                ->log($log);
 
 
+          $activity = Activity::where('properties->media->id', $media->id)->first();
 
-        $activity = Activity::where('properties->media->id', $media->id)->first();
+          $activity->users()->attach(auth()->user()->company()->membersID());
 
-        $activity->users()->attach(auth()->user()->company()->membersID());
+          DB::commit();
 
-        $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
+          $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
 
-        $media['public_url'] = url($media->getUrl());
+          $media['public_url'] = url($media->getUrl());
 
-        $media['thumb_url'] = url($media->getUrl('thumb'));
+          $media['thumb_url'] = url($media->getUrl('thumb'));
 
-        return $media->toJson();
+          return $media->toJson();
+
+        } catch (\Exception $e) {
+          DB::rollback();
+          $error = strripos($e->getMessage(), 'maximum allowed') !== false ? 'File size exceed max limit.' : $e->getMessage();
+          return response()->json([ $error ], 422);
+        }
     }
 
     public function delete($id)
