@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
-use Spatie\MediaLibrary\Media;
-use Illuminate\Http\Request;
 use App\Project;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\Media;
 use Storage;
 use URL;
 
 class MediaController extends Controller
 {
   	private $allowedDocs = [
-  		'docx', 'csv', 'doc', 'pdf', 'pptx', 'pps'
+  		'docx', 'csv', 'doc', 'pdf', 'pptx', 'pps', 'txt'
   	]; 
 
   	private $allowedImages = [
-  		'png', 'jpg', 'jpeg', 'bmp', 'ico', 'svg', 'psd'
+  		'png', 'jpg', 'jpeg', 'bmp', 'ico', 'svg', 'psd', 'gif'
   	];
 
   	private $allowedVideos = [
@@ -25,7 +26,7 @@ class MediaController extends Controller
   	];
 
   	private $allowedOtherFiles = [
-  		'zip'
+  		'zip', 'rar'
   	];
 
 
@@ -60,6 +61,7 @@ class MediaController extends Controller
 
             case 'others':
               $mime_type = [
+                  'application/rar',
                   'application/zip',
                   'application/octet-stream',
                   'application/x-zip-compressed',
