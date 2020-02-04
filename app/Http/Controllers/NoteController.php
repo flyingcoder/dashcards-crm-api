@@ -48,10 +48,14 @@ class NoteController extends Controller
         return $note->updateNote();
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $note = Note::findOrFail($id);
 
-        return $note->destroy();
+        if($note->delete()){
+            return response()->json(['message' => 'Note successfully deleted.'], 200);
+        }
+
+        return response()->json(['error' => $e->getmessage()], 422);
     }
 }
