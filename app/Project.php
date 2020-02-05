@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Events\ActivityEvent;
+use App\MediaLink;
+use App\Traits\HasMediaLink;
 use Auth;
 use Carbon\Carbon;
 use Chat;
@@ -19,7 +21,7 @@ use Spatie\MediaLibrary\Media;
 
 class Project extends Model implements HasMediaConversions
 {
-    use SoftDeletes, HasMediaTrait, LogsActivity, Metable;
+    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable;
 
     protected $paginate = 10;
 
@@ -49,6 +51,12 @@ class Project extends Model implements HasMediaConversions
     public function conversations()
     {
         return $this->hasMany(Conversation::class);
+    }
+
+    public function mediaLinks()
+    {
+        return $this->hasMany(MediaLink::class, 'model_id', 'id')
+                    ->where('collection_name', 'project.files.links');
     }
 
     public function sendMessages()
