@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Project;
-use App\MediaLink;
+use Embed\Embed;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,7 +114,11 @@ class MediaController extends Controller
         $user = auth()->user();
         
         $project = Project::findOrFail($project_id);
-        $info   = MediaLink::getUrlData(request()->url);
+        $info   = Embed::create(request()->url);
+
+        if (!$info) {
+          throw new \Exception("Error! Invalid url.", 422);
+        }
 
         $media = $project->createMediaLink([
             'name' => $info->title,
