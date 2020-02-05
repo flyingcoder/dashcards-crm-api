@@ -352,8 +352,6 @@ class Project extends Model implements HasMediaConversions
             $data = $tasks->get();
         
         $data->map(function ($model) {
-            $model['total_time'] = $model->total_time();
-            $model['assignee_url'] = '';
             $arr = [];
             foreach ($model->assigned()->get() as $key => $value) {
                 $arr[] = $value->id;
@@ -369,8 +367,22 @@ class Project extends Model implements HasMediaConversions
                     $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
-        return $data;
+        $datus = $data->toArray();
+
+        $datus['counter'] = [
+            'open' => $this->taskStatusCounter('open'),
+            'behind' => $this->taskStatusCounter('behind'),
+            'completed' => $this->taskStatusCounter('completed'),
+            'pending' => $this->taskStatusCounter('pending')
+        ];
+
+        return $datus;
         
+    }
+
+    public function taskStatusCounter($status)
+    {
+        return $this->tasks()->where('status', $status)->count();
     }
 
     public function paginatedProjectMyTasks()
