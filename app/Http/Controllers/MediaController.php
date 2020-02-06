@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Project;
+use Embed\Embed;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\Media;
-use Storage;
-use URL;
 
 class MediaController extends Controller
 {
@@ -70,16 +71,26 @@ class MediaController extends Controller
 
               $medias->whereIn('mime_type', $mime_type);
               break;
+
+            case 'links':
+              $medias->where('mime_type', 'link');
+              break;
           }
         }
 
         $medias = $medias->latest()->paginate(10);
 
         $medias->map(function ($media) {
-           $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
-           $media['public_url'] = url($media->getUrl());
-           $media['thumb_url'] = url($media->getUrl('thumb'));
-           return $media;
+          if($media->mime_type == 'link'){
+           $media['download_url'] = $media->getCustomProperty('url');
+           $media['public_url'] = $media->getCustomProperty('image');
+           $media['thumb_url'] = $media->getCustomProperty('thumb');
+          } else {
+            $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
+            $media['public_url'] = url($media->getUrl());
+            $media['thumb_url'] = url($media->getUrl('thumb'));
+          }
+          return $media;
         });
 
         return $medias;
@@ -94,30 +105,68 @@ class MediaController extends Controller
 
     public function addMediaLink($project_id)
     {
-        $type = $this->fileType(request());
+      request()->validate([
+          'url' => 'required|url'
+        ]);
 
-        $media = $project->addMedia(request()->url)
-                ->withCustomProperties(['type' => 'link'])
-                ->toMediaCollection($collectionName);
-
-        $log = auth()->user()->first_name.' linked a file.';
-
-        $activity = activity('files')
-                       ->performedOn($project)
-                       ->causedBy(auth()->user())
-                       ->withProperties([
-                          'company_id' => auth()->user()->company()->id,
-                          'media' => $media,
-                          'thumb_url' => $media->getUrl('thumb')
-                        ])
-                       ->log($log);
-
-        $activity = Activity::latest()->first();
-
-        $activity->users()->attach(auth()->user()->company()->membersID());
-
-        return $activity;
+      try {
+        DB::beginTransaction();
+        $user = auth()->user();
         
+        $project = Project::findOrFail($project_id);
+        $info   = Embed::create(request()->url);
+
+        if (!$info) {
+          throw new \Exception("Error! Invalid url.", 422);
+        }
+
+        $media = $project->createMediaLink([
+            'name' => $info->title,
+            'file_name' => $info->providerName. ' Link',
+            'custom_properties' => [
+              'ext' => 'link',
+              'url' => request()->url,
+              'thumb' => $info->providerIcon,
+              'image' => $info->image,
+              'description' => $info->description,
+              'type' => $info->type,
+              'embed' => $info->code,
+              'embed_width' => $info->width,
+              'embed_height' => $info->height,
+              'embed_ratio' => $info->aspectRatio,
+              'user' => $user
+            ]
+        ]);
+        
+        activity('files')->performedOn($project)
+                       ->causedBy($user)
+                       ->withProperties([
+                          'company_id' => $user->company()->id,
+                          'media' => $media,
+                          'thumb_url' => $media->getCustomProperty('thumb')
+                        ])
+                       ->log($user->first_name.' linked a file.');
+
+        $activity = Activity::where('properties->media->id', $media->id)->first();
+
+        $activity->users()->attach($user->company()->membersID());
+
+        DB::commit();
+
+        $media['download_url'] = $media->getCustomProperty('url');
+        $media['public_url'] = $media->getCustomProperty('image');
+        $media['thumb_url'] = $media->getCustomProperty('thumb');
+
+        return $media->toJson();
+
+      } catch (\Exception $e) {
+        DB::rollback();
+
+        return response()->json([
+                'error'=> $e->getMessage(),
+                'code' => $e->getCode()
+              ], 422);
+      }
     }
 
     public function collectionName($file)
