@@ -22,6 +22,7 @@ class MilestoneController extends Controller
     {
         $milestone = Milestone::findOrFail($id);
 
+        return request()->id;
         return $milestone->addTask();
     }
 

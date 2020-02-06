@@ -382,7 +382,7 @@ class Project extends Model implements HasMediaConversions
 
     public function taskStatusCounter($status)
     {
-        return $this->tasks()->where('status', $status)->count();
+        return $this->tasks()->where('tasks.status', $status)->count();
     }
 
     public function paginatedProjectMyTasks()
@@ -412,13 +412,16 @@ class Project extends Model implements HasMediaConversions
         if(request()->has('all') && request()->all)
             $data = $tasks->get();
 
-        $data->map(function ($model) {
-            $users = $model->assigned;
-            $model['total_time'] = $model->total_time();
-            $model['assignee_url'] = auth()->user()->image_url;
-        });
+        $datus = $data->toArray();
 
-        return $data;
+        $datus['counter'] = [
+            'open' => $this->taskStatusCounter('open'),
+            'behind' => $this->taskStatusCounter('behind'),
+            'completed' => $this->taskStatusCounter('completed'),
+            'pending' => $this->taskStatusCounter('pending')
+        ];
+
+        return $datus;
     }
     
     public function milestones()
