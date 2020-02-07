@@ -714,7 +714,7 @@ class Company extends Model
             if(is_object($model->assigned()->first()))
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
-        
+
         $datus = $data->toArray();
 
         $datus['counter'] = [
@@ -727,6 +727,11 @@ class Company extends Model
         return $datus;
     }
 
+    public function taskStatusCounter($status)
+    {
+       return $this->tasks()->where('status', $status)->count();
+    }
+    
     public function clients()
     {   
         $client_group = $this->teams()->where('slug', 'client-'.$this->id)->first();
