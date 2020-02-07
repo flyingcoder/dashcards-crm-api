@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
-class ForgotPasswordController extends Controller
+class ApiForgotPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -23,12 +24,12 @@ class ForgotPasswordController extends Controller
 
     protected function sendResetLinkResponse(Request $request, $response)
     {
-        return response([ 'message' => $response ]);
+        return response([ 'message' => trans($response) ]);
     }
 
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        return response([ 'message' => $response ], 422);
+        return response([ 'message' => trans($response) ], 422);
     }
 
 }

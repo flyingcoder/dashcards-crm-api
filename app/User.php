@@ -48,7 +48,7 @@ class User extends Authenticatable implements HasMediaConversions
 
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new PasswordResetNotification($token));
+        $this->notify(new PasswordResetNotification($token, $this->email));
     }
 
     public function taskStatusCounter($status)

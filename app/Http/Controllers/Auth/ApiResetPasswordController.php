@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
-class ResetPasswordController extends Controller
+class ApiResetPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -22,11 +23,11 @@ class ResetPasswordController extends Controller
 
     protected function sendResetResponse(Request $request, $response)
     {
-        return response([ 'message' => $response ]);
+        return response([ 'message' => trans($response) ]);
     }
 
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return response([ 'message' => $response ], 422);
+        return response([ 'message' => trans($response) ], 422);
     }
 }
