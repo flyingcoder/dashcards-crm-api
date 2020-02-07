@@ -18,6 +18,26 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
 });
 
+Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function () {
+
+  Route::post('/', 'Auth\ApiRegisterController@create');
+  
+  //Route::post('/set-password', 'Auth\ApiRegisterController@setPassword');
+
+  //Route::post('/get-user-id', 'Auth\ApiRegisterController@getUserId');
+
+});
+
+Route::post('login', 'Auth\ApiLoginController@login');
+
+Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'password'], function () {
+
+  Route::post('email', 'Auth\ApiForgotPasswordController@sendResetLinkEmail');
+
+  Route::post('reset', 'Auth\ApiResetPasswordController@reset');
+
+});
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'note'], function () {
 
   Route::get('/', 'NoteController@index');
@@ -86,9 +106,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'autocomplete'], function 
   Route::get('{model}', 'SearchController@autocomplete');
 
 });
-
-
-Route::post('login', 'Auth\ApiLoginController@login');
 
 //permission
 Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function () {
@@ -191,16 +208,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
    Route::get('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@milestone')
          ->where('parent', 'project|template');
-});
-
-Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function () {
-
-  Route::post('/', 'Auth\ApiRegisterController@create');
-  
-  Route::post('/set-password', 'Auth\ApiRegisterController@setPassword');
-
-  Route::post('/get-user-id', 'Auth\ApiRegisterController@getUserId');
-
 });
 
 //events
