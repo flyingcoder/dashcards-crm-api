@@ -183,7 +183,7 @@ class ClientController extends Controller
             $team->members()->attach($client);
 
         $client->assignRole('client');
-        
+
         $client['status'] = request()->status;
         $client['company_name'] = request()->company_name; 
         $client['location'] = request()->location;
@@ -246,9 +246,10 @@ class ClientController extends Controller
         
         $client->save();
 
-        $client['status'] = $client->getMeta('status');
-        $client['company_name'] = $client->getMeta('company_name');
-        $client['location'] = $client->getMeta('location');
+        $client['status'] = request()->status ?? 'Active';
+        $client['company_name'] = request()->company_name ?? '';
+        $client['location'] = request()->location ?? '';
+        $client['contact_name'] = request()->contact_name ?? '';
 
         return $client;
     }
