@@ -166,9 +166,12 @@ class ClientController extends Controller
         $client->setMeta('company_name', request()->company_name);
         if(request()->has('location'))
             $client->setMeta('location', request()->location);
+        if(request()->has('contact_name'))
+            $client->setMeta('contact_name', request()->contact_name);
+        
         // $client->setMeta('company_email', request()->company_email); //Commented by: Dustin 04-20-2018 //No data in form
         // $client->setMeta('company_tel', request()->company_tel); //Commented by: Dustin 04-20-2018 //No data in form
-        $client->setMeta('status', request()->status);
+        $client->setMeta('status', request()->status ?? 'Active');
         $client->setMeta('created_by', Auth::user()->id);
 
         $company = Auth::user()->company();
@@ -180,10 +183,11 @@ class ClientController extends Controller
             $team->members()->attach($client);
 
         $client->assignRole('client');
-
-        $client['status'] =request()->status;
+        
+        $client['status'] = request()->status;
         $client['company_name'] = request()->company_name; 
-        $client['location'] = request()->location; 
+        $client['location'] = request()->location;
+        $client['contact_name'] = request()->contact_name; 
 
         return $client;
     }
@@ -235,7 +239,10 @@ class ClientController extends Controller
 
         $client->setMeta('company_name', request()->company_name);
         $client->setMeta('status', request()->status);
-        $client->setMeta('location', request()->location);
+        if(request()->has('location'))
+            $client->setMeta('location', request()->location);
+        if(request()->has('contact_name'))
+            $client->setMeta('contact_name', request()->contact_name);
         
         $client->save();
 
