@@ -166,7 +166,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () 
 
   Route::get('{id}/task', 'MilestoneController@tasks');
 
-  Route::post('{id}/task', 'MilestoneController@addTasks');
+  Route::post('{milestone_id}/task', 'TaskController@store');
 
   Route::put('{milestone_id}/task/{task_id}', 'TaskController@update');
 

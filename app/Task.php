@@ -26,6 +26,21 @@ class Task extends Model
 
     protected static $logName = 'system';
 
+    public function toArray() {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'milestone_id' => $this->milestone_id,
+            'status' => $this->status,
+            'days' => $this->days,
+            'total_time' => $this->total_time(),
+            'assignee' => $this->assigned,
+            'description' => $this->description,
+            'started_at' => $this->started_at,
+            'end_at' => $this->end_at
+        ];
+    }
+    
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A task has been {$eventName}";
@@ -118,14 +133,10 @@ class Task extends Model
 
         $task->save();
 
-        if(request()->has('assigned_ids')) {
-            $task->assigned()->sync(request()->assigned_ids);
+        if(request()->has('assigned')) {
+            $task->assigned()->sync(request()->assigned);
 
-            $task->assigned_ids = request()->assigned_ids;
-
-            $user = User::findOrFail(request()->assigned_ids[0]);
-
-            $task->assignee_url = $user->image_url;
+            $task->assigned_ids = request()->assigned;
         }
 
         return $task;

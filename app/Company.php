@@ -715,7 +715,21 @@ class Company extends Model
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
-        return $data;
+        $datus = $data->toArray();
+
+        $datus['counter'] = [
+            'open' => $this->taskStatusCounter('open'),
+            'behind' => $this->taskStatusCounter('behind'),
+            'completed' => $this->taskStatusCounter('completed'),
+            'pending' => $this->taskStatusCounter('pending')
+        ];
+
+        return $datus;
+    }
+
+    public function taskStatusCounter($status)
+    {
+        return $this->tasks()->where('status', $status)->count();
     }
 
     public function clients()
