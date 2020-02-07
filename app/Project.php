@@ -360,8 +360,6 @@ class Project extends Model implements HasMediaConversions
             $data = $tasks->get();
         
         $data->map(function ($model) {
-            $model['total_time'] = $model->total_time();
-            $model['assignee_url'] = '';
             $arr = [];
             foreach ($model->assigned()->get() as $key => $value) {
                 $arr[] = $value->id;
@@ -377,8 +375,22 @@ class Project extends Model implements HasMediaConversions
                     $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
-        return $data;
+        $datus = $data->toArray();
+
+        $datus['counter'] = [
+            'open' => $this->taskStatusCounter('open'),
+            'behind' => $this->taskStatusCounter('behind'),
+            'completed' => $this->taskStatusCounter('completed'),
+            'pending' => $this->taskStatusCounter('pending')
+        ];
+
+        return $datus;
         
+    }
+
+    public function taskStatusCounter($status)
+    {
+        return $this->tasks()->where('tasks.status', $status)->count();
     }
 
     public function paginatedProjectMyTasks()
@@ -408,13 +420,16 @@ class Project extends Model implements HasMediaConversions
         if(request()->has('all') && request()->all)
             $data = $tasks->get();
 
-        $data->map(function ($model) {
-            $users = $model->assigned;
-            $model['total_time'] = $model->total_time();
-            $model['assignee_url'] = auth()->user()->image_url;
-        });
+        $datus = $data->toArray();
 
-        return $data;
+        $datus['counter'] = [
+            'open' => $this->taskStatusCounter('open'),
+            'behind' => $this->taskStatusCounter('behind'),
+            'completed' => $this->taskStatusCounter('completed'),
+            'pending' => $this->taskStatusCounter('pending')
+        ];
+
+        return $datus;
     }
     
     public function milestones()

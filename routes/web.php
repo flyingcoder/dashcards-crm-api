@@ -12,7 +12,6 @@
 |
 */
 
-
 Route::get('download', 'HomeController@download')->name('download');
 
 Route::get('test-act', 'ActivityController@index');

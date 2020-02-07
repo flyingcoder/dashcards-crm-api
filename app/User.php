@@ -21,6 +21,8 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\Activitylog\Contracts\Activity;
 use App\Events\ActivityEvent;
 use App\Notifications\PasswordResetNotification;
+use App\Http\Resources\Task as TaskResource;
+
 
 class User extends Authenticatable implements HasMediaConversions
 {
@@ -43,9 +45,16 @@ class User extends Authenticatable implements HasMediaConversions
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
 
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new PasswordResetNotification($token));
+    }
+
+    public function taskStatusCounter($status)
+    {
+        return $this->tasks()->where('status', $status)->count();
+
     }
 
     public function tapActivity(Activity $activity, string $eventName)
@@ -395,21 +404,27 @@ class User extends Authenticatable implements HasMediaConversions
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        $data = $tasks->paginate($this->paginate);
-
         if(request()->has('all') && request()->all)
             $data = $tasks->get();
+        else
+            $data = $tasks->paginate($this->paginate);
 
         $data->map(function ($model) {
-            $model['total_time'] = $model->total_time();
             $model['assignee_url'] = '';
             if(is_object($model->assigned()->first()))
                $model['assignee_url'] = $model->assigned()->first()->image_url;
-
-            
         });
 
-        return $data;
+        $datus = $data->toArray();
+
+        $datus['counter'] = [
+            'open' => $this->taskStatusCounter('open'),
+            'behind' => $this->taskStatusCounter('behind'),
+            'completed' => $this->taskStatusCounter('completed'),
+            'pending' => $this->taskStatusCounter('pending')
+        ];
+
+        return $datus;
     }
 
     public function projectsCount()
