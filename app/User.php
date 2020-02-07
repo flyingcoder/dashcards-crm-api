@@ -20,6 +20,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\Activitylog\Contracts\Activity;
 use App\Events\ActivityEvent;
+use App\Notifications\PasswordResetNotification;
 
 class User extends Authenticatable implements HasMediaConversions
 {
@@ -41,6 +42,11 @@ class User extends Authenticatable implements HasMediaConversions
     protected static $logAttributes = [
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordResetNotification($token));
+    }
 
     public function tapActivity(Activity $activity, string $eventName)
     {

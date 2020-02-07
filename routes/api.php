@@ -18,6 +18,16 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
 });
 
+Route::post('login', 'Auth\ApiLoginController@login');
+
+Route::group(['prefix' => 'logout'], function () {
+
+  Route::post('email', 'Auth\ApiForgotPasswordController@sendResetLinkEmail');
+
+  Route::post('reset', 'Auth\ApiResetPasswordController@reset');
+
+});
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'note'], function () {
 
   Route::get('/', 'NoteController@index');
@@ -86,9 +96,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'autocomplete'], function 
   Route::get('{model}', 'SearchController@autocomplete');
 
 });
-
-
-Route::post('login', 'Auth\ApiLoginController@login');
 
 //permission
 Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function () {
