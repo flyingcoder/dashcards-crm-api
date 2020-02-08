@@ -729,9 +729,9 @@ class Company extends Model
 
     public function taskStatusCounter($status)
     {
-        return $this->tasks()->where('status', $status)->count();
+       return $this->tasks()->where('status', $status)->count();
     }
-
+    
     public function clients()
     {   
         $client_group = $this->teams()->where('slug', 'client-'.$this->id)->first();
@@ -746,11 +746,19 @@ class Company extends Model
                     })->join('meta as status', function ($join) {
                        $join->on('status.metable_id', '=', 'users.id')
                             ->where('status.key', 'status');
+                    })->leftJoin('meta as location', function ($join) {
+                       $join->on('location.metable_id', '=', 'users.id')
+                            ->where('location.key', 'location');
+                    })->leftJoin('meta as contact_name', function ($join) {
+                       $join->on('contact_name.metable_id', '=', 'users.id')
+                            ->where('contact_name.key', 'contact_name');
                     })->select(
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS full_name'),
                         'company.value as company_name',
                         'status.value as status',
-                        'users.*'
+                        'users.*',
+                        'location.value as location',
+                        'contact_name.value as contact_name'
                     )->with(['projectsCount'])
                     ->where('users.deleted_at', null);
                     
