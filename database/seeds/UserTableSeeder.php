@@ -51,7 +51,7 @@ class UserTableSeeder extends Seeder
             'name' => 'Clients teams',
             'description' => 'Clients team of seed company',
             'company_id' => 1,
-            'slug' => 'clients-1'
+            'slug' => 'client-1'
         ]);
 
         $userBentong = $user->create(
