@@ -84,28 +84,27 @@ class Task extends Model
 
         $this->save();
 
+        $user_ids = [];
+
         if(request()->has('assigned') && !empty(request()->assigned)) {
 
-            $user_ids = request()->assigned;
-
-            if(is_array(request()->assigned)) {
+            if(is_array(request()->assigned) && !empty(request()->assigned)) {
                 foreach (request()->assigned as $key => $value) {
-                     $user_ids[] = $value->id;
+                    if (is_array($value) && array_key_exists('id', $value)) { //[['id'=>2, 'name' =>'sample']]
+                        $user_ids[] = $value['id'];
+                    } elseif (gettype($value) === 'object') { //[{'id':2, 'name':'sample'}]
+                        $user_ids[] = $value->id;
+                    } else {    //[ 2, 3, 4]
+                        $user_ids[] = $value;
+                    }
                 }
             }
 
-
             $this->assigned()->sync($user_ids);
 
-            $this->assigned = $this->assigned;
-
-            //check if 
-            $user = User::findOrFail(request()->assigned[0]);
-
-            $this->assignee_url = $user->image_url;
         }
 
-        return $this;
+        return $this->toArray();
     }
 
     public static function store()
