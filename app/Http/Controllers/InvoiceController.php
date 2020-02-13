@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Policies\InvoicePolicy;
 use Illuminate\Http\Request;
 use App\Invoice;
-
+    
 class InvoiceController extends Controller
 {
     public function index()
@@ -68,12 +68,8 @@ class InvoiceController extends Controller
         if(request()->has('discount'))
             $invoice->discount = request()->discount;
 
-        if(request()->hasFile('company_logo')) {
-            dd('this');
-            $media = $invoice->addMedia(request()->file('company_logo'))->toMediaCollection('invoice');
-
-            $invoice->company_logo = url($media->getUrl());
-
+        if(request()->has('company_logo')) {
+            $invoice->company_logo = request()->company_logo;
         }
 
         $invoice->save();
