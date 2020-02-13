@@ -353,6 +353,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'file'], function () {
 
   Route::delete('{id}', 'MediaController@delete');
 
+  Route::post('/image-upload', 'MediaController@uploadImage');
 });
 
 // Projects

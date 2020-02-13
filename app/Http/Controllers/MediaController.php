@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\Media;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class MediaController extends Controller
 {
@@ -275,5 +277,29 @@ class MediaController extends Controller
         $model = Media::findOrFail($id);
         
         return $model->destroy($id);
+    }
+
+    public function uploadImage()
+    {
+        request()->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif'
+        ]);
+        $file = request()->file('file');
+        try {
+
+            $image = Image::make($file);
+            $fileName = Str::slug(preg_replace("/\.[^.]+$/", "", $file->getClientOriginalName())).'.'.$file->getClientOriginalExtension();
+            $folder = 'uploads/'.date('Y/m').'/';
+
+            $file = $file->storeAs($folder, $fileName, 'public');
+            $filePath = $folder . $fileName;
+
+            return response()->json([
+                        'fileName' => $fileName,
+                        'url'      => url(Storage::url($filePath))
+                ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 522);   
+        }
     }
 }
