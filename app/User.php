@@ -267,7 +267,7 @@ class User extends Authenticatable implements HasMediaConversions
             'total_amount' => request()->total_amount,
             'items' => request()->items,
             'terms' => request()->terms,
-            'tax' => request()->tax,
+            'tax' => request()->tax
         ];
 
         if(request()->has('project_id'))
@@ -282,13 +282,9 @@ class User extends Authenticatable implements HasMediaConversions
         if(request()->has('discount'))
             $data['discount'] = request()->discount;
 
-        /*
-        if(request()->hasFile('company_logo')) {
-            
-            $media = $invoice->addMedia(request()->file('company_logo'))->toMediaCollection('invoice');
-
-            $invoice->company_logo = url($media->getUrl());
-        }*/
+        if(request()->has('company_logo')) {
+            $invoice->company_logo = request()->company_logo;
+        }
 
         $invoice = $this->invoices()->create($data);
 
