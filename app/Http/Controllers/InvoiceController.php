@@ -55,6 +55,7 @@ class InvoiceController extends Controller
         $invoice->total_amount = request()->total_amount;
         $invoice->items = request()->items;
         $invoice->type = request()->type;
+        $invoice->notes = request()->notes ?? null;
 
         if(request()->has('project_id'))
             $invoice->project_id = request()->project_id;
@@ -67,6 +68,12 @@ class InvoiceController extends Controller
 
         if(request()->has('discount'))
             $invoice->discount = request()->discount;
+
+        if(request()->has('shipping'))
+            $invoice->shipping = request()->shipping;
+
+        if(request()->has('tax'))
+            $invoice->tax = request()->tax;
 
         if(request()->has('company_logo')) {
             $invoice->company_logo = request()->company_logo;
