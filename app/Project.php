@@ -227,7 +227,7 @@ class Project extends Model implements HasMediaConversions
             'total_amount' => request()->total_amount,
             'items' => collect(request()->items),
             'terms' => request()->terms,
-            'tax' => request()->tax,
+            'notes' => request()->notes ?? null,
             'billed_to' => ucfirst($client->last_name) . ', ' . ucfirst($client->first_name),
             'billed_from' => ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name)
         ];
@@ -241,6 +241,15 @@ class Project extends Model implements HasMediaConversions
         if(request()->has('discount'))
             $data['discount'] = request()->discount;
 
+        if(request()->has('tax'))
+            $data['tax'] = request()->tax;
+
+        if(request()->has('shipping'))
+            $data['shipping'] = request()->shipping;
+
+        if(request()->has('company_logo')) {
+            $data['company_logo'] = request()->company_logo;
+        }
         $invoice = $this->invoices()->create($data);
 
         return $invoice;

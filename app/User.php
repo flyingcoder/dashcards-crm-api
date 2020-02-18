@@ -255,7 +255,7 @@ class User extends Authenticatable implements HasMediaConversions
             'title' => 'required',
             'total_amount' => 'required',
             'items' => 'required|string',
-            'type' => 'required'
+            'type' => 'required'    
         ]);
 
         $data = [
@@ -267,7 +267,7 @@ class User extends Authenticatable implements HasMediaConversions
             'total_amount' => request()->total_amount,
             'items' => request()->items,
             'terms' => request()->terms,
-            'tax' => request()->tax
+            'notes' => request()->notes ?? null
         ];
 
         if(request()->has('project_id'))
@@ -281,6 +281,12 @@ class User extends Authenticatable implements HasMediaConversions
 
         if(request()->has('discount'))
             $data['discount'] = request()->discount;
+
+        if(request()->has('tax'))
+            $data['tax'] = request()->tax;
+
+        if(request()->has('shipping'))
+            $data['shipping'] = request()->shipping;
 
         if(request()->has('company_logo')) {
             $data['company_logo'] = request()->company_logo;
