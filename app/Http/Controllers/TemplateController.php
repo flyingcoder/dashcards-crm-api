@@ -70,6 +70,8 @@ class TemplateController extends Controller
         $template->status = request()->status;
         $template->replica_type = $type;
 
+        $template->save();
+
         return $template;
     }
 

@@ -185,7 +185,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () 
 
   Route::post('{milestone_id}/task', 'TaskController@store');
 
-  Route::put('{milestone_id}/task/{task_id}', 'TaskController@update');
+  Route::put('{milestone_id}/task/{task_id}', 'TaskController@updateTask');
 
   Route::delete('{milestone_id}/task/{task_id}', 'TaskController@deleteTask');
 

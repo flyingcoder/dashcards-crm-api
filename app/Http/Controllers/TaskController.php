@@ -46,6 +46,15 @@ class TaskController extends Controller
         return $task->updateTask();
     }
 
+    public function updateTask($milestone_id, $task_id)
+    {
+         $task = Task::findOrFail($task_id);
+
+        //(new TaskPolicy())->update($task);
+
+        return $task->updateTask();
+    }
+
     public function delete($task_id)
     {
         $task = Task::findOrFail($task_id);
