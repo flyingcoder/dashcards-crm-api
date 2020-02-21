@@ -57,13 +57,7 @@ Broadcast::channel('comment.task.{taskId}', function ($comment, $taskId) {
 	}
 });
 
-use App\Project;
 
-Broadcast::channel('project.new-message.{projectId}', function ($user, $projectId) {
+Broadcast::channel('project.client-message.{projectId}', \App\Broadcasting\ProjectClientChannel::class);
 
-	$project = Project::findOrFail($projectId);
-	$user_id = (int) $user->id;
-
-	if($project->members->contains($user_id))
-		return $user;
-});
+Broadcast::channel('project.team-message.{projectId}',\App\Broadcasting\ProjectTeamChannel::class);
