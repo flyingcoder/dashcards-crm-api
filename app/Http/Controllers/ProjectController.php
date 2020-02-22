@@ -41,7 +41,7 @@ class ProjectController extends Controller
 
         $message = $model->sendMessages();
 
-        ProjectMessage::dispatch($message, $model, request()->type);
+        broadcast(new ProjectMessage($message, $model, request()->type))->toOthers();
 
         return $message;
     }
