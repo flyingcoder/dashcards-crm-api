@@ -453,12 +453,10 @@ class Project extends Model implements HasMediaConversions
     public function paginatedInvoices()
     {
         $model = $this->invoices()
-                      ->where('invoices.deleted_at', null);
+                ->where('invoices.deleted_at', null);
 
         if(request()->has('sort') && !empty(request()->sort)) {
-
             list($sortName, $sortValue) = parseSearchParam(request());
-
             $model->orderBy($sortName, $sortValue);
         }
 
@@ -471,13 +469,10 @@ class Project extends Model implements HasMediaConversions
             $data = $model->get();
 
         $data->map(function ($model) {
-
             $client = $this->getClient();
-
             $model['bill_to'] = ucfirst($client->last_name) . ', ' . ucfirst($client->first_name);
-
             $model['bill_from'] = ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name);
-
+            $model['items'] = gettype($model->items) == 'string' ? json_decode($model->items, true) : $model->items;
             return $model;
         });
 
