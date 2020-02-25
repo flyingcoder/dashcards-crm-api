@@ -659,9 +659,11 @@ class Company extends Model
                     ->with('milestones')
                     ->get();
 
-        $data->map(function ($item, $key) {
+        // $data->map(function ($item, $key) {
             
-        });
+        // });
+        
+        return $data;
     }
 
     public function milestones()
