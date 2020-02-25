@@ -642,6 +642,7 @@ class Company extends Model
             $project['progress']        = $project->progress();
             $project['tasks']           = $project->tasks()->count();
             $project['company_name']    = $project->projectClient->user->meta['company_name']->value ?? "";
+            $project['client_id']       = $project->projectClient->user->id ?? "";
             $project['manager_name']    = $project->projectManager->user->full_name ?? "";
             $project['service_name']    = $project->projectService->name ?? "";
             $project['location']        = $project->projectClient->user->meta['location']->value ?? "";
