@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Permission;
-use Auth;
+use App\Project;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -477,7 +477,7 @@ class Company extends Model
 
         return collect($data)->unique();
     }
-
+    
     public function services()
     {
         $members = $this->membersID();
@@ -530,7 +530,7 @@ class Company extends Model
             $model = Role::where('company_id', 0);
         } else {
             $model = Role::whereIn('company_id', [0, $this->id])
-                    ->whereNotIn('roles.slug', ['client','manager', 'member']);
+                    ->whereNotIn('roles.slug', ['client','manager','member']);
         }
 
         if($request->has('sort') && !is_null($sortValue))
@@ -558,7 +558,17 @@ class Company extends Model
 
     }
 
+    public function companyProjects()
+    {
+        return $this->hasMany(Project::class);    
+    }
+
     public function projects()
+    {
+        return $this->companyProjects();
+
+    }
+    /*public function projects()
     {
         $members = $this->membersID();
 
@@ -588,13 +598,24 @@ class Company extends Model
                  )->where('projects.deleted_at', null);
 
         return $projects;
-    }
+    }*/
 
     public function paginatedCompanyProjects(Request $request)
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
         $projects = $this->projects();
+
+        if (!auth()->user()->hasRole('admin|manager')) {
+            $projects->projectForUserInvolve();
+        }
+
+        $projects->with([ 
+            'projectService',
+            'projectManager.user.meta',
+            'projectClient.user.meta',
+            'projectMembers.user.meta'
+        ]);
 
         if($request->has('status'))
             $projects->where('status', $request->status);
@@ -605,48 +626,27 @@ class Company extends Model
             $projects->latest();
 
         if(request()->has('search') && !empty($request->search)) {
-
-            $table = 'projects';
-
             $keyword = request()->search;
-
-            $projects->where(function ($query) use ($keyword, $table) {
-                        $query->where("{$table}.title", "like", "%{$keyword}%")
-                              ->orWhere("client.first_name", "like", "%{$keyword}%")
-                              ->orWhere("client.last_name", "like", "%{$keyword}%")
-                              ->orWhere("services.name", "like", "%{$keyword}%")
-                              ->orWhere("{$table}.status", "like", "%{$keyword}%")
-                              ->orWhere("manager.first_name", "like", "%{$keyword}%")
-                              ->orWhere("manager.last_name", "like", "%{$keyword}%");
-                  });
+            $projects->searchProjects($keyword);
         }
 
-        if(request()->has('per_page') && is_numeric(request()->per_page))
+        if(request()->has('per_page') && is_numeric(request()->per_page)) {
             $this->paginate = request()->per_page;
+        }
 
         $data = $projects->paginate($this->paginate);
 
         $data->map(function ($project) {
-            $project['total_time'] = $project->totalTime();
-            $project['progress'] = $project->progress();
-            $project['tasks'] = $project->tasks()->count();
-            $members = $project->members()->where('project_user.role', 'Members')->get();
-            $project['members'] = $members;
+            $project['extra_fields']    = $project->getMeta('extra_fields');
+            $project['total_time']      = $project->totalTime();
+            $project['progress']        = $project->progress();
+            $project['tasks']           = $project->tasks()->count();
+            $project['company_name']    = $project->projectClient->user->meta['company_name']->value ?? "";
+            $project['manager_name']    = $project->projectManager->user->full_name ?? "";
+            $project['service_name']    = $project->projectService->name ?? "";
+            $project['location']        = $project->projectClient->user->meta['location']->value ?? "";
+            $project['members']         = $project->projectMembers->pluck('user');
 
-            $user = User::find($project->client_id);
-
-            $project['location'] = '';
-            $project['company_name'] = '';
-
-            if(!is_null($user)) {
-                if(is_null($user->getMeta('location')))
-                    $project['location'] = '';
-                else
-                    $project['location'] = $user->getMeta('location');
-
-                $project['company_name'] = $user->getMeta('company_name');
-            }
-            $project['extra_fields'] = $project->getMeta('extra_fields');
             return $project;
         });
 
