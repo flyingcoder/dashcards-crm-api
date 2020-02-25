@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ActivityEvent;
 use App\MediaLink;
 use App\Traits\HasMediaLink;
+use App\Traits\HasProjectScopes;
 use Auth;
 use Carbon\Carbon;
 use Chat;
@@ -21,7 +22,7 @@ use Spatie\MediaLibrary\Media;
 
 class Project extends Model implements HasMediaConversions
 {
-    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable;
+    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes;
 
     protected $paginate = 10;
 
@@ -341,6 +342,31 @@ class Project extends Model implements HasMediaConversions
     public function service()
     {
     	return $this->belongsTo(Service::class);
+    }
+
+    public function projectService()
+    {
+        return $this->belongsTo(Service::class,  'service_id', 'id');
+    }
+
+    public function projectClient()
+    {
+        return $this->hasOne(ProjectUser::class, 'project_id', 'id')->where('role', 'like', '%client');
+    }
+    
+    public function projectManager()
+    {
+        return $this->hasOne(ProjectUser::class, 'project_id', 'id')->where('role', 'like', '%manager');
+    }
+
+    public function projectMembers()
+    {
+        return $this->hasMany(ProjectUser::class, 'project_id', 'id')->where('role', 'like', '%members');
+    }
+    
+    public function projectAllMembers()
+    {
+        return $this->hasMany(ProjectUser::class,'project_id', 'id');
     }
 
     public function tasks()

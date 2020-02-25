@@ -2,26 +2,26 @@
 
 namespace App;
 
+use App\Events\ActivityEvent;
+use App\Http\Resources\Task as TaskResource;
+use App\Notifications\PasswordResetNotification;
 use Auth;
-use DB;
-use Chat;
 use Carbon\Carbon;
-use Plank\Metable\Metable;
-use Kodeine\Acl\Traits\HasRole;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Notifications\Notifiable;
+use Chat;
+use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
-use Laravel\Cashier\Billable;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\Media;
+use Illuminate\Notifications\Notifiable;
+use Kodeine\Acl\Traits\HasRole;
+use Laravel\Cashier\Billable;
+use Laravel\Passport\HasApiTokens;
+use Plank\Metable\Metable;
+use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
-use App\Notifications\PasswordResetNotification;
-use App\Http\Resources\Task as TaskResource;
+use Spatie\MediaLibrary\Media;
 
 
 class User extends Authenticatable implements HasMediaConversions
@@ -79,6 +79,15 @@ class User extends Authenticatable implements HasMediaConversions
     ];
 
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
+
+    /**
+     * Get the user's full name.
+     * @return string
+     */
+    public function getFullnameAttribute()
+    {
+        return ucwords($this->last_name).', '.ucwords($this->first_name);
+    }
 
     public function userRole()
     {
@@ -481,6 +490,11 @@ class User extends Authenticatable implements HasMediaConversions
             $projects->orderBy($sortName, $sortValue);
         else
             $projects->latest();
+        
+        if(request()->has('search') && !empty($request->search)) {
+            $keyword = request()->search;
+            $projects->searchProjects($keyword);
+        }
 
         if(request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
