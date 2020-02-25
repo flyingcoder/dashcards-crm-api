@@ -137,36 +137,22 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $task->assigned;
-        
-        $assigned = $task->assigned()->get();
-        
-        $task->comments;
-
-        $status = $task->timerStatus();
-
+        $status     = $task->timerStatus();
         $total_time = $task->total_time();
+        $comments   = $task->comments;
 
-        $assignee_url = '';
+        $assigned     = $task->assigned()->get();
+        $assignee_url = $assigned->isEmpty() ? '' : $assigned->first()->image_url;
+        $assigned_ids = $assigned->isEmpty() ? [] : $assigned->pluck('id')->toArray();
 
-        if(is_object($task->assigned()->first()))
-                $assignee_url = $task->assigned()->first()->image_url;
-
-        $task = collect(json_decode($task->toJson()));
+        $task = collect(json_decode($task->toJson(), true));
 
         $task->put('total_time', $total_time);
-
         $task->put('timer_status', $status);
-
         $task->put('assignee_url', $assignee_url);
-
-        $arr = [];
-        foreach ($assigned as $key => $value) {
-            $arr[] = $value->id;
-        }
-
-        $task->put('assigned_ids', $arr);
-        $task->put('assigned_id', $arr);
+        $task->put('comments', $comments);
+        $task->put('assigned_ids', $assigned_ids);
+        $task->put('assigned_id', $assigned_ids);
 
         return $task;
     }
