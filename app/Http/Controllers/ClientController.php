@@ -30,9 +30,11 @@ class ClientController extends Controller
     public function client($id)
     {
         $client = User::findOrFail($id);
-
         $client->getAllMeta();
 
+        $invoices = $client->invoices;
+        $client->no_invoices = $invoices->count() ?? 0;
+        $client->total_amount_paid = 0; //todo fetch total amount paid by this client
         return $client;
     }
 
