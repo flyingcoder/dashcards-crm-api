@@ -171,6 +171,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
   Route::delete('{id}', 'TaskController@delete');
 
   Route::put('{id}', 'TaskController@update');
+  
+  Route::put('{id}/mark-as-complete', 'TaskController@markAsComplete');
 
   Route::get('{id}/comments', 'TaskController@comments');
 

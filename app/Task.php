@@ -26,6 +26,8 @@ class Task extends Model
 
     protected static $logName = 'system';
 
+    protected $allowed_status = ['open', 'completed', 'pending', 'behind'];
+
     public function toArray() {
         return [
             'id' => $this->id,
@@ -244,6 +246,13 @@ class Task extends Model
                     ->withPivot('created_at');
     }
 
+    public function markStatus($status = 'open')
+    {
+        if (in_array(strtolower($status), $this->allowed_status)) {
+            $this->status = strtolower($status);
+            $this->save();
+        }
+    }
     /*
     public static function boot()
     {
