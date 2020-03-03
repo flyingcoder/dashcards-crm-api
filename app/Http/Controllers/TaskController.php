@@ -157,4 +157,16 @@ class TaskController extends Controller
         return $task;
     }
 
+    public function markAsComplete($id)
+    {
+        request()->validate([
+            'status' => 'required|string'
+        ]);
+
+        $task = Task::findOrFail($id);
+        //(new TaskPolicy())->update($task);
+        $task->markStatus(request()->status);
+
+        return $this->task($id);
+    }
 }
