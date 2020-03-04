@@ -53,8 +53,7 @@ class UserController extends Controller
     	]);
         
         $additionalInfo = [
-            'password' => bcrypt(str_random(12)), 
-            'code' => generateSetPasswordCode()
+            'password' => bcrypt(str_random(12))
         ];
 
         $user = User::create(request()->all() + $additionalInfo);

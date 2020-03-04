@@ -36,7 +36,7 @@ class User extends Authenticatable implements HasMediaConversions
         LogsActivity;
 
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by', 'code'
+        'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by'
     ];
 
     protected static $logName = 'system';
@@ -45,6 +45,10 @@ class User extends Authenticatable implements HasMediaConversions
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
 
+    public function getPasswordResetToken()
+    {
+        return app('auth.password.broker')->createToken($this);
+    }
 
     public function sendPasswordResetNotification($token)
     {
