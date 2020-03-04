@@ -39,16 +39,3 @@ if (! function_exists('secondsForHumans')) {
 	}
 
 }
-
-if (! function_exists('generateSetPasswordCode')) {
-
-	function generateSetPasswordCode() {
-
-		do {
-	        $code = str_random(64);
-	        $exist = \App\User::where('code', $code)->first();
-	    } while ( $exist );
-
-	    return $code;
-	}
-}
