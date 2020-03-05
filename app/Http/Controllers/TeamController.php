@@ -42,8 +42,7 @@ class TeamController extends Controller
                 'job_title' => request()->job_title,
                 'password' => bcrypt(str_random(12)), //set random password
                 'image_url' => $image_url,
-                'created_by' => auth()->user()->id,
-                'code' => generateSetPasswordCode()
+                'created_by' => auth()->user()->id
             ]);
 
             $member->setMeta('address', request()->address);

@@ -23,7 +23,8 @@ class UserCredentials extends Mailable
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->link = config('app.frontend_url').'/set-password/'.$user->code; //one-time use unique codes link for setting password
+        //one-time use unique codes link for setting password
+        $this->link = config('app.frontend_url').'/set-password/'.$user->email.'/'.$user->getPasswordResetToken(); 
     }
 
     /**
