@@ -185,4 +185,10 @@ class UserController extends Controller
         return view('user.index', ['user' => User::all()->paginate($per_page)]);
     }
 
+    public function userTimers($user_id)
+    {
+        $user = User::findOrFail($user_id);
+
+        return $user->paginatedUserTimers();
+    }
 }
