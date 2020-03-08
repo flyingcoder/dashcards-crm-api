@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ActivityEvent;
 use App\Http\Resources\Task as TaskResource;
 use App\Notifications\PasswordResetNotification;
+use App\Traits\HasTimers;
 use Auth;
 use Carbon\Carbon;
 use Chat;
@@ -33,7 +34,8 @@ class User extends Authenticatable implements HasMediaConversions
         HasApiTokens,
         HasMediaTrait,
         Billable,
-        LogsActivity;
+        LogsActivity,
+        HasTimers;
 
     protected $fillable = [
         'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by'
@@ -359,35 +361,6 @@ class User extends Authenticatable implements HasMediaConversions
     {
         return $this->morphMany(Timer::class, 'causer')
                     ->where('subject_type', 'App\Company');
-    }
-
-    public function totalTimeThisWeek()
-    {
-        $timers = $this->morphMany(Timer::class, 'causer')
-                    ->where('subject_type', 'App\Company')
-                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->get();
-        $total_sec = 0;
-
-        foreach ($timers as $key => $timer) {
-
-            if(is_null($timer->properties))
-                continue;
-
-            $prop = json_decode($timer->properties);
-
-            $total_sec += (int) $prop->total_seconds; 
-        }
-
-        return secondsForHumans($total_sec);
-
-    }
-
-    public function lastTimer()
-    {
-        return $this->timers()
-                    ->latest()
-                    ->first();
     }
 
     public function forms()

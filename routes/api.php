@@ -300,6 +300,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   Route::get('/notifications/count', 'NotificationController@unreadcount');
 
   Route::put('/notifications/{id}', 'NotificationController@markRead');
+
+  Route::get('{user_id}/timers', 'UserController@userTimers');
   
 });
 
