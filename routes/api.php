@@ -180,6 +180,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
 
 });
 
+// Commments
+Route::group(['middleware' => 'auth:api', 'prefix' => 'comments'], function () {
+  Route::delete('{id}', 'CommentController@delete');
+});
+
 // Milestone
 Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () {
 
