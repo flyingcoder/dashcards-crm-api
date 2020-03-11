@@ -32,6 +32,7 @@ class Task extends Model
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'project_id' => $this->project()->id,
             'milestone_id' => $this->milestone_id,
             'status' => $this->status,
             'days' => $this->days,
@@ -39,7 +40,7 @@ class Task extends Model
             'assignee' => $this->assigned,
             'description' => $this->description,
             'started_at' => $this->started_at,
-            'end_at' => $this->end_at
+            'end_at' => $this->end_at,
         ];
     }
     
