@@ -95,6 +95,7 @@ class TaskController extends Controller
         ]);
 
         $new_comment = $task->comments()->save($comment);
+        $new_comment->load('causer');
 
         NewTaskCommentCreated::dispatch($task, $new_comment);
 
@@ -139,7 +140,7 @@ class TaskController extends Controller
 
         $status     = $task->timerStatus();
         $total_time = $task->total_time();
-        $comments   = $task->comments;
+        $comments   = $task->comments->load('causer');
 
         $assigned     = $task->assigned()->get();
         $assignee_url = $assigned->isEmpty() ? '' : $assigned->first()->image_url;
