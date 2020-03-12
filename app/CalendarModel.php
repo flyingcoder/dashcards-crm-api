@@ -19,6 +19,8 @@ class CalendarModel extends Model
     	'properties'
     ];
 
+    protected $table = 'calendars';
+
     protected $dates = ['deleted_at'];
 
     protected static $logAttributes = [
