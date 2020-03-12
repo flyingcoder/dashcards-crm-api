@@ -84,9 +84,9 @@ class MediaController extends Controller
 
         $medias->map(function ($media) {
           if($media->mime_type == 'link'){
-           $media['download_url'] = $media->getCustomProperty('url');
-           $media['public_url'] = $media->getCustomProperty('image');
-           $media['thumb_url'] = $media->getCustomProperty('thumb');
+            $media['download_url'] = $media->getCustomProperty('url');
+            $media['public_url'] = $media->getCustomProperty('image');
+            $media['thumb_url'] = $media->getCustomProperty('thumb');
           } else {
             $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
             $media['public_url'] = url($media->getUrl());
@@ -140,16 +140,16 @@ class MediaController extends Controller
             ]
         ]);
         
-        activity('files')->performedOn($project)
+        $activity = activity('files')->performedOn($project)
                        ->causedBy($user)
                        ->withProperties([
                           'company_id' => $user->company()->id,
-                          'media' => $media,
+                          'media' => [$media],
                           'thumb_url' => $media->getCustomProperty('thumb')
                         ])
                        ->log($user->first_name.' linked a file.');
 
-        $activity = Activity::where('properties->media->id', $media->id)->first();
+        // $activity = Activity::where('properties->media->id', $media->id)->first();
 
         $activity->users()->attach($user->company()->membersID());
 
@@ -240,28 +240,27 @@ class MediaController extends Controller
 
           $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
 
-          activity('files')
-                ->performedOn($project)
-                ->causedBy(auth()->user())
-                ->withProperties([
-                      'company_id' => auth()->user()->company()->id,
-                      'media' => $media,
-                      'thumb_url' => $media->getUrl('thumb')
-                    ])
-                ->log($log);
+          $activity = activity('files')
+                      ->performedOn($project)
+                      ->causedBy(auth()->user())
+                      ->withProperties([
+                            'company_id' => auth()->user()->company()->id,
+                            'media' => [$media],
+                            'thumb_url' => $media->getUrl('thumb')
+                          ])
+                      ->log($log);
 
 
-          $activity = Activity::where('properties->media->id', $media->id)->first();
+          // $activity = Activity::where('properties->media->id', $media->id)->first();
 
           $activity->users()->attach(auth()->user()->company()->membersID());
 
           DB::commit();
 
           $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
-
           $media['public_url'] = url($media->getUrl());
-
           $media['thumb_url'] = url($media->getUrl('thumb'));
+          $media['log_id'] = $activity->id;
 
           return $media->toJson();
 
