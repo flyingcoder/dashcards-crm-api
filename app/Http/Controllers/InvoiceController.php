@@ -93,5 +93,30 @@ class InvoiceController extends Controller
         return $invoice->destroy($id);
     }
 
+    public function statistics()
+    {
+        $company = auth()->user()->company();
+        $clientGroup = $company->clientTeam();
+        $clients = $clientGroup->teamMembers()->with('user')
+            ->whereHas('user', function($query) {
+                $query->whereNull('deleted_at');
+            })->paginate(4);
 
+        foreach ($clients as $key => $client) {
+            $row = $client;
+            $row->amount = '$'.rand(0.1, 100.99); //todo add actual calculation
+        }
+        
+        $data = [];
+
+        if (!(request()->has('client_only') && boolval(request()->client_only))) {
+            $data = [
+                'total_clients' => $clientGroup->teamMembers()->count(),
+                'current_month_total' => '$'.rand(0, 100000.99), //todo add actual calculation
+                'last_month_total' => '$'.rand(0, 100000.99) //todo add actual calculation
+            ];
+        }
+
+        return response()->json($clients->toArray() + $data, 200);
+    }
 }
