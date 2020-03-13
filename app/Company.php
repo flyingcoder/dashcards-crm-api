@@ -737,7 +737,7 @@ class Company extends Model
     
     public function clients()
     {   
-        $client_group = $this->teams()->where('slug', 'client-'.$this->id)->first();
+        $client_group = $this->clientTeam();
 
         if( ! $client_group )
             abort(204, 'Team not found!');
