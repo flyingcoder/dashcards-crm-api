@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 class MediaController extends Controller
 {
   	private $allowedDocs = [
-  		'docx', 'csv', 'doc', 'pdf', 'pptx', 'pps', 'txt'
+  		'docx', 'csv', 'doc', 'pdf', 'pptx', 'pps', 'txt', 'json'
   	]; 
 
   	private $allowedImages = [
@@ -149,8 +149,7 @@ class MediaController extends Controller
                         ])
                        ->log($user->first_name.' linked a file.');
 
-        // $activity = Activity::where('properties->media->id', $media->id)->first();
-
+        $activity = Activity::findOrFail($activity->id);
         $activity->users()->attach($user->company()->membersID());
 
         DB::commit();
@@ -237,33 +236,38 @@ class MediaController extends Controller
                             'user' => auth()->user()
                            ])
                            ->toMediaCollection($collectionName);
+          $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
+          $media['public_url'] = url($media->getUrl());
+          $media['thumb_url'] = url($media->getUrl('thumb'));
 
-          $log = auth()->user()->first_name.' uploaded '.$type.' on project '.$project->title;
-
-          $activity = activity('files')
+          $activity = false;
+          if (request()->has('file_upload_session') && request()->file_upload_session) {
+            $activity = Activity::where('properties->session', request()->file_upload_session)->latest()->first();
+          }
+          if($activity){
+            $current_props = json_decode($activity->properties, true);
+            $current_props['media'][] = $media;
+            $activity->properties = $current_props;
+            $activity->save();
+          } else {
+            $log = auth()->user()->first_name.' uploaded file(s) on project '.$project->title;
+            $activity = activity('files')
                       ->performedOn($project)
                       ->causedBy(auth()->user())
                       ->withProperties([
+                            'session' => request()->file_upload_session ?? '',
                             'company_id' => auth()->user()->company()->id,
                             'media' => [$media],
                             'thumb_url' => $media->getUrl('thumb')
                           ])
                       ->log($log);
-
-
-          // $activity = Activity::where('properties->media->id', $media->id)->first();
-
-          $activity->users()->attach(auth()->user()->company()->membersID());
+            $activity = Activity::findOrFail($activity->id);
+            $activity->users()->attach(auth()->user()->company()->membersID());
+          }
 
           DB::commit();
 
-          $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
-          $media['public_url'] = url($media->getUrl());
-          $media['thumb_url'] = url($media->getUrl('thumb'));
-          $media['log_id'] = $activity->id;
-
           return $media->toJson();
-
         } catch (\Exception $e) {
           DB::rollback();
           $error = strripos($e->getMessage(), 'maximum allowed') !== false ? 'File size exceed max limit.' : $e->getMessage();
@@ -275,7 +279,10 @@ class MediaController extends Controller
     {
         $model = Media::findOrFail($id);
         
-        return $model->destroy($id);
+        if($model->delete()){
+            return response()->json(['message' => 'Successfully deleted'], 200);
+        }
+        return response()->json(['message' => 'Error! Cant delete this file'], 522);
     }
 
     public function uploadImage()
