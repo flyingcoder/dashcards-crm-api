@@ -41,8 +41,8 @@ class ApiLoginController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function login(){
-
+    public function login()
+    {
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             
             $user = Auth::user();
