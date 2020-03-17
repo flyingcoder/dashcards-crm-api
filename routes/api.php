@@ -152,7 +152,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
   Route::put('teams/{id}', 'TeamController@update');
 
-  Route::get('invoices/{id?}', 'InvoiceController@index');  
+  Route::get('invoices/statistics', 'InvoiceController@statistics');
+
+  Route::get('invoices/{id?}', 'InvoiceController@index');
+
 });
 
 // Tasks

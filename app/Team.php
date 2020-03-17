@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\TeamMember;
 
 class Team extends Model
 {
@@ -28,4 +29,8 @@ class Team extends Model
         return $this->belongsTo('App\Company');
     }
 
+    public function teamMembers()
+    {
+        return $this->hasMany(TeamMember::class, 'team_id', 'id')->where('team_id', $this->id);
+    }
 }
