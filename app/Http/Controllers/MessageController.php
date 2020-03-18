@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Chat;
-use App\User;
+use App\Events\ChatNotification;
+use App\Events\PrivateChatSent;
 use App\Message;
 use App\MessageNotification;
-use App\Events\PrivateChatSent;
-use App\Events\ChatNotification;
+use App\User;
+use Chat;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -21,7 +21,21 @@ class MessageController extends Controller
     {
         $company = auth()->user()->company();
 
-        return $company->allCompanyMembers();
+        $members = $company->allCompanyMembers();
+
+        if(request()->has('has_msg_count') && request()->has_msg_count) {
+            $members->map(function($user){
+                $counts = 0;
+                $conversation = Chat::conversations()->between(auth()->user(), $user);
+                if ($conversation) {
+                    $counts = $this->getUnReadNotifCounts($conversation->id);
+                }
+                $user->message_count = $counts;
+                return $user;
+            });
+        }
+
+        return $members;
     }
 
 	public function fetchPrivateMessages($friend_id)
@@ -33,8 +47,11 @@ class MessageController extends Controller
         if(is_null($conversation))
             $conversation = Chat::createConversation([auth()->user(), $friend]);
 
-        return $conversation->messages()
-                            ->paginate(10);
+        $messages = $conversation->messages()->latest()->paginate(10);
+
+        $this->markAllAsRead($conversation->id);
+
+        return $messages;
 	}
 
     public function sendPrivateMessage()
@@ -63,6 +80,28 @@ class MessageController extends Controller
 
         ChatNotification::dispatch($message, $to);
 
-		return $message;
+		return response()->json( $message->toArray() + ['sender' => $from], 201);
+    }
+
+    public function getUnReadNotifCounts($conversation_id = null)
+    {
+        if ($conversation_id == 0 || is_null($conversation_id)) {
+            return 0;
+        }
+        return MessageNotification::where('user_id', '=', auth()->user()->id)
+                        ->where('is_sender', '=', 0)
+                        ->where('conversation_id', '=', $conversation_id)
+                        ->where('is_seen', '=', 0)
+                        ->count();
+    }
+
+    public function markAllAsRead($conversation_id = null)
+    {
+        if ($conversation_id > 0 && !is_null($conversation_id)) {
+            MessageNotification::where('user_id', '=', auth()->user()->id)
+                        ->where('is_sender', '=', 0)
+                        ->where('conversation_id', '=', $conversation_id)
+                        ->update(['is_seen' => 1]);
+        }
     }
 }
