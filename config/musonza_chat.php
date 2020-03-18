@@ -9,7 +9,7 @@ return [
      * Channel: mc-chat-conversation.2,
      * Event: Musonza\Chat\Eventing\MessageWasSent
      */
-    'broadcasts' => false,
+    'broadcasts' => true,
 
     /**
      * The event to fire when a message is sent
