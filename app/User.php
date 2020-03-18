@@ -44,7 +44,7 @@ class User extends Authenticatable implements HasMediaConversions
 
     protected static $logName = 'system';
 
-    protected $appends = ['fullname'];
+    protected $appends = ['fullname','location', 'rate'];
 
     protected static $logAttributes = [
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
@@ -95,7 +95,25 @@ class User extends Authenticatable implements HasMediaConversions
      */
     public function getFullnameAttribute()
     {
-        return ucwords($this->last_name).', '.ucwords($this->first_name);
+        return ucwords($this->first_name).' '.ucwords($this->last_name);
+    }
+
+    /**
+     * Get the user's rate
+     * @return string
+     */
+    public function getRateAttribute()
+    {
+        return $this->getMeta('rate') ?? '';
+    }
+
+    /**
+     * Get the user's location
+     * @return string
+     */
+    public function getLocationAttribute()
+    {
+        return $this->getMeta('location') ?? 'Unknown';
     }
 
     public function userRole()
@@ -231,7 +249,7 @@ class User extends Authenticatable implements HasMediaConversions
 
         return $data;
     }
-
+    
     public function messageNotification()
     {
         return $this->hasMany(MessageNotification::class);
@@ -380,7 +398,7 @@ class User extends Authenticatable implements HasMediaConversions
     {
         return $this->belongsToMany(Task::class)->withTimestamps();
     }
-
+    
     public function paginatedTasks()
     {
         $tasks = $this->tasks();
