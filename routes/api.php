@@ -60,14 +60,27 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
   Route::get('list', 'MessageController@list');
 
+  Route::get('group/list', 'MessageController@groupList');
+
   Route::get('mark-read', 'MessageController@markRead');
 
   Route::get('/private/{friend_id}', 'MessageController@fetchPrivateMessages');
 
+  Route::get('group/private/{convo_id}', 'MessageController@fetchGroupMessages');
+
   Route::post('/private', 'MessageController@sendPrivateMessage');
+
+  Route::post('group/private', 'MessageController@sendGroupMessage');
 
   Route::get('/private', 'MessageController@sendPrivateMessage');
 
+  Route::post('/group', 'MessageController@createGroupChat');
+
+  Route::post('group/remove-member', 'MessageController@removeFromGroup');
+
+  Route::post('group/update-members', 'MessageController@updateGroupChatMembers');
+
+  Route::get('group/members/{convo_id}', 'MessageController@groupChatMembers');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function () {

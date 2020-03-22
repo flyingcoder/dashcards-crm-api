@@ -375,17 +375,14 @@ class Company extends Model
 
     public function allCompanyMembers()
     {
-        $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
-
-        $model = $team->members()
+        $model = $this->members()
                       ->select(
                         'users.*',
-                        'users.is_online',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
                       )->orderBy('users.created_at', 'DESC');
 
         if(request()->has('for') && request()->for == 'project')
-            $model->where('users.id', '!=', auth()->user()->id);
+            $model->where('users.id', '<>', auth()->user()->id);
 
         return $model->get();
                     
@@ -395,9 +392,9 @@ class Company extends Model
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
+        // $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
 
-        $members = $team->members();
+        $members = $this->members();
 
         if(request()->has('sort') && !empty(request()->sort))
             $members->orderBy($sortName, $sortValue);
