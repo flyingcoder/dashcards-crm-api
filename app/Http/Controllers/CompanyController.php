@@ -3,12 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
+    protected  $types = [
+            'manager',
+            'client',
+            'member',
+            'agent'
+        ];
+
     public function members()
     {
+        if (request()->has('type') && in_array(request()->type, $this->types)) {
+            $type = trim(request()->type);
+            return auth()->user()->company()
+                ->members()
+                ->with('roles')
+                ->whereHas('roles', function (Builder $query) use ($type) {
+                        $query->where('slug', 'like', "%{$type}%");
+                })->get();
+            
+        }
     	return auth()->user()->company()->allCompanyMembers();
     }
 
