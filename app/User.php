@@ -44,7 +44,7 @@ class User extends Authenticatable implements HasMediaConversions
 
     protected static $logName = 'system';
 
-    protected $appends = ['fullname','location', 'rate'];
+    protected $appends = ['fullname','location', 'rate', 'user_roles'];
 
     protected static $logAttributes = [
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
@@ -105,6 +105,15 @@ class User extends Authenticatable implements HasMediaConversions
     public function getRateAttribute()
     {
         return $this->getMeta('rate') ?? '';
+    }
+
+    /**
+     * Get the user's roles
+     * @return string
+     */
+    public function getUserRolesAttribute()
+    {
+        return $this->getRoles() ?? [];
     }
 
     /**

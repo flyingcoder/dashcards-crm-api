@@ -407,6 +407,7 @@ class Company extends Model
         $data = $members->paginate($this->paginate);
 
         $data->map(function ($user) {
+            $user['id'] = $user->user_id; 
             unset($user['projects']);
             $user->getAllMeta();
             $user['tasks'] = $user->tasks()->where('tasks.deleted_at', null)->count();
@@ -460,19 +461,12 @@ class Company extends Model
 
     public function servicesNameList()
     {
-        $data = [];
-
         $members = $this->membersID();
 
         $services = Service::whereIn('user_id', $members)
-                            ->select('name')
-                            ->get();
-
-        foreach ($services as $key => $value) {
-            $data[] = $value->name;
-        }
-
-        return collect($data)->unique();
+                            ->pluck('name')
+                            ->toArray();
+        return collect($services)->unique();
     }
     
     public function services()
