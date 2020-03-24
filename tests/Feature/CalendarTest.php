@@ -20,22 +20,28 @@ class CalendarTest extends TestCase
 
         //dd($response->content());
         $response->assertStatus(200);
-    }  
+    }  */
 
     
     public function testStore()
     {
+
         $user = User::find(1);
 
         $data = [
-            'title' => 'This is a calendar'
+            'title' => 'Reports',
+            'description' => 'Calendar events for reports',
+            'properties' => json_encode([
+                'label-color' => 'red'
+            ])
         ];
 
         $response = $this->actingAs($user, 'api')
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->post('api/calendars', $data);
 
-        //dd($response->content());
+        dd(substr($response->content(), 0, 500));
+
         $response->assertStatus(200);
     }
 
@@ -59,7 +65,7 @@ class CalendarTest extends TestCase
                          ->withHeaders(['HTTP_X-Requested-With' => 'XMLHttpRequest'])
                          ->get('api/calendars/1/events');
 
-        dd($response->content());
+        //dd($response->content());
         $response->assertStatus(200);
-    }*/
+    }
 }
