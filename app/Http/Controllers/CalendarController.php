@@ -17,6 +17,11 @@ class CalendarController extends Controller
         return $company->allPaginatedCalendar(request());
     }
 
+    public function FunctionName($value='')
+    {
+        # code...
+    }
+
     public function calendar($id)
     {
     	$calendar = CalendarModel::findOrFail($id);
@@ -30,21 +35,37 @@ class CalendarController extends Controller
     {
     	$calendar = CalendarModel::findOrFail($id);
 
-    	//policy will be added
-
     	return $calendar->events;
+    }
+
+    public function addEvent()
+    {
+        request()->validate([
+            'title' => 'required'
+        ]);
+
+        $calendar = CalendarModel::findOrFail($id);
     }
 
     public function store()
     {
     	request()->validate([
-    		'title' => 'required'
-    	]);
+            'title' => 'required'
+        ]);
 
-    	$company = auth()->user()->company();
+        $company = auth()->user()->company();
 
-    	$company->calendars()->create(request()->all());
+        $data = [
+            'title' => request()->title,
+            'company_id' => $company->id
+        ];
 
-    	return CalendarModel::latest()->first();
+        if(request()->has('description'))
+            $data['description'] = request()->description;
+
+        if(request()->has('properties'))
+            $data['properties'] = request()->properties;
+
+        return CalendarModel::create($data);
     }
 }
