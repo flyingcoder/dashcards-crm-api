@@ -8,9 +8,9 @@ use App\Rules\CollectionUnique;
 use App\Team;
 use App\User;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Kodeine\Acl\Models\Eloquent\Permission;
 use Kodeine\Acl\Models\Eloquent\Role;
@@ -161,6 +161,30 @@ class TeamController extends Controller
             return response('User is successfully deleted.', 200);
         } else {
             return response('Failed to delete user.', 500);
+        }
+    }
+
+    public function bulkDelete()
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+        try {
+            DB::beginTransaction();
+            $members = User::whereIn('id', request()->ids)->get();
+
+            if ($members) {
+                foreach ($members as $key => $member) {
+                    if (!$member->delete()) {
+                        throw new \Exception("Failed to delete user {$member->fullname}!", 1);
+                    }
+                }
+            }
+            DB::commit();
+            return response()->json(['message' => $members->count().' member(s) was successfully deleted'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => "Some user failed to delete"], 500);
         }
     }
 

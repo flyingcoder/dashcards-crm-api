@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Template;
 use App\Company;
-use Illuminate\Http\Request;
 use App\Milestone;
+use App\Template;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TemplateController extends Controller
 {
@@ -85,6 +86,29 @@ class TemplateController extends Controller
         }
     }
 
+    public function bulkDelete()
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+        try {
+            DB::beginTransaction();
+            $templates = Template::whereIn('id', request()->ids)->get();
+
+            if ($templates) {
+                foreach ($templates as $key => $template) {
+                    if (!$template->delete()) {
+                        throw new \Exception("Failed to delete template {$template->title}!", 1);
+                    }
+                }
+            }
+            DB::commit();
+            return response()->json(['message' => $templates->count().' template(s) was successfully deleted'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => "Some templates failed to delete"], 500);
+        }
+    }
     public function milestone($id)
     {
         $template = Template::findOrFail($id);

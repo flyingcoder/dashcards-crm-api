@@ -360,6 +360,22 @@ class ProjectController extends Controller
         return $project->destroy($id);
     }
 
+    public function bulkDelete()
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+
+        $projects = Project::whereIn('id', request()->ids)->get();
+
+        if ($projects) {
+            foreach ($projects as $key => $project) {
+                $project->delete();
+            }
+        }
+        return response()->json(['message' => $project->count().' project(s)  successfully deleted'], 200);
+    }
+
     public function deleteReport($id, $report_id)
     {
         $report = Report::findOrFail($report_id);

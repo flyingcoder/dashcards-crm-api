@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use App\User;
 use App\Company;
-use Illuminate\Http\Request;
 use App\Rules\CollectionUnique;
-use Kodeine\Acl\Models\Eloquent\Role;
-use Illuminate\Validation\Rule;
+use App\User;
+use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 class ClientController extends Controller
 {
@@ -264,11 +264,38 @@ class ClientController extends Controller
             abort(401, "This client has open project please delete the project first.");
 
         if($client->delete()){
-            return response('success', 200);
+            return response()->json(['message' => 'Client successfully deleted'], 200);
         } else {
-            return response('failed', 500);
+            return response()->json(['message' => "Client can't be deleted"], 500);
         }
         
+    }
+
+    public function bulkDelete()
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $clients = User::whereIn('id', request()->ids)->with('projects')->get();
+            
+            if ($clients) {
+                foreach ($clients as $key => $client) {
+                    if ($client->projects->count() != 0) {
+                        throw new \Exception(" Client {$client->fullname} has an open project, please delete the project first.", 1);
+                    } 
+                    $client->delete();
+                }
+            }
+            
+            DB::commit();
+            return response()->json(['message' => $clients->count().' client(s) was successfully deleted'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => "Some client has open project please delete the project first"], 500);
+        }
     }
 
 }
