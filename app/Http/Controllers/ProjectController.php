@@ -144,10 +144,43 @@ class ProjectController extends Controller
 
         $project = Project::findOrFail($id);
 
-        $project->members()->detach($member_id);
+        $client  = $project->projectClient;
+        $manager = $project->projectManager;
+
+        if (in_array($member_id, [ $client->user_id, $manager->user_id ] )) {
+            $user = User::findOrFail($member_id);
+            $role = array_values($user->user_roles)[0] ?? 'user';
+            abort(500, "Can't remove $role ".$user->fullname);
+        } else {
+            $project->members()->detach($member_id);
+        }
 
         return $project->members;
     }
+
+    public function bulkRemoveMember($id)
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+
+        $project = Project::findOrFail($id);
+
+        $remove_members = $project->projectMembers()->whereIn('user_id', request()->ids)->get();
+
+        if (!$remove_members->isEmpty()) {
+            foreach ($remove_members as $key => $member) {
+                $project->members()->detach($member->user_id);
+            }
+
+            $message = $remove_members->count()." members successfully removed from project";
+            return response()->json(['message' => $message,  'ids' => $remove_members ], 200);
+        }
+
+        $message = "Cannot remove member which are project manager or client of the project";
+        return response()->json(['message' => $message ], 500);
+    }
+
 
     public function milestoneImport($id)
     {
@@ -368,12 +401,12 @@ class ProjectController extends Controller
 
         $projects = Project::whereIn('id', request()->ids)->get();
 
-        if ($projects) {
+        if (!$projects->isEmpty()) {
             foreach ($projects as $key => $project) {
                 $project->delete();
             }
         }
-        return response()->json(['message' => $project->count().' project(s)  successfully deleted'], 200);
+        return response()->json(['message' => $projects->count().' project(s)  successfully deleted'], 200);
     }
 
     public function deleteReport($id, $report_id)
