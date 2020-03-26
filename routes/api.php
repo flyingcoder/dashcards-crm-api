@@ -212,6 +212,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () 
 
   Route::put('{milestone_id}/task/{task_id}', 'TaskController@updateTask');
 
+  Route::delete('{milestone_id}/task/bulk-delete', 'TaskController@bulkDeleteTask');
+
   Route::delete('{milestone_id}/task/{task_id}', 'TaskController@deleteTask');
 
 });
@@ -425,6 +427,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/member', 'ProjectController@members');// project-hq
 
   Route::post('{id}/member', 'ProjectController@assignMember');// project-hq
+
+  Route::delete('{id}/member/bulk-delete', 'ProjectController@bulkRemoveMember');// project-hq
 
   Route::delete('{id}/member/{member_id}', 'ProjectController@removeMember');// project-hq
 
