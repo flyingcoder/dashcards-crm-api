@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Invoice;
 use App\Policies\InvoicePolicy;
 use Illuminate\Http\Request;
-use App\Invoice;
+use Illuminate\Support\Facades\DB;
     
 class InvoiceController extends Controller
 {
@@ -91,6 +92,30 @@ class InvoiceController extends Controller
         $invoice = Invoice::findOrFail($id);
         
         return $invoice->destroy($id);
+    }
+
+    public function bulkDelete()
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+        try {
+            DB::beginTransaction();
+            $invoices = Invoice::whereIn('id', request()->ids)->get();
+
+            if ($invoices) {
+                foreach ($invoices as $key => $invoice) {
+                    if (!$invoice->delete()) {
+                        throw new \Exception("Failed to delete invoice {$invoice->title}!", 1);
+                    }
+                }
+            }
+            DB::commit();
+            return response()->json(['message' => $invoices->count().' invoice(s) was successfully deleted'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => "Some invoices failed to delete"], 500);
+        }
     }
 
     public function statistics()

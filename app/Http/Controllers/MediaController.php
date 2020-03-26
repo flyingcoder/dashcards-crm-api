@@ -41,14 +41,17 @@ class MediaController extends Controller
         if(request()->has('type')) {
           
           switch (request()->type) {
+            case 'image':
             case 'images':
               $medias->where('mime_type', 'like', 'image/%');
               break;
 
+            case 'video':
             case 'videos':
               $medias->where('mime_type', 'like', 'video/%');
               break;
 
+            case 'document':
             case 'documents':
               $mime_type = [
                   'application/msword',
@@ -62,6 +65,7 @@ class MediaController extends Controller
               $medias->whereIn('mime_type', $mime_type);
               break;
 
+            case 'other':
             case 'others':
               $mime_type = [
                   'application/rar',
@@ -74,13 +78,14 @@ class MediaController extends Controller
               $medias->whereIn('mime_type', $mime_type);
               break;
 
+            case 'link':
             case 'links':
               $medias->where('mime_type', 'link');
               break;
           }
         }
 
-        $medias = $medias->latest()->paginate(10);
+        $medias = $medias->latest()->paginate(15);
 
         $medias->map(function ($media) {
           if($media->mime_type == 'link'){

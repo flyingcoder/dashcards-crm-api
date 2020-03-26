@@ -132,6 +132,10 @@ class ServiceController extends Controller
 
     public function bulkDelete()
     {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+        
         try {
 
             $service = new Service();

@@ -159,6 +159,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
   Route::get('teams/{id}', 'CompanyController@member');
 
+  Route::delete('teams/bulk-delete', 'TeamController@bulkDelete');
+
   Route::delete('teams/{id}', 'TeamController@delete');
 
   Route::post('teams', 'TeamController@store');
@@ -350,6 +352,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
   Route::put('{id}', 'TemplateController@update');
 
+  Route::delete('bulk-delete', 'TemplateController@bulkDelete');
+
   Route::delete('{id}', 'TemplateController@delete');
 
 });
@@ -367,7 +371,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
   Route::put('{id}', 'ServiceController@update');
 
-  Route::delete('/', 'ServiceController@bulkDelete');
+  Route::delete('bulk-delete', 'ServiceController@bulkDelete');
 
   Route::delete('{id}', 'ServiceController@delete');
 
@@ -385,7 +389,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'file'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('/', 'ProjectController@index');// project
-    
+  
+  Route::delete('bulk-delete', 'ProjectController@bulkDelete');
+
   Route::delete('{id}', 'ProjectController@delete');
 
   Route::get('{id}', 'ProjectController@project');
@@ -480,6 +486,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
   
   Route::put('/{id}', 'ClientController@update'); // client update
 
+  Route::delete('bulk-delete', 'ClientController@bulkDelete');
+
   Route::delete('{id}', 'ClientController@delete');
 
   Route::get('{id}/tasks', 'ClientController@tasks');
@@ -525,6 +533,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
   Route::get('{id}', 'InvoiceController@invoice');
 
   Route::post('{id}', 'InvoiceController@update');
+
+  Route::delete('bulk-delete', 'InvoiceController@bulkDelete');
 
   Route::delete('{id}', 'InvoiceController@delete');
 });
