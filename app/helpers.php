@@ -50,3 +50,17 @@ if (! function_exists('natural_language_join')) {
 	  	return $last;
 	}
 }
+
+if (! function_exists('random_avatar')) {
+
+	function random_avatar($gender = null) {
+	  	$avatar = [
+	  		'male' => config('app.url').'/img/members/alfred.png',
+	  		'female' => config('app.url').'/img/members/selena.png'
+	  	];
+	  	if (!is_null($gender) && array_key_exists(strtolower($gender), $avatar)) {
+	  		return $avatar[$strtolower($gender)];
+	  	}
+  		return $avatar[array_rand($avatar, 1)];	
+	}
+}

@@ -21,17 +21,24 @@ class TeamController extends Controller
     public function store()
     {
         try {
-            request()->validate([
+            $validation = [
                 'last_name' => 'required|string',
                 'first_name' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'telephone' => 'required',
-                // 'password' => 'required|confirmed'
-            ]);
+                'job_title' => 'string',
+            ];
+            $hasPassword =  false;
+            if (request()->has('admin_set_password') && request()->admin_set_password) {
+                $validation['password'] = 'required|string|min:6|confirmed';
+                $hasPassword =  true;
+            }
+
+            request()->validate($validation);
 
             $username = explode('@', request()->email)[0];
 
-            $image_url = config('app.url').'/img/members/alfred.png';
+            $image_url = random_avatar();
 
             $member = User::create([
                 'username' => $username.rand(0, 20),
@@ -40,7 +47,7 @@ class TeamController extends Controller
                 'email' => request()->email,
                 'telephone' => request()->telephone,
                 'job_title' => request()->job_title,
-                'password' => bcrypt(str_random(12)), //set random password
+                'password' => $hasPassword ? bcrypt(request()->password) : bcrypt(str_random(12)),
                 'image_url' => $image_url,
                 'created_by' => auth()->user()->id
             ]);
@@ -67,8 +74,7 @@ class TeamController extends Controller
 
             $member->group_name = $role;
 
-            \Mail::to($member->email)->send(new UserCredentials($member));
-            //\Mail::to($member)->send(new UserCredentials($member, request()->password));
+            \Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
 
             unset($member->tasks);
             unset($member->projects);
@@ -120,10 +126,6 @@ class TeamController extends Controller
         $member->job_title = request()->job_title; //Added for job_title update 04/07/2018
         $member->email = request()->email;
         $member->telephone = request()->telephone;
-
-        if (request()->has('password')) {
-            $member->password = request()->password;
-        }
 
         $member->revokeAllRoles();
 
