@@ -39,3 +39,14 @@ if (! function_exists('secondsForHumans')) {
 	}
 
 }
+
+if (! function_exists('natural_language_join')) {
+
+	function natural_language_join(array $list, $conjunction = 'and') {
+	  	$last = array_pop($list);
+	  	if ($list) {
+	    	return implode(', ', $list) . ' ' . $conjunction . ' ' . $last;
+	  	}
+	  	return $last;
+	}
+}

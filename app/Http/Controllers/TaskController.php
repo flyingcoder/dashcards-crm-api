@@ -73,6 +73,25 @@ class TaskController extends Controller
         return $task->destroy($task_id);
     }
 
+    public function bulkDeleteTask($milestone_id)
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+        // (new TaskPolicy())->delete($task);
+
+        $tasks = Task::whereIn('id', request()->ids)->get();
+
+         if (!$tasks->isEmpty()) {
+            foreach ($tasks as $key => $task) {
+                $task->delete();
+            }
+        }
+
+        return response()->json(['message' => $tasks->count().' task(s)  successfully deleted'], 200);
+    }
+
+
     public function comments($id)
     {
         $task = Task::findOrFail($id);

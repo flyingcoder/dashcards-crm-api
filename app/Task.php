@@ -32,7 +32,7 @@ class Task extends Model
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'project_id' => $this->project()->id,
+            'project_id' => $this->project()->id ?? 0,
             'milestone_id' => $this->milestone_id,
             'status' => $this->status,
             'days' => $this->days,
@@ -118,10 +118,12 @@ class Task extends Model
             ]);
             $started_at = request()->started_at;
             $end_at = request()->end_at;
+            $days = round((strtotime($end_at) - strtotime($started_at)) / (60 * 60 * 24));
         }
         else{
             $started_at = date("Y-m-d",strtotime("now"));
             $end_at = date("Y-m-d",strtotime(request()->days . ' days'));
+            $days = request()->days;
         }
         
         $task = self::create([
@@ -130,7 +132,8 @@ class Task extends Model
             'milestone_id' => request()->milestone_id,
             'started_at' =>$started_at,
             'end_at' =>$end_at,
-            'status' => 'Open'
+            'status' => 'Open',
+            'days' => $days
         ]);
 
         $task->save();
