@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Storage;
-use App\User;
 use App\Mail\UserCredentials;
-use Illuminate\Http\Request;
 use App\Policies\UserPolicy;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Storage;
 
 class UserController extends Controller
 {
@@ -41,39 +42,60 @@ class UserController extends Controller
     public function store(Request $request)
     {
         (new UserPolicy())->create();
-
-    	$validated = $request->validate([
-    		'name' => 'required|string|max:255',
+        $validation = [
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'group' => 'integer|exist:role,id',
+            'group' => 'integer|exists:role,id',
             'job_title' => 'string',
-            'telephone' => 'string',
-            // 'password' => 'required|string|min:6|confirmed', 
-            //removed password, user can set their own password after following the unique link sent to their emails
-    	]);
+            'telephone' => 'string'
+        ];
+
+        $hasPassword =  false;
+        if ($request->has('admin_set_password') && $request->admin_set_password) {
+            $validation['password'] = 'required|string|min:6|confirmed';
+            $hasPassword =  true;
+        }
+
+    	$request->validate($validation);
         
         $additionalInfo = [
-            'password' => bcrypt(str_random(12))
+            'image_url' => random_avatar(),
+            'password' => $hasPassword ? bcrypt($request->password) : bcrypt(str_random(12))
         ];
 
         $user = User::create(request()->all() + $additionalInfo);
+        $user->setMeta('address', request()->address ?? '');
+        $user->setMeta('rate', request()->rate ?? '');
 
-        \Mail::to($user->email)->send(new UserCredentials($user));
+        \Mail::to($user->email)->send(new UserCredentials($user, $request->get('password',null)));
 
-        return $user;
+        return $user->fresh();
 
     }
 
-    /*
-    public function clients(Request $request)
+    
+    public function updatePassword(Request $request)
     {
-        $clients = auth()->user()->paginatedClients();
+        $validation = [
+            'user_id' => 'required|numeric|exists:users,id',
+            'password' => 'required|string|min:6|confirmed',
+            'required_current_password' => 'required|boolean'
+        ];
+        if ($request->required_current_password) {
+            $validation['current_password'] = 'required|string';
+        }
+        $request->validate($validation);
+        $user = User::findOrFail($request->user_id);
 
-        if(request()->has('all') && request()->all == true)
-            $clients = auth()->user()->clients()->get();
+        if ($request->required_current_password && !Hash::check($request->current_password, $user->password)) {
+            abort(500, 'Current password does not match with user password');
+        }
+        
+        $user->password = bcrypt($request->password);
+        $user->save();
 
-        return $clients;
-    }*/
+        return $user->fresh();
+    }
 
     public function getMeta($key)
     {

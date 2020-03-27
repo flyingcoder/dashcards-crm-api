@@ -28,6 +28,12 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function
 
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'verify'], function () {
+
+  Route::get('is-belong-to', 'VerificationController@isBelongToCompany');
+
+});
+
 Route::post('login', 'Auth\ApiLoginController@login');
 
 Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'password'], function () {
@@ -293,6 +299,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('/', 'UserController@user');
+
+  Route::post('update-password', 'UserController@updatePassword');
 
   Route::post('{id}', 'UserController@editProfilePicture');
 

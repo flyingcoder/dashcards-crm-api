@@ -42,10 +42,12 @@ class User extends Authenticatable implements HasMediaConversions
         'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by'
     ];
 
-    protected static $logName = 'system';
+    protected static $logName = 'system.user';
 
     protected $appends = ['fullname','location', 'rate', 'user_roles'];
 
+    protected static $logOnlyDirty = true;
+    
     protected static $logAttributes = [
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
