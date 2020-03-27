@@ -35,6 +35,10 @@ class ClientController extends Controller
         $invoices = $client->invoices;
         $client->no_invoices = $invoices->count() ?? 0;
         $client->total_amount_paid = 0; //todo fetch total amount paid by this client
+        $client->company_name = $client->getMeta('company_name', '');
+        $client->contact_name = $client->getMeta('contact_name', '');
+        $client->status = $client->getMeta('status', 'Active');
+
         return $client;
     }
 
@@ -205,7 +209,8 @@ class ClientController extends Controller
         $model = User::findOrFail($id);
 
         $media = $model->addMedia($file)
-                       ->toMediaCollection('avatars');
+                        ->usingFileName('profile-'.$model->id.".png")
+                        ->toMediaCollection('avatars');
 
         $model->image_url = url($media->getUrl('thumb'));
 
