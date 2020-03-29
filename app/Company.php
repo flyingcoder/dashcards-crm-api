@@ -478,6 +478,7 @@ class Company extends Model
                       ->join('users as member', 'member.id', '=', 'services.user_id')
                       ->select(
                         'services.id as id',
+                        'member.image_url',
                         DB::raw('CONCAT(UCASE(LEFT(services.name, 1)), SUBSTRING(services.name, 2)) as service_name'), 
                         'services.created_at as service_created_at',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(member.last_name, 1)), SUBSTRING(member.last_name, 2)), ", ", CONCAT(UCASE(LEFT(member.first_name, 1)), SUBSTRING(member.first_name, 2))) AS name'));

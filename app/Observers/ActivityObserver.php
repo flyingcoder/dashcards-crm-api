@@ -14,10 +14,12 @@ class ActivityObserver
      */
     public function created(Activity $activity)
     {
-        $props = array_keys($activity->properties['attributes']);
-        $type = explode('\\', $activity->subject_type)[1] ?? '';
-        $desc = $type." ".natural_language_join($props)." updated";
-        $activity->description = $desc;
+        if (array_key_exists('attributes', $activity->properties )) {
+            $props = array_keys($activity->properties['attributes']);
+            $type = explode('\\', $activity->subject_type)[1] ?? '';
+            $desc = $type." ".natural_language_join($props)." updated";
+            $activity->description = $desc;
+        }
         $activity->properties = $activity->properties->put('ip', request()->ip());
         $activity->save();
     }

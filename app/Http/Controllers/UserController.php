@@ -14,7 +14,10 @@ class UserController extends Controller
 
     public function user()
     {
-        return request()->user();
+        $user = request()->user();
+        $user->is_admin = $user->hasRole('admin');
+        $user->can = $user->getPermissions();
+        return $user;
     }
 
     public function notifications()
