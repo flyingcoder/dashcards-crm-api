@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\CalendarModel;
+use App\EventType;
+use App\Repositories\CalendarEventRepository;
+use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
+
+    protected $repo;
+
+    public function __construct(CalendarEventRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+    
     public function index()
     {
     	$company = auth()->user()->company();
@@ -17,34 +27,52 @@ class CalendarController extends Controller
         return $company->allPaginatedCalendar(request());
     }
 
-    public function FunctionName($value='')
-    {
-        # code...
-    }
 
-    public function calendar($id)
+    public function calendar()
     {
-    	$calendar = CalendarModel::findOrFail($id);
-
     	//policy will be added soon
+        $user = auth()->user();
+        $calendar = CalendarModel::where('user_id', $user->id)->first();
 
-    	return $calendar;
+        if (!$calendar) {
+            $calendar = CalendarModel::create([
+                'company_id' => $user->company()->id,
+                'title' => 'My Calendar',
+                'description' => ucwords($user->fullname.' calendar'),
+                'user_id' => $user->id,
+                'created_at' => now()->format('Y-m-d H:i:s')
+            ]);
+        }
+
+        $calendar->event_types = $this->repo->getEventTypes($user);
+    	
+        return response()->json([
+                'calendar' => $calendar,
+                'attributes' => $this->repo->getAttributes($user)
+            ], 200); 
     }
 
-    public function events($id)
+    public function attributes()
     {
-    	$calendar = CalendarModel::findOrFail($id);
-
-    	return $calendar->events;
+        $user = auth()->user();
+        return response()->json( $this->repo->getAttributes($user) , 200); 
     }
 
-    public function addEvent()
+    public function addEventType()
     {
         request()->validate([
-            'title' => 'required'
+            'name' => 'required|string|min:2',
+            'color' => 'required'
         ]);
 
-        $calendar = CalendarModel::findOrFail($id);
+        $eventType = EventType::create([
+            'properties' => ['color' => request()->color ],
+            'created_by' => auth()->user()->id,
+            'company_id'=> auth()->user()->company()->id,
+            'name' => request()->name
+        ]);
+
+        return $eventType;
     }
 
     public function store()
@@ -68,4 +96,5 @@ class CalendarController extends Controller
 
         return CalendarModel::create($data);
     }
+
 }

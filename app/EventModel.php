@@ -2,12 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use \MaddHatter\LaravelFullcalendar\Event;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\Models\Activity;
+use App\CalendarModel;
+use App\EventParticipant;
+use App\EventType;
 use App\Events\ActivityEvent;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+use \MaddHatter\LaravelFullcalendar\Event;
 
 class EventModel extends Model implements Event
 {
@@ -19,24 +22,33 @@ class EventModel extends Model implements Event
 
     protected $fillable = [
     	'title', 
-    	'calendar_id', 
     	'all_day',
     	'start',
     	'end',
     	'description',
-    	'properties'
+    	'properties',
+        'eventtypes_id'
     ];
 
-    protected $dates = ['start', 'end', 'deleted_at'];
+    protected $dates = [ 'deleted_at'];
 
     protected static $logAttributes = [
         'title', 
-        'calendar_id', 
         'all_day',
         'start',
         'end',
         'description',
         'properties'
+    ];
+
+     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'properties' => 'array',
+        'all_day' => 'boolean'
     ];
 
     public function tapActivity(Activity $activity, string $eventName)
@@ -50,9 +62,14 @@ class EventModel extends Model implements Event
         return "A calendar event has been {$eventName}";
     }
 
-    public function calendar()
+    public function participants()
     {
-    	return $this->belongsTo(Calendar::class);
+        return $this->hasMany(EventParticipant::class, 'event_id', 'id');
+    }
+
+    public function eventType()
+    {
+        return $this->belongsTo(EventType::class, 'eventtypes_id', 'id');
     }
 
     /**
@@ -104,3 +121,12 @@ class EventModel extends Model implements Event
         return $this->end;
     }
 }
+
+/*
+properties {
+    type : private || public,
+    creator : user_id,
+    send_alarm : true|false,
+
+}
+*/
