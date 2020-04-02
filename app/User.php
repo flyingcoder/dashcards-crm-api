@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\EventParticipant;
 use App\Events\ActivityEvent;
 use App\Http\Resources\Task as TaskResource;
 use App\Notifications\PasswordResetNotification;
@@ -524,6 +525,16 @@ class User extends Authenticatable implements HasMediaConversions
     public function milestoneTemplate()
     {
     	return $this->hasMany(MilestoneTemplate::class);
+    }
+
+    public function calendar()
+    {
+        return $this->hasOne(CalendarModel::class, 'id', 'user_id');
+    }
+
+    public function event_participations()
+    {
+        return $this->hasMany(EventParticipant::class, 'user_id', 'id');
     }
 
     /*

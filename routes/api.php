@@ -250,6 +250,16 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
 
   Route::get('{id}/delete', 'EventController@delete');
 
+  Route::post('/', 'EventController@store');
+
+  Route::put('{id}', 'EventController@update');
+
+  Route::delete('{id}/participants/{user_id?}', 'EventController@leaveEvent');
+
+  Route::delete('{id}', 'EventController@delete');
+
+  Route::get('/attributes', 'EventController@attributes');
+
 });
 
 //calendars
@@ -259,13 +269,14 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'calendars'], function () 
 
   Route::post('/', 'CalendarController@store');
 
-  Route::get('{id}', 'CalendarController@calendar');
+  Route::get('my-calendar', 'CalendarController@calendar');
 
-  Route::get('{id}/events', 'CalendarController@events');
+  Route::get('attributes', 'CalendarController@attributes');
 
-  Route::post('{id}/events', 'EventController@index');
-  
+  Route::post('event-types', 'CalendarController@addEventType');
+
 }); 
+  
 
 //dashitems
 Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitems'], function () {
