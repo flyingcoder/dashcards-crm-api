@@ -28,16 +28,16 @@ class CalendarEventRepository
 	public function getEventTypes(User $user)
 	{
 		$event_types = collect([]);
-		$default_event_types = EventType::whereNull('company_id')->where('is_public', 1);
+		// $default_event_types = EventType::whereNull('company_id')->where('is_public', 1);
 		$company_event_types = EventType::where('company_id', $user->company()->id)->where('created_by', '<>', $user->id)->where('is_public', 1);
 		$personal_event_types = EventType::where('created_by', '=', $user->id);
 
-		$event_types = $default_event_types
-						->union($personal_event_types)
+		$event_types = $personal_event_types
+						// ->union($default_event_types)
 						->union($company_event_types)
 						->orderBy('name', 'ASC')
 						->get();
-
+		
 		return $event_types->toArray();
 	}
 
