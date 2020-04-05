@@ -375,8 +375,13 @@ class Company extends Model
 
     public function allCompanyMembers()
     {
-        $model = $this->members()
-                      ->select(
+        $model = $this->members();
+
+        if (request()->has('except') && !empty(request()->except) ) {
+            $model = $model->whereNotIn('users.id', request()->except);
+        }
+
+        $model = $model->select(
                         'users.*',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
                       )->orderBy('users.created_at', 'DESC');

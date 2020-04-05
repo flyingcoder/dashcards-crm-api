@@ -3,6 +3,7 @@
 namespace App;
 
 use App\CalendarModel;
+use App\Comment;
 use App\EventParticipant;
 use App\EventType;
 use App\Events\ActivityEvent;
@@ -72,6 +73,11 @@ class EventModel extends Model implements Event
         return $this->belongsTo(EventType::class, 'eventtypes_id', 'id');
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+    
     /**
      * Get the event's id number
      *
@@ -121,12 +127,3 @@ class EventModel extends Model implements Event
         return $this->end;
     }
 }
-
-/*
-properties {
-    type : private || public,
-    creator : user_id,
-    send_alarm : true|false,
-
-}
-*/

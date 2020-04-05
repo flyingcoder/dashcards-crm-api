@@ -61,18 +61,22 @@ class CalendarController extends Controller
     public function addEventType()
     {
         request()->validate([
-            'name' => 'required|string|min:2',
-            'color' => 'required'
+            'types.*.name' => 'required|string|min:2',
+            'types.*.color' => 'required'
         ]);
 
-        $eventType = EventType::create([
-            'properties' => ['color' => request()->color ],
-            'created_by' => auth()->user()->id,
-            'company_id'=> auth()->user()->company()->id,
-            'name' => request()->name
-        ]);
+        $eventTypes = [];    
+        foreach (request()->types as $key => $type) {
+            $eventType = EventType::create([
+                'properties' => ['color' => $type['color'] ],
+                'created_by' => auth()->user()->id,
+                'company_id'=> auth()->user()->company()->id,
+                'name' => $type['name']
+            ]);
+            $eventTypes[] = $eventType;
+        }
 
-        return $eventType;
+        return $eventTypes;
     }
 
     public function store()

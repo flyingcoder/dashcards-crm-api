@@ -254,11 +254,19 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
 
   Route::put('{id}', 'EventController@update');
 
+  Route::post('{id}/participants', 'EventController@addParticipants');
+
   Route::delete('{id}/participants/{user_id?}', 'EventController@leaveEvent');
 
   Route::delete('{id}', 'EventController@delete');
 
   Route::get('/attributes', 'EventController@attributes');
+
+  Route::get('{id}/comments', 'EventController@getComments');
+
+  Route::post('{id}/comments', 'EventController@addComment');
+
+  Route::delete('{id}/comments/{comment_id}', 'EventController@removeComment');
 
 });
 

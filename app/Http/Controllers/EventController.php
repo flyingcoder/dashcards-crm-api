@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CalendarModel;
+use App\Comment;
 use App\EventModel;
 use App\Repositories\CalendarEventRepository;
 use Illuminate\Http\Request;
@@ -63,7 +64,9 @@ class EventController extends Controller
 	    		'properties' => [
 	    				'timezone' => request()->has('timezone') ? request()->timezone : 'UTC',
 	    				'send_notify' => request()->notify ?? 0,
-	    				'creator' => $user->id
+                        'alarm' => request()->alarm ?? false,
+	    				'creator' => $user->id,
+                        'time' => request()->time ?? []
 		    		],
 	    	]);
 	    	
@@ -160,5 +163,62 @@ class EventController extends Controller
        $event->participants()->where('user_id', $user_id)->delete();
 
         return response()->json(['message' => 'Successfully remove from event', 'user_id' => $user_id], 200);
+    }
+
+    public function addParticipants($id)
+    {
+        request()->validate([
+            'participants' => 'required|array'
+        ]);
+        
+        $event = EventModel::findOrFail($id);
+
+        if (request()->has('participants') && !empty(request()->participants)) {
+            foreach (request()->participants as $key => $participant) {
+                $event->participants()->create(['user_id' => $participant, 'added_by' => auth()->user()->id]);
+            }
+        }
+
+        return $event->participants()->with(['user', 'addedBy'])->get()->toArray();
+    }
+    
+    public function getComments($event_id)
+    {
+        $event = EventModel::findOrFail($event_id);
+
+        return $event->comments->load(['causer']);
+    }
+
+    public function addComment($event_id)
+    {
+        $event = EventModel::findOrFail($event_id);
+
+        request()->validate([
+            'comment' => 'required'
+        ]);
+
+        $comment = new Comment([ 
+            'body' => request()->comment,
+            'causer_id' => auth()->user()->id,
+            'causer_type' => 'App\User'
+        ]);
+
+        $new_comment = $event->comments()->save($comment);
+        $new_comment->load('causer');
+
+        return $new_comment;
+    }
+
+    public function removeComment($id, $comment_id)
+    {
+        $event = EventModel::findOrFail($id);
+
+        $comment = $event->comments()->where('id', $comment_id)->first();
+
+        if($comment->delete()){
+            return response()->json([ 'comment_id' => $id, 'message' => 'Successfully deleted' ], 200);
+        }
+        
+        return response()->json([ 'message' => "Can't delete comment." ], 500);
     }
 }
