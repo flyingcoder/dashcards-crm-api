@@ -247,10 +247,13 @@ class User extends Authenticatable implements HasMediaConversions
     {
         $data = $this->messageNotification()
                     ->where('is_seen', 0)
+                    ->latest()
                     ->get();
+        
+        $data = $data->unique('conversation_id');
 
         $data->map(function ($model) {
-            $model->msg = $model->message()->first();
+            $model->msg = $model->message()->latest()->first();
             $model->sender = $model->msg
                                    ->sender()
                                    ->select('id', 'first_name', 'last_name', 'image_url')
