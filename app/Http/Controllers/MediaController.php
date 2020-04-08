@@ -152,7 +152,7 @@ class MediaController extends Controller
                           'media' => [$media],
                           'thumb_url' => $media->getCustomProperty('thumb')
                         ])
-                       ->log($user->first_name.' linked a file.');
+                       ->log($user->first_name.' linked a file on project '.$project->title);
 
         $activity = Activity::findOrFail($activity->id);
         $activity->users()->attach($user->company()->membersID());

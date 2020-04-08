@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Activity;
 use App\Permission;
 use App\Project;
 use DB;
@@ -11,7 +12,6 @@ use Illuminate\Http\Request;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Plank\Metable\Metable;
-use Spatie\Activitylog\Models\Activity;
 use Spatie\MediaLibrary\Media;
 
 class Company extends Model
@@ -785,26 +785,33 @@ class Company extends Model
     {
         $members = $this->membersID();
 
-        $activity = Activity::whereIn('causer_id', $members);
+        $activity = Activity::whereIn('causer_id', $members)->with('causer');
 
         return $activity;
     }
 
     public function activityLog()
     {
-        return $this->timeline()
-                    ->where('log_name', 'system')
-                    ->latest()
-                    ->get();
+        $query = $this->timeline()->where('log_name', 'system');
+        $per_page = request()->has('per_page') ? request()->per_page : $this->paginate;
+
+        if (request()->has('per_page') || request()->has('page')) {
+            return $query->latest()->paginate($per_page);
+        }
+
+        return $query->latest()->get();
     }
 
     public function activityLogUnRead()
     {
-        return $this->timeline()
-                    ->where('log_name', 'system')
-                    ->where('read', false)
-                    ->latest()
-                    ->get();
+        $query = $this->timeline()->where('log_name', 'system')->where('read', false);
+        $per_page = request()->has('per_page') ? request()->per_page : $this->paginate;
+
+        if (request()->has('per_page') || request()->has('page')) {
+            return $query->latest()->paginate($per_page);
+        }
+        
+        return $query->latest()->get();
     }
 
     public function allTimeline()
