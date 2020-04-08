@@ -148,12 +148,15 @@ class MessageController extends Controller
 
     public function markAllAsRead($conversation_id = null)
     {
+        $notifQuery =  MessageNotification::where('user_id', '=', auth()->user()->id)
+                        ->where('is_sender', '=', 0);
+
         if ($conversation_id > 0 && !is_null($conversation_id)) {
-            MessageNotification::where('user_id', '=', auth()->user()->id)
-                        ->where('is_sender', '=', 0)
-                        ->where('conversation_id', '=', $conversation_id)
-                        ->update(['is_seen' => 1]);
+            $notifQuery = $notifQuery->where('conversation_id', '=', $conversation_id);
         }
+        $response = $notifQuery->update(['is_seen' => 1]);
+
+        return response()->json(['message' => 'Success'], 200);
     }
 
     public function createGroupChat()
