@@ -352,7 +352,9 @@ class User extends Authenticatable implements HasMediaConversions
         $invoice->items = $items;
         $invoice->billedFrom = $invoice->billedFrom;
         $invoice->billedTo = $invoice->billedTo;
-
+        $invoice->status = 'pending';
+        $invoice->props = [];
+        
         return $invoice;
     }
     /**
