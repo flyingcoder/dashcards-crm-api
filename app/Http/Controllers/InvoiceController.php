@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Invoice;
 use App\Policies\InvoicePolicy;
+use App\Repositories\InvoiceRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
     
 class InvoiceController extends Controller
 {
+    protected $repo;
+
+    public function __construct(InvoiceRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+
     public function index()
     {
         (new InvoicePolicy())->index();
@@ -129,16 +137,20 @@ class InvoiceController extends Controller
 
         foreach ($clients as $key => $client) {
             $row = $client;
-            $row->amount = '$'.rand(0.1, 100.99); //todo add actual calculation
+            $row->amount = '$'.$this->repo->totalInvoices($client->user, 'billed_to'); //todo filter for status
         }
         
         $data = [];
+        $d = new \DateTime(date('Y-m-d'), new \DateTimeZone('UTC')); 
+        $d->modify('first day of previous month');
+        $year = $d->format('Y'); 
+        $month = $d->format('m');
 
         if (!(request()->has('client_only') && boolval(request()->client_only))) {
             $data = [
-                'total_clients' => $clientGroup->teamMembers()->count(),
-                'current_month_total' => '$'.rand(0, 100000.99), //todo add actual calculation
-                'last_month_total' => '$'.rand(0, 100000.99) //todo add actual calculation
+                'total_clients' => $clients->total(),
+                'current_month_total' => '$'.$this->repo->totalMonthlyClientInvoices($clientGroup),
+                'last_month_total' => '$'.$this->repo->totalMonthlyClientInvoices($clientGroup,$month, $year)
             ];
         }
 

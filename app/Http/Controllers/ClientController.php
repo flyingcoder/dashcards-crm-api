@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Repositories\InvoiceRepository;
 use App\Rules\CollectionUnique;
 use App\User;
 use Auth;
@@ -16,6 +17,13 @@ use Kodeine\Acl\Models\Eloquent\Role;
 class ClientController extends Controller
 {
     private $paginate = 10;
+
+    protected $repo;
+
+    public function __construct(InvoiceRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
     public function index()
     {
@@ -31,13 +39,13 @@ class ClientController extends Controller
     {
         $client = User::findOrFail($id);
         $client->getAllMeta();
-
-        $invoices = $client->invoices;
-        $client->no_invoices = $invoices->count() ?? 0;
-        $client->total_amount_paid = 0; //todo fetch total amount paid by this client
         $client->company_name = $client->getMeta('company_name', '');
         $client->contact_name = $client->getMeta('contact_name', '');
         $client->status = $client->getMeta('status', 'Active');
+
+
+        $client->no_invoices = $this->repo->countInvoices($client,'all');
+        $client->total_amount_paid = $this->repo->totalInvoices($client,'billed_to'); 
 
         return $client;
     }

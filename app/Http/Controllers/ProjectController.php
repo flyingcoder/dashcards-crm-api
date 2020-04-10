@@ -92,11 +92,11 @@ class ProjectController extends Controller
 
         $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
         
-        $project->billed_to = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
+        $project->billed_to = $project->getClient();
 
         $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
 
-        $project->billed_from = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
+        $project->billed_from = $project->getManager();
 
         $project->service_name = $project->service()->get()->first()->name;
 
