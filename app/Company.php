@@ -292,6 +292,8 @@ class Company extends Model
             $items = collect(json_decode($invoice->items));
             unset($invoice->items);
             $invoice->items = $items;
+            $invoice->billedTo = User::where('id', $invoice->billed_to)->first();
+            $invoice->billedFrom = User::where('id', $invoice->billed_from)->first();
         });
 
         return $data;

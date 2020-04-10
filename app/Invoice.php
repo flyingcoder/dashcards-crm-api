@@ -33,7 +33,9 @@ class Invoice extends Model implements HasMedia
         'billed_from',
         'billed_to',
         'type',
-        'company_logo'
+        'company_logo',
+        'status',
+        'props'
     ];
 
     protected static $logName = 'system';
@@ -53,8 +55,14 @@ class Invoice extends Model implements HasMedia
         'billed_from',
         'billed_to',
         'type',
-        'company_logo'
+        'company_logo',
+        'status',
+        'props'
     ];
+    
+   /* protected $cast = [
+        'items' => 'array'
+    ];*/
 
     public function tapActivity(Activity $activity, string $eventName)
     {
@@ -77,5 +85,15 @@ class Invoice extends Model implements HasMedia
     public function project()
     {
     	return $this->belongsTo(Project::class);
+    }
+
+    public function billedTo()
+    {
+        return $this->hasOne(User::class, 'id', 'billed_to');
+    }
+
+    public function billedFrom()
+    {
+        return $this->hasOne(User::class, 'id', 'billed_from');
     }
 }

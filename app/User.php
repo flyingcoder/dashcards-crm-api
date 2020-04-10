@@ -306,7 +306,9 @@ class User extends Authenticatable implements HasMediaConversions
             'title' => 'required',
             'total_amount' => 'required',
             'items' => 'required|string',
-            'type' => 'required'    
+            'type' => 'required',
+            'billed_from' => 'exists:users,id',
+            'billed_to' => 'exists:users,id'
         ]);
 
         $data = [
@@ -348,8 +350,36 @@ class User extends Authenticatable implements HasMediaConversions
         $items = collect(json_decode($invoice->items));
         unset($invoice->items);
         $invoice->items = $items;
-        
+        $invoice->billedFrom = $invoice->billedFrom;
+        $invoice->billedTo = $invoice->billedTo;
+
         return $invoice;
+    }
+    /**
+    * invoices that are billed to user
+    *
+    */   
+    public function billedToInvoices()
+    {
+        return $this->hasMany(Invoice::class, 'billed_to', 'id');
+    }
+
+    /**
+    *invoices that are billed from user
+    *
+    */
+    public function billedFromInvoices()
+    {
+        return $this->hasMany(Invoice::class, 'billed_from', 'id');
+    }
+
+    /**
+    * invoices that are billed to or from user
+    *
+    */
+    public function allInvoices()
+    {
+        return $this->billedToInvoices->merge($this->billedFromInvoices);
     }
 
     public function invoices()
