@@ -401,7 +401,12 @@ class Company extends Model
 
         // $team = $this->teams()->where('slug', 'default-'.$this->id)->first();
 
-        $members = $this->members();
+        $members = $this->members()->select('users.*');
+
+        if (request()->has('no-clients')) {
+            $client_team = $this->clientTeam()->id ?? 0;
+            $members = $members->where('teams.id', '<>', $client_team);
+        }
 
         if(request()->has('sort') && !empty(request()->sort))
             $members->orderBy($sortName, $sortValue);
@@ -414,7 +419,6 @@ class Company extends Model
         $data = $members->paginate($this->paginate);
 
         $data->map(function ($user) {
-            $user['id'] = $user->user_id; 
             unset($user['projects']);
             $user->getAllMeta();
             $user['tasks'] = $user->tasks()->where('tasks.deleted_at', null)->count();

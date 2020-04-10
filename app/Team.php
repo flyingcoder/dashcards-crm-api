@@ -31,6 +31,6 @@ class Team extends Model
 
     public function teamMembers()
     {
-        return $this->hasMany(TeamMember::class, 'team_id', 'id')->where('team_id', $this->id);
+        return $this->hasMany(TeamMember::class, 'team_id', 'id');
     }
 }
