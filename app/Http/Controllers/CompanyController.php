@@ -22,6 +22,7 @@ class CompanyController extends Controller
             $type = trim(request()->type);
             return auth()->user()->company()
                 ->members()
+                ->select('users.*')
                 ->with('roles')
                 ->whereHas('roles', function (Builder $query) use ($type) {
                         $query->where('slug', 'like', "%{$type}%");

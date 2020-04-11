@@ -78,7 +78,7 @@ class ApiRegisterController extends Controller
                'password' => bcrypt($request->password),
             ]);
 
-            $company->teams()->create([
+            $default_team = $company->teams()->create([
                 'name' => $company->name.' Default Team',
                 'company_id' => $company->id,
                 'slug' => 'default-'.$company->id,
@@ -86,8 +86,6 @@ class ApiRegisterController extends Controller
             ]);
 
             $user->assignRole('admin');
-
-            $default_team = $company->teams()->first();
 
             $default_team->members()->attach($user);
 
@@ -106,6 +104,8 @@ class ApiRegisterController extends Controller
             $userObject->role = $user->userRole();
 
             $userObject->can = $user->getPermissions();
+            
+            $userObject->company = $company ;
 
             UsersPresence::dispatch($userObject);
 

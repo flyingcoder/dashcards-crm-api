@@ -64,3 +64,14 @@ if (! function_exists('random_avatar')) {
   		return $avatar[array_rand($avatar, 1)];	
 	}
 }
+
+if (! function_exists('stripos_arr')) {
+	function stripos_arr($haystack, $needle) {
+	    if(!is_array($haystack)) $haystack = array($haystack);
+	    foreach($haystack as $index => $what) {
+	    	$pos = stripos($what, $needle);
+	        if($pos !== false) return [$index, $pos];
+	    }
+	    return false;
+	}
+}

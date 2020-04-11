@@ -13,7 +13,7 @@ class MembersRepository
 	protected $teams = ['default','client','staff'];
 	protected $hasPagination = false;
 
-	public function __construct(Company $company)
+	public function __construct($company = null)
 	{
 		$this->company = $company;
 
@@ -28,6 +28,11 @@ class MembersRepository
 		if (request()->has('per_page')) {
 			$this->hasPagination =  true;
 		}
+	}
+
+	public function setCompany($company)
+	{
+		$this->company = $company;
 	}
 	/**
 	 * Type : 'default','client','staff', 
@@ -89,6 +94,15 @@ class MembersRepository
 		}
 
 		return $users->get();
+	}
+
+	public function getUserTeam(User $user, $all = false)
+	{
+		$teams = Teams::select('teams.*')
+			->join('team_user as tu', 'tu.team_id', '=', 'teams.id')
+			->where('tu.user_id', '=', $user->id);
+
+		return $all ? $teams->get() : $teams->first();
 	}
 }
 /*
