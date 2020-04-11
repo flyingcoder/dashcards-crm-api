@@ -243,7 +243,8 @@ class ProjectController extends Controller
             'start_at' => 'required',
             'end_at' => 'required',
             'service_id' => 'required',
-            'client_id' => 'required'
+            'client_id' => 'required',
+            'manager_id' => 'required'
         ]);
         
         try {
@@ -252,7 +253,6 @@ class ProjectController extends Controller
 
             $project = Project::create([
                 'title' => request()->title,
-                //'location' => request()->location,
                 'service_id' => request()->service_id,
                 'description' => request()->description,
                 'started_at' => request()->start_at,
@@ -277,16 +277,9 @@ class ProjectController extends Controller
             }
             
             $project->members()->attach(request()->client_id, ['role' => 'Client']);
-
-            $project->members()->attach(Auth::user()->id, ['role' => 'Manager']);
+            $project->members()->attach(request()->manager_id, ['role' => 'Manager']);
 
             if(request()->has('members')){
-                if(in_array(request()->client_id, request()->members)){
-                    throw new Exception("Client cant be a member", 422);
-                }
-                elseif(in_array(Auth::user()->id, request()->members)){
-                    throw new Exception("Manager cant be a member", 422);
-                }
                 foreach (request()->members as $value) {
                     $project->members()->attach($value, ['role' => 'Members']);
                 }
@@ -311,6 +304,7 @@ class ProjectController extends Controller
             $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
             $proj->client_id       = $project->projectClient->user->id ?? "";
             $proj->manager_name    = $project->projectManager->user->full_name ?? "";
+            $proj->manager_id       = $project->projectManager->user->id ?? "";
             $proj->service_name    = $project->projectService->name ?? "";
             $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
             $proj->members         = $project->projectMembers->pluck('user');
@@ -340,6 +334,15 @@ class ProjectController extends Controller
             } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
                 $project->members()->detach($project->client()->first()->id);
                 $project->members()->attach(request()->client_id, ['role' => 'Client']);
+            }
+        }
+
+        if(request()->has('manager_id')){
+            if(count($project->client) == 0) {
+                $project->members()->attach(request()->manager_id, ['role' => 'Manager']);
+            } else if (isset($project->getManager()->id) && $project->getManager()->id != request()->manager_id) {
+                $project->members()->detach($project->getManager()->id);
+                $project->members()->attach(request()->manager_id, ['role' => 'Manager']);
             }
         }
 
@@ -377,6 +380,7 @@ class ProjectController extends Controller
         $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
         $proj->client_id       = $project->projectClient->user->id ?? "";
         $proj->manager_name    = $project->projectManager->user->full_name ?? "";
+        $proj->manager_id       = $project->projectManager->user->id ?? "";
         $proj->service_name    = $project->projectService->name ?? "";
         $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
         $proj->members         = $project->projectMembers->pluck('user');

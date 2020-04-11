@@ -354,6 +354,11 @@ class Project extends Model implements HasMediaConversions
         return $this->hasOne(ProjectUser::class, 'project_id', 'id')->where('role', 'like', '%client');
     }
     
+    public function projectUsers()
+    {
+        return $this->hasMany(ProjectUser::class, 'project_id', 'id');
+    }
+    
     public function projectManager()
     {
         return $this->hasOne(ProjectUser::class, 'project_id', 'id')->where('role', 'like', '%manager');

@@ -10,6 +10,10 @@ class ProjectUser extends Model
 {
 	protected $table = 'project_user';
 
+	protected $fillable = ['project_id', 'user_id', 'role'];
+
+	public $timestamps = false;
+
 	public function user()
 	{
 		return $this->hasOne(User::class, 'id', 'user_id');
