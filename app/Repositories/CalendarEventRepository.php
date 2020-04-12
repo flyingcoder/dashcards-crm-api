@@ -53,7 +53,11 @@ class CalendarEventRepository
 
 			$events = $events->whereRaw('? between date(`start`) and date(`end`)', array($date));
 		}
-				// return response()->json([$events->toSql(), $date, $participation], 200);	
+
+		if (request()->has('alarm') && request()->alarm) {
+			$events = $events->where('properties->alarm', true);
+		}
+		
 		$events = $events->orderBy('start','ASC')->paginate($per_page);
 
 		$events->map(function($event) {
@@ -95,14 +99,5 @@ class CalendarEventRepository
 
 		return $data;
 	}
+
 }
-/*{
-        dot: 'red',
-        popover: {
-          label: 'Task 2 Time Line'
-        },
-        dates: [
-          { start: new Date(2020, 2, 2), end: new Date(2020, 2, 9) },
-          { start: new Date(2020, 2, 15), span: 5 } // # of days
-        ]
-      }*/
