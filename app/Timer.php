@@ -22,6 +22,10 @@ class Timer extends Model
         'action',
         'status'
     ];
+    
+    protected $casts = [
+        'properties' => 'array'
+    ];
 
     protected $dates = ['deleted_at'];
 
@@ -102,16 +106,16 @@ class Timer extends Model
         $paused_timer = $open_timer->where('action', 'pause')->get();
 
         foreach ($paused_timer as $value) {
-            $properties = json_decode($value->properties);
-            $total_sec = $total_sec + intval($properties->total_seconds);
+            $properties = $value->properties;
+            $total_sec = $total_sec + intval($properties['total_seconds']);
         }
 
-        $args = collect([
+        $args = [
             'total_time' => gmdate("H:i:s", $total_sec),
             'total_seconds' => $total_sec
-        ]);
+        ];
 
-        $timer->update(['properties' => $args->toJson()]);
+        $timer->update(['properties' => $args]);
 
         //dd($open_timer);
         $model->timers()
@@ -127,12 +131,12 @@ class Timer extends Model
 
         $total_sec = $end->diffInSeconds($start);
 
-        $args = collect([
+        $args = [
             'total_time' => gmdate("H:i:s", $total_sec),
             'total_seconds' => $total_sec
-        ]);
+        ];
 
-        $timer->update(['properties' => $args->toJson()]);
+        $timer->update(['properties' => $args]);
     }
 
     public function subject()

@@ -197,8 +197,8 @@ class Task extends Model
         $paused_timer = $open_timer->where('action', 'pause')->get();
 
         foreach ($paused_timer as $value) {
-            $properties = json_decode($value->properties);
-            $total_sec = $total_sec + intval($properties->total_seconds);
+            $properties = $value->properties;
+            $total_sec = $total_sec + intval($properties['total_seconds']);
         }
 
         return $total_sec;

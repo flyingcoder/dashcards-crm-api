@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\UserCredentials;
 use App\Policies\UserPolicy;
+use App\Repositories\TimerRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,12 @@ use Storage;
 
 class UserController extends Controller
 {
+    protected $timerRepo;
+
+    public function __construct(TimerRepository $timerRepo)
+    {
+        $this->timerRepo = $timerRepo;
+    }
 
     public function user()
     {
@@ -215,5 +222,44 @@ class UserController extends Controller
         $user = User::findOrFail($user_id);
 
         return $user->paginatedUserTimers();
+    }
+
+    public function userGlobalTimers($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        $last_timer = $user->timers()->latest()->first();
+
+        return response()->json([
+            'today' => $this->timerRepo->getTimerForUser($user, 'today'),
+            'monthly' => $this->timerRepo->getTimerForUser($user, 'monthly'),
+            'is_started' =>  $last_timer && $last_timer->status === 'open'
+        ], 200);
+    }
+
+    public function userTaskTimers($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        $tasks = $user->tasks()
+                    ->where('tasks.status', '<>', 'completed')
+                    ->select('tasks.*')
+                    ->with('assigned')
+                    ->orderBy('tasks.status', 'DESC')
+                    ->orderBy('tasks.id', 'ASC')
+                    ->paginate(10);
+
+        $tasksItems = $tasks->getCollection();
+        $data = collect([]);
+
+        foreach ($tasksItems as $key => $task) {
+            $timer = $this->timerRepo->getTimerForTask($task);
+            $service = $task->milestone->project->service->name ?? '';
+
+            $data->push(array_merge($task->toArray(), ['timer' => $timer, 'service' => $service ]));   
+        }
+
+        $tasks->setCollection($data);
+
+        return $tasks;
+
     }
 }
