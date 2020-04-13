@@ -355,6 +355,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::get('{user_id}/timers', 'UserController@userTimers');
   
+  Route::get('{user_id}/task-timers', 'UserController@userTaskTimers');
+
+  Route::get('{user_id}/global-timers', 'UserController@userGlobalTimers');
 });
 
 //timer
@@ -363,6 +366,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
   Route::get('/', 'TimerController@index');
 
   Route::post('/', 'TimerController@task');
+
+  Route::get('status/{user_id?}', 'TimerController@status');
 
   Route::post('{action}', 'TimerController@timer');
 

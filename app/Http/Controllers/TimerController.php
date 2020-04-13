@@ -30,4 +30,15 @@ class TimerController extends Controller
 
         return $timer->trigger($action);
     }
+
+    public function status($user_id = null)
+    {
+    	$user = auth()->user();
+
+    	if (!is_null($user_id)) {
+    		$user = User::findOrFail($user_id);
+    	}
+
+    	return $user->timers()->latest()->first();
+    }
 }
