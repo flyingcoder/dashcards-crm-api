@@ -307,7 +307,8 @@ class MediaController extends Controller
 
             return response()->json([
                         'fileName' => $fileName,
-                        'url'      => url(Storage::url($filePath))
+                        'url'      => url(Storage::url($filePath)),
+                        'public_url' => url(Storage::url($filePath))
                 ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 522);   
