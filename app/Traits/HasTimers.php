@@ -78,8 +78,8 @@ trait HasTimers
     	foreach ($timers as $key => $timer) {
     		if(is_null($timer->properties))
                 continue;
-            $prop = json_decode($timer->properties);
-            $total_seconds += (int) $prop->total_seconds; 
+            $prop = $timer->properties;
+            $total_seconds += (int) $prop['total_seconds']; 
     	}
     	return secondsForHumans($total_seconds);
     }

@@ -39,7 +39,27 @@ if (! function_exists('secondsForHumans')) {
 	}
 
 }
+if (! function_exists('parseSeconds')) {
+	function parseSeconds($given_seconds, $sep = ":")
+    {
+		$hours = floor($given_seconds / 3600);
+		$minutes = floor(($given_seconds / 60) % 60);
+		$seconds = $given_seconds % 60;
 
+		$data    = new stdClass(); 
+		$data->total_seconds = $given_seconds;
+		$data->hrs = (int) $hours;
+		$data->min = (int) $minutes;
+		$data->sec = (int) $seconds;
+		$data->readable = secondsForHumans($seconds);
+		$data->format = sprintf("%02d%s%02d%s%02d", $hours, $sep, $minutes, $sep, $seconds);
+		if ($hours > 99) {
+			$data->format = sprintf("%d%s%02d%s%02d", $hours, $sep, $minutes, $sep, $seconds);
+		}
+
+		return $data;
+    }
+}
 if (! function_exists('natural_language_join')) {
 
 	function natural_language_join(array $list, $conjunction = 'and') {
