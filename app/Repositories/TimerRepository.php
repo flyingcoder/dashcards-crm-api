@@ -47,6 +47,20 @@ class TimerRepository
 	{
 		$timers = $task->timers;
 
+		$last_timer = $timers->last();
+		
+		if (is_null($last_timer->properties) ) {
+			$assumed = new Timer;
+
+			$start = Carbon::parse($last_timer->created_at);
+	        $end = Carbon::now();
+	        $total_sec = $end->diffInSeconds($start);
+
+			$assumed->properties = ['total_seconds' => $total_sec,'total_time' => gmdate("H:i:s", $total_sec)];
+
+			$timers->push($assumed);
+		}
+
 		$data = [
 			'timer_stats' => $this->calculateTime($timers),
 			'timer_status' => $task->timerStatus(),
@@ -71,3 +85,4 @@ class TimerRepository
     	return parseSeconds($total_seconds);
     }
 }
+
