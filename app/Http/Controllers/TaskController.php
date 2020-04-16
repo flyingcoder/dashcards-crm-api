@@ -165,7 +165,7 @@ class TaskController extends Controller
         $assignee_url = $assigned->isEmpty() ? '' : $assigned->first()->image_url;
         $assigned_ids = $assigned->isEmpty() ? [] : $assigned->pluck('id')->toArray();
 
-        $task = collect(json_decode($task->toJson(), true));
+        $task = collect($task);
 
         $task->put('total_time', $total_time);
         $task->put('timer_status', $status);

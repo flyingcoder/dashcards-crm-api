@@ -44,7 +44,7 @@ class DashboardController extends Controller
     		$counts = [
 	        	'projects' => $company->projects()->count(),
 	        	'tasks' => $company->tasks()->where('status', 'open')->count(),
-	        	'calendars' => 0, //to be added soon
+	        	'calendars' => auth()->user()->event_participations()->count(),
 	        	'timer' => $company->allTimers()->count(),
 	        	'inbound' => 0, //this is about forms questionaires
 	        	'outbound' => 0 //replied questionaires
@@ -53,7 +53,7 @@ class DashboardController extends Controller
     		$counts = [
     			'projects' => auth()->user()->projects()->count(),
 	        	'tasks' => auth()->user()->tasks()->where('status', 'open')->count(),
-	        	'calendars' => 0, //to be added soon
+	        	'calendars' => auth()->user()->event_participations()->count(), 
 	        	'timer' => auth()->user()
                                  ->timers()
                                  ->count(),

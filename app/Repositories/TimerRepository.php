@@ -9,38 +9,67 @@ use Carbon\Carbon;
 
 class TimerRepository
 {
-
+	/**
+	 *
+	 * Type: today, monthly, date in format of Y-m-d
+	 */
 	public function getTimerForUser(User $user, $type = 'today')
 	{
 		$timers = $user->timers();
 
 		if ($type === 'today') {
-			$timers = $timers->whereDate('created_at', now()->format('Y-m-d'));
+			$filteredTimer = (clone $timers)->whereDate('created_at', now()->format('Y-m-d'));
 		} elseif ($type === 'monthly') {
-			$timers = $timers->whereYear('created_at', now()->year)
+			$filteredTimer = (clone $timers)->whereYear('created_at', now()->year)
                         	->whereMonth('created_at', now()->month);
+		} else {
+			$filteredTimer = (clone $timers)->whereDate('created_at', $type);
 		}
 
-		$timers = $timers->get();
+		$first = (clone $filteredTimer)->where('action', '=', 'start')->orderBy('created_at', 'ASC')->first();
 
-		if ($timers->isEmpty()) {
-			return parseSeconds(0);
+		if (!$first) {
+			//no first start record
+			return array_merge(
+				(array) parseSeconds(0), 
+				[
+					'interval' => null,
+					'timer_status' =>  '',
+					'timer_created' => null,
+					'timer_stopped' =>  null
+				]);
 		}
 
-		$last_timer = $timers->last();
-		if (is_null($last_timer->properties) ) {
-			$assumed = new Timer;
+		$last  = (clone $filteredTimer)->where('id', '>', $first->id)->latest()->first();
+		if ($last && $last->action === 'start') {
+			//get the next stop that fall beyond the given period
+			$last = (clone $timers)->where('action', '=', 'stop')->where('id', '>', $last->id)->orderBy('id', 'ASC')->first();
+		} //else assumed last is stopped
 
-			$start = Carbon::parse($last_timer->created_at);
-	        $end = Carbon::now();
-	        $total_sec = $end->diffInSeconds($start);
-
-			$assumed->properties = ['total_seconds' => $total_sec,'total_time' => gmdate("H:i:s", $total_sec)];
-
+		if (!$last) {
+			$timers = (clone $timers)->where('id', '>=', $first->id)->get();
+			$last   = $timers->last();
+			$assumed = $this->fillInOngoing($last);
 			$timers->push($assumed);
+			$timer_created = $first->created_at->format('Y-m-d H:i:s');
+			$timer_stopped = null;
+			$timer_status  = 'open';
+		} else {
+			$timers = (clone $timers)->where('id', '>=', $first->id)->where('id', '<=', $last->id)->get();
+			$timer_created = $first->created_at->format('Y-m-d H:i:s');
+			$timer_stopped = $last->created_at->format('Y-m-d H:i:s');
+			$timer_status  = $last->status ?? 'close';
 		}
 
-		return array_merge((array) $this->calculateTime($timers), ['interval' => null]);
+		return array_merge(
+				(array) $this->calculateTime($timers), 
+				[
+					'interval' => null,
+					'timer_status' =>  $timer_status,
+					'timer_created' => $timer_created,
+					'timer_stopped' => $timer_stopped
+				]);
+
 	}
 
 	public function getTimerForTask(Task $task)
@@ -48,20 +77,16 @@ class TimerRepository
 		$timers = $task->timers;
 
 		$last_timer = $timers->last();
-		
-		if (is_null($last_timer->properties) ) {
-			$assumed = new Timer;
+		$first_timer = $timers->first();
 
-			$start = Carbon::parse($last_timer->created_at);
-	        $end = Carbon::now();
-	        $total_sec = $end->diffInSeconds($start);
-
-			$assumed->properties = ['total_seconds' => $total_sec,'total_time' => gmdate("H:i:s", $total_sec)];
-
+		if ($last_timer && is_null($last_timer->properties) ) {
+			$assumed = $this->fillInOngoing($last_timer);
 			$timers->push($assumed);
 		}
 
 		$data = [
+			'timer_created' => $first_timer && $first_timer->created_at ? $first_timer->created_at->format('Y-m-d H:i:s') : null,
+			'timer_stopped' => $last_timer && $last_timer->created_at ? $last_timer->created_at->format('Y-m-d H:i:s') : null,
 			'timer_stats' => $this->calculateTime($timers),
 			'timer_status' => $task->timerStatus(),
 			'timer_interval' => null,
@@ -83,6 +108,16 @@ class TimerRepository
     	}
 
     	return parseSeconds($total_seconds);
+    }
+
+    protected function fillInOngoing($last_timer)
+    {
+    	$assumed = new Timer;
+		$start = Carbon::parse($last_timer->created_at);
+        $end = Carbon::now();
+	    $total_sec = $end->diffInSeconds($start);
+		$assumed->properties = ['total_seconds' => $total_sec,'total_time' => gmdate("H:i:s", $total_sec)];
+		return $assumed;
     }
 }
 

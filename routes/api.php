@@ -371,6 +371,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
 
   Route::post('{action}', 'TimerController@timer');
 
+  Route::get('tasks', 'TimerController@taskTimers');
+
+  Route::get('global', 'TimerController@globalTimers');
+
   Route::get('{action}', 'TimerController@timer');
 
 });

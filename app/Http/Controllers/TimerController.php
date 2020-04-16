@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\TimerRepository;
 use App\Task;
 use App\Timer;
 use App\User;
@@ -10,6 +11,18 @@ use Illuminate\Http\Request;
 
 class TimerController extends Controller
 {
+    protected $paginate = 10;
+
+    protected $repo;
+
+    public function __construct(TimerRepository $repo)
+    {
+        $this->repo = $repo;
+        if (request()->has('per_page') && request()->per_page > 0) {
+            $this->paginate = request()->per_page;
+        }
+    }
+
 	public function index()
 	{
 		return auth()->user()
@@ -40,5 +53,62 @@ class TimerController extends Controller
     	}
 
     	return $user->timers()->latest()->first();
+    }
+
+    public function taskTimers()
+    {
+        $user = auth()->user();
+
+        if (request()->has('all')) {
+            $tasks = $user->company()->tasks();
+        } else {
+            $tasks = $user->tasks();
+        }
+
+        $tasks = $tasks->select('tasks.*')
+                    ->with('assigned')
+                    ->orderBy('tasks.status', 'DESC')
+                    ->orderBy('tasks.id', 'ASC')
+                    ->paginate($this->paginate);
+
+        $tasksItems = $tasks->getCollection();
+        $data = collect([]);
+
+        foreach ($tasksItems as $key => $task) {
+            $timer = $this->repo->getTimerForTask($task);
+            $service = $task->milestone->project->service->name ?? '';
+            $client = $task->project()->getClient();
+            $data->push(array_merge($task->toArray(), ['timer' => $timer, 'service' => $service, 'client' => $client ]));   
+        }
+
+        $tasks->setCollection($data);
+
+        return $tasks;
+    }
+
+    public function globalTimers()
+    {
+        $user = auth()->user();
+        
+        $clientTeam = $user->company()->clientTeam()->id ?? 0;
+
+        $members = $user->company()->members()
+            ->where('teams.id', '<>', $clientTeam)
+            ->select('users.*')
+            ->paginate($this->paginate);
+
+        $membersItems = $members->getCollection();
+        $data = collect([]);
+
+        $date = request()->has('date') ? request()->date : 'today';
+
+        foreach ($membersItems as $key => $user) {
+            $timer = $this->repo->getTimerForUser($user,  $date);
+            $data->push(array_merge($user->toArray(), ['timer' => $timer ]));   
+        }
+
+        $members->setCollection($data);
+
+        return $members;
     }
 }
