@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         }
         $this->call(ProductionUserSeeder::class);
         $this->call(DashitemSeeder::class);
+        $this->call(NewDashItemSeeder::class);
     }
 }

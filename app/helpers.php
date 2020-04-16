@@ -95,3 +95,14 @@ if (! function_exists('stripos_arr')) {
 	    return false;
 	}
 }
+
+if (! function_exists('finalSql')) {
+	function finalSql($query) {
+	    $sql_str = $query->toSql();
+	    $bindings = $query->getBindings();
+
+	    $wrapped_str = str_replace('?', "'?'", $sql_str);
+
+	    return str_replace_array('?', $bindings, $wrapped_str);
+	}
+}

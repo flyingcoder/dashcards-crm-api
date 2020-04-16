@@ -428,7 +428,7 @@ class User extends Authenticatable implements HasMediaConversions
     public function timers()
     {
         return $this->morphMany(Timer::class, 'causer')
-                    ->where('subject_type', 'App\Company');
+                    ->where('subject_type', 'App\\Company');
     }
 
     public function forms()
