@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
     	$company = auth()->user()->company();
 
-    	if(auth()->user()->hasRole('admin|manager') && auth()->user()->can('view.all-tasks')) {
+    	if(auth()->user()->hasRole('admin|manager') || auth()->user()->can('view.all-tasks')) {
     		$counts = [
 	        	'projects' => $company->projects()->count(),
 	        	'tasks' => $company->tasks()->where('status', 'open')->count(),
