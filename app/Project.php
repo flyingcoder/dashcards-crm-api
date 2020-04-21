@@ -97,6 +97,7 @@ class Project extends Model implements HasMediaConversions
         $convo = $model->first();
 
         return $convo->messages()
+                     ->latest()
                      ->paginate($this->paginate);
     }
 
@@ -359,9 +360,14 @@ class Project extends Model implements HasMediaConversions
         return $this->hasMany(ProjectUser::class, 'project_id', 'id');
     }
     
-    public function projectManager()
+    public function projectManager() //get one manager
     {
         return $this->hasOne(ProjectUser::class, 'project_id', 'id')->where('role', 'like', '%manager');
+    }
+
+    public function projectManagers() //get all managers
+    {
+        return $this->hasMany(ProjectUser::class, 'project_id', 'id')->where('role', 'like', '%manager');
     }
 
     public function projectMembers()
@@ -501,8 +507,8 @@ class Project extends Model implements HasMediaConversions
             $data = $model->get();
 
         $data->map(function ($model) {
-            $model['bill_to'] = $model->billedTo->fullname;//ucfirst($client->last_name) . ', ' . ucfirst($client->first_name);
-            $model['bill_from'] = $model->billedFrom->fullname;//ucfirst(auth()->user()->last_name) . ', ' . ucfirst(auth()->user()->first_name);
+            $model['bill_to'] = $model->billedTo->fullname;
+            $model['bill_from'] = $model->billedFrom->fullname;
             $model['items'] = gettype($model->items) == 'string' ? json_decode($model->items, true) : $model->items;
             return $model;
         });
@@ -554,6 +560,7 @@ class Project extends Model implements HasMediaConversions
 
         if(request()->has('all') && request()->all)
             $data = $model->with('tasks')->get();
+
 
         return $data;
     }

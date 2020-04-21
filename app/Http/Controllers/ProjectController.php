@@ -244,7 +244,7 @@ class ProjectController extends Controller
             'end_at' => 'required',
             'service_id' => 'required',
             'client_id' => 'required',
-            'manager_id' => 'required'
+            'managers' => 'required|array'
         ]);
         
         try {
@@ -261,24 +261,17 @@ class ProjectController extends Controller
                 'company_id' => auth()->user()->company()->id
             ]);
 
-            if(request()->has('comment') && request()->comment != ''){
-
-                $comment = new Comment([ 
-                    'body' => request()->comment,
-                    'causer_id' => auth()->user()->id,
-                    'causer_type' => 'App\User'
-                ]);
-
-                $new_comment = $project->comments()->save($comment);
-            }
-
             if(request()->has('extra_fields') && !empty(request()->extra_fields)){
                 $project->setMeta('extra_fields', request()->extra_fields);
             }
             
             $project->members()->attach(request()->client_id, ['role' => 'Client']);
-            $project->members()->attach(request()->manager_id, ['role' => 'Manager']);
 
+            if(request()->has('managers')){
+                foreach (request()->managers as $value) {
+                    $project->manager()->attach($value, ['role' => 'Manager']);
+                }
+            }
             if(request()->has('members')){
                 foreach (request()->members as $value) {
                     $project->members()->attach($value, ['role' => 'Members']);
@@ -292,7 +285,7 @@ class ProjectController extends Controller
 
             $proj = $project->with([ 
                 'projectService',
-                'projectManager.user.meta',
+                'projectManagers.user.meta',
                 'projectClient.user.meta',
                 'projectMembers.user.meta'
             ])->where('projects.id', $project->id)->first();
@@ -303,11 +296,8 @@ class ProjectController extends Controller
             $proj->tasks           = $project->tasks()->count();
             $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
             $proj->client_id       = $project->projectClient->user->id ?? "";
-            $proj->manager_name    = $project->projectManager->user->full_name ?? "";
-            $proj->manager_id       = $project->projectManager->user->id ?? "";
             $proj->service_name    = $project->projectService->name ?? "";
             $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
-            $proj->members         = $project->projectMembers->pluck('user');
 
             return $proj;
         } catch (Exception $e) {
@@ -337,15 +327,12 @@ class ProjectController extends Controller
             }
         }
 
-        if(request()->has('manager_id')){
-            if(count($project->client) == 0) {
-                $project->members()->attach(request()->manager_id, ['role' => 'Manager']);
-            } else if (isset($project->getManager()->id) && $project->getManager()->id != request()->manager_id) {
-                $project->members()->detach($project->getManager()->id);
-                $project->members()->attach(request()->manager_id, ['role' => 'Manager']);
+        if(request()->has('managers')) {
+            foreach (request()->managers as $value) {
+                if(!$project->manager->contains($value))
+                    $project->manager()->attach($value, ['role' => 'Manager']);
             }
         }
-
         if(request()->has('members')) {
             foreach (request()->members as $value) {
                 if($value == request()->client_id)
@@ -368,7 +355,7 @@ class ProjectController extends Controller
 
         $proj = $project->with([ 
                 'projectService',
-                'projectManager.user.meta',
+                'projectManagers.user.meta',
                 'projectClient.user.meta',
                 'projectMembers.user.meta'
             ])->where('projects.id', $project->id)->first();
@@ -379,12 +366,9 @@ class ProjectController extends Controller
         $proj->tasks           = $project->tasks()->count();
         $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
         $proj->client_id       = $project->projectClient->user->id ?? "";
-        $proj->manager_name    = $project->projectManager->user->full_name ?? "";
-        $proj->manager_id       = $project->projectManager->user->id ?? "";
         $proj->service_name    = $project->projectService->name ?? "";
         $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
-        $proj->members         = $project->projectMembers->pluck('user');
-
+        
         return $proj;
     }
 
@@ -583,7 +567,7 @@ class ProjectController extends Controller
 
     public function members($project_id){
         $project = Project::findOrFail($project_id);
-
+        
         
         return $project->paginatedMembers();
     }

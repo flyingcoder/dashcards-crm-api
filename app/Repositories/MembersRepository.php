@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Company;
+use App\Group;
+use App\Project;
 use App\Team;
 use App\User;
 
@@ -104,8 +106,70 @@ class MembersRepository
 
 		return $all ? $teams->get() : $teams->first();
 	}
+	/**
+	 * @param \App\Company $company
+	 * @param Boolean $queryOnly
+	 * @return Collection of \App\User
+	 */
+	public function getCompanyAdmins(Company $company, $queryOnly = false )
+	{
+		$ids = Group::where('slug', 'like', '%admin%')->whereIn('company_id', [0, $company->id])->pluck('id')->toArray();
+
+		$members = $company->members()
+					->join('role_user', function ($join) use ($ids) {
+			            $join->on('users.id', '=', 'role_user.user_id')
+			            	->whereIn('role_user.role_id', $ids);
+			        });
+
+		if (!$queryOnly) {
+			$members = $members->select('users.*')->get();
+		} 
+
+		return $members;
+	}
+	/**
+	 * @param \App\Company $company
+	 * @param Boolean $queryOnly
+	 * @return Collection of \App\User
+	 */
+	public function getCompanyManagers(Company $company, $queryOnly = false)
+	{
+		$ids = Group::where('slug', 'like', '%manager%')->where('company_id', $company->id)->pluck('id')->toArray();
+
+		$members = $company->members()
+					->join('role_user', function ($join) use ($ids) {
+			            $join->on('users.id', '=', 'role_user.user_id')
+			            	->whereIn('role_user.role_id', $ids);
+			        });
+
+		if (!$queryOnly) {
+			$members = $members->select('users.*')->get();
+		} 
+
+		return $members;
+	}
+
+	/**
+	 * @param \App\Project $project
+	 * @return Collection of \App\User
+	 */
+	public function getProjectClientChatMembers(Project $project)
+	{
+		$admins = $this->getCompanyAdmins($project->company);
+        $managers = $this->getCompanyManagers($project->company);
+        $members = $admins->merge($managers);
+        $members->push($project->client()->first());
+        return $members;
+	}
+
+	/**
+	 * @param \App\Project $project
+	 * @return Collection of \App\User
+	 */
+	public function getProjectTeamChatMembers(Project $project)
+	{
+		$admins = $this->getCompanyAdmins($project->company);
+        $members = $admins->merge($project->members);
+        return $members;
+	}
 }
-/*
-list($sortName, $sortValue) = parseSearchParam(request());
-if(request()->has('sort') && !empty(request()->sort))
-            $model->orderBy($sortName, $sortValue);*/
