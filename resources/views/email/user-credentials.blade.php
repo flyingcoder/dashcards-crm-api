@@ -14,7 +14,7 @@
             <tr>
               <td>
                 <p>Hello, {{ $user->first_name }}</p>
-                <p>Your username is "{{ $user->username }}",</p>
+                <p>Your username is "{{ $user->email }}",</p>
                 <p>Your password is "{{ $password }}".</p>
                 <p>You can login here <a href="{{$login_link}}" target="_blank">{{ $login_link }}</a></p>
               </td>

@@ -530,9 +530,10 @@ class Company extends Model
         list($sortName, $sortValue) = parseSearchParam($request);
 
         if(request()->has('default') && request()->default == true) {
-            $model = Role::where('company_id', 0);
+            $model = Group::where('company_id', 0);
         } else {
-            $model = Role::whereIn('company_id', [0, $this->id])
+            $model = Group::whereIn('company_id', [0, $this->id])
+                    ->whereNull('roles.deleted_at')
                     ->whereNotIn('roles.slug', ['client','manager','member']);
         }
 
@@ -571,37 +572,6 @@ class Company extends Model
         return $this->companyProjects();
 
     }
-    /*public function projects()
-    {
-        $members = $this->membersID();
-
-        $projects = Project::whereHas('manager', function ($q) use ($members) {
-               $q->whereIn('id', $members);
-            });
-
-        $projects->join('services', 'services.id', '=', 'projects.service_id')
-                 ->join('project_user as manager_pivot', function ($join) {
-                    $join->on('manager_pivot.project_id', '=', 'projects.id')
-                         ->where('manager_pivot.role', '=', 'Manager');
-                 })
-                 ->join('users as manager', 'manager_pivot.user_id', '=', 'manager.id')
-                 ->join('project_user as client_pivot', function ($join) {
-                    $join->on('client_pivot.project_id', '=', 'projects.id')
-                         ->where('client_pivot.role', '=', 'Client');
-                 })
-                 ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
-                 ->select(
-                    'client.id AS client_id',
-                    'services.id AS service_id',
-                    'manager.id AS manager_id',
-                    DB::raw('CONCAT(CONCAT(UCASE(LEFT(manager.last_name, 1)), SUBSTRING(manager.last_name, 2)), ", ", CONCAT(UCASE(LEFT(manager.first_name, 1)), SUBSTRING(manager.first_name, 2))) AS manager_name'),
-                    'client.image_url as client_image_url',
-                    'projects.*',
-                    DB::raw('CONCAT(UCASE(LEFT(services.name, 1)), SUBSTRING(services.name, 2)) as service_name')
-                 )->where('projects.deleted_at', null);
-
-        return $projects;
-    }*/
 
     public function paginatedCompanyProjects(Request $request)
     {
@@ -615,7 +585,7 @@ class Company extends Model
 
         $projects->with([ 
             'projectService',
-            'projectManager.user.meta',
+            'projectManagers.user.meta',
             'projectClient.user.meta',
             'projectMembers.user.meta'
         ]);
@@ -645,11 +615,10 @@ class Company extends Model
             $project['progress']        = $project->progress();
             $project['tasks']           = $project->tasks()->count();
             $project['company_name']    = $project->projectClient->user->meta['company_name']->value ?? "";
-            $project['client_id']       = $project->projectClient->user->id ?? "";
-            $project['manager_name']    = $project->projectManager->user->full_name ?? "";
+            $project['client_id']       = $project->projectClients->user->id ?? "";
             $project['service_name']    = $project->projectService->name ?? "";
             $project['location']        = $project->projectClient->user->meta['location']->value ?? "";
-            $project['members']         = $project->projectMembers->pluck('user');
+            $project['expand']          = false;
 
             return $project;
         });

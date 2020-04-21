@@ -233,24 +233,21 @@ class TeamController extends Controller
 
     public function deletegroup($id)
     {
-        $role = Role::findOrFail($id);
+
+        $role = auth()->user()->company()->roles()->where('id', $id)->firstOrFail();
+        
         try {
             DB::beginTransaction();
-            $perms = $role->getPermissions();
+            $perms = $role->permissions()->delete();
 
-            foreach ($perms as $key => $value) {
-                $permission = Permission::where('name', $key.'.'.$role->slug)->where('company_id', $role->company_id)->first();
-                $permission->delete();
-            }
-
-            $role->destroy($id);
-
+            $role->delete();
+            
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             return response('Failed to delete group.', 500);
         }
-        return response('Group is successfully deleted.', 200);
+        return response('Group was successfully deleted.', 200);
     }
 
     public function role()

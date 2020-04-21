@@ -7,12 +7,25 @@ use App\Events\ChatNotification;
 use App\Events\PrivateChatSent;
 use App\Message;
 use App\MessageNotification;
+use App\Project;
+use App\Repositories\MembersRepository;
 use App\User;
 use Chat;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+    protected $repo;
+
+    /**
+     *
+     * @return void
+     */
+    public function __construct(MembersRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+
     public function unRead()
     {
         return auth()->user()->unReadMessages();
@@ -231,5 +244,51 @@ class MessageController extends Controller
         
         return response()->json($conversation->users()->get()->toArray(), 200);
     }
+
+    public function getGroupInfo($type, $project_id)
+    {   
+        if (!in_array($type, ['client', 'team'])) {
+            abort(500, 'Invalid group type!');
+        }
+
+        $project = Project::findOrFail($project_id);
+        $project_company = $project->company;
+        
+        $conversation = $project->conversations()->where('type', $type)->first();
+        $participants1 = $conversation->users()->get()->toArray();
+
+        if (!$conversation || empty($participants1)) {
+            if ($type == 'client') {
+                $members = $this->repo->getProjectClientChatMembers($project);
+                $participants = array_unique($members->pluck('id')->toArray());
+            } else {
+                $members = $this->repo->getProjectTeamChatMembers($project);
+                $participants = $members->pluck('id')->toArray() ?? [];
+            }
+        }
+
+        if (!$conversation) {
+            $data = array(
+                'type' => $type,
+                'group_name' => $project_company->name." ".ucwords($type)." Message Group",
+                'company_id' => $project_company->id,
+            );
+            
+            $conversation = Chat::createConversation($participants, $data);
+            $conversation->type = $type;
+            $conversation->project_id = $project_id;
+            $conversation->save();
+        }
+
+        if (empty($participants1)) {
+            $conversation->addParticipants($participants);
+        }
+
+        $conversation->members = $conversation->users()->get()->toArray();
+
+        return $conversation;
+    }
+
+
 }
     

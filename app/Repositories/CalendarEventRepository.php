@@ -6,6 +6,7 @@ use App\CalendarModel;
 use App\EventModel;
 use App\EventType;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class CalendarEventRepository
 {
@@ -100,4 +101,15 @@ class CalendarEventRepository
 		return $data;
 	}
 
+	public function upcomingEventsForUser(User $user, $count_only = false)
+	{
+		$query = EventModel::join('event_participants', 'events.id', '=', 'event_participants.event_id')
+					->where('event_participants.user_id', '=', $user->id)
+					->whereDate('start', '>=', DB::raw('NOW()'))
+					->orderBy('events.start','ASC');
+		if ($count_only) {
+			return $query->count();
+		}
+		return $query->get();
+	}
 }

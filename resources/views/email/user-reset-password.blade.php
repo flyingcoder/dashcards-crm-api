@@ -12,8 +12,8 @@
       <table role="presentation" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td>
-            <p>Hello, {{ $user->first_name }}</p>
-            <p>Your username is "{{ $user->username }}", <br>To set your password follow below link</p>
+            <p>Hello, {{ $user->fullname }}</p>
+            <p>Your username is "{{ $user->email }}", <br>To set your password follow below link</p>
 
             <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
               <tbody>
