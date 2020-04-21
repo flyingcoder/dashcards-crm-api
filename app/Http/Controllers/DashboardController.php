@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Dashboard;
-
 use App\Dashitem;
-
+use App\Repositories\CalendarEventRepository;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    protected $cal_repo;
+
+    public function __construct(CalendarEventRepository $cal_repo)
+    {
+        $this->cal_repo = $cal_repo;
+    }
+
     public function addDashitems()
     {
         $company = auth()->user()->company();
@@ -44,7 +49,7 @@ class DashboardController extends Controller
     		$counts = [
 	        	'projects' => $company->projects()->count(),
 	        	'tasks' => $company->tasks()->where('status', 'open')->count(),
-	        	'calendars' => auth()->user()->event_participations()->count(),
+	        	'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
 	        	'timer' => $company->allTimers()->count(),
 	        	'inbound' => 0, //this is about forms questionaires
 	        	'outbound' => 0 //replied questionaires
@@ -53,7 +58,7 @@ class DashboardController extends Controller
     		$counts = [
     			'projects' => auth()->user()->projects()->count(),
 	        	'tasks' => auth()->user()->tasks()->where('status', 'open')->count(),
-	        	'calendars' => auth()->user()->event_participations()->count(), 
+	        	'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
 	        	'timer' => auth()->user()
                                  ->timers()
                                  ->count(),
