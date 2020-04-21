@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 class MediaController extends Controller
 {
   	private $allowedDocs = [
-  		'docx', 'csv', 'doc', 'pdf', 'pptx', 'pps', 'txt', 'json'
+  		'docx', 'csv', 'doc', 'pdf', 'pptx','ppt', 'pps', 'txt', 'json', 'xls', 'xlsm', 'xltx', 'xltm', 'xla'
   	]; 
 
   	private $allowedImages = [
@@ -29,7 +29,7 @@ class MediaController extends Controller
   	];
 
   	private $allowedOtherFiles = [
-  		'zip', 'rar'
+  		'zip', 'rar', 'mp3', 'xml'
   	];
 
 
@@ -59,7 +59,9 @@ class MediaController extends Controller
                   'text/plain',
                   'application/pdf',
                   'application/vnd.ms-powerpoint',
-                  'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                  'application/vnd.ms-excel',
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 ];
 
               $medias->whereIn('mime_type', $mime_type);
@@ -72,7 +74,9 @@ class MediaController extends Controller
                   'application/zip',
                   'application/octet-stream',
                   'application/x-zip-compressed',
-                  'multipart/x-zip'
+                  'multipart/x-zip',
+                  'audio/mpeg',
+                  'application/xml'
                 ];
 
               $medias->whereIn('mime_type', $mime_type);
