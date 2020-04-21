@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
 use App\Events\UsersPresence;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Timer;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class ApiLoginController extends Controller
 {
@@ -84,6 +86,31 @@ class ApiLoginController extends Controller
         }
 
         if (Auth::check()) {
+           //force stop global timer for the user upon logout
+           $timer = $user->lastTimer();
+
+           if ($timer && $timer->action == 'start') {
+                $closetimer  = Timer::create([
+                    'company_id' => $user->company()->id,
+                    'timer_name' => $user->first_name.' Timer',
+                    'description' => 'Force stop timer by logout',
+                    'subject_id' => $user->company()->id,
+                    'subject_type' => 'App\\Company',
+                    'causer_id' => $user->id,
+                    'causer_type' => 'App\\User',
+                    'action' => 'stop',
+                    'status' => 'close'
+                ]);
+
+                $start = Carbon::parse($timer->created_at);
+                $end = Carbon::now();
+                $total_sec = $end->diffInSeconds($start);
+                $args = [
+                            'total_time' => gmdate("H:i:s", $total_sec),
+                            'total_seconds' => $total_sec
+                        ];
+                $closetimer->update(['properties' => $args]);
+           }
 
            $user->is_online = 0;
 
