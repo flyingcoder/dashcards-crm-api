@@ -106,3 +106,70 @@ if (! function_exists('finalSql')) {
 	    return str_replace_array('?', $bindings, $wrapped_str);
 	}
 }
+
+if (! function_exists('createLinks')) {
+	function createLinks ($content) {
+		$link_regex = '/(http\:\/\/|https\:\/\/|www\.)([^\n\r\ ]+)/i';
+	    preg_match_all($link_regex, $content, $matches);
+
+	    foreach ($matches[0] as $url)
+	    {
+	        $matchUrl = strip_tags($url);
+	        $tagcode = '<a href="'.$matchUrl.'" target="_blank">'.$matchUrl.'</a>';
+	        $content = str_replace($url, $tagcode, $content);
+	    }
+
+	    return $content;
+	}
+}
+
+if (! function_exists('createMentions')) {
+	function createMentions ($content) {
+		$mention_regex = '/@([A-Za-z0-9_]+)/i';
+		$mentions = array();
+	    preg_match_all($mention_regex, $content, $matches);
+
+	    foreach ($matches[1] as $mention)  {
+	        $mention = trim($mention);
+	     	$user = \App\User::where('username', '=', $mention)->first();
+	        if ($user) {
+		        $matchSearch = '@'.$mention;
+		        $matchPlace = '@['.$user->id.']';
+		        $content = str_replace($matchSearch, $matchPlace, $content);
+		        $mentions[] = $user->id;
+	        }
+	    }
+
+	    return array(
+	    	'content' => $content,
+	    	'mentions' => array_unique($mentions)
+	    );
+	}
+}
+
+if (! function_exists('getMentions')) {
+	function getMentions($content) {
+        $mention_regex = '/@\[([0-9]+)\]/i';
+
+        if (preg_match_all($mention_regex, $content, $matches)) {
+            foreach ($matches[1] as $match) {
+            	$user = \App\User::find($match);
+            	if ($user) {
+	                $match_search = '@['.$match.']';
+	                $match_replace = ' <a class="profile-link" data-id="'.$user->id.'" title="'.$user->fullname.'">@'.$user->username.'</a>';
+                    $content = str_replace($match_search, $match_replace, $content);
+                }
+            }
+        }
+
+	    return $content;
+	}
+}
+
+if (! function_exists('getFormattedContent')) {
+	function getFormattedContent($content) {
+		$content = createLinks($content);
+		$content = getMentions($content);
+		return $content;
+	}
+}
