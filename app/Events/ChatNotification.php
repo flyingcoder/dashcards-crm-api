@@ -26,21 +26,14 @@ class ChatNotification implements ShouldBroadcast
     public function __construct($message, User $user)
     {
         $notification = MessageNotification::where([
-                            ['message_id', '=', $message->id],
+                            ['message_id', '=', $message['id']],
                             ['is_sender', '=', 0],
                             ['is_seen', '=', 0]
                         ])->first();
 
         $data = collect($notification);
-
-        $data->put('body', $message->body);
-
-        $sender = $message->sender()
-                          ->select('id', 'first_name', 'last_name', 'image_url')
-                          ->first();
-
-        $data->put('sender', $sender);
-
+        $data->put('body', $message['body']);
+        $data->put('sender', $message['sender']);
         $data->put('to_id', $user->id);
 
         $this->notification = $data;

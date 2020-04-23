@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Conversation;
 use App\Events\ChatNotification;
+use App\Events\GroupChatSent;
 use App\Events\PrivateChatSent;
 use App\Message;
 use App\MessageNotification;
@@ -12,6 +13,7 @@ use App\Repositories\MembersRepository;
 use App\User;
 use Chat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class MessageController extends Controller
 {
@@ -84,7 +86,16 @@ class MessageController extends Controller
             $conversation = Chat::createConversation([auth()->user(), $friend]);
 
         $messages = $conversation->messages()->latest()->paginate(10);
+        $items = $messages->getCollection();
 
+        $data = collect([]);
+        foreach ($items as $key => $msg) {
+            $msg->body = getFormattedContent($msg->body);
+            $message = Message::findOrFail($msg->id);
+            $data->push(array_merge($msg->toArray(), ['media' => $message->getFile() ]));   
+        }
+
+        $messages->setCollection($data);
         $this->markAllAsRead($conversation->id);
 
         return $messages;
@@ -95,6 +106,16 @@ class MessageController extends Controller
 
         $messages = $conversation->messages()->latest()->paginate(10);
 
+        $items = $messages->getCollection();
+
+        $data = collect([]);
+        foreach ($items as $key => $msg) {
+            $msg->body = getFormattedContent($msg->body);
+            $message = Message::findOrFail($msg->id);
+            $data->push(array_merge($msg->toArray(), ['media' =>  $message->getFile() ]));   
+        }
+
+        $messages->setCollection($data);
         $this->markAllAsRead($conversation->id);
 
         return $messages;
@@ -103,13 +124,15 @@ class MessageController extends Controller
     public function sendPrivateMessage()
     {
     	request()->validate([
-    		'message' => 'required|string',
     		'from_id' => 'required|exists:users,id',
             'to_id' => 'required|exists:users,id'
     	]);
 
-        $from = User::findOrFail(request()->from_id);
+        $body = request()->has('message') && !empty(request()->message) ? request()->message : ' ';
+        $mention = createMentions($body);
+        $body = $mention['content'];
 
+        $from = User::findOrFail(request()->from_id);
         $to = User::findOrFail(request()->to_id);
 
         $conversation = Chat::conversations()->between($from, $to);
@@ -117,34 +140,79 @@ class MessageController extends Controller
         if(is_null($conversation))
             $conversation = Chat::createConversation([auth()->user(), $from]);
         
-    	$message = Chat::message(request()->message)
+    	$message = Chat::message($body)
 			           ->from($from)
 			           ->to($conversation)
 			           ->send();
 
-        PrivateChatSent::dispatch($message, $to);
+        $message->body = getFormattedContent($message->body);
+        $media = null;
 
-        ChatNotification::dispatch($message, $to);
+        if (request()->has('file') && !is_null(request()->file) ) {
+            $file = request()->file('file');
+            $msg = Message::findOrFail($message->id);
 
-		return response()->json( $message->toArray() + ['sender' => $from], 201);
+            $media = $msg->addMedia($file)
+                            ->preservingOriginal()
+                            ->withCustomProperties([
+                                'ext' => $file->extension(),
+                                'user' => $from
+                            ])
+                            ->toMediaCollection('chat.file');
+
+            $media = $msg->getFile();
+        }
+        
+        $data = $message->toArray() + ['sender' => $from, 'media' => $media ];
+
+        PrivateChatSent::dispatch($data, $to);
+        ChatNotification::dispatch($data, $to);
+
+		return response()->json($data, 201);
     }
     
     public function sendGroupMessage()
     {
         request()->validate([
-            'message' => 'required|string',
             'from_id' => 'required|exists:users,id',
             'convo_id' => 'required|exists:mc_conversations,id'
         ]);
+
+        $body = request()->has('message') && !empty(request()->message) ? request()->message : ' ';
+        $mention = createMentions($body);
+        $body = $mention['content'];
+
         $from = User::findOrFail(request()->from_id);
         $conversation = Chat::conversations()->getById(request()->convo_id);
 
-        $message = Chat::message(request()->message)
+        $message = Chat::message($body)
                        ->from($from)
                        ->to($conversation)
                        ->send();
 
-        return response()->json( $message->toArray() + ['sender' => $from], 201);
+        $message->body = getFormattedContent($message->body);
+        $media = null;
+
+        if (request()->has('file') && !is_null(request()->file) ) {
+            $file = request()->file('file');
+            $msg = Message::findOrFail($message->id);
+
+            $media = $msg->addMedia($file)
+                            ->preservingOriginal()
+                            ->withCustomProperties([
+                                'ext' => $file->extension(),
+                                'user' => $from
+                            ])
+                            ->toMediaCollection('chat.file');
+
+            $media = $msg->getFile();
+        }
+
+        $data = $message->toArray() + ['sender' => $from, 'media' => $media ];
+
+        GroupChatSent::dispatch($data, $conversation);
+
+        return response()->json($data, 201);
     }
     
     public function getUnReadNotifCounts($conversation_id = null)
