@@ -68,13 +68,13 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
   Route::get('group/list', 'MessageController@groupList');
 
-  Route::get('group/{type}/{project_id}', 'MessageController@getGroupInfo'); //type : client,team
+  Route::get('group/private/{convo_id}', 'MessageController@fetchGroupMessages');
 
   Route::get('mark-read', 'MessageController@markAllAsRead');
 
   Route::get('/private/{friend_id}', 'MessageController@fetchPrivateMessages');
 
-  Route::get('group/private/{convo_id}', 'MessageController@fetchGroupMessages');
+  Route::get('group/{type}/{project_id}', 'MessageController@getGroupInfo'); //type : client,team
 
   Route::post('/private', 'MessageController@sendPrivateMessage');
 

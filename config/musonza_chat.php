@@ -9,11 +9,11 @@ return [
      * Channel: mc-chat-conversation.2,
      * Event: Musonza\Chat\Eventing\MessageWasSent
      */
-    'broadcasts' => true,
+    'broadcasts' => false,
 
     /**
      * The event to fire when a message is sent
      * See Musonza\Chat\Eventing\MessageWasSent if you want to customize.
      */
-    'sent_message_event' => 'App\Events\GroupChatSent',
+    'sent_message_event' => 'Musonza\Chat\Eventing\MessageWasSent',
 ];
