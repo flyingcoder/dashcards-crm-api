@@ -48,21 +48,16 @@ class ApiLoginController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             
             $user = Auth::user();
-
-            $userObject = $user->scopeDefaultColumn();
-
-            $userObject->company_id = $user->company()->id;
-
             $user->is_online = 1;
             $user->save();
 
+            $userObject = $user->fresh();
+            $userObject->company_id = $user->company()->id;
             $userObject->company = $user->company();
-            
             $userObject->is_admin = $user->hasRole('admin');
-
             $userObject->role = $user->userRole();
-
             $userObject->can = $user->getPermissions();
+            $userObject->is_company_owner = $user->getIsCompanyOwnerAttribute();
 
             UsersPresence::dispatch($userObject);
 

@@ -56,7 +56,7 @@ class ApiRegisterController extends Controller
             'company_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
             'password' => 'required|string|min:6'
         ]);
 
@@ -65,17 +65,18 @@ class ApiRegisterController extends Controller
 
             $company = Company::create([
                 'name' => $request->company_name,
-                //'email' => $request->company_email,
+                // 'email' => $request->email,
             ]);
 
             $user = User::create([
                'username' => explode('@', $request->email)[0],
                'first_name' => $request->first_name,
                'last_name' => $request->last_name,
-               'image_url' => env('APP_URL').'/img/members/alfred.png',
+               'image_url' => random_avatar(),
                'email' => $request->email,
-               'job_title' => 'Administrator',
+               'job_title' => 'Super Administrator',
                'password' => bcrypt($request->password),
+               'is_online' => 1
             ]);
 
             $default_team = $company->teams()->create([
@@ -89,49 +90,27 @@ class ApiRegisterController extends Controller
 
             $default_team->members()->attach($user);
 
-            $userObject = $user->scopeDefaultColumn();
-
-            $userObject->company_id = $company->id;
-
-            $user->is_online = 1;
-
-            $user->save();
-
             DB::commit();
 
+            $userObject = $user->fresh();
+            $userObject->company_id = $company->id;
+            $userObject->is_company_owner = true;
             $userObject->is_admin = true;
-
-            $userObject->role = $user->userRole();
-
-            $userObject->can = $user->getPermissions();
-            
-            $userObject->company = $company ;
+            $userObject->role = $userObject->userRole();
+            $userObject->can = $userObject->getPermissions();
+            $userObject->company = $company;
 
             UsersPresence::dispatch($userObject);
 
             return response()->json([
-                'token' => $user->createToken('MyApp')->accessToken, 
+                'token' => $userObject->createToken('MyApp')->accessToken, 
                 'user' => $userObject
             ], 200);
 
          } catch (Exception $e) {
             DB::rollback();
-            
-            $error_code = $e->errorInfo[1];
-            switch ($error_code) {
-                case 1062:
-                    return response()->json([
-                                'error' => 'The company email you have entered is already registered.'
-                           ], 500);
-                    break;
-                
-                default:
-                    return response()->json([
-                                'error' => $e
-                           ], 500);
-                    break;
-            }
-         }
+            return response()->json([ 'message' => $e->getMessage() ], 500);
+        }
     }
 
 

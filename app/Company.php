@@ -20,6 +20,7 @@ class Company extends Model
         SoftDeletes,
         Metable;
 
+    protected $table = 'companies';
     /**
      * Searchable rules.
      *
