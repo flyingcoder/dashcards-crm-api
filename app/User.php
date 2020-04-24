@@ -41,12 +41,12 @@ class User extends Authenticatable implements HasMediaConversions
         // HasInvoices;
 
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url', 'created_by'
+        'username', 'first_name', 'last_name', 'email', 'is_online' ,'telephone', 'job_title', 'password', 'image_url', 'created_by'
     ];
 
     protected static $logName = 'system.user';
 
-    protected $appends = ['fullname','location', 'rate', 'user_roles', 'is_company_owner'];
+    protected $appends = ['fullname','location', 'rate', 'user_roles'];
 
     protected static $logOnlyDirty = true;
     
