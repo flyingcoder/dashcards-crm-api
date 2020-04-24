@@ -10,6 +10,7 @@ use App\Service;
 use App\Project;
 use App\Report;
 use App\Comment;
+use App\Message;
 use App\Template;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\ProjectRequest;
 use App\Events\ProjectMessage;
 use DB;
+use Chat;
 
 class ProjectController extends Controller
 {
@@ -37,20 +39,75 @@ class ProjectController extends Controller
 
     public function sendMessages($id)
     {
-        $model = Project::findOrFail($id);
+        request()->validate([
+            'from_id' => 'required|exists:users,id',
+            'type' => 'required|in:'.implode(',', ['client', 'team'])
+        ]);
 
-        $message = $model->sendMessages();
+        $body = request()->has('message') && !empty(request()->message) ? request()->message : ' ';
+        $mention = createMentions($body);
+        $body = $mention['content'];
 
-        broadcast(new ProjectMessage($message, $model, request()->type))->toOthers();
+        $from = User::findOrFail(request()->from_id);
+        $project = Project::findOrFail($id);
 
-        return $message;
+        $conversation = $project->conversations()->where('type', request()->type)->firstOrFail();
+
+        $message = Chat::message($body)
+                       ->from($from)
+                       ->to($conversation)
+                       ->send();
+
+        $message->body = getFormattedContent($message->body);
+        $media = null;
+
+        if (request()->has('file') && !is_null(request()->file) ) {
+            $file = request()->file('file');
+            $msg = Message::findOrFail($message->id);
+
+            $media = $msg->addMedia($file)
+                            ->preservingOriginal()
+                            ->withCustomProperties([
+                                'ext' => $file->extension(),
+                                'user' => $from
+                            ])
+                            ->toMediaCollection('chat.file');
+
+            $media = $msg->getFile();
+        }
+
+        $data = $message->toArray() + ['sender' => $from, 'media' => $media ];
+
+        // GroupChatSent::dispatch($data, $conversation);
+        // broadcast(new ProjectMessage($message, $model, request()->type))->toOthers();
+
+        return response()->json($data, 201);
     }
 
     public function messages($id)
     {
-        $model = Project::findOrFail($id);
+        request()->validate([
+            'type' => 'required|in:'.implode(',', ['client', 'team'])
+        ]);
 
-        return $model->messages();
+        $project = Project::findOrFail($id);
+
+        $conversation = $project->conversations()->where('type', request()->type)->firstOrFail();
+
+        $messages = $conversation->messages()->latest()->paginate(10);
+
+        $items = $messages->getCollection();
+
+        $data = collect([]);
+        foreach ($items as $key => $msg) {
+            $msg->body = getFormattedContent($msg->body);
+            $message = Message::findOrFail($msg->id);
+            $data->push(array_merge($msg->toArray(), ['media' =>  $message->getFile() ]));   
+        }
+
+        $messages->setCollection($data);
+
+        return $messages;
     }
 
     public function reports($id)
