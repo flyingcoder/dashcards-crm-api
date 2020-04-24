@@ -4,34 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Project;
+use App\Traits\HasFileTrait;
 use Embed\Embed;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Spatie\MediaLibrary\Media;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Spatie\MediaLibrary\Media;
 
 class MediaController extends Controller
 {
-  	private $allowedDocs = [
-  		'docx', 'csv', 'doc', 'pdf', 'pptx','ppt', 'pps', 'txt', 'json', 'xls', 'xlsm', 'xltx', 'xltm', 'xla'
-  	]; 
-
-  	private $allowedImages = [
-  		'png', 'jpg', 'jpeg', 'bmp', 'ico', 'svg', 'psd', 'gif'
-  	];
-
-  	private $allowedVideos = [
-  		'mp4', 'mov', 'avi'
-  	];
-
-  	private $allowedOtherFiles = [
-  		'zip', 'rar', 'mp3', 'xml'
-  	];
-
+    use HasFileTrait;
 
     public function projectMedia($project_id)
     {
@@ -53,32 +39,13 @@ class MediaController extends Controller
 
             case 'document':
             case 'documents':
-              $mime_type = [
-                  'application/msword',
-                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                  'text/plain',
-                  'application/pdf',
-                  'application/vnd.ms-powerpoint',
-                  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                  'application/vnd.ms-excel',
-                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                ];
-
+              $mime_type = $this->categories('documents');
               $medias->whereIn('mime_type', $mime_type);
               break;
 
             case 'other':
             case 'others':
-              $mime_type = [
-                  'application/rar',
-                  'application/zip',
-                  'application/octet-stream',
-                  'application/x-zip-compressed',
-                  'multipart/x-zip',
-                  'audio/mpeg',
-                  'application/xml'
-                ];
-
+              $mime_type = $mime_type = $this->categories('others');
               $medias->whereIn('mime_type', $mime_type);
               break;
 
@@ -92,15 +59,7 @@ class MediaController extends Controller
         $medias = $medias->latest()->paginate(15);
 
         $medias->map(function ($media) {
-          if($media->mime_type == 'link'){
-            $media['download_url'] = $media->getCustomProperty('url');
-            $media['public_url'] = $media->getCustomProperty('image');
-            $media['thumb_url'] = $media->getCustomProperty('thumb');
-          } else {
-            $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
-            $media['public_url'] = url($media->getUrl());
-            $media['thumb_url'] = url($media->getUrl('thumb'));
-          }
+          $media = $this->getFullMedia($media);
           return $media;
         });
 
@@ -163,9 +122,7 @@ class MediaController extends Controller
 
         DB::commit();
 
-        $media['download_url'] = $media->getCustomProperty('url');
-        $media['public_url'] = $media->getCustomProperty('image');
-        $media['thumb_url'] = $media->getCustomProperty('thumb');
+        $media = $this->getFullMedia($media);
 
         return $media->toJson();
 
@@ -179,44 +136,6 @@ class MediaController extends Controller
       }
     }
 
-    public function collectionName($file)
-    {
-        $collectionName = '';
-        if(collect($this->allowedDocs)->contains($file->extension())) {
-          $collectionName = 'project.files.documents';
-        } else if (collect($this->allowedImages)->contains($file->extension())) {
-          $collectionName = 'project.files.images';
-        } else if (collect($this->allowedVideos)->contains($file->extension())) {
-          $collectionName = 'project.files.videos';
-        } else if (collect($this->allowedOtherFiles)->contains($file->extension())) {
-          $collectionName = 'project.files.others';
-        } else {
-          return false;
-        }
-
-        return $collectionName;
-    }
-
-    public function fileType($file)
-    {
-        $collectionName = '';
-
-        if(collect($this->allowedDocs)->contains($file->extension())) {
-          $collectionName = 'documents';
-        } else if (collect($this->allowedImages)->contains($file->extension())) {
-          $collectionName = 'images';
-        } else if (collect($this->allowedVideos)->contains($file->extension())) {
-          $collectionName = 'videos';
-        } else if (collect($this->allowedOtherFiles)->contains($file->extension())) {
-          $collectionName = 'zip';
-        } else {
-          return false;
-        }
-
-        return $collectionName;
-    }
-
-
    /**
      * Create a new controller instance.
      *
@@ -227,15 +146,13 @@ class MediaController extends Controller
     {
         $file = request()->file('file');
 
-        $collectionName = $this->collectionName($file);
+        $collectionName = $this->getProjectCollectionName($file);
 
         if(!$collectionName)
           return response()->json(['Invalid file format.'], 422);
           
         try {
           DB::beginTransaction();
-
-          $type = $this->fileType($file);
 
           $project = Project::findOrFail($project_id);
 
@@ -245,9 +162,9 @@ class MediaController extends Controller
                             'user' => auth()->user()
                            ])
                            ->toMediaCollection($collectionName);
-          $media['download_url'] = URL::signedRoute('download', ['media_id' => $media->id]);
-          $media['public_url'] = url($media->getUrl());
-          $media['thumb_url'] = url($media->getUrl('thumb'));
+
+          $media = $this->getFullMedia($media);
+
 
           $activity = false;
           if (request()->has('file_upload_session') && request()->file_upload_session) {

@@ -6,15 +6,16 @@ use App\EventParticipant;
 use App\Events\ActivityEvent;
 use App\Http\Resources\Task as TaskResource;
 use App\Notifications\PasswordResetNotification;
+use App\TeamMember;
 use App\Traits\HasTimers;
 use Auth;
 use Carbon\Carbon;
 use Chat;
-use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Kodeine\Acl\Traits\HasRole;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
@@ -45,7 +46,7 @@ class User extends Authenticatable implements HasMediaConversions
 
     protected static $logName = 'system.user';
 
-    protected $appends = ['fullname','location', 'rate', 'user_roles'];
+    protected $appends = ['fullname','location', 'rate', 'user_roles', 'is_company_owner'];
 
     protected static $logOnlyDirty = true;
     
@@ -117,6 +118,22 @@ class User extends Authenticatable implements HasMediaConversions
     public function getUserRolesAttribute()
     {
         return $this->getRoles() ?? [];
+    }
+
+    /**
+     * is user the owner of company
+     * @return boolean
+     */
+    public function getIsCompanyOwnerAttribute()
+    {
+        $company = $this->company();
+        if ($company) {
+            $owner = TeamMember::join('teams', 'teams.id', '=', 'team_user.team_id')
+                ->where('teams.company_id', $company->id)
+                ->selectRaw('MIN(team_user.user_id) as id')->first();
+            return $this->id === $owner->id;
+        }
+        return false;
     }
 
     /**
