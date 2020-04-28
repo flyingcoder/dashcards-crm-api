@@ -39,17 +39,18 @@ class MessageController extends Controller
 
         $members = $company->allCompanyMembers();
 
-        if(request()->has('has_msg_count') && request()->has_msg_count) {
-            $members->map(function($user){
+        $members->map(function($user){
+            if(request()->has('has_msg_count') && request()->has_msg_count) {
                 $counts = 0;
                 $conversation = Chat::conversations()->between(auth()->user(), $user);
                 if ($conversation) {
                     $counts = $this->getUnReadNotifCounts($conversation->id);
                 }
                 $user->message_count = $counts;
-                return $user;
-            });
-        }
+            }
+            $user->is_company_owner = $user->is_company_owner;
+            return $user;
+        });
 
         return $members;
     }
@@ -351,8 +352,11 @@ class MessageController extends Controller
         if (empty($participants1)) {
             $conversation->addParticipants($participants);
         }
-
-        $conversation->members = $conversation->users()->get()->toArray();
+        $members = $conversation->users()->get();
+        foreach ($members as $key => $member) {
+            $members[$key]->is_company_owner = $member->is_company_owner;
+        }
+        $conversation->members = $members->toArray();
 
         return $conversation;
     }

@@ -371,6 +371,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
 
   Route::get('status/{user_id?}', 'TimerController@status');
 
+  Route::post('{type}/force-stop', 'TimerController@forceStopTimer')->where('type', 'global|task');
+  
   Route::post('{action}', 'TimerController@timer');
 
   Route::get('tasks', 'TimerController@taskTimers');
