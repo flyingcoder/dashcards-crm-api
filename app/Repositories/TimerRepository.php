@@ -16,6 +16,7 @@ class TimerRepository
 	public function getTimerForUser(User $user, $type = 'today')
 	{
 		$timers = $user->timers();
+		$latest_timer = $user->lastTimer();
 
 		if ($type === 'today') {
 			$filteredTimer = (clone $timers)->whereDate('created_at', now()->format('Y-m-d'));
@@ -36,7 +37,8 @@ class TimerRepository
 					'interval' => null,
 					'timer_status' =>  '',
 					'timer_created' => null,
-					'timer_stopped' =>  null
+					'timer_stopped' =>  null,
+					'latest_timer' => $latest_timer ?? null 
 				]);
 		}
 
@@ -67,7 +69,8 @@ class TimerRepository
 					'interval' => null,
 					'timer_status' =>  $timer_status,
 					'timer_created' => $timer_created,
-					'timer_stopped' => $timer_stopped
+					'timer_stopped' => $timer_stopped,
+					'latest_timer' => $latest_timer ?? null   
 				]);
 
 	}

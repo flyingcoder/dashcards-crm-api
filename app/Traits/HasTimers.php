@@ -18,6 +18,7 @@ trait HasTimers
     {
         return $this->timers()->latest()->first();
     }
+    
 
     public function userTaskTimers()
     {

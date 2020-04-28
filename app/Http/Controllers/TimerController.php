@@ -64,6 +64,9 @@ class TimerController extends Controller
         } else {
             $tasks = $user->tasks();
         }
+        if (request()->has('filter') && strtolower(request()->filter) != 'all') {
+            $tasks = $tasks->whereRaw('LOWER(status) = ?', [strtolower(request()->filter)]);
+        }   
 
         $tasks = $tasks->select('tasks.*')
                     ->with('assigned')
@@ -110,5 +113,21 @@ class TimerController extends Controller
         $members->setCollection($data);
 
         return $members;
+    }
+
+    public function forceStopTimer($type)
+    {
+        if ($type == 'global') {
+            request()->validate(['user_id' => 'required|exists:users,id']);
+        } else {
+            request()->validate([
+                'user_id'  => 'required|exists:users,id',
+                'task_id'  => 'required|exists:tasks,id'
+            ]);
+            $task = Task::findOrFail(request()->task_id);
+        }
+
+        $user = User::findOrFail(request()->user_id);
+
     }
 }
