@@ -54,6 +54,10 @@ class User extends Authenticatable implements HasMediaConversions
          'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
 
+    protected $casts = [
+        'telephone' => 'array'
+    ];
+
     public function getPasswordResetToken()
     {
         return app('auth.password.broker')->createToken($this);

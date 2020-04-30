@@ -79,9 +79,10 @@ class TimerController extends Controller
 
         foreach ($tasksItems as $key => $task) {
             $timer = $this->repo->getTimerForTask($task);
-            $service = $task->milestone->project->service->name ?? '';
+            // $service = $task->milestone->project->service->name ?? '';
+            $project = $task->milestone->project;
             $client = $task->project()->getClient();
-            $data->push(array_merge($task->toArray(), ['timer' => $timer, 'service' => $service, 'client' => $client ]));   
+            $data->push(array_merge($task->toArray(), ['timer' => $timer, 'project' => $project, 'client' => $client ]));   
         }
 
         $tasks->setCollection($data);

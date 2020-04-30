@@ -2,28 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\User;
-use App\Task;
-use App\Team;
-use App\Service;
+use App\Comment;
+use App\Events\ProjectMessage;
+use App\Http\Requests\ProjectRequest;
+use App\Message;
+use App\Policies\ProjectPolicy;
 use App\Project;
 use App\Report;
-use App\Comment;
-use App\Message;
+use App\Repositories\TimerRepository;
+use App\Service;
+use App\Task;
+use App\Team;
 use App\Template;
+use App\User;
+use Auth;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Policies\ProjectPolicy;
-use Kodeine\Acl\Models\Eloquent\Role;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Http\Requests\ProjectRequest;
-use App\Events\ProjectMessage;
-use DB;
 use Chat;
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 class ProjectController extends Controller
 {
+    protected $paginate = 10;
+
+    protected $repo;
+
+    public function __construct(TimerRepository $repo)
+    {
+        $this->repo = $repo;
+        if (request()->has('per_page') && request()->per_page > 0) {
+            $this->paginate = request()->per_page;
+        }
+    }
 
     public function index()
     {
@@ -274,6 +286,29 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
 
         return $project->timers();
+    }
+
+    public function projectTaskTimers($id)
+    {
+        $project = Project::findOrFail($id);
+
+        $tasks = $project->tasks()->select('tasks.*')
+                    ->with('assigned')
+                    ->orderBy('tasks.status', 'DESC')
+                    ->orderBy('tasks.id', 'ASC')
+                    ->paginate($this->paginate);
+
+        $tasksItems = $tasks->getCollection();
+        $data = collect([]);
+
+        foreach ($tasksItems as $key => $task) {
+            $timer = $this->repo->getTimerForTask($task);
+            $data->push(array_merge($task->toArray(), ['timer' => $timer , 'milestone' => $task->milestone ]));   
+        }
+
+        $tasks->setCollection($data);
+
+        return $tasks;
     }
 
     public function save()

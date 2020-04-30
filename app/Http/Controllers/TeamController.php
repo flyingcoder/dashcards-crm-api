@@ -52,9 +52,9 @@ class TeamController extends Controller
                 'created_by' => auth()->user()->id
             ]);
 
-            $member->setMeta('address', request()->address);
+            $member->setMeta('address', request()->address ?? 'Unknown');
 
-            $member->setMeta('rate', request()->rate);
+            $member->setMeta('rate', request()->rate ?? '');
 
             $company = auth()->user()->company();
 
