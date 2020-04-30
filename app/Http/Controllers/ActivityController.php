@@ -19,6 +19,15 @@ class ActivityController extends Controller
                     ->latest()
                     ->paginate($per_page);
 
+            $items = $timelines->getCollection();
+
+            $data = collect([]);
+            foreach ($items as $key => $activity) {
+                $data->push(array_merge($activity->toArray(), ['attachments' => $activity->attachments() ]));   
+            }
+
+            $timelines->setCollection($data);
+
             return $timelines;
         }
 
