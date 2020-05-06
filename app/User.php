@@ -210,11 +210,8 @@ class User extends Authenticatable implements HasMediaConversions
 
         $note = $this->notes()->create($data);
 
-        $note->collaborator = $note->users()->select(
-                                        'users.first_name',
-                                        'users.last_name',
-                                        'users.image_url'
-                                   )->get();
+        $note->users = $note->users;
+        
         $note->pivot =  array(
                             'user_id' => auth()->user()->id,
                             'note_id' => $note->id,
@@ -227,7 +224,7 @@ class User extends Authenticatable implements HasMediaConversions
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $model = $this->notes();
+        $model = $this->notes()->with('users');
 
         if(request()->has('sort') && !is_null($sortValue)) {
             $query = "note_user.is_pinned DESC, CASE WHEN note_user.is_pinned = 1 THEN notes.id ELSE 0 END, {$sortName} {$sortValue}";
@@ -245,7 +242,7 @@ class User extends Authenticatable implements HasMediaConversions
             $model->where(function ($query) use ($keyword) {
                         $query->where('notes.title', 'like', '%' . $keyword . '%');
                         $query->orWhere('notes.content', 'like', '%' . $keyword . '%');
-                        $query->orWhere('notes.create_at', 'like', '%' . $keyword . '%');
+                        $query->orWhere('notes.created_at', 'like', '%' . $keyword . '%');
                       });
         }
 
@@ -254,12 +251,12 @@ class User extends Authenticatable implements HasMediaConversions
 
         $data = $model->paginate($this->paginate);
 
-        if(request()->has('all') && requet()->all)
+        if(request()->has('all') && request()->all)
             $data = $model->get();
 
-        $data->map(function ($note) {
-            $note['collaborators'] = $note->collaborators();
-        });
+        // $data->map(function ($note) {
+        //     $note['collaborators'] = $note->collaborators();
+        // });
 
         return $data;
     }
