@@ -4,6 +4,7 @@ namespace App;
 
 use App\Events\ActivityEvent;
 use App\MediaLink;
+use App\ProjectFolder;
 use App\Traits\HasMediaLink;
 use App\Traits\HasProjectScopes;
 use Auth;
@@ -358,6 +359,11 @@ class Project extends Model implements HasMediaConversions
     public function projectUsers()
     {
         return $this->hasMany(ProjectUser::class, 'project_id', 'id');
+    }
+
+    public function projectFolders()
+    {
+        return $this->hasMany(ProjectFolder::class, 'project_id', 'id');
     }
     
     public function projectManager() //get one manager
