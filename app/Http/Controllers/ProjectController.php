@@ -199,9 +199,17 @@ class ProjectController extends Controller
         ]);
 
         try {
-             $project = Project::findOrFail($id);
+            $project = Project::findOrFail($id);
 
-            $project->members()->attach(request()->members_id);
+            foreach (request()->members_id as $key => $user_id) {
+                $user = User::findOrFail($user_id);
+                if ($user->hasRole('admin|manager')) {
+                    $project->members()->attach($user_id, ['role' => 'Manager']);
+                } else {
+                    $project->members()->attach($user_id, ['role' => 'Members']);
+                }
+            }
+
 
             return User::whereIn('id', request()->members_id)->with('tasks')->get();
         } catch (Exception $e) {
@@ -668,25 +676,23 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project_id);
 
-        $p_members = $project->members()
+        $current_project_members = $project->members()
                              ->select('users.id')
-                             ->get();
-
-        $p_members->map(function ($user){
-           unset($user->pivot);
-        });
-
-        $arr = $p_members->pluck('id');
+                             ->pluck('id')
+                             ->toArray();
 
         $company = auth()->user()->company();
-
-        $c_user = $company->allCompanyMembers();
+        $all_company_members = $company->allCompanyMembers();
 
         $data = [];
 
-        foreach ($c_user as $key => $user) {
-            if(!in_array($user->id, $arr->all()))
+        foreach ($all_company_members as $key => $user) {
+            if ($user->hasRole('client')) {
+                continue;
+            }
+            if (!in_array($user->id, $current_project_members)) {
                 $data[] = $user;
+            }
         }
 
         return $data;
