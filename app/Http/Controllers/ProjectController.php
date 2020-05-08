@@ -22,6 +22,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Kodeine\Acl\Models\Eloquent\Role;
+use Spatie\MediaLibrary\Media;
 
 class ProjectController extends Controller
 {
@@ -336,7 +337,6 @@ class ProjectController extends Controller
             'end_at' => 'required',
             'service_id' => 'required',
             'client_id' => 'required',
-            'managers' => 'required|array'
         ]);
         
         try {
@@ -712,4 +712,5 @@ class ProjectController extends Controller
     // {
     //     return view('pages.project-hq.invoices', ['project_id' => $project_id]);
     // }
+    
 }

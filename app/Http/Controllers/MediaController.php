@@ -235,4 +235,26 @@ class MediaController extends Controller
             return response()->json(['error' => $e->getMessage()], 522);   
         }
     }
+    /**
+     * $id = project id 
+     */
+    public function bulkDeleteFiles($id)
+    {
+        request()->validate([
+            'ids' => 'required|array'
+        ]);
+
+        $project = Project::findOrFail($id);
+        $files = Media::where('model_id', $project->id)
+                      ->where('model_type', 'App\Project')
+                      ->whereIn('id', request()->ids)
+                      ->get();
+        if (!$files->isEmpty()) {
+            foreach ($files as $key => $file) {
+                $file->delete();
+            }
+        }
+
+        return response()->json(['message' => $files->count().' project(s)  successfully deleted'], 200);
+    }
 }

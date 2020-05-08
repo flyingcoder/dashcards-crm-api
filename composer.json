@@ -8,7 +8,7 @@
         "php": ">=7.1.3",
         "barryvdh/laravel-cors": "^0.11.0",
         "cviebrock/eloquent-sluggable": "^4.5",
-        "doctrine/dbal": "^2.6",
+        "doctrine/dbal": "^2.10",
         "elasticsearch/elasticsearch": "^6.0",
         "embed/embed": "^3.4",
         "fahim/laravel5-paypal-ipn": "^1.0",

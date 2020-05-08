@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Events\UsersPresence;
 use App\Http\Controllers\Controller;
 use App\Timer;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiLoginController extends Controller
 {
@@ -115,7 +115,7 @@ class ApiLoginController extends Controller
 
            UsersPresence::dispatch($user);
 
-           return $user;
+           return response()->json($user->toArray(), 200);
         }
         
     }

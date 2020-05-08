@@ -486,6 +486,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::post('{id}/link', 'MediaController@addMediaLink');
 
+  Route::delete('{id}/file/bulk-delete', 'MediaController@bulkDeleteFiles');
+
   Route::get('{id}/file/grid', 'MediaController@projectMediaAll');
 
   Route::get('{id}/timeline', 'ActivityController@project');
@@ -504,6 +506,13 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::delete('{id}/report/{report_id}', 'ProjectController@deleteReport');
 
+  Route::get('{id}/folder/{source}', 'ProjectFolderController@projectFolders');//->where('source', 'google-drive|dropbox');
+
+  Route::post('{id}/folder/{source}', 'ProjectFolderController@store');
+
+  Route::delete('{id}/folder-id/{source}/{folder_id}', 'ProjectFolderController@deleteByFolderId');
+
+  Route::delete('{id}/folder/{source}/{folder_id}', 'ProjectFolderController@delete');
 });
 
 // Forms
