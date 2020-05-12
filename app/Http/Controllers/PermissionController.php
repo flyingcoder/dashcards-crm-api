@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Kodeine\Acl\Models\Eloquent\Role;
-use Kodeine\Acl\Models\Eloquent\Permission;
 use App\Http\Requests\PermissionRequest;
+use App\User;
+use Illuminate\Http\Request;
+use Kodeine\Acl\Models\Eloquent\Permission;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 
 class PermissionController extends Controller
@@ -92,5 +93,12 @@ class PermissionController extends Controller
     public function defaultPermissions()
     {
         return Permission::whereNull('inherit_id')->where('company_id', 0)->get();
+    }
+
+    public function userPermissions($id)
+    {
+        $user = User::findOrfail($id);
+
+        return $user->getPermissions();
     }
 }

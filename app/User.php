@@ -332,6 +332,17 @@ class User extends Authenticatable implements HasMediaConversions
             $query->where('roles.slug', 'like', '%member%');
         });
     }
+    
+    public function hasRoleLike($find)
+    {
+        $roles = $this->getRoles() ?? [];
+        foreach ($roles as $key => $role) {
+            if (stripos($role, $find) !== false) {
+                return true;
+            }
+        }   
+        return false;
+    }
 
     public function scopeDefaultColumn()
     {

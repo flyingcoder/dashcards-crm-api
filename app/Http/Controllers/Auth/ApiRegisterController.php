@@ -96,6 +96,8 @@ class ApiRegisterController extends Controller
             $userObject->company_id = $company->id;
             $userObject->is_company_owner = true;
             $userObject->is_admin = true;
+            $userObject->is_client = false;
+            $userObject->is_manager = false;
             $userObject->role = $userObject->userRole();
             $userObject->can = $userObject->getPermissions();
             $userObject->company = $company;

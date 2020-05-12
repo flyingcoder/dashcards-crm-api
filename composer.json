@@ -30,6 +30,7 @@
         "spatie/laravel-google-calendar": "^2.2",
         "spatie/laravel-medialibrary": "^6.1.2@dev",
         "tolawho/loggy": "^1.0",
+        "yab/laravel-scout-mysql-driver": "^3.0",
         "yajra/laravel-datatables-oracle": "~8.0"
     },
     "require-dev": {

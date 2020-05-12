@@ -12,9 +12,8 @@ class ProjectFolderController extends Controller
     {
         $project =  Project::findOrFail($id);
         $folders = $project->projectFolders()
-            ->where('user_id', auth()->user()->id)
-            ->where('source', '=', $source)
-            ->get();
+                    ->where('source', '=', $source)
+                    ->get();
         
         return $folders;
     }

@@ -142,6 +142,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function ()
   Route::delete('{id}', 'PermissionController@delete');
 
   Route::get('/defaults', 'PermissionController@defaultPermissions');
+
+  Route::get('user/{id}','PermissionController@userPermissions' );
 });
 
 
@@ -192,18 +194,18 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
 
   Route::get('statistics/{id}', 'TaskController@stats');
 
-  Route::get('{id}', 'TaskController@task');
-
-  Route::delete('{id}', 'TaskController@delete');
-
-  Route::put('{id}', 'TaskController@update');
-  
   Route::put('{id}/mark-as-complete', 'TaskController@markAsComplete');
 
   Route::get('{id}/comments', 'TaskController@comments');
 
   Route::post('{id}/comments', 'TaskController@addComments');
 
+  Route::get('{id}', 'TaskController@task');
+
+  Route::delete('{id}', 'TaskController@delete');
+
+  Route::put('{id}', 'TaskController@update');
+  
 });
 
 // Commments
@@ -421,10 +423,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
 //media
 Route::group(['middleware' => 'auth:api', 'prefix' => 'file'], function () {
+  Route::post('/image-upload', 'MediaController@uploadImage');
+
+  Route::post('/{id}/comment', 'MediaController@addComment'); 
+
+  Route::get('/{id}/comment', 'MediaController@fetchComments'); 
+  
+  Route::delete('{id}/comment/{commment_id}', 'MediaController@deleteComment');
 
   Route::delete('{id}', 'MediaController@delete');
-
-  Route::post('/image-upload', 'MediaController@uploadImage');
 });
 
 // Projects
@@ -447,6 +454,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
   Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
   Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
+
+  Route::get('{id}/tasks/search', 'ProjectController@searchTasks');
 
   Route::post('/', 'ProjectController@store');
 
@@ -573,6 +582,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
   Route::post('{id}/permission', 'GroupController@assignPermission');
 
   Route::get('{id}/permission', 'PermissionController@permissions');
+
+  Route::post('user/update-roles', 'GroupController@updateRoles');
 
 });
 
