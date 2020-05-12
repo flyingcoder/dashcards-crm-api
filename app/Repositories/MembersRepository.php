@@ -31,6 +31,33 @@ class MembersRepository
 			$this->hasPagination =  true;
 		}
 	}
+	
+	public function companyUserList(Company $company)
+	{
+		$users = $company->members()
+					->with('roles')
+					->whereNull('users.deleted_at')
+					->select('users.*');
+
+		if ($this->hasPagination) {
+			$members = $users->paginate($this->pagination);
+			$items = $members->getCollection();
+
+	        $data = collect([]);
+	        foreach ($items as $key => $user) {
+	            $user->is_company_owner = $user->is_company_owner;
+	            $user->is_manager = $user->hasRoleLike('manager');
+	            $user->is_client = $user->hasRoleLike('client');
+	            $user->is_admin = $user->hasRoleLike('admin');
+	            $data->push(array_merge($user->toArray()));   
+	        }
+
+	        $members->setCollection($data);
+	        return $members;
+		}
+
+		return $users->get();
+	}
 
 	public function setCompany($company)
 	{

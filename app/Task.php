@@ -2,19 +2,20 @@
 
 namespace App;
 
-use Carbon\Carbon;
+use App\Events\ActivityEvent;
 use Auth;
-use Kodeine\Acl\Models\Eloquent\Role;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Kodeine\Acl\Models\Eloquent\Role;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Task extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, Searchable ;
 
     protected $fillable = [
         'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
@@ -235,7 +236,7 @@ class Task extends Model
 
     public function project()
     {
-        return $this->milestone->project;
+        return $this->milestone ? $this->milestone->project : null;
     }
 
     public function milestone()
@@ -284,4 +285,15 @@ class Task extends Model
             });
         }
     }*/
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        // Customize array...
+        return $array;
+    }
 }

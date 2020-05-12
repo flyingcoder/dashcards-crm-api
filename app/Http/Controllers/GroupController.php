@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Permission;
 use App\Policies\GroupPolicy;
+use App\User;
 use Auth;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -98,4 +99,25 @@ class GroupController extends Controller
         }
     }
 
+    public function updateRoles()
+    {
+        request()->validate([
+            'user' => 'required|exists:users,id',
+            'roles' => 'required|array'
+        ]);
+
+        $user = User::findOrFail(request()->user);
+
+        $user->syncRoles(request()->roles);
+
+        
+        $user = $user->fresh();
+        $user->load('roles');
+        $user->is_company_owner = $user->is_company_owner;
+        $user->is_manager = $user->hasRoleLike('manager');
+        $user->is_client = $user->hasRoleLike('client');
+        $user->is_admin = $user->hasRoleLike('admin');
+
+        return response()->json($user->toArray(), 200);
+    }
 }

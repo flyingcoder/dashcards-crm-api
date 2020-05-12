@@ -180,7 +180,9 @@ return [
         /*
          * Package Service Providers...
          */
+        Laravel\Scout\ScoutServiceProvider::class,
         Tolawho\Loggy\ServiceProvider::class,
+        Yab\MySQLScout\Providers\MySQLScoutServiceProvider::class,
         /*
          * Application Service Providers...
          */

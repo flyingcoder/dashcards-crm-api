@@ -702,6 +702,22 @@ class ProjectController extends Controller
         $project = Project::findOrFail($project_id);
         return $project->members()->get();
     }
+
+    public function searchTasks($id)
+    {
+        $project = Project::findOrFail($id);
+        $keyword = request()->keyword ?? '';
+
+        $tasks = $project->tasks()
+                ->where(function($query) use($keyword) {
+                    $query->where('tasks.title', 'like', '%'.$keyword.'%')
+                        ->orWhere('tasks.description', 'like', '%'.$keyword.'%');
+                })
+                ->select('tasks.*')
+                ->paginate(10);
+
+        return $tasks;
+    }
     //for overview function kindly check the spreadsheet
 
     // public function getCalendar($project_id)

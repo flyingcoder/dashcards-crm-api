@@ -54,7 +54,9 @@ class ApiLoginController extends Controller
             $userObject = $user->fresh();
             $userObject->company_id = $user->company()->id;
             $userObject->company = $user->company();
-            $userObject->is_admin = $user->hasRole('admin');
+            $userObject->is_admin = $user->hasRoleLike('admin');
+            $userObject->is_client = $user->hasRoleLike('client');
+            $userObject->is_manager = $user->hasRoleLike('manager');
             $userObject->role = $user->userRole();
             $userObject->can = $user->getPermissions();
             $userObject->is_company_owner = $user->getIsCompanyOwnerAttribute();

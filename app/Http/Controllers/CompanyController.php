@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\MembersRepository;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -9,6 +10,13 @@ use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
+    protected $repo;
+
+    public function __construct(MembersRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+
     protected  $types = [
             'manager',
             'client',
@@ -39,7 +47,9 @@ class CompanyController extends Controller
 
     	if(request()->has('all') && request()->all)
             return auth()->user()->company()->allTeamMembers();
-    	
+    	if (request()->has('basics')) {
+            return $this->repo->companyUserList(auth()->user()->company());
+        }
         return auth()->user()->company()->paginatedCompanyMembers();
     }
 

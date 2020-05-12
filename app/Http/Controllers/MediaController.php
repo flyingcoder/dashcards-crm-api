@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Comment;
+use App\Events\NewMediaCommentCreated;
 use App\Project;
 use App\Traits\HasFileTrait;
 use Embed\Embed;
@@ -256,5 +258,55 @@ class MediaController extends Controller
         }
 
         return response()->json(['message' => $files->count().' project(s)  successfully deleted'], 200);
+    }
+    
+    public function fetchComments($id)
+    {
+        $media = \App\Media::findOrFail($id);
+        $comments = $media->comments()->latest()->paginate(10);
+
+        $items = $comments->getCollection();
+
+        $data = collect([]);
+        foreach ($items as $key => $comment) {
+            $comment->body = getFormattedContent($comment->body);
+            $comment->load('causer');
+            $data->push(array_merge($comment->toArray()));   
+        }
+
+        $comments->setCollection($data);
+
+        return $comments;
+    }
+
+    public function addComment($id)
+    {
+        $media = \App\Media::findOrFail($id);
+        request()->validate([
+            'body' => 'required'
+        ]);
+
+        $comment = new Comment([ 
+            'body' => request()->body,
+            'causer_id' => auth()->user()->id,
+            'causer_type' => 'App\User'
+        ]);
+
+        $new_comment = $media->comments()->save($comment);
+        $new_comment->load('causer');
+
+        NewMediaCommentCreated::dispatch($media, $new_comment);
+
+        return $new_comment;
+    }
+
+    public function deleteComment($id, $comment_id)
+    {
+        $media = \App\Media::findOrFail($id);
+        $comment = $media->comments()->where('id', $comment_id)->firstOrfail();
+
+        $comment->delete();
+
+        return response()->json(['message' => 'Comment deleted!'], 200);
     }
 }

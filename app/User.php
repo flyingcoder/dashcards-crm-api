@@ -287,6 +287,62 @@ class User extends Authenticatable implements HasMediaConversions
     {
         return $this->hasMany(MessageNotification::class);
     }
+    public function scopeHasRoleIn($query, $roles = [])
+    {
+        return $query->whereHas('roles', function ($query) use ($roles)
+        {
+            foreach ($roles as $key => $role) {
+                if ($key == 0) {
+                    $query->where('roles.slug', 'like', "%{$role}%");
+                } else {
+                    $query->orWhere('roles.slug', 'like', "%{$role}%");
+                }
+            }
+        });
+    }
+
+    public function scopeHasAdminRole($query)
+    {
+        return $query->whereHas('roles', function ($query)
+        {
+            $query->where('roles.slug', 'like', '%admin%');
+        });
+    }
+
+    public function scopeHasManagerRole($query)
+    {
+        return $query->whereHas('roles', function ($query)
+        {
+            $query->where('roles.slug', 'like', '%manager%');
+        });
+    }
+
+    public function scopeHasClientRole($query)
+    {
+        return $query->whereHas('roles', function ($query)
+        {
+            $query->where('roles.slug', 'like', '%client%');
+        });
+    }
+    
+    public function scopeHasMemberRole($query)
+    {
+        return $query->whereHas('roles', function ($query)
+        {
+            $query->where('roles.slug', 'like', '%member%');
+        });
+    }
+    
+    public function hasRoleLike($find)
+    {
+        $roles = $this->getRoles() ?? [];
+        foreach ($roles as $key => $role) {
+            if (stripos($role, $find) !== false) {
+                return true;
+            }
+        }   
+        return false;
+    }
 
     public function scopeDefaultColumn()
     {
