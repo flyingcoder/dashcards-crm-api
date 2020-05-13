@@ -9,6 +9,58 @@ use Carbon\Carbon;
 
 class TimerRepository
 {
+	public function getTimerForUserFromTo($user, $from_date, $to_date)
+	{
+		$timers = collect([]);
+		$latest_timer = $user->lastTimer();
+		$first_start = $user->timers()->where('action', '=', 'start')
+						->whereDate('created_at','>=', $from_date)
+						->whereDate('created_at','<=', $to_date)
+						->orderBy('created_at', 'ASC')
+						->first();
+		if (!$first_start) {
+			return array_merge(
+				(array) parseSeconds(0), 
+				[
+					'interval' => null,
+					'timer_status' =>  '',
+					'timer_created' => null,
+					'timer_stopped' =>  null,
+					'latest_timer' => $latest_timer ?? null 
+				]);
+		}
+
+		$last_start = $user->timers()->where('action', '=', 'start')
+						->whereDate('created_at','>=', $from_date)
+						->whereDate('created_at','<=', $to_date)
+						->latest()
+						->first();
+
+		$last_stop = $user->timers()->where('action', '=', 'stop')->where('id', '>' ,$last_start->id)->orderBy('created_at', 'ASC')->first();
+
+		if(!$last_stop){
+			$timers = $user->timers()->where('id', '>=', $first_start->id)->where('id', '<=', $last_start->id)->get();
+			$assumed = $this->fillInOngoing($last_start);
+			$timers->push($assumed);
+			$timer_stopped = null;
+			$timer_status  = 'open';
+		} else {
+			$timers = $user->timers()->where('id', '>=', $first_start->id)->where('id', '<=', $last_stop->id)->get();
+			$timer_stopped = $last->created_at->format('Y-m-d H:i:s');
+			$timer_status  = $last->status ?? 'close';
+		}
+		
+		$timer_created = $first_start->created_at->format('Y-m-d H:i:s');
+		return array_merge(
+				(array) $this->calculateTime($timers), 
+				[
+					'interval' => null,
+					'timer_status' =>  $timer_status,
+					'timer_created' => $timer_created,
+					'timer_stopped' => $timer_stopped,
+					'latest_timer' => $latest_timer ?? null   
+				]);
+	}
 	/**
 	 *
 	 * Type: today, monthly, date in format of Y-m-d
@@ -24,7 +76,7 @@ class TimerRepository
 			$filteredTimer = (clone $timers)->whereYear('created_at', now()->year)
                         	->whereMonth('created_at', now()->month);
 		} else {
-			$filteredTimer = (clone $timers)->whereDate('created_at', $type);
+			$filteredTimer = (clone $timers)->whereDate('created_at', $type); //since
 		}
 
 		$first = (clone $filteredTimer)->where('action', '=', 'start')->orderBy('created_at', 'ASC')->first();
