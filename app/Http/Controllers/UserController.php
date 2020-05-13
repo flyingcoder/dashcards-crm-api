@@ -229,9 +229,13 @@ class UserController extends Controller
         $user = User::findOrFail($user_id);
         $last_timer = $user->timers()->latest()->first();
 
+        $today = 'today';
+        if ($last_timer && $last_timer->status == 'open') {
+            $today = $last_timer->created_at->format('Y-m-d');
+        }
         return response()->json([
-            'today' => $this->timerRepo->getTimerForUser($user, 'today'),
-            'monthly' => $this->timerRepo->getTimerForUser($user, 'monthly'),
+            'today' => $this->timerRepo->getTimerForUser($user, $today),
+            'monthly' => $this->timerRepo->getTimerForUserFromTo($user, now()->startOfMonth()->format('Y-m-d'), now()->endOfMonth()->format('Y-m-d')),
             'is_started' =>  $last_timer && $last_timer->status === 'open'
         ], 200);
     }
