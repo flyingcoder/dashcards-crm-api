@@ -309,4 +309,13 @@ class MediaController extends Controller
 
         return response()->json(['message' => 'Comment deleted!'], 200);
     }
+
+    public function updateStatus($id)
+    {
+       $media = \App\Media::findOrFail($id);
+       $media->approved = request()->action;
+       $media->save();
+
+       return response()->json(['message' => 'File status updated!'], 200);
+    }
 }

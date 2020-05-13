@@ -425,6 +425,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'file'], function () {
   Route::post('/image-upload', 'MediaController@uploadImage');
 
+  Route::post('/{id}/status', 'MediaController@updateStatus'); 
+
   Route::post('/{id}/comment', 'MediaController@addComment'); 
 
   Route::get('/{id}/comment', 'MediaController@fetchComments'); 
