@@ -46,8 +46,62 @@ class TimerRepository
 			$timer_status  = 'open';
 		} else {
 			$timers = $user->timers()->where('id', '>=', $first_start->id)->where('id', '<=', $last_stop->id)->get();
-			$timer_stopped = $last->created_at->format('Y-m-d H:i:s');
-			$timer_status  = $last->status ?? 'close';
+			$timer_stopped = $last_stop->created_at->format('Y-m-d H:i:s');
+			$timer_status  = $last_stop->status ?? 'close';
+		}
+		
+		$timer_created = $first_start->created_at->format('Y-m-d H:i:s');
+		return array_merge(
+				(array) $this->calculateTime($timers), 
+				[
+					'interval' => null,
+					'timer_status' =>  $timer_status,
+					'timer_created' => $timer_created,
+					'timer_stopped' => $timer_stopped,
+					'latest_timer' => $latest_timer ?? null   
+				]);
+	}
+	/**
+	 *
+	 *  $date in format of Y-m-d
+	 */
+	public function getTimerForUserByDate(User $user, $date)
+	{
+		$latest_timer = $user->lastTimer();
+		$timers = collect([]);
+		$first_start = $user->timers()->where('action', '=', 'start')
+						->whereDate('created_at','=', $date)
+						->orderBy('created_at', 'ASC')
+						->first();
+
+		if (!$first_start) {
+			return array_merge(
+				(array) parseSeconds(0), 
+				[
+					'interval' => null,
+					'timer_status' =>  '',
+					'timer_created' => null,
+					'timer_stopped' =>  null,
+					'latest_timer' => $latest_timer ?? null 
+				]);
+		}
+		$last_start = $user->timers()->where('action', '=', 'start')
+						->whereDate('created_at','>=', $date)
+						->orderBy('created_at', 'DESC')
+						->first();
+
+		$last_stop = $user->timers()->where('action', '=', 'stop')->where('id', '>' ,$last_start->id)->orderBy('created_at', 'ASC')->first();
+
+		if(!$last_stop){
+			$timers = $user->timers()->where('id', '>=', $first_start->id)->where('id', '<=', $last_start->id)->get();
+			$assumed = $this->fillInOngoing($last_start);
+			$timers->push($assumed);
+			$timer_stopped = null;
+			$timer_status  = 'open';
+		} else {
+			$timers = $user->timers()->where('id', '>=', $first_start->id)->where('id', '<=', $last_stop->id)->get();
+			$timer_stopped = $last_stop->created_at->format('Y-m-d H:i:s');
+			$timer_status  = $last_stop->status ?? 'close';
 		}
 		
 		$timer_created = $first_start->created_at->format('Y-m-d H:i:s');

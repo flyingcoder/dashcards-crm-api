@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Kodeine\Acl\Traits\HasRole;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -37,7 +38,8 @@ class User extends Authenticatable implements HasMediaConversions
         HasMediaTrait,
         Billable,
         LogsActivity,
-        HasTimers;
+        HasTimers,
+        Searchable;
         // HasInvoices;
 
     protected $fillable = [
@@ -646,41 +648,15 @@ class User extends Authenticatable implements HasMediaConversions
         return $this->hasMany(EventParticipant::class, 'user_id', 'id');
     }
 
-    /*
-    public static function boot()
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
     {
+        $array = $this->only('first_name', 'last_name', 'email');
 
-        if(!is_null(Auth::user())) {
-            User::created(function ($user) {
-                activity(Auth::user()->company())
-                   ->performedOn($user)
-                   ->causedBy(Auth::user())
-                   ->log('Created');
-            });
-
-            User::deleted(function ($user) {
-                activity(Auth::user()->company())
-                   ->performedOn($user)
-                   ->causedBy(Auth::user())
-                   ->log('Deleted');
-            });
-
-            User::saved(function ($user) {
-                activity(Auth::user()->company())
-                   ->performedOn($user)
-                   ->causedBy(Auth::user())
-                   ->log('Updated');
-            });                 
-        }
-
-        User::deleting(function($user) {
-            foreach(['services', 'tasks', 'projects'] as $relation)
-            {
-                foreach($user->{$relation} as $item)
-                {
-                    $item->delete();
-                }
-            }
-        });
-    }*/
+        return $array;
+    }
 }
