@@ -14,6 +14,7 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -23,7 +24,7 @@ use Spatie\MediaLibrary\Media;
 
 class Project extends Model implements HasMediaConversions
 {
-    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes;
+    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes, Searchable;
 
     protected $paginate = 10;
 
@@ -599,6 +600,18 @@ class Project extends Model implements HasMediaConversions
     {
         return $this->manager()->first();
     }
+    
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('title', 'description');
+        return $array;
+    }
+
     /**
      *
      * boot events log activity per events

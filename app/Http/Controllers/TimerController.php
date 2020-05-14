@@ -104,10 +104,10 @@ class TimerController extends Controller
         $membersItems = $members->getCollection();
         $data = collect([]);
 
-        $date = request()->has('date') ? request()->date : 'today';
+        $date = request()->has('date') ? request()->date : now()->format('Y-m-d');
 
         foreach ($membersItems as $key => $user) {
-            $timer = $this->repo->getTimerForUser($user,  $date);
+            $timer = $this->repo->getTimerForUserByDate($user,  $date);
             $data->push(array_merge($user->toArray(), ['timer' => $timer ]));   
         }
 

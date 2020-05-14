@@ -10,39 +10,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Kodeine\Acl\Models\Eloquent\Role;
-use Nicolaslopezj\Searchable\SearchableTrait;
+use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\MediaLibrary\Media;
 
 class Company extends Model
 {
-    use SearchableTrait,
-        SoftDeletes,
-        Metable;
+    use SoftDeletes,
+        Metable,
+        Searchable;
 
     protected $table = 'companies';
-    /**
-     * Searchable rules.
-     *
-     * @var array
-     */
-    protected $searchable = [
-        /**
-         * Columns and their priority in search results.
-         * Columns with higher values are more important.
-         * Columns with equal values have equal importance.
-         *
-         * @var array
-        
-        'columns' => [
-            'users.first_name' => 10,
-            'users.last_name' => 10,
-            'users.bio' => 2,
-            'users.email' => 5,
-            'posts.title' => 2,
-            'posts.body' => 1,
-        ],*/
-    ];
     
     protected $paginate = 10;
 
@@ -702,6 +680,10 @@ class Company extends Model
 
         return $datus;
     }
+    
+    public function users(){
+        return $this->hasManyThrough(TeamMember::class, Team::class);
+    }
 
     public function taskStatusCounter($status)
     {
@@ -880,4 +862,17 @@ class Company extends Model
         });
     }
 
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $users = [];//$this->members->only('first_name', 'last_name', 'email');
+        $tasks = [];//$this->tasks->only('title', 'description');
+        $projects = [];//$this->companyProjects->only('title', 'description');
+
+        return array_merge( $users, $projects, $tasks );
+    }
 }

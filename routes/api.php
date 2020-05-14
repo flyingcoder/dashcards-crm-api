@@ -124,6 +124,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'report'], function () {
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'autocomplete'], function () {
   
+  Route::get('search', 'SearchController@globalSearch');
+
   Route::get('{model}', 'SearchController@autocomplete');
 
 });
