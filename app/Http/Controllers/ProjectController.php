@@ -594,24 +594,14 @@ class ProjectController extends Controller
         return $project;
     }
 
-    /*public function myProjectStatus($status)
+    public function projectInfo($id)
     {
-        $projects = Auth::user()
-                        ->projects()
-                        ->where('status', $status)
-                        ->orderBy('created_at', 'desc')
-                        ->paginate($this->per_page);
+        $project = Project::findOrFail($id);
+        $project->service = $project->service;
+        $project->client = $project->getClient();
 
-        if(Auth::user()->hasRole('client')) {
-            $projects = Auth::user()
-                            ->created_projects()
-                            ->where('status', $status)
-                            ->orderBy('created_at', 'desc')
-                            ->paginate($this->per_page);
-        }
-
-        return view('pages.projects', ['projects' => $projects]);
-    }*/
+        return $project;
+    }
 
     public function status($status)
     {

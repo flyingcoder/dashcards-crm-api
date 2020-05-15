@@ -14,8 +14,7 @@ class TimerRepository
 		$timers = collect([]);
 		$latest_timer = $user->lastTimer();
 		$first_start = $user->timers()->where('action', '=', 'start')
-						->whereDate('created_at','>=', $from_date)
-						->whereDate('created_at','<=', $to_date)
+						->whereBetween('created_at', [$from_date.' 00:00:00', $to_date.' 23:59:59'])
 						->orderBy('created_at', 'ASC')
 						->first();
 		if (!$first_start) {
@@ -31,8 +30,7 @@ class TimerRepository
 		}
 
 		$last_start = $user->timers()->where('action', '=', 'start')
-						->whereDate('created_at','>=', $from_date)
-						->whereDate('created_at','<=', $to_date)
+						->whereBetween('created_at', [$from_date.' 00:00:00', $to_date.' 23:59:59'])
 						->latest()
 						->first();
 

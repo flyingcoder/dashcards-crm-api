@@ -449,6 +449,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
   Route::get('{id}', 'ProjectController@project');
 
+  Route::get('{id}/info', 'ProjectController@projectInfo');
+
   Route::post('{id}/milestone-import', 'ProjectController@milestoneImport');
 
   Route::get('{id}/messages', 'ProjectController@messages');
