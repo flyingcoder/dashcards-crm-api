@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Invoice;
+use App\Mail\NewInvoiceEmail;
 use App\Policies\InvoicePolicy;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Http\Request;
@@ -46,7 +47,14 @@ class InvoiceController extends Controller
 
     public function store()
     {       
-        return auth()->user()->storeInvoice();
+        $invoice =  auth()->user()->storeInvoice();
+        
+        if (request()->has('send_email') && request()->send_email == 'yes') {
+            $invoice->pdf = $this->repo->generatePDF($invoice);
+            \Mail::to($invoice->billedTo->email)->send(new NewInvoiceEmail($invoice));
+        }
+
+        return $invoice;
     }
 
     public function update($id)
