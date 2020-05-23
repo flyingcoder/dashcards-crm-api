@@ -30,7 +30,7 @@ class GroupPolicy
      */
     public function index()
     {
-        if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && auth()->user()->can('group.view') )
+        if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && auth()->user()->can('group.view') )
             abort(403, 'Not enought permission!');
     }
 
@@ -54,7 +54,7 @@ class GroupPolicy
      */
     public function create()
     {
-       if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('group.create') )
+       if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('group.create') )
           abort(403, 'Not enought permission to create a group!');
     }
 
@@ -67,7 +67,7 @@ class GroupPolicy
      */
     public function update()
     {
-        if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('group.update') )
+        if(!auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('group.update') )
           abort(403, 'Not enought permission!');
     }
 
@@ -82,7 +82,7 @@ class GroupPolicy
     {
         $roleCompany = Company::findOrFail($role->company_id);
         
-        if( !auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('group.delete') )
+        if( !auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('group.delete') )
             abort(403, 'Not enought permission!');
 
         if( $roleCompany != auth()->user()->company() )

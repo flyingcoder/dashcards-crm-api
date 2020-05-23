@@ -29,7 +29,7 @@ class ProjectPolicy
      */
     public function index()
     {
-        if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && auth()->user()->can('view.all-project') )
+        if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && auth()->user()->can('view.all-project') )
             abort(403, 'Not enought permission!');
     }
 
@@ -57,7 +57,7 @@ class ProjectPolicy
     {
         if(
             $project->company != auth()->user()->company() &&
-            !auth()->user()->hasRole('admin|manager') &&
+            !auth()->user()->hasRoleLikeIn(['admin','manager']) &&
             auth()->user()->can('view.project-task')
         ) {
             abort(403, 'Project Tasks not found!');
@@ -72,7 +72,7 @@ class ProjectPolicy
      */
     public function create()
     {
-       if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('create.project') )
+       if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('create.project') )
           abort(403, 'Not enought permission to create a project!');
     }
 
@@ -85,7 +85,7 @@ class ProjectPolicy
      */
     public function update()
     {
-        if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('update.project') )
+        if(!auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('update.project') )
           abort(403, 'Not enought permission!');
     }
 
@@ -98,7 +98,7 @@ class ProjectPolicy
      */
     public function delete(Project $project)
     {
-        if( !auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('delete.project') )
+        if( !auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('delete.project') )
             abort(403, 'Not enought permission!');
 
         if( $project->company != auth()->user()->company() )
