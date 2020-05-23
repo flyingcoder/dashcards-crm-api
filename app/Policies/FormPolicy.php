@@ -26,7 +26,7 @@ class FormPolicy
      */
     public function create()
     {
-       if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('create.forms') )
+       if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('create.forms') )
           abort(403, 'Not enought permission to create a form!');
     }
 }

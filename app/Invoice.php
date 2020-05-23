@@ -60,9 +60,9 @@ class Invoice extends Model implements HasMedia
         'props'
     ];
     
-   /* protected $cast = [
-        'items' => 'array'
-    ];*/
+    protected $casts = [
+        'props' => 'array'
+    ];
 
     public function tapActivity(Activity $activity, string $eventName)
     {

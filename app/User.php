@@ -346,6 +346,22 @@ class User extends Authenticatable implements HasMediaConversions
         return false;
     }
 
+    public function hasRoleLikeIn($find_array)
+    {
+        if (empty($find_array)) {
+            return false;
+        }
+        $roles = $this->getRoles() ?? [];
+        foreach ($roles as $key => $role) {
+            foreach ($find_array as $key2 => $find) {
+                if (stripos($role, trim($find)) !== false) {
+                    return true;
+                }
+            }
+        }   
+        return false;
+    }
+
     public function scopeDefaultColumn()
     {
        return $this->select(
@@ -421,6 +437,12 @@ class User extends Authenticatable implements HasMediaConversions
             $data['company_logo'] = request()->company_logo;
         }
 
+        $props = [];
+        $props['send_email'] = request()->has('send_email') ? request()->send_email : 'no';
+        $props['template'] = request()->has('template') ? request()->template : 1;
+        $props['template'] = request()->has('template') ? request()->template : 1;
+        $data['props'] =  $props;
+
         $invoice = $this->invoices()->create($data);
 
         $items = collect(json_decode($invoice->items));
@@ -429,10 +451,11 @@ class User extends Authenticatable implements HasMediaConversions
         $invoice->billedFrom = $invoice->billedFrom;
         $invoice->billedTo = $invoice->billedTo;
         $invoice->status = 'pending';
-        $invoice->props = [];
+        $invoice->props = $props;
         
         return $invoice;
     }
+
     /**
     * invoices that are billed to user
     *

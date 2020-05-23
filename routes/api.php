@@ -602,6 +602,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
 
   Route::post('/', 'InvoiceController@store');
 
+  Route::get('{id}/download', 'InvoiceController@getPDFInvoice');
+
   Route::get('{id}', 'InvoiceController@invoice');
 
   Route::post('{id}', 'InvoiceController@update');

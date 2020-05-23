@@ -14,6 +14,7 @@
         "fahim/laravel5-paypal-ipn": "^1.0",
         "fideloper/proxy": "~4.0",
         "kodeine/laravel-acl": "~1.0@dev",
+        "konekt/pdf-invoice": "^1.5",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.0",
