@@ -591,6 +591,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 
   Route::post('user/update-roles', 'GroupController@updateRoles');
 
+  Route::post('user/restore-delete', 'GroupController@restoreDelete');
 });
 
 

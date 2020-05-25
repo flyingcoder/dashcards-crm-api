@@ -354,7 +354,7 @@
                 </tr>
                 <tr>
                   <td class="content-block powered-by">
-                    Powered by <a href="http://htmlemail.io">HTMLemail</a>.
+                    Powered by <a href="http://buzzooka.com">Buzzooka</a>.
                   </td>
                 </tr>
               </table>

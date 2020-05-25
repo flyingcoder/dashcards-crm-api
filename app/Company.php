@@ -353,6 +353,16 @@ class Company extends Model
                                  ->where('companies.id', $this->id);
                        })->where('users.deleted_at', null);
     }
+    public function membersWithTrashed()
+    {
+        return User::withTrashed()
+                    ->join('team_user as tu', 'tu.user_id', '=', 'users.id')
+                    ->join('teams', 'teams.id', '=', 'tu.team_id')
+                    ->join('companies', function($join) {
+                        $join->on('companies.id', '=', 'teams.company_id')
+                                ->where('companies.id', $this->id);
+                    });
+    }
 
     public function allCompanyMembers()
     {

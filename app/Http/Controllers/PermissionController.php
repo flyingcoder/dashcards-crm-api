@@ -99,6 +99,6 @@ class PermissionController extends Controller
     {
         $user = User::findOrfail($id);
 
-        return $user->getPermissions();
+        return response()->json($user->getPermissions(), 200);
     }
 }
