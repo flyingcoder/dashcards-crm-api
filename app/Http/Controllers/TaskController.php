@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Task;
 use App\Comment;
-use App\Project;
-use App\Policies\TaskPolicy;
 use App\Events\NewTaskCommentCreated;
+use App\Events\ProjectTaskNotification;
 use App\Http\Requests\TaskRequest;
+use App\Policies\TaskPolicy;
+use App\Project;
+use App\Task;
 
 
 class TaskController extends Controller
@@ -184,8 +185,25 @@ class TaskController extends Controller
         ]);
 
         $task = Task::findOrFail($id);
-        //(new TaskPolicy())->update($task);
         $task->markStatus(request()->status);
+        $user = auth()->user();
+
+        $project =  $task->project();
+        $log = $user->first_name.' marked as completed the task '.$task->title;
+        $activity = activity('system.task')
+                  ->performedOn($project ?? $task)
+                  ->causedBy($user)
+                  ->log($log);
+
+        if (request()->has('notify_complete') && request()->notify_complete) {
+            $data = array(
+                    'title' => 'Project Task updated!',
+                    'message' => $log,
+                    'receivers' => $project ? $project->members()->pluck('id')->toArray() : [],
+                    'project' => $project
+                );
+            broadcast(new ProjectTaskNotification($user->company()->id, $data));
+        }
 
         return $this->task($id);
     }

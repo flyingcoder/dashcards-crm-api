@@ -120,4 +120,28 @@ class GroupController extends Controller
 
         return response()->json($user->toArray(), 200);
     }
+
+    public function restoreDelete()
+    {
+        request()->validate([
+            'user' => 'required|exists:users,id',
+            'action' => 'required|in:'.implode(',', ['restore','delete'])
+        ]);
+
+        $user = User::withTrashed()->findOrFail(request()->user);
+        if (request()->action == 'restore') {
+            $user->restore();
+        } else {
+            $user->delete();
+        }
+        
+        $user = $user->fresh();
+        $user->load('roles');
+        $user->is_company_owner = $user->is_company_owner;
+        $user->is_manager = $user->hasRoleLike('manager');
+        $user->is_client = $user->hasRoleLike('client');
+        $user->is_admin = $user->hasRoleLike('admin');
+
+        return response()->json($user->toArray(), 200);
+    }
 }

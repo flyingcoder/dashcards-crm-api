@@ -11,29 +11,29 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UsersPresence implements ShouldBroadcast
+class CompanyNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $notification;
 
-    protected $company;
+    public $company_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($company_id)
     {
-        $this->company = $user->company();
+        $this->company_id = $company_id;
 
-        $this->user = collect([
-            'id' => $user->id,
-            'name' => $user->fullname,
-            'is_online' => $user->is_online,
-            'image_url' => $user->image_url
-        ]);
+        $data = collect([]);
+        // $data->put('body', $message['body']);
+        // $data->put('sender', $message['sender']);
+        // $data->put('to_id', $user->id);
+
+        $this->notification = $data;
     }
 
     /**
@@ -43,6 +43,6 @@ class UsersPresence implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('friend-list-' . $this->company->id);
+        return new PresenceChannel('friend-list-' . $this->company_id);
     }
 }

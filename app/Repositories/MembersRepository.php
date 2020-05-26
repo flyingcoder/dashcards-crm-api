@@ -34,9 +34,13 @@ class MembersRepository
 	
 	public function companyUserList(Company $company)
 	{
-		$users = $company->members()
-					->with('roles')
-					->whereNull('users.deleted_at')
+		$users = $company->members();
+
+		if (request()->has('withTrashed')) {
+			$users = $company->membersWithTrashed();
+		}
+
+		$users = $users->with('roles')
 					->select('users.*');
 
 		if ($this->hasPagination) {

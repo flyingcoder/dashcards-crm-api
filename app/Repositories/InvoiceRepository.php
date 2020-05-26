@@ -61,9 +61,9 @@ class InvoiceRepository
         $invoices = $client->company()->invoices();
 
         $invoices = $invoices->where(function($query) use($client) {
-        		$query->where('billed_to', $client->id)
-        			->orWhere('billed_from', $client->id)
-        			->orWhere('user_id', $client->id);
+        		$query->where('invoices.billed_to', $client->id)
+        			->orWhere('invoices.billed_from', $client->id)
+        			->orWhere('invoices.user_id', $client->id);
 	        });
 
         if($request->has('sort') && !empty(request()->sort))

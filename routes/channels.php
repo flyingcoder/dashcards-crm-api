@@ -45,18 +45,13 @@ Broadcast::channel('chat.notification.{toId}', function ($user, $toId) {
 	}
 });
 
-Broadcast::channel('friend-list-{companyId}', function ($user, $companyId) {
-	if((int) $user->company()->id === (int) $companyId){
-		return $user;
-	}
-});
-
 Broadcast::channel('comment.task.{taskId}', function ($comment, $taskId) {
 	if((int) $comment->commentable->id === (int) $taskId){
 		return $comment;
 	}
 });
 
+Broadcast::channel('friend-list-{companyId}', \App\Broadcasting\CompanyChannel::class);
 
 Broadcast::channel('project.client-message.{projectId}', \App\Broadcasting\ProjectClientChannel::class);
 
