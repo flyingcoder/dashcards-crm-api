@@ -4,7 +4,7 @@ namespace App;
 
 use App\Traits\HasFileTrait;
 use Spatie\Activitylog\Models\Activity as Act;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 class Activity extends Act
 {

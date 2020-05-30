@@ -75,9 +75,12 @@ class InvoiceRepository
         $data = $invoices->paginate(20);
 
         $data->map(function ($invoice) {
-            $items = collect(json_decode($invoice->items));
+            $items = collect(json_decode($invoice->items, true));
             unset($invoice->items);
             $invoice->items = $items;
+            $props = collect(json_decode($invoice->props, true));
+            unset($invoice->props);
+            $invoice->props = $props;
             $invoice->billedTo = User::where('id', $invoice->billed_to)->first();
             $invoice->billedFrom = User::where('id', $invoice->billed_from)->first();
         });
@@ -97,8 +100,16 @@ class InvoiceRepository
         $printer->setReference("#INV-".$invoice->id);
         $printer->setDate(Carbon::createFromFormat('Y-m-d', $invoice->date)->toFormattedDateString());
         $printer->setDue(Carbon::createFromFormat('Y-m-d', $invoice->due_date)->toFormattedDateString());
-        $printer->setFrom(array($invoice->billedFrom->fullname, $invoice->billedFrom->telephone->formatInternational ?? 'none' ,$invoice->billedFrom->company()->name));
-        $printer->setTo(array($invoice->billedTo->fullname, $invoice->billedFrom->telephone->formatInternational ?? 'none' ,$invoice->billedTo->getMeta('company_name')));
+        $printer->setFrom(array(
+                $invoice->billedFrom->fullname, 
+                $invoice->billedFrom->telephone->formatInternational ?? 'none',
+                $invoice->billedFrom->company()->name
+            ));
+        $printer->setTo(array(
+                $invoice->billedTo->fullname, 
+                $invoice->billedFrom->telephone->formatInternational ?? 'none' ,
+                $invoice->billedTo->getMeta('company_name')
+            ));
 
         $items = json_decode($invoice->items);
         $total = 0;

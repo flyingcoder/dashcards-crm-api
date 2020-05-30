@@ -23,12 +23,12 @@ use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 
-class User extends Authenticatable implements HasMediaConversions
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable, 
         HasRole, 

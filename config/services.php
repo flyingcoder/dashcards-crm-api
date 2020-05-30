@@ -33,6 +33,8 @@ return [
         'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        'client_id' => env('STRIPE_CLIENT_ID'),
+        'webhooksecret' => env('STRIPE_WEBHOOK_SECRET')
     ],
 
 ];

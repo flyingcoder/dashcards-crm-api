@@ -2,21 +2,22 @@
 
 namespace App;
 
+use App\Events\ActivityEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
-use Spatie\MediaLibrary\Media;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class Invoice extends Model implements HasMedia
 {
     use SoftDeletes,
         HasMediaTrait,
-        LogsActivity;
+        LogsActivity,
+        Metable;
 
     protected $fillable = [
         'date',

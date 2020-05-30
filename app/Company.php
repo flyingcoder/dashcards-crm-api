@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
-use Spatie\MediaLibrary\Media;
 
 class Company extends Model
 {
@@ -268,9 +267,12 @@ class Company extends Model
             $data = $invoices->get();
 
         $data->map(function ($invoice) {
-            $items = collect(json_decode($invoice->items));
+            $items = collect(json_decode($invoice->items, true));
             unset($invoice->items);
             $invoice->items = $items;
+            $props = collect(json_decode($invoice->props, true));
+            unset($invoice->props);
+            $invoice->props = $props;
             $invoice->billedTo = User::where('id', $invoice->billed_to)->first();
             $invoice->billedFrom = User::where('id', $invoice->billed_from)->first();
         });
