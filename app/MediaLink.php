@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 class MediaLink extends Media
 {

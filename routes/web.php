@@ -14,7 +14,6 @@
 
 Route::get('download', 'HomeController@download')->name('download');
 
-Route::get('test-act', 'ActivityController@index');
 
 Route::group(['prefix' => 'ghost-route'], function () {
 	Route::get('change-password', 'AdminController@ghostChangePassword');
@@ -23,6 +22,15 @@ Route::group(['prefix' => 'ghost-route'], function () {
 // Public routes
 Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]+');
 
+Route::group(['prefix' => 'stripe'], function () {
+	Route::post('hooks', 'StripeWebhookController@listen');
+});
+
+
+
+
+// Route::get('test-act', 'ActivityController@index');
+// Route::get('test', 'TestController@index');
 /*
 Route::get('/', function () {
 	//Cache::put('foo', 'bar', 10);

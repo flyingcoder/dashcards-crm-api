@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Comment;
-use Spatie\MediaLibrary\Media as SpatieMedia;
+use Spatie\MediaLibrary\Models\Media as SpatieMedia;
 
 class Media extends SpatieMedia
 {

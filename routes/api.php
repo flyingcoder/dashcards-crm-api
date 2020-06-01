@@ -103,6 +103,18 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
 
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'stripe'], function () {
+  
+  Route::get('account', 'StripeController@getStripeAccount');
+
+  Route::post('connect', 'StripeController@connectToStripe');
+
+  Route::post('disconnect', 'StripeController@disconnectFromStripe');
+
+  Route::get('payment-intent/{id}', 'StripeController@createPaymentIntent');
+  
+});
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
 
   Route::get('plan', 'PaymentController@plan');
@@ -334,8 +346,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
   Route::get('/company/{key}', 'UserController@getMeta');
 
   Route::post('/company/details', 'UserController@addCompanyDetails');
-
-  Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
 
   Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
 

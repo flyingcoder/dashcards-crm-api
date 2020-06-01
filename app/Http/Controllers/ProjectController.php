@@ -22,7 +22,6 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Kodeine\Acl\Models\Eloquent\Role;
-use Spatie\MediaLibrary\Media;
 
 class ProjectController extends Controller
 {

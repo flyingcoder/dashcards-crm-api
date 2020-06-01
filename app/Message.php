@@ -6,11 +6,11 @@ use App\Traits\HasFileTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Musonza\Chat\Models\Message as Msg;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
-class Message extends Msg implements HasMediaConversions
+class Message extends Msg implements HasMedia
 {
 	use HasMediaTrait, HasFileTrait;
 

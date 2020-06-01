@@ -107,6 +107,10 @@ class InvoiceController extends Controller
 
         $invoice->save();
 
+        if($invoice->hasMeta('payment_intent')){
+            $invoice->removeMeta('payment_intent');
+        }
+
         $invoice->id = $id;
 
         return $invoice;

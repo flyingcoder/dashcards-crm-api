@@ -183,6 +183,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         Tolawho\Loggy\ServiceProvider::class,
         Yab\MySQLScout\Providers\MySQLScoutServiceProvider::class,
+        CloudCreativity\LaravelStripe\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -242,6 +243,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Chat' => Musonza\Chat\Facades\ChatFacade::class,
         'Loggy' => Tolawho\Loggy\Facades\Loggy::class,
+        'Stripe' => CloudCreativity\LaravelStripe\Facades\Stripe::class,
 
     ],
 
