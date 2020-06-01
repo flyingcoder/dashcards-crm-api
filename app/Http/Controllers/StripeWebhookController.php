@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Backlog;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\User;
@@ -29,6 +30,14 @@ class StripeWebhookController extends Controller
 	        // Loggy::write('stripe', json_encode($event));
 
 	        if(method_exists($this,$method)){
+	        	Backlog::create([
+	        		'event_id' => $event->id,
+	        		'account' => $event->account,
+	        		'event_type' => $event->type,
+	        		'livemode' => $event->livemode,
+	        		'data' => (object) @$event->data->object,
+	        	]);
+
 	        	return $this->{$method}($event);
 	        } else {
 	        	return response()->json([ 'message' => 'No handler found', ], 200);
