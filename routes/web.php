@@ -27,10 +27,8 @@ Route::group(['prefix' => 'stripe'], function () {
 });
 
 
-
-
+Route::get('test', 'TestController@index');
 // Route::get('test-act', 'ActivityController@index');
-// Route::get('test', 'TestController@index');
 /*
 Route::get('/', function () {
 	//Cache::put('foo', 'bar', 10);
