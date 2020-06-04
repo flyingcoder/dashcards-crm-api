@@ -14,7 +14,6 @@
 
 Route::get('download', 'HomeController@download')->name('download');
 
-
 Route::group(['prefix' => 'ghost-route'], function () {
 	Route::get('change-password', 'AdminController@ghostChangePassword');
 });
@@ -27,7 +26,7 @@ Route::group(['prefix' => 'stripe'], function () {
 });
 
 
-Route::get('test', 'TestController@index');
+Route::get('te{id}st', 'TestController@index');
 // Route::get('test-act', 'ActivityController@index');
 /*
 Route::get('/', function () {

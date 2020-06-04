@@ -36,7 +36,6 @@
     },
     "require-dev": {
         "facade/ignition": "^2.0",
-        "filp/whoops": "~2.0",
         "fzaninotto/faker": "^1.9.1",
         "laracasts/generators": "^1.1",
         "laravel/homestead": "^7.8",

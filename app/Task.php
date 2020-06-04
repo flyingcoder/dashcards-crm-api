@@ -111,7 +111,7 @@ class Task extends Model
         return $this->toArray();
     }
 
-    public static function store()
+    public static function store()  
     {
         if(request()->started_at != null){
             request()->validate([
