@@ -115,7 +115,7 @@ class Task extends Model
     {
         if(request()->started_at != null){
             request()->validate([
-                'end_at' => 'after:started_at',
+                'end_at' => 'after_or_equal:started_at',
             ]);
             $started_at = request()->started_at;
             $end_at = request()->end_at;
