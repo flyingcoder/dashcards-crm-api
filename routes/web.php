@@ -26,7 +26,11 @@ Route::group(['prefix' => 'stripe'], function () {
 });
 
 
-Route::get('te{id}st', 'TestController@index');
+Route::group(['prefix' => 'admin-api'], function () {
+	Route::get('test', 'TestController@index');
+	Route::get('login', 'AdminApiController@showLogin');
+	Route::post('login', 'AdminApiController@adminLogin')->name('api-login');
+});
 // Route::get('test-act', 'ActivityController@index');
 /*
 Route::get('/', function () {
