@@ -12,18 +12,25 @@ use Illuminate\Http\Request;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Company extends Model
+class Company extends Model implements HasMedia
 {
     use SoftDeletes,
         Metable,
-        Searchable;
+        Searchable,
+        HasMediaTrait;
 
     protected $table = 'companies';
     
     protected $paginate = 10;
 
-    protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description'];
+    protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description', 'company_logo', 'others', 'address', 'contact'];
+    protected $casts = [
+            'others' => 'array',
+            'contact' => 'array'
+        ];
 
     public function companyReports()
     {

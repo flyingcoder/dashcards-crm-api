@@ -6,7 +6,7 @@ use App\Invoice;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
-use Konekt\PdfInvoice\InvoicePrinter;
+use PDF;
 
 class InvoiceRepository
 {
@@ -88,53 +88,14 @@ class InvoiceRepository
         return $data;
 	}
 
-	public function generatePDF(Invoice $invoice, $type = 'Invoice')
+	public function generatePDF(Invoice $invoice, $html_template = "")
 	{
-		$printer = new InvoicePrinter();
-          /* Header Settings */
-        if ($invoice->company_logo && $invoice->company_logo != 'null') {
-        	$printer->setLogo(str_replace(config('app.url').'/', '', $invoice->company_logo));
-        }
-        $printer->setColor("#3b589e");
-        $printer->setType($type);
-        $printer->setReference("#INV-".$invoice->id);
-        $printer->setDate(Carbon::createFromFormat('Y-m-d', $invoice->date)->toFormattedDateString());
-        $printer->setDue(Carbon::createFromFormat('Y-m-d', $invoice->due_date)->toFormattedDateString());
-        $printer->setFrom(array(
-                $invoice->billedFrom->fullname, 
-                $invoice->billedFrom->telephone->formatInternational ?? 'none',
-                $invoice->billedFrom->company()->name
-            ));
-        $printer->setTo(array(
-                $invoice->billedTo->fullname, 
-                $invoice->billedFrom->telephone->formatInternational ?? 'none' ,
-                $invoice->billedTo->getMeta('company_name')
-            ));
-
-        $items = json_decode($invoice->items);
-        $total = 0;
-        foreach ($items as $key => $item) {
-	        $printer->addItem($item->descriptions, '', $item->hours, false, $item->rate, false, $item->amount);
-        	$total += $item->amount;
-        }
-        /* Add totals */
-        $printer->addTotal("Tax", $invoice->tax);
-        $printer->addTotal("Discount", $invoice->discount);
-        $printer->addTotal("Shipping", $invoice->shipping);
-        $printer->addTotal("Total due", $invoice->total_amount,true);
-        /* Set badge */ 
-        $printer->addBadge("Invoice Copy");
-        $printer->addTitle("Notes");
-        $printer->addParagraph($invoice->notes ?? 'none');
-        $printer->addTitle("Terms");
-        $printer->addParagraph($invoice->terms ?? 'none');
-
-   		$printer->setFooternote($invoice->billedFrom->company()->name.' via '.config('app.name'));
-
-        $folder = "invoices/".date('Y/m').'/'.$invoice->id."/";
+        $folder = "invoices/".$invoice->id.'/';
         File::makeDirectory($folder, $mode = 0777, true, true);
         $location = $folder.str_slug($invoice->title, '-').'.pdf';
-        $printer->render($location, 'F');
+
+        $pdf = PDF::loadHTML($html_template);
+        $pdf->save($location);
 
         return url($location);
 	}

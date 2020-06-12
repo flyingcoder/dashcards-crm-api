@@ -3,6 +3,7 @@
 /public/storage
 public/js/buzzooka.js
 public/css/buzzooka.css
+public/invoices
 /storage/*.key
 /vendor
 /.idea

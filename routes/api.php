@@ -195,6 +195,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
   Route::get('invoices/{id?}', 'InvoiceController@index');
 
+  Route::get('{id}/info', 'CompanyController@info');
+
+  Route::put('{id}/info', 'CompanyController@updateInfo');
+
+  Route::post('{id}/logo', 'CompanyController@uploadLogo');
 });
 
 // Tasks
@@ -403,6 +408,16 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
   Route::get('/', 'TemplateController@index');
 
   Route::post('/', 'TemplateController@store');
+
+  Route::get('invoices', 'TemplateController@invoices');
+  
+  Route::post('invoices', 'TemplateController@saveInvoiceTemplates');
+
+  Route::put('invoices', 'TemplateController@updateInvoiceTemplates');
+
+  Route::delete('invoices/{id}', 'TemplateController@deleteInvoiceTemplates');
+
+  Route::get('invoices/fields', 'TemplateController@getInvoiceFields');
 
   Route::get('{id}', 'TemplateController@template');
 
@@ -614,6 +629,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
   Route::post('/', 'InvoiceController@store');
 
   Route::get('{id}/download', 'InvoiceController@getPDFInvoice');
+
+  Route::get('{id}/parse-template', 'InvoiceController@getParseInvoice');
 
   Route::get('{id}', 'InvoiceController@invoice');
 
