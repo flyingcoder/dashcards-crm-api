@@ -33,11 +33,15 @@ class Project extends Model implements HasMedia
     protected static $logName = 'project';
 
     protected $fillable = [
-        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
+        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id', 'type', 'props'
     ];
 
     protected static $logAttributes = [
         'title', 'started_at', 'service_id', 'end_at', 'status', 'company_id'
+    ];
+
+    protected $casts = [
+        'props' => 'array'
     ];
 
     public function tapActivity(Activity $activity, string $eventName)

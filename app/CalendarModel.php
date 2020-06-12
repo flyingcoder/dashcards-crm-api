@@ -35,6 +35,10 @@ class CalendarModel extends Model
         'user_id'
     ];
 
+    protected $casts = [
+        'properties' => 'array'
+    ];
+
     public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
