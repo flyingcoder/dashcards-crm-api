@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('generate-recurring-invoice')->daily();
+        $schedule->command('generate-recurring-invoice')->dailyAt('10:00'); //everyMinute(); //
 
         $schedule->command('telescope:prune --hours=24')->hourly();
 

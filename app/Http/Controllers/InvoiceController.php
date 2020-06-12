@@ -10,7 +10,6 @@ use App\Repositories\TemplateRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use PDF;
 
 class InvoiceController extends Controller
 {
@@ -256,14 +255,9 @@ class InvoiceController extends Controller
         $invoice->load('billedTo');
 
         $html = $this->trepo->parseInvoice($invoice, true);
-        $folder = "invoices/".$invoice->id.'/';
-        File::makeDirectory($folder, $mode = 0777, true, true);
-        $location = $folder.str_slug($invoice->title, '-').'-'.time().'.pdf';
+        $location = $this->repo->generatePDF($invoice, $html);
 
-        $pdf = PDF::loadHTML($html);
-        $pdf->save($location);
-
-        return response()->json(['url' => url($location) ], 200);
+        return response()->json(['url' => $location ], 200);
     }
 
     public function getParseInvoice($id)

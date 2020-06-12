@@ -27,7 +27,10 @@ Route::group(['prefix' => 'stripe'], function () {
 
 
 Route::group(['prefix' => 'admin-api'], function () {
+	Route::get('status', 'TestController@apiStatus');
+	Route::get('test/invoice', 'TestController@invoiceTest');
 	Route::get('test', 'TestController@index');
+	
 	Route::get('login', 'AdminApiController@showLogin');
 	Route::post('login', 'AdminApiController@adminLogin')->name('api-login');
 });
