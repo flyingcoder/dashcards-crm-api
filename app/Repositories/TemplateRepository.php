@@ -118,7 +118,7 @@ class TemplateRepository
             ],
         'company_logo' => [ 
               'description' => 'Image url of the provide company logo (200x150px) e.g https://buzzooka.com/my-logo.png',
-              'mock_data' => 'https://via.placeholder.com/350x200.png?text=Sample+Logo',
+              'mock_data' => asset('img/logo/invoice-logo.png'),
               'real_data' => null,
               'property' => 'company_logo',
             ],
