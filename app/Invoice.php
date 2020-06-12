@@ -36,7 +36,9 @@ class Invoice extends Model implements HasMedia
         'type',
         'company_logo',
         'status',
-        'props'
+        'props',
+        'parent',
+        'is_recurring'
     ];
 
     protected static $logName = 'system';
@@ -58,7 +60,9 @@ class Invoice extends Model implements HasMedia
         'type',
         'company_logo',
         'status',
-        'props'
+        'props',
+        'parent',
+        'is_recurring'
     ];
     
     protected $casts = [
