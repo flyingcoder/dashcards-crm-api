@@ -349,12 +349,12 @@
                 <tr>
                   <td class="content-block">
                     <span class="apple-link">Buzzooka</span>
-                    <br> Don't like these emails? <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
+                    <br> Don't like these emails? <a href="https://crm.dashcards.com/unsubscribe">Unsubscribe</a>.
                   </td>
                 </tr>
                 <tr>
                   <td class="content-block powered-by">
-                    Powered by <a href="http://htmlemail.io">HTMLemail</a>.
+                    Powered by <a href="http://buzzooka.com">Buzzooka</a>.
                   </td>
                 </tr>
               </table>

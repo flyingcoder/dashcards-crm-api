@@ -103,6 +103,18 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
 
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'stripe'], function () {
+  
+  Route::get('account', 'StripeController@getStripeAccount');
+
+  Route::post('connect', 'StripeController@connectToStripe');
+
+  Route::post('disconnect', 'StripeController@disconnectFromStripe');
+
+  Route::get('payment-intent/{id}', 'StripeController@createPaymentIntent');
+  
+});
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
 
   Route::get('plan', 'PaymentController@plan');
@@ -183,6 +195,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
   Route::get('invoices/{id?}', 'InvoiceController@index');
 
+  Route::get('{id}/info', 'CompanyController@info');
+
+  Route::put('{id}/info', 'CompanyController@updateInfo');
+
+  Route::post('{id}/logo', 'CompanyController@uploadLogo');
 });
 
 // Tasks
@@ -337,8 +354,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
   Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
 
-  Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
-
   Route::post('/company/bank-transfer-details', 'UserController@addBankTransferDetails');
 
   Route::post('/company/paypal-details', 'UserController@addPaypalDetails');
@@ -393,6 +408,16 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
   Route::get('/', 'TemplateController@index');
 
   Route::post('/', 'TemplateController@store');
+
+  Route::get('invoices', 'TemplateController@invoices');
+  
+  Route::post('invoices', 'TemplateController@saveInvoiceTemplates');
+
+  Route::put('invoices', 'TemplateController@updateInvoiceTemplates');
+
+  Route::delete('invoices/{id}', 'TemplateController@deleteInvoiceTemplates');
+
+  Route::get('invoices/fields', 'TemplateController@getInvoiceFields');
 
   Route::get('{id}', 'TemplateController@template');
 
@@ -591,6 +616,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 
   Route::post('user/update-roles', 'GroupController@updateRoles');
 
+  Route::post('user/restore-delete', 'GroupController@restoreDelete');
 });
 
 
@@ -601,6 +627,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
   Route::get('/', 'InvoiceController@index');
 
   Route::post('/', 'InvoiceController@store');
+
+  Route::get('{id}/download', 'InvoiceController@getPDFInvoice');
+
+  Route::get('{id}/parse-template', 'InvoiceController@getParseInvoice');
 
   Route::get('{id}', 'InvoiceController@invoice');
 

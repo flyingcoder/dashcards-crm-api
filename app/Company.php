@@ -12,19 +12,25 @@ use Illuminate\Http\Request;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Company extends Model
+class Company extends Model implements HasMedia
 {
     use SoftDeletes,
         Metable,
-        Searchable;
+        Searchable,
+        HasMediaTrait;
 
     protected $table = 'companies';
     
     protected $paginate = 10;
 
-    protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description'];
+    protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description', 'company_logo', 'others', 'address', 'contact'];
+    protected $casts = [
+            'others' => 'array',
+            'contact' => 'array'
+        ];
 
     public function companyReports()
     {
@@ -268,9 +274,12 @@ class Company extends Model
             $data = $invoices->get();
 
         $data->map(function ($invoice) {
-            $items = collect(json_decode($invoice->items));
+            $items = collect(json_decode($invoice->items, true));
             unset($invoice->items);
             $invoice->items = $items;
+            $props = collect(json_decode($invoice->props, true));
+            unset($invoice->props);
+            $invoice->props = $props;
             $invoice->billedTo = User::where('id', $invoice->billed_to)->first();
             $invoice->billedFrom = User::where('id', $invoice->billed_from)->first();
         });
@@ -352,6 +361,16 @@ class Company extends Model
                             $join->on('companies.id', '=', 'teams.company_id')
                                  ->where('companies.id', $this->id);
                        })->where('users.deleted_at', null);
+    }
+    public function membersWithTrashed()
+    {
+        return User::withTrashed()
+                    ->join('team_user as tu', 'tu.user_id', '=', 'users.id')
+                    ->join('teams', 'teams.id', '=', 'tu.team_id')
+                    ->join('companies', function($join) {
+                        $join->on('companies.id', '=', 'teams.company_id')
+                                ->where('companies.id', $this->id);
+                    });
     }
 
     public function allCompanyMembers()

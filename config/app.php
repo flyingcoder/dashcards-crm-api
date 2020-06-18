@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'timezone' =>  env('APP_TIMEZONE', 'America/Toronto'),//UTC
+    'timezone' =>  env('APP_TIMEZONE', 'UTC'),//UTC
 
     /*
     |--------------------------------------------------------------------------
@@ -183,6 +183,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         Tolawho\Loggy\ServiceProvider::class,
         Yab\MySQLScout\Providers\MySQLScoutServiceProvider::class,
+        CloudCreativity\LaravelStripe\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -190,6 +191,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
@@ -242,6 +244,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Chat' => Musonza\Chat\Facades\ChatFacade::class,
         'Loggy' => Tolawho\Loggy\Facades\Loggy::class,
+        'Stripe' => CloudCreativity\LaravelStripe\Facades\Stripe::class,
 
     ],
 

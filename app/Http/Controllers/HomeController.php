@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Spatie\MediaLibrary\Media;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\Models\Media;
 use Storage;
 
 class HomeController extends Controller

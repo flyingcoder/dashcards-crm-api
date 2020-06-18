@@ -66,7 +66,8 @@ class EventController extends Controller
 	    				'send_notify' => request()->notify ?? 0,
                         'alarm' => request()->alarm ?? false,
 	    				'creator' => $user->id,
-                        'time' => request()->time ?? []
+                        'time' => request()->time ?? [],
+                        'link' => request()->link ?? ''
 		    		],
 	    	]);
 	    	
@@ -115,7 +116,10 @@ class EventController extends Controller
             $event->properties = [
                             'timezone' => request()->has('timezone') ? request()->timezone : 'UTC',
                             'send_notify' => request()->notify ?? 0,
-                            'creator' => $user->id
+                            'creator' => $user->id,
+                            'alarm' => request()->alarm ?? false,
+                            'time' => request()->time ?? [],
+                            'link' => request()->link ?? ''
                         ];
             $event->save();
 

@@ -30,8 +30,9 @@ class UsersPresence implements ShouldBroadcast
 
         $this->user = collect([
             'id' => $user->id,
-            'name' => $user->last_name.', '.$user->first_name,
-            'is_online' => $user->is_online
+            'name' => $user->fullname,
+            'is_online' => $user->is_online,
+            'image_url' => $user->image_url
         ]);
     }
 

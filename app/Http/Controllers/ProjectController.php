@@ -22,7 +22,6 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Kodeine\Acl\Models\Eloquent\Role;
-use Spatie\MediaLibrary\Media;
 
 class ProjectController extends Controller
 {
@@ -367,14 +366,15 @@ class ProjectController extends Controller
             
             $project->members()->attach(request()->client_id, ['role' => 'Client']);
 
-            if(request()->has('managers')){
-                foreach (request()->managers as $value) {
-                    $project->manager()->attach($value, ['role' => 'Manager']);
-                }
-            }
             if(request()->has('members')){
                 foreach (request()->members as $value) {
                     $project->members()->attach($value, ['role' => 'Members']);
+                }
+            }
+            
+            if(request()->has('managers')){
+                foreach (request()->managers as $value) {
+                    $project->manager()->attach($value, ['role' => 'Manager']);
                 }
             }
 

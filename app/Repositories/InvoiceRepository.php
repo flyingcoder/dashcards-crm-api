@@ -4,6 +4,9 @@ namespace App\Repositories;
 
 use App\Invoice;
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
+use PDF;
 
 class InvoiceRepository
 {
@@ -49,5 +52,51 @@ class InvoiceRepository
         			->sum('total_amount');
         			//todo filter base on status
        return $total;
+	}
+
+	public function getClientInvoices(User $client, $request)
+	{
+		list($sortName, $sortValue) = parseSearchParam($request);
+
+        $invoices = $client->company()->invoices();
+
+        $invoices = $invoices->where(function($query) use($client) {
+        		$query->where('invoices.billed_to', $client->id)
+        			->orWhere('invoices.billed_from', $client->id)
+        			->orWhere('invoices.user_id', $client->id);
+	        });
+
+        if($request->has('sort') && !empty(request()->sort))
+            $invoices->orderBy($sortName, $sortValue);
+
+        if(request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
+        $data = $invoices->paginate(20);
+
+        $data->map(function ($invoice) {
+            $items = collect(json_decode($invoice->items, true));
+            unset($invoice->items);
+            $invoice->items = $items;
+            $props = collect(json_decode($invoice->props, true));
+            unset($invoice->props);
+            $invoice->props = $props;
+            $invoice->billedTo = User::where('id', $invoice->billed_to)->first();
+            $invoice->billedFrom = User::where('id', $invoice->billed_from)->first();
+        });
+
+        return $data;
+	}
+
+	public function generatePDF(Invoice $invoice, $html_template = "")
+	{
+        $folder = "invoices/".$invoice->id.'/';
+        File::makeDirectory($folder, $mode = 0777, true, true);
+        $location = $folder.str_slug($invoice->title, '-').'.pdf';
+
+        $pdf = PDF::loadHTML($html_template);
+        $pdf->save($location);
+
+        return url($location);
 	}
 }

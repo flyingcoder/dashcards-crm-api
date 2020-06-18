@@ -23,12 +23,12 @@ use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 
-class User extends Authenticatable implements HasMediaConversions
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable, 
         HasRole, 
@@ -346,6 +346,22 @@ class User extends Authenticatable implements HasMediaConversions
         return false;
     }
 
+    public function hasRoleLikeIn($find_array)
+    {
+        if (empty($find_array)) {
+            return false;
+        }
+        $roles = $this->getRoles() ?? [];
+        foreach ($roles as $key => $role) {
+            foreach ($find_array as $key2 => $find) {
+                if (stripos($role, trim($find)) !== false) {
+                    return true;
+                }
+            }
+        }   
+        return false;
+    }
+
     public function scopeDefaultColumn()
     {
        return $this->select(
@@ -374,65 +390,6 @@ class User extends Authenticatable implements HasMediaConversions
         return $this->hasMany(OauthAccessToken::class);
     }
 
-    public function storeInvoice()
-    {   
-        request()->validate( [
-            'date' => 'date',
-            'due_date' => 'required|date',
-            'title' => 'required',
-            'total_amount' => 'required',
-            'items' => 'required|string',
-            'type' => 'required',
-            'billed_from' => 'exists:users,id',
-            'billed_to' => 'exists:users,id'
-        ]);
-
-        $data = [
-            'type' => request()->type,
-            'date' => request()->date,
-            'user_id' => auth()->user()->id,
-            'due_date' => request()->due_date,
-            'title' => request()->title,
-            'total_amount' => request()->total_amount,
-            'items' => request()->items,
-            'terms' => request()->terms,
-            'notes' => request()->notes ?? null
-        ];
-
-        if(request()->has('project_id'))
-            $data['project_id'] = request()->project_id;
-
-        if(request()->has('billed_to'))
-            $data['billed_to'] = request()->billed_to;
-
-        if(request()->has('billed_from'))
-            $data['billed_from'] = request()->billed_from;
-
-        if(request()->has('discount'))
-            $data['discount'] = request()->discount;
-
-        if(request()->has('tax'))
-            $data['tax'] = request()->tax;
-
-        if(request()->has('shipping'))
-            $data['shipping'] = request()->shipping;
-
-        if(request()->has('company_logo')) {
-            $data['company_logo'] = request()->company_logo;
-        }
-
-        $invoice = $this->invoices()->create($data);
-
-        $items = collect(json_decode($invoice->items));
-        unset($invoice->items);
-        $invoice->items = $items;
-        $invoice->billedFrom = $invoice->billedFrom;
-        $invoice->billedTo = $invoice->billedTo;
-        $invoice->status = 'pending';
-        $invoice->props = [];
-        
-        return $invoice;
-    }
     /**
     * invoices that are billed to user
     *

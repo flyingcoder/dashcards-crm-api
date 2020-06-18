@@ -18,11 +18,11 @@ use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
-class Project extends Model implements HasMediaConversions
+class Project extends Model implements HasMedia
 {
     use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes, Searchable;
 
@@ -33,11 +33,15 @@ class Project extends Model implements HasMediaConversions
     protected static $logName = 'project';
 
     protected $fillable = [
-        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id'
+        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id', 'type', 'props'
     ];
 
     protected static $logAttributes = [
         'title', 'started_at', 'service_id', 'end_at', 'status', 'company_id'
+    ];
+
+    protected $casts = [
+        'props' => 'array'
     ];
 
     public function tapActivity(Activity $activity, string $eventName)

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Repositories\MembersRepository;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
 {
@@ -73,5 +75,42 @@ class CompanyController extends Controller
     public function invoices()
     {
         return auth()->user()->company()->invoices()->get();
+    }
+
+    public function uploadLogo($id)
+    {
+        $file = request()->file('file');
+        $company = Company::findOrFail($id);
+        $media = $company->addMedia($file)
+                        ->usingFileName('company-'.$company->id.".png")
+                        ->toMediaCollection('company-logo');
+
+        $company->company_logo = url($media->getUrl());
+        $company->save();
+
+        return $company;
+    }
+
+    public function info($id)
+    {
+        $company = Company::findOrFail($id);
+        return $company;
+    }
+
+    public function updateInfo($id)
+    {
+        request()->validate(['name' => 'required|min:5']);
+
+        $company = Company::findOrFail($id);
+        $company->name = request()->name;
+        $company->short_description = request()->short_description ?? null;
+        $company->long_description = request()->long_description ?? null;
+        $company->domain = request()->domain ?? null;
+        $company->address = request()->address ?? null;
+        $company->contact = request()->contact ?? null;
+        $company->email = request()->email ?? null;
+        $company->save();
+
+        return $company;
     }
 }

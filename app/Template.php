@@ -2,16 +2,17 @@
 
 namespace App;
 
-use Illuminate\Http\Request;
+use App\Events\ActivityEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Http\Request;
+use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Template extends Model
 {
-	use SoftDeletes, LogsActivity;
+	use SoftDeletes, LogsActivity, Metable;
 
 	/**
      * The attributes that are mass assignable.

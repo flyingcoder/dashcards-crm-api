@@ -19,7 +19,7 @@ class InvoicePolicy
      */
     public function index()
     {
-        if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && auth()->user()->can('view.all-invoice') )
+        if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && auth()->user()->can('view.all-invoice') )
             abort(403, 'Not enought permission!');
     }
 
@@ -43,7 +43,7 @@ class InvoicePolicy
      */
     public function create()
     {
-       if( !auth()->user()->hasRole('admin|manager|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('create.invoice') )
+       if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('create.invoice') )
           abort(403, 'Not enought permission to create a invoice!');
     }
 
@@ -56,7 +56,7 @@ class InvoicePolicy
      */
     public function update()
     {
-        if(!auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('update.invoice') )
+        if(!auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('update.invoice') )
           abort(403, 'Not enought permission!');
     }
 
@@ -69,7 +69,7 @@ class InvoicePolicy
      */
     public function delete(Invoice $invoice)
     {
-        if( !auth()->user()->hasRole('admin|default-admin-'.auth()->user()->company()->id) && !auth()->user()->can('delete.invoice') )
+        if( !auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('delete.invoice') )
             abort(403, 'Not enought permission!');
 
         if( $invoice->company() != auth()->user()->company() )
