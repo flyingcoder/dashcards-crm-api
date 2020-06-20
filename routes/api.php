@@ -432,19 +432,23 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 // Services
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
-	Route::get('/', 'ServiceController@index'); // projects //error
+  Route::get('{id}', 'ServiceController@service');
+  
+	Route::get('/', 'ServiceController@index'); // services 
 
   Route::post('/', 'ServiceController@store');
 
   Route::post('validate', 'ServiceController@isValid');
-
-  Route::get('{id}', 'ServiceController@getService');
 
   Route::put('{id}', 'ServiceController@update');
 
   Route::delete('bulk-delete', 'ServiceController@bulkDelete');
 
   Route::delete('{id}', 'ServiceController@delete');
+
+  Route::get('{id}/timeline', 'ActivityController@service');
+
+  Route::get('{id}/invoice', 'ServiceController@invoices');
 
 });
 

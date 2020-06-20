@@ -43,7 +43,7 @@ class User extends Authenticatable implements HasMedia
         // HasInvoices;
 
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'email', 'is_online' ,'telephone', 'job_title', 'password', 'image_url', 'created_by'
+        'username', 'first_name', 'last_name', 'email', 'is_online' ,'telephone', 'job_title', 'password', 'image_url', 'created_by', 'props'
     ];
 
     protected static $logName = 'system.user';
@@ -57,7 +57,8 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $casts = [
-        'telephone' => 'array'
+        'telephone' => 'array',
+        'props' => 'array'
     ];
 
     public function getPasswordResetToken()
@@ -534,7 +535,12 @@ class User extends Authenticatable implements HasMedia
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class)->withPivot('role');
+        return $this->belongsToMany(Project::class, 'project_user')->withPivot('role');
+    }
+
+    public function services()
+    {
+        return $this->belongsToMany(Services::class, 'service_user')->withPivot('role');
     }
 
     public function userPaginatedProject(Request $request)
@@ -542,7 +548,6 @@ class User extends Authenticatable implements HasMedia
         list($sortName, $sortValue) = parseSearchParam($request);
 
         $projects = $this->projects()
-                        ->join('services', 'services.id', '=', 'projects.service_id')
                         ->join('project_user as manager_pivot', function ($join) {
                             $join->on('manager_pivot.project_id', '=', 'projects.id')
                                  ->where('manager_pivot.role', '=', 'Manager');
@@ -557,8 +562,7 @@ class User extends Authenticatable implements HasMedia
                             DB::raw('CONCAT(CONCAT(UCASE(LEFT(manager.last_name, 1)), SUBSTRING(manager.last_name, 2)), ", ", CONCAT(UCASE(LEFT(manager.first_name, 1)), SUBSTRING(manager.first_name, 2))) AS manager_name'),
                             'client.image_url as client_image_url',
                             DB::raw('CONCAT(CONCAT(UCASE(LEFT(client.last_name, 1)), SUBSTRING(client.last_name, 2)), ", ", CONCAT(UCASE(LEFT(client.first_name, 1)), SUBSTRING(client.first_name, 2))) AS client_name'),
-                            'projects.*',
-                            'services.name as service_name'
+                            'projects.*'
                         )->where('projects.deleted_at', null);
 
         if($request->has('status'))
@@ -578,11 +582,6 @@ class User extends Authenticatable implements HasMedia
             $this->paginate = request()->per_page;
 
         return $projects->with('tasks')->paginate($this->paginate);
-    }
-
-    public function services()
-    {
-        return $this->hasMany(Service::class);
     }
 
     public function company()

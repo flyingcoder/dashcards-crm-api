@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Project;
+use App\Service;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -65,6 +66,32 @@ class ActivityController extends Controller
         }
         
         return $project->activity;
+    }
+
+    public function service($id)
+    {
+        $service = Service::findOrFail($id);
+        $per_page = request()->has('per_page') ? request()->per_page : 5;
+
+        if (request()->has('page') && request()->page > 0) {
+            $timelines =  $service->activity()
+                    ->where('log_name', 'files')
+                    ->latest()
+                    ->paginate($per_page);
+            
+            $items = $timelines->getCollection();
+
+            $data = collect([]);
+            foreach ($items as $key => $activity) {
+                $data->push(array_merge($activity->toArray(), ['attachments' => $activity->attachments() ]));   
+            }
+
+            $timelines->setCollection($data);
+
+            return $timelines;
+        }
+        
+        return $service->activity;
     }
 
     public function markRead($id)

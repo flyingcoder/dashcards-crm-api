@@ -9,6 +9,8 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\Repositories\TemplateRepository;
 use App\Repositories\TimerRepository;
+use App\Service;
+use App\Company;
 use App\User;
 use Carbon\Carbon;
 use Chat;

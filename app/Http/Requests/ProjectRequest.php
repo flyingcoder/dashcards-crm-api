@@ -28,9 +28,6 @@ class ProjectRequest extends FormRequest
         return [
             'title' => 'required',
             'client_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'end_at' => 'required|date',
-            // 'location' => 'required',
             'description' => 'required'
         ];
     }
@@ -39,8 +36,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'end_at' => 'due date',
-            'client_id' => 'client',
-            'service_id' => 'service',
+            'client_id' => 'client'
         ];
     }
 
