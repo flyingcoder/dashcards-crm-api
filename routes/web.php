@@ -22,7 +22,7 @@ Route::group(['prefix' => 'ghost-route'], function () {
 Route::get('form/{slug}', 'FormController@load')->where('slug', '[A-Za-z0-9\-\_]+');
 
 
-Route::get('arc', 'HomeController@arc')
+Route::get('arc', 'HomeController@arc');
 
 Route::group(['prefix' => 'stripe'], function () {
 	Route::post('hooks', 'StripeWebhookController@listen');
