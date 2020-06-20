@@ -28,4 +28,9 @@ class HomeController extends Controller
 
         return Storage::download("public/".str_replace(["storage/","%20"], ["", " "], $media->getUrl()));
     }
+
+    public function arc()
+    {
+        //to be continue
+    }
 }
