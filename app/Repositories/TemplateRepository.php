@@ -33,20 +33,20 @@ class TemplateRepository
 	{
 		return  [
             'invoice_id' => [ 
-              'description' => 'Invoice ID e.g INV-143',
+              'description' => 'Invoice ID',
               'mock_data' => 'INV-001',
               'real_data' => null,
               'property' => 'id',
             ],
         'invoice_title' => [ 
-              'description' => 'Invoice title e.g "Project Invoice for User 1"',
+              'description' => 'Invoice title',
               'mock_data' => 'Sample Title',
               'real_data' => null,
               'property' => 'title',
             ],
         'project_name' => [ 
-              'description' => 'Project name (if available)',
-              'mock_data' =>'Project Buzzooka',
+              'description' => 'Project|Service name (if available)',
+              'mock_data' =>'Project Dashcard',
               'real_data' => null,
               'property' => 'project.title',
             ],
@@ -58,12 +58,12 @@ class TemplateRepository
             ],
         'invoice_terms' => [ 
               'description' => 'Terms & conditions',
-              'mock_data' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+              'mock_data' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
               'real_data' => null,
               'property' => 'terms',
             ],
         'invoice_due_date' => [ 
-              'description' => 'Due date of invoice e.g September 18, 2020',
+              'description' => 'Due date of invoice',
               'mock_data' => now()->addDays(20)->format('F j, Y'),
               'real_data' => null,
               'property' => 'due_date',
@@ -87,44 +87,44 @@ class TemplateRepository
               'property' => 'notes',
             ],
         'invoice_date_created' => [ 
-              'description' => 'Invoice created date e.g September 1, 2020',
+              'description' => 'Invoice created date',
               'mock_data' => now()->format('F j, Y'),
               'real_data' => null,
               'property' => 'date',
             ],
         'total_amount' => [ 
-              'description' => 'Total amount of invoice e.g 143.00',
+              'description' => 'Total amount of invoice',
               'mock_data' => '1430.00',
               'real_data' => null,
               'property' => 'total_amount',
             ],
         'total_tax' => [ 
-              'description' => 'Total tax of invoice e.g 10.50',
+              'description' => 'Total tax of invoice',
               'mock_data' => '15.00',
               'real_data' => null,
               'property' => 'tax',
             ],
         'total_discount' => [ 
-              'description' => 'Total discount amount of invoice e.g 12.00',
+              'description' => 'Total discount amount of invoice',
               'mock_data' => '0.00',
               'real_data' => null,
               'property' => 'discount',
             ],
         'total_shipping' => [ 
-              'description' => 'Total shipping amount of invoice e.g 5.00',
+              'description' => 'Total shipping amount of invoice',
               'mock_data' => '0.00',
               'real_data' => null,
               'property' => 'shipping',
             ],
         'company_logo' => [ 
-              'description' => 'Image url of the provide company logo (200x150px) e.g https://buzzooka.com/my-logo.png',
+              'description' => 'Image url of the provide company logo (200x150px)',
               'mock_data' => asset('img/logo/invoice-logo.png'),
               'real_data' => null,
               'property' => 'company_logo',
             ],
         'company_name' => [ 
               'description' => 'Company name',
-              'mock_data' => 'Buzzooka Ltd',
+              'mock_data' => 'Example Ltd',
               'real_data' => null,
               'property' => 'company.name',
             ],
@@ -136,7 +136,7 @@ class TemplateRepository
             ],
         'company_email' => [ 
               'description' => 'Company email address',
-              'mock_data' => 'buzzooka@gmail.com',
+              'mock_data' => 'example@gmail.com',
               'real_data' => null,
               'property' => 'company.email',
             ],
@@ -148,12 +148,12 @@ class TemplateRepository
             ],
         'company_website' => [ 
               'description' => 'Company website e.g https://mysite.com',
-              'mock_data' => 'https://buzzooka.com',
+              'mock_data' => 'https://example.com',
               'real_data' => null,
               'property' => 'company.domain',
             ],
         'billed_from_name' => [ 
-              'description' => 'Full name of user billed from e.g John Doe',
+              'description' => 'Full name of user billed from',
               'mock_data' => 'John Doe',
               'real_data' => null,
               'property' => 'billedFrom.fullname',
@@ -165,7 +165,7 @@ class TemplateRepository
               'property' => 'billedFrom.email',
             ],
         'billed_from_contact' => [ 
-              'description' => 'Email address of the user billed from',
+              'description' => 'Contact number of the user billed from',
               'mock_data' => '(012)987-6543',
               'real_data' => null,
               'property' => 'billedFrom.telephone.formatInternational',
@@ -177,7 +177,7 @@ class TemplateRepository
         	  'property' => 'billedFrom.image_url',
       	  ],*/
         'billed_to_name' => [ 
-              'description' => 'Full name of user billed to e.g Jean Doe',
+              'description' => 'Full name of user billed to',
               'mock_data' => 'Jean Doe',
               'real_data' => null,
               'property' => 'billedTo.fullname',
@@ -189,7 +189,7 @@ class TemplateRepository
               'property' => 'billedTo.email',
             ],
         'billed_to_contact' => [ 
-              'description' => 'Email address of the user billed to',
+              'description' => 'Contact number of the user billed to',
               'mock_data' => '(012)987-6567',
               'real_data' => null,
               'property' => 'billedTo.telephone.formatInternational',

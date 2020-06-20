@@ -42,8 +42,9 @@ class ServicePolicy
      */
     public function view(Service $service)
     {
-        if($service->company() != auth()->user()->company())
+        if((int) $service->company->id != (int) auth()->user()->company()->id){
             abort(403, 'Service not found!');
+        }
     }
 
     /**
@@ -82,7 +83,8 @@ class ServicePolicy
         if( !auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('delete.service') )
             abort(403, 'Not enought permission!');
 
-        if( $service->company() != auth()->user()->company() )
+        if((int) $service->company->id != (int) auth()->user()->company()->id){
             abort(403, 'Service not found!');
+        }
     }
 }

@@ -2,30 +2,36 @@
 
 namespace App;
 
-use Auth;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\Contracts\Activity;
+use App\Company;
 use App\Events\ActivityEvent;
+use App\Project;
+use App\Scopes\ServiceScope;
+use App\Traits\HasMediaLink;
+use Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
+use Plank\Metable\Metable;
+use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Service extends Model
+class Service extends Project
 {
-    use SoftDeletes, LogsActivity;
+    protected $table = 'projects';
+    protected $paginate = 10;
+    protected static $logName = 'project';
+    protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'user_id', 'name' 
+        'title', 'started_at', 'end_at', 'description', 'status', 'company_id', 'type', 'props'
     ];
 
-    protected static $logName = 'system';
-
     protected static $logAttributes = [
-        'user_id', 'name' 
+        'title', 'started_at', 'end_at', 'status', 'company_id'
+    ];
+
+    protected $casts = [
+        'props' => 'array'
     ];
 
     public function tapActivity(Activity $activity, string $eventName)
@@ -41,12 +47,7 @@ class Service extends Model
 
     public function company()
     {
-        return $this->user->company();
-    }
-
-    public function projects()
-    {
-    	return $this->hasMany(Project::class);
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
     
     public function forms()
@@ -54,45 +55,39 @@ class Service extends Model
         return $this->belongsToMany(Form::class);
     }
 
-    public function user()
+    public function team()
     {
-    	return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->withPivot('role');
     }
 
-    /*
-    public static function boot() 
+    public function managers()
     {
-        if(!is_null(Auth::user())) {
-            Service::created(function ($service) {
-                activity(Auth::user()->company()->name)
-                   ->performedOn($service)
-                   ->causedBy(Auth::user())
-                   ->log('Created');
-            });
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Manager');
+    }
 
-            Service::deleted(function ($service) {
-                activity(Auth::user()->company()->name)
-                   ->performedOn($service)
-                   ->causedBy(Auth::user())
-                   ->log('Deleted');
-            });
+    public function client()
+    {
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Client');
+    }
 
-            Service::saved(function ($service) {
-                activity(Auth::user()->company()->name)
-                   ->performedOn($service)
-                   ->causedBy(Auth::user())
-                   ->log('Updated');
-            });
-        }
-        
-        Service::deleting(function($service) {
-            foreach(['projects'] as $relation)
-            {
-                foreach($service->{$relation} as $item)
-                {
-                    $item->delete();
-                }
-            }
-        });
-    }*/
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Members');
+    }
+
+    public function activity()
+    {
+        return $this->morphMany('App\Activity', 'subject');
+    }
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ServiceScope);
+    }
 }
