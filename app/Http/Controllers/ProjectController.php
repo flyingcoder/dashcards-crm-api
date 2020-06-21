@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Company;
 use App\Events\ProjectMessage;
 use App\Http\Requests\ProjectRequest;
 use App\Message;
 use App\Policies\ProjectPolicy;
 use App\Project;
 use App\Report;
+use App\Repositories\ProjectRepository;
 use App\Repositories\TimerRepository;
 use App\Task;
 use App\Team;
@@ -26,11 +28,14 @@ class ProjectController extends Controller
 {
     protected $paginate = 12;
 
-    protected $repo;
+    protected $timeRepo;
+    protected $projRepo;
 
-    public function __construct(TimerRepository $repo)
+    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo)
     {
-        $this->repo = $repo;
+        $this->timeRepo = $timeRepo;
+        $this->projRepo = $projRepo;
+
         if (request()->has('per_page') && request()->per_page > 0) {
             $this->paginate = request()->per_page;
         }
@@ -43,9 +48,11 @@ class ProjectController extends Controller
         $company = Auth::user()->company();
 
         if(request()->has('all') && request()->all)
-            return $company->allCompanyProjects();
+            return $this->projRepo->getCompanyProjectsList($company);
+            // return $company->allCompanyProjects();
 
-        return $company->paginatedCompanyProjects(request());
+        return $this->projRepo->getCompanyProjects($company, request());
+        // return $company->paginatedCompanyProjects(request());
     }
 
     public function sendMessages($id)
@@ -307,7 +314,7 @@ class ProjectController extends Controller
         $data = collect([]);
 
         foreach ($tasksItems as $key => $task) {
-            $timer = $this->repo->getTimerForTask($task);
+            $timer = $this->timeRepo->getTimerForTask($task);
             $data->push(array_merge($task->toArray(), ['timer' => $timer , 'milestone' => $task->milestone ]));   
         }
 
@@ -554,35 +561,25 @@ class ProjectController extends Controller
 
     public function project($project_id)
     {
-        $project = Project::findOrFail($project_id);
+        $project = Project::with(['manager', 'client'])->findOrFail($project_id);
 
-        //(new ProjectPolicy())->view($project);
+        (new ProjectPolicy())->view($project);
         
+        $client = $project->client[0];
         $project->total_time = $project->totalTime();
-
-        $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
-        
-        $project->billed_to = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
-
-        $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
-
-        $project->billed_from = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
-
+        $project->client_name = ucwords($client->fullname ?? '');
+        $project->billed_to = ucwords($client->fullname ?? '');
+        $project->manager_name = ucwords($project->manager[0]->fullname ?? '');
+        $project->billed_from = ucwords($project->manager[0]->fullname ?? '');
 
         $project->tasks;
-
         $project->tasks->map(function ($item, $key) {
-            $item['total_time'] = $item->total_time();
-        });
-
-         $loc = $project->getClient()->getMeta('location');
-            
-        if(is_null($loc))
-            $project->location = '';
-        else
-            $project->location = ucfirst($loc);
-
-        $project->company_name = ucfirst($project->getClient()->getMeta('company_name'));
+                $item['total_time'] = $item->total_time();
+            });
+        
+        $project->location = $project->props['location'] ?? ($client->props['location'] ?? '');
+        $company = Company::find($client->props['company_id'] ?? null);
+        $project->company_name = $company ? $company->name : '';
 
         return $project;
     }

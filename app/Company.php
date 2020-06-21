@@ -567,9 +567,9 @@ class Company extends Model implements HasMedia
 
         $projects = $this->projects();
 
-        if (!auth()->user()->hasRole('admin|manager')) {
-            $projects->projectForUserInvolve();
-        }
+        // if (!auth()->user()->hasRole('admin|manager')) {
+        //     $projects->projectForUserInvolve();
+        // }
 
         $projects->where('type', request()->has('type') ? request()->type : 'project');
 
@@ -606,7 +606,7 @@ class Company extends Model implements HasMedia
             $project['tasks']           = $project->tasks()->count();
             $project['company_name']    = $clientCo ? $clientCo->name : "";
             $project['client_id']       = $project->projectClients->user->id ?? "";
-            $project['location']        = $clientCo ? $clientCo->address : "";;
+            $project['location']        = $clientCo ? $clientCo->address : "";
             $project['expand']          = false;
             return $project;
         });

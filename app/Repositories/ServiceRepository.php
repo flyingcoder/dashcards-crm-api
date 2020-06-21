@@ -27,9 +27,8 @@ class ServiceRepository
 			->with([ 'managers', 'client', 'members' ]);
 		
 		if (request()->has('search') && !empty(request()->search)) {
-			$keyword = request()->search;
+			$search = request()->search;
 			$services = $services->where(function($query) use ($search){
-				$
 				$query->where('services.name', 'like', "%$search%")
 					->orWhere('services.description','like', "%$search%");
 			});
