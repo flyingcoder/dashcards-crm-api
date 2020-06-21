@@ -34,7 +34,11 @@ class ClientController extends Controller
         $company = Auth::user()->company();
         $this->mrepo->setCompany($company);
         if(request()->has('all') && request()->all ) {
-            return $this->mrepo->getUsersByType('clients', [], false);
+            $clients = $this->mrepo->getUsersByType('clients', [], false);
+            foreach ($clients as $key => $client) {
+                $clients[$key]->company = Company::find($client->props['company_id'] ?? null);
+            }
+            return $clients;
         }
 
         $clients = $this->mrepo->getUsersByType('clients', [], true);

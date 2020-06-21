@@ -195,14 +195,11 @@ class Project extends Model implements HasMedia
                                                    })
                                           ->first();
 
-                        if(!$this->members->contains($role_user))
-                            $this->members()->attach($role_user, ['role' => 'Members']);
+                        if(!$this->team->contains($role_user))
+                            $this->team()->attach($role_user, ['role' => 'Members']);
 
                         $new_task->assigned()->attach($role_user->id);
-
                    }
-
-                   
                 }
 
             }
@@ -536,16 +533,21 @@ class Project extends Model implements HasMedia
         return $this->belongsTo(Company::class);
     }
 
+    public function team()
+    {
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id');
+    }
+
     public function members()
     {
-        return $this->belongsToMany(User::class)->withPivot('role');
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Members');
     }
 
     public function paginatedMembers()
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $model = $this->members()
+        $model = $this->team()
                       ->select(
                         'users.*',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
@@ -582,15 +584,12 @@ class Project extends Model implements HasMedia
 
     public function client()
     {
-        return $this->belongsToMany(User::class)
-                    ->wherePivot('role', 'Client');
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Client');
     }
 
     public function getMembers()
     {
-        return $this->belongsToMany(User::class)
-                    ->wherePivot('role', 'Members')
-                    ->get();
+        return $this->belongsToMany(User::class)->wherePivot('role', 'Members')->get();
     }
 
     public function getClient()
@@ -600,8 +599,7 @@ class Project extends Model implements HasMedia
 
     public function manager()
     {
-        return $this->belongsToMany(User::class)
-                    ->wherePivot('role', 'Manager');
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Manager');
     }
 
     public function getManager()
