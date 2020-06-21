@@ -32,11 +32,11 @@ class ClientController extends Controller
     public function index()
     {
         $company = Auth::user()->company();
+        $this->mrepo->setCompany($company);
         if(request()->has('all') && request()->all ) {
-            return $company->clients()->get();
+            return $this->mrepo->getUsersByType('clients', [], false);
         }
 
-        $this->mrepo->setCompany($company);
         $clients = $this->mrepo->getUsersByType('clients', [], true);
 
         $items = $clients->getCollection();
