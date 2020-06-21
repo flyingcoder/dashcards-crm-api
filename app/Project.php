@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ActivityEvent;
 use App\MediaLink;
 use App\ProjectFolder;
+use App\Scopes\ProjectScope;
 use App\Traits\HasMediaLink;
 use App\Traits\HasProjectScopes;
 use Auth;
@@ -33,11 +34,11 @@ class Project extends Model implements HasMedia
     protected static $logName = 'project';
 
     protected $fillable = [
-        'title', 'started_at', 'service_id', 'end_at', 'description', 'status', 'company_id', 'type', 'props'
+        'title', 'started_at', 'end_at', 'description', 'status', 'company_id', 'type', 'props'
     ];
 
     protected static $logAttributes = [
-        'title', 'started_at', 'service_id', 'end_at', 'status', 'company_id'
+        'title', 'started_at', 'end_at', 'status', 'company_id'
     ];
 
     protected $casts = [
@@ -194,14 +195,11 @@ class Project extends Model implements HasMedia
                                                    })
                                           ->first();
 
-                        if(!$this->members->contains($role_user))
-                            $this->members()->attach($role_user, ['role' => 'Members']);
+                        if(!$this->team->contains($role_user))
+                            $this->team()->attach($role_user, ['role' => 'Members']);
 
                         $new_task->assigned()->attach($role_user->id);
-
                    }
-
-                   
                 }
 
             }
@@ -266,6 +264,18 @@ class Project extends Model implements HasMedia
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    /**
+     * Scope a query to only include projects of a given type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('projects.type', $type);
     }
 
     public function progress()
@@ -346,15 +356,6 @@ class Project extends Model implements HasMedia
               ->sharpen(10);
     }
     
-    public function service()
-    {
-    	return $this->belongsTo(Service::class);
-    }
-
-    public function projectService()
-    {
-        return $this->belongsTo(Service::class,  'service_id', 'id');
-    }
 
     public function projectClient()
     {
@@ -532,16 +533,21 @@ class Project extends Model implements HasMedia
         return $this->belongsTo(Company::class);
     }
 
+    public function team()
+    {
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id');
+    }
+
     public function members()
     {
-        return $this->belongsToMany(User::class)->withPivot('role');
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Members');
     }
 
     public function paginatedMembers()
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $model = $this->members()
+        $model = $this->team()
                       ->select(
                         'users.*',
                         DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
@@ -578,15 +584,12 @@ class Project extends Model implements HasMedia
 
     public function client()
     {
-        return $this->belongsToMany(User::class)
-                    ->wherePivot('role', 'Client');
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Client');
     }
 
     public function getMembers()
     {
-        return $this->belongsToMany(User::class)
-                    ->wherePivot('role', 'Members')
-                    ->get();
+        return $this->belongsToMany(User::class)->wherePivot('role', 'Members')->get();
     }
 
     public function getClient()
@@ -596,8 +599,7 @@ class Project extends Model implements HasMedia
 
     public function manager()
     {
-        return $this->belongsToMany(User::class)
-                    ->wherePivot('role', 'Manager');
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Manager');
     }
 
     public function getManager()
@@ -626,67 +628,7 @@ class Project extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
-        
-        Project::created(function ($project) {
 
-            $participants = collect($project->members()
-                                    ->select('id')
-                                    ->get());
-
-            $participants->flatten();
-
-            $client_convo = Chat::createConversation($participants->all());
-
-            $client_convo->project_id = $project->id;
-
-            $client_convo->type = 'client';
-
-            $client_convo->save();
-
-            $team_convo = Chat::createConversation($participants->all());
-
-            $team_convo->project_id = $project->id;
-
-            $team_convo->type = 'team';
-
-            $team_convo->save();
-
-        });
-
-        if(!is_null(Auth::user())) {
-            /*Project::created(function ($project) {
-                activity(Auth::user()->company()->name)
-                   ->performedOn($project)
-                   ->causedBy(Auth::user())
-                   ->withProperties(['company_id', Auth::user()->company()->id])
-                   ->log('Created');
-            });
-
-            Project::deleted(function ($project) {
-                activity(Auth::user()->company()->name)
-                   ->performedOn($project)
-                   ->causedBy(Auth::user())
-                   ->withProperties(['company_id', Auth::user()->company()->id])
-                   ->log('Deleted');
-            });
-
-            Project::saved(function ($project) {
-                activity(Auth::user()->company()->name)
-                   ->performedOn($project)
-                   ->causedBy(Auth::user())
-                   ->withProperties(['company_id', Auth::user()->company()->id])
-                   ->log('Updated');
-            });*/
-        }
-        
-        Project::deleting(function($project) {
-            foreach(['milestones'] as $relation)
-            {
-                foreach($project->{$relation} as $item)
-                {
-                    $item->delete();
-                }
-            }
-        });
+        // static::addGlobalScope(new ProjectScope);
     }
 }

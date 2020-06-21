@@ -65,18 +65,21 @@ class ApiRegisterController extends Controller
 
             $company = Company::create([
                 'name' => $request->company_name,
-                // 'email' => $request->email,
+                'is_private' => 0
             ]);
 
             $user = User::create([
                'username' => explode('@', $request->email)[0],
                'first_name' => $request->first_name,
                'last_name' => $request->last_name,
-               'image_url' => random_avatar(),
+               'image_url' => random_avatar('neutral'),
                'email' => $request->email,
                'job_title' => 'Super Administrator',
                'password' => bcrypt($request->password),
-               'is_online' => 1
+               'is_online' => 1,
+               'props' => [
+                        'company_id' => $company->id 
+                    ]
             ]);
 
             $default_team = $company->teams()->create([

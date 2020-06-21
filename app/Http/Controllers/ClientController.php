@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\MembersRepository;
 use App\Rules\CollectionUnique;
 use App\User;
-use Auth;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -19,31 +21,46 @@ class ClientController extends Controller
     private $paginate = 10;
 
     protected $repo;
+    protected $mrepo;
 
-    public function __construct(InvoiceRepository $repo)
+    public function __construct(InvoiceRepository $repo, MembersRepository $mrepo)
     {
         $this->repo = $repo;
+        $this->mrepo = $mrepo;
     }
 
     public function index()
     {
         $company = Auth::user()->company();
+        $this->mrepo->setCompany($company);
         if(request()->has('all') && request()->all ) {
-            return $company->clients()->get();
+            $clients = $this->mrepo->getUsersByType('clients', [], false);
+            foreach ($clients as $key => $client) {
+                $clients[$key]->company = Company::find($client->props['company_id'] ?? null);
+            }
+            return $clients;
         }
-        
-        return $company->paginatedCompanyClients();
+
+        $clients = $this->mrepo->getUsersByType('clients', [], true);
+
+        $items = $clients->getCollection();
+        $data = collect([]);
+        foreach ($items as $key => $client) {
+            $client->is_client = true;
+            $client->projects = $client->projects()->count();
+            $company = Company::find($client->props['company_id'] ?? null);
+            $data->push(array_merge($client->toArray(), ['company' =>  $company ]));   
+        }
+        $clients->setCollection($data);
+
+        return $clients;
     }
 
     public function client($id)
     {
         $client = User::findOrFail($id);
         $client->getAllMeta();
-        $client->company_name = $client->getMeta('company_name', '');
-        $client->contact_name = $client->getMeta('contact_name', '');
-        $client->status = $client->getMeta('status', 'Active');
-
-
+        $client->company = Company::find($client->props['company_id']);
         $client->no_invoices = $this->repo->countInvoices($client,'all');
         $client->total_amount_paid = $this->repo->totalInvoices($client,'billed_to'); 
 
@@ -64,8 +81,6 @@ class ClientController extends Controller
 
             $username = explode('@', request()->email)[0];
 
-            $image_url = env('APP_URL').'/img/members/alfred.png';
-
             $member = User::create([
                 'username' => $username.rand(0,20),
                 'last_name' => request()->last_name,
@@ -74,7 +89,7 @@ class ClientController extends Controller
                 'telephone' => request()->telephone, 
                 'job_title' => request()->job_title,
                 'password' => bcrypt(request()->password),
-                'image_url' => $image_url,
+                'image_url' => random_avatar(null),
                 'created_by' => $id
             ]);
 
@@ -163,47 +178,51 @@ class ClientController extends Controller
         ]);
 
         $username = explode('@', request()->email)[0];
+        try {
+            DB::beginTransaction();
 
-        $image_url = env('APP_URL').'/img/members/alfred.png';
+            $client_company = Company::create([
+                    'name' => request()->company_name,
+                    'is_private' => 1,
+                    'address' => request()->location ?? null,
+                    'created_at' => now()->format('Y-m-d H:i:s'),
+                    'others' => [
+                            'contact_name' => request()->contact_name ?? null
+                        ]
+                ]);
+            $client = User::create([
+                    'username' => $username,
+                    'last_name' => request()->last_name,
+                    'first_name' => request()->first_name,
+                    'email' => request()->email,
+                    'telephone' => request()->telephone, 
+                    'job_title' => 'Client',
+                    'password' => bcrypt(request()->password),
+                    'image_url' => random_avatar('neutral'),
+                    'created_by' => Auth::user()->id,
+                    'props' => [
+                            'company_id' => $client_company->id,
+                            'status' => request()->status ?? 'Active'
+                        ]
+                ]);
 
-        $client = User::create([
-            'username' => $username,
-            'last_name' => request()->last_name,
-            'first_name' => request()->first_name,
-            'email' => request()->email,
-            'telephone' => request()->telephone, 
-            'job_title' => 'Client',
-            'password' => bcrypt(request()->password),
-            'image_url' => $image_url
-        ]);
+            $company = Auth::user()->company();
+            $team = $company->teams()->where('slug', 'client-'.$company->id)->first();
+            if($team){
+                $team->members()->attach($client);
+            }
 
-        $client->setMeta('company_name', request()->company_name);
-        if(request()->has('location'))
-            $client->setMeta('location', request()->location);
-        if(request()->has('contact_name'))
-            $client->setMeta('contact_name', request()->contact_name);
-        
-        // $client->setMeta('company_email', request()->company_email); //Commented by: Dustin 04-20-2018 //No data in form
-        // $client->setMeta('company_tel', request()->company_tel); //Commented by: Dustin 04-20-2018 //No data in form
-        $client->setMeta('status', request()->status ?? 'Active');
-        $client->setMeta('created_by', Auth::user()->id);
+            $client->assignRole('client');
 
-        $company = Auth::user()->company();
+            DB::commit();
 
-        $team = $company->teams()
-                        ->where('slug', 'client-'.$company->id)
-                        ->first();
-        if($team)
-            $team->members()->attach($client);
+            $client->company = $client_company;
 
-        $client->assignRole('client');
-
-        $client['status'] = request()->status;
-        $client['company_name'] = request()->company_name; 
-        $client['location'] = request()->location;
-        $client['contact_name'] = request()->contact_name; 
-
-        return $client;
+            return $client;
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     public function updatePicture($id)
@@ -230,43 +249,46 @@ class ClientController extends Controller
     public function update($id)
     {
         $client = User::findOrFail($id);
-
         request()->validate([
             //'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
-            'email' => [
-                'required',
-                 Rule::unique('users')->ignore($client->id)
-             ],
+            'email' => [ 'required', Rule::unique('users')->ignore($client->id) ],
             'telephone' => 'required',
             'status' => 'required',
             'company_name' => 'required',
         ]);
+        try {
+            DB::beginTransaction();
 
-        $client->first_name = request()->first_name;
-        //$client->username = request()->name;
-        $client->last_name = request()->last_name;
-        $client->email = request()->email;
-        $client->telephone = request()->telephone;
-        if(request()->has('password'))
-            $client->password = request()->password;
+            $client->first_name = request()->first_name;
+            $client->last_name = request()->last_name;
+            $client->email = request()->email;
+            $client->telephone = request()->telephone;
+            if(request()->has('password')){
+                $client->password = request()->password;
+            }
+            $props = $client->props;
+            $props['status'] = request()->status ?? 'Active';
+            $props['updated_by'] = Auth::user()->id;
+            $client->props = $props;
+            $client->save();
 
-        $client->setMeta('company_name', request()->company_name);
-        $client->setMeta('status', request()->status);
-        if(request()->has('location'))
-            $client->setMeta('location', request()->location);
-        if(request()->has('contact_name'))
-            $client->setMeta('contact_name', request()->contact_name);
-        
-        $client->save();
+            $company = Company::findOrFail($client->props['company_id'] ?? null);
+            $company->name = request()->company_name;
+            $company->address = request()->location ?? null;
+            $props = $company->others;
+            $props['contact_name'] = request()->contact_name ?? null;
+            $company->others = $props;
+            $company->save();
 
-        $client['status'] = request()->status ?? 'Active';
-        $client['company_name'] = request()->company_name ?? '';
-        $client['location'] = request()->location ?? '';
-        $client['contact_name'] = request()->contact_name ?? '';
+            $client->company = $company;
 
-        return $client;
+            return $client;
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     public function delete($id)

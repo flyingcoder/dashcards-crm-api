@@ -24,9 +24,9 @@ class Company extends Model implements HasMedia
 
     protected $table = 'companies';
     
-    protected $paginate = 10;
+    protected $paginate = 12;
 
-    protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description', 'company_logo', 'others', 'address', 'contact'];
+    protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description', 'company_logo', 'others', 'address', 'contact', 'is_private'];
     protected $casts = [
             'others' => 'array',
             'contact' => 'array'
@@ -188,9 +188,9 @@ class Company extends Model implements HasMedia
     public function searchService($query)
     {
         $model = $this->services()
-                      ->where(function($q) use ($query) {
-                              $q->where('services.name', 'LIKE', "%{$query}%");
-                      });
+                    ->where(function($q) use ($query) {
+                            $q->where('services.name', 'LIKE', "%{$query}%");
+                    });
              
 
         return $model->get();
@@ -277,7 +277,7 @@ class Company extends Model implements HasMedia
             $items = collect(json_decode($invoice->items, true));
             unset($invoice->items);
             $invoice->items = $items;
-            $props = collect(json_decode($invoice->props, true));
+            $props = collect($invoice->props);
             unset($invoice->props);
             $invoice->props = $props;
             $invoice->billedTo = User::where('id', $invoice->billed_to)->first();
@@ -480,17 +480,7 @@ class Company extends Model implements HasMedia
     
     public function services()
     {
-        $members = $this->membersID();
-        
-        return Service::whereIn('user_id', $members)
-                      ->where('services.deleted_at', null)
-                      ->join('users as member', 'member.id', '=', 'services.user_id')
-                      ->select(
-                        'services.id as id',
-                        'member.image_url',
-                        DB::raw('CONCAT(UCASE(LEFT(services.name, 1)), SUBSTRING(services.name, 2)) as service_name'), 
-                        'services.created_at as service_created_at',
-                        DB::raw('CONCAT(CONCAT(UCASE(LEFT(member.last_name, 1)), SUBSTRING(member.last_name, 2)), ", ", CONCAT(UCASE(LEFT(member.first_name, 1)), SUBSTRING(member.first_name, 2))) AS name'));
+        return $this->hasMany(Service::class);
     }
 
     public function paginatedCompanyServices(Request $request)
@@ -577,12 +567,13 @@ class Company extends Model implements HasMedia
 
         $projects = $this->projects();
 
-        if (!auth()->user()->hasRole('admin|manager')) {
-            $projects->projectForUserInvolve();
-        }
+        // if (!auth()->user()->hasRole('admin|manager')) {
+        //     $projects->projectForUserInvolve();
+        // }
 
-        $projects->with([ 
-            'projectService',
+        $projects->where('type', request()->has('type') ? request()->type : 'project');
+
+        $projects->with([
             'projectManagers.user.meta',
             'projectClient.user.meta',
             'projectMembers.user.meta'
@@ -608,16 +599,15 @@ class Company extends Model implements HasMedia
         $data = $projects->paginate($this->paginate);
 
         $data->map(function ($project) {
+            $clientCo = $this->find($project->projectClient->user->props['company_id'] ?? null);
             $project['extra_fields']    = $project->getMeta('extra_fields');
             $project['total_time']      = $project->totalTime();
             $project['progress']        = $project->progress();
             $project['tasks']           = $project->tasks()->count();
-            $project['company_name']    = $project->projectClient->user->meta['company_name']->value ?? "";
+            $project['company_name']    = $clientCo ? $clientCo->name : "";
             $project['client_id']       = $project->projectClients->user->id ?? "";
-            $project['service_name']    = $project->projectService->name ?? "";
-            $project['location']        = $project->projectClient->user->meta['location']->value ?? "";
+            $project['location']        = $clientCo ? $clientCo->address : "";
             $project['expand']          = false;
-
             return $project;
         });
 
@@ -717,45 +707,10 @@ class Company extends Model implements HasMedia
             abort(204, 'Team not found!');
 
         return $client_group->members()
-                    ->join('meta as company', function ($join) {
-                       $join->on('company.metable_id', '=', 'users.id')
-                            ->where('company.key', 'company_name');
-                    })->join('meta as status', function ($join) {
-                       $join->on('status.metable_id', '=', 'users.id')
-                            ->where('status.key', 'status');
-                    })->leftJoin('meta as location', function ($join) {
-                       $join->on('location.metable_id', '=', 'users.id')
-                            ->where('location.key', 'location');
-                    })->leftJoin('meta as contact_name', function ($join) {
-                       $join->on('contact_name.metable_id', '=', 'users.id')
-                            ->where('contact_name.key', 'contact_name');
-                    })->select(
-                        DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS full_name'),
-                        'company.value as company_name',
-                        'status.value as status',
-                        'users.*',
-                        'location.value as location',
-                        'contact_name.value as contact_name'
-                    )->with(['projectsCount'])
-                    ->where('users.deleted_at', null);
+                    ->where('users.deleted_at', null)
+                    ->with(['projectsCount'])
+                    ->select('users.*');
                     
-    }
-
-    public function paginatedCompanyClients()
-    {
-        list($sortName, $sortValue) = parseSearchParam(request());
-
-        $clients = $this->clients();
-
-        $clients->latest();
-
-        if(request()->has('sort') && !empty(request()->sort))
-            $clients->orderBy($sortName, $sortValue);
-        
-        if(request()->has('per_page') && is_numeric(request()->per_page))
-            $this->paginate = request()->per_page;
-
-        return $clients->paginate($this->paginate);
     }
 
     public function timeline()

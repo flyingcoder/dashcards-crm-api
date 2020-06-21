@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Company;
 use App\Events\ProjectMessage;
 use App\Http\Requests\ProjectRequest;
 use App\Message;
 use App\Policies\ProjectPolicy;
 use App\Project;
 use App\Report;
+use App\Repositories\ProjectRepository;
 use App\Repositories\TimerRepository;
-use App\Service;
 use App\Task;
 use App\Team;
 use App\Template;
@@ -25,13 +26,16 @@ use Kodeine\Acl\Models\Eloquent\Role;
 
 class ProjectController extends Controller
 {
-    protected $paginate = 10;
+    protected $paginate = 12;
 
-    protected $repo;
+    protected $timeRepo;
+    protected $projRepo;
 
-    public function __construct(TimerRepository $repo)
+    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo)
     {
-        $this->repo = $repo;
+        $this->timeRepo = $timeRepo;
+        $this->projRepo = $projRepo;
+
         if (request()->has('per_page') && request()->per_page > 0) {
             $this->paginate = request()->per_page;
         }
@@ -44,9 +48,11 @@ class ProjectController extends Controller
         $company = Auth::user()->company();
 
         if(request()->has('all') && request()->all)
-            return $company->allCompanyProjects();
+            return $this->projRepo->getCompanyProjectsList($company);
+            // return $company->allCompanyProjects();
 
-        return $company->paginatedCompanyProjects(request());
+        return $this->projRepo->getCompanyProjects($company, request());
+        // return $company->paginatedCompanyProjects(request());
     }
 
     public function sendMessages($id)
@@ -166,8 +172,6 @@ class ProjectController extends Controller
         $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
 
         $project->billed_from = $project->getManager();
-
-        $project->service_name = $project->service()->get()->first()->name;
 
         $tasks = $project->taskWhereStatus('completed');
 
@@ -310,7 +314,7 @@ class ProjectController extends Controller
         $data = collect([]);
 
         foreach ($tasksItems as $key => $task) {
-            $timer = $this->repo->getTimerForTask($task);
+            $timer = $this->timeRepo->getTimerForTask($task);
             $data->push(array_merge($task->toArray(), ['timer' => $timer , 'milestone' => $task->milestone ]));   
         }
 
@@ -328,7 +332,6 @@ class ProjectController extends Controller
         $company = Auth::user()->company();
 
         return view('pages.projects-new', [
-            'services' => collect($company->servicesList()),
             'clients' => $clients,
             'action' => 'add'
         ]);
@@ -342,7 +345,6 @@ class ProjectController extends Controller
             'title' => 'required',
             'start_at' => 'required',
             'end_at' => 'required',
-            'service_id' => 'required',
             'client_id' => 'required',
         ]);
         
@@ -351,13 +353,16 @@ class ProjectController extends Controller
             DB::beginTransaction();
 
             $project = Project::create([
+                'type' => 'project',
                 'title' => request()->title,
-                'service_id' => request()->service_id,
                 'description' => request()->description,
                 'started_at' => request()->start_at,
-                'end_at' => request()->end_at,
-                'status' => 'Active',
-                'company_id' => auth()->user()->company()->id
+                'end_at' => request()->end_at ?? null,
+                'status' => request()->project_status ?? 'Active',
+                'company_id' => auth()->user()->company()->id,
+                'props' => [
+                        'business_name' => request()->business_name ?? null
+                    ]
             ]);
 
             if(request()->has('extra_fields') && !empty(request()->extra_fields)){
@@ -383,12 +388,13 @@ class ProjectController extends Controller
             //create return
             unset($project->members);
 
-            $proj = $project->with([ 
-                'projectService',
-                'projectManagers.user.meta',
-                'projectClient.user.meta',
-                'projectMembers.user.meta'
-            ])->where('projects.id', $project->id)->first();
+            $proj = Project::where('projects.id', $project->id)
+                    ->with([ 
+                        'projectManagers.user.meta',
+                        'projectClient.user.meta',
+                        'projectMembers.user.meta'
+                    ])
+                    ->first();
 
             $proj->extra_fields    = $project->getMeta('extra_fields');
             $proj->total_time      = $project->totalTime();
@@ -396,7 +402,6 @@ class ProjectController extends Controller
             $proj->tasks           = $project->tasks()->count();
             $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
             $proj->client_id       = $project->projectClient->user->id ?? "";
-            $proj->service_name    = $project->projectService->name ?? "";
             $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
 
             return $proj;
@@ -413,7 +418,6 @@ class ProjectController extends Controller
         //(new ProjectPolicy())->update($project);
 
         $project->title = request()->title;
-        $project->service_id = request()->service_id;
         $project->description = request()->description;
         $project->started_at = request()->start_at;
         $project->end_at = request()->end_at;
@@ -454,7 +458,6 @@ class ProjectController extends Controller
         unset($project->members);
 
         $proj = $project->with([ 
-                'projectService',
                 'projectManagers.user.meta',
                 'projectClient.user.meta',
                 'projectMembers.user.meta'
@@ -466,7 +469,6 @@ class ProjectController extends Controller
         $proj->tasks           = $project->tasks()->count();
         $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
         $proj->client_id       = $project->projectClient->user->id ?? "";
-        $proj->service_name    = $project->projectService->name ?? "";
         $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
         
         return $proj;
@@ -516,7 +518,6 @@ class ProjectController extends Controller
         $company = Auth::user()->company();
 
         return view('pages.projects-new', [
-            'services' => $company->servicesList(),
             'clients' => $company->allCompanyClients(),
             'action' => 'edit',
             'project' => $project
@@ -560,36 +561,25 @@ class ProjectController extends Controller
 
     public function project($project_id)
     {
-        $project = Project::findOrFail($project_id);
+        $project = Project::with(['manager', 'client'])->findOrFail($project_id);
 
-        //(new ProjectPolicy())->view($project);
+        (new ProjectPolicy())->view($project);
         
+        $client = $project->client[0];
         $project->total_time = $project->totalTime();
-
-        $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
-        
-        $project->billed_to = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
-
-        $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
-
-        $project->billed_from = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
-
-        $project->service_name = $project->service->name;
+        $project->client_name = ucwords($client->fullname ?? '');
+        $project->billed_to = ucwords($client->fullname ?? '');
+        $project->manager_name = ucwords($project->manager[0]->fullname ?? '');
+        $project->billed_from = ucwords($project->manager[0]->fullname ?? '');
 
         $project->tasks;
-
         $project->tasks->map(function ($item, $key) {
-            $item['total_time'] = $item->total_time();
-        });
-
-         $loc = $project->getClient()->getMeta('location');
-            
-        if(is_null($loc))
-            $project->location = '';
-        else
-            $project->location = ucfirst($loc);
-
-        $project->company_name = ucfirst($project->getClient()->getMeta('company_name'));
+                $item['total_time'] = $item->total_time();
+            });
+        
+        $project->location = $project->props['location'] ?? ($client->props['location'] ?? '');
+        $company = Company::find($client->props['company_id'] ?? null);
+        $project->company_name = $company ? $company->name : '';
 
         return $project;
     }
@@ -597,7 +587,6 @@ class ProjectController extends Controller
     public function projectInfo($id)
     {
         $project = Project::findOrFail($id);
-        $project->service = $project->service;
         $project->client = $project->getClient();
 
         return $project;

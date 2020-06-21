@@ -2,35 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use Validator;
-use App\Team;
-use App\Service;
 use App\Company;
-use Illuminate\Http\Request;
 use App\Policies\ServicePolicy;
+use App\Repositories\ServiceRepository;
 use App\Rules\CollectionUnique;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Service;
+use App\Team;
+use Auth;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ServiceController extends Controller
 {
-    private $paginate = 5;
+    private $paginate = 20;
+
+    protected $srepo;
+
+    public function __construct(ServiceRepository $srepo)
+    {
+        $this->srepo = $srepo;
+    }
+
+    public function service($id)
+    {
+        $service = Service::findOrFail($id);
+        $service->load(['managers', 'client', 'members']);
+        $service->total_time = '';//$project->totalTime();
+
+        if (request()->has('for') && request()->for == 'invoice') {
+            $service->client_name = $service->client[0]->fullname;
+            $service->billed_to = $service->client[0]->fullname;
+
+            $service->manager_name = '';
+            $service->billed_from = '';
+                
+            $service->location = $service->props['location'] ?? '';
+            $service->company_name = $service->business_name;
+        }
+
+        return $service;
+    }
 
     public function index()
     {  
         (new ServicePolicy())->index();
 
-        if(!request()->ajax())
-            return view('pages.services');
-
         $company = Auth::user()->company();
 
-        $result = $company->paginatedCompanyServices(request());
-
-        if(request()->has('all') && request()->all == true)
-            $result = $company->servicesList();
+        $result = $this->srepo->getCompanyServices($company);
 
         return $result;
     }
@@ -43,7 +65,6 @@ class ServiceController extends Controller
             'action' => 'add'
         ]);
     }
-
 
     public function isValid(){
 
@@ -62,72 +83,123 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
-        try{
-            
-            $services = $request->all();
+        request()->validate([
+            'name' => 'required|min:5',
+            'description' => 'required|min:5',
+            'started_at' => 'required|date',
+            'client_id' => 'required|exists:users,id',
+            'business_name' => 'required|min:5'
+        ]);
 
-            $res = [];
+        try{ 
+            DB::beginTransaction();    
+            $user = auth()->user();
+            $service = $user->company()->services()->create([
+                    'type' => 'service',
+                    'title' => trim(request()->name),
+                    'description' => request()->description ?? null,
+                    'created_at' => now()->format('Y-m-d H:i:s'),
+                    'status' => request()->status ?? 'Active',
+                    'started_at' => request()->started_at ?? now()->format('Y-m-d'),
+                    'end_at' => request()->end_at ?? null,
+                    'props' => [
+                            'creator' =>  $user->id,
+                            'business_name' => request()->business_name,
+                            'location' => request()->location ?? null,
+                            'icon' => request()->icon ?? null,
+                        ]
+                ]); 
 
-            foreach($services as $s){
-                $service = Service::create([
-                            'user_id' => Auth::user()->id,
-                            'name' => $s['name'] 
-                        ]);
-
-                $created_at = $service->created_at->toDateTimeString();
-
-                $res[] = collect([
-                    'id' => $service->id,
-                    'name' => ucfirst(Auth::user()->last_name).', '.ucfirst(Auth::user()->first_name),
-                    'service_name' => ucfirst($service->name),
-                    'service_created_at' => $created_at
-                ]);
+            if(request()->has('extra_fields') && !empty(request()->extra_fields)){
+                $service->setMeta('extra_fields', request()->extra_fields);
             }
             
-            return $res;
+            $service->team()->attach(request()->client_id, ['role' => 'Client']);
 
+            if(request()->has('members')){
+                foreach (request()->members as $value) {
+                    $service->team()->attach($value, ['role' => 'Members']);
+                }
+            }
+            
+            if(request()->has('managers')){
+                foreach (request()->managers as $value) {
+                    $service->team()->attach($value, ['role' => 'Manager']);
+                }
+            }
+
+            DB::commit();
+
+            $service->load([ 'managers', 'client', 'members' ]);
+            
+            return response()->json($service, 201);
         } catch (\Exception $ex) {
-
+            DB::rollback();
             return response(['message' => $ex->getMessage()], 500);
-
-        }
-        
-    }
-
-    public function getService($id)
-    {
-        $service = Service::findOrFail($id);
-
-        // (new ServicePolicy())->view($service);
-
-        return $service;
+        }   
     }
 
     public function update($id)
     {
+
         $service = Service::findOrFail($id);
         $company = Auth::user()->company();
 
         (new ServicePolicy())->update($service);
 
         request()->validate([
-            'name' => [
-                'required',
-                'string',
-                new CollectionUnique($company->servicesNameList())
-            ]
+            'name' => 'required|min:5',
+            'description' => 'required|min:5',
+            'started_at' => 'required|date',
+            'client_id' => 'required|exists:users,id',
+            'business_name' => 'required|min:5'
         ]);
 
-        $service->name = request()->name;
-        
-        $service->save();
+        try{ 
+            DB::beginTransaction();    
 
-        return collect([
-            'id' => $service->id,
-            'name' => ucfirst($service->user->last_name).', '.ucfirst($service->user->first_name),
-            'service_name' => ucfirst($service->name),
-            'service_created_at' => $service->created_at->toDateTimeString()
-        ]);
+            $service->title = trim(request()->name);
+            $service->description = request()->description ?? null;
+            $service->status = request()->status ?? 'Active';
+            $service->started_at = request()->started_at ?? now()->format('Y-m-d');
+            $service->end_at = request()->end_at ?? null;
+
+            $props = $service->props;
+            $props['location'] = request()->location ?? null;
+            $props['business_name'] = request()->business_name ?? null;
+            $props['icon'] = request()->icon ?? null;
+
+            $service->props = $props;
+            $service->save();
+
+            if(request()->has('extra_fields') && !empty(request()->extra_fields)){
+                $service->setMeta('extra_fields', request()->extra_fields);
+            }
+            $service->team()->detach();
+
+            $service->team()->attach(request()->client_id, ['role' => 'Client']);
+
+            if(request()->has('members')){
+                foreach (request()->members as $value) {
+                    $service->team()->attach($value, ['role' => 'Members']);
+                }
+            }
+            
+            if(request()->has('managers')){
+                foreach (request()->managers as $value) {
+                    $service->team()->attach($value, ['role' => 'Manager']);
+                }
+            }
+
+            DB::commit();
+
+            $service->load([ 'managers', 'client', 'members' ]);
+            
+            return response()->json($service, 200);
+        } catch (\Exception $ex) {
+            DB::rollback();
+            return response(['message' => $ex->getMessage()], 500);
+        }
     }
 
     public function bulkDelete()
@@ -158,11 +230,11 @@ class ServiceController extends Controller
 
         (new ServicePolicy())->delete($service);
 
-        if($service->delete($id))
+        if($service->delete()){
             return response(['message' => 'Successfully deleted services.'], 200);
-        else
-            return response(['message' => 'Services deletion failed.'], 500);
+        } 
+            
+        return response(['message' => 'Services deletion failed.'], 500);
     }
-
 
 }

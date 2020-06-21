@@ -11,7 +11,7 @@ use App\User;
 class MembersRepository
 {
 	protected $company = null;
-	protected $pagination = 10;
+	protected $pagination = 12;
 	protected $teams = ['default','client','staff'];
 	protected $hasPagination = false;
 
@@ -101,7 +101,7 @@ class MembersRepository
 	 * Type : 'clients','managers', 'admins', 'members', 'staff'
 	 *
 	 */
-	public function getUsersByType($type = 'client', $filter = [])
+	public function getUsersByType($type = 'client', $filter = [], $paginate = false)
 	{
 		if (!in_array($type, ['clients','managers', 'admins', 'members', 'client-staffs'])) {
 			abort('500', 'User type not found');
@@ -122,7 +122,7 @@ class MembersRepository
                    ->whereNull('users.deleted_at');
                        
 
-		if ($this->hasPagination) {
+		if ($this->hasPagination || $paginate) {
 			return $users->paginate($this->pagination);
 		}
 

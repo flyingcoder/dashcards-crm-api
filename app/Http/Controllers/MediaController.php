@@ -117,7 +117,7 @@ class MediaController extends Controller
                           'media' => [$media],
                           'thumb_url' => $media->getCustomProperty('thumb')
                         ])
-                       ->log($user->first_name.' linked a file on project '.$project->title);
+                       ->log($user->first_name." linked a file on $project->type ".$project->title);
 
         $activity = Activity::findOrFail($activity->id);
         $activity->users()->attach($user->company()->membersID());
@@ -178,7 +178,7 @@ class MediaController extends Controller
             $activity->properties = $current_props;
             $activity->save();
           } else {
-            $log = auth()->user()->first_name.' uploaded file(s) on project '.$project->title;
+            $log = auth()->user()->first_name." uploaded file(s) on $project->type ".$project->title;
             $activity = activity('files')
                       ->performedOn($project)
                       ->causedBy(auth()->user())

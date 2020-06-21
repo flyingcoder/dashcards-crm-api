@@ -76,10 +76,11 @@ if (! function_exists('random_avatar')) {
 	function random_avatar($gender = null) {
 	  	$avatar = [
 	  		'male' => config('app.url').'/img/members/alfred.png',
-	  		'female' => config('app.url').'/img/members/selena.png'
+	  		'female' => config('app.url').'/img/members/selena.png',
+	  		'neutral' => config('app.url').'/img/members/neutral.png',
 	  	];
-	  	if (!is_null($gender) && array_key_exists(strtolower($gender), $avatar)) {
-	  		return $avatar[$strtolower($gender)];
+	  	if (!is_null($gender) && array_key_exists(strtolower(trim($gender)), $avatar)) {
+	  		return $avatar[strtolower(trim($gender))];
 	  	}
   		return $avatar[array_rand($avatar, 1)];	
 	}
@@ -170,6 +171,14 @@ if (! function_exists('getFormattedContent')) {
 	function getFormattedContent($content) {
 		$content = createLinks($content);
 		$content = getMentions($content);
+		return $content;
+	}
+}
+
+if (! function_exists('cleanHtml')) {
+	function cleanHtml($content) {
+		$cleaner = app(\App\Repositories\TemplateRepository::class);
+		$content = $cleaner->cleanHtml($content);
 		return $content;
 	}
 }
