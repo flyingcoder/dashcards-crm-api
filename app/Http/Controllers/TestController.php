@@ -29,7 +29,13 @@ class TestController extends Controller
     protected $irepo ;
     protected $temprepo ;
     protected $user ;
-	public function __construct(TimerRepository $trepo, MembersRepository $mrepo, CalendarEventRepository $crepo, InvoiceRepository $irepo, TemplateRepository $temprepo)
+    
+	public function __construct(
+		TimerRepository $trepo, 
+		MembersRepository $mrepo, 
+		CalendarEventRepository $crepo, 
+		InvoiceRepository $irepo, 
+		TemplateRepository $temprepo)
 	{
 		$this->trepo = $trepo;
 		$this->mrepo = $mrepo;
@@ -61,4 +67,5 @@ class TestController extends Controller
 	{	
 		
 	}
+
 }
