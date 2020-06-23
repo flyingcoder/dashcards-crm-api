@@ -30,6 +30,7 @@ class ProjectController extends Controller
 
     protected $timeRepo;
     protected $projRepo;
+    protected $message_per_load = 10;
 
     public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo)
     {
@@ -110,9 +111,14 @@ class ProjectController extends Controller
 
         $project = Project::findOrFail($id);
 
+        if (auth()->check()) {
+            $company = auth()->user()->company();
+            $this->message_per_load = $company->others['messages_page_limits'] ?? 10;
+        }
+
         $conversation = $project->conversations()->where('type', request()->type)->firstOrFail();
 
-        $messages = $conversation->messages()->latest()->paginate(10);
+        $messages = $conversation->messages()->latest()->paginate($this->message_per_load);
 
         $items = $messages->getCollection();
 

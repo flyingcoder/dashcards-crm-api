@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\URL;
 class MessageController extends Controller
 {
     protected $repo;
+    protected $message_per_load = 10;
 
     /**
      *
@@ -26,6 +27,10 @@ class MessageController extends Controller
     public function __construct(MembersRepository $repo)
     {
         $this->repo = $repo;
+        if (auth()->check()) {
+            $company = auth()->user()->company();
+            $this->message_per_load = $company->others['messages_page_limits'] ?? 10;
+        }
     }
 
     public function unRead()
@@ -86,7 +91,7 @@ class MessageController extends Controller
         if(is_null($conversation))
             $conversation = Chat::createConversation([auth()->user(), $friend]);
 
-        $messages = $conversation->messages()->latest()->paginate(10);
+        $messages = $conversation->messages()->latest()->paginate($this->message_per_load);
         $items = $messages->getCollection();
 
         $data = collect([]);
@@ -105,7 +110,7 @@ class MessageController extends Controller
     public function fetchGroupMessages($convo_id) {
         $conversation = Chat::conversations()->getById($convo_id);
 
-        $messages = $conversation->messages()->latest()->paginate(10);
+        $messages = $conversation->messages()->latest()->paginate($this->message_per_load);
 
         $items = $messages->getCollection();
 

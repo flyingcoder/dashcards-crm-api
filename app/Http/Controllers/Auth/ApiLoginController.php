@@ -119,23 +119,5 @@ class ApiLoginController extends Controller
 
            return response()->json($user->toArray(), 200);
         }
-        
     }
-
-    /*
-    public function login(Request $request) {
-
-        $field = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $request->merge([$field => $request->login]);
-
-        if (auth()->attempt($request->only($field, 'password')))
-        {
-            UserLogin::dispatch(auth()->user());
-            return redirect($this->redirectTo);
-        }
-
-        return redirect('/login')->withErrors([
-            'error' => 'These credentials do not match our records.',
-        ]);
-    }*/
 }

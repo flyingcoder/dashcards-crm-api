@@ -200,6 +200,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
   Route::put('{id}/info', 'CompanyController@updateInfo');
 
   Route::post('{id}/logo', 'CompanyController@uploadLogo');
+
+  Route::get('{id}/settings', 'CompanyController@settings');
+
+  Route::post('{id}/settings', 'CompanyController@updateSettings');
 });
 
 // Tasks

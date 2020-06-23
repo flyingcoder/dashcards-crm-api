@@ -21,10 +21,18 @@ class UserController extends Controller
 
     public function user()
     {
-        $user = request()->user();
-        $user->is_admin = $user->hasRole('admin');
-        $user->can = $user->getPermissions();
-        return $user;
+        $userObject = User::findOrFail(request()->user()->id);
+
+        $userObject->company = $userObject->company();
+        $userObject->company_id = $userObject->company->id;
+        $userObject->is_admin = $userObject->hasRoleLike('admin');
+        $userObject->is_client = $userObject->hasRoleLike('client');
+        $userObject->is_manager = $userObject->hasRoleLike('manager');
+        $userObject->is_company_owner = $userObject->getIsCompanyOwnerAttribute();
+        $userObject->role = $userObject->userRole();
+        $userObject->can = $userObject->getPermissions();
+
+        return $userObject;
     }
 
     public function notifications()
