@@ -177,6 +177,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'roles'], function () {
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
+  Route::get('subscribers', 'CompanyController@subscribers');
+
   Route::get('members', 'CompanyController@members');
 
   Route::get('teams', 'CompanyController@teams');
