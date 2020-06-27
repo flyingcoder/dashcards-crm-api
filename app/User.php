@@ -257,10 +257,6 @@ class User extends Authenticatable implements HasMedia
         if(request()->has('all') && request()->all)
             $data = $model->get();
 
-        // $data->map(function ($note) {
-        //     $note['collaborators'] = $note->collaborators();
-        // });
-
         return $data;
     }
 
@@ -308,7 +304,7 @@ class User extends Authenticatable implements HasMedia
     public static function admins()
     {
         return self::whereHas('roles', function ($query){
-           $query->where('roles.slug', 'admin');
+            $query->where('roles.slug', 'admin');
         });
     }
 

@@ -28,7 +28,17 @@ class CompanyController extends Controller
 
     public function subscribers()
     {
-        return User::admins()->paginate(request()->per_page);
+        $users = User::admins()->withTrashed()->paginate(request()->per_page);
+        $items = $users->getCollection();
+
+        $data = collect([]);
+        foreach ($items as $key => $user) {
+            $data->push(array_merge($user->toArray(), ['company' =>  $user->company() ]));   
+        }
+
+        $users->setCollection($data);
+
+        return $users;
     }
 
     public function members()
