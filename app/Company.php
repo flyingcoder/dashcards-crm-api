@@ -764,29 +764,7 @@ class Company extends Model implements HasMedia
 
     public function forms()
     {
-        $members = $this->membersID();
-
-        return Form::whereHas('user', function ($q) use ($members) {
-                   $q->whereIn('id', $members);
-               });
-    }
-
-    public function paginatedCompanyForms(Request $request)
-    {
-        list($sortName, $sortValue) = parseSearchParam($request);
-
-        $form = $this->forms();
-
-        if($request->has('sort') && !empty(request()->sort))
-            $form->orderBy($sortName, $sortValue);
-
-        if(request()->has('all') && request()->all)
-            return $form->get();
-
-        if(request()->has('per_page') && is_numeric(request()->per_page))
-            $this->paginate = request()->per_page;
-
-        return $form->paginate($this->paginate);
+        return $this->hasMany(Form::class);
     }
 
     public function allCompanyClients()
