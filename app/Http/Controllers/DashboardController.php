@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Dashboard;
 use App\Dashitem;
 use App\Repositories\CalendarEventRepository;
+use App\Repositories\FormRepository;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     protected $cal_repo;
+    protected $formRepo;
 
-    public function __construct(CalendarEventRepository $cal_repo)
+    public function __construct(CalendarEventRepository $cal_repo, FormRepository $formRepo)
     {
         $this->cal_repo = $cal_repo;
+        $this->formRepo = $formRepo;
     }
 
     public function addDashitems()
@@ -51,19 +54,17 @@ class DashboardController extends Controller
 	        	'tasks' => $company->tasks()->where('status', 'open')->count(),
 	        	'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
 	        	'timer' => $company->allTimers()->count(),
-	        	'inbound' => 0, //this is about forms questionaires
-	        	'outbound' => 0 //replied questionaires
+	        	'inbound' => $this->formRepo->getInboundCount($company), //this is about forms questionaires
+	        	'outbound' => $this->formRepo->getOutboundCount($company) //replied questionaires
 	        ];
     	} else {
     		$counts = [
     			'projects' => auth()->user()->projects()->count(),
 	        	'tasks' => auth()->user()->tasks()->where('status', 'open')->count(),
 	        	'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
-	        	'timer' => auth()->user()
-                                 ->timers()
-                                 ->count(),
-	        	'inbound' => 0, //this is about forms questionaires
-	        	'outbound' => 0 //replied questionaires
+	        	'timer' => auth()->user()->timers()->count(),
+	        	'inbound' => $this->formRepo->getInboundCount($company), //this is about forms questionaires
+	        	'outbound' => $this->formRepo->getOutboundCount($company) //replied questionaires
     		];
     	}
 

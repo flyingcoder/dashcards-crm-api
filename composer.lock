@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91e4fcebf6c5271c598070450761257e",
+    "content-hash": "685ad8be1de806c8a024651c45fd0e01",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -4597,6 +4597,54 @@
                 "pdf"
             ],
             "time": "2020-04-28T12:40:35+00:00"
+        },
+        {
+            "name": "shvetsgroup/laravel-email-database-log",
+            "version": "1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shvetsgroup/laravel-email-database-log.git",
+                "reference": "b3131a8d73635813629b89e589125e1efec797eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shvetsgroup/laravel-email-database-log/zipball/b3131a8d73635813629b89e589125e1efec797eb",
+                "reference": "b3131a8d73635813629b89e589125e1efec797eb",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "*",
+                "illuminate/support": "~5.0|~6.0|~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ShvetsGroup\\LaravelEmailDatabaseLog\\LaravelEmailDatabaseLogServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "ShvetsGroup\\LaravelEmailDatabaseLog\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Shvets",
+                    "email": "neochief@shvetsgroup.com"
+                }
+            ],
+            "description": "A simple database logger for all outgoing emails sent by Laravel website.",
+            "keywords": [
+                "laravel",
+                "markdown"
+            ],
+            "time": "2020-04-07T19:08:57+00:00"
         },
         {
             "name": "spatie/image",

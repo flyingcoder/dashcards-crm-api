@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware' => ['api', 'cors']], function () {
+    Route::get('form/{slug}/online', 'FormController@formBySlug');
+    Route::post('form/{id}/online', 'FormController@saveFormResponse');
+});
+
 Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
   Route::post('/', 'Auth\ApiLoginController@logout');
@@ -202,6 +207,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
   Route::put('{id}/info', 'CompanyController@updateInfo');
 
   Route::post('{id}/logo', 'CompanyController@uploadLogo');
+
+  Route::get('{id}/settings', 'CompanyController@settings');
+
+  Route::post('{id}/settings', 'CompanyController@updateSettings');
 });
 
 // Tasks
@@ -566,12 +575,23 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 
     Route::get('/', 'FormController@index');
 
-    Route::post('/', 'FormController@store');
+    Route::get('list', 'FormController@list');
+    
+    Route::get('{id}', 'FormController@form');
+
+    Route::get('{id}/responses', 'FormController@formResponses');
+
+    Route::delete('{id}', 'FormController@delete');
+
+    Route::post('send-email-form', 'FormController@sendForm');
+
+    Route::put('/', 'FormController@update');
 
     Route::post('project-details', 'FormController@projectDetails');
 
-    Route::get('project-details/{id}', 'FormController@getProjectDetails');
+    Route::post('/', 'FormController@store');
 
+    Route::get('project-details/{id}', 'FormController@getProjectDetails');
 });
 
 // Clients

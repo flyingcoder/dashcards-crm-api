@@ -28,7 +28,17 @@ class CompanyController extends Controller
 
     public function subscribers()
     {
-        return User::admins()->paginate(request()->per_page);
+        $users = User::admins()->withTrashed()->paginate(request()->per_page);
+        $items = $users->getCollection();
+
+        $data = collect([]);
+        foreach ($items as $key => $user) {
+            $data->push(array_merge($user->toArray(), ['company' =>  $user->company() ]));   
+        }
+
+        $users->setCollection($data);
+
+        return $users;
     }
 
     public function members()
@@ -117,5 +127,54 @@ class CompanyController extends Controller
         $company->save();
 
         return $company;
+    }
+
+    public function updateSettings($id)
+    {
+        request()->validate([
+                'title' => 'required|string',
+                'lang' => 'required|string',
+                'theme' => 'required|string',
+                'date_format' => 'required|string',
+                'timeline_display_limits' => 'required|digits_between:1,100',
+                'general_page_limits' => 'required|digits_between:1,100',
+                'messages_page_limits' => 'required|digits_between:1,100',
+                'currency' => 'required|array',
+                'info_tips' => 'required|in:'.implode(',', ['Yes', 'No']),
+                'client_registration' => 'required|in:'.implode(',', ['Yes', 'No']),
+                'notif_duration' => 'required|digits_between:1,86400',
+                // 'license_key' => '',
+                // 'long_logo'
+                // 'square_logo'
+            ]);
+
+        $company = Company::findOrFail($id);
+        $settings = $company->others;
+
+        $settings['title'] = request()->title;
+        $settings['lang'] = request()->lang;
+        $settings['theme'] = request()->theme;
+        $settings['date_format'] = request()->date_format;
+        $settings['timeline_display_limits'] = request()->timeline_display_limits;
+        $settings['general_page_limits'] = request()->general_page_limits;
+        $settings['messages_page_limits'] = request()->messages_page_limits;
+        $settings['currency'] = request()->currency;
+        $settings['info_tips'] = request()->info_tips;
+        $settings['client_registration'] = request()->client_registration;
+        $settings['notif_duration'] = request()->notif_duration;
+        $settings['license_key'] = request()->license_key;
+
+        $company->others = $settings;
+        $company->save();
+
+        return response()->json($settings, 200);
+    }
+
+    public function settings($id)
+    {
+        $company = Company::findOrFail($id);
+        $settings = $company->others;
+
+        return response()->json($settings, 200);
     }
 }

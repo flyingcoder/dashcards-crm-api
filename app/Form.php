@@ -17,11 +17,13 @@ class Form extends Model
 		Sluggable,
         LogsActivity;
 
-    protected $fillable = ['title', 'status', 'questions', 'slug', 'user_id'];
+    protected $fillable = ['title', 'status', 'questions', 'slug', 'user_id', 'company_id', 'props'];
 
     protected static $logName = 'system';
 
     protected $dates = ['deleted_at'];
+
+    protected $casts = ['questions' => 'array', 'props' => 'array'];
 
     protected static $logAttributes = ['title', 'status', 'questions', 'slug'];
 
@@ -45,9 +47,9 @@ class Form extends Model
         ];
     }
 
-    public function service()
+    public function company()
     {
-        return $this->belongsToMany(Service::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function user()
@@ -55,18 +57,13 @@ class Form extends Model
     	return $this->belongsTo(User::class);
     }
 
-    public static function store(Request $request)
+    public function responses()
     {
+        return $this->hasMany(FormResponse::class, 'form_id');
+    }
 
-    	request()->validate([
-    		'questions' => 'required',
-    		'title' => 'required'
-    	]);
-
-    	return Auth::user()->forms()->create([
-    		'title' => $request->title,
-    		'questions' => $request->questions,
-    		'status' => 'Enabled'
-    	]);
+    public function sents()
+    {
+        return $this->hasMany(FormSent::class, 'form_id');
     }
 }
