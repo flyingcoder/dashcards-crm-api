@@ -290,6 +290,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(MessageNotification::class);
     }
+    
     public function scopeHasRoleIn($query, $roles = [])
     {
         return $query->whereHas('roles', function ($query) use ($roles)
@@ -301,6 +302,13 @@ class User extends Authenticatable implements HasMedia
                     $query->orWhere('roles.slug', 'like', "%{$role}%");
                 }
             }
+        });
+    }
+
+    public static function admins()
+    {
+        return self::whereHas('roles', function ($query){
+           $query->where('roles.slug', 'admin');
         });
     }
 

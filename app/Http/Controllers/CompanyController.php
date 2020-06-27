@@ -26,6 +26,11 @@ class CompanyController extends Controller
             'agent'
         ];
 
+    public function subscribers()
+    {
+        return User::admins()->paginate(request()->per_page);
+    }
+
     public function members()
     {
         if (request()->has('type') && in_array(request()->type, $this->types)) {
