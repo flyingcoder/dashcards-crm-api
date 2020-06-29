@@ -416,6 +416,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
 // Templates
 Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
+  Route::get('{type}/tree-view', 'TemplateController@treeView')->where('type', 'milestone|invoice');
+
   Route::get('/', 'TemplateController@index');
 
   Route::post('/', 'TemplateController@store');
@@ -440,27 +442,43 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
 });
 
-// Services
+// Services//Campaign
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
-  Route::get('{id}', 'ServiceController@service');
+  Route::get('{id}', 'CampaignController@service');
   
-	Route::get('/', 'ServiceController@index'); // services 
+  Route::get('/', 'CampaignController@index'); // services 
 
-  Route::post('/', 'ServiceController@store');
+  Route::post('/', 'CampaignController@store');
 
-  Route::post('validate', 'ServiceController@isValid');
+  Route::post('validate', 'CampaignController@isValid');
 
-  Route::put('{id}', 'ServiceController@update');
+  Route::put('{id}', 'CampaignController@update');
 
-  Route::delete('bulk-delete', 'ServiceController@bulkDelete');
+  Route::delete('bulk-delete', 'CampaignController@bulkDelete');
 
-  Route::delete('{id}', 'ServiceController@delete');
+  Route::delete('{id}', 'CampaignController@delete');
 
   Route::get('{id}/timeline', 'ActivityController@service');
 
-  Route::get('{id}/invoice', 'ServiceController@invoices');
+  Route::get('{id}/invoice', 'CampaignController@invoices');
 
+});
+
+//Service list
+Route::group(['middleware' => 'auth:api', 'prefix' => 'services-list'], function () {
+    
+  Route::get('list', 'ServiceListController@list');
+
+  Route::get('{id}', 'ServiceListController@service');
+
+  Route::get('/', 'ServiceListController@index');
+
+  Route::post('/', 'ServiceListController@store');
+
+  Route::put('{id}', 'ServiceListController@update');
+
+  Route::delete('{id}', 'ServiceListController@update');
 });
 
 //media
@@ -587,11 +605,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 
     Route::put('/', 'FormController@update');
 
-    Route::post('project-details', 'FormController@projectDetails');
-
     Route::post('/', 'FormController@store');
 
-    Route::get('project-details/{id}', 'FormController@getProjectDetails');
 });
 
 // Clients

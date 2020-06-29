@@ -5,7 +5,7 @@ namespace App;
 use App\Company;
 use App\Events\ActivityEvent;
 use App\Project;
-use App\Scopes\ServiceScope;
+use App\Scopes\CampaignScope;
 use App\Traits\HasMediaLink;
 use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,7 +15,8 @@ use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Service extends Project
+//#noteby:kirby: Service is Campaign which has same table with projects, and service table is ServiceList  
+class Campaign extends Project 
 {
     protected $table = 'projects';
     protected $paginate = 10;
@@ -23,7 +24,7 @@ class Service extends Project
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'title', 'started_at', 'end_at', 'description', 'status', 'company_id', 'type', 'props'
+        'title', 'started_at', 'end_at', 'description', 'status', 'company_id', 'type', 'props', 'service_id'
     ];
 
     protected static $logAttributes = [
@@ -42,7 +43,7 @@ class Service extends Project
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "A service has been {$eventName}";
+        return "A campaign has been {$eventName}";
     }
 
     public function company()
@@ -79,6 +80,11 @@ class Service extends Project
     {
         return $this->morphMany('App\Activity', 'subject');
     }
+
+    public function service()
+    {
+        return $this->belongsTo(ServiceList::class);
+    }
     /**
      * The "booting" method of the model.
      *
@@ -88,6 +94,6 @@ class Service extends Project
     {
         parent::boot();
 
-        static::addGlobalScope(new ServiceScope);
+        static::addGlobalScope(new CampaignScope);
     }
 }

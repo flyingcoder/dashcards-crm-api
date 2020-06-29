@@ -7,6 +7,7 @@ use App\Company;
 use App\Events\ProjectMessage;
 use App\Http\Requests\ProjectRequest;
 use App\Message;
+use App\Milestone;
 use App\Policies\ProjectPolicy;
 use App\Project;
 use App\Report;
@@ -19,7 +20,7 @@ use App\User;
 use Auth;
 use Carbon\Carbon;
 use Chat;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Kodeine\Acl\Models\Eloquent\Role;
@@ -208,6 +209,7 @@ class ProjectController extends Controller
         ]);
 
         try {
+            DB::beginTransaction();
             $project = Project::findOrFail($id);
 
             foreach (request()->members_id as $key => $user_id) {
@@ -218,11 +220,11 @@ class ProjectController extends Controller
                     $project->members()->attach($user_id, ['role' => 'Members']);
                 }
             }
-
-
+            DB::commit();
             return User::whereIn('id', request()->members_id)->with('tasks')->get();
-        } catch (Exception $e) {
-            return response($e->getMessage(), $e->getCode());
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -271,9 +273,37 @@ class ProjectController extends Controller
 
     public function milestoneImport($id)
     {
-        $project = Project::findOrFail($id);
+        request()->validate(['milestone_ids' => 'required|array']);
 
-        return $project->importMilestones();
+        try {
+            DB::beginTransaction();
+            $project = Project::findOrFail($id);
+
+            $milestones = Milestone::whereIn('id', request()->milestone_ids)->get();
+
+            foreach ($milestones as $key => $milestone) {
+                $new_milestone = $milestone->replicate();
+                $new_milestone->project_id = $project->id;
+                $new_milestone->save();
+
+                if($milestone->tasks->count() > 0) {
+                    foreach ($milestone->tasks as $key => $task) {
+                        $new_task = $new_milestone->tasks()->create([
+                            'title' => $task->title,
+                            'description' => $task->description,
+                            'status' => $task->status,
+                            'days' => $task->days,
+                            'role_id' => $task->role_id ?? null
+                        ]);
+                    }
+                }
+            }
+            DB::commit();
+            return response()->json(['message' => 'Successfully copied milestone and its tasks'], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => $e->getMessage()], $e->getCode()); 
+        }
     }
 
     public function updateStatus($id)

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Project;
-use App\Service;
+use App\Campaign;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -70,7 +70,7 @@ class ActivityController extends Controller
 
     public function service($id)
     {
-        $service = Service::findOrFail($id);
+        $service = Campaign::findOrFail($id);
         $per_page = request()->has('per_page') ? request()->per_page : 5;
 
         if (request()->has('page') && request()->page > 0) {

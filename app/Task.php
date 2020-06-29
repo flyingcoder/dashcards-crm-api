@@ -18,30 +18,32 @@ class Task extends Model
     use SoftDeletes, LogsActivity, Searchable ;
 
     protected $fillable = [
-        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
+        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id', 'props'
     ];
 
     protected static $logAttributes = [
-        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id'
+        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id', 'props'
     ];
-
+    protected $casts = [ 'props' => 'array' ];
     protected static $logName = 'system';
-
     protected $allowed_status = ['open', 'completed', 'pending', 'behind'];
+
 
     public function toArray() {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'project_id' => $this->project()->id ?? 0,
             'milestone_id' => $this->milestone_id,
-            'status' => $this->status,
-            'days' => $this->days,
+            'project_id' => $this->project()->id ?? 0,
             'total_time' => $this->total_time(),
             'assignee' => $this->assigned,
+            'title' => $this->title,
+            'status' => $this->status,
+            'days' => $this->days,
             'description' => $this->description,
             'started_at' => $this->started_at,
             'end_at' => $this->end_at,
+            'role_id' => $this->role_id,
+            'props' => $this->props,
         ];
     }
     

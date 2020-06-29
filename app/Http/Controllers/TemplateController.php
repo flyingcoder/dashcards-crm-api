@@ -13,17 +13,15 @@ use Illuminate\Support\Facades\DB;
 class TemplateController extends Controller
 {
     protected $repo;
-
-    public function __construct(TemplateRepository $repo)
-    {
-        $this->repo = $repo;
-    }
-
     protected $rules = [
         'name' => 'required',
         'status' => 'required'
     ];
 
+    public function __construct(TemplateRepository $repo)
+    {
+        $this->repo = $repo;
+    }
 
     public function index()
     {
@@ -33,6 +31,13 @@ class TemplateController extends Controller
             return $company->selectTemplate();
 
         return $company->paginatedTemplates();
+    }
+
+    public function treeView()
+    {
+        $company = auth()->user()->company();
+        
+        return $this->repo->treeViewTemplates($company);
     }
 
     public function milestones($id)

@@ -34,7 +34,7 @@ class Project extends Model implements HasMedia
     protected static $logName = 'project';
 
     protected $fillable = [
-        'title', 'started_at', 'end_at', 'description', 'status', 'company_id', 'type', 'props'
+        'title', 'started_at', 'end_at', 'description', 'status', 'company_id', 'type', 'props', 'service_id'
     ];
 
     protected static $logAttributes = [

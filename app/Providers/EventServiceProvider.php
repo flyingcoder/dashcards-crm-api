@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
+use App\Campaign;
 use App\Company;
 use App\MediaLink;
 use App\Observers\ActivityObserver;
+use App\Observers\CampaignObserver;
 use App\Observers\CompanyObserver;
 use App\Observers\MediaLinkObserver;
 use App\Observers\ProjectObserver;
-use App\Observers\ServiceObserver;
 use App\Project;
-use App\Service;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
@@ -49,6 +49,6 @@ class EventServiceProvider extends ServiceProvider
         MediaLink::observe(MediaLinkObserver::class);
         Activity::observe(ActivityObserver::class);
         Project::observe(ProjectObserver::class);
-        Service::observe(ServiceObserver::class);
+        Campaign::observe(CampaignObserver::class);
     }
 }

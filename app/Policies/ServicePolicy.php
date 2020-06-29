@@ -2,23 +2,14 @@
 
 namespace App\Policies;
 
+use App\ServiceList;
 use App\User;
-use App\Service;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServicePolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Determine whether the rob can view the ben.
@@ -40,7 +31,7 @@ class ServicePolicy
      * @param  \App\User  $ben
      * @return mixed
      */
-    public function view(Service $service)
+    public function view(ServiceList $service)
     {
         if((int) $service->company->id != (int) auth()->user()->company()->id){
             abort(403, 'Service not found!');
@@ -67,7 +58,7 @@ class ServicePolicy
      */
     public function update()
     {
-        if(!auth()->user()->hasRole('admin') && !auth()->user()->can('update.service') )
+        if(!auth()->user()->hasRoleLikeIn(['admin']) && !auth()->user()->can('update.service') )
           abort(403, 'Not enought permission!');
     }
 
@@ -78,7 +69,7 @@ class ServicePolicy
      * @param  \App\User  $ben
      * @return mixed
      */
-    public function delete(Service $service)
+    public function delete(ServiceList $service)
     {
         if( !auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('delete.service') )
             abort(403, 'Not enought permission!');
