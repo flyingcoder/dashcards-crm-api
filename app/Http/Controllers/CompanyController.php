@@ -173,8 +173,11 @@ class CompanyController extends Controller
     public function settings($id)
     {
         $company = Company::findOrFail($id);
-        $settings = $company->others;
+        $settings = (array) $company->others;
         $defaultSettings = $this->defaultSettings();
+        if (empty($settings)) {
+            $settings =  $defaultSettings;
+        }
         foreach ($settings as $key => $setting) {
             if (empty($settings[$key]) || $settings[$key] === 0 ) {
                 $settings[$key] = $defaultSettings[$key];
