@@ -3,8 +3,10 @@
 namespace App;
 
 use App\Activity;
+use App\Campaign;
 use App\Permission;
 use App\Project;
+use App\ServiceList;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -187,7 +189,7 @@ class Company extends Model implements HasMedia
 
     public function searchService($query)
     {
-        $model = $this->services()
+        $model = $this->servicesList()
                     ->where(function($q) use ($query) {
                             $q->where('services.name', 'LIKE', "%{$query}%");
                     });
@@ -461,26 +463,12 @@ class Company extends Model implements HasMedia
 
     public function servicesList()
     {
-        $members = $this->membersID();
-
-        $services = Service::whereIn('user_id', $members)->get();
-
-        return $services;
-    }
-
-    public function servicesNameList()
-    {
-        $members = $this->membersID();
-
-        $services = Service::whereIn('user_id', $members)
-                            ->pluck('name')
-                            ->toArray();
-        return collect($services)->unique();
+        return $this->hasMany(ServiceList::class);
     }
     
-    public function services()
+    public function campaigns()
     {
-        return $this->hasMany(Service::class);
+        return $this->hasMany(Campaign::class);
     }
 
     public function paginatedCompanyServices(Request $request)

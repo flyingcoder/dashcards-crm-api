@@ -2,30 +2,30 @@
 
 namespace App\Observers;
 
-use App\Service;
+use App\Campaign;
 use Chat;
 
-class ServiceObserver
+class CampaignObserver
 {
     /**
      * Handle the service "created" event.
      *
-     * @param  \App\Service  $service
+     * @param  \App\Campaign  $campaign
      * @return void
      */
-    public function created(Service $service)
+    public function created(Campaign $campaign)
     {
-        $participants = collect($service->members()->select('id')->get());
+        $participants = collect($campaign->members()->select('id')->get());
 
         $participants->flatten();
 
         $client_convo = Chat::createConversation($participants->all());
-        $client_convo->project_id = $service->id;
+        $client_convo->project_id = $campaign->id;
         $client_convo->type = 'client';
         $client_convo->save();
 
         $team_convo = Chat::createConversation($participants->all());
-        $team_convo->project_id = $service->id;
+        $team_convo->project_id = $campaign->id;
         $team_convo->type = 'team';
         $team_convo->save();
     }
@@ -33,10 +33,10 @@ class ServiceObserver
     /**
      * Handle the service "updated" event.
      *
-     * @param  \App\Service  $service
+     * @param  \App\Campaign  $campaign
      * @return void
      */
-    public function updated(Service $service)
+    public function updated(Campaign $campaign)
     {
         //
     }
@@ -44,13 +44,13 @@ class ServiceObserver
     /**
      * Handle the service "deleting" event.
      *
-     * @param  \App\Service  $service
+     * @param  \App\Campaign  $campaign
      * @return void
      */
-    public function deleting(Service $service)
+    public function deleting(Campaign $campaign)
     {
         foreach(['milestones'] as $relation){
-            foreach($service->{$relation} as $item)  {
+            foreach($campaign->{$relation} as $item)  {
                 $item->delete();
             }
         }
@@ -59,10 +59,10 @@ class ServiceObserver
     /**
      * Handle the service "deleted" event.
      *
-     * @param  \App\Service  $service
+     * @param  \App\Campaign  $campaign
      * @return void
      */
-    public function deleted(Service $service)
+    public function deleted(Campaign $campaign)
     {
         //
     }
@@ -70,21 +70,25 @@ class ServiceObserver
     /**
      * Handle the service "restored" event.
      *
-     * @param  \App\Service  $service
+     * @param  \App\Campaign  $campaign
      * @return void
      */
-    public function restored(Service $service)
+    public function restored(Campaign $campaign)
     {
-        //
+        $milestones = $campaign->milestones()->onlyTrashed()->get();
+        foreach($milestones as $item)  {
+            $item->restore();
+        }
+        
     }
 
     /**
      * Handle the service "force deleted" event.
      *
-     * @param  \App\Service  $service
+     * @param  \App\Campaign  $campaign
      * @return void
      */
-    public function forceDeleted(Service $service)
+    public function forceDeleted(Campaign $campaign)
     {
         //
     }

@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Company;
 
-class ServiceRepository
+class CampaignRepository
 {
 	protected $paginate =  20;
 
@@ -14,17 +14,17 @@ class ServiceRepository
 	}
 
 
-	public function getCompanyServicesList(Company $company)
+	public function getCompanyCampaignList(Company $company)
 	{
-		$services = $company->services()
+		$services = $company->campaigns()
 					->get();
 		return $services;
 	}
 
-	public function getCompanyServices(Company $company)
+	public function getCompanyCampaigns(Company $company)
 	{
-		$services = $company->services()
-			->with([ 'managers', 'client', 'members' ]);
+		$services = $company->campaigns()
+			->with([ 'managers', 'client', 'members', 'service' ]);
 		
 		if (request()->has('search') && !empty(request()->search)) {
 			$search = request()->search;

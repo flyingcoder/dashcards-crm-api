@@ -544,7 +544,7 @@ class User extends Authenticatable implements HasMedia
 
     public function services()
     {
-        return $this->belongsToMany(Services::class, 'service_user')->withPivot('role');
+        return $this->hasMany(ServicesList::class);
     }
 
     public function userPaginatedProject(Request $request)

@@ -26,14 +26,14 @@ class NewActivityListener
      */
     public function handle(NewActivity $event)
     {
-        $activity = $event->activity;
+        // $activity = $event->activity;
 
-        $user = $activity->causer();
+        // $user = $activity->causer();
 
-        $ids = $user->company()->membersID();
+        // $ids = $user->company()->membersID();
 
-        foreach ($ids as $key => $value) {
+        // foreach ($ids as $key => $value) {
             
-        }
+        // }
     }
 }

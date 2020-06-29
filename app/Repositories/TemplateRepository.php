@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Invoice;
 use App\Template;
 use App\User;
+use App\Company;
 use Carbon\Carbon;
 use EZAMA\HtmlStrip;
 use Illuminate\Support\Facades\File;
@@ -297,4 +298,23 @@ class TemplateRepository
 
         return $hstrip->go(HtmlStrip::TAGS_AND_ATTRIBUTES);
 	}
+
+    public function treeViewTemplates(Company $company)
+    {
+        $templates = $company->templates()
+                        ->where('replica_type', 'App\\Milestone')
+                        ->where('status', 'active')
+                        ->with(['milestones' => function($query) {
+                            $query->select('milestones.id', 'title as name');
+                        }])
+                        ->whereHas('milestones')
+                        ->latest();
+        if (request()->has('all') && request()->all) {
+            $templates = $templates->get();
+        } else {
+            $templates = $templates->paginate(request()->per_page ?? 10);
+        }
+
+        return $templates;
+    }
 }

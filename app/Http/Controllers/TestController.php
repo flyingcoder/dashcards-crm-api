@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Invoice;
 use App\Mail\NewInvoiceEmail;
 use App\Repositories\CalendarEventRepository;
@@ -9,8 +10,8 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\Repositories\TemplateRepository;
 use App\Repositories\TimerRepository;
-use App\Service;
-use App\Company;
+use App\ServiceList;
+use App\Task;
 use App\User;
 use Carbon\Carbon;
 use Chat;
@@ -65,7 +66,10 @@ class TestController extends Controller
 
 	public function index()
 	{	
-		
+		$service = ServiceList::first();
+		$service->load('creator');
+		$service->campaigns_count = $service->campaigns()->count();
+		dump($service->toArray());
 	}
 
 }

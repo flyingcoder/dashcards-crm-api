@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Form;
-use App\Service;
 use App\Policies\FormPolicy;
 use Illuminate\Http\Request;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -62,51 +61,6 @@ class FormController extends Controller
         return response()->json(['message' => 'Successfully deleted'], 200);
     }
 
-    public function projectDetails()
-    {
-        request()->validate([
-            'service_id' => 'exists:services,id'
-        ]);
-
-        $service = Service::findOrFail(request()->service_id);
-
-        $form = $service->forms()->first();
-
-        if (!$form) {
-            $slug = SlugService::createSlug(Form::class, 'slug', $service->name.' Extra Inputs');
-            $form = $service->forms()->create([
-                'questions' => collect(request()->fields),
-                'user_id' => auth()->user()->id,
-                'title' => $service->name.' Extra Inputs',
-                'status' => 'active',
-                'slug' => $slug
-            ]);
-        } else {
-            $form->update([
-                'questions' => collect(request()->fields)
-            ]);
-        }
-
-        unset($form->questions);
-
-        $form->fields = collect(request()->fields);
-
-        return $form;
-    }
-
-    public function getProjectDetails($id)
-    {
-        $service = Service::findOrFail($id);
-
-        $data = $service->forms()->first();
-
-        if ($data && property_exists($data, 'questions')) {    
-            $data->fields = json_decode($data->questions);
-            unset($data->questions);
-        }
-
-        return $data;
-    }
 
     public function update()
     {
@@ -204,7 +158,7 @@ class FormController extends Controller
     {
         $form = Form::findOrFail($id);
 
-        $responses = $form->responses()->with('user')->latest()->paginate(2);//($this->paginate);
+        $responses = $form->responses()->with('user')->latest()->paginate($this->paginate);
         
         return $responses;
     }

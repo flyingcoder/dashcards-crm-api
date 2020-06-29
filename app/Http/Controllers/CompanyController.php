@@ -174,7 +174,30 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($id);
         $settings = $company->others;
-
+        $defaultSettings = $this->defaultSettings();
+        foreach ($settings as $key => $setting) {
+            if (empty($settings[$key]) || $settings[$key] === 0 ) {
+                $settings[$key] = $defaultSettings[$key];
+            }
+        }
         return response()->json($settings, 200);
+    }
+
+    public function defaultSettings()
+    {
+        return [
+            'title' => 'Buzzooka Dashboard',
+            'lang' => 'english',
+            'theme' => 'default',
+            'date_format' => 'Y-M-D',
+            'timeline_display_limits' => 15,
+            'general_page_limits' => 12,
+            'messages_page_limits' => 12,
+            'currency' => ["text" => "US Dollar", "symbol" => "$", "currency_code" => "USD"],
+            'info_tips' => 'No',
+            'client_registration' => 'No',
+            'notif_duration' => 1800,
+            'license_key' => null,
+        ];
     }
 }
