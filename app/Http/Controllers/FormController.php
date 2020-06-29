@@ -151,6 +151,13 @@ class FormController extends Controller
                 'user_id' => request()->user_id ?? null
             ]);
 
+        $url = config('app.frontend_url').'/dashboard/forms/'.$form->id.'/responses';
+        \Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ], 
+                function($message) use ($form) { 
+                    $message->from(config('mail.from.address', 'admin@dashcards.com'), config('mail.from.name', 'Buzzooka CRM'));
+                    $message->to($form->user->email)->subject($form->title." response");    
+                });
+
         return $formResponse;
     }
 
