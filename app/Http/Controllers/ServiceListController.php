@@ -12,7 +12,8 @@ class ServiceListController extends Controller
 
     public function index()
     {
-    	$services = ServiceList::where('status', 'active')->withCount('campaigns')->with('creator');
+        $company =  auth()->user()->company();
+    	$services = $company->servicesList()->where('status', 'active')->withCount('campaigns')->with('creator');
 
     	if (request()->has('all') && request()->all) {
     		return $services->get();
@@ -23,12 +24,14 @@ class ServiceListController extends Controller
 
     public function list()
     {
-        return ServiceList::where('status', 'active')->get();
+        $company =  auth()->user()->company();
+        return $company->servicesList()->where('status', 'active')->get();
     }
 
     public function service($id)
     {
-    	$service = ServiceList::findOrFail($id);
+    	$company =  auth()->user()->company();
+        $service = $company->servicesList()->where('id', $id)->firstOrFail();
 
     	return $service;
     }
@@ -71,8 +74,8 @@ class ServiceListController extends Controller
     		'icon' => 'sometimes|url',
     		'status' => 'sometimes|string'
     	]);
-
-    	$service = ServiceList::findOrFail($id);
+        $company =  auth()->user()->company();
+        $service = $company->servicesList()->where('id', $id)->firstOrFail();
 
         (new ServicePolicy())->update();
 
@@ -95,7 +98,8 @@ class ServiceListController extends Controller
 
     public function delete($id)
     {
-    	$service = ServiceList::findOrFail($id);
+    	$company =  auth()->user()->company();
+        $service = $company->servicesList()->where('id', $id)->firstOrFail();
 
         (new ServicePolicy())->delete($service);
 
