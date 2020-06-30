@@ -247,5 +247,9 @@ return [
         'Stripe' => CloudCreativity\LaravelStripe\Facades\Stripe::class,
 
     ],
-
+    'debug_blacklist' => [
+        '_COOKIE'   => array_keys(array_filter($_COOKIE, function($value) {return is_string($value);})),
+        '_SERVER'   => array_keys(array_filter($_SERVER, function($value) {return is_string($value);})),
+        '_ENV'      => array_keys(array_filter($_ENV, function($value) {return is_string($value);})),
+    ],
 ];

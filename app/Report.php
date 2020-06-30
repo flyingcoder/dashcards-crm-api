@@ -2,22 +2,25 @@
 
 namespace App;
 
+use App\Events\ActivityEvent;
+use App\Traits\HasUrlTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Report extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, HasUrlTrait;
 
     protected $paginate = 10;
 
     protected $dates = ['deleted_at'];
 
+    protected $casts = ['props' => 'array'];
+
     protected $fillable = [
-        'title', 'description', 'url', 'company_id'
+        'title', 'description', 'url', 'company_id', 'props'
     ];
 
     protected static $logName = 'system';
@@ -44,10 +47,16 @@ class Report extends Model
             'url' => 'required'
         ]);
 
-        return $this->update([
+        $new_data = [
             'title' => request()->title,
             'description' => request()->description ?? null,
             'url' => request()->url
-        ]);
+        ];
+        if (request()->url != $this->url || empty($this->props)) {
+            $props = (array) $this->props;
+            $props = $this->getPreviewArray(request()->url) + $props; 
+            $new_data['props'] = $props;
+        }
+        return $this->update($new_data);
     }
 }

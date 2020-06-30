@@ -130,21 +130,6 @@ class Project extends Model implements HasMedia
         return $data;
     }
 
-    public function createReports()
-    {   
-        request()->validate([
-            'title' => 'required',
-            'url' => 'required'
-        ]);
-
-        return $this->reports()->create([
-            'company_id' => auth()->user()->company()->id,
-            'title' => request()->title,
-            'description' => request()->description,
-            'url' => request()->url
-        ]);
-    }
-
     public function reports()
     {
         return $this->hasMany(Report::class);
