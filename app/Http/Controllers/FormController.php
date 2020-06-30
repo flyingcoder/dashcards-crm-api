@@ -67,7 +67,8 @@ class FormController extends Controller
         request()->validate([
                 'questions' => 'required|array',
                 'title' => 'required|string',
-                'id' => 'required|exists:forms,id'
+                'id' => 'required|exists:forms,id',
+                'notif_email_receivers' => 'sometimes|array'
             ]);
         $form = auth()->user()->company()->forms()->findOrFail(request()->id);
 
@@ -76,6 +77,9 @@ class FormController extends Controller
         $form->questions = request()->questions;
         $form->title = request()->title;
         $form->status = request()->status ?? 'active';
+        $props = $form->props;
+        $props['notif_email_receivers'] = request()->notif_email_receivers ?? [];
+        $form->props = $props;
         $form->save();
 
         return $form;
@@ -85,7 +89,8 @@ class FormController extends Controller
     {
         request()->validate([
                 'questions' => 'required|array',
-                'title' => 'required|string'
+                'title' => 'required|string',
+                'notif_email_receivers' => 'sometimes|array'
             ]);
 
         (new FormPolicy())->create();
@@ -95,7 +100,10 @@ class FormController extends Controller
                 'company_id' => $user->company()->id,
                 'questions' => request()->questions,
                 'title' => request()->title,
-                'status' => 'active'
+                'status' => request()->status,
+                'props' => [
+                        'notif_email_receivers' => request()->notif_email_receivers ?? []
+                    ]
             ]);
 
         return $form;
@@ -151,12 +159,14 @@ class FormController extends Controller
                 'user_id' => request()->user_id ?? null
             ]);
 
-        $url = config('app.frontend_url').'/dashboard/forms/'.$form->id.'/responses';
-        \Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ], 
+        if (array_key_exists('notif_email_receivers', $form->props) && !empty($form->props['notif_email_receivers'])) {
+            $url = config('app.frontend_url').'/dashboard/forms/'.$form->id.'/responses';
+            \Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ], 
                 function($message) use ($form) { 
                     $message->from(config('mail.from.address', 'admin@dashcards.com'), config('mail.from.name', 'Buzzooka CRM'));
-                    $message->to($form->user->email)->subject($form->title." response");    
+                    $message->to($form->props['notif_email_receivers'])->subject($form->title." response");    
                 });
+        }
 
         return $formResponse;
     }
