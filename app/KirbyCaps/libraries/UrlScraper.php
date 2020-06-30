@@ -1,14 +1,15 @@
 <?php
 
 namespace KirbyCaps\Libraries;
-/*
-Class: ScraperMoreFaster
-Author(Modified): Kirby Capangpangan 
-Author(Original): Joe Bergevin (joe@joescode.com)	
-*/
 
-class ScraperMoreFaster {
+/**
+ * Class: Scraper
+ * Author Kirby Capangpangan 
+ */
+use Exception;
 
+class UrlScraper
+{
 	public $html = false;
 	public $current_directory;
 	public $current_url;
@@ -23,9 +24,13 @@ class ScraperMoreFaster {
 	public $referrer = 'http://www.google.com';
 	public $error = "System cannot get the contents from the provided url, The site may disallow sharing of its contents or the site has anti-bot system which prevent the site from being scrapped.";
 	
+	/**
+	 * Get error message base on code
+	 * @param integer $code
+	 * @return string
+	 */
 	public function getError($code = 404)	
 	{
-
 		if ($code == 0) {
 
 			return "Hmm. We’re having trouble finding that site. We can’t connect to the server at ".$this->baseUrl;
@@ -54,12 +59,14 @@ class ScraperMoreFaster {
 		return $this->error;
 		
 	}
-	/*
-	Function: init_scrapper
-	Expects: trigger file_get_html then load the DOM
-	Purpose: shortcut for scrapping
-	*/
-	public function init_scrapper($url='')
+
+	/**
+	 * Function: init_scrapper
+	 * Expects: trigger file_get_html then load the DOM
+	 * Purpose: shortcut for scrapping
+	 * @param string $url
+	 */
+	public function init_scrapper($url = '')
 	{
 		$this->file_get_html($url);
 		if ($this->html) {
@@ -68,11 +75,13 @@ class ScraperMoreFaster {
 
 		return  false;
 	}
-	/*
-	Function: file_get_html
-	Expects: $url to get the HTML contents.
-	Purpose: Retrieve the HTML contents from the given.
-	*/
+
+	/**
+	 * Function: file_get_html
+	 * Expects: $url to get the HTML contents.
+	 * Purpose: Retrieve the HTML contents from the given.
+	 * @param string $url
+	 */
 	public function file_get_html($url) {
 		$this->current_url = $url;
 		$parse  = parse_url($url);
@@ -85,10 +94,10 @@ class ScraperMoreFaster {
 		}
 		$this->html = $html;
 	} // end of file_get_html function
+
 	/**
      * Function to generate a random user agent
      *
-     * @param  array  $options The array of options to modify for a Request
      * @return string
      */
     public function newUserAgent()
@@ -134,9 +143,10 @@ class ScraperMoreFaster {
         return $agents[$ras1];
     }
 	/**
-	* Emulate browser request via curl as much as possible,
-	*
-	*/
+	 * Emulate browser request via curl as much as possible,
+	 * @param string $url
+	 * @return mixed
+	 */
 	public function curl_get_contents($url)
 	{
 		$curl = @curl_init();
@@ -186,11 +196,14 @@ class ScraperMoreFaster {
 
 		return $response;
 	}
-	/*
-	Function: loadDom
-	Purpose: Load the HTML document into the DomDocument class 
-	*/
-	public function loadDom() {
+
+	/**
+	 * Function: loadDom
+	 * Purpose: Load the HTML document into the DomDocument class 
+	 * @return boolean
+	 */
+	public function loadDom() 
+	{
 		libxml_use_internal_errors(true);
 		$this->domDoc = new \DomDocument;
 		if ( $this->html !== '' ) {
@@ -201,22 +214,26 @@ class ScraperMoreFaster {
 		}
 	} // end of loadDom function
 
-	/*
-	Function: str_get_html
-	Expects: String containing HTML code.
-	Purpose: Retrieve the HTML contents from the given 
-	*/
-	public function str_get_html($html_str) {
+	/**
+	 * Function: str_get_html
+	 * Expects: String containing HTML code.
+	 * Purpose: Retrieve the HTML contents from the given
+	 * @param string $html_str
+	 * @return void 
+	 */
+	public function str_get_html($html_str) 
+	{
 		$this->html = $html_str;
 		return;
-	} // end of str_get_html function
+	} 
 
-	/*
-	Function: 	setCurrentDirectory
-	Purpose: 	Sets the current directory. This is necessary for the 
-				rebuildUrl method to work. 
-	*/
-	public function setCurrentDirectory( $current_directory ) {
+	/**
+	 * Function: 	setCurrentDirectory
+	 * Purpose: 	Sets the current directory. This is necessary for the rebuildUrl method to work. 
+	 * @param string $current_directory
+	 */
+	public function setCurrentDirectory( $current_directory ) 
+	{
 		if ( substr($current_directory, -1) == "/" ) {
 			$this->current_directory = $current_directory;
 		} else {
@@ -225,11 +242,11 @@ class ScraperMoreFaster {
 		return;
 	}
 
-	/***********
-	Method: 	getRedirectPath
-	Expects: 	$
-	Returns:	$
-	Purpose: 	
+	/**
+	 * Method: 	getRedirectPath
+	 * Purpose: 	
+	 * @param string $url
+	 * @return string | boolean
 	*/
 	public function getRedirectPath($url = null) {
 		if ( $url == null ) {
@@ -268,13 +285,14 @@ class ScraperMoreFaster {
 		return $redirectPath;
 	} // end of getRedirectPath method
 
-	/*
-	Function: 	parseResponseHeader
-	Expects: 	$html var must be filled first.
-	Purpose: 	Parse the response header from an HTML document.
-	Returns: 	Plain Text of an HTML document.
+	/**
+	 * Function: 	parseResponseHeader
+	 * Expects: 	$html var must be filled first.
+	 * Purpose: 	Parse the response header from an HTML document.
+	 * @return string Plain Text of an HTML document.
 	*/
-	public function parseResponseHeader() {
+	public function parseResponseHeader() 
+	{
 		$responseHeaderArray = array();
 		foreach ( $this->response_header as $header_item ) {
 			$space_pos = strpos($header_item, " ");
@@ -322,13 +340,14 @@ class ScraperMoreFaster {
 		return $responseHeaderArray;
 	} 
 
-	/*
-	Function: getPlainText
-	Expects: $html var must be filled first.
-	Purpose: Parse the plain text (visible text) from an HTML document.
-	Returns: Plain Text of an HTML document.
+	/**
+	 * Function: getPlainText
+	 * Expects: $html var must be filled first.
+	 * Purpose: Parse the plain text (visible text) from an HTML document.
+	 * @return string Plain Text of an HTML document.
 	*/
-	public function getPlainText( $html_str = null ) {
+	public function getPlainText( $html_str = null ) 
+	{
 		// remove comments and any content found in the the comment area 
 		// (strip_tags only removes the actual tags).
 		if ( !$html_str ) {
@@ -356,10 +375,15 @@ class ScraperMoreFaster {
 		$plaintext = $this->normalize_str($plaintext);
 		
 		return $plaintext;
-	} // end of getPlainText function
-
-	//replace smart quotes
-	private function convert_smart_quotes( $string ) {
+	} 
+	
+	/**
+	 * Converting smart qoutes
+	 * @param string $string
+	 * @return string
+	 */
+	private function convert_smart_quotes( $string ) 
+	{
 		$search = array(
 			chr(145), chr(146), chr(147), chr(148),
 			chr(151), chr(150), chr(133) );
@@ -367,8 +391,13 @@ class ScraperMoreFaster {
 			"'", "'", '"', '"', '--', '-', '...' );
 		return str_replace($search, $replace, $string);
 	}
-
-	private function normalize_str($str) {
+	/**
+	 * Normalising string
+	 * @param string $string
+	 * @return string
+	 */
+	private function normalize_str($str) 
+	{
 		$invalid = array('Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z',
 		'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A',
 		'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E',
@@ -387,12 +416,13 @@ class ScraperMoreFaster {
 		return $str;
 	}
 
-	/*
-	Function: 	getTitleTag
-	Purpose: 	Gets the title from the source stored in the $html variable.
-	Returns: 	Title as string.
-	*/
-	public function getTitleTag() {
+	/**
+	 * Function: 	getTitleTag
+	 * Purpose: 	Gets the title from the source stored in the $html variable.
+	 * @return string	Title as string.
+	 */
+	public function getTitleTag() 
+	{
 		$title_tag_array = array();
 		
 		$found = $this->domDoc->getElementsByTagName("title");
@@ -410,15 +440,15 @@ class ScraperMoreFaster {
 		}
 		
 		return $title_tag_array;
-	} // end of getTitleTag function
+	} 
 
-	
-	/*
-	Function: 	getHeadingTags
-	Purpose: 	Gets all heading tags from the source stored in the $html variable.
-	Returns: 	Associative array conatining all found heading tags.
-	*/
-	public function getHeadingTags() {                
+	/**
+	 * Function: 	getHeadingTags
+	 * Purpose: 	Gets all heading tags from the source stored in the $html variable.
+	 * @return array 	Associative array conatining all found heading tags.
+	 */
+	public function getHeadingTags() 
+	{                
 		
 		$headings = array();
 		for ($type = 1; $type < 6; $type++) {
@@ -452,12 +482,13 @@ class ScraperMoreFaster {
 		return $headings;
 	}
 
-	/*
-	Function: 	getATags
-	Purpose: 	Gets all a tags from the source stored in the $html variable.
-	Returns: 	Associative array conatining all found a tags.
-	*/
-	public function getATags() {
+	/**
+	 * Function: 	getATags
+	 * Purpose: 	Gets all a tags from the source stored in the $html variable.
+	 * @return array 	Associative array conatining all found a tags.
+	 */
+	public function getATags() 
+	{
 		// $this->loadDom();
 		$tags_array = array();
 		
@@ -498,12 +529,13 @@ class ScraperMoreFaster {
 		return $tags_array;
 	}
 
-	/*
-	Function: 	getImgTags
-	Purpose: 	Gets all img tags from the source stored in the $html variable.
-	Returns: 	Associative array conatining all found img tags.
-	*/
-	public function getImgTags() {
+	/**
+	 * Function: 	getImgTags
+	 * Purpose: 	Gets all img tags from the source stored in the $html variable.
+	 * @return array * 	Associative array conatining all found img tags.
+	 */
+	public function getImgTags() 
+	{
 		$tags_array = array();
 		
 		$matches = $this->domDoc->getElementsByTagName("img");
@@ -533,12 +565,13 @@ class ScraperMoreFaster {
 		return $tags_array;
 	}
 
-	/*
-	Function: 	getLinkTags
-	Purpose: 	Gets all link tags from the source stored in the $html variable.
-	Returns: 	Associative array conatining all found link tags.
-	*/
-	public function getLinkTags() {
+	/**
+	 * Function: 	getLinkTags
+	 * Purpose: 	Gets all link tags from the source stored in the $html variable.
+	 * @return array 	Associative array conatining all found link tags.
+	 */
+	public function getLinkTags() 
+	{
 		$tags_array = array();
 		
 		$matches = $this->domDoc->getElementsByTagName("link");
@@ -568,23 +601,18 @@ class ScraperMoreFaster {
 		return $tags_array;
 	}
 
-	/*
-	Function: 	getMetaTags
-	Purpose: 	Gets all meta tags from the source stored in the $html variable.
-	Returns: 	Associative array conatining all found meta tags.
-	*/
-	public function getMetaTags() {
+	/**
+	 * Function: 	getMetaTags
+	 * Purpose: 	Gets all meta tags from the source stored in the $html variable.
+	 * @return array 	Associative array conatining all found meta tags.
+	 */
+	public function getMetaTags() 
+	{
 		$tags_array = array();
 		
 		$matches = $this->domDoc->getElementsByTagName("meta");
 		foreach ($matches as $tag) {
 			$tag_code = $this->domDoc->saveHTML($tag);
-			/*$href = $tag->getAttribute('href');
-			if ( $href == "" || substr($href, 0, 4) == "http" ) {
-				$href_rebuilt = $href;
-			} else {
-				$href_rebuilt = $this->rebuildUrl($href);
-			}*/
 			
 			$this->tagsList[$tag_code] = null;
 
@@ -599,12 +627,13 @@ class ScraperMoreFaster {
 		return $tags_array;
 	}
 
-	/*
-	Function: 	getScriptTags
-	Purpose: 	Gets all script tags from the source stored in the $html variable.
-	Returns: 	Associative array conatining all found script tags.
-	*/
-	public function getScriptTags() {
+	/**
+	 * Function: 	getScriptTags
+	 * Purpose: 	Gets all script tags from the source stored in the $html variable.
+	 * @return array 	Associative array conatining all found script tags.
+	 */
+	public function getScriptTags() 
+	{
 		$tags_array = array();
 		
 		$matches = $this->domDoc->getElementsByTagName("script");
@@ -633,23 +662,18 @@ class ScraperMoreFaster {
 		return $tags_array;
 	}
 
-	/*
-	Function: 	getStyleTags
-	Purpose: 	Gets all style tags from the source stored in the $html variable.
-	Returns: 	Associative array conatining all found style tags.
-	*/
-	public function getStyleTags() {
+	/**
+	 * Function: 	getStyleTags
+	 * Purpose: 	Gets all style tags from the source stored in the $html variable.
+	 * @return array	Associative array conatining all found style tags.
+	 */
+	public function getStyleTags() 
+	{
 		$tags_array = array();
 		
 		$matches = $this->domDoc->getElementsByTagName("style");
 		foreach ($matches as $tag) {
 			$tag_code = $this->domDoc->saveHTML($tag);
-			/*$href = $tag->getAttribute('href');
-			if ( $href == "" || substr($href, 0, 4) == "http" ) {
-				$href_rebuilt = $href;
-			} else {
-				$href_rebuilt = $this->rebuildUrl($href);
-			}*/
 			
 			$this->tagsList[$tag_code] = null;
 
@@ -662,12 +686,13 @@ class ScraperMoreFaster {
 		return $tags_array;
 	}
 
-	/*
-	Function: 	getImgTagFromNode
-	Purpose: 	Use this when you want the entire nodeValue with HTML code
-	Returns: 	the nodeValue with including HTML (if it has any).
-	*/
-	public function getImgTagFromNode( $node )  { 
+	/**
+	 * Function: 	getImgTagFromNode
+	 * Purpose: 	Use this when you want the entire nodeValue with HTML code
+	 * @return node 	the nodeValue with including HTML (if it has any).
+	 */
+	public function getImgTagFromNode( $node )  
+	{ 
 		$matches = $node->getElementsByTagName("img");
 		if ( $matches->length > 0 ) {
 			$tag_code = $this->domDoc->saveHTML($matches->item(0));
@@ -678,12 +703,13 @@ class ScraperMoreFaster {
 
 	}
 
-	/*
-	Function: 	getATagFromNode
-	Purpose: 	Use this when you want the entire nodeValue with HTML code
-	Returns: 	the nodeValue with including HTML (if it has any).
-	*/
-	public function getATagFromNode( $node )  { 
+	/**
+	 * Function: 	getATagFromNode
+	 * Purpose: 	Use this when you want the entire nodeValue with HTML code
+	 * @return node	the nodeValue with including HTML (if it has any).
+	 */
+	public function getATagFromNode( $node )  
+	{ 
 		$matches = $node->getElementsByTagName("a");
 		if ( $matches->length > 0 ) {
 			$anchor_text 	= $matches->item(0)->nodeValue;
@@ -709,12 +735,13 @@ class ScraperMoreFaster {
 
 	}
 
-	/*
-	Function: 	getATagFromString
-	Purpose: 	Use this when you want the entire nodeValue with HTML code
-	Returns: 	the nodeValue with including HTML (if it has any).
-	*/
-	public function getATagFromString( $node = null )  { 
+	/** 
+	 * Function: 	getATagFromString
+	 * Purpose: 	Use this when you want the entire nodeValue with HTML code
+	 * @return node 	the nodeValue with including HTML (if it has any).
+	 */
+	public function getATagFromString( $node = null )  
+	{ 
 		$begin = strpos($node, "<a ");
 		
 		if ( !$begin ) {
@@ -728,12 +755,13 @@ class ScraperMoreFaster {
 		}
 	}
 
-	/*
-	Function: 	getImgTagFromString
-	Purpose: 	Use this when you want the entire nodeValue with HTML code
-	Returns: 	the nodeValue with including HTML (if it has any).
-	*/
-	public function getImgTagFromString( $node = null )  { 
+	/**
+	 * Function: 	getImgTagFromString
+	 * Purpose: 	Use this when you want the entire nodeValue with HTML code
+	 * @return node the nodeValue with including HTML (if it has any).
+	 */
+	public function getImgTagFromString( $node = null )  
+	{ 
 		$begin = strpos($node, "<img ");
 		
 		if ( !$begin ) {
@@ -746,12 +774,13 @@ class ScraperMoreFaster {
 		}
 	}
 
-	/*
-	Function: 	getElementAttributes
-	Purpose: 	Get all attributes (keys and values) from a given tag.
-	Returns: 	Array of attributes.
-	*/
-	public function getElementAttributes( $element ) {
+	/**
+	 * Function: 	getElementAttributes
+	 * Purpose: 	Get all attributes (keys and values) from a given tag.
+	 * @return array Array of attributes.
+	 */
+	public function getElementAttributes( $element ) 
+	{
 		$attributes = array();
 
 		foreach($element->attributes as $attribute_name => $attribute_node) {
@@ -760,42 +789,46 @@ class ScraperMoreFaster {
 		return $attributes;
 	}
 
-	/*
-	Function: getElementById
-	Expects: $html var must be filled first.
-	Purpose: Retrieve the HTML contents from the given 
-	Returns: Plain Text of an HTML document.
-	*/
-	public function getElementById( $elementId ) {
+	/**
+	 * Function: getElementById
+	 * Expects: $html var must be filled first.
+	 * Purpose: Retrieve the HTML contents from the given 
+	 * @return node Plain Text of an HTML document.
+	 */
+	public function getElementById( $elementId ) 
+	{
 		// $this->loadDom();
 		return $this->domDoc->getElementById($elementId);
-	} // end of getElementById function
+	}  
 
-	/*
-	Function: getElementByName
-	Expects: $html var must be filled first.
-	Purpose: Retrieve the HTML contents from the given 
-	Returns: Plain Text of an HTML document.
-	*/
-	public function getElementByName( $elementName ) {
+	/**
+	 * Function: getElementByName
+	 * Expects: $html var must be filled first.
+	 * Purpose: Retrieve the HTML contents from the given 
+	 * @return Plain Text of an HTML document.
+	 */
+	public function getElementByName( $elementName ) 
+	{
 		return $this->domDoc->getElementByName($elementName);
-	} // end of getElementByName function
+	} 
 
-	/*
-	Function: 	innerHTMLDom
-	Purpose: 	Use this when you want the entire nodeValue with HTML code
-	Returns: 	the nodeValue with including HTML (if it has any).
-	*/
-	public function innerHTMLDom()  {  
+	/**
+	 * Function: 	innerHTMLDom
+	 * Purpose: 	Use this when you want the entire nodeValue with HTML code
+	 * @return 	the nodeValue with including HTML (if it has any).
+	 */
+	public function innerHTMLDom()  
+	{  
 		return $this->domDoc->saveXML();
 	}
 
-	/*
-	Function: 	innerHTML
-	Purpose: 	Use this when you want the entire nodeValue with HTML code
-	Returns: 	the nodeValue with including HTML (if it has any).
+	/**
+	 * Function: 	innerHTML
+	 * Purpose: 	Use this when you want the entire nodeValue with HTML code
+	 * @return 	the nodeValue with including HTML (if it has any).
 	*/
-	public function innerHTML( $node )  { 
+	public function innerHTML( $node )  
+	{ 
 		$doc = $node->ownerDocument;
 		$frag = $doc->createDocumentFragment();
 		
@@ -808,12 +841,13 @@ class ScraperMoreFaster {
 		return $inner_html;
 	}
 
-	/*
-	Function: 	getMetaData
-	Purpose: 	Gets all the meta data from the given html source.
-	Returns: 	Associative array conatining all found meta attributes.
-	*/
-	public function getMetaData( $html_str = null ) {                
+	/**
+	 * Function: 	getMetaData
+	 * Purpose: 	Gets all the meta data from the given html source.
+	 * @return 	Associative array conatining all found meta attributes.
+	 */
+	public function getMetaData( $html_str = null ) 
+	{                
 		if ( !$html_str ) {
 			
 			preg_match_all(	"#\s(\w*)\s*=\s*(?|\"([^\"]+)\"|'([^']+)'|([^\s><'\"]+))#i", 
@@ -830,17 +864,16 @@ class ScraperMoreFaster {
 		return $meta_data;
 	}
 
-	/*
-	Function: 	getMetaRegEx
-	Purpose: 	Gets all meta-tag attributes from the source stored in the 
-				$html variable.
-	Returns: 	Associative array conatining all found meta-attributes.
-				The keys are the meta-names, the values the content of the attributes.
-				(like $tags["robots"] = "nofollow")
-	Note: 		Uses the same regex statement as used in the PHPCrawl class, 
-				written by Uwe Hunfeld
-	*/
-	public function getMetaRegEx() {
+	/**
+	 * Function: 	getMetaRegEx
+	 * Purpose: 	Gets all meta-tag attributes from the source stored in the  $html variable.
+	 * @return 	Associative array conatining all found meta-attributes.
+	 *		The keys are the meta-names, the values the content of the attributes.
+ 	 *		(like $tags["robots"] = "nofollow")
+	 *  Note: 		Uses the same regex statement as used in the PHPCrawl class,  written by Uwe Hunfeld
+	 */
+	public function getMetaRegEx() 
+	{
 		preg_match_all(	"#<\s*meta\s+".
 						"name\s*=\s*(?|\"([^\"]+)\"|'([^']+)'|([^\s><'\"]+))\s+".
 						"content\s*=\s*(?|\"([^\"]+)\"|'([^']+)'|([^\s><'\"]+))".
@@ -856,22 +889,11 @@ class ScraperMoreFaster {
 		return $tags;
 	}
 
-	/***********
-	Method: 	getExternalSites
-	Expects: 	$expected_var
-	Returns:	$return_var
-	Purpose: 	
-	*/
-	public function getExternalSites() 
-	{
-		
-	} // end of getExternalSites method
-	
-	/*
-	Function: 	findATagNode
-	Purpose: 	Gets all the meta data from the given html source.
-	Returns: 	Associative array conatining all found meta attributes.
-	*/
+	/**
+	 * Function: 	findATagNode
+	 * Purpose: 	Gets all the meta data from the given html source.
+	 * @return 	Associative array conatining all found meta attributes.
+	 */
 	public function findATagNode( $array = null ) 
 	{	
 		foreach ($array as $value) {
@@ -885,7 +907,7 @@ class ScraperMoreFaster {
 	/**
 	 * Function: 	getChildNodesArray
 	 * Purpose: 	To get the child nodes of a node
-	 * Returns: 	An array containing the child nodes of the given node
+	 * @return 	An array containing the child nodes of the given node
 	 */
 	public function getChildNodesArray( $node )  
 	{ 
@@ -901,7 +923,7 @@ class ScraperMoreFaster {
 	/**
 	 * Function: 	rebuildUrl
 	 * Purpose: 	To rebuid a relative link based on the page it is found in.
-	 * Returns: 	The rebuilt URL.
+	 * @return 	The rebuilt URL.
 	 */
 	public function rebuildUrl( $relative_url = null ) 
 	{
@@ -909,8 +931,7 @@ class ScraperMoreFaster {
 		$r = $this->split_url( $relative_url );
 		if ( $r === FALSE )
 			return FALSE;
-		if ( !empty( $r['scheme'] ) )
-		{
+		if ( !empty( $r['scheme'] ) ) {
 			if ( !empty( $r['path'] ) && $r['path'][0] == '/' )
 				$r['path'] = $this->url_remove_dot_segments( $r['path'] );
 			return $this->join_url( $r );
@@ -940,8 +961,7 @@ class ScraperMoreFaster {
 		if ( isset( $b['pass'] ) ) $r['pass'] = $b['pass'];
 	 
 		// If relative URL has no path, use base path
-		if ( empty( $r['path'] ) )
-		{
+		if ( empty( $r['path'] ) ) {
 			if ( !empty( $b['path'] ) )
 				$r['path'] = $b['path'];
 			if ( !isset( $r['query'] ) && isset( $b['query'] ) )
@@ -950,8 +970,7 @@ class ScraperMoreFaster {
 		}
 	 
 		// If relative URL path doesn't start with /, merge with base path
-		if ( $r['path'][0] != '/' )
-		{
+		if ( $r['path'][0] != '/' ) {
 			$base = mb_strrchr( $b['path'], '/', TRUE, 'UTF-8' );
 			if ( $base === FALSE ) $base = '';
 			$r['path'] = $base . '/' . $r['path'];
@@ -959,7 +978,11 @@ class ScraperMoreFaster {
 		$r['path'] = $this->url_remove_dot_segments( $r['path'] );
 		return $this->join_url( $r );
 	}
-
+	
+	/**
+	 *
+	 * @return string
+	 */
 	public function url_to_absolute( $relative_url ) 
 	{
 		// If relative URL has a scheme, clean path and return.
@@ -980,8 +1003,7 @@ class ScraperMoreFaster {
 		$r['scheme'] = $b['scheme'];
 	 
 		// If relative URL has an authority, clean path and return.
-		if ( isset( $r['host'] ) )
-		{
+		if ( isset( $r['host'] ) ) {
 			if ( !empty( $r['path'] ) )
 				$r['path'] = $this->url_remove_dot_segments( $r['path'] );
 			return $this->join_url( $r );
@@ -1017,13 +1039,16 @@ class ScraperMoreFaster {
 		return $this->join_url( $r );
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function url_remove_dot_segments( $path ) 
 	{
 		// multi-byte character explode
 		$inSegs  = preg_split( '!/!u', $path );
 		$outSegs = array( );
-		foreach ( $inSegs as $seg )
-		{
+		foreach ( $inSegs as $seg ) {
 			if ( $seg == '' || $seg == '.')
 				continue;
 			if ( $seg == '..' )
@@ -1041,6 +1066,10 @@ class ScraperMoreFaster {
 		return $outPath;
 	}
 
+	/**
+	 *
+	 * @return 
+	 */
 	public function join_url( $parts, $encode=TRUE )
 	{
 		if ( $encode )
@@ -1092,6 +1121,10 @@ class ScraperMoreFaster {
 		return $url;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function split_url( $url, $decode=TRUE )
 	{
 		$xunressub     = 'a-zA-Z\d\-._~\!$&\'()*+,;=';
@@ -1354,7 +1387,6 @@ class ScraperMoreFaster {
 	 */
     public function getImageSizeViaCurl($image_url = "")
 	{
-		
 		try {
 			$ch = curl_init();
 		    curl_setopt($ch, CURLOPT_URL, $image_url);
@@ -1364,7 +1396,7 @@ class ScraperMoreFaster {
 		    $data = curl_exec($ch);
 		    
 		    if (FALSE === $data){
-		        throw new \Exception(curl_error($ch), curl_errno($ch));
+		        throw new Exception(curl_error($ch), curl_errno($ch));
 		    }
 			$curl_info = @curl_getinfo($ch);
 
@@ -1401,7 +1433,7 @@ class ScraperMoreFaster {
 
 		    return (is_null($width) || is_null($height)) ? false : $info;
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			 //trigger_error(sprintf( 'Curl failed with error #%d: %s', $e->getCode(), $e->getMessage()), E_USER_ERROR);
 			return false;
 		}
@@ -1480,5 +1512,5 @@ class ScraperMoreFaster {
 		$images_array[$best_index] = $temp;
 		return $images_array;
 	}
-} // end of ScraperMoreFaster class
 
+}

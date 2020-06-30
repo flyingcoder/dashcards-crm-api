@@ -1,7 +1,7 @@
 <?php
 namespace KirbyCaps\Libraries;
 
-use KirbyCaps\Libraries\ScraperMoreFaster;
+use KirbyCaps\Libraries\UrlScraper;
 
 class LinkPreviewer
 {
@@ -9,19 +9,32 @@ class LinkPreviewer
 	protected $scrapper;
 	protected $isInit = false;
 	protected $isSuccess = false;
+
+	/**
+	 *
+	 * @return 
+	 */
 	public function __construct($url)
 	{
 		$this->url = $url;
-		$this->scrapper = new ScraperMoreFaster;
+		$this->scrapper = new UrlScraper;
 		
 	}
 
+	/**
+	 *
+	 * @return  void
+	 */
 	public function init()
 	{
 		$this->isInit = true;
 		$this->isSuccess = $this->scrapper->init_scrapper($this->url);
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function getAllData()
 	{
 		if (!$this->isInit) {
