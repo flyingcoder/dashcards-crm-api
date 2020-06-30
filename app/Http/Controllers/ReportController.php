@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Report;
+use App\Traits\HasUrlTrait;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    use HasUrlTrait;
+
     public function index()
     {
        //(new ReportPolicy())->index();
@@ -18,9 +21,21 @@ class ReportController extends Controller
 
     public function newReport()
     {
+        request()->validate([
+            'title' => 'required',
+            'url' => 'required'
+        ]);
+
        $company = auth()->user()->company();
 
-       return $company->createReports();
+        $report = $company->reports()->create([
+            'title' => request()->title,
+            'description' => request()->description ?? null,
+            'url' => request()->url,
+            'props' => $this->getPreviewArray(request()->url)
+        ]);
+
+        return $report;
     }
 
     public function updateReport($id)
@@ -44,4 +59,5 @@ class ReportController extends Controller
 
         return response()->json(['message' => 'error'], 500);
     }
+
 }

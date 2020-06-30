@@ -16,17 +16,20 @@ use App\Repositories\TimerRepository;
 use App\Task;
 use App\Team;
 use App\Template;
+use App\Traits\HasUrlTrait;
 use App\User;
 use Auth;
 use Carbon\Carbon;
 use Chat;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Kodeine\Acl\Models\Eloquent\Role;
 
 class ProjectController extends Controller
 {
+    use HasUrlTrait;
+
     protected $paginate = 12;
 
     protected $timeRepo;
@@ -144,18 +147,32 @@ class ProjectController extends Controller
 
     public function newReport($id)
     {
-        $model = Project::findOrFail($id);
+        request()->validate([
+            'title' => 'required',
+            'url' => 'required'
+        ]);
 
-        return $model->createReports();
+        $project = Project::findOrFail($id);
+
+        return  $project->reports()->create([
+            'company_id' => auth()->user()->company()->id,
+            'title' => request()->title,
+            'description' => request()->description,
+            'url' => request()->url,
+            'props' => $this->getPreviewArray(request()->url)
+        ]);
+
     }
 
     public function updateReport($id, $report_id)
     {
-        $model = Report::findOrFail($id);
+        $project = Project::findOrFail($id);
 
-        if($model->updateReports()) {
-            $model->fresh();
-            return response()->json($model, 200);
+        $report = $project->reports()->where('id', $report_id)->firstOrFail();
+
+        if($report->updateReports()) {
+            $report->fresh();
+            return response()->json($report, 200);
         }
 
         return response()->json(['message' => 'error'], 500);
