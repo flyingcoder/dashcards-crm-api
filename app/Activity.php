@@ -14,6 +14,11 @@ class Activity extends Act
 		'read' => 'boolean'
 	];
 
+	public function causer_user()
+    {
+    	return $this->belongsTo(User::class, 'causer_id');
+    }
+
     public function users()
     {
     	return $this->belongsToMany(User::class, 'activity_user', 'activity_id', 'user_id')

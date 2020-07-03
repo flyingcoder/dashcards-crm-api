@@ -60,7 +60,7 @@ class ApiLoginController extends Controller
             $userObject->role = $user->userRole();
             $userObject->can = $user->getPermissions();
             $userObject->is_company_owner = $user->getIsCompanyOwnerAttribute();
-
+            $userObject->is_buzzooka_super_admin = in_array($user->email, config('telescope.allowed_emails'));
             UsersPresence::dispatch($userObject);
 
             return response()->json([

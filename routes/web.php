@@ -36,6 +36,9 @@ Route::group(['prefix' => 'admin-api'], function () {
 	
 	Route::get('login', 'AdminApiController@showLogin');
 	Route::post('login', 'AdminApiController@adminLogin')->name('api-login');
+
+	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
+		->middleware([\App\Http\Middleware\IsAppAdmins::class]);
 });
 // Route::get('test-act', 'ActivityController@index');
 /*

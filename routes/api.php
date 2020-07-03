@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\IsAppAdmins;
 use Illuminate\Http\Request;
 
 /*
@@ -15,6 +16,21 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['api', 'cors']], function () {
     Route::get('form/{slug}/online', 'FormController@formBySlug');
     Route::post('form/{id}/online', 'FormController@saveFormResponse');
+
+    Route::group(['middleware' => ['auth:api']], function () {
+      Route::get('configs/{key}', 'ConfigurationController@getByKey');
+      Route::get('configs', 'ConfigurationController@index');
+      Route::post('configs/bulk', 'ConfigurationController@bulkSave')->middleware(IsAppAdmins::class);
+      Route::post('configs', 'ConfigurationController@saveByKey')->middleware(IsAppAdmins::class);
+
+      Route::get('logs/activities', 'LogsController@getActivityLogs')->middleware(IsAppAdmins::class);
+      Route::get('logs', 'LogsController@index')->middleware(IsAppAdmins::class);
+      Route::post('logs/clear', 'LogsController@clear')->middleware(IsAppAdmins::class);
+
+      Route::get('companies', 'CompanyController@companies')->middleware(IsAppAdmins::class);
+      Route::post('companies/{id}/status', 'CompanyController@companyStatus')->middleware(IsAppAdmins::class);
+      Route::get('subscribers/statistics', 'CompanyController@subscribersStatistics')->middleware(IsAppAdmins::class);
+    });
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
@@ -181,8 +197,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'roles'], function () {
 
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
-
-  Route::get('subscribers', 'CompanyController@subscribers');
 
   Route::get('members', 'CompanyController@members');
 

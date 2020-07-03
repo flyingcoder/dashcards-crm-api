@@ -13,7 +13,7 @@ class MembersRepository
 	protected $company = null;
 	protected $pagination = 12;
 	protected $teams = ['default','client','staff'];
-	protected $hasPagination = false;
+	public $hasPagination = false;
 
 	public function __construct($company = null)
 	{

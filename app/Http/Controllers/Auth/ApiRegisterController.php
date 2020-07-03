@@ -74,7 +74,7 @@ class ApiRegisterController extends Controller
                'last_name' => $request->last_name,
                'image_url' => random_avatar('neutral'),
                'email' => $request->email,
-               'job_title' => 'Super Administrator',
+               'job_title' => 'Administrator',
                'password' => bcrypt($request->password),
                'is_online' => 1,
                'props' => [
@@ -101,6 +101,7 @@ class ApiRegisterController extends Controller
             $userObject->is_admin = true;
             $userObject->is_client = false;
             $userObject->is_manager = false;
+            $userObject->is_buzzooka_super_admin = false;
             $userObject->role = $userObject->userRole();
             $userObject->can = $userObject->getPermissions();
             $userObject->company = $company;

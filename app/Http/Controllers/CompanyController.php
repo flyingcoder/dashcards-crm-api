@@ -203,4 +203,47 @@ class CompanyController extends Controller
             'license_key' => null,
         ];
     }
+    
+    public function subscribersStatistics()
+    {
+        return [
+            'inactive_companies' => Company::onlyTrashed()->where('is_private', 0)->count(),
+            'active_companies' => Company::where('is_private', 0)->count(),
+            'active_users' => User::count(),
+            'inactive_users' => User::onlyTrashed()->count(),
+        ];
+    }
+
+    public function companies()
+    {
+        $companies = Company::withTrashed()->where('is_private', 0)->latest()->paginate(40);
+
+        $companiesItems = $companies->getCollection();
+        $data = collect([]);
+
+        foreach ($companiesItems as $key => $company) {
+            $members = $company->members()->take(500)->get(); 
+            $owner = $members->filter->where('id' , $company->companyOwner->id)->first();
+
+            $data->push(array_merge($company->toArray(), ['members' => $members, 'owner' => $owner ]));   
+        }
+
+        $companies->setCollection($data);
+        return $companies;
+    }
+
+    public function companyStatus($id)
+    {
+        $company = Company::withTrashed()->where('id', $id)->firstOrFail();
+        if ($company->trashed()) {
+            $company->restore();
+        } else {
+            $company->delete();
+        }
+            
+        $members = $company->members()->take(500)->get(); 
+        $owner = $members->filter->where('id' , $company->companyOwner->id)->first();
+
+        return response()->json(array_merge($company->toArray(), ['members' => $members, 'owner' => $owner ]), 200);
+    }
 }

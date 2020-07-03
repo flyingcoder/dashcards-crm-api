@@ -31,6 +31,7 @@ class UserController extends Controller
         $userObject->is_company_owner = $userObject->getIsCompanyOwnerAttribute();
         $userObject->role = $userObject->userRole();
         $userObject->can = $userObject->getPermissions();
+        $userObject->is_buzzooka_super_admin = in_array($userObject->email, config('telescope.allowed_emails'));
 
         return $userObject;
     }

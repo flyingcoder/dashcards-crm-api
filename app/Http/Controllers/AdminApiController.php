@@ -16,7 +16,7 @@ class AdminApiController extends Controller
 			'email' => 'required|email',
 			'password' => 'required'
 		]);
-		$allowed_emails = explode(',', config('telescope.allowed_emails'));
+		$allowed_emails = config('telescope.allowed_emails');
 		if (!in_array($request->email, $allowed_emails)) {
 			abort(404, 'Invalid credentials');
 		}
