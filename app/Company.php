@@ -354,7 +354,19 @@ class Company extends Model implements HasMedia
 
         return $data;
     }
-    
+
+    /**
+     * Get the user's roles
+     * @return string
+     */
+    public function getCompanyOwnerAttribute()
+    {
+        return TeamMember::join('teams', 'teams.id', '=', 'team_user.team_id')
+                ->where('teams.company_id', $this->id)
+                ->selectRaw('MIN(team_user.user_id) as id')
+                ->first();
+    }
+
     public function members()
     {
         return User::join('team_user as tu', 'tu.user_id', '=', 'users.id')

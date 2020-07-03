@@ -56,3 +56,5 @@ Broadcast::channel('friend-list-{companyId}', \App\Broadcasting\CompanyChannel::
 Broadcast::channel('project.client-message.{projectId}', \App\Broadcasting\ProjectClientChannel::class);
 
 Broadcast::channel('project.team-message.{projectId}',\App\Broadcasting\ProjectTeamChannel::class);
+
+Broadcast::channel('apps',\App\Broadcasting\PublicChannel::class);
