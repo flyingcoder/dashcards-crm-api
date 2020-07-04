@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
+use App\Utilities\KirbyCaps\LinkPreviewer;
 use Illuminate\Support\Facades\URL;
-use KirbyCaps\Libraries\LinkPreviewer;
 
 trait HasUrlTrait
 {
