@@ -17,9 +17,10 @@ Route::group(['middleware' => ['api', 'cors']], function () {
     Route::get('form/{slug}/online', 'FormController@formBySlug');
     Route::post('form/{id}/online', 'FormController@saveFormResponse');
 
+    Route::get('configs', 'ConfigurationController@index');
+    Route::get('configs/{key}', 'ConfigurationController@getByKey');
+    
     Route::group(['middleware' => ['auth:api']], function () {
-      Route::get('configs/{key}', 'ConfigurationController@getByKey');
-      Route::get('configs', 'ConfigurationController@index');
       Route::post('configs/bulk', 'ConfigurationController@bulkSave')->middleware(IsAppAdmins::class);
       Route::post('configs', 'ConfigurationController@saveByKey')->middleware(IsAppAdmins::class);
 
