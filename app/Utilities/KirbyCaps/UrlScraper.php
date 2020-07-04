@@ -1,11 +1,12 @@
 <?php
 
-namespace KirbyCaps\Libraries;
+namespace App\Utilities\KirbyCaps;
 
 /**
  * Class: Scraper
  * Author Kirby Capangpangan 
  */
+
 use Exception;
 
 class UrlScraper

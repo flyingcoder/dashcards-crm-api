@@ -1,7 +1,9 @@
 <?php
-namespace KirbyCaps\Libraries;
 
-use KirbyCaps\Libraries\UrlScraper;
+namespace App\Utilities\KirbyCaps;
+
+use App\Utilities\KirbyCaps\UrlScraper;
+
 
 class LinkPreviewer
 {

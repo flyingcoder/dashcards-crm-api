@@ -59,8 +59,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "KirbyCaps\\":"app/KirbyCaps"
+            "App\\": "app/"
         },
         "classmap": [
             "database/seeds",
