@@ -379,7 +379,7 @@ class Project extends Model implements HasMedia
 
     public function tasks()
     {
-        return $this->hasManyThrough(Task::class, Milestone::class);
+        return $this->hasMany(Task::class);
     }
 
     public function paginatedProjectTasks()

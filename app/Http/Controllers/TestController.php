@@ -76,21 +76,4 @@ class TestController extends Controller
 
 	}
 
-	public function isIframeDisabled($url) 
-	{
-	    try{
-	        $url_headers = get_headers($url);
-	        if(is_array($url_headers)) {
-		        foreach ($url_headers as $key => $value){
-				    $x_frame_options_deny = strpos(strtolower($url_headers[$key]), strtolower('X-Frame-Options: DENY'));
-				    $x_frame_options_sameorigin = strpos(strtolower($url_headers[$key]), strtolower('X-Frame-Options: SAMEORIGIN'));
-				    $x_frame_options_allow_from = strpos(strtolower($url_headers[$key]), strtolower('X-Frame-Options: ALLOW-FROM'));
-				    if ($x_frame_options_deny !== false || $x_frame_options_sameorigin !== false || $x_frame_options_allow_from !== false) {
-				        return true;
-				    }
-		        }
-			}
-	    } catch (\Exception $ex) { }
-	    return false;
-	}
 }

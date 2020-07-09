@@ -18,7 +18,7 @@ class Task extends Model
     use SoftDeletes, LogsActivity, Searchable ;
 
     protected $fillable = [
-        'title', 'description', 'milestone_id', 'started_at', 'end_at', 'status', 'days', 'role_id', 'props'
+        'title', 'description', 'milestone_id', 'project_id', 'started_at', 'end_at', 'status', 'days', 'role_id', 'props'
     ];
 
     protected static $logAttributes = [
@@ -33,7 +33,7 @@ class Task extends Model
         return [
             'id' => $this->id,
             'milestone_id' => $this->milestone_id,
-            'project_id' => $this->project()->id ?? 0,
+            'project_id' => $this->project_id,
             'total_time' => $this->total_time(),
             'assignee' => $this->assigned,
             'title' => $this->title,
@@ -132,7 +132,8 @@ class Task extends Model
         $task = self::create([
             'title' => request()->title,
             'description' => request()->description,
-            'milestone_id' => request()->milestone_id,
+            'milestone_id' => request()->milestone_id ?? null,
+            'project_id' => request()->project_id ?? null,
             'started_at' =>$started_at,
             'end_at' =>$end_at,
             'status' => 'Open',
@@ -238,7 +239,7 @@ class Task extends Model
 
     public function project()
     {
-        return $this->milestone ? $this->milestone->project : null;
+        return $this->belongsTo(Project::class);
     }
 
     public function milestone()
