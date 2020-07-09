@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\GlobalEvent;
 use App\Http\Controllers\Controller;
 use App\Invoice;
+use App\Traits\HasConfigTrait;
+use App\Traits\StripeTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Stripe\Account;
 use Stripe\OAuth;
+use Stripe\Plan;
 use Stripe\Stripe;
 
 class StripeController extends Controller
 {
+	use HasConfigTrait, StripeTrait;
+
 	protected $apiVersion = "2020-03-02"; //2019-05-16
 	
 	protected $application_fee_percent = 0.005;
@@ -19,6 +25,93 @@ class StripeController extends Controller
 	public function __construct()
 	{
 		Stripe::setApiVersion($this->apiVersion);
+	}
+
+	public function getStripePlans()
+	{
+		Stripe::setApiKey(config('services.stripe.secret'));
+		$fromStripe = Plan::all();
+
+		return response()->json($fromStripe, 200);
+	}
+	
+	public function syncPlans()
+	{
+		$product = $this->getConfig('stripe_app_plan');
+		if ($product) {
+			$product_value =  $this->castValue($product);
+			$stripePlans = $this->getPlanPrice(['product' => $product_value->id]);
+			$product_value->plans = $stripePlans;
+
+			$product->value = $this->storeValue('object', $product_value);
+			$product->save();
+		}
+	}
+
+	public function createStripePlans(){
+		request()->validate([
+			'nickname' => 'required|string',
+			'amount' => 'required|numeric|min:1',
+			'short_description' => 'required|string',
+			'long_description' => 'required|string',
+			'currency' => 'required|string'
+		]);
+
+		$selectedPlans = $this->getConfigByKey('stripe_app_plan', false);
+		if (!$selectedPlans) {
+			abort(433, 'Unable to create plan. No product found!');
+		}
+
+		$params = [
+				'product' => $selectedPlans->id,
+				'recurring' => [
+                                'interval' => 'month'
+                            ],
+                'currency' => strtolower(request()->currency),
+                'unit_amount' => request()->amount * 100,
+                'nickname' => request()->nickname,
+                'metadata' => [
+                        'discount_description' => request()->short_description,
+                        'plan_description' => request()->long_description
+                    ] 
+			];
+
+		$price = $this->createPlanPrice($params);
+		
+		$this->syncPlans();
+
+		broadcast(new GlobalEvent(array_merge(['type' => 'configs'], $this->getAllConfigs())));
+		
+		return $this->getStripePlans();
+	}
+
+	public function updateStripePlans(){
+		request()->validate([
+			'id' => 'required|string',
+			'nickname' => 'required|string',
+			'amount' => 'required|numeric|min:1',
+			'short_description' => 'required|string',
+			'long_description' => 'required|string',
+			'currency' => 'required|string'
+		]);
+
+		$params = [
+                // 'currency' => strtolower(request()->currency),
+                // 'unit_amount' => request()->amount * 100,
+                'nickname' => request()->nickname,
+                'metadata' => [
+                        'discount_description' => request()->short_description,
+                        'plan_description' => request()->long_description
+                    ] 
+			];
+
+		$price = $this->updatePlanPrice(request()->id, $params);
+		
+		$this->syncPlans();
+
+		broadcast(new GlobalEvent(array_merge(['type' => 'configs'], $this->getAllConfigs())));
+
+		return $this->getStripePlans();
 	}
 
 	public function getStripeAccount()

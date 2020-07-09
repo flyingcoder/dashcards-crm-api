@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Backlog;
+use App\Events\GlobalEvent;
 use App\Http\Controllers\Controller;
 use App\Invoice;
+use App\Traits\HasConfigTrait;
+use App\Traits\StripeTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,6 +17,8 @@ use Tolawho\Loggy\Facades\Loggy;
 
 class StripeWebhookController extends Controller
 {
+	use HasConfigTrait, StripeTrait;
+
 	public function listen(Request $request)
     {
         // You can find your endpoint's secret in your webhook settings
@@ -119,5 +124,40 @@ class StripeWebhookController extends Controller
 			}
 		}
 		return response()->json(['success' => true ], 200);
+	}
+
+	/**
+	 * price.created
+	 */
+	public function handlePriceCreated($event)
+	{
+		$product = $this->getConfig('stripe_app_plan');
+		if ($product) {
+			$product_value =  $this->castValue($product);
+			$stripePlans = $this->getPlanPrice(['product' => $product_value->id]);
+			$product_value->plans = $stripePlans;
+
+			$product->value = $this->storeValue('object', $product_value);
+			$product->save();
+
+			broadcast(new GlobalEvent(array_merge(['type' => 'configs'], $this->getAllConfigs())));
+		}
+		return response()->json(['success' => true ], 200);
+	}
+
+	/**
+	 * price.updated
+	 */
+	public function handlePriceUpdated($event)
+	{
+		return $this->handlePriceCreated($event);
+	}
+
+	/**
+	 * price.deleted
+	 */
+	public function handlePriceDeleted($event)
+	{
+		return $this->handlePriceCreated($event);
 	}
 }
