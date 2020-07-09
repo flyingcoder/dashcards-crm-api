@@ -6,6 +6,19 @@ use App\Configuration;
 
 trait HasConfigTrait
 {
+    /**
+     *
+     * @return  \App\Configuration
+     */
+    public function getConfig($key)
+    {
+        return Configuration::where('key', $key)->firstOrfail();
+    }
+
+    /**
+     *
+     * @return array
+     */
     public function getAllConfigs()
     {
         $configs = Configuration::all();
@@ -16,11 +29,52 @@ trait HasConfigTrait
         return $mapArray;
     }
 
+    /**
+     *
+     * @return \App\Configuration
+     */
+    public function getConfigByKey($key, $default = null)
+    {
+        $config = Configuration::where('key', $key)->first();
+        if ($config) {
+            return $this->castValue($config);
+        }
+        return $default;
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function setConfigByKey($key, $value = "", $type = 'string')
+    {
+        if ($this->isKeyExists($key)) {
+            $config = Configuration::where('key', $key)->first();
+            $config->type = trim($type);
+            $config->value = $this->storeValue($type, $value);
+            $config->save();
+        } else {
+            Configuration::create([
+                'key' => $key,
+                'type' => $type,
+                'value' => $this->storeValue($type, $value)
+            ]);
+        }
+    }
+
+    /**
+     *
+     * @return 
+     */
 	public function isKeyExists($key)
 	{
 		return Configuration::where('key', $key)->exists();
 	}
 
+    /**
+     *
+     * @return mixed
+     */
 	public function castValue($config)
     {
     	if ($config->type == 'array') {
@@ -39,6 +93,10 @@ trait HasConfigTrait
     	return $value;
     }
 
+    /**
+     *
+     * @return mixed
+     */
     public function storeValue($type = null, $value)
     {
     	if (is_null($type)) {

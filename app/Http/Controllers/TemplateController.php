@@ -6,12 +6,15 @@ use App\Company;
 use App\Milestone;
 use App\Repositories\TemplateRepository;
 use App\Template;
+use App\Traits\TemplateTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TemplateController extends Controller
 {
+    use TemplateTrait;
+    
     protected $repo;
     protected $rules = [
         'name' => 'required',
@@ -218,5 +221,87 @@ class TemplateController extends Controller
         $template->delete();
 
         return $template;
+    }
+
+    public function saveEmailTemplate()
+    {
+        request()->validate([
+            'name' => 'required|string',
+            'value' => 'required|string|min:5',
+        ]);
+        
+        $user = auth()->user();
+        $company = $user->company();
+
+        $key_name = $user->hasRoleLikeIn(['admin', 'manager']) ? 'admin_template:'.request()->name : 'client_template:'.request()->name;
+   
+        $template = $company->templates()
+                    ->where('replica_type', 'App\\Template')
+                    ->where('name', $key_name)
+                    ->first();
+        if (!$template) {
+            $template = $company->templates()->create([
+                    'replica_type' => 'App\\Template',
+                    'name' => $key_name,
+                    'status' => 'active',
+                    'created_at' => now()->format('Y-m-d H:i:s')
+                ]);
+        }
+
+        $template->setMeta('template', request()->value);
+        $template->load('meta');
+
+        return $template ;
+    }
+
+    public function saveGlobalEmailTemplate()
+    {
+        request()->validate([
+            'name' => 'required|string',
+            'value' => 'required|string|min:5'
+        ]);
+        
+        $key_name = 'global_template:'.request()->name;
+        
+        $template = Template::where('replica_type', 'App\\Template')
+                    ->where('company_id', 0)
+                    ->where('name', $key_name)
+                    ->first();
+        if (!$template) {
+            $template = Template::create([
+                    'company_id' => 0,
+                    'replica_type' => 'App\\Template',
+                    'name' => $key_name,
+                    'status' => 'active',
+                    'created_at' => now()->format('Y-m-d H:i:s')
+                ]);
+        }
+
+        $template->setMeta('template', request()->value);
+        $template->load('meta');
+
+        return $template ;
+    }
+    public function getEmailTemplates($type = null)
+    {
+        $user = auth()->user();
+        $company = $user->company();
+        $name = $user->hasRoleLikeIn(['admin', 'manager']) ? 'admin_template' : 'client_template';
+        
+        if (!is_null($type) && $type == 'global') {
+            $name = 'global_template';
+            return Template::with('meta')
+                    ->where('replica_type', 'App\\Template')
+                    ->where('name', 'like', $name.':%')
+                    ->get();
+        }
+
+        $templates = $company->templates()
+                    ->with('meta')
+                    ->where('replica_type', 'App\\Template')
+                    ->where('name', 'like', $name.':%')
+                    ->get();
+
+        return  $templates;
     }
 }

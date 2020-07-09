@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\ActivityEvent;
+use App\Traits\TemplateTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Template extends Model
 {
-	use SoftDeletes, LogsActivity, Metable;
+	use SoftDeletes, LogsActivity, Metable, TemplateTrait;
 
 	/**
      * The attributes that are mass assignable.

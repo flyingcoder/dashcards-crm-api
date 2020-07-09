@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => ['api', 'cors']], function () {
+Route::group(['middleware' => ['api']], function () {
     Route::get('form/{slug}/online', 'FormController@formBySlug');
     Route::post('form/{id}/online', 'FormController@saveFormResponse');
 
@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
 });
 
-Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'register'], function () {
+Route::group(['middleware' => ['api'], 'prefix' => 'register'], function () {
 
   Route::post('/', 'Auth\ApiRegisterController@create');
   
@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'verify'], function () {
 
 Route::post('login', 'Auth\ApiLoginController@login');
 
-Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'password'], function () {
+Route::group(['middleware' => ['api'], 'prefix' => 'password'], function () {
 
   Route::post('email', 'Auth\ApiForgotPasswordController@sendResetLinkEmail');
 
@@ -128,6 +128,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function ()
 Route::group(['middleware' => 'auth:api', 'prefix' => 'stripe'], function () {
   
   Route::get('account', 'StripeController@getStripeAccount');
+
+  Route::get('plans', 'StripeController@getStripePlans');
+
+  Route::post('plans', 'StripeController@createStripePlans');
+
+  Route::put('plans', 'StripeController@updateStripePlans');
 
   Route::post('connect', 'StripeController@connectToStripe');
 
@@ -447,6 +453,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
   Route::get('invoices/fields', 'TemplateController@getInvoiceFields');
 
+  Route::get('email-templates/{type?}', 'TemplateController@getEmailTemplates');
+  
+  Route::post('email-templates/global', 'TemplateController@saveGlobalEmailTemplate');
+  
+  Route::post('email-templates', 'TemplateController@saveEmailTemplate');
+
   Route::get('{id}', 'TemplateController@template');
 
   Route::put('{id}', 'TemplateController@update');
@@ -454,6 +466,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
   Route::delete('bulk-delete', 'TemplateController@bulkDelete');
 
   Route::delete('{id}', 'TemplateController@delete');
+
 
 });
 
