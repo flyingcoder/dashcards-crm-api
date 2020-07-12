@@ -4,10 +4,9 @@ use Illuminate\Database\Seeder;
 
 class DefaultInvoiceTemplates extends Seeder
 {
+
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @throws Throwable
      */
     public function run()
     {
