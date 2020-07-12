@@ -21,11 +21,21 @@ class ApiResetPasswordController extends Controller
 
     use ResetsPasswords;
 
+    /**
+     * @param Request $request
+     * @param $response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     protected function sendResetResponse(Request $request, $response)
     {
         return response([ 'message' => trans($response) ]);
     }
 
+    /**
+     * @param Request $request
+     * @param $response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return response([ 'message' => trans($response) ], 422);

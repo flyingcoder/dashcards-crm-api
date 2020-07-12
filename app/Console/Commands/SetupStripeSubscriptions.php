@@ -6,6 +6,8 @@ use App\Configuration;
 use App\Traits\HasConfigTrait;
 use App\Traits\StripeTrait;
 use Illuminate\Console\Command;
+use Stripe\Product;
+use Stripe\Stripe;
 
 class SetupStripeSubscriptions extends Command
 {
@@ -34,10 +36,9 @@ class SetupStripeSubscriptions extends Command
         parent::__construct();
     }
 
+
     /**
-     * Execute the console command.
-     *
-     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function handle()
     {
@@ -105,10 +106,13 @@ class SetupStripeSubscriptions extends Command
         echo "Done!";
     }
 
+    /**
+     * @return Product
+     */
     private function createProduct()
     {
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        $stripeProduct = \Stripe\Product::create([
+        Stripe::setApiKey(config('services.stripe.secret'));
+        return Product::create([
             'name' => 'App Subscriptions',
             'description' => 'App subscription via Stripe',
             'images' => [
@@ -116,7 +120,5 @@ class SetupStripeSubscriptions extends Command
                 config('app.url').'/img/logo/color-logo.png'
             ]
         ]);
-
-        return $stripeProduct;
     }
 }

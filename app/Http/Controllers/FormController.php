@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Form;
 use App\Policies\FormPolicy;
 use App\Repositories\FormRepository;
+use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
@@ -148,13 +149,13 @@ class FormController extends Controller
         $tos = request()->to_emails;
         $subject = request()->subject;
 
-        \Mail::send('email.send-email-form', ['content' => request()->message ], function($message) use ($tos, $subject) {
+        Mail::send('email.send-email-form', ['content' => request()->message ], function($message) use ($tos, $subject) {
             $company = auth()->user()->company();
             $message->from(auth()->user()->email, $company->name);
             $message->to($tos)->subject($subject);
         });
 
-        $failed = \Mail:: failures();
+        $failed = Mail:: failures();
         
         if (empty($failed)) {
             $form->sents()->create([
@@ -186,7 +187,7 @@ class FormController extends Controller
 
         if (array_key_exists('notif_email_receivers', $form->props) && !empty($form->props['notif_email_receivers'])) {
             $url = config('app.frontend_url').'/dashboard/forms/'.$form->id.'/responses';
-            \Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ], 
+            Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ],
                 function($message) use ($form) { 
                     $message->from(config('mail.from.address', 'admin@dashcards.com'), config('mail.from.name', 'Buzzooka CRM'));
                     $message->to($form->props['notif_email_receivers'])->subject($form->title." response");    

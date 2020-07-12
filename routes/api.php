@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\IsAppAdmins;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,40 +18,46 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::get('configs', 'ConfigurationController@index');
     Route::get('configs/{key}', 'ConfigurationController@getByKey');
-    
+
     Route::group(['middleware' => ['auth:api']], function () {
-      Route::post('configs/bulk', 'ConfigurationController@bulkSave')->middleware(IsAppAdmins::class);
-      Route::post('configs', 'ConfigurationController@saveByKey')->middleware(IsAppAdmins::class);
+        Route::post('configs/bulk', 'ConfigurationController@bulkSave')->middleware(IsAppAdmins::class);
+        Route::post('configs', 'ConfigurationController@saveByKey')->middleware(IsAppAdmins::class);
 
-      Route::get('logs/activities', 'LogsController@getActivityLogs')->middleware(IsAppAdmins::class);
-      Route::get('logs', 'LogsController@index')->middleware(IsAppAdmins::class);
-      Route::post('logs/clear', 'LogsController@clear')->middleware(IsAppAdmins::class);
+        Route::get('logs/activities', 'LogsController@getActivityLogs')->middleware(IsAppAdmins::class);
+        Route::get('logs', 'LogsController@index')->middleware(IsAppAdmins::class);
+        Route::post('logs/clear', 'LogsController@clear')->middleware(IsAppAdmins::class);
 
-      Route::get('companies', 'CompanyController@companies')->middleware(IsAppAdmins::class);
-      Route::post('companies/{id}/status', 'CompanyController@companyStatus')->middleware(IsAppAdmins::class);
-      Route::get('subscribers/statistics', 'CompanyController@subscribersStatistics')->middleware(IsAppAdmins::class);
+        Route::get('companies', 'CompanyController@companies')->middleware(IsAppAdmins::class);
+        Route::post('companies/{id}/status', 'CompanyController@companyStatus')->middleware(IsAppAdmins::class);
+        Route::get('subscribers/statistics', 'CompanyController@subscribersStatistics')->middleware(IsAppAdmins::class);
     });
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'logout'], function () {
 
-  Route::post('/', 'Auth\ApiLoginController@logout');
+    Route::post('/', 'Auth\ApiLoginController@logout');
 
 });
 
 Route::group(['middleware' => ['api'], 'prefix' => 'register'], function () {
 
-  Route::post('/', 'Auth\ApiRegisterController@create');
-  
-  //Route::post('/set-password', 'Auth\ApiRegisterController@setPassword');
+    Route::post('/', 'Auth\ApiRegisterController@create');
 
-  //Route::post('/get-user-id', 'Auth\ApiRegisterController@getUserId');
+    //Route::post('/set-password', 'Auth\ApiRegisterController@setPassword');
+
+    //Route::post('/get-user-id', 'Auth\ApiRegisterController@getUserId');
 
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'verify'], function () {
 
-  Route::get('is-belong-to', 'VerificationController@isBelongToCompany');
+    Route::get('is-belong-to', 'VerificationController@isBelongToCompany');
+
+});
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'emails'], function () {
+
+    Route::post('send', 'EmailController@sendEmail');
 
 });
 
@@ -60,560 +65,559 @@ Route::post('login', 'Auth\ApiLoginController@login');
 
 Route::group(['middleware' => ['api'], 'prefix' => 'password'], function () {
 
-  Route::post('email', 'Auth\ApiForgotPasswordController@sendResetLinkEmail');
+    Route::post('email', 'Auth\ApiForgotPasswordController@sendResetLinkEmail');
 
-  Route::post('reset', 'Auth\ApiResetPasswordController@reset');
+    Route::post('reset', 'Auth\ApiResetPasswordController@reset');
 
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'note'], function () {
 
-  Route::get('/', 'NoteController@index');
+    Route::get('/', 'NoteController@index');
 
-  Route::put('{id}/{action}', 'NoteController@pinning')->where('action', 'pin|unpin');
+    Route::put('{id}/{action}', 'NoteController@pinning')->where('action', 'pin|unpin');
 
-  Route::put('{id}', 'NoteController@update');
+    Route::put('{id}', 'NoteController@update');
 
-  Route::post('/', 'NoteController@store');
+    Route::post('/', 'NoteController@store');
 
-  Route::post('{id}/collaborators', 'NoteController@collaborators');
+    Route::post('{id}/collaborators', 'NoteController@collaborators');
 
-  Route::delete('{id}', 'NoteController@delete');
+    Route::delete('{id}', 'NoteController@delete');
 
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
-  Route::get('unread', 'MessageController@unRead');
+    Route::get('unread', 'MessageController@unRead');
 
-  Route::get('list', 'MessageController@list');
+    Route::get('list', 'MessageController@list');
 
-  Route::get('group/list', 'MessageController@groupList');
+    Route::get('group/list', 'MessageController@groupList');
 
-  Route::get('group/private/{convo_id}', 'MessageController@fetchGroupMessages');
+    Route::get('group/private/{convo_id}', 'MessageController@fetchGroupMessages');
 
-  Route::get('mark-read', 'MessageController@markAllAsRead');
+    Route::get('mark-read', 'MessageController@markAllAsRead');
 
-  Route::get('/private/{friend_id}', 'MessageController@fetchPrivateMessages');
+    Route::get('/private/{friend_id}', 'MessageController@fetchPrivateMessages');
 
-  Route::get('group/{type}/{project_id}', 'MessageController@getGroupInfo'); //type : client,team
+    Route::get('group/{type}/{project_id}', 'MessageController@getGroupInfo'); //type : client,team
 
-  Route::post('/private', 'MessageController@sendPrivateMessage');
+    Route::post('/private', 'MessageController@sendPrivateMessage');
 
-  Route::post('group/private', 'MessageController@sendGroupMessage');
+    Route::post('group/private', 'MessageController@sendGroupMessage');
 
-  Route::get('/private', 'MessageController@sendPrivateMessage');
+    Route::get('/private', 'MessageController@sendPrivateMessage');
 
-  Route::post('/group', 'MessageController@createGroupChat');
+    Route::post('/group', 'MessageController@createGroupChat');
 
-  Route::post('group/remove-member', 'MessageController@removeFromGroup');
+    Route::post('group/remove-member', 'MessageController@removeFromGroup');
 
-  Route::post('group/update-members', 'MessageController@updateGroupChatMembers');
+    Route::post('group/update-members', 'MessageController@updateGroupChatMembers');
 
-  Route::get('group/members/{convo_id}', 'MessageController@groupChatMembers');
+    Route::get('group/members/{convo_id}', 'MessageController@groupChatMembers');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'activities'], function () {
 
-  Route::get('/', 'ActivityController@index');
+    Route::get('/', 'ActivityController@index');
 
-  Route::get('log', 'ActivityController@log');
+    Route::get('log', 'ActivityController@log');
 
-  Route::get('{id}/mark-read', 'ActivityController@markRead');
+    Route::get('{id}/mark-read', 'ActivityController@markRead');
 
-  Route::get('unread', 'ActivityController@unread');
+    Route::get('unread', 'ActivityController@unread');
 
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'stripe'], function () {
-  
-  Route::get('account', 'StripeController@getStripeAccount');
 
-  Route::get('plans', 'StripeController@getStripePlans');
+    Route::get('account', 'StripeController@getStripeAccount');
 
-  Route::post('plans', 'StripeController@createStripePlans');
+    Route::get('plans', 'StripeController@getStripePlans');
 
-  Route::put('plans', 'StripeController@updateStripePlans');
+    Route::post('plans', 'StripeController@createStripePlans');
 
-  Route::post('connect', 'StripeController@connectToStripe');
+    Route::put('plans', 'StripeController@updateStripePlans');
 
-  Route::post('disconnect', 'StripeController@disconnectFromStripe');
+    Route::post('connect', 'StripeController@connectToStripe');
 
-  Route::get('payment-intent/{id}', 'StripeController@createPaymentIntent');
-  
+    Route::post('disconnect', 'StripeController@disconnectFromStripe');
+
+    Route::get('payment-intent/{id}', 'StripeController@createPaymentIntent');
+
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'upgrade'], function () {
 
-  Route::get('plan', 'PaymentController@plan');
+    Route::get('plan', 'PaymentController@plan');
 
-  Route::post('checkout', 'PaymentController@checkout');
+    Route::post('checkout', 'PaymentController@checkout');
 
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'report'], function () {
-  
-  Route::get('/', 'ReportController@index');
 
-  Route::post('/', 'ReportController@newReport');
+    Route::get('/', 'ReportController@index');
 
-  Route::put('{id}', 'ReportController@updateReport');
+    Route::post('/', 'ReportController@newReport');
 
-  Route::delete('{id}', 'ReportController@deleteReport');
+    Route::put('{id}', 'ReportController@updateReport');
+
+    Route::delete('{id}', 'ReportController@deleteReport');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'autocomplete'], function () {
-  
-  Route::get('search', 'SearchController@globalSearch');
 
-  Route::get('{model}', 'SearchController@autocomplete');
+    Route::get('search', 'SearchController@globalSearch');
+
+    Route::get('{model}', 'SearchController@autocomplete');
 
 });
 
 //permission
 Route::group(['middleware' => 'auth:api', 'prefix' => 'permission'], function () {
 
-  Route::get('/', 'PermissionController@index');
+    Route::get('/', 'PermissionController@index');
 
-  Route::post('/', 'PermissionController@store');
+    Route::post('/', 'PermissionController@store');
 
-  Route::get('autocomplete', 'PermissionController@search');
+    Route::get('autocomplete', 'PermissionController@search');
 
-  Route::put('{id}', 'PermissionController@update');
+    Route::put('{id}', 'PermissionController@update');
 
-  Route::delete('{id}', 'PermissionController@delete');
+    Route::delete('{id}', 'PermissionController@delete');
 
-  Route::get('/defaults', 'PermissionController@defaultPermissions');
+    Route::get('/defaults', 'PermissionController@defaultPermissions');
 
-  Route::get('user/{id}','PermissionController@userPermissions' );
+    Route::get('user/{id}', 'PermissionController@userPermissions');
 });
 
 
 //permission
 Route::group(['middleware' => 'auth:api', 'prefix' => 'roles'], function () {
 
-  Route::get('/company', 'RoleController@companyRoles');
+    Route::get('/company', 'RoleController@companyRoles');
 
-  Route::get('/default', 'RoleController@defaultRoles');
+    Route::get('/default', 'RoleController@defaultRoles');
 
-  Route::get('{id}/permissions', 'RoleController@getPermissionByRole');
+    Route::get('{id}/permissions', 'RoleController@getPermissionByRole');
 
-  Route::put('{id}/permissions', 'RoleController@updateRolePermissions');
+    Route::put('{id}/permissions', 'RoleController@updateRolePermissions');
 
 });
 
 //company
 Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
-  Route::get('members', 'CompanyController@members');
+    Route::get('members', 'CompanyController@members');
 
-  Route::get('teams', 'CompanyController@teams');
+    Route::get('teams', 'CompanyController@teams');
 
-  Route::get('teams/{id}', 'CompanyController@member');
+    Route::get('teams/{id}', 'CompanyController@member');
 
-  Route::delete('teams/bulk-delete', 'TeamController@bulkDelete');
+    Route::delete('teams/bulk-delete', 'TeamController@bulkDelete');
 
-  Route::delete('teams/{id}', 'TeamController@delete');
+    Route::delete('teams/{id}', 'TeamController@delete');
 
-  Route::post('teams', 'TeamController@store');
+    Route::post('teams', 'TeamController@store');
 
-  Route::put('teams/{id}', 'TeamController@update');
+    Route::put('teams/{id}', 'TeamController@update');
 
-  Route::get('invoices/statistics', 'InvoiceController@statistics');
+    Route::get('invoices/statistics', 'InvoiceController@statistics');
 
-  Route::get('invoices/{id?}', 'InvoiceController@index');
+    Route::get('invoices/{id?}', 'InvoiceController@index');
 
-  Route::get('{id}/info', 'CompanyController@info');
+    Route::get('{id}/info', 'CompanyController@info');
 
-  Route::put('{id}/info', 'CompanyController@updateInfo');
+    Route::put('{id}/info', 'CompanyController@updateInfo');
 
-  Route::post('{id}/logo', 'CompanyController@uploadLogo');
+    Route::post('{id}/logo', 'CompanyController@uploadLogo');
 
-  Route::get('{id}/settings', 'CompanyController@settings');
+    Route::get('{id}/settings', 'CompanyController@settings');
 
-  Route::post('{id}/settings', 'CompanyController@updateSettings');
+    Route::post('{id}/settings', 'CompanyController@updateSettings');
 });
 
 // Tasks
 Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
-  
-  Route::get('/', 'TaskController@index');
 
-  Route::get('mine', 'TaskController@mine');
+    Route::get('/', 'TaskController@index');
 
-  Route::post('/', 'TaskController@store'); //for independent task no milestone
+    Route::get('mine', 'TaskController@mine');
 
-  Route::get('statistics/{id}', 'TaskController@stats');
+    Route::post('/', 'TaskController@store'); //for independent task no milestone
 
-  Route::put('{id}/mark-as-complete', 'TaskController@markAsComplete');
+    Route::get('statistics/{id}', 'TaskController@stats');
 
-  Route::get('{id}/comments', 'TaskController@comments');
+    Route::put('{id}/mark-as-complete', 'TaskController@markAsComplete');
 
-  Route::post('{id}/comments', 'TaskController@addComments');
+    Route::get('{id}/comments', 'TaskController@comments');
 
-  Route::get('{id}', 'TaskController@task');
+    Route::post('{id}/comments', 'TaskController@addComments');
 
-  Route::delete('{id}', 'TaskController@delete');
+    Route::get('{id}', 'TaskController@task');
 
-  Route::put('{id}', 'TaskController@update');
-  
+    Route::delete('{id}', 'TaskController@delete');
+
+    Route::put('{id}', 'TaskController@update');
+
 });
 
 // Commments
 Route::group(['middleware' => 'auth:api', 'prefix' => 'comments'], function () {
-  Route::delete('{id}', 'CommentController@delete');
+    Route::delete('{id}', 'CommentController@delete');
 });
 
 // Milestone
 Route::group(['middleware' => 'auth:api', 'prefix' => 'milestone'], function () {
 
-  Route::get('{id}/task', 'MilestoneController@tasks');
+    Route::get('{id}/task', 'MilestoneController@tasks');
 
-  Route::post('{milestone_id}/task', 'TaskController@store');
+    Route::post('{milestone_id}/task', 'TaskController@store');
 
-  Route::put('{milestone_id}/task/{task_id}', 'TaskController@updateTask');
+    Route::put('{milestone_id}/task/{task_id}', 'TaskController@updateTask');
 
-  Route::delete('{milestone_id}/task/bulk-delete', 'TaskController@bulkDeleteTask');
+    Route::delete('{milestone_id}/task/bulk-delete', 'TaskController@bulkDeleteTask');
 
-  Route::delete('{milestone_id}/task/{task_id}', 'TaskController@deleteTask');
+    Route::delete('{milestone_id}/task/{task_id}', 'TaskController@deleteTask');
 
 });
 
 //new dynamic parent milestone api - alvin
 Route::group(['middleware' => 'auth:api'], function () {
 
-  Route::get('{parent}/{id}/milestone', 'MilestoneController@index')
-         ->where('parent', 'project|template');
+    Route::get('{parent}/{id}/milestone', 'MilestoneController@index')
+        ->where('parent', 'project|template');
 
-  Route::post('{parent}/{id}/milestone', 'MilestoneController@store')
-         ->where('parent', 'project|template');
+    Route::post('{parent}/{id}/milestone', 'MilestoneController@store')
+        ->where('parent', 'project|template');
 
-  Route::put('{parent}/{id}/milestone/{milestone_id}', 'MilestoneController@update')
-         ->where('parent', 'project|template');
+    Route::put('{parent}/{id}/milestone/{milestone_id}', 'MilestoneController@update')
+        ->where('parent', 'project|template');
 
-  Route::delete('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@delete')
-         ->where('parent', 'project|template');
+    Route::delete('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@delete')
+        ->where('parent', 'project|template');
 
-   Route::get('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@milestone')
-         ->where('parent', 'project|template');
+    Route::get('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@milestone')
+        ->where('parent', 'project|template');
 });
 
 //events
 Route::group(['middleware' => 'auth:api', 'prefix' => 'events'], function () {
-  
-  Route::get('/', 'EventController@index');
 
-  Route::get('{id}/delete', 'EventController@delete');
+    Route::get('/', 'EventController@index');
 
-  Route::post('/', 'EventController@store');
+    Route::get('{id}/delete', 'EventController@delete');
 
-  Route::put('{id}', 'EventController@update');
+    Route::post('/', 'EventController@store');
 
-  Route::post('{id}/participants', 'EventController@addParticipants');
+    Route::put('{id}', 'EventController@update');
 
-  Route::delete('{id}/participants/{user_id?}', 'EventController@leaveEvent');
+    Route::post('{id}/participants', 'EventController@addParticipants');
 
-  Route::delete('{id}', 'EventController@delete');
+    Route::delete('{id}/participants/{user_id?}', 'EventController@leaveEvent');
 
-  Route::get('/attributes', 'EventController@attributes');
+    Route::delete('{id}', 'EventController@delete');
 
-  Route::get('{id}/comments', 'EventController@getComments');
+    Route::get('/attributes', 'EventController@attributes');
 
-  Route::post('{id}/comments', 'EventController@addComment');
+    Route::get('{id}/comments', 'EventController@getComments');
 
-  Route::delete('{id}/comments/{comment_id}', 'EventController@removeComment');
+    Route::post('{id}/comments', 'EventController@addComment');
+
+    Route::delete('{id}/comments/{comment_id}', 'EventController@removeComment');
 
 });
 
 //calendars
 Route::group(['middleware' => 'auth:api', 'prefix' => 'calendars'], function () {
 
-  Route::get('/', 'CalendarController@index');
+    Route::get('/', 'CalendarController@index');
 
-  Route::post('/', 'CalendarController@store');
+    Route::post('/', 'CalendarController@store');
 
-  Route::get('my-calendar', 'CalendarController@calendar');
+    Route::get('my-calendar', 'CalendarController@calendar');
 
-  Route::get('attributes', 'CalendarController@attributes');
+    Route::get('attributes', 'CalendarController@attributes');
 
-  Route::post('event-types', 'CalendarController@addEventType');
+    Route::post('event-types', 'CalendarController@addEventType');
 
-}); 
-  
+});
+
 
 //dashitems
 Route::group(['middleware' => 'auth:api', 'prefix' => 'dashitems'], function () {
-  
-  Route::get('/', 'DashitemController@index'); // dashboard/index
 
-  Route::put('{dashboard_id}/order', 'DashitemController@changeOrder');
+    Route::get('/', 'DashitemController@index'); // dashboard/index
 
-  Route::put('{dashboard_id}/visibility', 'DashitemController@visibility');
+    Route::put('{dashboard_id}/order', 'DashitemController@changeOrder');
+
+    Route::put('{dashboard_id}/visibility', 'DashitemController@visibility');
 
 });
 
 //dashboard
 Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () {
 
-  Route::get('counts', 'DashboardController@counts'); // template
+    Route::get('counts', 'DashboardController@counts'); // template
 
-  Route::get('default/dashitems', 'DashboardController@defaultDashitems'); // template
+    Route::get('default/dashitems', 'DashboardController@defaultDashitems'); // template
 
-  Route::post('default/dashitems', 'DashboardController@addDashitems'); // template
+    Route::post('default/dashitems', 'DashboardController@addDashitems'); // template
 
-  Route::delete('default/dashitems', 'DashboardController@hideAllDashitem'); // template
+    Route::delete('default/dashitems', 'DashboardController@hideAllDashitem'); // template
 
-  Route::delete('default/dashitems/{id}', 'DashboardController@hideDashitem'); 
+    Route::delete('default/dashitems/{id}', 'DashboardController@hideDashitem');
 
-  Route::get('{id}/dashitems', 'DashboardController@dashitems'); 
+    Route::get('{id}/dashitems', 'DashboardController@dashitems');
 
 });
 
 //users
 Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function () {
 
-  Route::get('/', 'UserController@user');
+    Route::get('/', 'UserController@user');
 
-  Route::post('update-password', 'UserController@updatePassword');
+    Route::post('update-password', 'UserController@updatePassword');
 
-  Route::post('{id}', 'UserController@editProfilePicture');
+    Route::post('{id}', 'UserController@editProfilePicture');
 
-  Route::post('/', 'Auth\RegisterController@create');
+    Route::post('/', 'Auth\RegisterController@create');
 
-  Route::get('/company/{key}', 'UserController@getMeta');
+    Route::get('/company/{key}', 'UserController@getMeta');
 
-  Route::post('/company/details', 'UserController@addCompanyDetails');
+    Route::post('/company/details', 'UserController@addCompanyDetails');
 
-  Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
+    Route::post('/company/invoice-settings', 'UserController@addInvoiceSettings');
 
-  Route::post('/company/bank-transfer-details', 'UserController@addBankTransferDetails');
+    Route::post('/company/bank-transfer-details', 'UserController@addBankTransferDetails');
 
-  Route::post('/company/paypal-details', 'UserController@addPaypalDetails');
+    Route::post('/company/paypal-details', 'UserController@addPaypalDetails');
 
-  Route::get('/tasks', 'UserController@tasks');
+    Route::get('/tasks', 'UserController@tasks');
 
-  Route::get('{user_id}/tasks', 'UserController@userTasks');
+    Route::get('{user_id}/tasks', 'UserController@userTasks');
 
-  Route::get('/tasks/count', 'UserController@countTasks');
+    Route::get('/tasks/count', 'UserController@countTasks');
 
-  Route::get('/projects', 'UserController@projects');
+    Route::get('/projects', 'UserController@projects');
 
-  Route::get('/clients', 'UserController@clients');
+    Route::get('/clients', 'UserController@clients');
 
-  Route::get('/notifications', 'NotificationController@unread');
+    Route::get('/notifications', 'NotificationController@unread');
 
-  Route::get('/notifications/count', 'NotificationController@unreadcount');
+    Route::get('/notifications/count', 'NotificationController@unreadcount');
 
-  Route::put('/notifications/{id}', 'NotificationController@markRead');
+    Route::put('/notifications/{id}', 'NotificationController@markRead');
 
-  Route::get('{user_id}/timers', 'UserController@userTimers');
-  
-  Route::get('{user_id}/task-timers', 'UserController@userTaskTimers');
+    Route::get('{user_id}/timers', 'UserController@userTimers');
 
-  Route::get('{user_id}/global-timers', 'UserController@userGlobalTimers');
+    Route::get('{user_id}/task-timers', 'UserController@userTaskTimers');
+
+    Route::get('{user_id}/global-timers', 'UserController@userGlobalTimers');
 });
 
 //timer
 Route::group(['middleware' => 'auth:api', 'prefix' => 'timer'], function () {
 
-  Route::get('/', 'TimerController@index');
+    Route::get('/', 'TimerController@index');
 
-  Route::post('/', 'TimerController@task');
+    Route::post('/', 'TimerController@task');
 
-  Route::get('status/{user_id?}', 'TimerController@status');
+    Route::get('status/{user_id?}', 'TimerController@status');
 
-  Route::post('{type}/force-stop', 'TimerController@forceStopTimer')->where('type', 'global|task');
-  
-  Route::post('{action}', 'TimerController@timer');
+    Route::post('{type}/force-stop', 'TimerController@forceStopTimer')->where('type', 'global|task');
 
-  Route::get('tasks', 'TimerController@taskTimers');
+    Route::post('{action}', 'TimerController@timer');
 
-  Route::get('global', 'TimerController@globalTimers');
+    Route::get('tasks', 'TimerController@taskTimers');
 
-  Route::get('{action}', 'TimerController@timer');
+    Route::get('global', 'TimerController@globalTimers');
+
+    Route::get('{action}', 'TimerController@timer');
 
 });
 
 // Templates
 Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
 
-  Route::get('{type}/tree-view', 'TemplateController@treeView')->where('type', 'milestone|invoice');
+    Route::get('{type}/tree-view', 'TemplateController@treeView')->where('type', 'milestone|invoice');
 
-  Route::get('/', 'TemplateController@index');
+    Route::get('/', 'TemplateController@index');
 
-  Route::post('/', 'TemplateController@store');
+    Route::post('/', 'TemplateController@store');
 
-  Route::get('invoices', 'TemplateController@invoices');
-  
-  Route::post('invoices', 'TemplateController@saveInvoiceTemplates');
+    Route::get('invoices', 'TemplateController@invoices');
 
-  Route::put('invoices', 'TemplateController@updateInvoiceTemplates');
+    Route::post('invoices', 'TemplateController@saveInvoiceTemplates');
 
-  Route::delete('invoices/{id}', 'TemplateController@deleteInvoiceTemplates');
+    Route::put('invoices', 'TemplateController@updateInvoiceTemplates');
 
-  Route::get('invoices/fields', 'TemplateController@getInvoiceFields');
+    Route::delete('invoices/{id}', 'TemplateController@deleteInvoiceTemplates');
 
-  Route::get('email-templates/{type?}', 'TemplateController@getEmailTemplates');
-  
-  Route::post('email-templates/global', 'TemplateController@saveGlobalEmailTemplate');
-  
-  Route::post('email-templates', 'TemplateController@saveEmailTemplate');
+    Route::get('invoices/fields', 'TemplateController@getInvoiceFields');
 
-  Route::get('{id}', 'TemplateController@template');
+    Route::get('email-templates/{type?}', 'TemplateController@getEmailTemplates');
 
-  Route::put('{id}', 'TemplateController@update');
+    Route::post('email-templates/global', 'TemplateController@saveGlobalEmailTemplate');
 
-  Route::delete('bulk-delete', 'TemplateController@bulkDelete');
+    Route::post('email-templates', 'TemplateController@saveEmailTemplate');
 
-  Route::delete('{id}', 'TemplateController@delete');
+    Route::get('{id}', 'TemplateController@template');
 
+    Route::put('{id}', 'TemplateController@update');
+
+    Route::delete('bulk-delete', 'TemplateController@bulkDelete');
+
+    Route::delete('{id}', 'TemplateController@delete');
 
 });
 
 // Services//Campaign
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services'], function () {
 
-  Route::get('{id}', 'CampaignController@service');
-  
-  Route::get('/', 'CampaignController@index'); // services 
+    Route::get('{id}', 'CampaignController@service');
 
-  Route::post('/', 'CampaignController@store');
+    Route::get('/', 'CampaignController@index'); // services
 
-  Route::post('validate', 'CampaignController@isValid');
+    Route::post('/', 'CampaignController@store');
 
-  Route::put('{id}', 'CampaignController@update');
+    Route::post('validate', 'CampaignController@isValid');
 
-  Route::delete('bulk-delete', 'CampaignController@bulkDelete');
+    Route::put('{id}', 'CampaignController@update');
 
-  Route::delete('{id}', 'CampaignController@delete');
+    Route::delete('bulk-delete', 'CampaignController@bulkDelete');
 
-  Route::get('{id}/timeline', 'ActivityController@service');
+    Route::delete('{id}', 'CampaignController@delete');
 
-  Route::get('{id}/invoice', 'CampaignController@invoices');
+    Route::get('{id}/timeline', 'ActivityController@service');
+
+    Route::get('{id}/invoice', 'CampaignController@invoices');
 
 });
 
 //Service list
 Route::group(['middleware' => 'auth:api', 'prefix' => 'services-list'], function () {
-    
-  Route::get('list', 'ServiceListController@list');
 
-  Route::get('{id}', 'ServiceListController@service');
+    Route::get('list', 'ServiceListController@list');
 
-  Route::get('/', 'ServiceListController@index');
+    Route::get('{id}', 'ServiceListController@service');
 
-  Route::post('/', 'ServiceListController@store');
+    Route::get('/', 'ServiceListController@index');
 
-  Route::put('{id}', 'ServiceListController@update');
+    Route::post('/', 'ServiceListController@store');
 
-  Route::delete('{id}', 'ServiceListController@update');
+    Route::put('{id}', 'ServiceListController@update');
+
+    Route::delete('{id}', 'ServiceListController@update');
 });
 
 //media
 Route::group(['middleware' => 'auth:api', 'prefix' => 'file'], function () {
-  Route::post('/image-upload', 'MediaController@uploadImage');
+    Route::post('/image-upload', 'MediaController@uploadImage');
 
-  Route::post('/{id}/status', 'MediaController@updateStatus'); 
+    Route::post('/{id}/status', 'MediaController@updateStatus');
 
-  Route::post('/{id}/comment', 'MediaController@addComment'); 
+    Route::post('/{id}/comment', 'MediaController@addComment');
 
-  Route::get('/{id}/comment', 'MediaController@fetchComments'); 
-  
-  Route::delete('{id}/comment/{commment_id}', 'MediaController@deleteComment');
+    Route::get('/{id}/comment', 'MediaController@fetchComments');
 
-  Route::delete('{id}', 'MediaController@delete');
+    Route::delete('{id}/comment/{commment_id}', 'MediaController@deleteComment');
+
+    Route::delete('{id}', 'MediaController@delete');
 });
 
 // Projects
 Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
-  Route::get('/', 'ProjectController@index');// project
-  
-  Route::delete('bulk-delete', 'ProjectController@bulkDelete');
+    Route::get('/', 'ProjectController@index');// project
 
-  Route::delete('{id}', 'ProjectController@delete');
+    Route::delete('bulk-delete', 'ProjectController@bulkDelete');
 
-  Route::get('{id}', 'ProjectController@project');
+    Route::delete('{id}', 'ProjectController@delete');
 
-  Route::get('{id}/info', 'ProjectController@projectInfo');
+    Route::get('{id}', 'ProjectController@project');
 
-  Route::post('{id}/milestone-import', 'ProjectController@milestoneImport');
+    Route::get('{id}/info', 'ProjectController@projectInfo');
 
-  Route::get('{id}/messages', 'ProjectController@messages');
+    Route::post('{id}/milestone-import', 'ProjectController@milestoneImport');
 
-  Route::post('{id}/messages', 'ProjectController@sendMessages');
+    Route::get('{id}/messages', 'ProjectController@messages');
 
-  Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
+    Route::post('{id}/messages', 'ProjectController@sendMessages');
 
-  Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
+    Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
-  Route::get('{id}/tasks/search', 'ProjectController@searchTasks');
+    Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
 
-  Route::post('/', 'ProjectController@store');
+    Route::get('{id}/tasks/search', 'ProjectController@searchTasks');
 
-  Route::put('{id}', 'ProjectController@update'); //no more edit
+    Route::post('/', 'ProjectController@store');
 
-  Route::post('{id}/comments', 'ProjectController@addComments');
+    Route::put('{id}', 'ProjectController@update'); //no more edit
 
-  Route::get('{id}/comments', 'ProjectController@comments');
+    Route::post('{id}/comments', 'ProjectController@addComments');
 
-	Route::put('{id}/status', 'ProjectController@updateStatus');
+    Route::get('{id}/comments', 'ProjectController@comments');
 
-  Route::get('count', 'ProjectController@countProject');
+    Route::put('{id}/status', 'ProjectController@updateStatus');
 
-  Route::get('{id}/timer', 'ProjectController@timer');
+    Route::get('count', 'ProjectController@countProject');
 
-  Route::get('{id}/timers', 'ProjectController@myTimers');
+    Route::get('{id}/timer', 'ProjectController@timer');
 
-  Route::get('{id}/project-tasks-timers', 'ProjectController@projectTaskTimers');
+    Route::get('{id}/timers', 'ProjectController@myTimers');
 
-  Route::get('{id}/member', 'ProjectController@members');// project-hq
+    Route::get('{id}/project-tasks-timers', 'ProjectController@projectTaskTimers');
 
-  Route::post('{id}/member', 'ProjectController@assignMember');// project-hq
+    Route::get('{id}/member', 'ProjectController@members');// project-hq
 
-  Route::delete('{id}/member/bulk-delete', 'ProjectController@bulkRemoveMember');// project-hq
+    Route::post('{id}/member', 'ProjectController@assignMember');// project-hq
 
-  Route::delete('{id}/member/{member_id}', 'ProjectController@removeMember');// project-hq
+    Route::delete('{id}/member/bulk-delete', 'ProjectController@bulkRemoveMember');// project-hq
 
-  Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
+    Route::delete('{id}/member/{member_id}', 'ProjectController@removeMember');// project-hq
 
-  Route::get('{id}/new-members', 'ProjectController@newMembers');// project-hq
-  
-  Route::get('{id}/files-count', 'ProjectController@filesCount');
+    Route::get('{id}/members-all', 'ProjectController@membersAll');// project-hq
 
-  Route::get('{id}/file', 'MediaController@projectMedia');// project-hq
+    Route::get('{id}/new-members', 'ProjectController@newMembers');// project-hq
 
-	Route::post('{id}/file','MediaController@projectFileUpload');// project-hq
+    Route::get('{id}/files-count', 'ProjectController@filesCount');
 
-  Route::post('{id}/link', 'MediaController@addMediaLink');
+    Route::get('{id}/file', 'MediaController@projectMedia');// project-hq
 
-  Route::delete('{id}/file/bulk-delete', 'MediaController@bulkDeleteFiles');
+    Route::post('{id}/file', 'MediaController@projectFileUpload');// project-hq
 
-  Route::get('{id}/file/grid', 'MediaController@projectMediaAll');
+    Route::post('{id}/link', 'MediaController@addMediaLink');
 
-  Route::get('{id}/timeline', 'ActivityController@project');
+    Route::delete('{id}/file/bulk-delete', 'MediaController@bulkDeleteFiles');
 
-  Route::get('{id}/invoice', 'ProjectController@invoice');
+    Route::get('{id}/file/grid', 'MediaController@projectMediaAll');
 
-  Route::get('{id}/tasks-for-invoice', 'ProjectController@forInvoice');
+    Route::get('{id}/timeline', 'ActivityController@project');
 
-  Route::post('{id}/invoice', 'ProjectController@saveInvoice');
+    Route::get('{id}/invoice', 'ProjectController@invoice');
 
-  Route::get('{id}/report', 'ProjectController@reports');
+    Route::get('{id}/tasks-for-invoice', 'ProjectController@forInvoice');
 
-  Route::post('{id}/report', 'ProjectController@newReport');
+    Route::post('{id}/invoice', 'ProjectController@saveInvoice');
 
-  Route::put('{id}/report/{report_id}', 'ProjectController@updateReport');
+    Route::get('{id}/report', 'ProjectController@reports');
 
-  Route::delete('{id}/report/{report_id}', 'ProjectController@deleteReport');
+    Route::post('{id}/report', 'ProjectController@newReport');
 
-  Route::get('{id}/folder/{source}', 'ProjectFolderController@projectFolders');//->where('source', 'google-drive|dropbox');
+    Route::put('{id}/report/{report_id}', 'ProjectController@updateReport');
 
-  Route::post('{id}/folder/{source}', 'ProjectFolderController@store');
+    Route::delete('{id}/report/{report_id}', 'ProjectController@deleteReport');
 
-  Route::delete('{id}/folder-id/{source}/{folder_id}', 'ProjectFolderController@deleteByFolderId');
+    Route::get('{id}/folder/{source}', 'ProjectFolderController@projectFolders');//->where('source', 'google-drive|dropbox');
 
-  Route::delete('{id}/folder/{source}/{folder_id}', 'ProjectFolderController@delete');
+    Route::post('{id}/folder/{source}', 'ProjectFolderController@store');
+
+    Route::delete('{id}/folder-id/{source}/{folder_id}', 'ProjectFolderController@deleteByFolderId');
+
+    Route::delete('{id}/folder/{source}/{folder_id}', 'ProjectFolderController@delete');
 });
 
 // Forms
@@ -622,7 +626,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
     Route::get('/', 'FormController@index');
 
     Route::get('list', 'FormController@list');
-    
+
     Route::get('{id}', 'FormController@form');
 
     Route::get('{id}/responses', 'FormController@formResponses');
@@ -640,79 +644,78 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 // Clients
 Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
-  Route::get('/', 'ClientController@index'); // project
+    Route::get('/', 'ClientController@index'); // project
 
-  Route::get('{id}', 'ClientController@client'); // project
+    Route::get('{id}', 'ClientController@client'); // project
 
-  Route::post('{id}/image', 'ClientController@updatePicture');
-  
-  Route::post('/', 'ClientController@store'); // client add
-  
-  Route::put('/{id}', 'ClientController@update'); // client update
+    Route::post('{id}/image', 'ClientController@updatePicture');
 
-  Route::delete('bulk-delete', 'ClientController@bulkDelete');
+    Route::post('/', 'ClientController@store'); // client add
 
-  Route::delete('{id}', 'ClientController@delete');
+    Route::put('/{id}', 'ClientController@update'); // client update
 
-  Route::get('{id}/tasks', 'ClientController@tasks');
+    Route::delete('bulk-delete', 'ClientController@bulkDelete');
 
-  Route::get('{id}/staffs', 'ClientController@staffs');
+    Route::delete('{id}', 'ClientController@delete');
 
-  Route::get('{id}/invoices', 'ClientController@invoices');
+    Route::get('{id}/tasks', 'ClientController@tasks');
+
+    Route::get('{id}/staffs', 'ClientController@staffs');
+
+    Route::get('{id}/invoices', 'ClientController@invoices');
 
 });
 
 // Groups
 Route::group(['middleware' => 'auth:api', 'prefix' => 'groups'], function () {
 
-	Route::get('/', 'TeamController@groups');
+    Route::get('/', 'TeamController@groups');
 
-	Route::post('/', 'GroupController@store');
+    Route::post('/', 'GroupController@store');
 
-  Route::get('roles', 'TeamController@role');
+    Route::get('roles', 'TeamController@role');
 
-  Route::get('{id}', 'TeamController@editgroup');
+    Route::get('{id}', 'TeamController@editgroup');
 
-  Route::get('{id}/members', 'GroupController@members');
+    Route::get('{id}/members', 'GroupController@members');
 
-  Route::put('{id}', 'TeamController@updategroup');
+    Route::put('{id}', 'TeamController@updategroup');
 
-  Route::delete('{id}', 'TeamController@deletegroup');
+    Route::delete('{id}', 'TeamController@deletegroup');
 
-  Route::post('{id}/permission', 'GroupController@assignPermission');
+    Route::post('{id}/permission', 'GroupController@assignPermission');
 
-  Route::get('{id}/permission', 'PermissionController@permissions');
+    Route::get('{id}/permission', 'PermissionController@permissions');
 
-  Route::post('user/update-roles', 'GroupController@updateRoles');
+    Route::post('user/update-roles', 'GroupController@updateRoles');
 
-  Route::post('user/restore-delete', 'GroupController@restoreDelete');
+    Route::post('user/restore-delete', 'GroupController@restoreDelete');
 });
-
 
 
 // Invoices
 Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
 
-  Route::get('/', 'InvoiceController@index');
+    Route::get('/', 'InvoiceController@index');
 
-  Route::post('/', 'InvoiceController@store');
+    Route::post('/', 'InvoiceController@store');
 
-  Route::get('{id}/download', 'InvoiceController@getPDFInvoice');
+    Route::get('{id}/download', 'InvoiceController@getPDFInvoice');
 
-  Route::get('{id}/parse-template', 'InvoiceController@getParseInvoice');
+    Route::get('{id}/parse-template', 'InvoiceController@getParseInvoice');
 
-  Route::get('{id}', 'InvoiceController@invoice');
+    Route::get('{id}', 'InvoiceController@invoice');
 
-  Route::post('{id}', 'InvoiceController@update');
+    Route::post('{id}', 'InvoiceController@update');
 
-  Route::delete('bulk-delete', 'InvoiceController@bulkDelete');
+    Route::delete('bulk-delete', 'InvoiceController@bulkDelete');
 
-  Route::delete('{id}', 'InvoiceController@delete');
+    Route::delete('{id}', 'InvoiceController@delete');
 });
 
 // Forms
 Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
-  
-  Route::get('/', 'FormController@index');
+
+    Route::get('/', 'FormController@index');
 
 });

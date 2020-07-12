@@ -57,8 +57,10 @@ class StripeController extends Controller
         }
     }
 
+
     /**
      * @return \Illuminate\Http\JsonResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Stripe\Error\Api
      */
     public function createStripePlans()
@@ -102,6 +104,7 @@ class StripeController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      * @throws \Stripe\Error\Api
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateStripePlans()
     {

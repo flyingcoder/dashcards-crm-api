@@ -2,36 +2,40 @@
 
 namespace App\Mail;
 
-use App\Invoice;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class DynamicEmail extends Mailable
 {
-
     use Queueable, SerializesModels;
 
-    /**
-     * @var parse content
-     */
-    public $contents;
+    private $from_email;
+    private $from_name;
 
+    public $contents;
     public $now;
 
-    public $subject;
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $contents
+     * @param $subject
+     * @param $from
      */
-    public function __construct($contents, $subject )
+    public function __construct($contents, $subject, $from = null)
     {
         $this->now = Carbon::now();
         $this->contents = $contents;
         $this->subject = $subject;
+        if (is_null($from)) {
+            $this->from_email = config('mail.from.address', 'admin@dashcards.com');
+            $this->from_name = config('mail.from.name', config('app.name'));
+        } else {
+            $this->from_email = $from->email;
+            $this->from_name = $from->fullname;
+        }
     }
 
     /**
@@ -41,7 +45,8 @@ class DynamicEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('[' . config('app.name') . '] '.$this->subject)
-                    ->view('email.dynamic-email');
+        return $this->subject('[' . config('app.name') . '] ' . $this->subject)
+            ->from($this->from_email, $this->from_name)
+            ->view('email.dynamic-email');
     }
 }

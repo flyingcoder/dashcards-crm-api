@@ -9,6 +9,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\TemplateRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class InvoiceController extends Controller
 {
@@ -132,7 +133,7 @@ class InvoiceController extends Controller
 
         if (request()->has('send_email') && request()->send_email == 'yes') {
             $invoice->pdf = $this->repo->generatePDF($invoice);
-            \Mail::to($invoice->billedTo->email)->send(new NewInvoiceEmail($invoice));
+            Mail::to($invoice->billedTo->email)->send(new NewInvoiceEmail($invoice));
         }
 
         return $invoice;

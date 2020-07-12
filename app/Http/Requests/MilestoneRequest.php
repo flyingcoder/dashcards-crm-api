@@ -33,6 +33,9 @@ class MilestoneRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array
+     */
     public function attributes()
     {
         return [
@@ -41,6 +44,9 @@ class MilestoneRequest extends FormRequest
         ];
     }
 
+    /**
+     * @param Validator $validator
+     */
     protected function failedValidation(Validator $validator)
     {
         $errors   = [];

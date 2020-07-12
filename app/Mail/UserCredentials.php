@@ -6,7 +6,6 @@ use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserCredentials extends Mailable
 {
@@ -16,10 +15,12 @@ class UserCredentials extends Mailable
     public $link;
     public $login_link;
     public $password;
+
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param User $user
+     * @param null $password
      */
     public function __construct(User $user, $password = null)
     {

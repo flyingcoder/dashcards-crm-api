@@ -31,10 +31,12 @@ class GenerateRecurringInvoices extends Command
     protected $repo;
     protected $trepo;
     protected $days_before_remind = 23;
+
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param InvoiceRepository $repo
+     * @param TemplateRepository $trepo
      */
     public function __construct(InvoiceRepository $repo, TemplateRepository $trepo)
     {

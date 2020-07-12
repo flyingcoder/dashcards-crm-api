@@ -31,6 +31,12 @@ class UpdateImageUrls extends Command
         parent::__construct();
     }
 
+    /**
+     * @param $string
+     * @param $start
+     * @param $end
+     * @return false|string
+     */
     protected function get_string_between($string, $start, $end){
         $string = ' ' . $string;
         $ini = strpos($string, $start);

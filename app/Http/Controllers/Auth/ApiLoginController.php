@@ -38,9 +38,7 @@ class ApiLoginController extends Controller
     }
 
     /**
-     * login api
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login()
     {
@@ -66,9 +64,9 @@ class ApiLoginController extends Controller
                 'token' => $user->createToken('MyApp')->accessToken,
                 'user' => $userObject
             ], $this->successStatus);
-        } else {
-            return response()->json(['message' => 'Invalid email or password!'], 401);
         }
+        return response()->json(['message' => 'Invalid email or password!'], 401);
+
     }
 
     /**
