@@ -2,22 +2,16 @@
 
 namespace App;
 
-use App\Company;
 use App\Events\ActivityEvent;
-use App\Project;
 use App\Scopes\CampaignScope;
-use App\Traits\HasMediaLink;
-use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 //#noteby:kirby: Service is Campaign which has same table with projects, and service table is ServiceList  
-class Campaign extends Project 
+class Campaign extends Project
 {
+    use SoftDeletes, Metable;
     protected $table = 'projects';
     protected $paginate = 10;
     protected static $logName = 'project';
@@ -35,56 +29,89 @@ class Campaign extends Project
         'props' => 'array'
     ];
 
+    /**
+     * @param Activity $activity
+     * @param string $eventName
+     */
     public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
     }
 
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A campaign has been {$eventName}";
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
-    
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function forms()
     {
         return $this->belongsToMany(Form::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function team()
     {
         return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->withPivot('role');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function managers()
     {
         return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Manager');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function client()
     {
         return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Client');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function members()
     {
         return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->wherePivot('role', 'Members');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function activity()
     {
         return $this->morphMany('App\Activity', 'subject');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function service()
     {
         return $this->belongsTo(ServiceList::class);
     }
+
     /**
      * The "booting" method of the model.
      *
@@ -96,4 +123,5 @@ class Campaign extends Project
 
         static::addGlobalScope(new CampaignScope);
     }
+
 }

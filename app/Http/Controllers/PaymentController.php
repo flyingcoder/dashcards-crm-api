@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Traits\HasConfigTrait;
 use App\User;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -12,6 +11,9 @@ class PaymentController extends Controller
 
     protected $allowed_stripe_plans = [];
 
+    /**
+     * PaymentController constructor.
+     */
     public function __construct()
     {
         $config = $this->getConfigByKey('stripe_app_plan', $default = null);
@@ -21,6 +23,9 @@ class PaymentController extends Controller
     }
 
 
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
     public function checkout()
     {
         request()->validate([
@@ -42,6 +47,5 @@ class PaymentController extends Controller
               ->create(request()->token);
 
         return auth()->user();
-
     }
 }

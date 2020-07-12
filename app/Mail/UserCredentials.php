@@ -26,7 +26,8 @@ class UserCredentials extends Mailable
         $this->user = $user;
         $this->password = $password;
         //one-time use unique codes link for setting password
-        $this->link = config('app.frontend_url').'/set-password/'.$user->email.'/'.$user->getPasswordResetToken(); 
+        $this->link = $user->reset_password_link;
+        //config('app.frontend_url').'/set-password/'.$user->email.'/'.$user->getPasswordResetToken(); 
         $this->login_link = config('app.frontend_url').'/login';
     }
 

@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Campaign;
 use App\Events\ActivityEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,33 +26,53 @@ class ServiceList extends Model
     protected $casts = [
         'props' => 'array'
     ];
-    
-	public function tapActivity(Activity $activity, string $eventName)
+
+    /**
+     * @param Activity $activity
+     * @param string $eventName
+     */
+    public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
     }
 
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A service has been {$eventName}";
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function campaigns()
     {
         return $this->hasMany(Campaign::class, 'service_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function projects()
     {
         return $this->hasMany(Project::class);

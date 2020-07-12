@@ -65,10 +65,10 @@ class GroupChatSent implements ShouldBroadcast
 	    return $this->message;
 	}
 
-	/**
+    /**
      * Get the channels the event should broadcast on.
      *
-     * @return array
+     * @return Channel
      */
     public function broadcastOn()
     {

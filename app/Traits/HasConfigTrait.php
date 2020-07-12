@@ -8,6 +8,7 @@ trait HasConfigTrait
 {
     /**
      *
+     * @param $key
      * @return  \App\Configuration
      */
     public function getConfig($key)
@@ -22,7 +23,7 @@ trait HasConfigTrait
     public function getAllConfigs()
     {
         $configs = Configuration::all();
-        $mapArray  = [];
+        $mapArray = [];
         foreach ($configs as $config) {
             $mapArray[$config->key] = $this->castValue($config);
         }
@@ -31,6 +32,8 @@ trait HasConfigTrait
 
     /**
      *
+     * @param $key
+     * @param null $default
      * @return \App\Configuration
      */
     public function getConfigByKey($key, $default = null)
@@ -44,6 +47,9 @@ trait HasConfigTrait
 
     /**
      *
+     * @param $key
+     * @param string $value
+     * @param string $type
      * @return void
      */
     public function setConfigByKey($key, $value = "", $type = 'string')
@@ -64,49 +70,52 @@ trait HasConfigTrait
 
     /**
      *
-     * @return 
-     */
-	public function isKeyExists($key)
-	{
-		return Configuration::where('key', $key)->exists();
-	}
-
-    /**
-     *
+     * @param $key
      * @return mixed
      */
-	public function castValue($config)
+    public function isKeyExists($key)
     {
-    	if ($config->type == 'array') {
-    		$value = json_decode($config->value, true);
-    	} elseif ($config->type == 'object') {
-    		$value = json_decode($config->value);
-    	} elseif ($config->type == 'integer') {
-    		$value = (int) $config->value;
-    	} elseif ($config->type == 'float') {
-    		$value = (float) $config->value;
-    	} elseif ($config->type == 'boolean') {
-    		$value = (bool) $config->value;
-    	} else {
-    		$value = $config->value;
-    	}
-    	return $value;
+        return Configuration::where('key', $key)->exists();
     }
 
     /**
      *
+     * @param $config
      * @return mixed
      */
-    public function storeValue($type = null, $value)
+    public function castValue($config)
     {
-    	if (is_null($type)) {
-    		$type = 'string';
-    	}
-    	if ($type == 'array' || $type == 'object') {
-    		$value = json_encode($value);
-    	} else {
-    		$value = $value;
-    	}
-    	return $value;
+        if ($config->type == 'array') {
+            $value = json_decode($config->value, true);
+        } elseif ($config->type == 'object') {
+            $value = json_decode($config->value);
+        } elseif ($config->type == 'integer') {
+            $value = (int)$config->value;
+        } elseif ($config->type == 'float') {
+            $value = (float)$config->value;
+        } elseif ($config->type == 'boolean') {
+            $value = (bool)$config->value;
+        } else {
+            $value = $config->value;
+        }
+        return $value;
+    }
+
+    /**
+     *
+     * @param string $type
+     * @param $value
+     * @return mixed
+     */
+    public function storeValue($type, $value)
+    {
+        if (is_null($type)) {
+            $type = 'string';
+        }
+        if ($type == 'array' || $type == 'object') {
+            $value = json_encode($value);
+        }
+
+        return $value;
     }
 }

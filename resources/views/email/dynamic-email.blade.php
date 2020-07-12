@@ -13,7 +13,7 @@
                     <tr>
                         <td>
                             <div>
-                                {!! $content !!}
+                                {{ $contents }}
                             </div>
                         </td>
                     </tr>

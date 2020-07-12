@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Company;
-use App\Events\ProjectMessage;
 use App\Http\Requests\ProjectRequest;
 use App\Message;
 use App\Milestone;
@@ -13,16 +12,10 @@ use App\Project;
 use App\Report;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TimerRepository;
-use App\Task;
-use App\Team;
-use App\Template;
 use App\Traits\HasUrlTrait;
 use App\User;
-use Auth;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Chat;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Kodeine\Acl\Models\Eloquent\Role;
 
@@ -36,6 +29,11 @@ class ProjectController extends Controller
     protected $projRepo;
     protected $message_per_load = 10;
 
+    /**
+     * ProjectController constructor.
+     * @param TimerRepository $timeRepo
+     * @param ProjectRepository $projRepo
+     */
     public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo)
     {
         $this->timeRepo = $timeRepo;
@@ -46,25 +44,32 @@ class ProjectController extends Controller
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         (new ProjectPolicy())->index();
 
         $company = Auth::user()->company();
 
-        if(request()->has('all') && request()->all)
+        if (request()->has('all') && request()->all)
             return $this->projRepo->getCompanyProjectsList($company);
-            // return $company->allCompanyProjects();
+        // return $company->allCompanyProjects();
 
         return $this->projRepo->getCompanyProjects($company, request());
         // return $company->paginatedCompanyProjects(request());
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendMessages($id)
     {
         request()->validate([
             'from_id' => 'required|exists:users,id',
-            'type' => 'required|in:'.implode(',', ['client', 'team'])
+            'type' => 'required|in:' . implode(',', ['client', 'team'])
         ]);
 
         $body = request()->has('message') && !empty(request()->message) ? request()->message : ' ';
@@ -77,29 +82,29 @@ class ProjectController extends Controller
         $conversation = $project->conversations()->where('type', request()->type)->firstOrFail();
 
         $message = Chat::message($body)
-                       ->from($from)
-                       ->to($conversation)
-                       ->send();
+            ->from($from)
+            ->to($conversation)
+            ->send();
 
         $message->body = getFormattedContent($message->body);
         $media = null;
 
-        if (request()->has('file') && !is_null(request()->file) ) {
+        if (request()->has('file') && !is_null(request()->file)) {
             $file = request()->file('file');
             $msg = Message::findOrFail($message->id);
 
             $media = $msg->addMedia($file)
-                            ->preservingOriginal()
-                            ->withCustomProperties([
-                                'ext' => $file->extension(),
-                                'user' => $from
-                            ])
-                            ->toMediaCollection('chat.file');
+                ->preservingOriginal()
+                ->withCustomProperties([
+                    'ext' => $file->extension(),
+                    'user' => $from
+                ])
+                ->toMediaCollection('chat.file');
 
             $media = $msg->getFile();
         }
 
-        $data = $message->toArray() + ['sender' => $from, 'media' => $media ];
+        $data = $message->toArray() + ['sender' => $from, 'media' => $media];
 
         // GroupChatSent::dispatch($data, $conversation);
         // broadcast(new ProjectMessage($message, $model, request()->type))->toOthers();
@@ -107,10 +112,14 @@ class ProjectController extends Controller
         return response()->json($data, 201);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function messages($id)
     {
         request()->validate([
-            'type' => 'required|in:'.implode(',', ['client', 'team'])
+            'type' => 'required|in:' . implode(',', ['client', 'team'])
         ]);
 
         $project = Project::findOrFail($id);
@@ -130,7 +139,7 @@ class ProjectController extends Controller
         foreach ($items as $key => $msg) {
             $msg->body = getFormattedContent($msg->body);
             $message = Message::findOrFail($msg->id);
-            $data->push(array_merge($msg->toArray(), ['media' =>  $message->getFile() ]));   
+            $data->push(array_merge($msg->toArray(), ['media' => $message->getFile()]));
         }
 
         $messages->setCollection($data);
@@ -138,6 +147,10 @@ class ProjectController extends Controller
         return $messages;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function reports($id)
     {
         $model = Project::findOrFail($id);
@@ -145,6 +158,10 @@ class ProjectController extends Controller
         return $model->projectReports();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function newReport($id)
     {
         request()->validate([
@@ -154,7 +171,7 @@ class ProjectController extends Controller
 
         $project = Project::findOrFail($id);
 
-        return  $project->reports()->create([
+        return $project->reports()->create([
             'company_id' => auth()->user()->company()->id,
             'title' => request()->title,
             'description' => request()->description,
@@ -164,13 +181,18 @@ class ProjectController extends Controller
 
     }
 
+    /**
+     * @param $id
+     * @param $report_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateReport($id, $report_id)
     {
         $project = Project::findOrFail($id);
 
         $report = $project->reports()->where('id', $report_id)->firstOrFail();
 
-        if($report->updateReports()) {
+        if ($report->updateReports()) {
             $report->fresh();
             return response()->json($report, 200);
         }
@@ -178,6 +200,10 @@ class ProjectController extends Controller
         return response()->json(['message' => 'error'], 500);
     }
 
+    /**
+     * @param $project_id
+     * @return mixed
+     */
     public function saveInvoice($project_id)
     {
         $model = Project::findOrFail($project_id);
@@ -185,15 +211,19 @@ class ProjectController extends Controller
         return $model->storeInvoice();
     }
 
+    /**
+     * @param $project_id
+     * @return mixed
+     */
     public function forInvoice($project_id)
     {
         $project = Project::findOrFail($project_id);
 
-        $project->client_name = ucfirst($project->getClient()->last_name) .", ".ucfirst($project->getClient()->first_name);
-        
+        $project->client_name = ucfirst($project->getClient()->last_name) . ", " . ucfirst($project->getClient()->first_name);
+
         $project->billed_to = $project->getClient();
 
-        $project->manager_name = ucfirst($project->getManager()->last_name) .", ".ucfirst($project->getManager()->first_name);
+        $project->manager_name = ucfirst($project->getManager()->last_name) . ", " . ucfirst($project->getManager()->first_name);
 
         $project->billed_from = $project->getManager();
 
@@ -210,19 +240,27 @@ class ProjectController extends Controller
         return $project;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function invoice($id)
     {
         //(new ProjectPolicy())->index();
         $project = Project::findOrFail($id);
-        
+
         return $project->paginatedInvoices();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function assignMember($id)
     {
         request()->validate([
             'members_id' => 'required|array|min:1',
-            'members_id.*'  => 'required|distinct|exists:users,id'
+            'members_id.*' => 'required|distinct|exists:users,id'
         ]);
 
         try {
@@ -245,18 +283,23 @@ class ProjectController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @param $member_id
+     * @return mixed
+     */
     public function removeMember($id, $member_id)
     {
 
         $project = Project::findOrFail($id);
 
-        $client  = $project->projectClient;
+        $client = $project->projectClient;
         $manager = $project->projectManager;
 
-        if (in_array($member_id, [ $client->user_id, $manager->user_id ] )) {
+        if (in_array($member_id, [$client->user_id, $manager->user_id])) {
             $user = User::findOrFail($member_id);
             $role = array_values($user->user_roles)[0] ?? 'user';
-            abort(500, "Can't remove $role ".$user->fullname);
+            abort(500, "Can't remove $role " . $user->fullname);
         } else {
             $project->members()->detach($member_id);
         }
@@ -264,6 +307,10 @@ class ProjectController extends Controller
         return $project->members;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulkRemoveMember($id)
     {
         request()->validate([
@@ -279,15 +326,19 @@ class ProjectController extends Controller
                 $project->members()->detach($member->user_id);
             }
 
-            $message = $remove_members->count()." members successfully removed from project";
-            return response()->json(['message' => $message,  'ids' => $remove_members ], 200);
+            $message = $remove_members->count() . " members successfully removed from project";
+            return response()->json(['message' => $message, 'ids' => $remove_members], 200);
         }
 
         $message = "Cannot remove member which are project manager or client of the project";
-        return response()->json(['message' => $message ], 500);
+        return response()->json(['message' => $message], 500);
     }
 
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function milestoneImport($id)
     {
         request()->validate(['milestone_ids' => 'required|array']);
@@ -303,7 +354,7 @@ class ProjectController extends Controller
                 $new_milestone->project_id = $project->id;
                 $new_milestone->save();
 
-                if($milestone->tasks->count() > 0) {
+                if ($milestone->tasks->count() > 0) {
                     foreach ($milestone->tasks as $key => $task) {
                         $new_task = $new_milestone->tasks()->create([
                             'title' => $task->title,
@@ -319,10 +370,14 @@ class ProjectController extends Controller
             return response()->json(['message' => 'Successfully copied milestone and its tasks'], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['message' => $e->getMessage()], $e->getCode()); 
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function updateStatus($id)
     {
         $project = Project::findOrFail($id);
@@ -337,6 +392,10 @@ class ProjectController extends Controller
 
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function timer($id)
     {
         $project = Project::findOrFail($id);
@@ -346,6 +405,10 @@ class ProjectController extends Controller
         return $project->totalTime();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function myTimers($id)
     {
         $project = Project::findOrFail($id);
@@ -353,22 +416,26 @@ class ProjectController extends Controller
         return $project->timers();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function projectTaskTimers($id)
     {
         $project = Project::findOrFail($id);
 
         $tasks = $project->tasks()->select('tasks.*')
-                    ->with('assigned')
-                    ->orderBy('tasks.status', 'DESC')
-                    ->orderBy('tasks.id', 'ASC')
-                    ->paginate($this->paginate);
+            ->with('assigned')
+            ->orderBy('tasks.status', 'DESC')
+            ->orderBy('tasks.id', 'ASC')
+            ->paginate($this->paginate);
 
         $tasksItems = $tasks->getCollection();
         $data = collect([]);
 
         foreach ($tasksItems as $key => $task) {
             $timer = $this->timeRepo->getTimerForTask($task);
-            $data->push(array_merge($task->toArray(), ['timer' => $timer , 'milestone' => $task->milestone ]));   
+            $data->push(array_merge($task->toArray(), ['timer' => $timer, 'milestone' => $task->milestone]));
         }
 
         $tasks->setCollection($data);
@@ -376,11 +443,14 @@ class ProjectController extends Controller
         return $tasks;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function save()
     {
         (new ProjectPolicy())->create();
 
-        $clients =  Role::where('slug', 'client')->first()->users;
+        $clients = Role::where('slug', 'client')->first()->users;
 
         $company = Auth::user()->company();
 
@@ -390,6 +460,10 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * @param ProjectRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(ProjectRequest $request)
     {
         (new ProjectPolicy())->create();
@@ -400,9 +474,9 @@ class ProjectController extends Controller
             'end_at' => 'required',
             'client_id' => 'required',
         ]);
-        
+
         try {
-            
+
             DB::beginTransaction();
 
             $project = Project::create([
@@ -414,27 +488,29 @@ class ProjectController extends Controller
                 'status' => request()->project_status ?? 'Active',
                 'company_id' => auth()->user()->company()->id,
                 'props' => [
-                        'business_name' => request()->business_name ?? null
-                    ]
+                    'business_name' => request()->business_name ?? null
+                ]
             ]);
 
-            if(request()->has('extra_fields') && !empty(request()->extra_fields)){
+            if (request()->has('extra_fields') && !empty(request()->extra_fields)) {
                 $project->setMeta('extra_fields', request()->extra_fields);
             }
-            
+
             $project->members()->attach(request()->client_id, ['role' => 'Client']);
 
-            if(request()->has('members')){
+            if (request()->has('members')) {
                 foreach (request()->members as $value) {
                     $project->members()->attach($value, ['role' => 'Members']);
                 }
             }
-            
-            if(request()->has('managers')){
+
+            if (request()->has('managers')) {
                 foreach (request()->managers as $value) {
                     $project->manager()->attach($value, ['role' => 'Manager']);
                 }
             }
+
+            $project->setMeta('creator', auth()->user()->id);
 
             DB::commit();
 
@@ -442,20 +518,20 @@ class ProjectController extends Controller
             unset($project->members);
 
             $proj = Project::where('projects.id', $project->id)
-                    ->with([ 
-                        'projectManagers.user.meta',
-                        'projectClient.user.meta',
-                        'projectMembers.user.meta'
-                    ])
-                    ->first();
+                ->with([
+                    'projectManagers.user.meta',
+                    'projectClient.user.meta',
+                    'projectMembers.user.meta'
+                ])
+                ->first();
 
-            $proj->extra_fields    = $project->getMeta('extra_fields');
-            $proj->total_time      = $project->totalTime();
-            $proj->progress        = $project->progress();
-            $proj->tasks           = $project->tasks()->count();
-            $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
-            $proj->client_id       = $project->projectClient->user->id ?? "";
-            $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
+            $proj->extra_fields = $project->getMeta('extra_fields');
+            $proj->total_time = $project->totalTime();
+            $proj->progress = $project->progress();
+            $proj->tasks = $project->tasks()->count();
+            $proj->company_name = $project->projectClient->user->meta['company_name']->value ?? "";
+            $proj->client_id = $project->projectClient->user->id ?? "";
+            $proj->location = $project->projectClient->user->meta['location']->value ?? "";
 
             return $proj;
         } catch (Exception $e) {
@@ -464,6 +540,11 @@ class ProjectController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @param ProjectRequest $request
+     * @return mixed
+     */
     public function update($id, ProjectRequest $request)
     {
         $project = Project::findOrFail($id);
@@ -475,8 +556,8 @@ class ProjectController extends Controller
         $project->started_at = request()->start_at;
         $project->end_at = request()->end_at;
 
-        if(request()->has('client_id')){
-            if(count($project->client) == 0) {
+        if (request()->has('client_id')) {
+            if (count($project->client) == 0) {
                 $project->members()->attach(request()->client_id, ['role' => 'Client']);
             } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
                 $project->members()->detach($project->client()->first()->id);
@@ -484,18 +565,18 @@ class ProjectController extends Controller
             }
         }
 
-        if(request()->has('managers')) {
+        if (request()->has('managers')) {
             foreach (request()->managers as $value) {
-                if(!$project->manager->contains($value))
+                if (!$project->manager->contains($value))
                     $project->manager()->attach($value, ['role' => 'Manager']);
             }
         }
-        if(request()->has('members')) {
+        if (request()->has('members')) {
             foreach (request()->members as $value) {
-                if($value == request()->client_id)
+                if ($value == request()->client_id)
                     abort(422, "Client can't be a member");
 
-                if(!$project->members->contains($value))
+                if (!$project->members->contains($value))
                     $project->members()->attach($value, ['role' => 'Members']);
             }
         }
@@ -504,29 +585,33 @@ class ProjectController extends Controller
 
         $project->save();
 
-        if(request()->has('extra_fields') && !empty(request()->extra_fields)){
+        if (request()->has('extra_fields') && !empty(request()->extra_fields)) {
             $project->setMeta('extra_fields', request()->extra_fields);
         }
 
         unset($project->members);
 
-        $proj = $project->with([ 
-                'projectManagers.user.meta',
-                'projectClient.user.meta',
-                'projectMembers.user.meta'
-            ])->where('projects.id', $project->id)->first();
+        $proj = $project->with([
+            'projectManagers.user.meta',
+            'projectClient.user.meta',
+            'projectMembers.user.meta'
+        ])->where('projects.id', $project->id)->first();
 
-        $proj->extra_fields    = $project->getMeta('extra_fields');
-        $proj->total_time      = $project->totalTime();
-        $proj->progress        = $project->progress();
-        $proj->tasks           = $project->tasks()->count();
-        $proj->company_name    = $project->projectClient->user->meta['company_name']->value ?? "";
-        $proj->client_id       = $project->projectClient->user->id ?? "";
-        $proj->location        = $project->projectClient->user->meta['location']->value ?? "";
-        
+        $proj->extra_fields = $project->getMeta('extra_fields');
+        $proj->total_time = $project->totalTime();
+        $proj->progress = $project->progress();
+        $proj->tasks = $project->tasks()->count();
+        $proj->company_name = $project->projectClient->user->meta['company_name']->value ?? "";
+        $proj->client_id = $project->projectClient->user->id ?? "";
+        $proj->location = $project->projectClient->user->meta['location']->value ?? "";
+
         return $proj;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function delete($id)
     {
         $project = Project::findOrFail($id);
@@ -536,6 +621,9 @@ class ProjectController extends Controller
         return $project->destroy($id);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulkDelete()
     {
         request()->validate([
@@ -549,9 +637,14 @@ class ProjectController extends Controller
                 $project->delete();
             }
         }
-        return response()->json(['message' => $projects->count().' project(s)  successfully deleted'], 200);
+        return response()->json(['message' => $projects->count() . ' project(s)  successfully deleted'], 200);
     }
 
+    /**
+     * @param $id
+     * @param $report_id
+     * @return mixed
+     */
     public function deleteReport($id, $report_id)
     {
         $report = Report::findOrFail($report_id);
@@ -561,6 +654,10 @@ class ProjectController extends Controller
         return $report->destroy($report_id);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
 
@@ -577,6 +674,10 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function comments($id)
     {
         $project = Project::findOrFail($id);
@@ -584,6 +685,10 @@ class ProjectController extends Controller
         return $project->comments->load(['causer']);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function addComments($id)
     {
         $project = Project::findOrFail($id);
@@ -592,7 +697,7 @@ class ProjectController extends Controller
             'body' => 'required'
         ]);
 
-        $comment = new Comment([ 
+        $comment = new Comment([
             'body' => request()->body,
             'causer_id' => auth()->user()->id,
             'causer_type' => 'App\User'
@@ -607,17 +712,24 @@ class ProjectController extends Controller
 
     }
 
+    /**
+     * @return mixed
+     */
     public function countProject()
     {
         return Project::personal(request())->count();
     }
 
+    /**
+     * @param $project_id
+     * @return Project|Project[]|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
     public function project($project_id)
     {
         $project = Project::with(['manager', 'client'])->findOrFail($project_id);
 
         (new ProjectPolicy())->view($project);
-        
+
         $client = $project->client[0];
         $project->total_time = $project->totalTime();
         $project->client_name = ucwords($client->fullname ?? '');
@@ -627,9 +739,9 @@ class ProjectController extends Controller
 
         $project->tasks;
         $project->tasks->map(function ($item, $key) {
-                $item['total_time'] = $item->total_time();
-            });
-        
+            $item['total_time'] = $item->total_time();
+        });
+
         $project->location = $project->props['location'] ?? ($client->props['location'] ?? '');
         $company = Company::find($client->props['company_id'] ?? null);
         $project->company_name = $company ? $company->name : '';
@@ -637,6 +749,10 @@ class ProjectController extends Controller
         return $project;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function projectInfo($id)
     {
         $project = Project::findOrFail($id);
@@ -645,6 +761,10 @@ class ProjectController extends Controller
         return $project;
     }
 
+    /**
+     * @param $status
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function status($status)
     {
         $projects = Project::where('status', $status)->orderBy('created_at', 'desc')->paginate($this->per_page);
@@ -652,26 +772,40 @@ class ProjectController extends Controller
     }
 
 
+    /**
+     * @param $project_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getOverview($project_id)
     {
-		return view('pages.project-hq.index', ['project_id' => $project_id]);
+        return view('pages.project-hq.index', ['project_id' => $project_id]);
     }
 
-    public function filesCount($project_id){
-          $project = Project::findOrFail($project_id);			
-          $images = $project->getMedia('project.files.images')->count();
-          $videos = $project->getMedia('project.files.videos')->count();
-          $documents = $project->getMedia('project.files.documents')->count();
-		  $others = $project->getMedia('project.files.others')->count();
-		  return response()->json([ 'images' => $images, 
-							'videos' => $videos, 
-							'documents' => $documents, 
-							'others' => $others
-					]);
-	}
+    /**
+     * @param $project_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function filesCount($project_id)
+    {
+        $project = Project::findOrFail($project_id);
+        $images = $project->getMedia('project.files.images')->count();
+        $videos = $project->getMedia('project.files.videos')->count();
+        $documents = $project->getMedia('project.files.documents')->count();
+        $others = $project->getMedia('project.files.others')->count();
+        return response()->json(['images' => $images,
+            'videos' => $videos,
+            'documents' => $documents,
+            'others' => $others
+        ]);
+    }
 
 
     //will return all task of the project
+
+    /**
+     * @param $project_id
+     * @return mixed
+     */
     public function tasks($project_id)
     {
         $project = Project::findOrFail($project_id);
@@ -683,6 +817,11 @@ class ProjectController extends Controller
     }
 
     //will return all task of the project
+
+    /**
+     * @param $project_id
+     * @return mixed
+     */
     public function myTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
@@ -692,26 +831,40 @@ class ProjectController extends Controller
         return $project->paginatedProjectMyTasks();
     }
 
-    public function invoices($project_id){
+    /**
+     * @param $project_id
+     * @return mixed
+     */
+    public function invoices($project_id)
+    {
         $project = Project::findOrFail($project_id);
         return $project->invoices()->paginate(10);
     }
 
-    public function members($project_id){
+    /**
+     * @param $project_id
+     * @return mixed
+     */
+    public function members($project_id)
+    {
         $project = Project::findOrFail($project_id);
-        
-        
+
+
         return $project->paginatedMembers();
     }
 
+    /**
+     * @param $project_id
+     * @return array
+     */
     public function newMembers($project_id)
     {
         $project = Project::findOrFail($project_id);
 
         $current_project_members = $project->members()
-                             ->select('users.id')
-                             ->pluck('id')
-                             ->toArray();
+            ->select('users.id')
+            ->pluck('id')
+            ->toArray();
 
         $company = auth()->user()->company();
         $all_company_members = $company->allCompanyMembers();
@@ -730,7 +883,12 @@ class ProjectController extends Controller
         return $data;
     }
 
-    public function membersAll($project_id){
+    /**
+     * @param $project_id
+     * @return mixed
+     */
+    public function membersAll($project_id)
+    {
         $project = Project::findOrFail($project_id);
         return $project->members()->get();
     }
@@ -741,30 +899,14 @@ class ProjectController extends Controller
         $keyword = request()->keyword ?? '';
 
         $tasks = $project->tasks()
-                ->where(function($query) use($keyword) {
-                    $query->where('tasks.title', 'like', '%'.$keyword.'%')
-                        ->orWhere('tasks.description', 'like', '%'.$keyword.'%');
-                })
-                ->select('tasks.*')
-                ->paginate(10);
+            ->where(function ($query) use ($keyword) {
+                $query->where('tasks.title', 'like', '%' . $keyword . '%')
+                    ->orWhere('tasks.description', 'like', '%' . $keyword . '%');
+            })
+            ->select('tasks.*')
+            ->paginate(10);
 
         return $tasks;
     }
-    //for overview function kindly check the spreadsheet
 
-    // public function getCalendar($project_id)
-    // {
-    //     return view('pages.project-hq.calendar', ['project_id' => $project_id]);
-    // }
-    //
-    // public function getMessages($project_id)
-    // {
-    //     return view('pages.project-hq.messages', ['project_id' => $project_id]);
-    // }
-    //
-    // public function getInvoices($project_id)
-    // {
-    //     return view('pages.project-hq.invoices', ['project_id' => $project_id]);
-    // }
-    
 }

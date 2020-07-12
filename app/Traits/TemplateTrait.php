@@ -15,13 +15,13 @@ trait TemplateTrait
 					'slots' => ['[payment:amount]', '[payment:link]' ]
 				],
 			'reset_password' => [
-					'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[reset_password:link]']
+					'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[user:reset_password_link]']
 				],
 			'new_user' => [
 					'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]', '[user:profile_link]']
 				],
 			'new_project' => [
-					'slots' => ['[project:title]', '[project:creator:fullname]', '[project:link]']
+					'slots' => ['[project:title]', '[project:creator:first_name]', '[project:creator:last_name]', '[project:link]']
 				],
 			'new_notification' => [
 					'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[notification:link]']
@@ -76,8 +76,27 @@ trait TemplateTrait
 		return $template;
 	}
 
-	public function parse($string, $object)
+    /**
+     * @param $name
+     * @param $template
+     * @param null $object
+     * @return string|string[]
+     */
+    public function parseTemplate($name, $template , $object = null)
 	{
-		# code...
+		if (is_null($object) || !isset($this->allowed_names[$name])) {
+			return  $template;
+		}
+		$slots = $this->allowed_names[$name]['slots'];
+
+		foreach ($slots as $key =>  $slot) {
+			$split = explode(':', str_replace(['[',']'], '', $slot));
+			if (count($split) == 2) {
+				$template = str_replace($slot, $object->{$split[1]}, $template);
+			} elseif (count($split) === 3) {
+				$template = str_replace($slot, $object->{$split[1]}->{$split[2]}, $template);
+			}
+		}
+		return $template;
 	}
 }

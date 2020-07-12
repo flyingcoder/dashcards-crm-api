@@ -3,21 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Note;
-use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         return auth()->user()->getNotes();
     }
 
+    /**
+     * @return mixed
+     */
     public function store()
     {
         return auth()->user()->addNotes();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function collaborators($id)
     {
         request()->validate(['users_id' => 'required|array']);
@@ -29,18 +38,23 @@ class NoteController extends Controller
         return $note->collaborators();
     }
 
+    /**
+     * @param $id
+     * @param $action
+     * @return mixed
+     */
     public function pinning($id, $action)
     {
         $note = Note::findOrFail($id);
 
         return $note->pinning($action);
     }
-    
-    public function show(Notes $notes)
-    {
-        //
-    }
 
+
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function update($id)
     {
         $note = Note::findOrFail($id);
@@ -48,14 +62,17 @@ class NoteController extends Controller
         return $note->updateNote();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id)
     {
         $note = Note::findOrFail($id);
 
-        if($note->delete()){
+        if ($note->delete()) {
             return response()->json(['message' => 'Note successfully deleted.'], 200);
         }
-
-        return response()->json(['error' => $e->getmessage()], 422);
+        return response()->json(['error' => 'Cant delete this note. Please try again.'], 422);
     }
 }

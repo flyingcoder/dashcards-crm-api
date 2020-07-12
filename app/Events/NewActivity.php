@@ -2,18 +2,14 @@
 
 namespace App\Events;
 
-
-use App\Project;
-use Illuminate\Broadcasting\Channel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Activitylog\Contracts\Activity;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewActivity
+class NewActivity implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,7 +18,7 @@ class NewActivity
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Activity $activity
      */
     public function __construct(Activity $activity)
     {
@@ -33,7 +29,7 @@ class NewActivity
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return PrivateChannel
      */
     public function broadcastOn()
     {

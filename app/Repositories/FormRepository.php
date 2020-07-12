@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 use App\Company;
-use App\Form;
 use App\FormResponse;
 use App\FormSent;
 
@@ -10,18 +9,28 @@ class FormRepository
 {
 	protected $paginate =  20;
 
-	public function __construct()
+    /**
+     * FormRepository constructor.
+     */
+    public function __construct()
 	{
 		$this->paginate = request()->has('per_page') ? request()->per_page : 20;
 	}
 
-	public function getCompanyFormsList(Company $company)
+    /**
+     * @param Company $company
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getCompanyFormsList(Company $company)
 	{
-		$forms = $company->forms()->select('id','questions','title')->get();
-		return $forms;
+        return $company->forms()->select('id','questions','title')->get();
 	}
 
-	public function getCompanyForms(Company $company)
+    /**
+     * @param Company $company
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getCompanyForms(Company $company)
 	{
 		list($sortName, $sortValue) = parseSearchParam(request());
 
@@ -42,14 +51,22 @@ class FormRepository
 
 		return $forms;
 	}
-	
-	public function getInboundCount(Company $company)
+
+    /**
+     * @param Company $company
+     * @return mixed
+     */
+    public function getInboundCount(Company $company)
 	{
 		$forms = $company->forms()->select('id')->pluck('id');
 		return FormResponse::whereIn('form_id', $forms)->count();
 	}
 
-	public function getOutboundCount(Company $company)
+    /**
+     * @param Company $company
+     * @return mixed
+     */
+    public function getOutboundCount(Company $company)
 	{
 		$forms = $company->forms()->select('id')->pluck('id');
 		return FormSent::whereIn('form_id', $forms)->count();

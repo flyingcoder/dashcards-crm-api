@@ -2,33 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\Invoice;
-use App\Mail\NewInvoiceEmail;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\Repositories\TemplateRepository;
 use App\Repositories\TimerRepository;
-use App\ServiceList;
-use App\Task;
+use App\Template;
 use App\Traits\HasUrlTrait;
 use App\Traits\StripeTrait;
+use App\Traits\TemplateTrait;
 use App\User;
-use Carbon\Carbon;
 use Chat;
-use CloudCreativity\LaravelStripe\Facades\Stripe;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
-use KirbyCaps\Libraries\LinkPreviewer;
-use PDF;
 
 class TestController extends Controller
 {
-	use HasUrlTrait, StripeTrait;
+	use HasUrlTrait, StripeTrait, TemplateTrait;
 	protected $trepo ;
 	protected $mrepo ;
 	protected $crepo ;
@@ -50,7 +39,12 @@ class TestController extends Controller
         $this->temprepo = $temprepo;
 	    $this->user = User::find(28);
 	}
-	public function apiStatus(Request $req)
+
+    /**
+     * @param Request $req
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function apiStatus(Request $req)
 	{
 		$date = now(); //utc
 		$utc = $date->copy();
@@ -58,8 +52,12 @@ class TestController extends Controller
 		$manila = $date->copy()->setTimezone('Asia/Manila');
 		return view('dashboards.status', compact('utc', 'toronto', 'manila'));
 	}
-	
-	public function invoiceTest(Request $req)
+
+    /**
+     * @param Request $req
+     * @throws \Throwable
+     */
+    public function invoiceTest(Request $req)
 	{
 		$fields = $this->temprepo->getFields();
 		$html  = view('invoices.template-1')->render();
@@ -69,11 +67,19 @@ class TestController extends Controller
 		echo $html;
 	}
 
-	
 
-	public function index()
+    /**
+     *
+     */
+    public function index()
 	{	
-
+		$templateR = Template::with('meta')->find(52);
+		$template = $templateR->meta['template']['value'];
+		$name = explode(':', $templateR->name)[1];
+		$object =  User::first();
+		$a = $this->parseTemplate($name, $template, $object);
+		dump($a);
+		// dump(\App\Form::first()->link);
 	}
 
 }

@@ -3,30 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Group;
-use App\Permission;
-use App\Policies\GroupPolicy;
 use App\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Services\SlugService;
-use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Kodeine\Acl\Models\Eloquent\Role;
 
 class GroupController extends Controller
 {
+    /**
+     * @param $role_id
+     * @return mixed
+     */
     public function members($role_id)
     {
-    	$role = Role::findOrFail($role_id);
+        $role = Role::findOrFail($role_id);
 
-    	return $role->users()->paginate(10);
+        return $role->users()->paginate(10);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function assignPermission($id)
     {
         $role = Role::findOrFail($id);
 
-        if(is_array(request()->permission_id)) {
+        if (is_array(request()->permission_id)) {
             foreach (request()->permission_id as $key => $value) {
                 $role->assignPermission($value);
             }
@@ -37,9 +43,12 @@ class GroupController extends Controller
         return $role->getPermissions();
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store()
     {
-    	//(new GroupPolicy())->create();
+        //(new GroupPolicy())->create();
 
         $company = Auth::user()->company();
 
@@ -52,16 +61,16 @@ class GroupController extends Controller
 
             $slug = SlugService::createSlug(Group::class, 'slug', request()->name);
 
-            $description = isset(request()->description) ? request()->description : '' ;
+            $description = isset(request()->description) ? request()->description : '';
 
-            if(request()->has('selected_group') && !empty(request()->selected_group)) {
+            if (request()->has('selected_group') && !empty(request()->selected_group)) {
 
                 $role = $company->roles()->create([
-                            'name' => request()->name,
-                            'slug' => $slug,
-                            'description' => $description,
-                            'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-                        ]);
+                    'name' => request()->name,
+                    'slug' => $slug,
+                    'description' => $description,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]);
 
                 $copy_role = Role::findOrFail(request()->selected_group);
 
@@ -71,23 +80,23 @@ class GroupController extends Controller
                     $key_prefix = explode('.', $perm->name)[0];
                     $perm = $company->permissions()->create([
                         'company_id' => $company->id,
-                        'name' => $key_prefix.'.'.$slug,
-                        'slug' => $perm->slug ,
+                        'name' => $key_prefix . '.' . $slug,
+                        'slug' => $perm->slug,
                         'inherit_id' => $perm->inherit_id,
-                        'description' => Auth::user()->company()->name." ".request()->name." Permissions"
+                        'description' => Auth::user()->company()->name . " " . request()->name . " Permissions"
                     ]);
                     if ($perm) {
                         $role->assignPermission($perm->id);
                     }
                 }
             }
-            
+
             DB::commit();
 
             $rol = Role::findOrFail($role->id);
 
             $rol->permissions;
-            
+
             return $rol;
         } catch (Exception $e) {
             DB::rollback();
@@ -95,10 +104,13 @@ class GroupController extends Controller
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
                 'type' => 'error'
-            ], 500 );
+            ], 500);
         }
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateRoles()
     {
         request()->validate([
@@ -110,7 +122,7 @@ class GroupController extends Controller
 
         $user->syncRoles(request()->roles);
 
-        
+
         $user = $user->fresh();
         $user->load('roles');
         $user->is_company_owner = $user->is_company_owner;
@@ -121,11 +133,15 @@ class GroupController extends Controller
         return response()->json($user->toArray(), 200);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws Exception
+     */
     public function restoreDelete()
     {
         request()->validate([
             'user' => 'required|exists:users,id',
-            'action' => 'required|in:'.implode(',', ['restore','delete'])
+            'action' => 'required|in:' . implode(',', ['restore', 'delete'])
         ]);
 
         $user = User::withTrashed()->findOrFail(request()->user);
@@ -134,7 +150,7 @@ class GroupController extends Controller
         } else {
             $user->delete();
         }
-        
+
         $user = $user->fresh();
         $user->load('roles');
         $user->is_company_owner = $user->is_company_owner;

@@ -2,46 +2,71 @@
 
 namespace App\Traits;
 
+use Exception;
 use GuzzleHttp\Client;
 
-trait StripeTrait 
+trait StripeTrait
 {
-	protected $api_base = 'https://api.stripe.com/v1/';
+    protected $api_base = 'https://api.stripe.com/v1/';
 
 
-	public function sendApiRequest($api_path, $request_type = 'GET' ,$params = [])
-	{
-		try {
-			$apikey = config('services.stripe.secret');
-			$client = new Client();
-			$res = $client->request($request_type, $this->api_base.$api_path, [
-			    'headers' => [
-			        'Accept'     => 'application/json',
-			    	'Authorization' => 'Bearer '.$apikey,
-			    ],
-			    'body' => http_build_query($params)
-			]);
-			
-			return  json_decode($res->getBody()->getContents(), true);
+    /**
+     * @param $api_path
+     * @param string $request_type
+     * @param array $params
+     * @return mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function sendApiRequest($api_path, $request_type = 'GET', $params = [])
+    {
+        try {
+            $apikey = config('services.stripe.secret');
+            $client = new Client();
+            $res = $client->request($request_type, $this->api_base . $api_path, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $apikey,
+                ],
+                'body' => http_build_query($params)
+            ]);
 
-		} catch (\Exception $e) {
-			return $e->getMessage(); 
-		}
-	}
+            return json_decode($res->getBody()->getContents(), true);
 
-	public function createPlanPrice($params) {
-		$price = $this->sendApiRequest('prices', 'POST', $params);
-		return $price;
-	}
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
-	public function updatePlanPrice($product_id, $params) {
-		$price = $this->sendApiRequest('prices/'.$product_id, 'POST', $params);
-		return $price;
-	}
+    /**
+     * @param $params
+     * @return mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function createPlanPrice($params)
+    {
+        return $this->sendApiRequest('prices', 'POST', $params);
+    }
 
-	public function getPlanPrice($params) {
-		$response = $this->sendApiRequest('prices', 'GET', $params);
-		
-		return array_key_exists('data', $response) ? $response['data'] : [];
-	}
+    /**
+     * @param $product_id
+     * @param $params
+     * @return mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function updatePlanPrice($product_id, $params)
+    {
+        return $this->sendApiRequest('prices/' . $product_id, 'POST', $params);
+    }
+
+    /**
+     * @param $params
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getPlanPrice($params)
+    {
+        $response = $this->sendApiRequest('prices', 'GET', $params);
+
+        return array_key_exists('data', $response) ? $response['data'] : [];
+    }
 }

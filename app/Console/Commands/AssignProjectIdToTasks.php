@@ -44,5 +44,6 @@ class AssignProjectIdToTasks extends Command
         foreach ($milestones as $key => $milestone) {
             Task::where('milestone_id', $milestone->id)->update(['project_id' => $milestone->project_id ]);
         }
+        echo "Done!";
     }
 }

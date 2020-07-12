@@ -8,34 +8,43 @@ use Spatie\MediaLibrary\Models\Media;
 
 class Activity extends Act
 {
-	use HasFileTrait;
+    use HasFileTrait;
 
-	protected $cast = [
-		'read' => 'boolean'
-	];
+    protected $cast = [
+        'read' => 'boolean'
+    ];
 
-	public function causer_user()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function causer_user()
     {
-    	return $this->belongsTo(User::class, 'causer_id');
+        return $this->belongsTo(User::class, 'causer_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users()
     {
-    	return $this->belongsToMany(User::class, 'activity_user', 'activity_id', 'user_id')
-    				->withPivot('read_at');
+        return $this->belongsToMany(User::class, 'activity_user', 'activity_id', 'user_id')
+            ->withPivot('read_at');
     }
 
+    /**
+     * @return array|null
+     */
     public function attachments()
-    {	
-    	if (is_array($this->properties['media'])) {    		
-	    	$data = [];
-	    	$medias = $this->properties['media'];
-	    	foreach ($medias as $key => $media) {
-	    		$media = Media::find($media['id']);
-	    		$data[] = $this->getFullMedia($media);
-	    	}
-	    	return $data;
-    	}
-    	return null;
+    {
+        if (is_array($this->properties['media'])) {
+            $data = [];
+            $medias = $this->properties['media'];
+            foreach ($medias as $key => $media) {
+                $media = Media::find($media['id']);
+                $data[] = $this->getFullMedia($media);
+            }
+            return $data;
+        }
+        return null;
     }
 }

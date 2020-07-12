@@ -29,6 +29,10 @@ class Timer extends Model
 
     protected $dates = ['deleted_at'];
 
+    /**
+     * @param $action
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function trigger($action)
     {
         request()->validate([
@@ -87,6 +91,10 @@ class Timer extends Model
         return $timer;
     }
 
+    /**
+     * @param $timer
+     * @param $last_timer
+     */
     public function ifStop($timer, $last_timer)
     {
         if($timer->subject_type == 'App\Company')
@@ -123,6 +131,10 @@ class Timer extends Model
               ->update(['status' => 'close']);
     }
 
+    /**
+     * @param $timer
+     * @param $last_timer
+     */
     public function ifPause($timer, $last_timer)
     {
         $start = Carbon::parse($last_timer->created_at);
@@ -139,16 +151,27 @@ class Timer extends Model
         $timer->update(['properties' => $args]);
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function subject()
     {
-    	$this->morphTo();
+    	return $this->morphTo();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function causer()
     {
-    	$this->morphTo();
+    	return $this->morphTo();
     }
 
+    /**
+     * @param $action
+     * @return string
+     */
     public function getStatus($action)
     {
         $status = 'close';
@@ -159,6 +182,10 @@ class Timer extends Model
         return $status;
     }
 
+    /**
+     * @param $last_timer
+     * @param $action
+     */
     public function checkAction($last_timer, $action)
     {
         if($last_timer->action == $action)
@@ -174,12 +201,4 @@ class Timer extends Model
             abort(405, 'Action is not allowed');
     }
 
-    public static function boot()
-    {
-        parent::boot();
-        
-        Timer::creating(function ($timer) {
-            
-        });
-    }
 }

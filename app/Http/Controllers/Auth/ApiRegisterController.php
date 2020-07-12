@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Company;
-use App\Dashboard;
 use App\Events\UsersPresence;
 use App\Http\Controllers\Controller;
-use App\Team;
 use App\User;
 use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Kodeine\Acl\Models\Eloquent\Role;
 
 class ApiRegisterController extends Controller
 {
@@ -47,6 +43,10 @@ class ApiRegisterController extends Controller
         $this->middleware('guest');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     protected function create(Request $request)
     {
         //will add the validation later not required
@@ -120,6 +120,10 @@ class ApiRegisterController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUserId(Request $request)
     {
         $request->validate([
@@ -135,6 +139,10 @@ class ApiRegisterController extends Controller
         return response()->json([ 'user_id' => $user->id ], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function setPassword(Request $request)
     {
         $request->validate([

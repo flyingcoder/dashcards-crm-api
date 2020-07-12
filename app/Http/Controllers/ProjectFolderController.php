@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\ProjectFolder;
-use Illuminate\Http\Request;
 
 class ProjectFolderController extends Controller
 {
+    /**
+     * @param $id
+     * @param $source
+     * @return mixed
+     */
     public function projectFolders($id, $source)
     {
         $project =  Project::findOrFail($id);
@@ -18,6 +22,11 @@ class ProjectFolderController extends Controller
         return $folders;
     }
 
+    /**
+     * @param $id
+     * @param $source
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store($id, $source)
     {
     	request()->validate([
@@ -47,6 +56,12 @@ class ProjectFolderController extends Controller
         return response()->json($response->toArray(), 201);
     }
 
+    /**
+     * @param $id
+     * @param $source
+     * @param $folder_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id, $source, $folder_id)
     {
     	$folder = ProjectFolder::findOrFail($folder_id);
@@ -55,6 +70,12 @@ class ProjectFolderController extends Controller
         return response()->json(['message' => 'Successfully deleted'], 200);
     }
 
+    /**
+     * @param $id
+     * @param $source
+     * @param $folder_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteByFolderId($id, $source, $folder_id)
     {
     	$folder = ProjectFolder::where('folder_id',$folder_id)->firstOrFail();

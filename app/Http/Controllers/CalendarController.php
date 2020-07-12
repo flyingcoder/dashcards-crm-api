@@ -5,32 +5,41 @@ namespace App\Http\Controllers;
 use App\CalendarModel;
 use App\EventType;
 use App\Repositories\CalendarEventRepository;
-use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
 
     protected $repo;
 
+    /**
+     * CalendarController constructor.
+     * @param CalendarEventRepository $repo
+     */
     public function __construct(CalendarEventRepository $repo)
     {
         $this->repo = $repo;
     }
-    
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-    	$company = auth()->user()->company();
+        $company = auth()->user()->company();
 
-        if(!request()->ajax())
+        if (!request()->ajax())
             return view('pages.calendar');
 
         return $company->allPaginatedCalendar(request());
     }
 
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function calendar()
     {
-    	//policy will be added soon
+        //policy will be added soon
         $user = auth()->user();
         $calendar = CalendarModel::where('user_id', $user->id)->first();
 
@@ -38,26 +47,32 @@ class CalendarController extends Controller
             $calendar = CalendarModel::create([
                 'company_id' => $user->company()->id,
                 'title' => 'My Calendar',
-                'description' => ucwords($user->fullname.' calendar'),
+                'description' => ucwords($user->fullname . ' calendar'),
                 'user_id' => $user->id,
                 'created_at' => now()->format('Y-m-d H:i:s')
             ]);
         }
 
         $calendar->event_types = $this->repo->getEventTypes($user);
-    	
+
         return response()->json([
-                'calendar' => $calendar,
-                'attributes' => $this->repo->getAttributes($user)
-            ], 200); 
+            'calendar' => $calendar,
+            'attributes' => $this->repo->getAttributes($user)
+        ], 200);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function attributes()
     {
         $user = auth()->user();
-        return response()->json( $this->repo->getAttributes($user) , 200); 
+        return response()->json($this->repo->getAttributes($user), 200);
     }
 
+    /**
+     * @return array
+     */
     public function addEventType()
     {
         request()->validate([
@@ -65,12 +80,12 @@ class CalendarController extends Controller
             'types.*.color' => 'required'
         ]);
 
-        $eventTypes = [];    
+        $eventTypes = [];
         foreach (request()->types as $key => $type) {
             $eventType = EventType::create([
-                'properties' => ['color' => $type['color'] ],
+                'properties' => ['color' => $type['color']],
                 'created_by' => auth()->user()->id,
-                'company_id'=> auth()->user()->company()->id,
+                'company_id' => auth()->user()->company()->id,
                 'name' => $type['name']
             ]);
             $eventTypes[] = $eventType;
@@ -81,7 +96,7 @@ class CalendarController extends Controller
 
     public function store()
     {
-    	request()->validate([
+        request()->validate([
             'title' => 'required'
         ]);
 
@@ -92,10 +107,10 @@ class CalendarController extends Controller
             'company_id' => $company->id
         ];
 
-        if(request()->has('description'))
+        if (request()->has('description'))
             $data['description'] = request()->description;
 
-        if(request()->has('properties'))
+        if (request()->has('properties'))
             $data['properties'] = request()->properties;
 
         return CalendarModel::create($data);
