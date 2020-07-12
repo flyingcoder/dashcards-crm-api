@@ -5,16 +5,11 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
-use App\Rules\CollectionUnique;
 use App\User;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use Kodeine\Acl\Models\Eloquent\Role;
 
 class ClientController extends Controller
 {
@@ -23,17 +18,25 @@ class ClientController extends Controller
     protected $repo;
     protected $mrepo;
 
+    /**
+     * ClientController constructor.
+     * @param InvoiceRepository $repo
+     * @param MembersRepository $mrepo
+     */
     public function __construct(InvoiceRepository $repo, MembersRepository $mrepo)
     {
         $this->repo = $repo;
         $this->mrepo = $mrepo;
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         $company = Auth::user()->company();
         $this->mrepo->setCompany($company);
-        if(request()->has('all') && request()->all ) {
+        if (request()->has('all') && request()->all) {
             $clients = $this->mrepo->getUsersByType('clients', [], false);
             foreach ($clients as $key => $client) {
                 $clients[$key]->company = Company::find($client->props['company_id'] ?? null);
@@ -49,24 +52,32 @@ class ClientController extends Controller
             $client->is_client = true;
             $client->projects = $client->projects()->count();
             $company = Company::find($client->props['company_id'] ?? null);
-            $data->push(array_merge($client->toArray(), ['company' =>  $company ]));   
+            $data->push(array_merge($client->toArray(), ['company' => $company]));
         }
         $clients->setCollection($data);
 
         return $clients;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function client($id)
     {
         $client = User::findOrFail($id);
         $client->getAllMeta();
         $client->company = Company::find($client->props['company_id']);
-        $client->no_invoices = $this->repo->countInvoices($client,'all');
-        $client->total_amount_paid = $this->repo->totalInvoices($client,'billed_to'); 
+        $client->no_invoices = $this->repo->countInvoices($client, 'all');
+        $client->total_amount_paid = $this->repo->totalInvoices($client, 'billed_to');
 
         return $client;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addStaffs($id)
     {
         try {
@@ -82,11 +93,11 @@ class ClientController extends Controller
             $username = explode('@', request()->email)[0];
 
             $member = User::create([
-                'username' => $username.rand(0,20),
+                'username' => $username . rand(0, 20),
                 'last_name' => request()->last_name,
                 'first_name' => request()->first_name,
                 'email' => request()->email,
-                'telephone' => request()->telephone, 
+                'telephone' => request()->telephone,
                 'job_title' => request()->job_title,
                 'password' => bcrypt(request()->password),
                 'image_url' => random_avatar(null),
@@ -94,7 +105,7 @@ class ClientController extends Controller
             ]);
 
             $company = auth()->user()->company();
-            
+
             $team = $company->clientStaffTeam();
 
             $role = 'client';
@@ -116,22 +127,26 @@ class ClientController extends Controller
             switch ($error_code) {
                 case 1062:
                     return response()->json([
-                                'error' => 'The company email you have entered is already registered.'
-                           ], 500);
+                        'error' => 'The company email you have entered is already registered.'
+                    ], 500);
                     break;
                 case 1048:
                     return response()->json([
-                                'error' => 'Some fields are missing.'
-                           ], 500);
+                        'error' => 'Some fields are missing.'
+                    ], 500);
                 default:
                     return response()->json([
-                                'error' => $e."test"
-                           ], 500);
+                        'error' => $e . "test"
+                    ], 500);
                     break;
             }
         }
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function tasks($id)
     {
         $client = User::findOrFail($id);
@@ -139,6 +154,10 @@ class ClientController extends Controller
         return $client->tasks()->get();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function staffs($id)
     {
         $client = User::findOrFail($id);
@@ -146,6 +165,10 @@ class ClientController extends Controller
         return $client->clientStaffs();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function invoices($id)
     {
         $client = User::findOrFail($id);
@@ -153,11 +176,18 @@ class ClientController extends Controller
         return $client->invoices()->get();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function details($id)
     {
         return view('pages.client-details');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function save()
     {
         return view('pages.clients-new', [
@@ -165,13 +195,16 @@ class ClientController extends Controller
         ]);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store()
     {
         request()->validate([
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'telephone' => 'required', 
+            'telephone' => 'required',
             'password' => 'required',
             'status' => 'required',
             'company_name' => 'required',
@@ -182,33 +215,33 @@ class ClientController extends Controller
             DB::beginTransaction();
 
             $client_company = Company::create([
-                    'name' => request()->company_name,
-                    'is_private' => 1,
-                    'address' => request()->location ?? null,
-                    'created_at' => now()->format('Y-m-d H:i:s'),
-                    'others' => [
-                            'contact_name' => request()->contact_name ?? null
-                        ]
-                ]);
+                'name' => request()->company_name,
+                'is_private' => 1,
+                'address' => request()->location ?? null,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'others' => [
+                    'contact_name' => request()->contact_name ?? null
+                ]
+            ]);
             $client = User::create([
-                    'username' => $username,
-                    'last_name' => request()->last_name,
-                    'first_name' => request()->first_name,
-                    'email' => request()->email,
-                    'telephone' => request()->telephone, 
-                    'job_title' => 'Client',
-                    'password' => bcrypt(request()->password),
-                    'image_url' => random_avatar('neutral'),
-                    'created_by' => Auth::user()->id,
-                    'props' => [
-                            'company_id' => $client_company->id,
-                            'status' => request()->status ?? 'Active'
-                        ]
-                ]);
+                'username' => $username,
+                'last_name' => request()->last_name,
+                'first_name' => request()->first_name,
+                'email' => request()->email,
+                'telephone' => request()->telephone,
+                'job_title' => 'Client',
+                'password' => bcrypt(request()->password),
+                'image_url' => random_avatar('neutral'),
+                'created_by' => Auth::user()->id,
+                'props' => [
+                    'company_id' => $client_company->id,
+                    'status' => request()->status ?? 'Active'
+                ]
+            ]);
 
             $company = Auth::user()->company();
-            $team = $company->teams()->where('slug', 'client-'.$company->id)->first();
-            if($team){
+            $team = $company->teams()->where('slug', 'client-' . $company->id)->first();
+            if ($team) {
                 $team->members()->attach($client);
             }
 
@@ -225,27 +258,10 @@ class ClientController extends Controller
         }
     }
 
-    public function updatePicture($id)
-    {
-        $client = User::findOrFail($id);
-
-        //(new UserPolicy())->update($model);
-
-        $file = request()->file('file');
-        
-        $model = User::findOrFail($id);
-
-        $media = $model->addMedia($file)
-                        ->usingFileName('profile-'.$model->id.".png")
-                        ->toMediaCollection('avatars');
-
-        $model->image_url = url($media->getUrl('thumb'));
-
-        $model->save();
-
-        return $model;
-    }
-
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update($id)
     {
         $client = User::findOrFail($id);
@@ -253,7 +269,7 @@ class ClientController extends Controller
             //'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
-            'email' => [ 'required', Rule::unique('users')->ignore($client->id) ],
+            'email' => ['required', Rule::unique('users')->ignore($client->id)],
             'telephone' => 'required',
             'status' => 'required',
             'company_name' => 'required',
@@ -265,7 +281,7 @@ class ClientController extends Controller
             $client->last_name = request()->last_name;
             $client->email = request()->email;
             $client->telephone = request()->telephone;
-            if(request()->has('password')){
+            if (request()->has('password')) {
                 $client->password = request()->password;
             }
             $props = $client->props;
@@ -291,21 +307,28 @@ class ClientController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id)
     {
         $client = User::findOrFail($id);
 
-        if($client->projects()->count() != 0)
+        if ($client->projects()->count() != 0)
             abort(401, "This client has open project please delete the project first.");
 
-        if($client->delete()){
+        if ($client->delete()) {
             return response()->json(['message' => 'Client successfully deleted'], 200);
         } else {
             return response()->json(['message' => "Client can't be deleted"], 500);
         }
-        
+
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulkDelete()
     {
         request()->validate([
@@ -315,18 +338,18 @@ class ClientController extends Controller
         try {
             DB::beginTransaction();
             $clients = User::whereIn('id', request()->ids)->with('projects')->get();
-            
+
             if ($clients) {
                 foreach ($clients as $key => $client) {
                     if ($client->projects->count() != 0) {
                         throw new \Exception(" Client {$client->fullname} has an open project, please delete the project first.", 1);
-                    } 
+                    }
                     $client->delete();
                 }
             }
-            
+
             DB::commit();
-            return response()->json(['message' => $clients->count().' client(s) was successfully deleted'], 200);
+            return response()->json(['message' => $clients->count() . ' client(s) was successfully deleted'], 200);
         } catch (Exception $e) {
             DB::rollback();
             return response()->json(['message' => "Some client has open project please delete the project first"], 500);

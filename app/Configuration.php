@@ -16,14 +16,23 @@ class Configuration extends Model
 	protected static $logAttributes = ['type', 'value', 'key'];
 	protected $fillable = ['type', 'value', 'key'];
 
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A configurations has been {$eventName}";
     }
 
+    /**
+     * @param Activity $activity
+     * @param string $eventName
+     */
     public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
+
     }
 }

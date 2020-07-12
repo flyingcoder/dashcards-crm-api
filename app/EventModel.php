@@ -2,10 +2,6 @@
 
 namespace App;
 
-use App\CalendarModel;
-use App\Comment;
-use App\EventParticipant;
-use App\EventType;
 use App\Events\ActivityEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,26 +11,26 @@ use \MaddHatter\LaravelFullcalendar\Event;
 
 class EventModel extends Model implements Event
 {
-	use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity;
 
     protected $table = 'events';
 
     protected static $logName = 'system';
 
     protected $fillable = [
-    	'title', 
-    	'all_day',
-    	'start',
-    	'end',
-    	'description',
-    	'properties',
+        'title',
+        'all_day',
+        'start',
+        'end',
+        'description',
+        'properties',
         'eventtypes_id'
     ];
 
-    protected $dates = [ 'deleted_at'];
+    protected $dates = ['deleted_at'];
 
     protected static $logAttributes = [
-        'title', 
+        'title',
         'all_day',
         'start',
         'end',
@@ -42,7 +38,7 @@ class EventModel extends Model implements Event
         'properties'
     ];
 
-     /**
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -63,29 +59,39 @@ class EventModel extends Model implements Event
         return "A calendar event has been {$eventName}";
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function participants()
     {
         return $this->hasMany(EventParticipant::class, 'event_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function eventType()
     {
         return $this->belongsTo(EventType::class, 'eventtypes_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    
+
     /**
      * Get the event's id number
      *
      * @return int
      */
-    public function getId() {
-		return $this->id;
-	}
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Get the event's title

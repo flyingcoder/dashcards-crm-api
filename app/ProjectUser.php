@@ -14,12 +14,18 @@ class ProjectUser extends Model
 
 	public $timestamps = false;
 
-	public function user()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
 	{
 		return $this->hasOne(User::class, 'id', 'user_id');
 	}
 
-	public function project()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function project()
 	{
 		return $this->belongsTo(Project::class, 'id', 'project_id');	
 	}

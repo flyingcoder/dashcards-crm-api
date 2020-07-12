@@ -8,11 +8,8 @@ use App\Events\NewMediaCommentCreated;
 use App\Project;
 use App\Traits\HasFileTrait;
 use Embed\Embed;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Spatie\MediaLibrary\Models\Media;
@@ -21,198 +18,217 @@ class MediaController extends Controller
 {
     use HasFileTrait;
 
+    /**
+     * @param $project_id
+     * @return mixed
+     */
     public function projectMedia($project_id)
     {
         $medias = Media::where('model_id', $project_id)
-                       ->where('model_type', 'App\Project');
-                      
-        if(request()->has('type')) {
-          
-          switch (request()->type) {
-            case 'image':
-            case 'images':
-              $medias->where('mime_type', 'like', 'image/%');
-              break;
+            ->where('model_type', 'App\Project');
 
-            case 'video':
-            case 'videos':
-              $medias->where('mime_type', 'like', 'video/%');
-              break;
+        if (request()->has('type')) {
 
-            case 'document':
-            case 'documents':
-              $mime_type = $this->categories('documents');
-              $medias->whereIn('mime_type', $mime_type);
-              break;
+            switch (request()->type) {
+                case 'image':
+                case 'images':
+                    $medias->where('mime_type', 'like', 'image/%');
+                    break;
 
-            case 'other':
-            case 'others':
-              $mime_type = $mime_type = $this->categories('others');
-              $medias->whereIn('mime_type', $mime_type);
-              break;
+                case 'video':
+                case 'videos':
+                    $medias->where('mime_type', 'like', 'video/%');
+                    break;
 
-            case 'link':
-            case 'links':
-              $medias->where('mime_type', 'link');
-              break;
-          }
+                case 'document':
+                case 'documents':
+                    $mime_type = $this->categories('documents');
+                    $medias->whereIn('mime_type', $mime_type);
+                    break;
+
+                case 'other':
+                case 'others':
+                    $mime_type = $mime_type = $this->categories('others');
+                    $medias->whereIn('mime_type', $mime_type);
+                    break;
+
+                case 'link':
+                case 'links':
+                    $medias->where('mime_type', 'link');
+                    break;
+            }
         }
 
         $medias = $medias->latest()->paginate(15);
 
         $medias->map(function ($media) {
-          $media = $this->getFullMedia($media);
-          return $media;
+            $media = $this->getFullMedia($media);
+            return $media;
         });
 
         return $medias;
     }
 
+    /**
+     * @param $project_id
+     * @return mixed
+     */
     public function projectMediaAll($project_id)
     {
-         return Media::where('model_id', $project_id)
-                      ->where('model_type', 'App\Project')
-                      ->get();
+        return Media::where('model_id', $project_id)
+            ->where('model_type', 'App\Project')
+            ->get();
     }
 
+    /**
+     * @param $project_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addMediaLink($project_id)
     {
-      request()->validate([
-          'url' => 'required|url'
+        request()->validate([
+            'url' => 'required|url'
         ]);
 
-      try {
-        DB::beginTransaction();
-        $user = auth()->user();
-        
-        $project = Project::findOrFail($project_id);
-        $info   = Embed::create(request()->url);
+        try {
+            DB::beginTransaction();
+            $user = auth()->user();
 
-        if (!$info) {
-          throw new \Exception("Error! Invalid url.", 422);
-        }
+            $project = Project::findOrFail($project_id);
+            $info = Embed::create(request()->url);
 
-        $media = $project->createMediaLink([
-            'name' => $info->title,
-            'file_name' => $info->providerName. ' Link',
-            'custom_properties' => [
-              'ext' => 'link',
-              'url' => request()->url,
-              'thumb' => $info->providerIcon,
-              'image' => $info->image,
-              'description' => $info->description,
-              'type' => $info->type,
-              'embed' => $info->code,
-              'embed_width' => $info->width,
-              'embed_height' => $info->height,
-              'embed_ratio' => $info->aspectRatio,
-              'user' => $user
-            ]
-        ]);
-        
-        $activity = activity('files')->performedOn($project)
-                       ->causedBy($user)
-                       ->withProperties([
-                          'company_id' => $user->company()->id,
-                          'media' => [$media],
-                          'thumb_url' => $media->getCustomProperty('thumb')
-                        ])
-                       ->log($user->first_name." linked a file on $project->type ".$project->title);
+            if (!$info) {
+                throw new \Exception("Error! Invalid url.", 422);
+            }
 
-        $activity = Activity::findOrFail($activity->id);
-        $activity->users()->attach($user->company()->membersID());
+            $media = $project->createMediaLink([
+                'name' => $info->title,
+                'file_name' => $info->providerName . ' Link',
+                'custom_properties' => [
+                    'ext' => 'link',
+                    'url' => request()->url,
+                    'thumb' => $info->providerIcon,
+                    'image' => $info->image,
+                    'description' => $info->description,
+                    'type' => $info->type,
+                    'embed' => $info->code,
+                    'embed_width' => $info->width,
+                    'embed_height' => $info->height,
+                    'embed_ratio' => $info->aspectRatio,
+                    'user' => $user
+                ]
+            ]);
 
-        DB::commit();
+            $activity = activity('files')->performedOn($project)
+                ->causedBy($user)
+                ->withProperties([
+                    'company_id' => $user->company()->id,
+                    'media' => [$media],
+                    'thumb_url' => $media->getCustomProperty('thumb')
+                ])
+                ->log($user->first_name . " linked a file on $project->type " . $project->title);
 
-        $media = $this->getFullMedia($media);
+            $activity = Activity::findOrFail($activity->id);
+            $activity->users()->attach($user->company()->membersID());
 
-        return $media->toJson();
+            DB::commit();
 
-      } catch (\Exception $e) {
-        DB::rollback();
+            $media = $this->getFullMedia($media);
 
-        return response()->json([
-                'error'=> $e->getMessage(),
+            return $media->toJson();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'error' => $e->getMessage(),
                 'code' => $e->getCode()
-              ], 422);
-      }
+            ], 422);
+        }
     }
 
-   /**
+    /**
      * Create a new controller instance.
      *
+     * @param $project_id
      * @return void
      */
-
     public function projectFileUpload($project_id)
     {
         $file = request()->file('file');
 
         $collectionName = $this->getProjectCollectionName($file);
 
-        if(!$collectionName)
-          return response()->json(['Invalid file format.'], 422);
-          
+        if (!$collectionName)
+            return response()->json(['Invalid file format.'], 422);
+
         try {
-          DB::beginTransaction();
+            DB::beginTransaction();
 
-          $project = Project::findOrFail($project_id);
+            $project = Project::findOrFail($project_id);
 
-          $media = $project->addMedia($file)
-                           ->withCustomProperties([
-                            'ext' => $file->extension(),
-                            'user' => auth()->user()
-                           ])
-                           ->toMediaCollection($collectionName);
+            $media = $project->addMedia($file)
+                ->withCustomProperties([
+                    'ext' => $file->extension(),
+                    'user' => auth()->user()
+                ])
+                ->toMediaCollection($collectionName);
 
-          $media = $this->getFullMedia($media);
+            $media = $this->getFullMedia($media);
 
 
-          $activity = false;
-          if (request()->has('file_upload_session') && request()->file_upload_session) {
-            $activity = Activity::where('properties->session', request()->file_upload_session)->latest()->first();
-          }
-          if($activity){
-            $current_props = json_decode($activity->properties, true);
-            $current_props['media'][] = $media;
-            $activity->properties = $current_props;
-            $activity->save();
-          } else {
-            $log = auth()->user()->first_name." uploaded file(s) on $project->type ".$project->title;
-            $activity = activity('files')
-                      ->performedOn($project)
-                      ->causedBy(auth()->user())
-                      ->withProperties([
-                            'session' => request()->file_upload_session ?? '',
-                            'company_id' => auth()->user()->company()->id,
-                            'media' => [$media],
-                            'thumb_url' => $media->getUrl('thumb')
-                          ])
-                      ->log($log);
-            $activity = Activity::findOrFail($activity->id);
-            $activity->users()->attach(auth()->user()->company()->membersID());
-          }
+            $activity = false;
+            if (request()->has('file_upload_session') && request()->file_upload_session) {
+                $activity = Activity::where('properties->session', request()->file_upload_session)->latest()->first();
+            }
+            if ($activity) {
+                $current_props = json_decode($activity->properties, true);
+                $current_props['media'][] = $media;
+                $activity->properties = $current_props;
+                $activity->save();
+            } else {
+                $log = auth()->user()->first_name . " uploaded file(s) on $project->type " . $project->title;
+                $activity = activity('files')
+                    ->performedOn($project)
+                    ->causedBy(auth()->user())
+                    ->withProperties([
+                        'session' => request()->file_upload_session ?? '',
+                        'company_id' => auth()->user()->company()->id,
+                        'media' => [$media],
+                        'thumb_url' => $media->getUrl('thumb')
+                    ])
+                    ->log($log);
+                $activity = Activity::findOrFail($activity->id);
+                $activity->users()->attach(auth()->user()->company()->membersID());
+            }
 
-          DB::commit();
+            DB::commit();
 
-          return $media->toJson();
+            return $media->toJson();
         } catch (\Exception $e) {
-          DB::rollback();
-          $error = strripos($e->getMessage(), 'maximum allowed') !== false ? 'File size exceed max limit.' : $e->getMessage();
-          return response()->json([ $error ], 422);
+            DB::rollback();
+            $error = strripos($e->getMessage(), 'maximum allowed') !== false ? 'File size exceed max limit.' : $e->getMessage();
+            return response()->json([$error], 422);
         }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id)
     {
         $model = Media::findOrFail($id);
-        
-        if($model->delete()){
+
+        if ($model->delete()) {
             return response()->json(['message' => 'Successfully deleted'], 200);
         }
         return response()->json(['message' => 'Error! Cant delete this file'], 522);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function uploadImage()
     {
         request()->validate([
@@ -222,23 +238,26 @@ class MediaController extends Controller
         try {
 
             $image = Image::make($file);
-            $fileName = Str::slug(preg_replace("/\.[^.]+$/", "", $file->getClientOriginalName())).'.'.$file->getClientOriginalExtension();
-            $folder = 'uploads/'.date('Y/m').'/';
+            $fileName = Str::slug(preg_replace("/\.[^.]+$/", "", $file->getClientOriginalName())) . '.' . $file->getClientOriginalExtension();
+            $folder = 'uploads/' . date('Y/m') . '/';
 
             $file = $file->storeAs($folder, $fileName, 'public');
             $filePath = $folder . $fileName;
 
             return response()->json([
-                        'fileName' => $fileName,
-                        'url'      => url(Storage::url($filePath)),
-                        'public_url' => url(Storage::url($filePath))
-                ]);
+                'fileName' => $fileName,
+                'url' => url(Storage::url($filePath)),
+                'public_url' => url(Storage::url($filePath))
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 522);   
+            return response()->json(['error' => $e->getMessage()], 522);
         }
     }
+
     /**
-     * $id = project id 
+     * $id = project id
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function bulkDeleteFiles($id)
     {
@@ -248,18 +267,22 @@ class MediaController extends Controller
 
         $project = Project::findOrFail($id);
         $files = Media::where('model_id', $project->id)
-                      ->where('model_type', 'App\Project')
-                      ->whereIn('id', request()->ids)
-                      ->get();
+            ->where('model_type', 'App\Project')
+            ->whereIn('id', request()->ids)
+            ->get();
         if (!$files->isEmpty()) {
             foreach ($files as $key => $file) {
                 $file->delete();
             }
         }
 
-        return response()->json(['message' => $files->count().' project(s)  successfully deleted'], 200);
+        return response()->json(['message' => $files->count() . ' project(s)  successfully deleted'], 200);
     }
-    
+
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function fetchComments($id)
     {
         $media = \App\Media::findOrFail($id);
@@ -271,7 +294,7 @@ class MediaController extends Controller
         foreach ($items as $key => $comment) {
             $comment->body = getFormattedContent($comment->body);
             $comment->load('causer');
-            $data->push(array_merge($comment->toArray()));   
+            $data->push(array_merge($comment->toArray()));
         }
 
         $comments->setCollection($data);
@@ -279,6 +302,10 @@ class MediaController extends Controller
         return $comments;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function addComment($id)
     {
         $media = \App\Media::findOrFail($id);
@@ -286,7 +313,7 @@ class MediaController extends Controller
             'body' => 'required'
         ]);
 
-        $comment = new Comment([ 
+        $comment = new Comment([
             'body' => request()->body,
             'causer_id' => auth()->user()->id,
             'causer_type' => 'App\User'
@@ -300,6 +327,11 @@ class MediaController extends Controller
         return $new_comment;
     }
 
+    /**
+     * @param $id
+     * @param $comment_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteComment($id, $comment_id)
     {
         $media = \App\Media::findOrFail($id);
@@ -310,12 +342,16 @@ class MediaController extends Controller
         return response()->json(['message' => 'Comment deleted!'], 200);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateStatus($id)
     {
-       $media = \App\Media::findOrFail($id);
-       $media->approved = request()->action;
-       $media->save();
+        $media = \App\Media::findOrFail($id);
+        $media->approved = request()->action;
+        $media->save();
 
-       return response()->json(['message' => 'File status updated!'], 200);
+        return response()->json(['message' => 'File status updated!'], 200);
     }
 }

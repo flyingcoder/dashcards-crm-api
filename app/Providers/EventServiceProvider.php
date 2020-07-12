@@ -25,7 +25,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\NewActivity' => [
-                'App\Listeners\NewActivityListener ',
+            'App\Listeners\NewActivityListener ',
         ],
     ];
 
@@ -43,6 +43,9 @@ class EventServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     *
+     */
     protected function customObservers()
     {
         Company::observe(CompanyObserver::class);

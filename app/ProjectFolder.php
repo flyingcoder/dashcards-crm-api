@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Project;
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class ProjectFolder extends Model
@@ -16,12 +14,18 @@ class ProjectFolder extends Model
 		'properties' => 'array'
 	];
 
-	public function user()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
 	{
 		return $this->hasOne(User::class, 'id', 'user_id');
 	}
 
-	public function project()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function project()
 	{
 		return $this->belongsTo(Project::class, 'id', 'project_id');	
 	}

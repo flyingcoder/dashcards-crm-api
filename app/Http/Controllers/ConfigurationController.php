@@ -6,7 +6,6 @@ use App\Configuration;
 use App\Events\GlobalEvent;
 use App\Policies\ConfigurationPolicy;
 use App\Traits\HasConfigTrait;
-use Illuminate\Http\Request;
 
 class ConfigurationController extends Controller
 {
@@ -14,11 +13,18 @@ class ConfigurationController extends Controller
 	
 	protected $types = ['integer', 'string', 'float', 'boolean', 'object', 'array'];
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
     	return response()->json($this->getAllConfigs(), 200);
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function getByKey($key)
     {
     	$config =  Configuration::where('key', $key)->firstOrFail();
@@ -27,6 +33,9 @@ class ConfigurationController extends Controller
     	return $config;
     }
 
+    /**
+     * @return mixed
+     */
     public function saveByKey()
     {
     	(new ConfigurationPolicy)->update();
@@ -57,6 +66,9 @@ class ConfigurationController extends Controller
     	return $config;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulkSave()
     {
     	(new ConfigurationPolicy)->update();

@@ -18,22 +18,36 @@ class Comment extends Model
 
     protected static $logName = 'system';
 
+    /**
+     * @param Activity $activity
+     * @param string $eventName
+     */
     public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
     }
 
-	public function getDescriptionForEvent(string $eventName): string
+    /**
+     * @param string $eventName
+     * @return string
+     */
+    public function getDescriptionForEvent(string $eventName): string
     {
         return "A Comment has been {$eventName}";
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function commentable()
     {
     	return $this->morphTo();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function causer()
     {
     	return $this->morphTo();

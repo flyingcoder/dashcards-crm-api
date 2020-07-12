@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\NewActivity;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewActivityListener
 {
@@ -21,7 +19,7 @@ class NewActivityListener
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param NewActivity $event
      * @return void
      */
     public function handle(NewActivity $event)

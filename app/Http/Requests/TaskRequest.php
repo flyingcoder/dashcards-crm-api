@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class TaskRequest extends FormRequest
@@ -42,15 +42,18 @@ class TaskRequest extends FormRequest
         ];
     }
 
+    /**
+     * @param Validator $validator
+     */
     protected function failedValidation(Validator $validator)
     {
-        $errors   = [];
+        $errors = [];
         $messages = $validator->getMessageBag();
 
         foreach ($messages->keys() as $key) {
             $errors['message'] = $messages->get($key, $this->messageFormat)[0];
         }
-        
+
         throw new HttpResponseException(response()->json($errors, 422));
     }
 }

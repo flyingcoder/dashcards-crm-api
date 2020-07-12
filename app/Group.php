@@ -13,9 +13,9 @@ use App\Events\ActivityEvent;
 
 class Group extends Role
 {
-	use SearchableTrait,
-		SoftDeletes,
-		Sluggable,
+    use SearchableTrait,
+        SoftDeletes,
+        Sluggable,
         LogsActivity;
 
     protected $table = 'roles';
@@ -24,17 +24,28 @@ class Group extends Role
 
     protected static $logName = 'system';
 
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A group has been {$eventName}";
     }
 
+    /**
+     * @param Activity $activity
+     * @param string $eventName
+     */
     public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
     }
 
+    /**
+     * @return array
+     */
     public function sluggable()
     {
         return [
@@ -44,7 +55,7 @@ class Group extends Role
         ];
     }
 
-	/**
+    /**
      * Searchable rules.
      *
      * @var array
@@ -65,12 +76,18 @@ class Group extends Role
     ];
 
 
-   	public function company()
-   	{
-   		return $this->belongsTo(Company::class);
-   	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permission_role', 'role_id', 'permission_id');

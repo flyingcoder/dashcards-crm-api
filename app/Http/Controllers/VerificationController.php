@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class VerificationController extends Controller
 {
-	public function isBelongToCompany()
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function isBelongToCompany()
 	{
 
 		request()->validate([
@@ -23,7 +24,6 @@ class VerificationController extends Controller
 			$value = auth()->user()->company()->services()->where('services.id', request()->id)->exists();
 		}
 
-		
 		return response()->json(['belong' => $value], 200);
 	}
 }

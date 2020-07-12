@@ -29,19 +29,30 @@ class Report extends Model
         'title', 'description', 'url', 'company_id'
     ];
 
+    /**
+     * @param Activity $activity
+     * @param string $eventName
+     */
     public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
     }
-    
+
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A reports has been {$eventName}";
     }
 
+    /**
+     * @return bool
+     */
     public function updateReports()
-    {   
+    {
         request()->validate([
             'title' => 'required',
             'url' => 'required'
@@ -53,8 +64,8 @@ class Report extends Model
             'url' => request()->url
         ];
         if (request()->url != $this->url || empty($this->props)) {
-            $props = (array) $this->props;
-            $props = $this->getPreviewArray(request()->url) + $props; 
+            $props = (array)$this->props;
+            $props = $this->getPreviewArray(request()->url) + $props;
             $new_data['props'] = $props;
         }
         return $this->update($new_data);

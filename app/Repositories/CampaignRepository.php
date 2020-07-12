@@ -6,39 +6,49 @@ use App\Company;
 
 class CampaignRepository
 {
-	protected $paginate =  20;
+    protected $paginate = 20;
 
-	public function __construct()
-	{
-		$this->paginate = request()->has('per_page') ? request()->per_page : 20;
-	}
+    /**
+     * CampaignRepository constructor.
+     */
+    public function __construct()
+    {
+        $this->paginate = request()->has('per_page') ? request()->per_page : 20;
+    }
 
 
-	public function getCompanyCampaignList(Company $company)
-	{
-		$services = $company->campaigns()
-					->get();
-		return $services;
-	}
+    /**
+     * @param Company $company
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getCompanyCampaignList(Company $company)
+    {
+        return $company->campaigns()
+            ->get();
+    }
 
-	public function getCompanyCampaigns(Company $company)
-	{
-		$services = $company->campaigns()
-			->with([ 'managers', 'client', 'members', 'service' ]);
-		
-		if (request()->has('search') && !empty(request()->search)) {
-			$search = request()->search;
-			$services = $services->where(function($query) use ($search){
-				$query->where('services.name', 'like', "%$search%")
-					->orWhere('services.description','like', "%$search%");
-			});
-		}
+    /**
+     * @param Company $company
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getCompanyCampaigns(Company $company)
+    {
+        $services = $company->campaigns()
+            ->with(['managers', 'client', 'members', 'service']);
 
-		$services = $services->paginate($this->paginate);
-		$services->map(function($service){
-			$service->expand = false;
-		});
+        if (request()->has('search') && !empty(request()->search)) {
+            $search = request()->search;
+            $services = $services->where(function ($query) use ($search) {
+                $query->where('services.name', 'like', "%$search%")
+                    ->orWhere('services.description', 'like', "%$search%");
+            });
+        }
 
-		return $services;
-	}
+        $services = $services->paginate($this->paginate);
+        $services->map(function ($service) {
+            $service->expand = false;
+        });
+
+        return $services;
+    }
 }

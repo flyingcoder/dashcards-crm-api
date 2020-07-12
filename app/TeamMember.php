@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Team;
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class TeamMember extends Model
@@ -11,13 +9,19 @@ class TeamMember extends Model
 	protected $table = 'team_user';
 	public $timestamps = false;
 	public $fillable = [ 'team_id', 'user_id'];
-	
-	public function user()
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
 	{
 		return $this->hasOne(User::class, 'id', 'user_id');
 	}
 
-	public function team()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function team()
 	{
 		return $this->belongsTo(Team::class, 'id', 'team_id');	
 	}

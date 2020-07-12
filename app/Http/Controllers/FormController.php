@@ -4,21 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Form;
 use App\Policies\FormPolicy;
-use Illuminate\Http\Request;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Repositories\FormRepository;
+use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
     protected $formRepo;
     protected $paginate = 12;
 
+    /**
+     * FormController constructor.
+     * @param FormRepository $formRepo
+     */
     public function __construct(FormRepository $formRepo)
     {
         $this->formRepo = $formRepo;
         $this->paginate = request()->has('per_page') ? request()->per_page : 12;
     }
 
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function index()
     {
         $company = auth()->user()->company();
@@ -26,6 +32,9 @@ class FormController extends Controller
         return $this->formRepo->getCompanyForms($company);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function list()
     {
         $company = auth()->user()->company();
@@ -33,6 +42,10 @@ class FormController extends Controller
         return $this->formRepo->getCompanyFormsList($company);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function form($id)
     {
         $company = auth()->user()->company();
@@ -40,14 +53,20 @@ class FormController extends Controller
         return $company->forms()->withCount('responses')->with('company')->findOrFail($id);
     }
 
+    /**
+     * @param $slug
+     * @return Form|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
     public function formBySlug($slug)
     {
-        $form = Form::with('company')->where('slug', request()->slug)->firstOrfail();
-
-        return $form;
+        return Form::with('company')->where('slug', request()->slug)->firstOrfail();
     }
-    
 
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id)
     {
         $company = auth()->user()->company();
@@ -62,6 +81,9 @@ class FormController extends Controller
     }
 
 
+    /**
+     * @return mixed
+     */
     public function update()
     {
         request()->validate([
@@ -85,6 +107,9 @@ class FormController extends Controller
         return $form;
     }
 
+    /**
+     * @return mixed
+     */
     public function store()
     {
         request()->validate([
@@ -96,7 +121,7 @@ class FormController extends Controller
         (new FormPolicy())->create();
 
         $user = auth()->user();
-        $form = $user->forms()->create([
+        return $user->forms()->create([
                 'company_id' => $user->company()->id,
                 'questions' => request()->questions,
                 'title' => request()->title,
@@ -105,11 +130,12 @@ class FormController extends Controller
                         'notif_email_receivers' => request()->notif_email_receivers ?? []
                     ]
             ]);
-
-        return $form;
     }
 
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendForm()
     {
         request()->validate([
@@ -123,13 +149,13 @@ class FormController extends Controller
         $tos = request()->to_emails;
         $subject = request()->subject;
 
-        $sents = \Mail::send('email.send-email-form', ['content' => request()->message ], function($message) use ($tos, $subject) {    
+        Mail::send('email.send-email-form', ['content' => request()->message ], function($message) use ($tos, $subject) {
             $company = auth()->user()->company();
             $message->from(auth()->user()->email, $company->name);
-            $message->to($tos)->subject($subject);    
+            $message->to($tos)->subject($subject);
         });
 
-        $failed = \Mail:: failures();
+        $failed = Mail:: failures();
         
         if (empty($failed)) {
             $form->sents()->create([
@@ -161,7 +187,7 @@ class FormController extends Controller
 
         if (array_key_exists('notif_email_receivers', $form->props) && !empty($form->props['notif_email_receivers'])) {
             $url = config('app.frontend_url').'/dashboard/forms/'.$form->id.'/responses';
-            \Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ], 
+            Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ],
                 function($message) use ($form) { 
                     $message->from(config('mail.from.address', 'admin@dashcards.com'), config('mail.from.name', 'Buzzooka CRM'));
                     $message->to($form->props['notif_email_receivers'])->subject($form->title." response");    
@@ -171,13 +197,15 @@ class FormController extends Controller
         return $formResponse;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function formResponses($id)
     {
         $form = Form::findOrFail($id);
 
-        $responses = $form->responses()->with('user')->latest()->paginate($this->paginate);
-        
-        return $responses;
+        return $form->responses()->with('user')->latest()->paginate($this->paginate);
     }
 }
 

@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
 use App\Mail\UserCredentials;
-use App\Rules\CollectionUnique;
-use App\Team;
 use App\User;
-use Auth;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Kodeine\Acl\Models\Eloquent\Permission;
 use Kodeine\Acl\Models\Eloquent\Role;
 
 class TeamController extends Controller
 {
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store()
     {
         try {
@@ -28,10 +26,10 @@ class TeamController extends Controller
                 'telephone' => 'required',
                 'job_title' => 'string',
             ];
-            $hasPassword =  false;
+            $hasPassword = false;
             if (request()->has('admin_set_password') && request()->admin_set_password) {
                 $validation['password'] = 'required|string|min:6|confirmed';
-                $hasPassword =  true;
+                $hasPassword = true;
             }
 
             request()->validate($validation);
@@ -41,7 +39,7 @@ class TeamController extends Controller
             $image_url = random_avatar();
 
             $member = User::create([
-                'username' => $username.rand(0, 20),
+                'username' => $username . rand(0, 20),
                 'last_name' => request()->last_name,
                 'first_name' => request()->first_name,
                 'email' => request()->email,
@@ -90,22 +88,26 @@ class TeamController extends Controller
             switch ($error_code) {
                 case 1062:
                     return response()->json([
-                                'error' => 'The company email you have entered is already registered.'
-                           ], 500);
+                        'error' => 'The company email you have entered is already registered.'
+                    ], 500);
                     break;
                 case 1048:
                     return response()->json([
-                                'error' => 'Some fields are missing.'
-                           ], 500);
+                        'error' => 'Some fields are missing.'
+                    ], 500);
                 default:
                     return response()->json([
-                                'error' => $e."test"
-                           ], 500);
+                        'error' => $e . "test"
+                    ], 500);
                     break;
             }
         }
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function update($id)
     {
         $member = User::findOrFail($id);
@@ -115,8 +117,8 @@ class TeamController extends Controller
             'first_name' => 'required|string',
             'email' => [
                 'required',
-                 Rule::unique('users')->ignore($member->id)
-             ],
+                Rule::unique('users')->ignore($member->id)
+            ],
             'telephone' => 'required',
             'group_name' => 'required',
         ]);
@@ -130,7 +132,7 @@ class TeamController extends Controller
         $member->revokeAllRoles();
 
         $member->assignRole(request()->group_name);
-        
+
         $member->save();
 
         $member->group_name = request()->group_name;
@@ -156,16 +158,23 @@ class TeamController extends Controller
         return $member;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function delete($id)
     {
         $member = User::findOrFail($id);
         if ($member->destroy($id)) {
             return response('User is successfully deleted.', 200);
-        } else {
-            return response('Failed to delete user.', 500);
         }
+        return response('Failed to delete user.', 500);
+
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulkDelete()
     {
         request()->validate([
@@ -183,7 +192,7 @@ class TeamController extends Controller
                 }
             }
             DB::commit();
-            return response()->json(['message' => $members->count().' member(s) was successfully deleted'], 200);
+            return response()->json(['message' => $members->count() . ' member(s) was successfully deleted'], 200);
         } catch (Exception $e) {
             DB::rollback();
             return response()->json(['message' => "Some user failed to delete"], 500);
@@ -191,6 +200,10 @@ class TeamController extends Controller
     }
 
     //Group
+
+    /**
+     * @return mixed
+     */
     public function groups()
     {
         $company = auth()->user()->company();
@@ -204,23 +217,31 @@ class TeamController extends Controller
         return $roles;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function editgroup($id)
     {
         return Role::findOrFail($id);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function updategroup($id)
     {
         $role = Role::findOrFail($id);
 
-        $description = isset(request()->description) ? request()->description : '' ;
+        $description = isset(request()->description) ? request()->description : '';
 
         request()->validate([
             'name' => 'required|string'
         ]);
 
         $role->name = request()->name;
-        $role->description = request()->description;
+        $role->description = $description;
 
         if (request()->has('permission_id')) {
             $role->assignPermission(request()->permission_id);
@@ -231,33 +252,43 @@ class TeamController extends Controller
         return $role;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function deletegroup($id)
     {
 
         $role = auth()->user()->company()->roles()->where('id', $id)->firstOrFail();
-        
+
         try {
             DB::beginTransaction();
             $perms = $role->permissions()->delete();
 
             $role->delete();
-            
+
             DB::commit();
-        } catch (\Exception $e) {
+            return response('Group was successfully deleted.', 200);
+        } catch (Exception $e) {
             DB::rollback();
             return response('Failed to delete group.', 500);
         }
-        return response('Group was successfully deleted.', 200);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function role()
     {
         $company = Auth::user()->company();
         $group = $company->roles;
         return response()
-            ->json([ 'roles' => $group]);
+            ->json(['roles' => $group]);
     }
 
+    /**
+     *
+     */
     public function migrate()
     {
         $to = Role::findOrFail(request()->to);
