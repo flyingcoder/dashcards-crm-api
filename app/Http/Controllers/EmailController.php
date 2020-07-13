@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 
 use App\Mail\DynamicEmail;
+use App\Traits\TemplateTrait;
 use Illuminate\Support\Facades\Mail;
 
 class EmailController extends Controller
 {
+    use TemplateTrait;
     /**
      * @return \Illuminate\Http\JsonResponse
      */
@@ -22,5 +24,10 @@ class EmailController extends Controller
         Mail::to(request()->to)->send(new DynamicEmail(request()->message, request()->subject, auth()->user()));
 
         return response()->json(['message' => 'Success'], 200);
+    }
+
+    public function coreTemplates()
+    {
+        return $this->emailTemplates();
     }
 }

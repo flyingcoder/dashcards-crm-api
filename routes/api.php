@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'emails'], function () {
 
     Route::post('send', 'EmailController@sendEmail');
 
+    Route::get('templates', 'EmailController@coreTemplates');
 });
 
 Route::post('login', 'Auth\ApiLoginController@login');

@@ -12,11 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RoleSeeder::class);
-        if(env('APP_STAGING')) {
-            $this->call(UserTableSeeder::class);
-            $this->call(ProjectTableSeeder::class);
-        }
-        $this->call(ProductionUserSeeder::class);
+//        if(env('APP_STAGING')) {
+//            $this->call(UserTableSeeder::class);
+//            $this->call(ProjectTableSeeder::class);
+//        }
+//        $this->call(ProductionUserSeeder::class);
         $this->call(DashitemSeeder::class);
         $this->call(NewDashItemSeeder::class);
     }

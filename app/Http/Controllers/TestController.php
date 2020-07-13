@@ -67,7 +67,6 @@ class TestController extends Controller
 		echo $html;
 	}
 
-
     /**
      *
      */
