@@ -7,6 +7,7 @@ use App\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Kodeine\Acl\Models\Eloquent\Role;
 
@@ -72,7 +73,7 @@ class TeamController extends Controller
 
             $member->group_name = $role;
 
-            \Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
+            Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
 
             unset($member->tasks);
             unset($member->projects);

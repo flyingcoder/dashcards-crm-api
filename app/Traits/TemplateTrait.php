@@ -5,76 +5,111 @@ namespace App\Traits;
 use App\Template;
 
 
-trait TemplateTrait 
+trait TemplateTrait
 {
-	protected $allowed_names = [
-			'new_team_member' => [
-					'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]' ]
-				],
-			'new_payment' => [
-					'slots' => ['[payment:amount]', '[payment:link]' ]
-				],
-			'reset_password' => [
-					'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[user:reset_password_link]']
-				],
-			'new_user' => [
-					'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]', '[user:profile_link]']
-				],
-			'new_project' => [
-					'slots' => ['[project:title]', '[project:creator:first_name]', '[project:creator:last_name]', '[project:link]']
-				],
-			'new_notification' => [
-					'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[notification:link]']
-				],
-			'new_client' => [
-					'slots' => ['[client:email]', '[client:first_name]', '[client:last_name]', '[client:company_name]', '[client:profile_link]']
-				],
-			'new_task' => [
-					'slots' => ['[task:title]', '[task:link]']
-				],
-			'task_update' => [
-					'slots' => ['[task:title]', '[task:link]']
-				],
-			'questionaire_send' => [
-					'slots' => ['[questionaire:title]', '[questionaire:link]']
-				],
-			'questionaire_response' => [
-					'slots' => ['[questionaire:title]', '[questionaire:id]', '[questionaire:link]' ]
-				],
-			'invoice_created' => [
-					'slots' => ['[invoice:title]', '[invoice:amount]', '[invoice:link]']
-				],
-		];
+    protected $allowed_names = [
+        'new_team_member' => [
+            'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]'],
+            'description' => 'Will be sent to the email address of the newly created user',
+            'title' => 'New Team Member'
+        ],
+        'reset_password' => [
+            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[user:reset_password_link]'],
+            'description' => 'Will be sent to the user who request a password reset',
+            'title' => 'Reset Password'
+        ],
+        'new_user_created' => [
+            'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]', '[user:profile_link]'],
+            'description' => 'Will be sent to the admins and managers when a new user is added',
+            'title' => 'New User Created'
+        ],
+        'new_project_created' => [
+            'slots' => ['[project:title]', '[project:creator:first_name]', '[project:creator:last_name]', '[project:link]'],
+            'description' => 'Will be sent to the admins, managers and members involved on the newly created project/campaign',
+            'title' => 'New Project Created'
+        ],
+        'new_notification' => [
+            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[notification:link]'],
+            'description' => 'Will be sent to the users the notification intended to',
+            'title' => 'New Email Notification'
+        ],
+        'new_client' => [
+            'slots' => ['[client:email]', '[client:first_name]', '[client:last_name]', '[client:company_name]', '[client:profile_link]'],
+            'description' => 'Will be sent to the admins or managers when a newly created client is added',
+            'title' => 'New Client Created'
+        ],
+        'new_task' => [
+            'slots' => ['[task:title]', '[task:link]'],
+            'description' => 'Will be sent to the users whom the task is assigned',
+            'title' => 'New Task Created'
+        ],
+        'task_update' => [
+            'slots' => ['[task:title]', '[task:link]'],
+            'description' => 'Will be sent to the users whom the task is assigned',
+            'title' => 'Task Updated'
+        ],
+        'questionnaire_send' => [
+            'slots' => ['[questionnaire:title]', '[questionnaire:link]'],
+            'description' => 'Will be sent to the users whom the questionnaire intended to',
+            'title' => 'Questionnaire Sent'
+        ],
+        'questionnaire_response' => [
+            'slots' => ['[questionnaire:title]', '[questionnaire:id]', '[questionnaire:link]'],
+            'description' => 'Will be sent to the users whom the questionnaire supplied notifications from emails',
+            'title' => 'Questionnaire Response'
+        ],
+        'invoice_send' => [
+            'slots' => ['[invoice:title]', '[invoice:amount]', '[invoice:link]'],
+            'description' => 'Will be sent to user the invoice intended to',
+            'title' => 'Invoice Created'
+        ],
+        'invoice_paid' => [
+            'slots' => ['[invoice:title]', '[invoice:amount]', '[invoice:link]'],
+            'description' => 'Will be sent to "billed from user" when a payment is done to an invoice',
+            'title' => 'Invoice Paid'
+        ],
+    ];
 
-	/** 
-	 * Get Template names
-	 * @return array of strings
-	 */
-	public function allowedNames()
-	{
-		return array_keys($this->allowed_names);
-	}
+    /**
+     * Get Template names
+     * @return array of strings
+     */
+    public function allowedNames()
+    {
+        return array_keys($this->allowed_names);
+    }
 
-	/** 
-	 * Get Template by name , override by default if not found
-	 * @param $name string
-	 * @param $override_from_default boolean
-	 * @return App\Template with meta 'template'
-	 */
-	public function getTemplate($name, $override_from_default = true)
-	{
-		$template = Template::where('name', $name)->first();
-		if ($override_from_default && !$template) {
-			$name = str_replace(['admin_template_', 'client_template_'], [''], $name);
-			$name = 'global_template_'.$name;
-			$template = Template::where('name', $name)->first();
-		}
-		if (!$template) {
-			return null;
-		}
-		$template->load('meta');
-		return $template;
-	}
+    /**
+     * @return array
+     */
+    public function emailTemplates()
+    {
+        $data = [];
+        foreach ($this->allowed_names as $key => $allowed_name) {
+            $data[] = array_merge($allowed_name, ['type' => $key]);
+        }
+        return $data;
+    }
+    /**
+     * Get Template by name , override by default if not found
+     * @param $name string
+     * @param $override_from_default boolean
+     * @return App\Template with meta 'template'
+     */
+    public function getTemplate($name, $override_from_default = true)
+    {
+        $template = Template::where('name', $name)->first();
+        if ($override_from_default && !$template) {
+            $name = str_replace(['admin_template_', 'client_template_'], [''], $name);
+            $name = 'global_template_' . $name;
+            $template = Template::where('name', $name)->first();
+        }
+        if (!$template) {
+            return null;
+        }
+        $template->load('meta');
+        return $template;
+    }
 
     /**
      * @param $name
@@ -82,21 +117,21 @@ trait TemplateTrait
      * @param null $object
      * @return string|string[]
      */
-    public function parseTemplate($name, $template , $object = null)
-	{
-		if (is_null($object) || !isset($this->allowed_names[$name])) {
-			return  $template;
-		}
-		$slots = $this->allowed_names[$name]['slots'];
+    public function parseTemplate($name, $template, $object = null)
+    {
+        if (is_null($object) || !isset($this->allowed_names[$name])) {
+            return $template;
+        }
+        $slots = $this->allowed_names[$name]['slots'];
 
-		foreach ($slots as $key =>  $slot) {
-			$split = explode(':', str_replace(['[',']'], '', $slot));
-			if (count($split) == 2) {
-				$template = str_replace($slot, $object->{$split[1]}, $template);
-			} elseif (count($split) === 3) {
-				$template = str_replace($slot, $object->{$split[1]}->{$split[2]}, $template);
-			}
-		}
-		return $template;
-	}
+        foreach ($slots as $key => $slot) {
+            $split = explode(':', str_replace(['[', ']'], '', $slot));
+            if (count($split) == 2) {
+                $template = str_replace($slot, $object->{$split[1]}, $template);
+            } elseif (count($split) === 3) {
+                $template = str_replace($slot, $object->{$split[1]}->{$split[2]}, $template);
+            }
+        }
+        return $template;
+    }
 }
