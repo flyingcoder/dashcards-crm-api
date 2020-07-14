@@ -3,19 +3,18 @@
 namespace App;
 
 use App\Events\ActivityEvent;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Laravel\Scout\Searchable;
+use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Task extends Model
 {
-    use SoftDeletes, LogsActivity, Searchable;
+    use SoftDeletes, LogsActivity, Searchable, Metable;
 
     protected $fillable = [
         'title', 'description', 'milestone_id', 'project_id', 'started_at', 'end_at', 'status', 'days', 'role_id', 'props'
@@ -99,8 +98,9 @@ class Task extends Model
         return $this->belongsTo(Role::class);
     }
 
+
     /**
-     * @return array
+     * @return $this
      */
     public function updateTask()
     {
@@ -139,46 +139,7 @@ class Task extends Model
             }
             $this->assigned()->sync($user_ids);
         }
-        return $this->toArray();
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function store()
-    {
-        if (request()->started_at != null) {
-            request()->validate([
-                'end_at' => 'after_or_equal:started_at',
-            ]);
-            $started_at = request()->started_at;
-            $end_at = request()->end_at;
-            $days = round((strtotime($end_at) - strtotime($started_at)) / (60 * 60 * 24));
-        } else {
-            $started_at = date("Y-m-d", strtotime("now"));
-            $end_at = date("Y-m-d", strtotime(request()->days . ' days'));
-            $days = request()->days;
-        }
-
-        $task = self::create([
-            'title' => request()->title,
-            'description' => request()->description ?? null,
-            'milestone_id' => request()->milestone_id ?? null,
-            'project_id' => request()->project_id ?? null,
-            'started_at' => $started_at,
-            'end_at' => $end_at,
-            'status' => 'Open',
-            'days' => $days
-        ]);
-
-        $task->save();
-
-        if (request()->has('assigned')) {
-            $task->assigned()->sync(request()->assigned);
-            $task->assigned_ids = request()->assigned;
-        }
-
-        return $task;
+        return $this;
     }
 
     /**
@@ -285,7 +246,7 @@ class Task extends Model
      */
     public function company()
     {
-        return $this->milestone->project->company();
+        return $this->project->company();
     }
 
     /**

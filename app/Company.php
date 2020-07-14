@@ -21,13 +21,20 @@ class Company extends Model implements HasMedia
     protected $table = 'companies';
 
     protected $paginate = 12;
-
+    protected $appends = ['company_subscribed'];
     protected $fillable = ['name', 'email', 'domain', 'tag_line', 'short_description', 'long_description', 'company_logo', 'others', 'address', 'contact', 'is_private'];
     protected $casts = [
         'others' => 'array',
         'contact' => 'array'
     ];
 
+    /**
+     * @return boolean
+     */
+    public function getCompanySubscribedAttribute()
+    {
+        return isset($this->others['company_subscribed']) ? $this->others['company_subscribed'] : false;
+    }
     /**
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
      */

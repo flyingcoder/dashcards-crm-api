@@ -42,8 +42,7 @@ class ProjectRepository
             $this->paginate = $request->per_page;
         }
 
-        $projects = $company->companyProjects()
-            ->ofType('project');
+        $projects = $company->companyProjects()->ofType('project');
 
         if (!$viewer->hasRoleLike('admin')) {
             $projects->whereHas('team', function ($query) use ($viewer) {

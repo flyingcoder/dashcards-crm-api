@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Events\CompanyEvent;
 use App\Repositories\MembersRepository;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
 {
@@ -103,13 +101,14 @@ class CompanyController extends Controller
         $company->company_logo = url($media->getUrl());
         $company->save();
 
+        broadcast(new CompanyEvent($company->id, array_merge(['type' => 'configs'], $company->toArray())));
+
         return $company;
     }
 
     public function info($id)
     {
-        $company = Company::findOrFail($id);
-        return $company;
+        return Company::findOrFail($id);
     }
 
     public function updateInfo($id)

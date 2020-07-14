@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Company;
+use App\Events\NewProjectCreated;
 use App\Http\Requests\ProjectRequest;
 use App\Message;
 use App\Milestone;
@@ -14,8 +15,9 @@ use App\Repositories\ProjectRepository;
 use App\Repositories\TimerRepository;
 use App\Traits\HasUrlTrait;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Chat;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Kodeine\Acl\Models\Eloquent\Role;
 
@@ -471,7 +473,6 @@ class ProjectController extends Controller
         request()->validate([
             'title' => 'required',
             'start_at' => 'required',
-            'end_at' => 'required',
             'client_id' => 'required',
         ]);
 
@@ -514,24 +515,16 @@ class ProjectController extends Controller
 
             DB::commit();
 
-            //create return
-            unset($project->members);
-
             $proj = Project::where('projects.id', $project->id)
-                ->with([
-                    'projectManagers.user.meta',
-                    'projectClient.user.meta',
-                    'projectMembers.user.meta'
-                ])
+                ->with(['manager', 'client', 'members'])
                 ->first();
 
-            $proj->extra_fields = $project->getMeta('extra_fields');
-            $proj->total_time = $project->totalTime();
-            $proj->progress = $project->progress();
-            $proj->tasks = $project->tasks()->count();
-            $proj->company_name = $project->projectClient->user->meta['company_name']->value ?? "";
-            $proj->client_id = $project->projectClient->user->id ?? "";
-            $proj->location = $project->projectClient->user->meta['location']->value ?? "";
+            $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
+            $proj->expand = false;
+            $proj->company_name = $clientCompany ? $clientCompany->name : "";
+            $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
+
+            event(new NewProjectCreated($proj));
 
             return $proj;
         } catch (Exception $e) {
@@ -547,14 +540,19 @@ class ProjectController extends Controller
      */
     public function update($id, ProjectRequest $request)
     {
-        $project = Project::findOrFail($id);
+        request()->validate([
+            'title' => 'required',
+            'start_at' => 'required',
+            'client_id' => 'required',
+        ]);
 
+        $project = Project::findOrFail($id);
         //(new ProjectPolicy())->update($project);
 
         $project->title = request()->title;
         $project->description = request()->description;
         $project->started_at = request()->start_at;
-        $project->end_at = request()->end_at;
+        $project->end_at = request()->end_at ?? null;
 
         if (request()->has('client_id')) {
             if (count($project->client) == 0) {
@@ -589,21 +587,14 @@ class ProjectController extends Controller
             $project->setMeta('extra_fields', request()->extra_fields);
         }
 
-        unset($project->members);
+        $proj = Project::where('projects.id', $project->id)
+            ->with(['manager', 'client', 'members'])
+            ->first();
 
-        $proj = $project->with([
-            'projectManagers.user.meta',
-            'projectClient.user.meta',
-            'projectMembers.user.meta'
-        ])->where('projects.id', $project->id)->first();
-
-        $proj->extra_fields = $project->getMeta('extra_fields');
-        $proj->total_time = $project->totalTime();
-        $proj->progress = $project->progress();
-        $proj->tasks = $project->tasks()->count();
-        $proj->company_name = $project->projectClient->user->meta['company_name']->value ?? "";
-        $proj->client_id = $project->projectClient->user->id ?? "";
-        $proj->location = $project->projectClient->user->meta['location']->value ?? "";
+        $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
+        $proj->expand = false;
+        $proj->company_name = $clientCompany ? $clientCompany->name : "";
+        $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
 
         return $proj;
     }

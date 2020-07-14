@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Events\NewTaskCommentCreated;
+use App\Events\NewTaskCreated;
 use App\Events\ProjectTaskNotification;
-use App\Http\Requests\TaskRequest;
+use App\Events\TaskUpdated;
 use App\Project;
 use App\Task;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 
 class TaskController extends Controller
@@ -31,20 +33,53 @@ class TaskController extends Controller
         return auth()->user()->paginatedTasks();
     }
 
+
     /**
-     *
-     * store a task from an api call
-     * @param TaskRequest $request
-     * @return
+     * @return mixed
      */
-    public function store(TaskRequest $request)
+    public function store()
     {
         //(new TaskPolicy())->create();
         request()->validate([
             'title' => 'required|string'
         ]);
 
-        return Task::store();
+        if (request()->started_at != null) {
+            request()->validate([
+                'end_at' => 'after_or_equal:started_at',
+            ]);
+            $started_at = request()->started_at;
+            $end_at = request()->end_at;
+            $days = round((strtotime($end_at) - strtotime($started_at)) / (60 * 60 * 24));
+        } else {
+            $started_at = date("Y-m-d", strtotime("now"));
+            $end_at = date("Y-m-d", strtotime(request()->days . ' days'));
+            $days = request()->days;
+        }
+
+        $task = Task::create([
+            'title' => request()->title,
+            'description' => request()->description ?? null,
+            'milestone_id' => request()->milestone_id ?? null,
+            'project_id' => request()->project_id ?? null,
+            'started_at' => $started_at,
+            'end_at' => $end_at,
+            'status' => 'Open',
+            'days' => $days
+        ]);
+
+        $task->setMeta('creator', auth()->user()->id);
+
+        if (request()->has('assigned')) {
+            $task->assigned()->sync(request()->assigned);
+            $task->assigned_ids = request()->assigned;
+        }
+
+        if ($task->project_id > 0) {
+            event(new NewTaskCreated($task));
+        }
+
+        return $task;
     }
 
     /**
@@ -54,10 +89,15 @@ class TaskController extends Controller
     public function update($task_id)
     {
         $task = Task::findOrFail($task_id);
-
         //(new TaskPolicy())->update($task);
+        $task->updateTask();
 
-        return $task->updateTask();
+        $task = $task->fresh();
+        if ($task->project_id > 0) {
+            event(new TaskUpdated($task));
+        }
+
+        return $task->toArray();
     }
 
     /**
@@ -68,10 +108,17 @@ class TaskController extends Controller
     public function updateTask($milestone_id, $task_id)
     {
         $task = Task::findOrFail($task_id);
-
         //(new TaskPolicy())->update($task);
 
-        return $task->updateTask();
+        $task->updateTask();
+
+        $task = $task->fresh();
+
+        if ($task->project_id > 0) {
+            event(new TaskUpdated($task));
+        }
+
+        return $task;
     }
 
     /**
