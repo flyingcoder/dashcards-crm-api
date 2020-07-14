@@ -103,7 +103,7 @@ class StripeWebhookController extends Controller
     public function handleAccountExternalAccountDeleted($event)
     {
         //same with application deauthorize
-        return handleAccountApplicationDeauthorized($event);
+        return $this->handleAccountApplicationDeauthorized($event);
     }
 
     /**

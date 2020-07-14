@@ -17,8 +17,8 @@ class EmailTemplateSeeder extends Seeder
         $templates = [
         	$key.'new_team_member' => 'Welcome user [user:first_name]',
         	$key.'reset_password' => 'Your password has been successfully reset.',
-            $key.'new_user' => 'A new user ([user:first_name] [user:last_name] ) has been created.',
-            $key.'new_project' => 'A new project ([project:title]) has been created by [project:creator:first_name]',
+            $key.'new_user_created' => 'A new user ([user:first_name] [user:last_name] ) has been created.',
+            $key.'new_project_created' => 'A new project ([project:title]) has been created by [project:creator:first_name]',
             $key.'new_notification' => 'A notification has been created check [notification:link]',
             $key.'new_client' => 'A new client ([user:first_name] [user:last_name] ) has been created.',
             $key.'new_task' => 'A new task ([task:title]) has been created.',

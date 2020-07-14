@@ -90,24 +90,26 @@ trait TemplateTrait
         }
         return $data;
     }
+
     /**
      * Get Template by name , override by default if not found
      * @param $name string
-     * @param $override_from_default boolean
+     * @param null $companyId
+     * @param $override_from_default_if_empty boolean
      * @return App\Template with meta 'template'
      */
-    public function getTemplate($name, $override_from_default = true)
+    public function getTemplate($name, $companyId = null, $override_from_default_if_empty = true)
     {
-        $template = Template::where('name', $name)->first();
-        if ($override_from_default && !$template) {
-            $name = str_replace(['admin_template_', 'client_template_'], [''], $name);
-            $name = 'global_template_' . $name;
+        $template = Template::where('name', $name)->where('company_id', $companyId)->first();
+        if ($override_from_default_if_empty && !$template) {
+            $name = str_replace(['admin_template:', 'client_template:'], [''], $name);
+            $name = 'global_template:' . $name;
             $template = Template::where('name', $name)->first();
         }
         if (!$template) {
             return null;
         }
-        $template->load('meta');
+        $template->raw = $template->getMeta('template');
         return $template;
     }
 
@@ -119,6 +121,8 @@ trait TemplateTrait
      */
     public function parseTemplate($name, $template, $object = null)
     {
+        $split = explode(':', $name);
+        $name = count($split) > 1 ? trim($split[1]) : trim($split[0]);
         if (is_null($object) || !isset($this->allowed_names[$name])) {
             return $template;
         }
@@ -127,9 +131,9 @@ trait TemplateTrait
         foreach ($slots as $key => $slot) {
             $split = explode(':', str_replace(['[', ']'], '', $slot));
             if (count($split) == 2) {
-                $template = str_replace($slot, $object->{$split[1]}, $template);
+                $template = str_replace($slot, @$object->{$split[1]}, $template);
             } elseif (count($split) === 3) {
-                $template = str_replace($slot, $object->{$split[1]}->{$split[2]}, $template);
+                $template = str_replace($slot, @$object->{$split[1]}->{$split[2]}, $template);
             }
         }
         return $template;

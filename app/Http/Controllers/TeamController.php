@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewUserCreated;
 use App\Mail\UserCredentials;
 use App\User;
 use Exception;
@@ -20,6 +21,7 @@ class TeamController extends Controller
     public function store()
     {
         try {
+            DB::beginTransaction();
             $validation = [
                 'last_name' => 'required|string',
                 'first_name' => 'required|string',
@@ -34,9 +36,7 @@ class TeamController extends Controller
             }
 
             request()->validate($validation);
-
             $username = explode('@', request()->email)[0];
-
             $image_url = random_avatar();
 
             $member = User::create([
@@ -48,58 +48,48 @@ class TeamController extends Controller
                 'job_title' => request()->job_title,
                 'password' => $hasPassword ? bcrypt(request()->password) : bcrypt(str_random(12)),
                 'image_url' => $image_url,
-                'created_by' => auth()->user()->id
+                'created_by' => auth()->user()->id,
+                'props' => [
+                    'address' => request()->address ?? 'Unknown',
+                    'rate' => request()->rate ?? ''
+                ]
             ]);
 
             $member->setMeta('address', request()->address ?? 'Unknown');
-
             $member->setMeta('rate', request()->rate ?? '');
 
             $company = auth()->user()->company();
-
             $role = request()->group_name;
-
             $team = $company->defaultTeam();
 
             if (auth()->user()->hasRole('client')) {
                 $team = $company->clientStaffTeam();
-
                 $role = 'client';
             }
 
             $team->members()->attach($member);
-
             $member->assignRole($role);
-
             $member->group_name = $role;
+            $member->tasks = 0;
+            $member->projects = 0;
+
+            DB::commit();
 
             Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
-
-            unset($member->tasks);
-            unset($member->projects);
-
-            $member->tasks = $member->tasks()->count();
-
-            $member->projects = $member->projects()->count();
+            broadcast(new NewUserCreated($member));
 
             return $member;
         } catch (Exception $e) {
-            $error_code = $e->errorInfo[1];
-
+            DB::rollback();
+            $error_code = $e->getCode();
             switch ($error_code) {
                 case 1062:
-                    return response()->json([
-                        'error' => 'The company email you have entered is already registered.'
-                    ], 500);
+                    return response()->json([ 'message' => 'The company email you have entered is already registered.' ], 500);
                     break;
                 case 1048:
-                    return response()->json([
-                        'error' => 'Some fields are missing.'
-                    ], 500);
+                    return response()->json([ 'message' => 'Some fields are missing.' ], 500);
                 default:
-                    return response()->json([
-                        'error' => $e . "test"
-                    ], 500);
+                    return response()->json([ 'message' => $e->getMessage() ], 500);
                     break;
             }
         }
