@@ -31,11 +31,12 @@ class NewProjectCreatedListener
     {
         $project = $event->project;
         $team_emails = $project->team->pluck('email')->toArray();
+        $subject = $event->type == 'project' ? 'New Project Created' : 'New Campaign Created';
         if (count($team_emails) > 0) {
             $template = $this->getTemplate($event->template_name, $project->company->id, true);
             if (!is_null($template)) {
                 $content = $this->parseTemplate($event->template_name, $template->raw, $project);
-                Mail::to($team_emails)->send(new DynamicEmail($content, 'New Project Created', null));
+                Mail::to($team_emails)->send(new DynamicEmail($content, $subject, null));
             }
         }
     }

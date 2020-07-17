@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QuestionnaireResponse;
+use App\FormResponse;
+use App\Project;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
@@ -11,7 +14,7 @@ use App\Traits\HasUrlTrait;
 use App\Traits\StripeTrait;
 use App\Traits\TemplateTrait;
 use App\User;
-use Chat;
+use Musonza\Chat\Chat;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -71,19 +74,7 @@ class TestController extends Controller
      */
     public function index()
     {
-        /*$templateR = Template::with('meta')->find(52);
-        $template = $templateR->meta['template']['value'];
-        $name = explode(':', $templateR->name)[1];
-        $object =  User::first();
-        $a = $this->parseTemplate($name, $template, $object);
-        dump($a);*/
-        /*$project =  Project::find(17);
-        $template = $this->getTemplate('admin_template:new_project_created', $project->company, true);
-        $content = $this->parseTemplate('admin_template:new_project_created', $template->raw, $project);
-        dump($content);*/
-        $m = $this->mrepo->getCompanyManagers($this->user->company())->pluck('email')->toArray();
-        $a = $this->mrepo->getCompanyAdmins($this->user->company())->pluck('email')->toArray();
-        dump(array_unique(array_merge($a, $m)));
+     //
     }
 
 }

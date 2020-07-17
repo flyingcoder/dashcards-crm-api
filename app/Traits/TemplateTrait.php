@@ -7,17 +7,43 @@ use App\Template;
 
 trait TemplateTrait
 {
+    /**
+     * Get Template names
+     * @return array of strings
+     */
+    public function allowedNames()
+    {
+        return array_keys($this->allowed_names);
+    }
+
+    /**
+     * @return array
+     */
+    public function emailTemplates()
+    {
+        $data = [];
+        foreach ($this->allowed_names as $key => $allowed_name) {
+            $data[] = array_merge($allowed_name, ['type' => $key]);
+        }
+        return $data;
+    }
+
     protected $allowed_names = [
         'new_team_member' => [
             'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]'],
             'description' => 'Will be sent to the email address of the newly created user',
             'title' => 'New Team Member'
         ],
-        'reset_password' => [
-            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[user:reset_password_link]'],
-            'description' => 'Will be sent to the user who request a password reset',
-            'title' => 'Reset Password'
+        'new_client' => [
+            'slots' => ['[client:email]', '[client:first_name]', '[client:last_name]', '[client:company_name]', '[client:profile_link]'],
+            'description' => 'Will be sent to the admins or managers when a newly created client is added',
+            'title' => 'New Client Created'
         ],
+//        'reset_password' => [
+//            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[user:reset_password_link]'],
+//            'description' => 'Will be sent to the user who request a password reset',
+//            'title' => 'Reset Password'
+//        ],
         'new_user_created' => [
             'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]', '[user:profile_link]'],
             'description' => 'Will be sent to the admins and managers when a new user is added',
@@ -28,16 +54,12 @@ trait TemplateTrait
             'description' => 'Will be sent to the admins, managers and members involved on the newly created project/campaign',
             'title' => 'New Project Created'
         ],
-        'new_notification' => [
-            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[notification:link]'],
-            'description' => 'Will be sent to the users the notification intended to',
-            'title' => 'New Email Notification'
-        ],
-        'new_client' => [
-            'slots' => ['[client:email]', '[client:first_name]', '[client:last_name]', '[client:company_name]', '[client:profile_link]'],
-            'description' => 'Will be sent to the admins or managers when a newly created client is added',
-            'title' => 'New Client Created'
-        ],
+//        'new_notification' => [
+//            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[notification:link]'],
+//            'description' => 'Will be sent to the users the notification intended to',
+//            'title' => 'New Email Notification'
+//        ],
+
         'new_task' => [
             'slots' => ['[task:title]', '[task:link]'],
             'description' => 'Will be sent to the users whom the task is assigned',
@@ -59,37 +81,16 @@ trait TemplateTrait
             'title' => 'Questionnaire Response'
         ],
         'invoice_send' => [
-            'slots' => ['[invoice:title]', '[invoice:amount]', '[invoice:link]'],
+            'slots' => ['[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]'],
             'description' => 'Will be sent to user the invoice intended to',
             'title' => 'Invoice Created'
         ],
         'invoice_paid' => [
-            'slots' => ['[invoice:title]', '[invoice:amount]', '[invoice:link]'],
+            'slots' => ['[invoice:title]', '[invoice:total_amount]', '[invoice:link]'],
             'description' => 'Will be sent to "billed from user" when a payment is done to an invoice',
             'title' => 'Invoice Paid'
         ],
     ];
-
-    /**
-     * Get Template names
-     * @return array of strings
-     */
-    public function allowedNames()
-    {
-        return array_keys($this->allowed_names);
-    }
-
-    /**
-     * @return array
-     */
-    public function emailTemplates()
-    {
-        $data = [];
-        foreach ($this->allowed_names as $key => $allowed_name) {
-            $data[] = array_merge($allowed_name, ['type' => $key]);
-        }
-        return $data;
-    }
 
     /**
      * Get Template by name , override by default if not found

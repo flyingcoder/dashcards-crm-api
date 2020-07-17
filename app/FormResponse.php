@@ -61,6 +61,6 @@ class FormResponse extends Model
      */
     public function getLinkAttribute()
     {
-        return config('app.frontend_url').'/form/'.$this->form->slug;
+        return config('app.frontend_url').'/dashboard/forms/'.$this->form_id.'/responses';
     }
 }

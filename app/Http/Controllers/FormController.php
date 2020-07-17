@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QuestionnaireResponse;
 use App\Form;
 use App\Policies\FormPolicy;
 use App\Repositories\FormRepository;
@@ -185,14 +186,7 @@ class FormController extends Controller
                 'user_id' => request()->user_id ?? null
             ]);
 
-        if (array_key_exists('notif_email_receivers', $form->props) && !empty($form->props['notif_email_receivers'])) {
-            $url = config('app.frontend_url').'/dashboard/forms/'.$form->id.'/responses';
-            Mail::send('email.received-form-response', ['form_name' => $form->title ,'url' => $url ],
-                function($message) use ($form) { 
-                    $message->from(config('mail.from.address', 'admin@dashcards.com'), config('mail.from.name', 'Buzzooka CRM'));
-                    $message->to($form->props['notif_email_receivers'])->subject($form->title." response");    
-                });
-        }
+        event(new QuestionnaireResponse($formResponse));
 
         return $formResponse;
     }

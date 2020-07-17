@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Events\NewClientCreated;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\User;
@@ -251,6 +252,7 @@ class ClientController extends Controller
 
             $client->company = $client_company;
 
+            event(new NewClientCreated($client));
             return $client;
         } catch (Exception $e) {
             DB::rollback();
