@@ -34,7 +34,7 @@ class DynamicEmail extends Mailable
             $this->from_name = config('mail.from.name', config('app.name'));
         } else {
             $this->from_email = $from->email;
-            $this->from_name = $from->fullname;
+            $this->from_name = $from->fullname ?? '';
         }
     }
 

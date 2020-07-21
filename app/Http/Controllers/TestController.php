@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\QuestionnaireResponse;
-use App\FormResponse;
-use App\Project;
+use App\Mail\DynamicEmail;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\Repositories\TemplateRepository;
 use App\Repositories\TimerRepository;
+use App\ScheduleTask;
 use App\Traits\HasUrlTrait;
 use App\Traits\StripeTrait;
 use App\Traits\TemplateTrait;
+use App\Traits\TimezoneTrait;
 use App\User;
-use Musonza\Chat\Chat;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use stdClass;
 
 class TestController extends Controller
 {
-    use HasUrlTrait, StripeTrait, TemplateTrait;
+    use HasUrlTrait, StripeTrait, TemplateTrait, TimezoneTrait;
     protected $trepo;
     protected $mrepo;
     protected $crepo;
@@ -63,18 +65,17 @@ class TestController extends Controller
     {
         $fields = $this->temprepo->getFields();
         $html = view('invoices.template-1')->render();
-        foreach ($fields as $key => $field) {
-            $html = str_replace('{' . $key . '}', $field['mock_data'], $html);
-        }
+        foreach ($fields as $key => $field) $html = str_replace('{' . $key . '}', $field['mock_data'], $html);
         echo $html;
     }
 
     /**
-     *
+     * @return mixed|void
      */
     public function index()
     {
-     //
+
+
     }
 
 }

@@ -2,12 +2,12 @@
 
 namespace App;
 
+use App\Events\ActivityEvent;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Milestone extends Model
 {
@@ -228,9 +228,9 @@ class Milestone extends Model
 
         $parent_model = $parent::findOrFail($id);
 
-        $model = $parent_model->milestones();
-
-        $model->with(['tasks']);
+        $model = $parent_model->milestones()
+            ->withCount('tasks')
+            ->with(['tasks']);
 
         if (request()->has('sort'))
             $model->orderBy($sortName, $sortValue);

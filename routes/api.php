@@ -716,7 +716,19 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
 
 // Forms
 Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
-
     Route::get('/', 'FormController@index');
+});
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'schedule-tasks'], function () {
+    Route::post('/{id}/toggle-status', 'ScheduleTaskController@toggleStatus');
+
+    Route::post('/', 'ScheduleTaskController@store');
+
+    Route::put('/{id}', 'ScheduleTaskController@update');
+
+    Route::delete('/{id}', 'ScheduleTaskController@forceDelete');
+
+    Route::get('/{id}/history', 'ScheduleTaskController@histories');
+
+    Route::get('/', 'ScheduleTaskController@index');
 });

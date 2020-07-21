@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Milestone;
-use Auth;
-use App\Project;
 use App\Http\Requests\MilestoneRequest;
 use App\Http\Requests\TaskRequest;
 

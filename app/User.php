@@ -5,7 +5,6 @@ namespace App;
 use App\Events\ActivityEvent;
 use App\Notifications\PasswordResetNotification;
 use App\Traits\HasTimers;
-use Chat;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -21,7 +20,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-
+use Chat;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -624,7 +623,7 @@ class User extends Authenticatable implements HasMedia
 
             list($sortName, $sortValue) = parseSearchParam(request());
 
-            $model->orderBy($sortName, $sortValue);
+            $tasks->orderBy($sortName, $sortValue);
         }
 
         if (request()->has('per_page') && is_numeric(request()->per_page))
@@ -776,5 +775,13 @@ class User extends Authenticatable implements HasMedia
     public function toSearchableArray()
     {
         return $this->only('first_name', 'last_name', 'email');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function scheduleTasks()
+    {
+        return $this->hasMany(ScheduleTask::class);
     }
 }

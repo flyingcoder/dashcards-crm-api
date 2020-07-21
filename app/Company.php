@@ -29,6 +29,13 @@ class Company extends Model implements HasMedia
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function scheduleTasks()
+    {
+        return $this->hasMany(ScheduleTask::class);
+    }
+    /**
      * @return boolean
      */
     public function getCompanySubscribedAttribute()
@@ -362,7 +369,7 @@ class Company extends Model implements HasMedia
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $model = $this->templates();
+        $model = $this->templates()->withCount('milestones');
         $table = 'templates';
 
         if (request()->has('type'))

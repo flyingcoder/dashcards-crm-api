@@ -29,66 +29,90 @@ trait TemplateTrait
     }
 
     protected $allowed_names = [
+        'header' => [
+            'slots' => [],
+            'description' => 'Will be used as header part of every email sent (Will be added first on the body)',
+            'title' => 'Header Template',
+            'for' => ['global', 'admin']
+        ],
+        'footer' => [
+            'slots' => [],
+            'description' => 'Will be used as footer or signature part of every email sent (Will be added on last of the body)',
+            'title' => 'Footer Template',
+            'for' => ['global', 'admin']
+        ],
         'new_team_member' => [
             'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]'],
             'description' => 'Will be sent to the email address of the newly created user',
-            'title' => 'New Team Member'
+            'title' => 'New Team Member',
+            'for' => ['global', 'admin']
         ],
         'new_client' => [
             'slots' => ['[client:email]', '[client:first_name]', '[client:last_name]', '[client:company_name]', '[client:profile_link]'],
             'description' => 'Will be sent to the admins or managers when a newly created client is added',
-            'title' => 'New Client Created'
+            'title' => 'New Client Created',
+            'for' => ['global', 'admin']
         ],
 //        'reset_password' => [
 //            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[user:reset_password_link]'],
 //            'description' => 'Will be sent to the user who request a password reset',
-//            'title' => 'Reset Password'
+//            'title' => 'Reset Password',
+//             'for' = ['global', 'admin']
 //        ],
         'new_user_created' => [
             'slots' => ['[user:email]', '[user:first_name]', '[user:last_name]', '[user:profile_link]'],
             'description' => 'Will be sent to the admins and managers when a new user is added',
-            'title' => 'New User Created'
+            'title' => 'New User Created',
+            'for' => ['global', 'admin']
         ],
         'new_project_created' => [
             'slots' => ['[project:title]', '[project:creator:first_name]', '[project:creator:last_name]', '[project:link]'],
             'description' => 'Will be sent to the admins, managers and members involved on the newly created project/campaign',
-            'title' => 'New Project Created'
+            'title' => 'New Project Created',
+            'for' => ['global', 'admin']
         ],
 //        'new_notification' => [
 //            'slots' => ['[user:first_name]', '[user:last_name]', '[user:email]', '[notification:link]'],
 //            'description' => 'Will be sent to the users the notification intended to',
-//            'title' => 'New Email Notification'
+//            'title' => 'New Email Notification',
+//             'for' = ['global', 'admin']
 //        ],
 
         'new_task' => [
             'slots' => ['[task:title]', '[task:link]'],
             'description' => 'Will be sent to the users whom the task is assigned',
-            'title' => 'New Task Created'
+            'title' => 'New Task Created',
+            'for' => ['global', 'admin']
         ],
         'task_update' => [
             'slots' => ['[task:title]', '[task:link]'],
             'description' => 'Will be sent to the users whom the task is assigned',
-            'title' => 'Task Updated'
+            'title' => 'Task Updated',
+            'for' => ['global', 'admin']
         ],
         'questionnaire_send' => [
             'slots' => ['[questionnaire:title]', '[questionnaire:link]'],
             'description' => 'Will be sent to the users whom the questionnaire intended to',
-            'title' => 'Questionnaire Sent'
+            'title' => 'Questionnaire Sent',
+            'for' => ['global', 'admin']
         ],
         'questionnaire_response' => [
             'slots' => ['[questionnaire:title]', '[questionnaire:id]', '[questionnaire:link]'],
             'description' => 'Will be sent to the users whom the questionnaire supplied notifications from emails',
-            'title' => 'Questionnaire Response'
+            'title' => 'Questionnaire Response',
+            'for' => ['global', 'admin']
         ],
         'invoice_send' => [
             'slots' => ['[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]'],
             'description' => 'Will be sent to user the invoice intended to',
-            'title' => 'Invoice Created'
+            'title' => 'Invoice Created',
+            'for' => ['global', 'admin']
         ],
         'invoice_paid' => [
             'slots' => ['[invoice:title]', '[invoice:total_amount]', '[invoice:link]'],
             'description' => 'Will be sent to "billed from user" when a payment is done to an invoice',
-            'title' => 'Invoice Paid'
+            'title' => 'Invoice Paid',
+            'for' => ['global', 'admin']
         ],
     ];
 
