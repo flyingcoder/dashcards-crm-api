@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('telescope:prune --hours=24')->hourly();
 
+        $schedule->command('schedule-tasks:email')->everyFiveMinutes();
     }
 
     /**
