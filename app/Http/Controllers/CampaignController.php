@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Campaign;
+use App\Events\NewProjectCreated;
 use App\Policies\ProjectPolicy;
 use App\Repositories\CampaignRepository;
 use App\ServiceList;
@@ -141,6 +142,8 @@ class CampaignController extends Controller
             DB::commit();
 
             $campaign->load(['managers', 'client', 'members', 'service']);
+
+            event(new NewProjectCreated($campaign, 'campaign'));
 
             return response()->json($campaign, 201);
         } catch (\Exception $ex) {

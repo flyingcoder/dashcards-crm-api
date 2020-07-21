@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InvoiceSend;
 use App\Invoice;
 use App\Mail\NewInvoiceEmail;
 use App\Policies\InvoicePolicy;
@@ -133,7 +134,7 @@ class InvoiceController extends Controller
 
         if (request()->has('send_email') && request()->send_email == 'yes') {
             $invoice->pdf = $this->repo->generatePDF($invoice);
-            Mail::to($invoice->billedTo->email)->send(new NewInvoiceEmail($invoice));
+            event(new InvoiceSend($invoice));
         }
 
         return $invoice;

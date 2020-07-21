@@ -4,11 +4,15 @@ namespace App\Providers;
 
 use App\Campaign;
 use App\Company;
+use App\Listeners\InvoicePaidListener;
+use App\Listeners\InvoiceSendListener;
 use App\Listeners\NewActivityListener;
+use App\Listeners\NewClientCreatedListener;
 use App\Listeners\NewProjectCreatedListener;
 use App\Listeners\NewTaskCreatedListener;
 use App\Listeners\NewTeamMemberListener;
 use App\Listeners\NewUserCreatedListener;
+use App\Listeners\QuestionnaireResponseListener;
 use App\Listeners\TaskUpdatedListener;
 use App\MediaLink;
 use App\Observers\ActivityObserver;
@@ -44,6 +48,18 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewUserCreated' => [
             NewUserCreatedListener::class,
             NewTeamMemberListener::class,
+        ],
+        'App\Events\NewClientCreated' => [
+            NewClientCreatedListener::class,
+        ],
+        'App\Events\InvoiceSend' => [
+            InvoiceSendListener::class,
+        ],
+        'App\Events\InvoicePaid' => [
+            InvoicePaidListener::class,
+        ],
+        'App\Events\QuestionnaireResponse' => [
+            QuestionnaireResponseListener::class,
         ],
     ];
 

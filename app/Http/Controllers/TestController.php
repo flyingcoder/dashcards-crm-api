@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DynamicEmail;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\Repositories\TemplateRepository;
 use App\Repositories\TimerRepository;
+use App\ScheduleTask;
 use App\Traits\HasUrlTrait;
 use App\Traits\StripeTrait;
 use App\Traits\TemplateTrait;
+use App\Traits\TimezoneTrait;
 use App\User;
-use Chat;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use stdClass;
 
 class TestController extends Controller
 {
-    use HasUrlTrait, StripeTrait, TemplateTrait;
+    use HasUrlTrait, StripeTrait, TemplateTrait, TimezoneTrait;
     protected $trepo;
     protected $mrepo;
     protected $crepo;
@@ -60,30 +65,17 @@ class TestController extends Controller
     {
         $fields = $this->temprepo->getFields();
         $html = view('invoices.template-1')->render();
-        foreach ($fields as $key => $field) {
-            $html = str_replace('{' . $key . '}', $field['mock_data'], $html);
-        }
+        foreach ($fields as $key => $field) $html = str_replace('{' . $key . '}', $field['mock_data'], $html);
         echo $html;
     }
 
     /**
-     *
+     * @return mixed|void
      */
     public function index()
     {
-        /*$templateR = Template::with('meta')->find(52);
-        $template = $templateR->meta['template']['value'];
-        $name = explode(':', $templateR->name)[1];
-        $object =  User::first();
-        $a = $this->parseTemplate($name, $template, $object);
-        dump($a);*/
-        /*$project =  Project::find(17);
-        $template = $this->getTemplate('admin_template:new_project_created', $project->company, true);
-        $content = $this->parseTemplate('admin_template:new_project_created', $template->raw, $project);
-        dump($content);*/
-        $m = $this->mrepo->getCompanyManagers($this->user->company())->pluck('email')->toArray();
-        $a = $this->mrepo->getCompanyAdmins($this->user->company())->pluck('email')->toArray();
-        dump(array_unique(array_merge($a, $m)));
+
+
     }
 
 }

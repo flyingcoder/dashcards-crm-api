@@ -298,7 +298,7 @@ class TemplateController extends Controller
             ]);
         }
 
-        $template->setMeta('template', request()->value);
+        $template->setMeta('template', str_ireplace(["<em>", "</em>"], '_', request()->value));
         $template->load('meta');
 
         return $template;

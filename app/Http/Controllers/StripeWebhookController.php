@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Backlog;
 use App\Events\GlobalEvent;
+use App\Events\InvoicePaid;
 use App\Invoice;
 use App\Traits\HasConfigTrait;
 use App\Traits\StripeTrait;
@@ -76,6 +77,8 @@ class StripeWebhookController extends Controller
                 $props['data'] = @$intent->charges->data[0];
                 $invoice->props = $props;
                 $invoice->save();
+
+                event(new InvoicePaid($invoice));
             }
         }
 

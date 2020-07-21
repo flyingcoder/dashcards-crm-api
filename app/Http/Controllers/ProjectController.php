@@ -524,7 +524,7 @@ class ProjectController extends Controller
             $proj->company_name = $clientCompany ? $clientCompany->name : "";
             $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
 
-            event(new NewProjectCreated($proj));
+            event(new NewProjectCreated($proj, 'project'));
 
             return $proj;
         } catch (Exception $e) {
