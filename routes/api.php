@@ -24,12 +24,15 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('configs', 'ConfigurationController@saveByKey')->middleware(IsAppAdmins::class);
 
         Route::get('logs/activities', 'LogsController@getActivityLogs')->middleware(IsAppAdmins::class);
+        Route::get('logs/emails', 'EmailController@emailLogs')->middleware(IsAppAdmins::class);
         Route::get('logs', 'LogsController@index')->middleware(IsAppAdmins::class);
         Route::post('logs/clear', 'LogsController@clear')->middleware(IsAppAdmins::class);
 
         Route::get('companies', 'CompanyController@companies')->middleware(IsAppAdmins::class);
         Route::post('companies/{id}/status', 'CompanyController@companyStatus')->middleware(IsAppAdmins::class);
         Route::get('subscribers/statistics', 'CompanyController@subscribersStatistics')->middleware(IsAppAdmins::class);
+
+        Route::get('database', 'DatabaseController@index')->middleware(IsAppAdmins::class);
     });
 });
 
@@ -548,9 +551,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
     Route::post('{id}/messages', 'ProjectController@sendMessages');
 
-    Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
-
     Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
+
+    Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
     Route::get('{id}/tasks/search', 'ProjectController@searchTasks');
 

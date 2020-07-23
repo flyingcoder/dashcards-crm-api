@@ -18,6 +18,9 @@ class LogsController extends Controller
         return [
             'telescope' => [
                 'count' => $this->getTelescopeStatistics()
+            ],
+            'emails' => [
+                'count' => $this->getEmailStatistics()
             ]
         ];
     }
@@ -28,6 +31,14 @@ class LogsController extends Controller
     public function getTelescopeStatistics()
     {
         return DB::select('explain select * from telescope_entries')[0]->rows ?? 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEmailStatistics()
+    {
+        return DB::select('explain select * from email_log')[0]->rows ?? 0;
     }
 
     /**

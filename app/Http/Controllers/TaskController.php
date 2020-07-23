@@ -9,7 +9,6 @@ use App\Events\ProjectTaskNotification;
 use App\Events\TaskUpdated;
 use App\Project;
 use App\Task;
-use phpDocumentor\Reflection\Types\Mixed_;
 
 
 class TaskController extends Controller
@@ -280,9 +279,9 @@ class TaskController extends Controller
         $task->markStatus(request()->status);
         $user = auth()->user();
 
-        $project = $task->project();
+        $project = $task->project;
         $log = $user->first_name . ' marked as completed the task ' . $task->title;
-        $activity = activity('system.task')
+        activity('system.task')
             ->performedOn($project ?? $task)
             ->causedBy($user)
             ->log($log);

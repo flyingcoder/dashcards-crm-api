@@ -36,10 +36,6 @@ class Task extends Model
     {
         return [
             'id' => $this->id,
-            'milestone_id' => $this->milestone_id ?? null,
-            'project_id' => $this->project_id ?? null,
-            'total_time' => $this->total_time(),
-            'assignee' => $this->assigned,
             'title' => $this->title,
             'status' => $this->status,
             'days' => $this->days,
@@ -48,6 +44,12 @@ class Task extends Model
             'end_at' => $this->end_at,
             'role_id' => $this->role_id,
             'props' => $this->props,
+            'milestone_id' => $this->milestone->id ?? null,
+            'milestone' => $this->milestone ?? null,
+            'project_id' => $this->project->id ?? null,
+            'project' => $this->project ?? null,
+            'assigned' => $this->assigned,
+            'total_time' => $this->total_time(),
         ];
     }
 

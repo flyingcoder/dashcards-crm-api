@@ -58,10 +58,8 @@ class RunScheduleEmails extends Command
      */
     public function handleExecutableScheduleTasks(Carbon $now)
     {
-        $from = $now->copy()->subMinutes(5);
         $to = $now->copy()->addMinutes(5);
-
-        $tasks = ScheduleTask::whereBetween('next_run_at', [$from, $to])->get();
+        $tasks = ScheduleTask::where('next_run_at', '<=', $to->format('Y-m-d H:i:s'))->get();
         if (!$tasks->isEmpty()) {
             foreach ($tasks as $task) {
                 $interval_type = $task->interval_type;

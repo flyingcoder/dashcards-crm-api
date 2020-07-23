@@ -323,8 +323,11 @@ class Company extends Model implements HasMedia
 
         $invoices = $this->invoices();
 
-        if ($request->has('sort') && !empty(request()->sort))
+        if ($request->has('sort') && !empty(request()->sort)) {
             $invoices->orderBy($sortName, $sortValue);
+        } else{
+            $invoices->latest();
+        }
 
         if (request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;

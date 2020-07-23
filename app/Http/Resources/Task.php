@@ -21,7 +21,7 @@ class Task extends JsonResource
             'status' => $this->status,
             'days' => $this->days,
             'total_time' => $this->total_time,
-            'assignee' => $this->assigned,
+            'assigned' => $this->assigned,
             'description' => $this->description,
             'started_at' => $this->started_at,
             'end_at' => $this->end_at

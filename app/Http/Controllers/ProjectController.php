@@ -800,11 +800,15 @@ class ProjectController extends Controller
     public function tasks($project_id)
     {
         $project = Project::findOrFail($project_id);
+        $data = $project->tasks()
+            ->whereNull('deleted_at')
+            ->latest()
+            ->paginate(request()->per_page ?? 50);
 
-        //(new ProjectPolicy())->viewTask($project);
+        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $counter->merge($data);
 
-        //if user is admin return all task of a project
-        return $project->paginatedProjectTasks();
+        return response()->json($data);
     }
 
     //will return all task of the project
@@ -816,10 +820,18 @@ class ProjectController extends Controller
     public function myTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
+        $data = $project->tasks()
+            ->whereNull('deleted_at')
+            ->whereHas('assigned', function ($query) {
+                $query->where('id', auth()->user()->id);
+            })
+            ->latest()
+            ->paginate(request()->per_page ?? 50);
 
-        //(new ProjectPolicy())->view($project);
+        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $counter->merge($data);
 
-        return $project->paginatedProjectMyTasks();
+        return response()->json($data);
     }
 
     /**

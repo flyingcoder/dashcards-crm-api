@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DynamicEmail;
+use App\Project;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
@@ -16,6 +17,7 @@ use App\Traits\TimezoneTrait;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use stdClass;
 
@@ -74,7 +76,6 @@ class TestController extends Controller
      */
     public function index()
     {
-
 
     }
 
