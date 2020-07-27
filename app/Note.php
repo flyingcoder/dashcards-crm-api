@@ -87,15 +87,10 @@ class Note extends Model
         request()->validate(['content' => 'required']);
 
         $this->title = request()->title;
-
         $this->content = request()->content;
-
         $this->remind_date = request()->remind_date;
-
         $this->save();
-
-        $this->collaborators = $this->collaborators();
-
+        $this->collaborators = $this->users;//collaborators();
         return $this;
     }
 }

@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\DynamicEmail;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\Repositories\TemplateRepository;
 use App\Repositories\TimerRepository;
-use App\ScheduleTask;
 use App\Traits\HasUrlTrait;
 use App\Traits\StripeTrait;
 use App\Traits\TemplateTrait;
 use App\Traits\TimezoneTrait;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use stdClass;
 
 class TestController extends Controller
 {
@@ -74,8 +69,8 @@ class TestController extends Controller
      */
     public function index()
     {
-
-
+        $cp = $this->user->company();
+        dump($cp->members()->pluck('users.id')->toArray());
     }
 
 }

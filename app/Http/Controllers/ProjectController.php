@@ -221,22 +221,21 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project_id);
 
-        $project->client_name = ucfirst($project->getClient()->last_name) . ", " . ucfirst($project->getClient()->first_name);
+        $project->billed_to = $project->manager()->first();
+        $project->billed_from = $project->client()->first();
 
-        $project->billed_to = $project->getClient();
+        $project->client_name = $project->billed_to->fullname;
+        $project->manager_name = $project->billed_from->fullname;
 
-        $project->manager_name = ucfirst($project->getManager()->last_name) . ", " . ucfirst($project->getManager()->first_name);
-
-        $project->billed_from = $project->getManager();
-
-        $tasks = $project->taskWhereStatus('completed');
-
+        $tasks = $project->tasks()
+            ->select('tasks.id', 'tasks.title')
+            ->where('status', 'completed')
+            ->orderBy('updated_at', 'desc')
+            ->take(20)
+            ->get();
         $tasks->map(function ($item) {
             $item['total_time'] = $item->total_time();
         });
-
-        unset($project->tasks);
-
         $project->tasks = $tasks;
 
         return $project;
@@ -800,11 +799,15 @@ class ProjectController extends Controller
     public function tasks($project_id)
     {
         $project = Project::findOrFail($project_id);
+        $data = $project->tasks()
+            ->whereNull('deleted_at')
+            ->latest()
+            ->paginate(request()->per_page ?? 50);
 
-        //(new ProjectPolicy())->viewTask($project);
+        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $counter->merge($data);
 
-        //if user is admin return all task of a project
-        return $project->paginatedProjectTasks();
+        return response()->json($data);
     }
 
     //will return all task of the project
@@ -816,10 +819,18 @@ class ProjectController extends Controller
     public function myTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
+        $data = $project->tasks()
+            ->whereNull('deleted_at')
+            ->whereHas('assigned', function ($query) {
+                $query->where('id', auth()->user()->id);
+            })
+            ->latest()
+            ->paginate(request()->per_page ?? 50);
 
-        //(new ProjectPolicy())->view($project);
+        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $counter->merge($data);
 
-        return $project->paginatedProjectMyTasks();
+        return response()->json($data);
     }
 
     /**

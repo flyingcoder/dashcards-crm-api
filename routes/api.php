@@ -24,12 +24,15 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('configs', 'ConfigurationController@saveByKey')->middleware(IsAppAdmins::class);
 
         Route::get('logs/activities', 'LogsController@getActivityLogs')->middleware(IsAppAdmins::class);
+        Route::get('logs/emails', 'EmailController@emailLogs')->middleware(IsAppAdmins::class);
         Route::get('logs', 'LogsController@index')->middleware(IsAppAdmins::class);
         Route::post('logs/clear', 'LogsController@clear')->middleware(IsAppAdmins::class);
 
         Route::get('companies', 'CompanyController@companies')->middleware(IsAppAdmins::class);
         Route::post('companies/{id}/status', 'CompanyController@companyStatus')->middleware(IsAppAdmins::class);
         Route::get('subscribers/statistics', 'CompanyController@subscribersStatistics')->middleware(IsAppAdmins::class);
+
+        Route::get('database', 'DatabaseController@index')->middleware(IsAppAdmins::class);
     });
 });
 
@@ -107,8 +110,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
     Route::post('/private', 'MessageController@sendPrivateMessage');
 
     Route::post('group/private', 'MessageController@sendGroupMessage');
-
-    Route::get('/private', 'MessageController@sendPrivateMessage');
 
     Route::post('/group', 'MessageController@createGroupChat');
 
@@ -243,15 +244,17 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 // Tasks
 Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
 
-    Route::get('/', 'TaskController@index');
-
     Route::get('mine', 'TaskController@mine');
+
+    Route::get('/', 'TaskController@index');
 
     Route::post('/', 'TaskController@store'); //for independent task no milestone
 
     Route::get('statistics/{id}', 'TaskController@stats');
 
     Route::put('{id}/mark-as-complete', 'TaskController@markAsComplete');
+
+    Route::put('{id}/mark-as-urgent', 'TaskController@markAsUrgent');
 
     Route::get('{id}/comments', 'TaskController@comments');
 
@@ -548,9 +551,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
     Route::post('{id}/messages', 'ProjectController@sendMessages');
 
-    Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
-
     Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
+
+    Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
 
     Route::get('{id}/tasks/search', 'ProjectController@searchTasks');
 
@@ -649,7 +652,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
     Route::get('{id}', 'ClientController@client'); // project
 
-    Route::post('{id}/image', 'ClientController@updatePicture');
+    Route::post('{id}/image', 'UserController@editProfilePicture');
 
     Route::post('/', 'ClientController@store'); // client add
 
@@ -662,6 +665,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
     Route::get('{id}/tasks', 'ClientController@tasks');
 
     Route::get('{id}/staffs', 'ClientController@staffs');
+
+    Route::post('{id}/staffs', 'ClientController@addStaffs');
 
     Route::get('{id}/invoices', 'ClientController@invoices');
 
@@ -700,6 +705,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
     Route::get('/', 'InvoiceController@index');
 
     Route::post('/', 'InvoiceController@store');
+
+    Route::post('bulk-remind', 'InvoiceController@invoiceReminder');
 
     Route::get('{id}/download', 'InvoiceController@getPDFInvoice');
 

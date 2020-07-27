@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\GenerateRecurringInvoices;
+use App\Console\Commands\RunScheduleEmails;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Tolawho\Loggy\Facades\Loggy;
@@ -14,7 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\GenerateRecurringInvoices::class,
+        GenerateRecurringInvoices::class,
+        RunScheduleEmails::class
     ];
 
     /**
