@@ -13,14 +13,16 @@ use App\Task;
 
 class TaskController extends Controller
 {
-
     /**
      * @return mixed
      */
     public function index()
     {
+        if (auth()->user()->hasRoleLike('client')) {
+            //todo return only projects tasks that the client associated with
+            return $this->mine();
+        }
         $company = auth()->user()->company();
-
         return $company->allCompanyPaginatedTasks();
     }
 
@@ -218,28 +220,25 @@ class TaskController extends Controller
         $project = Project::findOrFail($id);
 
         $all = $project->tasks->count();
-
         $urgent = $project->tasks()->where('tasks.status', 'urgent')->count();
-
         $open = $project->tasks()->where('tasks.status', 'open')->count();
-
-        $closed = $project->tasks()->where('tasks.status', 'closed')->count();
-
-        $invalid = $project->tasks()->where('tasks.status', 'invalid')->count();
+        $pending = $project->tasks()->where('tasks.status', 'pending')->count();
+        $completed = $project->tasks()->where('tasks.status', 'completed')->count();
+        $behind = $project->tasks()->where('tasks.status', 'behind')->count();
 
         return collect([
             'all' => $all,
             'urgent' => $urgent,
             'open' => $open,
-            'closed' => $closed,
-            'invalid' => $invalid
+            'completed' => $completed,
+            'pending' => $pending,
+            'behind' => $behind
         ]);
     }
 
     /**
-     *
-     * get a single task
-     *
+     * @param $id
+     * @return \Illuminate\Support\Collection
      */
     public function task($id)
     {
@@ -249,7 +248,7 @@ class TaskController extends Controller
         $total_time = $task->total_time();
         $comments = $task->comments->load('causer');
 
-        $assigned = $task->assigned()->get();
+        $assigned = $task->assigned;
         $assignee_url = $assigned->isEmpty() ? '' : $assigned->first()->image_url;
         $assigned_ids = $assigned->isEmpty() ? [] : $assigned->pluck('id')->toArray();
 
@@ -294,6 +293,43 @@ class TaskController extends Controller
                 'project' => $project
             );
             broadcast(new ProjectTaskNotification($user->company()->id, $data));
+        }
+
+        return $this->task($id);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Support\Collection
+     */
+    public function markAsUrgent($id)
+    {
+        request()->validate([
+            'status' => 'required|string'
+        ]);
+
+        $task = Task::findOrFail($id);
+        $status = $task->status == 'urgent' ? 'open' : 'urgent';
+        $task->status = $status;
+        $task->save();
+
+        $user = auth()->user();
+        $project = $task->project;
+        $log = $user->first_name . ' marked as '.$status.' the task ' . $task->title;
+        activity('system.task')->performedOn($project ?? $task)->causedBy($user)->log($log);
+
+        if ($status == 'urgent') {
+            $data = array(
+                'title' => 'Project Task updated!',
+                'message' => $log,
+                'receivers' => $project ? $project->members()->pluck('id')->toArray() : [],
+                'project' => $project
+            );
+            broadcast(new ProjectTaskNotification($user->company()->id, $data));
+
+            if (!$task->assigned->isEmpty()) {
+                event(new TaskUpdated($task));
+            }
         }
 
         return $this->task($id);

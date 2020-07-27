@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ActivityEvent;
 use App\Notifications\PasswordResetNotification;
 use App\Traits\HasTimers;
+use App\Traits\TaskTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ class User extends Authenticatable implements HasMedia
         Billable,
         LogsActivity,
         HasTimers,
-        Searchable;
-    // HasInvoices;
+        Searchable,
+        TaskTrait;
 
     protected $fillable = [
         'username', 'first_name', 'last_name', 'email', 'is_online', 'telephone', 'job_title', 'password', 'image_url', 'created_by', 'props'
@@ -262,7 +263,7 @@ class User extends Authenticatable implements HasMedia
 
         $note = $this->notes()->create($data);
 
-        $note->users = $note->users;
+        $note->load('users');
 
         $note->pivot = array(
             'user_id' => auth()->user()->id,
@@ -514,6 +515,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function allInvoices()
     {
+
         return $this->billedToInvoices->merge($this->billedFromInvoices);
     }
 
@@ -640,16 +642,9 @@ class User extends Authenticatable implements HasMedia
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
-        $datus = $data->toArray();
-
-        $datus['counter'] = [
-            'open' => $this->taskStatusCounter('open'),
-            'behind' => $this->taskStatusCounter('behind'),
-            'completed' => $this->taskStatusCounter('completed'),
-            'pending' => $this->taskStatusCounter('pending')
-        ];
-
-        return $datus;
+        $tasks = $data->toArray();
+        $tasks['counter'] = $this->taskCounters(true);
+        return $tasks;
     }
 
     /**

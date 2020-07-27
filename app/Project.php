@@ -5,11 +5,12 @@ namespace App;
 use App\Events\ActivityEvent;
 use App\Traits\HasMediaLink;
 use App\Traits\HasProjectScopes;
-use Musonza\Chat\Chat;
-use Illuminate\Support\Facades\DB;
+use App\Traits\TaskTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
+use Musonza\Chat\Chat;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -19,7 +20,7 @@ use Spatie\MediaLibrary\Models\Media;
 
 class Project extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes, Searchable;
+    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes, Searchable, TaskTrait;
 
     protected $paginate = 10;
 
@@ -94,13 +95,10 @@ class Project extends Model implements HasMedia
         else
             $model->where('type', 'client');
 
-        $convo = $model->first();
+        $conversation = $model->first();
 
         $from = User::findOrFail(request()->from_id);
-        return Chat::message(request()->message)
-            ->from($from)
-            ->to($convo)
-            ->send();
+        return Chat::message(request()->message)->from($from)->to($conversation)->send();
     }
 
     /**
@@ -508,46 +506,11 @@ class Project extends Model implements HasMedia
                 $model['assignee_url'] = $model->assigned()->first()->image_url;
         });
 
-        $datus = $data->toArray();
+        $tasks = $data->toArray();
+        $tasks['counter'] =  $this->taskCounters(false);
 
-        $datus['counter'] = [
-            'open' => $this->taskStatusCounter('open'),
-            'behind' => $this->taskStatusCounter('behind'),
-            'completed' => $this->taskStatusCounter('completed'),
-            'pending' => $this->taskStatusCounter('pending')
-        ];
+        return $tasks;
 
-        return $datus;
-
-    }
-
-    /**
-     * @param bool $own_task
-     * @return array
-     */
-    public function taskCounters($own_task = false)
-    {
-        return  [
-            'open' => $this->taskStatusCounter('open', $own_task),
-            'behind' => $this->taskStatusCounter('behind', $own_task),
-            'completed' => $this->taskStatusCounter('completed', $own_task),
-            'pending' => $this->taskStatusCounter('pending', $own_task)
-        ];
-    }
-
-    /**
-     * @param $status
-     * @param bool $own_task
-     * @return int
-     */
-    public function taskStatusCounter($status, $own_task = false)
-    {
-        if ($own_task) {
-            return $this->tasks()->whereHas('assigned', function($query){
-                $query->where('id', auth()->user()->id);
-            })->count();
-        }
-        return $this->tasks()->where('tasks.status', $status)->count();
     }
 
     /**
@@ -566,9 +529,7 @@ class Project extends Model implements HasMedia
             ->where('tasks.deleted_at', null);
 
         if (request()->has('sort') && !empty(request()->sort)) {
-
             list($sortName, $sortValue) = parseSearchParam(request());
-
             $tasks->orderBy($sortName, $sortValue);
         }
 
@@ -581,13 +542,7 @@ class Project extends Model implements HasMedia
             $data = $tasks->get();
 
         $datus = $data->toArray();
-
-        $datus['counter'] = [
-            'open' => $this->taskStatusCounter('open'),
-            'behind' => $this->taskStatusCounter('behind'),
-            'completed' => $this->taskStatusCounter('completed'),
-            'pending' => $this->taskStatusCounter('pending')
-        ];
+        $datus['counter'] = $this->taskCounters(true);
 
         return $datus;
     }
