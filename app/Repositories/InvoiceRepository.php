@@ -14,16 +14,19 @@ class InvoiceRepository
      * @param string $type
      * @return int|mixed
      */
-    public function totalInvoices(User $user, $type = 'all')
+    public function totalInvoices(User $user, $type = 'all', $status = null)
     {
         if ($type === 'all') {
-            return $user->allInvoices()->sum('total_amount');
+            $invoice = $user->allInvoices();
         } elseif ($type === 'billed_from') {
-            return $user->billedFromInvoices()->sum('total_amount');
+            $invoice = $user->billedFromInvoices();
         } elseif ($type === 'billed_to') {
-            return $user->billedToInvoices()->sum('total_amount');
+            $invoice = $user->billedToInvoices();
         }
-        return 0;
+        if (!is_null($status)) {
+            $invoice->where('status', strtolower($status));
+        }
+        return $invoice->sum('total_amount');
     }
 
     /**
@@ -77,13 +80,12 @@ class InvoiceRepository
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $invoices = $client->company()->invoices();
-
-        $invoices = $invoices->where(function ($query) use ($client) {
-            $query->where('invoices.billed_to', $client->id)
-                ->orWhere('invoices.billed_from', $client->id)
-                ->orWhere('invoices.user_id', $client->id);
-        });
+        $invoices = Invoice::with(['billedTo', 'billedFrom'])
+            ->where(function ($query) use ($client) {
+                $query->where('invoices.billed_to', $client->id)
+                    ->orWhere('invoices.billed_from', $client->id)
+                    ->orWhere('invoices.user_id', $client->id);
+            });
 
         if ($request->has('sort') && !empty(request()->sort))
             $invoices->orderBy($sortName, $sortValue);
@@ -92,17 +94,6 @@ class InvoiceRepository
             $this->paginate = request()->per_page;
 
         $data = $invoices->paginate(20);
-
-        $data->map(function ($invoice) {
-            $items = collect(json_decode($invoice->items, true));
-            unset($invoice->items);
-            $invoice->items = $items;
-            $props = collect(json_decode($invoice->props, true));
-            unset($invoice->props);
-            $invoice->props = $props;
-            $invoice->billedTo = User::where('id', $invoice->billed_to)->first();
-            $invoice->billedFrom = User::where('id', $invoice->billed_from)->first();
-        });
 
         return $data;
     }
