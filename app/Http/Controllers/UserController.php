@@ -318,7 +318,7 @@ class UserController extends Controller
             ->with('assigned')
             ->orderBy('tasks.status', 'DESC')
             ->orderBy('tasks.id', 'ASC')
-            ->paginate(10);
+            ->paginate(request()->per_page ?? 10);
 
         $tasksItems = $tasks->getCollection();
         $data = collect([]);

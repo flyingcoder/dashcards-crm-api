@@ -260,7 +260,7 @@ class InvoiceController extends Controller
 
         foreach ($clients as $key => $client) {
             $row = $client;
-            $row->amount = '$' . $this->repo->totalInvoices($client->user, 'billed_to'); //todo filter for status
+            $row->amount = '$' . $this->repo->totalInvoices($client->user, 'billed_to', 'paid');
         }
 
         $data = [];

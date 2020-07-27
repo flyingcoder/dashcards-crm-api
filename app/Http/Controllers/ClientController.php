@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Events\NewClientCreated;
+use App\Events\NewUserCreated;
+use App\Invoice;
+use App\Mail\UserCredentials;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class ClientController extends Controller
@@ -17,17 +21,17 @@ class ClientController extends Controller
     private $paginate = 10;
 
     protected $repo;
-    protected $mrepo;
+    protected $memberRepo;
 
     /**
      * ClientController constructor.
      * @param InvoiceRepository $repo
-     * @param MembersRepository $mrepo
+     * @param MembersRepository $memberRepo
      */
-    public function __construct(InvoiceRepository $repo, MembersRepository $mrepo)
+    public function __construct(InvoiceRepository $repo, MembersRepository $memberRepo)
     {
         $this->repo = $repo;
-        $this->mrepo = $mrepo;
+        $this->memberRepo = $memberRepo;
     }
 
     /**
@@ -36,16 +40,16 @@ class ClientController extends Controller
     public function index()
     {
         $company = Auth::user()->company();
-        $this->mrepo->setCompany($company);
+        $this->memberRepo->setCompany($company);
         if (request()->has('all') && request()->all) {
-            $clients = $this->mrepo->getUsersByType('clients', [], false);
+            $clients = $this->memberRepo->getUsersByType('clients', [], false);
             foreach ($clients as $key => $client) {
                 $clients[$key]->company = Company::find($client->props['company_id'] ?? null);
             }
             return $clients;
         }
 
-        $clients = $this->mrepo->getUsersByType('clients', [], true);
+        $clients = $this->memberRepo->getUsersByType('clients', [], true);
 
         $items = $clients->getCollection();
         $data = collect([]);
@@ -70,7 +74,7 @@ class ClientController extends Controller
         $client->getAllMeta();
         $client->company = Company::find($client->props['company_id']);
         $client->no_invoices = $this->repo->countInvoices($client, 'all');
-        $client->total_amount_paid = $this->repo->totalInvoices($client, 'billed_to');
+        $client->total_amount_paid = $this->repo->totalInvoices($client, 'billed_to', 'paid');
 
         return $client;
     }
@@ -81,17 +85,25 @@ class ClientController extends Controller
      */
     public function addStaffs($id)
     {
+        abort(404);
         try {
-
-            request()->validate([
+            DB::beginTransaction();
+            $validation = [
                 'last_name' => 'required|string',
                 'first_name' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'telephone' => 'required',
-                'password' => 'required|confirmed'
-            ]);
+                'job_title' => 'string',
+            ];
+            $hasPassword = false;
+            if (request()->has('admin_set_password') && request()->admin_set_password) {
+                $validation['password'] = 'required|string|min:6|confirmed';
+                $hasPassword = true;
+            }
 
+            request()->validate($validation);
             $username = explode('@', request()->email)[0];
+            $image_url = random_avatar();
 
             $member = User::create([
                 'username' => $username . rand(0, 20),
@@ -100,45 +112,50 @@ class ClientController extends Controller
                 'email' => request()->email,
                 'telephone' => request()->telephone,
                 'job_title' => request()->job_title,
-                'password' => bcrypt(request()->password),
-                'image_url' => random_avatar(null),
-                'created_by' => $id
+                'password' => $hasPassword ? bcrypt(request()->password) : bcrypt(str_random(12)),
+                'image_url' => $image_url,
+                'created_by' => auth()->user()->id,
+                'props' => [
+                    'address' => request()->address ?? 'Unknown',
+                    'rate' => request()->rate ?? ''
+                ]
             ]);
 
+            $member->setMeta('address', request()->address ?? 'Unknown');
+            $member->setMeta('rate', request()->rate ?? '');
+
             $company = auth()->user()->company();
+            $role = request()->group_name;
+            $team = $company->defaultTeam();
 
-            $team = $company->clientStaffTeam();
-
-            $role = 'client';
+            if (auth()->user()->hasRole('client')) {
+                $team = $company->clientStaffTeam();
+                $role = 'client';
+            }
 
             $team->members()->attach($member);
-
             $member->assignRole($role);
-
             $member->group_name = $role;
+            $member->tasks = 0;
+            $member->projects = 0;
 
-            //\Mail::to($member)->send(new UserCredentials($member, request()->password));
+            DB::commit();
 
-            return $member->load('projects', 'tasks');
+            Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
+            broadcast(new NewUserCreated($member));
 
+            return $member;
         } catch (Exception $e) {
-
-            $error_code = $e->errorInfo[1];
-
+            DB::rollback();
+            $error_code = $e->getCode();
             switch ($error_code) {
                 case 1062:
-                    return response()->json([
-                        'error' => 'The company email you have entered is already registered.'
-                    ], 500);
+                    return response()->json([ 'message' => 'The company email you have entered is already registered.' ], 500);
                     break;
                 case 1048:
-                    return response()->json([
-                        'error' => 'Some fields are missing.'
-                    ], 500);
+                    return response()->json([ 'message' => 'Some fields are missing.' ], 500);
                 default:
-                    return response()->json([
-                        'error' => $e . "test"
-                    ], 500);
+                    return response()->json([ 'message' => $e->getMessage() ], 500);
                     break;
             }
         }
@@ -173,8 +190,14 @@ class ClientController extends Controller
     public function invoices($id)
     {
         $client = User::findOrFail($id);
-
-        return $client->invoices()->get();
+        return Invoice::where(function($query) use ($client) {
+                $query->where('billed_to', $client->id)
+                    ->orWhere('billed_from', $client->id)
+                    ->orWhere('user_id', $client->id);
+            })
+            ->with(['billedFrom', 'billedTo'])
+            ->latest()
+            ->paginate(request()->per_page ?? 15);
     }
 
     /**
@@ -271,11 +294,12 @@ class ClientController extends Controller
             //'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
-            'email' => ['required', Rule::unique('users')->ignore($client->id)],
+            'email' => ['required','email', Rule::unique('users')->ignore($client->id)],
             'telephone' => 'required',
             'status' => 'required',
             'company_name' => 'required',
         ]);
+
         try {
             DB::beginTransaction();
 
@@ -284,7 +308,7 @@ class ClientController extends Controller
             $client->email = request()->email;
             $client->telephone = request()->telephone;
             if (request()->has('password')) {
-                $client->password = request()->password;
+                $client->password = bcrypt(request()->password);
             }
             $props = $client->props;
             $props['status'] = request()->status ?? 'Active';
@@ -300,7 +324,9 @@ class ClientController extends Controller
             $company->others = $props;
             $company->save();
 
+            DB::commit();
             $client->company = $company;
+            $client->projects = $client->projects()->count();
 
             return $client;
         } catch (Exception $e) {
