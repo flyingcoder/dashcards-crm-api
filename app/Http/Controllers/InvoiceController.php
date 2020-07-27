@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InvoiceReminder;
 use App\Events\InvoiceSend;
 use App\Invoice;
 use App\Mail\NewInvoiceEmail;
@@ -38,13 +39,13 @@ class InvoiceController extends Controller
         if (!request()->ajax())
             return view('pages.invoices');
 
-        if (auth()->user()->hasRoleLike('client')) {
-            return $this->repo->getClientInvoices(auth()->user(), request());
+        if (auth()->check() && auth()->user()->hasRoleLike('client')) {
+            return $this->repo->getClientInvoices(request()->user());
         }
 
         $company = auth()->user()->company();
-
-        return $company->paginatedCompanyInvoices(request());
+        return $this->repo->getCompanyInvoices($company);
+//        return $company->paginatedCompanyInvoices(request());
     }
 
     /**
@@ -308,5 +309,19 @@ class InvoiceController extends Controller
 
         $html = $this->trepo->parseInvoice($invoice, false);
         return response()->json(['html' => $html], 200);
+    }
+
+    public function invoiceReminder()
+    {
+        request()->validate(['invoice_ids' => 'array']);
+
+        $invoices = Invoice::where('status', '<>', 'paid')->whereIn('id', request()->invoice_ids)->get();
+        if ($invoices->isEmpty()) {
+            return response()->json(['message' => 'No pending invoices found!'], 404);
+        }
+        foreach ($invoices as $invoice) {
+            event(new InvoiceReminder($invoice));
+        }
+        return response()->json(['message' => 'Invoices reminders sent!'], 200);
     }
 }

@@ -39,6 +39,7 @@ class Invoice extends Model implements HasMedia
         'parent',
         'is_recurring'
     ];
+    protected $appends = ['extra'];
 
     protected static $logName = 'system';
 
@@ -127,5 +128,13 @@ class Invoice extends Model implements HasMedia
     public function billedFrom()
     {
         return $this->hasOne(User::class, 'id', 'billed_from');
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraAttribute()
+    {
+        return ['btnloading' => false];
     }
 }

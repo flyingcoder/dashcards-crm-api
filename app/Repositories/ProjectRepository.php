@@ -22,9 +22,14 @@ class ProjectRepository
      */
     public function getCompanyProjectsList(Company $company)
     {
-        return $company->companyProjects()
-            ->ofType('project')
-            ->with(['manager', 'client', 'members'])
+        $projects = $company->companyProjects();
+        if (request()->has('for') && request()->for == 'invoice') {
+            $projects->whereIn('type', ['project', 'campaign']);
+        } else {
+            $projects->ofType('project');
+        }
+
+        return $projects->with(['manager', 'client', 'members'])
             ->get();
     }
 

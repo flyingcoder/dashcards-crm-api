@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Company;
 use App\Invoice;
 use App\User;
 use Illuminate\Support\Facades\File;
@@ -73,12 +74,11 @@ class InvoiceRepository
 
     /**
      * @param User $client
-     * @param $request
      * @return mixed
      */
-    public function getClientInvoices(User $client, $request)
+    public function getClientInvoices(User $client)
     {
-        list($sortName, $sortValue) = parseSearchParam($request);
+        list($sortName, $sortValue) = parseSearchParam(request());
 
         $invoices = Invoice::with(['billedTo', 'billedFrom'])
             ->where(function ($query) use ($client) {
@@ -87,15 +87,43 @@ class InvoiceRepository
                     ->orWhere('invoices.user_id', $client->id);
             });
 
-        if ($request->has('sort') && !empty(request()->sort))
+        if (request()->has('status') && request()->status != 'all') {
+            $invoices->where('status', request()->status);
+        }
+
+        if (request()->has('sort') && !empty(request()->sort))
             $invoices->orderBy($sortName, $sortValue);
+        else
+            $invoices->latest();
 
-        if (request()->has('per_page') && is_numeric(request()->per_page))
-            $this->paginate = request()->per_page;
+        return $invoices->paginate(request()->per_page ?? 20);
+    }
 
-        $data = $invoices->paginate(20);
+    /**
+     * @param Company $company
+     * @return mixed
+     */
+    public function getCompanyInvoices(Company $company)
+    {
+        list($sortName, $sortValue) = parseSearchParam(request());
+        $members_id = $company->membersID();
+        $invoices = Invoice::with(['billedTo', 'billedFrom'])
+            ->where(function ($query) use ($members_id) {
+                $query->whereIn('invoices.billed_to', $members_id)
+                    ->orWhereIn('invoices.billed_from', $members_id)
+                    ->orWhereIn('invoices.user_id', $members_id);
+            });
 
-        return $data;
+        if (request()->has('status') && request()->status != 'all') {
+            $invoices->where('status', request()->status);
+        }
+
+        if (request()->has('sort') && !empty(request()->sort))
+            $invoices->orderBy($sortName, $sortValue);
+        else
+            $invoices->latest();
+
+        return $invoices->paginate(request()->per_page ?? 20);
     }
 
     /**

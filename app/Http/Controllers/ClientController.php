@@ -20,17 +20,17 @@ class ClientController extends Controller
 {
     private $paginate = 10;
 
-    protected $repo;
+    protected $invoiceRepo;
     protected $memberRepo;
 
     /**
      * ClientController constructor.
-     * @param InvoiceRepository $repo
+     * @param InvoiceRepository $invoiceRepo
      * @param MembersRepository $memberRepo
      */
-    public function __construct(InvoiceRepository $repo, MembersRepository $memberRepo)
+    public function __construct(InvoiceRepository $invoiceRepo, MembersRepository $memberRepo)
     {
-        $this->repo = $repo;
+        $this->invoiceRepo = $invoiceRepo;
         $this->memberRepo = $memberRepo;
     }
 
@@ -73,9 +73,9 @@ class ClientController extends Controller
         $client = User::findOrFail($id);
         $client->getAllMeta();
         $client->company = Company::find($client->props['company_id']);
-        $client->no_invoices = $this->repo->countInvoices($client, 'all');
-        $client->total_amount_paid = $this->repo->totalInvoices($client, 'billed_to', 'paid');
-
+        $client->no_invoices = $this->invoiceRepo->countInvoices($client, 'all');
+        $client->total_amount_paid = $this->invoiceRepo->totalInvoices($client, 'billed_to', 'paid');
+        $client->total_amount_unpaid = $this->invoiceRepo->totalInvoices($client, 'billed_to', 'pending');
         return $client;
     }
 
@@ -190,14 +190,7 @@ class ClientController extends Controller
     public function invoices($id)
     {
         $client = User::findOrFail($id);
-        return Invoice::where(function($query) use ($client) {
-                $query->where('billed_to', $client->id)
-                    ->orWhere('billed_from', $client->id)
-                    ->orWhere('user_id', $client->id);
-            })
-            ->with(['billedFrom', 'billedTo'])
-            ->latest()
-            ->paginate(request()->per_page ?? 15);
+        return $this->invoiceRepo->getClientInvoices($client);
     }
 
     /**

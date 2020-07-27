@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -35,6 +35,7 @@ class Company extends Model implements HasMedia
     {
         return $this->hasMany(ScheduleTask::class);
     }
+
     /**
      * @return boolean
      */
@@ -42,6 +43,7 @@ class Company extends Model implements HasMedia
     {
         return isset($this->others['company_subscribed']) ? $this->others['company_subscribed'] : false;
     }
+
     /**
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
      */
@@ -325,7 +327,7 @@ class Company extends Model implements HasMedia
 
         if ($request->has('sort') && !empty(request()->sort)) {
             $invoices->orderBy($sortName, $sortValue);
-        } else{
+        } else {
             $invoices->latest();
         }
 
@@ -552,16 +554,7 @@ class Company extends Model implements HasMedia
      */
     public function membersID()
     {
-        $members = [];
-        $teams = $this->teams;
-        foreach ($teams as $team) {
-            if (!empty($team->members)) {
-                foreach ($team->members as $member) {
-                    $members[] = $member->id;
-                }
-            }
-        }
-        return $members;
+        return $this->members()->pluck('users.id')->toArray();
     }
 
     /**
@@ -679,11 +672,13 @@ class Company extends Model implements HasMedia
     {
         list($sortName, $sortValue) = parseSearchParam($request);
 
-        $projects = $this->projects();
+        $projects = $this->companyProjects();
 
-        // if (!auth()->user()->hasRole('admin|manager')) {
-        //     $projects->projectForUserInvolve();
-        // }
+        if (auth()->check() && auth()->user()->hasRoleLikeIn('client') && !auth()->user()->hasRoleLike('admin')) {
+            $projects->whereHas('client', function ($query) {
+                $query->where('id', auth()->user()->id);
+            });
+        }
 
         $projects->where('type', request()->has('type') ? request()->type : 'project');
 

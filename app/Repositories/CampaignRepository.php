@@ -36,6 +36,12 @@ class CampaignRepository
         $services = $company->campaigns()
             ->with(['managers', 'client', 'members', 'service']);
 
+        if (auth()->check() && auth()->user()->hasRoleLike('client') && !auth()->user()->hasRoleLike('admin')) {
+            $services->whereHas('client', function ($query) {
+                $query->where('id', auth()->user()->id);
+            });
+        }
+
         if (request()->has('search') && !empty(request()->search)) {
             $search = request()->search;
             $services = $services->where(function ($query) use ($search) {

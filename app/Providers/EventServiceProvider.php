@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Campaign;
 use App\Company;
 use App\Listeners\InvoicePaidListener;
+use App\Listeners\InvoiceReminderListener;
 use App\Listeners\InvoiceSendListener;
 use App\Listeners\NewActivityListener;
 use App\Listeners\NewClientCreatedListener;
@@ -54,6 +55,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\InvoiceSend' => [
             InvoiceSendListener::class,
+        ],
+        'App\Events\InvoiceReminder' => [
+            InvoiceReminderListener::class
         ],
         'App\Events\InvoicePaid' => [
             InvoicePaidListener::class,

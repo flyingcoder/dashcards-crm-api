@@ -111,8 +111,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
     Route::post('group/private', 'MessageController@sendGroupMessage');
 
-    Route::get('/private', 'MessageController@sendPrivateMessage');
-
     Route::post('/group', 'MessageController@createGroupChat');
 
     Route::post('group/remove-member', 'MessageController@removeFromGroup');
@@ -707,6 +705,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'invoice'], function () {
     Route::get('/', 'InvoiceController@index');
 
     Route::post('/', 'InvoiceController@store');
+
+    Route::post('bulk-remind', 'InvoiceController@invoiceReminder');
 
     Route::get('{id}/download', 'InvoiceController@getPDFInvoice');
 
