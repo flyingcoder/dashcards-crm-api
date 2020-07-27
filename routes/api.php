@@ -246,15 +246,17 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 // Tasks
 Route::group(['middleware' => 'auth:api', 'prefix' => 'task'], function () {
 
-    Route::get('/', 'TaskController@index');
-
     Route::get('mine', 'TaskController@mine');
+
+    Route::get('/', 'TaskController@index');
 
     Route::post('/', 'TaskController@store'); //for independent task no milestone
 
     Route::get('statistics/{id}', 'TaskController@stats');
 
     Route::put('{id}/mark-as-complete', 'TaskController@markAsComplete');
+
+    Route::put('{id}/mark-as-urgent', 'TaskController@markAsUrgent');
 
     Route::get('{id}/comments', 'TaskController@comments');
 
@@ -652,7 +654,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
     Route::get('{id}', 'ClientController@client'); // project
 
-    Route::post('{id}/image', 'ClientController@updatePicture');
+    Route::post('{id}/image', 'UserController@editProfilePicture');
 
     Route::post('/', 'ClientController@store'); // client add
 
@@ -665,6 +667,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
     Route::get('{id}/tasks', 'ClientController@tasks');
 
     Route::get('{id}/staffs', 'ClientController@staffs');
+
+    Route::post('{id}/staffs', 'ClientController@addStaffs');
 
     Route::get('{id}/invoices', 'ClientController@invoices');
 
