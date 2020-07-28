@@ -11,6 +11,7 @@ use App\Milestone;
 use App\Policies\ProjectPolicy;
 use App\Project;
 use App\Report;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TimerRepository;
 use App\Traits\HasUrlTrait;
@@ -29,17 +30,20 @@ class ProjectController extends Controller
 
     protected $timeRepo;
     protected $projRepo;
+    protected $invoiceRepo;
     protected $message_per_load = 10;
 
     /**
      * ProjectController constructor.
      * @param TimerRepository $timeRepo
      * @param ProjectRepository $projRepo
+     * @param InvoiceRepository $invoiceRepo
      */
-    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo)
+    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo, InvoiceRepository $invoiceRepo)
     {
         $this->timeRepo = $timeRepo;
         $this->projRepo = $projRepo;
+        $this->invoiceRepo = $invoiceRepo;
 
         if (request()->has('per_page') && request()->per_page > 0) {
             $this->paginate = request()->per_page;
@@ -250,7 +254,7 @@ class ProjectController extends Controller
         //(new ProjectPolicy())->index();
         $project = Project::findOrFail($id);
 
-        return $project->paginatedInvoices();
+        return $this->invoiceRepo->getProjectCampaignInvoices($project);
     }
 
     /**

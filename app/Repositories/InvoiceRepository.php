@@ -100,6 +100,28 @@ class InvoiceRepository
     }
 
     /**
+     * @param $object //Project || Campaign
+     * @return mixed
+     */
+    public function getProjectCampaignInvoices($object)
+    {
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        $invoices = Invoice::with(['billedTo', 'billedFrom'])
+            ->where('project_id', $object->id);
+
+        if (request()->has('status') && request()->status != 'all') {
+            $invoices->where('status', request()->status);
+        }
+
+        if (request()->has('sort') && !empty(request()->sort))
+            $invoices->orderBy($sortName, $sortValue);
+        else
+            $invoices->latest();
+
+        return $invoices->paginate(request()->per_page ?? 20);
+    }
+    /**
      * @param Company $company
      * @return mixed
      */

@@ -12,6 +12,7 @@ use App\Traits\StripeTrait;
 use App\Traits\TemplateTrait;
 use App\Traits\TimezoneTrait;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -69,8 +70,8 @@ class TestController extends Controller
      */
     public function index()
     {
-        $cp = $this->user->company();
-        dump($cp->members()->pluck('users.id')->toArray());
+        $s = Carbon::now('UTC');
+        dump($s->copy(),$s->addHour());
     }
 
 }
