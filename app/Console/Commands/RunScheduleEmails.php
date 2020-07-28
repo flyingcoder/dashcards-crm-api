@@ -43,9 +43,9 @@ class RunScheduleEmails extends Command
     public function handle()
     {
         $this->handleNewScheduleTasks();
-        $now = Carbon::now();
+        $now = Carbon::now('UTC');
         if (!empty(trim($this->argument('dt')))) {
-            $now = Carbon::createFromFormat('Y-m-d H:i:s', trim($this->argument('dt')));
+            $now = Carbon::createFromFormat('Y-m-d H:i:s', trim($this->argument('dt')),'UTC');
         }
         $this->handleExecutableScheduleTasks($now);
 
@@ -61,7 +61,7 @@ class RunScheduleEmails extends Command
         $to = $now->copy()->addMinutes(5);
         $tasks = ScheduleTask::where('next_run_at', '<=', $to->format('Y-m-d H:i:s'))->get();
         if (!$tasks->isEmpty()) {
-            foreach ($tasks as $task) {
+            foreach ($tasks as $key => $task) {
                 $interval_type = $task->interval_type;
                 $target_runtime = null;
 
@@ -74,8 +74,8 @@ class RunScheduleEmails extends Command
                     );
                 }
 
-                $target_runtime = Carbon::createFromFormat('Y-m-d H:i:s', $task->next_run_at);
-                $task->last_run_at = $target_runtime->copy();
+                $target_runtime = Carbon::createFromFormat('Y-m-d H:i:s', $task->next_run_at, 'UTC');
+                $task->last_run_at = $target_runtime->copy()->format('Y-m-d H:i:s');
                 if ($interval_type == 'every_hour') {
                     $target_runtime->addHour();
                 } elseif ($interval_type == 'every_day_at') {
@@ -85,7 +85,7 @@ class RunScheduleEmails extends Command
                 } elseif ($interval_type == 'every_month_at') {
                     $target_runtime->addMonth();
                 }
-                $task->next_run_at = $target_runtime->toDateTimeString();
+                $task->next_run_at = $target_runtime->format('Y-m-d H:i:s');
                 if ($task->save()) {
                     $task->histories()->create([
                         'props' => $task->props,
@@ -104,9 +104,9 @@ class RunScheduleEmails extends Command
     public function handleNewScheduleTasks()
     {
         $tasks = ScheduleTask::whereNull('next_run_at')->get();
-        $now = now();
+        $now = Carbon::now('UTC');
         if (!$tasks->isEmpty()) {
-            foreach ($tasks as $task) {
+            foreach ($tasks as $key => $task) {
                 $timezone = $task->timezone;
                 $interval_type = $task->interval_type;
                 $interval_at = $task->interval_at;

@@ -315,21 +315,21 @@ class TaskController extends Controller
 
         $user = auth()->user();
         $project = $task->project;
-        $log = $user->first_name . ' marked as '.$status.' the task ' . $task->title;
+        $log = $user->first_name . ' marked as ' . $status . ' the task ' . $task->title;
         activity('system.task')->performedOn($project ?? $task)->causedBy($user)->log($log);
 
-        if ($status == 'urgent') {
-            $data = array(
-                'title' => 'Project Task updated!',
-                'message' => $log,
-                'receivers' => $project ? $project->members()->pluck('id')->toArray() : [],
-                'project' => $project
-            );
-            broadcast(new ProjectTaskNotification($user->company()->id, $data));
 
-            if (!$task->assigned->isEmpty()) {
-                event(new TaskUpdated($task));
+        if (!$task->assigned->isEmpty()) {
+            if ($status == 'urgent') {
+                $data = array(
+                    'title' => 'Project task was set as urgent!',
+                    'message' => $log,
+                    'receivers' => $task->assigned->pluck('id')->toArray(),
+                    'project' => $project
+                );
+                broadcast(new ProjectTaskNotification($user->company()->id, $data));
             }
+            event(new TaskUpdated($task));
         }
 
         return $this->task($id);
