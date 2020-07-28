@@ -45,7 +45,7 @@ class RunScheduleEmails extends Command
         $this->handleNewScheduleTasks();
         $now = Carbon::now('UTC');
         if (!empty(trim($this->argument('dt')))) {
-            $now = Carbon::createFromFormat('Y-m-d H:i:s', trim($this->argument('dt')),'UTC');
+            $now = Carbon::createFromFormat('Y-m-d H:i:s', trim($this->argument('dt')), 'UTC');
         }
         $this->handleExecutableScheduleTasks($now);
 
@@ -74,16 +74,28 @@ class RunScheduleEmails extends Command
                     );
                 }
 
+                $task->last_run_at = $task->next_run_at;
                 $target_runtime = Carbon::createFromFormat('Y-m-d H:i:s', $task->next_run_at, 'UTC');
-                $task->last_run_at = $target_runtime->copy()->format('Y-m-d H:i:s');
                 if ($interval_type == 'every_hour') {
                     $target_runtime->addHour();
+                    while ($target_runtime < $now) {
+                        $target_runtime->addHour();
+                    }
                 } elseif ($interval_type == 'every_day_at') {
                     $target_runtime->addDay();
+                    while ($target_runtime < $now) {
+                        $target_runtime->addDay();
+                    }
                 } elseif ($interval_type == 'every_week_at') {
                     $target_runtime->addWeek();
+                    while ($target_runtime < $now) {
+                        $target_runtime->addWeek();
+                    }
                 } elseif ($interval_type == 'every_month_at') {
                     $target_runtime->addMonth();
+                    while ($target_runtime < $now) {
+                        $target_runtime->addMonth();
+                    }
                 }
                 $task->next_run_at = $target_runtime->format('Y-m-d H:i:s');
                 if ($task->save()) {
