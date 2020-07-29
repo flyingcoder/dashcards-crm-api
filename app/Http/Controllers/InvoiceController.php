@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Events\InvoiceReminder;
 use App\Events\InvoiceSend;
 use App\Invoice;
-use App\Mail\NewInvoiceEmail;
 use App\Policies\InvoicePolicy;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\TemplateRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class InvoiceController extends Controller
 {
@@ -254,14 +252,19 @@ class InvoiceController extends Controller
     {
         $company = auth()->user()->company();
         $clientGroup = $company->clientTeam();
-        $clients = $clientGroup->teamMembers()->with('user')
-            ->whereHas('user', function ($query) {
-                $query->whereNull('deleted_at');
-            })->paginate(4);
+        $clients = collect([]);
+        $total = 0;
+        if ($clientGroup) {
+            $clients = $clientGroup->teamMembers()->with('user')
+                ->whereHas('user', function ($query) {
+                    $query->whereNull('deleted_at');
+                })->paginate(4);
 
-        foreach ($clients as $key => $client) {
-            $row = $client;
-            $row->amount = '$' . $this->repo->totalInvoices($client->user, 'billed_to', 'paid');
+            foreach ($clients as $key => $client) {
+                $row = $client;
+                $row->amount = '$' . $this->repo->totalInvoices($client->user, 'billed_to', 'paid');
+            }
+            $total = $clients->total() ?? 0;
         }
 
         $data = [];
@@ -272,9 +275,9 @@ class InvoiceController extends Controller
 
         if (!(request()->has('client_only') && boolval(request()->client_only))) {
             $data = [
-                'total_clients' => $clients->total(),
-                'current_month_total' => '$' . $this->repo->totalMonthlyClientInvoices($clientGroup),
-                'last_month_total' => '$' . $this->repo->totalMonthlyClientInvoices($clientGroup, $month, $year)
+                'total_clients' => $total,
+                'current_month_total' => '$' . $clientGroup ? $this->repo->totalMonthlyClientInvoices($clientGroup) : 0,
+                'last_month_total' => '$' . $clientGroup ? $this->repo->totalMonthlyClientInvoices($clientGroup, $month, $year) : 0
             ];
         }
 

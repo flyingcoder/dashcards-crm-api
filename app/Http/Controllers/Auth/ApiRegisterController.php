@@ -90,8 +90,14 @@ class ApiRegisterController extends Controller
             ]);
 
             $user->assignRole('admin');
-
             $default_team->members()->attach($user);
+
+            $company->teams()->create([
+                'name' => $company->name.' Client Team',
+                'company_id' => $company->id,
+                'slug' => 'client-'.$company->id,
+                'description' => 'This is the client team for '. $company->name
+            ]);
 
             DB::commit();
 
