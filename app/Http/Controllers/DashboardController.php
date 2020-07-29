@@ -31,6 +31,14 @@ class DashboardController extends Controller
 
         $defaultDash = $company->dashboards()->first();
 
+        if(!$defaultDash) {
+            $defaultDash = Dashboard::create([
+                'company_id' => $company->id,
+                'title' => $company->name.' Dashboard',
+                'description' => 'Dashboard Description'
+            ]);
+        }
+
         request()->validate([
             'dashitem_id' => 'array'
         ]);
