@@ -6,7 +6,6 @@ use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserCredentials extends Mailable
 {
@@ -16,17 +15,20 @@ class UserCredentials extends Mailable
     public $link;
     public $login_link;
     public $password;
+
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param User $user
+     * @param null $password
      */
     public function __construct(User $user, $password = null)
     {
         $this->user = $user;
         $this->password = $password;
         //one-time use unique codes link for setting password
-        $this->link = config('app.frontend_url').'/set-password/'.$user->email.'/'.$user->getPasswordResetToken(); 
+        $this->link = $user->reset_password_link;
+        //config('app.frontend_url').'/set-password/'.$user->email.'/'.$user->getPasswordResetToken(); 
         $this->login_link = config('app.frontend_url').'/login';
     }
 

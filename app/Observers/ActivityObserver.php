@@ -14,7 +14,7 @@ class ActivityObserver
      */
     public function created(Activity $activity)
     {
-        if (array_key_exists('attributes', $activity->properties )) {
+        if (isset($activity->properties['attributes'])) {
             $props = array_keys($activity->properties['attributes']);
             $type = explode('\\', $activity->subject_type)[1] ?? '';
             $desc = $type." ".natural_language_join($props)." updated";

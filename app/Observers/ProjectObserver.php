@@ -3,10 +3,12 @@
 namespace App\Observers;
 
 use App\Project;
+use App\Traits\TemplateTrait;
 use Chat;
 
 class ProjectObserver
 {
+    use TemplateTrait;
     /**
      * Handle the project "created" event.
      *
@@ -15,8 +17,8 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        $participants = collect($project->members()->select('id')->get());
 
+        $participants = collect($project->members()->select('id')->get());
         $participants->flatten();
 
         $client_convo = Chat::createConversation($participants->all());
@@ -28,6 +30,7 @@ class ProjectObserver
         $team_convo->project_id = $project->id;
         $team_convo->type = 'team';
         $team_convo->save();
+
     }
 
     /**

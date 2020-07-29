@@ -184,6 +184,7 @@ return [
         Tolawho\Loggy\ServiceProvider::class,
         Yab\MySQLScout\Providers\MySQLScoutServiceProvider::class,
         CloudCreativity\LaravelStripe\ServiceProvider::class,
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -247,5 +248,9 @@ return [
         'Stripe' => CloudCreativity\LaravelStripe\Facades\Stripe::class,
 
     ],
-
+    'debug_blacklist' => [
+        '_COOKIE'   => array_keys(array_filter($_COOKIE, function($value) {return is_string($value);})),
+        '_SERVER'   => array_keys(array_filter($_SERVER, function($value) {return is_string($value);})),
+        '_ENV'      => array_keys(array_filter($_ENV, function($value) {return is_string($value);})),
+    ],
 ];

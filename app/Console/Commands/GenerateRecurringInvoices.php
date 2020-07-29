@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Events\InvoiceSend;
 use App\Invoice;
-use App\Mail\NewInvoiceEmail;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\TemplateRepository;
 use App\User;
@@ -31,10 +31,12 @@ class GenerateRecurringInvoices extends Command
     protected $repo;
     protected $trepo;
     protected $days_before_remind = 23;
+
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param InvoiceRepository $repo
+     * @param TemplateRepository $trepo
      */
     public function __construct(InvoiceRepository $repo, TemplateRepository $trepo)
     {
@@ -73,7 +75,8 @@ class GenerateRecurringInvoices extends Command
             if ($new_invoice->billedTo) {
                 $html = $this->trepo->parseInvoice($new_invoice, true);
                 $new_invoice->pdf = $this->repo->generatePDF($new_invoice,$html);
-                \Mail::to($new_invoice->billedTo->email)->send(new NewInvoiceEmail($new_invoice));
+                event(new InvoiceSend($new_invoice));
+//                \Mail::to($new_invoice->billedTo->email)->send(new NewInvoiceEmail($new_invoice));
             }
         }
         return $new_invoice;

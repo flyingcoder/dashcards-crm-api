@@ -1,6 +1,5 @@
 <?php
 
-use App\Company;
 use Illuminate\Database\Seeder;
 use Kodeine\Acl\Models\Eloquent\Role;
 use Kodeine\Acl\Models\Eloquent\Permission;

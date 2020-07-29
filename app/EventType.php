@@ -11,7 +11,7 @@ class EventType extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'created_by', 
+        'created_by',
         'calendar_id',
         'properties',
         'is_public',
@@ -19,16 +19,22 @@ class EventType extends Model
     ];
 
     protected $casts = [
-    	'properties' => 'array'
+        'properties' => 'array'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function events()
     {
-   		return $this->hasMany(EventModel::class, 'event_type', 'id');
+        return $this->hasMany(EventModel::class, 'event_type', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function creator()
     {
-   		return $this->hasOne(User::class, 'user_id', 'id');
+        return $this->hasOne(User::class, 'user_id', 'id');
     }
 }

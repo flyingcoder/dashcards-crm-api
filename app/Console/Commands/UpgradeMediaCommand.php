@@ -26,6 +26,9 @@ class UpgradeMediaCommand extends Command
     /** @var \Illuminate\Support\Collection */
     protected $mediaFilesToChange;
 
+    /**
+     *
+     */
     public function handle()
     {
         if (! $this->confirmToProceed()) {
@@ -43,6 +46,9 @@ class UpgradeMediaCommand extends Command
         $this->info('All done!');
     }
 
+    /**
+     * @return $this
+     */
     protected function getMediaFilesToBeRenamed(): self
     {
         $this->mediaFilesToChange = collect(Storage::disk($this->disk)->allFiles())
@@ -59,6 +65,9 @@ class UpgradeMediaCommand extends Command
         return $this;
     }
 
+    /**
+     *
+     */
     protected function renameMediaFiles()
     {
         if ($this->mediaFilesToChange->count() === 0){
@@ -78,6 +87,10 @@ class UpgradeMediaCommand extends Command
         });
     }
 
+    /**
+     * @param string $filePath
+     * @return bool
+     */
     protected function hasOriginal(string $filePath): bool
     {
         $path = pathinfo($filePath, PATHINFO_DIRNAME);
@@ -121,6 +134,10 @@ class UpgradeMediaCommand extends Command
 
     }
 
+    /**
+     * @param string $filePath
+     * @return string
+     */
     protected function getOriginal(string $filePath): string
     {
         $oneLevelHigher = dirname($filePath);

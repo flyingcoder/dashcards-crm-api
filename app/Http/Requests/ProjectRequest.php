@@ -32,6 +32,9 @@ class ProjectRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array
+     */
     public function attributes()
     {
         return [
@@ -40,6 +43,9 @@ class ProjectRequest extends FormRequest
         ];
     }
 
+    /**
+     * @param Validator $validator
+     */
     protected function failedValidation(Validator $validator)
     {
         $errors   = [];

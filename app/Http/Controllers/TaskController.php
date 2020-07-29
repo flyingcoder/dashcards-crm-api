@@ -4,58 +4,128 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Events\NewTaskCommentCreated;
+use App\Events\NewTaskCreated;
 use App\Events\ProjectTaskNotification;
-use App\Http\Requests\TaskRequest;
-use App\Policies\TaskPolicy;
+use App\Events\TaskUpdated;
 use App\Project;
 use App\Task;
 
 
 class TaskController extends Controller
 {
-
+    /**
+     * @return mixed
+     */
     public function index()
     {
+        if (auth()->user()->hasRoleLike('client')) {
+            //todo return only projects tasks that the client associated with
+            return $this->mine();
+        }
         $company = auth()->user()->company();
-
         return $company->allCompanyPaginatedTasks();
     }
 
+    /**
+     * @return mixed
+     */
     public function mine()
     {
         return auth()->user()->paginatedTasks();
     }
 
+
     /**
-     *
-     * store a task from an api call
-     *
+     * @return mixed
      */
-    public function store(TaskRequest $request)
+    public function store()
     {
         //(new TaskPolicy())->create();
-        
-        return Task::store();
+        request()->validate([
+            'title' => 'required|string'
+        ]);
+
+        if (request()->started_at != null) {
+            request()->validate([
+                'end_at' => 'after_or_equal:started_at',
+            ]);
+            $started_at = request()->started_at;
+            $end_at = request()->end_at;
+            $days = round((strtotime($end_at) - strtotime($started_at)) / (60 * 60 * 24));
+        } else {
+            $started_at = date("Y-m-d", strtotime("now"));
+            $end_at = date("Y-m-d", strtotime(request()->days . ' days'));
+            $days = request()->days;
+        }
+
+        $task = Task::create([
+            'title' => request()->title,
+            'description' => request()->description ?? null,
+            'milestone_id' => request()->milestone_id ?? null,
+            'project_id' => request()->project_id ?? null,
+            'started_at' => $started_at,
+            'end_at' => $end_at,
+            'status' => 'Open',
+            'days' => $days
+        ]);
+
+        $task->setMeta('creator', auth()->user()->id);
+
+        if (request()->has('assigned')) {
+            $task->assigned()->sync(request()->assigned);
+            $task->assigned_ids = request()->assigned;
+        }
+
+        if ($task->project_id > 0) {
+            event(new NewTaskCreated($task));
+        }
+
+        return $task;
     }
 
+    /**
+     * @param $task_id
+     * @return mixed
+     */
     public function update($task_id)
     {
         $task = Task::findOrFail($task_id);
-
         //(new TaskPolicy())->update($task);
+        $task->updateTask();
 
-        return $task->updateTask();
+        $task = $task->fresh();
+        if ($task->project_id > 0) {
+            event(new TaskUpdated($task));
+        }
+
+        return $task->toArray();
     }
 
+    /**
+     * @param $milestone_id
+     * @param $task_id
+     * @return mixed
+     */
     public function updateTask($milestone_id, $task_id)
     {
-         $task = Task::findOrFail($task_id);
-
+        $task = Task::findOrFail($task_id);
         //(new TaskPolicy())->update($task);
 
-        return $task->updateTask();
+        $task->updateTask();
+
+        $task = $task->fresh();
+
+        if ($task->project_id > 0) {
+            event(new TaskUpdated($task));
+        }
+
+        return $task;
     }
 
+    /**
+     * @param $task_id
+     * @return mixed
+     */
     public function delete($task_id)
     {
         $task = Task::findOrFail($task_id);
@@ -65,6 +135,11 @@ class TaskController extends Controller
         return $task->destroy($task_id);
     }
 
+    /**
+     * @param $milestone_id
+     * @param $task_id
+     * @return mixed
+     */
     public function deleteTask($milestone_id, $task_id)
     {
         $task = Task::findOrFail($task_id);
@@ -74,6 +149,10 @@ class TaskController extends Controller
         return $task->destroy($task_id);
     }
 
+    /**
+     * @param $milestone_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulkDeleteTask($milestone_id)
     {
         request()->validate([
@@ -83,16 +162,20 @@ class TaskController extends Controller
 
         $tasks = Task::whereIn('id', request()->ids)->get();
 
-         if (!$tasks->isEmpty()) {
+        if (!$tasks->isEmpty()) {
             foreach ($tasks as $key => $task) {
                 $task->delete();
             }
         }
 
-        return response()->json(['message' => $tasks->count().' task(s)  successfully deleted'], 200);
+        return response()->json(['message' => $tasks->count() . ' task(s)  successfully deleted'], 200);
     }
 
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function comments($id)
     {
         $task = Task::findOrFail($id);
@@ -100,6 +183,10 @@ class TaskController extends Controller
         return $task->comments->load(['causer']);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function addComments($id)
     {
         $task = Task::findOrFail($id);
@@ -108,7 +195,7 @@ class TaskController extends Controller
             'body' => 'required'
         ]);
 
-        $comment = new Comment([ 
+        $comment = new Comment([
             'body' => request()->body,
             'causer_id' => auth()->user()->id,
             'causer_type' => 'App\User'
@@ -123,46 +210,45 @@ class TaskController extends Controller
 
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Support\Collection
+     */
     public function stats($id)
     {
         //(new TaskPolicy())->index();
         $project = Project::findOrFail($id);
 
         $all = $project->tasks->count();
-
         $urgent = $project->tasks()->where('tasks.status', 'urgent')->count();
-
         $open = $project->tasks()->where('tasks.status', 'open')->count();
+        $pending = $project->tasks()->where('tasks.status', 'pending')->count();
+        $completed = $project->tasks()->where('tasks.status', 'completed')->count();
+        $behind = $project->tasks()->where('tasks.status', 'behind')->count();
 
-        $closed = $project->tasks()->where('tasks.status', 'closed')->count();
-
-        $invalid = $project->tasks()->where('tasks.status', 'invalid')->count();
-
-        $stat = collect([
+        return collect([
             'all' => $all,
             'urgent' => $urgent,
             'open' => $open,
-            'closed' => $closed,
-            'invalid' => $invalid
+            'completed' => $completed,
+            'pending' => $pending,
+            'behind' => $behind
         ]);
-
-        return $stat;
     }
-    
+
     /**
-     *
-     * get a single task
-     *
+     * @param $id
+     * @return \Illuminate\Support\Collection
      */
     public function task($id)
     {
         $task = Task::findOrFail($id);
 
-        $status     = $task->timerStatus();
+        $status = $task->timerStatus();
         $total_time = $task->total_time();
-        $comments   = $task->comments->load('causer');
+        $comments = $task->comments->load('causer');
 
-        $assigned     = $task->assigned()->get();
+        $assigned = $task->assigned;
         $assignee_url = $assigned->isEmpty() ? '' : $assigned->first()->image_url;
         $assigned_ids = $assigned->isEmpty() ? [] : $assigned->pluck('id')->toArray();
 
@@ -178,6 +264,10 @@ class TaskController extends Controller
         return $task;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Support\Collection
+     */
     public function markAsComplete($id)
     {
         request()->validate([
@@ -188,21 +278,58 @@ class TaskController extends Controller
         $task->markStatus(request()->status);
         $user = auth()->user();
 
-        $project =  $task->project();
-        $log = $user->first_name.' marked as completed the task '.$task->title;
-        $activity = activity('system.task')
-                  ->performedOn($project ?? $task)
-                  ->causedBy($user)
-                  ->log($log);
+        $project = $task->project;
+        $log = $user->first_name . ' marked as completed the task ' . $task->title;
+        activity('system.task')
+            ->performedOn($project ?? $task)
+            ->causedBy($user)
+            ->log($log);
 
         if (request()->has('notify_complete') && request()->notify_complete) {
             $data = array(
-                    'title' => 'Project Task updated!',
+                'title' => 'Project Task updated!',
+                'message' => $log,
+                'receivers' => $project ? $project->members()->pluck('id')->toArray() : [],
+                'project' => $project
+            );
+            broadcast(new ProjectTaskNotification($user->company()->id, $data));
+        }
+
+        return $this->task($id);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Support\Collection
+     */
+    public function markAsUrgent($id)
+    {
+        request()->validate([
+            'status' => 'required|string'
+        ]);
+
+        $task = Task::findOrFail($id);
+        $status = $task->status == 'urgent' ? 'open' : 'urgent';
+        $task->status = $status;
+        $task->save();
+
+        $user = auth()->user();
+        $project = $task->project;
+        $log = $user->first_name . ' marked as ' . $status . ' the task ' . $task->title;
+        activity('system.task')->performedOn($project ?? $task)->causedBy($user)->log($log);
+
+
+        if (!$task->assigned->isEmpty()) {
+            if ($status == 'urgent') {
+                $data = array(
+                    'title' => 'Project task was set as urgent!',
                     'message' => $log,
-                    'receivers' => $project ? $project->members()->pluck('id')->toArray() : [],
+                    'receivers' => $task->assigned->pluck('id')->toArray(),
                     'project' => $project
                 );
-            broadcast(new ProjectTaskNotification($user->company()->id, $data));
+                broadcast(new ProjectTaskNotification($user->company()->id, $data));
+            }
+            event(new TaskUpdated($task));
         }
 
         return $this->task($id);

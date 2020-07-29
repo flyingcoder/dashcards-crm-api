@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Events\CompanyEvent;
 use App\Repositories\MembersRepository;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
 {
@@ -25,6 +23,21 @@ class CompanyController extends Controller
             'member',
             'agent'
         ];
+
+    public function subscribers()
+    {
+        $users = User::admins()->withTrashed()->paginate(request()->per_page);
+        $items = $users->getCollection();
+
+        $data = collect([]);
+        foreach ($items as $key => $user) {
+            $data->push(array_merge($user->toArray(), ['company' =>  $user->company() ]));   
+        }
+
+        $users->setCollection($data);
+
+        return $users;
+    }
 
     public function members()
     {
@@ -88,13 +101,14 @@ class CompanyController extends Controller
         $company->company_logo = url($media->getUrl());
         $company->save();
 
+        broadcast(new CompanyEvent($company->id, array_merge(['type' => 'configs'], $company->toArray())));
+
         return $company;
     }
 
     public function info($id)
     {
-        $company = Company::findOrFail($id);
-        return $company;
+        return Company::findOrFail($id);
     }
 
     public function updateInfo($id)
@@ -112,5 +126,123 @@ class CompanyController extends Controller
         $company->save();
 
         return $company;
+    }
+
+    public function updateSettings($id)
+    {
+        request()->validate([
+                'title' => 'required|string',
+                'lang' => 'required|string',
+                'theme' => 'required|string',
+                'date_format' => 'required|string',
+                'timeline_display_limits' => 'required|digits_between:1,100',
+                'general_page_limits' => 'required|digits_between:1,100',
+                'messages_page_limits' => 'required|digits_between:1,100',
+                'currency' => 'required|array',
+                'info_tips' => 'required|in:'.implode(',', ['Yes', 'No']),
+                'client_registration' => 'required|in:'.implode(',', ['Yes', 'No']),
+                'notif_duration' => 'required|digits_between:1,86400',
+                // 'license_key' => '',
+                // 'long_logo'
+                // 'square_logo'
+            ]);
+
+        $company = Company::findOrFail($id);
+        $settings = $company->others;
+
+        $settings['title'] = request()->title;
+        $settings['lang'] = request()->lang;
+        $settings['theme'] = request()->theme;
+        $settings['date_format'] = request()->date_format;
+        $settings['timeline_display_limits'] = request()->timeline_display_limits;
+        $settings['general_page_limits'] = request()->general_page_limits;
+        $settings['messages_page_limits'] = request()->messages_page_limits;
+        $settings['currency'] = request()->currency;
+        $settings['info_tips'] = request()->info_tips;
+        $settings['client_registration'] = request()->client_registration;
+        $settings['notif_duration'] = request()->notif_duration;
+        $settings['license_key'] = request()->license_key;
+
+        $company->others = $settings;
+        $company->save();
+
+        return response()->json($settings, 200);
+    }
+
+    public function settings($id)
+    {
+        $company = Company::findOrFail($id);
+        $settings = (array) $company->others;
+        $defaultSettings = $this->defaultSettings();
+        if (empty($settings)) {
+            $settings =  $defaultSettings;
+        }
+        foreach ($settings as $key => $setting) {
+            if (empty($settings[$key]) || $settings[$key] === 0 ) {
+                $settings[$key] = $defaultSettings[$key];
+            }
+        }
+        return response()->json($settings, 200);
+    }
+
+    public function defaultSettings()
+    {
+        return [
+            'title' => 'Buzzooka Dashboard',
+            'lang' => 'english',
+            'theme' => 'default',
+            'date_format' => 'Y-M-D',
+            'timeline_display_limits' => 15,
+            'general_page_limits' => 12,
+            'messages_page_limits' => 12,
+            'currency' => ["text" => "US Dollar", "symbol" => "$", "currency_code" => "USD"],
+            'info_tips' => 'No',
+            'client_registration' => 'No',
+            'notif_duration' => 1800,
+            'license_key' => null,
+        ];
+    }
+    
+    public function subscribersStatistics()
+    {
+        return [
+            'inactive_companies' => Company::onlyTrashed()->where('is_private', 0)->count(),
+            'active_companies' => Company::where('is_private', 0)->count(),
+            'active_users' => User::count(),
+            'inactive_users' => User::onlyTrashed()->count(),
+        ];
+    }
+
+    public function companies()
+    {
+        $companies = Company::withTrashed()->where('is_private', 0)->latest()->paginate(40);
+
+        $companiesItems = $companies->getCollection();
+        $data = collect([]);
+
+        foreach ($companiesItems as $key => $company) {
+            $members = $company->members()->take(500)->get(); 
+            $owner = $members->filter->where('id' , $company->companyOwner->id)->first();
+
+            $data->push(array_merge($company->toArray(), ['members' => $members, 'owner' => $owner ]));   
+        }
+
+        $companies->setCollection($data);
+        return $companies;
+    }
+
+    public function companyStatus($id)
+    {
+        $company = Company::withTrashed()->where('id', $id)->firstOrFail();
+        if ($company->trashed()) {
+            $company->restore();
+        } else {
+            $company->delete();
+        }
+            
+        $members = $company->members()->take(500)->get(); 
+        $owner = $members->filter->where('id' , $company->companyOwner->id)->first();
+
+        return response()->json(array_merge($company->toArray(), ['members' => $members, 'owner' => $owner ]), 200);
     }
 }

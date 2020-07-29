@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Timer;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ApiLoginController extends Controller
@@ -38,15 +37,13 @@ class ApiLoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    /** 
-     * login api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */ 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login()
     {
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
-            
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+
             $user = Auth::user();
             $user->is_online = 1;
             $user->save();
@@ -60,36 +57,38 @@ class ApiLoginController extends Controller
             $userObject->role = $user->userRole();
             $userObject->can = $user->getPermissions();
             $userObject->is_company_owner = $user->getIsCompanyOwnerAttribute();
-
+            $userObject->is_buzzooka_super_admin = in_array($user->email, config('telescope.allowed_emails'));
             UsersPresence::dispatch($userObject);
 
             return response()->json([
-                'token' => $user->createToken('MyApp')->accessToken, 
+                'token' => $user->createToken('MyApp')->accessToken,
                 'user' => $userObject
             ], $this->successStatus);
-        } 
-        else{ 
-            return response()->json(['message' => 'Invalid email or password!'], 401); 
-        } 
+        }
+        return response()->json(['message' => 'Invalid email or password!'], 401);
+
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
         $user = auth()->user();
 
-        if(request()->has('user_id')) {
-            if($user->id != response()->user_id)
-                $user = User::findOrFail(response()->user_id); 
+        if (request()->has('user_id')) {
+            if ($user->id != response()->user_id)
+                $user = User::findOrFail(response()->user_id);
         }
 
         if (Auth::check()) {
-           //force stop global timer for the user upon logout
-           $timer = $user->lastTimer();
+            //force stop global timer for the user upon logout
+            $timer = $user->lastTimer();
 
-           if ($timer && $timer->action == 'start') {
-                $closetimer  = Timer::create([
+            if ($timer && $timer->action == 'start') {
+                $closetimer = Timer::create([
                     'company_id' => $user->company()->id,
-                    'timer_name' => $user->first_name.' Timer',
+                    'timer_name' => $user->first_name . ' Timer',
                     'description' => 'Force stop timer by logout',
                     'subject_id' => $user->company()->id,
                     'subject_type' => 'App\\Company',
@@ -103,39 +102,21 @@ class ApiLoginController extends Controller
                 $end = Carbon::now();
                 $total_sec = $end->diffInSeconds($start);
                 $args = [
-                            'total_time' => gmdate("H:i:s", $total_sec),
-                            'total_seconds' => $total_sec
-                        ];
+                    'total_time' => gmdate("H:i:s", $total_sec),
+                    'total_seconds' => $total_sec
+                ];
                 $closetimer->update(['properties' => $args]);
-           }
+            }
 
-           $user->is_online = 0;
+            $user->is_online = 0;
 
-           $user->save();
+            $user->save();
 
-           Auth::user()->AauthAcessToken()->delete();
+            Auth::user()->oAuthAccessToken()->delete();
 
-           UsersPresence::dispatch($user);
+            UsersPresence::dispatch($user);
 
-           return response()->json($user->toArray(), 200);
+            return response()->json($user->toArray(), 200);
         }
-        
     }
-
-    /*
-    public function login(Request $request) {
-
-        $field = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $request->merge([$field => $request->login]);
-
-        if (auth()->attempt($request->only($field, 'password')))
-        {
-            UserLogin::dispatch(auth()->user());
-            return redirect($this->redirectTo);
-        }
-
-        return redirect('/login')->withErrors([
-            'error' => 'These credentials do not match our records.',
-        ]);
-    }*/
 }

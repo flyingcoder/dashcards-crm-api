@@ -36,7 +36,7 @@ class NewInvoiceEmail extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Invoice $invoice
      */
     public function __construct(Invoice $invoice )
     {

@@ -12,27 +12,36 @@ use App\Project;
 use App\Repositories\MembersRepository;
 use App\User;
 use Chat;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 
 class MessageController extends Controller
 {
     protected $repo;
+    protected $message_per_load = 10;
 
     /**
      *
-     * @return void
+     * @param MembersRepository $repo
      */
     public function __construct(MembersRepository $repo)
     {
         $this->repo = $repo;
+        if (auth()->check()) {
+            $company = auth()->user()->company();
+            $this->message_per_load = $company->others['messages_page_limits'] ?? 10;
+        }
     }
 
+    /**
+     * @return mixed
+     */
     public function unRead()
     {
         return auth()->user()->unReadMessages();
     }
 
+    /**
+     * @return mixed
+     */
     public function list()
     {
         $company = auth()->user()->company();
@@ -55,6 +64,9 @@ class MessageController extends Controller
         return $members;
     }
 
+    /**
+     * @return mixed
+     */
     public function groupList()
     {
         $user_id = auth()->user()->id;
@@ -77,7 +89,11 @@ class MessageController extends Controller
         return $conversations;
     }
 
-	public function fetchPrivateMessages($friend_id)
+    /**
+     * @param $friend_id
+     * @return mixed
+     */
+    public function fetchPrivateMessages($friend_id)
 	{
         $friend = User::findOrFail($friend_id);
 
@@ -86,7 +102,7 @@ class MessageController extends Controller
         if(is_null($conversation))
             $conversation = Chat::createConversation([auth()->user(), $friend]);
 
-        $messages = $conversation->messages()->latest()->paginate(10);
+        $messages = $conversation->messages()->latest()->paginate($this->message_per_load);
         $items = $messages->getCollection();
 
         $data = collect([]);
@@ -105,7 +121,7 @@ class MessageController extends Controller
     public function fetchGroupMessages($convo_id) {
         $conversation = Chat::conversations()->getById($convo_id);
 
-        $messages = $conversation->messages()->latest()->paginate(10);
+        $messages = $conversation->messages()->latest()->paginate($this->message_per_load);
 
         $items = $messages->getCollection();
 
@@ -171,7 +187,10 @@ class MessageController extends Controller
 
 		return response()->json($data, 201);
     }
-    
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendGroupMessage()
     {
         request()->validate([
@@ -215,7 +234,11 @@ class MessageController extends Controller
 
         return response()->json($data, 201);
     }
-    
+
+    /**
+     * @param null $conversation_id
+     * @return int
+     */
     public function getUnReadNotifCounts($conversation_id = null)
     {
         if ($conversation_id == 0 || is_null($conversation_id)) {
@@ -228,6 +251,10 @@ class MessageController extends Controller
                         ->count();
     }
 
+    /**
+     * @param null $conversation_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function markAllAsRead($conversation_id = null)
     {
         $notifQuery =  MessageNotification::where('user_id', '=', auth()->user()->id)
@@ -236,7 +263,7 @@ class MessageController extends Controller
         if ($conversation_id > 0 && !is_null($conversation_id)) {
             $notifQuery = $notifQuery->where('conversation_id', '=', $conversation_id);
         }
-        $response = $notifQuery->update(['is_seen' => 1]);
+        $notifQuery->update(['is_seen' => 1]);
 
         return response()->json(['message' => 'Success'], 200);
     }
@@ -269,6 +296,9 @@ class MessageController extends Controller
         return response()->json($conversation->toArray(), 201);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function removeFromGroup()
     {
         request()->validate([
@@ -296,6 +326,9 @@ class MessageController extends Controller
         return response()->json($conversation->users()->get()->toArray(), 200);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateGroupChatMembers()
     {
         request()->validate([
@@ -314,6 +347,11 @@ class MessageController extends Controller
         return response()->json($conversation->users()->get()->toArray(), 200);
     }
 
+    /**
+     * @param $type
+     * @param $project_id
+     * @return mixed
+     */
     public function getGroupInfo($type, $project_id)
     {   
         if (!in_array($type, ['client', 'team'])) {

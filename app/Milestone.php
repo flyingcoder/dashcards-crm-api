@@ -2,18 +2,17 @@
 
 namespace App;
 
+use App\Events\ActivityEvent;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Http\Request;
 use Spatie\Activitylog\Contracts\Activity;
-use App\Events\ActivityEvent;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Milestone extends Model
 {
     use SoftDeletes, LogsActivity;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,12 +34,20 @@ class Milestone extends Model
         'end_at' => 'required|date'
     ];
 
+    /**
+     * @param Activity $activity
+     * @param string $eventName
+     */
     public function tapActivity(Activity $activity, string $eventName)
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
     }
 
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "A milestone has been {$eventName}";
@@ -53,17 +60,25 @@ class Milestone extends Model
     /*
      * Relationship methods
      */
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function template()
     {
         return $this->belongsTo(Template::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tasks()
     {
         return $this->hasMany(Task::class);
@@ -73,6 +88,11 @@ class Milestone extends Model
      * Action Methods
      */
 
+    /**
+     * @param $parent
+     * @param $parent_id
+     * @return mixed
+     */
     public function store($parent, $parent_id)
     {
 
@@ -82,21 +102,21 @@ class Milestone extends Model
             'status' => request()->status
         ];
 
-        if($parent == 'project')
-            $data['project_id'] = (int) $parent_id;
+        if ($parent == 'project')
+            $data['project_id'] = (int)$parent_id;
 
-        if(request()->has('days'))
+        if (request()->has('days'))
             $data['days'] = request()->days;
 
-        if(request()->has('started_at'))
+        if (request()->has('started_at'))
             $data['started_at'] = request()->started_at;
 
-        if(request()->has('end_at'))
+        if (request()->has('end_at'))
             $data['end_at'] = request()->end_at;
 
         $milestone = self::create($data);
 
-        if($parent == 'template'){
+        if ($parent == 'template') {
 
             $model = Template::findOrFail($parent_id);
 
@@ -109,6 +129,9 @@ class Milestone extends Model
 
     }
 
+    /**
+     * @return Model
+     */
     public function addTask()
     {
         request()->validate([
@@ -122,21 +145,21 @@ class Milestone extends Model
             'status' => request()->status
         ];
 
-        if(request()->has('days'))
+        if (request()->has('days'))
             $data['days'] = request()->days;
 
-        if(request()->has('started_at'))
+        if (request()->has('started_at'))
             $data['started_at'] = request()->started_at;
 
-        if(request()->has('end_at'))
+        if (request()->has('end_at'))
             $data['end_at'] = request()->end_at;
 
-        if(request()->has('role_id'))
+        if (request()->has('role_id'))
             $data['role_id'] = request()->role_id;
 
         $task = $this->tasks()->create($data);
 
-        if(request()->has('assigned_id')) 
+        if (request()->has('assigned_id'))
             $task->assigned()->sync(request()->assigned_id);
 
         $task->assigned_id = request()->assigned_id;
@@ -144,24 +167,30 @@ class Milestone extends Model
         return $task;
     }
 
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function getTasks()
     {
         $model = $this->tasks();
 
-        if(request()->has('all') && request()->all == true)
+        if (request()->has('all') && request()->all == true)
             return $model;
 
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        if(request()->has('sort'))
+        if (request()->has('sort'))
             $model->orderBy($sortName, $sortValue);
 
-        if(request()->has('per_page') && is_numeric(request()->per_page))
+        if (request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
         return $model->paginate($this->paginate);
     }
 
+    /**
+     * @return $this
+     */
     public function updateMilestone()
     {
 
@@ -169,13 +198,13 @@ class Milestone extends Model
 
         $this->status = request()->status;
 
-        if(request()->has('days'))
+        if (request()->has('days'))
             $this->days = request()->days;
 
-        if(request()->has('started_at'))
+        if (request()->has('started_at'))
             $this->started_at = request()->started_at;
 
-        if(request()->has('end_at'))
+        if (request()->has('end_at'))
             $this->end_at = request()->end_at;
 
         $this->save();
@@ -186,27 +215,32 @@ class Milestone extends Model
     }
 
 
+    /**
+     * @param $parent
+     * @param $id
+     * @return mixed
+     */
     public function paginated($parent, $id)
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $parent = "App\\".ucfirst($parent);
+        $parent = "App\\" . ucfirst($parent);
 
         $parent_model = $parent::findOrFail($id);
 
-        $model = $parent_model->milestones();
+        $model = $parent_model->milestones()
+            ->withCount('tasks')
+            ->with(['tasks']);
 
-        $model->with(['tasks']);
-
-        if(request()->has('sort'))
+        if (request()->has('sort'))
             $model->orderBy($sortName, $sortValue);
 
-        if(request()->has('per_page') && is_numeric(request()->per_page))
+        if (request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
         $data = $model->paginate($this->paginate);
 
-        if(request()->has('all') && request()->all == true)
+        if (request()->has('all') && request()->all == true)
             $data = $model->get();
 
         $data->map(function ($milestone) {
@@ -218,39 +252,17 @@ class Milestone extends Model
         return $data;
     }
 
-    
+
+    /**
+     *
+     */
     public static function boot()
     {
         parent::boot();
-        /*
-        if(!is_null(Auth::user())) {
-            Milestone::created(function ($milestone) {
-                activity(Auth::user()->company())
-                   ->performedOn($milestone)
-                   ->causedBy(Auth::user())
-                   ->log('Created');
-            });
 
-            Milestone::deleted(function ($milestone) {
-                activity(Auth::user()->company())
-                   ->performedOn($milestone)
-                   ->causedBy(Auth::user())
-                   ->log('Deleted');
-            });
-
-            Milestone::saved(function ($milestone) {
-                activity(Auth::user()->company())
-                   ->performedOn($milestone)
-                   ->causedBy(Auth::user())
-                   ->log('Updated');
-            });
-        }
-        */
-        Milestone::deleting(function($milestone) {
-            foreach(['tasks'] as $relation)
-            {
-                foreach($milestone->{$relation} as $item)
-                {
+        Milestone::deleting(function ($milestone) {
+            foreach (['tasks'] as $relation) {
+                foreach ($milestone->{$relation} as $item) {
                     $item->delete();
                 }
             }

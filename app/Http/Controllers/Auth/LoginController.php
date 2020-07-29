@@ -39,6 +39,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function login(Request $request) {
 
         $field = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';

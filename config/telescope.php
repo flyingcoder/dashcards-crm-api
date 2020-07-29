@@ -170,5 +170,5 @@ return [
     | String comma separated
     |
     */
-    'allowed_emails' => env('TELESCOPE_ALLOWED_EMAILS', ''),
+    'allowed_emails' => explode(',', env('TELESCOPE_ALLOWED_EMAILS', '')),
 ];

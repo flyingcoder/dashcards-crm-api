@@ -23,16 +23,6 @@ class ReviseServiceTable extends Migration
             $table->dateTime('end_at')->nullable()->change();
         });
 
-        // Schema::table('services', function (Blueprint $table) {
-        //     $table->text('business_name')->nullable();
-        //     $table->longText('description')->nullable()->after('name');
-        //     $table->text('icon')->nullable();
-        //     $table->string('status')->default('active');//active,inactive, paused
-        //     $table->integer('company_id')->unsigned()->nullable()->index();
-        //     $table->foreign('company_id')->references('id')->on('companies');
-        //     $table->json('props')->nullable()->after('name');
-        // });
-
         Schema::enableForeignKeyConstraints();
     }
 

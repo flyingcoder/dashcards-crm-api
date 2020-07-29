@@ -22,11 +22,21 @@ class ApiForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
 
 
+    /**
+     * @param Request $request
+     * @param $response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return response([ 'message' => trans($response) ]);
     }
 
+    /**
+     * @param Request $request
+     * @param $response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
         return response([ 'message' => trans($response) ], 422);

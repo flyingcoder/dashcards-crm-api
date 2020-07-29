@@ -2,104 +2,205 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QuestionnaireResponse;
 use App\Form;
-use App\Service;
 use App\Policies\FormPolicy;
-use Illuminate\Http\Request;
-use Cviebrock\EloquentSluggable\Services\SlugService;
+use App\Repositories\FormRepository;
+use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
-// Questionnaires
+    protected $formRepo;
+    protected $paginate = 12;
+
+    /**
+     * FormController constructor.
+     * @param FormRepository $formRepo
+     */
+    public function __construct(FormRepository $formRepo)
+    {
+        $this->formRepo = $formRepo;
+        $this->paginate = request()->has('per_page') ? request()->per_page : 12;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function index()
     {
         $company = auth()->user()->company();
 
-        if(!request()->ajax())
-            return view('pages.questionnaire');
-
-        return $company->paginatedCompanyForms(request());
+        return $this->formRepo->getCompanyForms($company);
     }
 
-    public function projectDetails()
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function list()
+    {
+        $company = auth()->user()->company();
+
+        return $this->formRepo->getCompanyFormsList($company);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function form($id)
+    {
+        $company = auth()->user()->company();
+
+        return $company->forms()->withCount('responses')->with('company')->findOrFail($id);
+    }
+
+    /**
+     * @param $slug
+     * @return Form|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
+    public function formBySlug($slug)
+    {
+        return Form::with('company')->where('slug', request()->slug)->firstOrfail();
+    }
+
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($id)
+    {
+        $company = auth()->user()->company();
+
+        $form = $company->forms()->findOrFail($id);
+
+        (new FormPolicy())->delete($form);
+
+        $form->delete();
+
+        return response()->json(['message' => 'Successfully deleted'], 200);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function update()
     {
         request()->validate([
-            'service_id' => 'exists:services,id'
-        ]);
-
-        $service = Service::findOrFail(request()->service_id);
-
-        $form = $service->forms()->first();
-
-        if (!$form) {
-            $slug = SlugService::createSlug(Form::class, 'slug', $service->name.' Extra Inputs');
-            $form = $service->forms()->create([
-                'questions' => collect(request()->fields),
-                'user_id' => auth()->user()->id,
-                'title' => $service->name.' Extra Inputs',
-                'status' => 'active',
-                'slug' => $slug
+                'questions' => 'required|array',
+                'title' => 'required|string',
+                'id' => 'required|exists:forms,id',
+                'notif_email_receivers' => 'sometimes|array'
             ]);
-        } else {
-            $form->update([
-                'questions' => collect(request()->fields)
-            ]);
-        }
+        $form = auth()->user()->company()->forms()->findOrFail(request()->id);
 
-        unset($form->questions);
+        (new FormPolicy())->update($form);
 
-        $form->fields = collect(request()->fields);
+        $form->questions = request()->questions;
+        $form->title = request()->title;
+        $form->status = request()->status ?? 'active';
+        $props = $form->props;
+        $props['notif_email_receivers'] = request()->notif_email_receivers ?? [];
+        $form->props = $props;
+        $form->save();
 
         return $form;
     }
 
-    public function getProjectDetails($id)
-    {
-        $service = Service::findOrFail($id);
-
-        $data = $service->forms()->first();
-
-        if ($data && property_exists($data, 'questions')) {    
-            $data->fields = json_decode($data->questions);
-            unset($data->questions);
-        }
-
-        return $data;
-    }
-
-    public function save()
-    {
-        return view('pages.questionnaire-new');
-    }
-
+    /**
+     * @return mixed
+     */
     public function store()
     {
+        request()->validate([
+                'questions' => 'required|array',
+                'title' => 'required|string',
+                'notif_email_receivers' => 'sometimes|array'
+            ]);
+
         (new FormPolicy())->create();
 
-        Form::store(request());
+        $user = auth()->user();
+        return $user->forms()->create([
+                'company_id' => $user->company()->id,
+                'questions' => request()->questions,
+                'title' => request()->title,
+                'status' => request()->status,
+                'props' => [
+                        'notif_email_receivers' => request()->notif_email_receivers ?? []
+                    ]
+            ]);
     }
 
-    public function edit()
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendForm()
     {
-        return view('pages.questionnaire-new');
+        request()->validate([
+            'to_emails' => 'required|array',
+            'subject' => 'required|string',
+            'message' => 'required|string',
+            'item_id' => 'required|exists:forms,id'
+        ]);
+
+        $form = Form::findOrFail(request()->item_id);
+        $tos = request()->to_emails;
+        $subject = request()->subject;
+
+        Mail::send('email.send-email-form', ['content' => request()->message ], function($message) use ($tos, $subject) {
+            $company = auth()->user()->company();
+            $message->from(auth()->user()->email, $company->name);
+            $message->to($tos)->subject($subject);
+        });
+
+        $failed = Mail:: failures();
+        
+        if (empty($failed)) {
+            $form->sents()->create([
+                    'user_id' => auth()->user()->id,
+                    'props' => [
+                            'destinations' => $tos
+                        ]
+                ]);
+        }
+
+        return response()->json(['failed' => $failed ], 200);
     }
 
-    public function load($slug)
+    public function saveFormResponse($id)
     {
-        $form = Form::where('slug', $slug)->first();
-        dd($form);
-        if(!request()->ajax())
-            return view('questionnaire-load', ['questions' => $form->questions]);
+        request()->validate(['data' => 'required|array']);
 
-        return Form::where('slug', $slug)->first();
+        $form = Form::findOrFail($id);
+
+        if ($form->status != 'active') {
+            abort(404, 'Form submission is no longer permitted');
+        }
+
+        $formResponse = $form->responses()->create([
+                'data' => request()->data,
+                'ip_address' => request()->ip(),
+                'user_id' => request()->user_id ?? null
+            ]);
+
+        event(new QuestionnaireResponse($formResponse));
+
+        return $formResponse;
     }
 
-// Quotation
-    public function quotations()
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function formResponses($id)
     {
-        return view('pages.quotation');
-    }
+        $form = Form::findOrFail($id);
 
+        return $form->responses()->with('user')->latest()->paginate($this->paginate);
+    }
 }
 
     
