@@ -131,6 +131,9 @@ class MembersRepository
             $team = $this->getTeam('default');
         }
 
+        if (!$team) {
+            return collect([]);
+        }
         $users = User::select('users.*')
             ->join('team_user as tu', 'tu.user_id', '=', 'users.id')
             ->join('teams', 'teams.id', '=', 'tu.team_id')
