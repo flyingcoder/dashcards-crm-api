@@ -221,7 +221,6 @@ class ClientController extends Controller
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'telephone' => 'required',
             'password' => 'required',
             'status' => 'required',
             'company_name' => 'required',
@@ -245,7 +244,7 @@ class ClientController extends Controller
                 'last_name' => request()->last_name,
                 'first_name' => request()->first_name,
                 'email' => request()->email,
-                'telephone' => request()->telephone,
+                'telephone' => request()->telephone ?? null,
                 'job_title' => 'Client',
                 'password' => bcrypt(request()->password),
                 'image_url' => random_avatar('neutral'),
@@ -267,6 +266,7 @@ class ClientController extends Controller
             DB::commit();
 
             $client->company = $client_company;
+            $client->projects = 0;
 
             event(new NewClientCreated($client));
             return $client;
