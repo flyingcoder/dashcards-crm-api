@@ -99,6 +99,18 @@ class ApiRegisterController extends Controller
                 'description' => 'This is the client team for '. $company->name
             ]);
 
+            $company->teams()->create([
+                'name' => $company->name . ' Clients Staffs',
+                'company_id' => $company->id,
+                'slug' => 'client-staffs-' . $company->id,
+                'description' => 'This is the clients staffs team for ' . $company->name
+            ]);
+
+            $company->dashboards()->create([
+                'title' => $company->name,
+                'description' => $company->name . ' Dashboard'
+            ]);
+
             DB::commit();
 
             $userObject = $user->fresh();
