@@ -927,33 +927,6 @@ class Company extends Model implements HasMedia
     {
         parent::boot();
 
-        if (Company::all()->count() > 0) {
-
-            Company::created(function ($company) {
-
-                $dashboard = $company->dashboards()->create([
-                    'title' => $company->name,
-                    'description' => $company->name . ' Dashboard'
-                ]);
-
-                $company->teams()->create([
-                    'name' => $company->name . ' Client Team',
-                    'company_id' => $company->id,
-                    'slug' => 'client-' . $company->id,
-                    'description' => 'This is the client team for ' . $company->name
-                ]);
-
-                $company->teams()->create([
-                    'name' => $company->name . ' Clients Staffs',
-                    'company_id' => $company->id,
-                    'slug' => 'client-staffs-' . $company->id,
-                    'description' => 'This is the clients staffs team for ' . $company->name
-                ]);
-            });
-
-        }
-
-
         Company::deleting(function ($company) {
             foreach (['roles', 'teams'] as $relation) {
                 foreach ($company->{$relation} as $item) {
