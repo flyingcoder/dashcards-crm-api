@@ -36,6 +36,7 @@ class TeamController extends Controller
             }
 
             request()->validate($validation);
+            $company = auth()->user()->company();
             $username = explode('@', request()->email)[0];
             $image_url = random_avatar();
 
@@ -51,14 +52,14 @@ class TeamController extends Controller
                 'created_by' => auth()->user()->id,
                 'props' => [
                     'address' => request()->address ?? 'Unknown',
-                    'rate' => request()->rate ?? ''
+                    'rate' => request()->rate ?? '',
+                    'company_id' => $company->id
                 ]
             ]);
 
             $member->setMeta('address', request()->address ?? 'Unknown');
             $member->setMeta('rate', request()->rate ?? '');
 
-            $company = auth()->user()->company();
             $role = request()->group_name;
             $team = $company->defaultTeam();
 
@@ -84,12 +85,12 @@ class TeamController extends Controller
             $error_code = $e->getCode();
             switch ($error_code) {
                 case 1062:
-                    return response()->json([ 'message' => 'The company email you have entered is already registered.' ], 500);
+                    return response()->json(['message' => 'The company email you have entered is already registered.'], 500);
                     break;
                 case 1048:
-                    return response()->json([ 'message' => 'Some fields are missing.' ], 500);
+                    return response()->json(['message' => 'Some fields are missing.'], 500);
                 default:
-                    return response()->json([ 'message' => $e->getMessage() ], 500);
+                    return response()->json(['message' => $e->getMessage()], 500);
                     break;
             }
         }
@@ -273,8 +274,7 @@ class TeamController extends Controller
     {
         $company = Auth::user()->company();
         $group = $company->roles;
-        return response()
-            ->json(['roles' => $group]);
+        return response()->json(['roles' => $group]);
     }
 
     /**

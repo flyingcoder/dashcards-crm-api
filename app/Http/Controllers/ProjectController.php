@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Company;
 use App\Events\NewProjectCreated;
-use App\Http\Requests\ProjectRequest;
 use App\Message;
 use App\Milestone;
 use App\Policies\ProjectPolicy;
@@ -347,11 +346,9 @@ class ProjectController extends Controller
     public function milestoneImport($id)
     {
         request()->validate(['milestone_ids' => 'required|array']);
-
         try {
             DB::beginTransaction();
             $project = Project::findOrFail($id);
-
             $milestones = Milestone::whereIn('id', request()->milestone_ids)->get();
 
             foreach ($milestones as $key => $milestone) {
@@ -361,12 +358,13 @@ class ProjectController extends Controller
 
                 if ($milestone->tasks->count() > 0) {
                     foreach ($milestone->tasks as $key => $task) {
-                        $new_task = $new_milestone->tasks()->create([
-                            'title' => $task->title,
-                            'description' => $task->description,
-                            'status' => $task->status,
-                            'days' => $task->days,
-                            'role_id' => $task->role_id ?? null
+                        $new_milestone->tasks()->create([
+                            'title' => $task->title ?? '',
+                            'description' => $task->description ?? '',
+                            'status' => $task->status ?? 'Open',
+                            'days' => $task->days ?? null,
+                            'role_id' => $task->role_id ?? null,
+                            'project_id' => $project->id ?? null
                         ]);
                     }
                 }
@@ -466,10 +464,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param ProjectRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse | mixed
      */
-    public function store(ProjectRequest $request)
+    public function store()
     {
         (new ProjectPolicy())->create();
 
@@ -480,13 +477,12 @@ class ProjectController extends Controller
         ]);
 
         try {
-
             DB::beginTransaction();
 
             $project = Project::create([
                 'type' => 'project',
                 'title' => request()->title,
-                'description' => request()->description,
+                'description' => request()->description ?? '',
                 'started_at' => request()->start_at,
                 'end_at' => request()->end_at ?? null,
                 'status' => request()->project_status ?? 'Active',
@@ -518,9 +514,7 @@ class ProjectController extends Controller
 
             DB::commit();
 
-            $proj = Project::where('projects.id', $project->id)
-                ->with(['manager', 'client', 'members'])
-                ->first();
+            $proj = Project::with(['manager', 'client', 'members'])->find($project->id);
 
             $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
             $proj->expand = false;
@@ -538,10 +532,9 @@ class ProjectController extends Controller
 
     /**
      * @param $id
-     * @param ProjectRequest $request
      * @return mixed
      */
-    public function update($id, ProjectRequest $request)
+    public function update($id)
     {
         request()->validate([
             'title' => 'required',
@@ -553,7 +546,7 @@ class ProjectController extends Controller
         //(new ProjectPolicy())->update($project);
 
         $project->title = request()->title;
-        $project->description = request()->description;
+        $project->description = request()->description ?? '';
         $project->started_at = request()->start_at;
         $project->end_at = request()->end_at ?? null;
 

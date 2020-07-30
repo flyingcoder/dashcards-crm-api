@@ -514,7 +514,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services-list'], function
 
     Route::put('{id}', 'ServiceListController@update');
 
-    Route::delete('{id}', 'ServiceListController@update');
+    Route::delete('{id}', 'ServiceListController@delete');
 });
 
 //media

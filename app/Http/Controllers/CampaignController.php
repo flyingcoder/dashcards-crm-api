@@ -91,7 +91,6 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'description' => 'required|min:5',
             'started_at' => 'required|date',
             'client_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:services,id',
@@ -106,7 +105,7 @@ class CampaignController extends Controller
                 'type' => 'campaign',
                 'service_id' => $service->id,
                 'title' => $service->name,
-                'description' => request()->description ?? null,
+                'description' => request()->description ?? '',
                 'created_at' => now()->format('Y-m-d H:i:s'),
                 'status' => request()->status ?? 'Active',
                 'started_at' => request()->started_at ?? now()->format('Y-m-d'),
@@ -166,7 +165,6 @@ class CampaignController extends Controller
 
         request()->validate([
             'name' => 'required|min:5',
-            'description' => 'required|min:5',
             'started_at' => 'required|date',
             'client_id' => 'required|exists:users,id',
             'business_name' => 'required|min:5'
@@ -176,7 +174,7 @@ class CampaignController extends Controller
             DB::beginTransaction();
 
             $service->title = trim(request()->name);
-            $service->description = request()->description ?? null;
+            $service->description = request()->description ?? '';
             $service->status = request()->status ?? 'Active';
             $service->started_at = request()->started_at ?? now()->format('Y-m-d');
             $service->end_at = request()->end_at ?? null;

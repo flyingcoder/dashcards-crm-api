@@ -27,8 +27,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'client_id' => 'required|exists:users,id',
-            'description' => 'required'
+            'client_id' => 'required|exists:users,id'
         ];
     }
 

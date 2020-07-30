@@ -34,6 +34,7 @@ class CampaignRepository
     public function getCompanyCampaigns(Company $company)
     {
         $services = $company->campaigns()
+            ->withCount('tasks')
             ->with(['managers', 'client', 'members', 'service']);
 
         if (auth()->check() && auth()->user()->hasRoleLike('client') && !auth()->user()->hasRoleLike('admin')) {

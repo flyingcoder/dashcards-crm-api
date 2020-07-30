@@ -611,6 +611,10 @@ class Project extends Model implements HasMedia
         return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id');
     }
 
+    public function teamIds()
+    {
+        return $this->team()->pluck('id')->toArray();
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

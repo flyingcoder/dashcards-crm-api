@@ -64,7 +64,7 @@ class DashboardController extends Controller
 
         if (auth()->user()->hasRole('admin|manager') || auth()->user()->can('view.all-tasks')) {
             $counts = [
-                'projects' => $company->projects()->count(),
+                'projects' => $company->projects()->ofType('project')->count(),
                 'tasks' => $company->tasks()->where('status', 'open')->count(),
                 'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
                 'timer' => $company->allTimers()->count(),
@@ -73,7 +73,7 @@ class DashboardController extends Controller
             ];
         } else {
             $counts = [
-                'projects' => auth()->user()->projects()->count(),
+                'projects' => auth()->user()->projects()->ofType('project')->count(),
                 'tasks' => auth()->user()->tasks()->where('status', 'open')->count(),
                 'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
                 'timer' => auth()->user()->timers()->count(),

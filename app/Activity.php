@@ -10,9 +10,13 @@ class Activity extends Act
 {
     use HasFileTrait;
 
+    /**
+     * @var array
+     */
     protected $cast = [
         'read' => 'boolean'
     ];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

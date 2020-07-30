@@ -8,6 +8,7 @@ use App\Events\NewMediaCommentCreated;
 use App\Project;
 use App\Traits\HasFileTrait;
 use Embed\Embed;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,7 +18,10 @@ use Spatie\MediaLibrary\Models\Media;
 class MediaController extends Controller
 {
     use HasFileTrait;
-
+    /**
+     * @var float|int
+     */
+    protected $max_file_size = (1024 * 10); //10mb
     /**
      * @param $project_id
      * @return mixed
@@ -32,12 +36,14 @@ class MediaController extends Controller
             switch (request()->type) {
                 case 'image':
                 case 'images':
-                    $medias->where('mime_type', 'like', 'image/%');
+                    $mime_type = $this->categories('images');
+                    $medias->whereIn('mime_type', $mime_type);
                     break;
 
                 case 'video':
                 case 'videos':
-                    $medias->where('mime_type', 'like', 'video/%');
+                    $mime_type = $this->categories('videos');
+                    $medias->whereIn('mime_type', $mime_type);
                     break;
 
                 case 'document':
@@ -151,13 +157,16 @@ class MediaController extends Controller
      * Create a new controller instance.
      *
      * @param $project_id
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function projectFileUpload($project_id)
     {
-        $file = request()->file('file');
+        request()->validate([
+           'file' => 'required|max:'.$this->max_file_size
+        ]);
 
-        $collectionName = $this->getProjectCollectionName($file);
+        $file = request()->file('file');
+        $collectionName = $this->getProjectCollectionName($file, true);
 
         if (!$collectionName)
             return response()->json(['Invalid file format.'], 422);
@@ -175,7 +184,6 @@ class MediaController extends Controller
                 ->toMediaCollection($collectionName);
 
             $media = $this->getFullMedia($media);
-
 
             $activity = false;
             if (request()->has('file_upload_session') && request()->file_upload_session) {
@@ -199,13 +207,13 @@ class MediaController extends Controller
                     ])
                     ->log($log);
                 $activity = Activity::findOrFail($activity->id);
-                $activity->users()->attach(auth()->user()->company()->membersID());
+                $activity->users()->attach($project->teamIds());
             }
 
             DB::commit();
 
             return $media->toJson();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             $error = strripos($e->getMessage(), 'maximum allowed') !== false ? 'File size exceed max limit.' : $e->getMessage();
             return response()->json([$error], 422);
@@ -235,13 +243,13 @@ class MediaController extends Controller
             'file' => 'required|image|mimes:jpeg,png,jpg,gif'
         ]);
         $file = request()->file('file');
-        try {
 
-            $image = Image::make($file);
+        try {
+            Image::make($file);
             $fileName = Str::slug(preg_replace("/\.[^.]+$/", "", $file->getClientOriginalName())) . '.' . $file->getClientOriginalExtension();
             $folder = 'uploads/' . date('Y/m') . '/';
 
-            $file = $file->storeAs($folder, $fileName, 'public');
+            $file->storeAs($folder, $fileName, 'public');
             $filePath = $folder . $fileName;
 
             return response()->json([
@@ -249,7 +257,7 @@ class MediaController extends Controller
                 'url' => url(Storage::url($filePath)),
                 'public_url' => url(Storage::url($filePath))
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 522);
         }
     }
@@ -296,9 +304,7 @@ class MediaController extends Controller
             $comment->load('causer');
             $data->push(array_merge($comment->toArray()));
         }
-
         $comments->setCollection($data);
-
         return $comments;
     }
 
