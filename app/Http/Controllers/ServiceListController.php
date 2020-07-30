@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Policies\ServicePolicy;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ServiceListController extends Controller
 {
@@ -119,9 +121,19 @@ class ServiceListController extends Controller
         $service = $company->servicesList()->where('id', $id)->firstOrFail();
 
         (new ServicePolicy())->delete($service);
+        try {
+            DB::beginTransaction();
+            //delete campaigns associated
+            $service->campaigns()->delete();
+            //delete projects associated
+            $service->projects()->delete();
 
-        $service->delete();
-
-        return response()->json(['message' => 'Successfully deleted'], 200);
+            $service->delete();
+            DB::commit();
+            return response()->json(['message' => 'Successfully deleted'], 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
     }
 }

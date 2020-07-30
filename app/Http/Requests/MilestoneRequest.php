@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class MilestoneRequest extends FormRequest
@@ -26,8 +26,8 @@ class MilestoneRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'end_at' => 'required_with:started_at|after:started_at',
+            'title' => 'required|string|max:100',
+            'end_at' => 'sometimes',
             'status' => 'required',
             'days' => 'required_without:started_at',
         ];
@@ -49,13 +49,13 @@ class MilestoneRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        $errors   = [];
+        $errors = [];
         $messages = $validator->getMessageBag();
 
         foreach ($messages->keys() as $key) {
             $errors['message'] = $messages->get($key, $this->messageFormat)[0];
         }
-        
+
         throw new HttpResponseException(response()->json($errors, 422));
     }
 }

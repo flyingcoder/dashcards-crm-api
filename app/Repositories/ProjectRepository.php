@@ -72,7 +72,7 @@ class ProjectRepository
                     ->orWhere('projects.description', 'like', "%$search%");
             });
         }
-        $projects->with(['manager', 'client', 'members']);
+        $projects->with(['manager', 'client', 'members'])->withCount('tasks');
 
         $projects = $projects->paginate($this->paginate);
 

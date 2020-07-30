@@ -129,8 +129,8 @@ trait HasFileTrait
      */
     public function getProjectCollectionName($file, $abort_on_not_found = false)
     {
-        $mimetype = $file->getMimeType();
-        $category = $this->getFileCategoryByMimeType($mimetype);
+        $mime_type = $file->getMimeType();
+        $category = $this->getFileCategoryByMimeType($mime_type);
         if ($category) {
             return 'project.files.' . $category;
         }
