@@ -543,7 +543,7 @@ class ProjectController extends Controller
         ]);
 
         $project = Project::findOrFail($id);
-        //(new ProjectPolicy())->update($project);
+        (new ProjectPolicy())->update($project);
 
         $project->title = request()->title;
         $project->description = request()->description ?? '';

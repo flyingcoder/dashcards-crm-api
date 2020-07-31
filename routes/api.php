@@ -46,9 +46,9 @@ Route::group(['middleware' => ['api'], 'prefix' => 'register'], function () {
 
     Route::post('/', 'Auth\ApiRegisterController@create');
 
-    //Route::post('/set-password', 'Auth\ApiRegisterController@setPassword');
+    Route::post('/set-password', 'Auth\ApiRegisterController@setPassword');
 
-    //Route::post('/get-user-id', 'Auth\ApiRegisterController@getUserId');
+    Route::post('/get-user-id', 'Auth\ApiRegisterController@getUserId');
 
 });
 
@@ -300,11 +300,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('{parent}/{id}/milestone/{milestone_id}', 'MilestoneController@update')
         ->where('parent', 'project|template');
 
+    Route::delete('template/{parent_id}/milestone/bulk-delete', 'MilestoneController@bulkDelete');
+
     Route::delete('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@delete')
         ->where('parent', 'project|template');
 
     Route::get('{parent}/{parent_id}/milestone/{milestone_id}', 'MilestoneController@milestone')
         ->where('parent', 'project|template');
+
 });
 
 //events
