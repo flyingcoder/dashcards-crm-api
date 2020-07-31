@@ -190,12 +190,12 @@ trait HasFileTrait
             if ($media->mime_type == 'link') {
                 $media->download_url = $media->getCustomProperty('url') ?? '';
                 $media->public_url = $media->getCustomProperty('image') ?? '';
-                $media->thumb_url = $media->getCustomProperty('thumb') ?? '';
+                $media->thumb_url = $media->getCustomProperty('thumb') ?? null;
                 $media->category = 'links';
             } else {
                 $media->download_url = URL::signedRoute('download', ['media_id' => $media->id]);
                 $media->public_url = url($media->getUrl());
-                $media->thumb_url = url($media->getUrl('thumb'));
+                $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : null;
                 $media->category = $this->getFileCategory($media);
             }
             $media->image_exist = true;

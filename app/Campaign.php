@@ -8,23 +8,49 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Plank\Metable\Metable;
 use Spatie\Activitylog\Contracts\Activity;
 
-//#noteby:kirby: Service is Campaign which has same table with projects, and service table is ServiceList  
+
+/**
+ * Class Campaign
+ * note by:kirby:  Campaign which has same table with projects, and service table is ServiceList
+ * @package App
+ */
 class Campaign extends Project
 {
     use SoftDeletes, Metable;
+    /**
+     * @var string
+     */
     protected $table = 'projects';
+    /**
+     * @var int
+     */
     protected $paginate = 10;
+    /**
+     * @var string
+     */
     protected static $logName = 'project';
+    /**
+     * @var array
+     */
     protected $dates = ['deleted_at'];
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'title', 'started_at', 'end_at', 'description', 'status', 'company_id', 'type', 'props', 'service_id'
     ];
 
+    /**
+     * @var array
+     */
     protected static $logAttributes = [
         'title', 'started_at', 'end_at', 'status', 'company_id'
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'props' => 'array'
     ];
@@ -109,7 +135,7 @@ class Campaign extends Project
      */
     public function service()
     {
-        return $this->belongsTo(ServiceList::class);
+        return $this->belongsTo(ServiceList::class, 'service_id');
     }
 
     /**
@@ -118,6 +144,14 @@ class Campaign extends Project
     public function tasks()
     {
         return $this->hasMany(Task::class, 'project_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function milestones()
+    {
+        return $this->hasMany(Milestone::class, 'project_id');
     }
 
     /**

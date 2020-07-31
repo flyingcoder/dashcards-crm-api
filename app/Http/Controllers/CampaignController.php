@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Campaign;
 use App\Events\NewProjectCreated;
-use App\Policies\ProjectPolicy;
+use App\Policies\CampaignPolicy;
 use App\Repositories\CampaignRepository;
 use App\ServiceList;
 use Illuminate\Http\Request;
@@ -55,7 +55,7 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        (new ProjectPolicy())->index();
+        (new CampaignPolicy())->index();
 
         $company = Auth::user()->company();
 
@@ -67,7 +67,7 @@ class CampaignController extends Controller
      */
     public function save()
     {
-        (new ProjectPolicy())->create();
+        (new CampaignPolicy())->create();
 
         return view('includes.add-service-modal', [
             'action' => 'add'
@@ -161,7 +161,7 @@ class CampaignController extends Controller
         $service = Campaign::findOrFail($id);
         $company = Auth::user()->company();
 
-        (new ProjectPolicy())->update($service);
+        (new CampaignPolicy())->update($service);
 
         request()->validate([
             'name' => 'required|min:5',
@@ -227,19 +227,11 @@ class CampaignController extends Controller
         ]);
 
         try {
-
-            $service = new Campaign();
-
-            $service->whereIn('id', request()->ids)->delete();
-
+            Campaign::whereIn('id', request()->ids)->delete();
             return response(['message' => 'Successfully deleted campaigns.'], 200);
-
         } catch (\Exception $ex) {
-
             return response(['message' => 'Campaigns deletion failed'], 500);
-
         }
-
     }
 
     /**
@@ -248,14 +240,13 @@ class CampaignController extends Controller
      */
     public function delete($id)
     {
-        $service = Campaign::findOrFail($id);
+        $campaign = Campaign::findOrFail($id);
 
-        (new ProjectPolicy())->delete($service);
+        (new CampaignPolicy())->delete($campaign);
 
-        if ($service->delete()) {
+        if ($campaign->delete()) {
             return response(['message' => 'Successfully deleted campaigns.'], 200);
         }
-
         return response(['message' => 'Campaign deletion failed.'], 500);
     }
 

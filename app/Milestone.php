@@ -77,6 +77,14 @@ class Milestone extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class, 'project_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tasks()
@@ -124,7 +132,7 @@ class Milestone extends Model
         }
 
         $milestone['tasks'] = [];
-
+        $milestone['tasks_count'] = 0;
         return $milestone;
 
     }
@@ -210,7 +218,7 @@ class Milestone extends Model
         $this->save();
 
         $this->tasks;
-
+        $this->tasks_count = $this->tasks()->count();
         return $this;
     }
 

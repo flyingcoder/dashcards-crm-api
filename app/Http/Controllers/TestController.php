@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Media;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
@@ -70,8 +71,8 @@ class TestController extends Controller
      */
     public function index()
     {
-        $s = Carbon::now('UTC');
-        dump($s->copy(),$s->addHour());
+        $s = Media::find(6);
+        dump($s->hasGeneratedConversion('thumb'));
     }
 
 }

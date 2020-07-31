@@ -11,7 +11,13 @@ class TemplateController extends Controller
 {
     use TemplateTrait;
 
+    /**
+     * @var TemplateRepository
+     */
     protected $repo;
+    /**
+     * @var array
+     */
     protected $rules = [
         'name' => 'required',
         'status' => 'required'
@@ -83,7 +89,7 @@ class TemplateController extends Controller
             'status' => request()->status,
             'replica_type' => $type
         ]);
-
+        $template->tasks_count = 0;
         return $template;
     }
 
@@ -105,7 +111,6 @@ class TemplateController extends Controller
         $template->name = request()->name;
         $template->status = request()->status;
         $template->replica_type = $type;
-
         $template->save();
 
         return $template;
@@ -139,11 +144,18 @@ class TemplateController extends Controller
             ->paginate();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function template($id)
     {
         return Template::findOrFail($id);
     }
 
+    /**
+     * @return mixed
+     */
     public function invoices()
     {
         $company = auth()->user()->company();
@@ -327,5 +339,17 @@ class TemplateController extends Controller
             ->where('replica_type', 'App\\Template')
             ->where('name', 'like', $name . ':%')
             ->get();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bulkDelete()
+    {
+        request()->validate(['ids' => 'required|array']);
+
+        Template::whereIn('id', request()->ids)->delete();
+
+        return response()->json(['message' => 'Successfully deleted.', 'ids' => request()->ids], 200);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Project;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -19,8 +18,6 @@ class ProjectPolicy
     /**
      * Determine whether the rob can view the ben.
      *
-     * @param  \App\User  $rob
-     * @param  \App\User  $ben
      * @return mixed
      */
     public function index()
@@ -33,8 +30,7 @@ class ProjectPolicy
     /**
      * Determine whether the rob can view the ben.
      *
-     * @param  \App\User  $rob
-     * @param  \App\User  $ben
+     * @param Project $project
      * @return mixed
      */
     public function view(Project $project)
@@ -47,8 +43,7 @@ class ProjectPolicy
     /**
      * Determine whether the rob can view the ben.
      *
-     * @param  \App\User  $rob
-     * @param  \App\User  $ben
+     * @param Project $project
      * @return mixed
      */
     public function viewTask(Project $project)
@@ -71,39 +66,37 @@ class ProjectPolicy
     public function create()
     {
         if( !auth()->user()->hasRoleLikeIn(['admin','manager','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('create.project') ){
-          abort(403, 'Not enought permission to create a project!');
+          abort(403, 'Not enough permission to create a project!');
         }
     }
 
     /**
      * Determine whether the rob can update the ben.
      *
-     * @param  \App\User  $rob
-     * @param  \App\User  $ben
+     * @param Project $project
      * @return mixed
      */
-    public function update()
+    public function update(Project $project)
     {
         if(!$this->sameCompany($project)){
             abort(403, 'Project not found!');
         }
 
         if(!auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('update.project') ){
-          abort(403, 'Not enought permission!');
+          abort(403, 'Not enough permission!');
         }
     }
 
     /**
      * Determine whether the rob can delete the ben.
      *
-     * @param  \App\User  $rob
-     * @param  \App\User  $ben
+     * @param Project $project
      * @return mixed
      */
     public function delete(Project $project)
     {
         if( !auth()->user()->hasRoleLikeIn(['admin','default-admin-'.auth()->user()->company()->id]) && !auth()->user()->can('delete.project') ){
-            abort(403, 'Not enought permission!');
+            abort(403, 'Not enough permission!');
         }
 
         if(!$this->sameCompany($project)){

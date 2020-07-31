@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Milestone;
 use App\Http\Requests\MilestoneRequest;
 use App\Http\Requests\TaskRequest;
+use App\Template;
 
+/**
+ * Class MilestoneController
+ * @package App\Http\Controllers
+ */
 class MilestoneController extends Controller
 {
     /**
@@ -106,5 +111,17 @@ class MilestoneController extends Controller
     public function selectMilestone($project_id)
     {
         return Milestone::where('project_id', $project_id)->get(['id', 'title']);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bulkDelete()
+    {
+        request()->validate(['ids' => 'required|array']);
+
+        Milestone::whereIn('id', request()->ids)->delete();
+
+        return response()->json(['message' => 'Successfully deleted.', 'ids' => request()->ids], 200);
     }
 }
