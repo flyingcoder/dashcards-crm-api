@@ -77,7 +77,8 @@ class TaskController extends Controller
         }
 
         if ($task->project_id > 0) {
-            event(new NewTaskCreated($task));
+            //todo :kirby add handler or convert to job
+            //event(new NewTaskCreated($task));
         }
 
         return $task;
@@ -95,7 +96,8 @@ class TaskController extends Controller
 
         $task = $task->fresh();
         if ($task->project_id > 0) {
-            event(new TaskUpdated($task));
+            //todo :kirby add handler or convert to job
+            //event(new TaskUpdated($task));
         }
 
         return $task->toArray();
@@ -309,7 +311,7 @@ class TaskController extends Controller
         ]);
 
         $task = Task::findOrFail($id);
-        $status = $task->status == 'urgent' ? 'open' : 'urgent';
+        $status = strtolower($task->status) == 'urgent' ? 'Open' : 'Urgent';
         $task->status = $status;
         $task->save();
 
@@ -320,7 +322,7 @@ class TaskController extends Controller
 
 
         if (!$task->assigned->isEmpty()) {
-            if ($status == 'urgent') {
+            if ($status == 'Urgent') {
                 $data = array(
                     'title' => 'Project task was set as urgent!',
                     'message' => $log,
@@ -329,7 +331,8 @@ class TaskController extends Controller
                 );
                 broadcast(new ProjectTaskNotification($user->company()->id, $data));
             }
-            event(new TaskUpdated($task));
+            //todo :kirby add handler or convert to job
+            //event(new TaskUpdated($task));
         }
 
         return $this->task($id);

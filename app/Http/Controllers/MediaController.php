@@ -22,6 +22,7 @@ class MediaController extends Controller
      * @var float|int
      */
     protected $max_file_size = (1024 * 10); //10mb
+
     /**
      * @param $project_id
      * @return mixed
@@ -162,7 +163,7 @@ class MediaController extends Controller
     public function projectFileUpload($project_id)
     {
         request()->validate([
-           'file' => 'required|max:'.$this->max_file_size
+            'file' => 'required|max:' . $this->max_file_size
         ]);
 
         $file = request()->file('file');
@@ -245,11 +246,16 @@ class MediaController extends Controller
         $file = request()->file('file');
 
         try {
-            Image::make($file);
-            $fileName = Str::slug(preg_replace("/\.[^.]+$/", "", $file->getClientOriginalName())) . '.' . $file->getClientOriginalExtension();
+            $image = Image::make($file);
+            $extension = $file->getClientOriginalExtension();
+            $extension = trim($extension) == '' ? 'png' : $extension;
+            $file_name = $file->getClientOriginalName();
+            $file_name = trim($file_name) == 'blob' ? now()->format('YmdHis') : $file_name . now()->format('-YmdHis');
+
+            $fileName = Str::slug(preg_replace("/\.[^.]+$/", "", $file_name)) . '.' . $extension;
             $folder = 'uploads/' . date('Y/m') . '/';
 
-            $file->storeAs($folder, $fileName, 'public');
+            $file->storeAs($folder, $fileName, "public");
             $filePath = $folder . $fileName;
 
             return response()->json([

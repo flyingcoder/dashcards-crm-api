@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class ServiceListController extends Controller
 {
+    /**
+     * @var int
+     */
     protected $paginate = 12;
 
     /**
@@ -135,5 +138,27 @@ class ServiceListController extends Controller
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 422);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function setIcon()
+    {
+        request()->validate([
+           'id' => 'required|exists:services,id',
+           'source_url' => 'required|string'
+        ]);
+        $company = auth()->user()->company();
+        $service = $company->servicesList()->where('id', request()->id)->firstOrFail();
+        if (!$service) {
+            abort(404, 'Service not found!');
+        }
+        $service->icon = request()->source_url;
+        $service->save();
+        $service->load('creator');
+        $service->campaigns_count = $service->campaigns()->count();
+
+        return $service;
     }
 }

@@ -630,12 +630,7 @@ class Project extends Model implements HasMedia
     {
         list($sortName, $sortValue) = parseSearchParam(request());
 
-        $model = $this->team()
-            ->select(
-                'users.*',
-                DB::raw('CONCAT(CONCAT(UCASE(LEFT(users.last_name, 1)), SUBSTRING(users.last_name, 2)), ", ", CONCAT(UCASE(LEFT(users.first_name, 1)), SUBSTRING(users.first_name, 2))) AS name')
-            );
-
+        $model = $this->team();
         $table = 'users';
 
         if (request()->has('sort') && !empty(request()->sort))
@@ -655,12 +650,9 @@ class Project extends Model implements HasMedia
         if (request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-
         $data = $model->with('tasks')->paginate($this->paginate);
-
         if (request()->has('all') && request()->all)
             $data = $model->with('tasks')->get();
-
 
         return $data;
     }

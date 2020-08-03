@@ -76,7 +76,8 @@ class TeamController extends Controller
             DB::commit();
 
             Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
-            broadcast(new NewUserCreated($member));
+            //todo :kirby add handler or convert to job
+            //broadcast(new NewUserCreated($member));
 
             return $member;
         } catch (Exception $e) {

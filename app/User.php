@@ -6,6 +6,7 @@ use App\Events\ActivityEvent;
 use App\Notifications\PasswordResetNotification;
 use App\Traits\HasTimers;
 use App\Traits\TaskTrait;
+use Chat;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -21,7 +22,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-use Chat;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -66,6 +66,22 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
+
+    public function basics()
+    {
+        return [
+            'id' => $this->id,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'fullname' => $this->fullname,
+            'image_url' => $this->image_url,
+            'is_admin' => $this->hasRoleLike('admin'),
+            'is_client' => $this->hasRoleLike('client'),
+            'is_manager' => $this->hasRoleLike('manager'),
+            'is_company_owner' => $this->is_company_owner ?? false,
+            'is_buzzooka_super_admin' => in_array($this->email, config('telescope.allowed_emails'))
+        ];
+    }
 
     /**
      * @return mixed

@@ -98,7 +98,7 @@ class ProjectController extends Controller
             $file = request()->file('file');
             $msg = Message::findOrFail($message->id);
 
-            $media = $msg->addMedia($file)
+            $msg->addMedia($file)
                 ->preservingOriginal()
                 ->withCustomProperties([
                     'ext' => $file->extension(),
@@ -270,10 +270,13 @@ class ProjectController extends Controller
         try {
             DB::beginTransaction();
             $project = Project::findOrFail($id);
-
+            $existing_members_ids = $project->team()->pluck('id')->toArray();
             foreach (request()->members_id as $key => $user_id) {
+                if (in_array($user_id, $existing_members_ids)) {
+                    continue;
+                }
                 $user = User::findOrFail($user_id);
-                if ($user->hasRole('admin|manager')) {
+                if ($user->hasRoleLikeIn(['admin', 'manager'])) {
                     $project->members()->attach($user_id, ['role' => 'Manager']);
                 } else {
                     $project->members()->attach($user_id, ['role' => 'Members']);
@@ -281,9 +284,9 @@ class ProjectController extends Controller
             }
             DB::commit();
             return User::whereIn('id', request()->members_id)->with('tasks')->get();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
+            return response()->json(['message' => $e->getMessage()], 433);
         }
     }
 
@@ -371,9 +374,9 @@ class ProjectController extends Controller
             }
             DB::commit();
             return response()->json(['message' => 'Successfully copied milestone and its tasks'], 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
+            return response()->json(['message' => $e->getMessage()], 433);
         }
     }
 
@@ -520,8 +523,8 @@ class ProjectController extends Controller
             $proj->expand = false;
             $proj->company_name = $clientCompany ? $clientCompany->name : "";
             $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
-
-            event(new NewProjectCreated($proj, 'project'));
+            //todo :kirby add handler or convert to job
+            //event(new NewProjectCreated($proj, 'project'));
 
             return $proj;
         } catch (Exception $e) {
@@ -541,58 +544,63 @@ class ProjectController extends Controller
             'start_at' => 'required',
             'client_id' => 'required',
         ]);
+        try {
+            DB::beginTransaction();
+            $project = Project::findOrFail($id);
+            (new ProjectPolicy())->update($project);
 
-        $project = Project::findOrFail($id);
-        (new ProjectPolicy())->update($project);
+            $project->title = request()->title;
+            $project->description = request()->description ?? '';
+            $project->started_at = request()->start_at;
+            $project->end_at = request()->end_at ?? null;
 
-        $project->title = request()->title;
-        $project->description = request()->description ?? '';
-        $project->started_at = request()->start_at;
-        $project->end_at = request()->end_at ?? null;
+            $project->members()->detach();
 
-        if (request()->has('client_id')) {
-            if (count($project->client) == 0) {
-                $project->members()->attach(request()->client_id, ['role' => 'Client']);
-            } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
-                $project->members()->detach($project->client()->first()->id);
-                $project->members()->attach(request()->client_id, ['role' => 'Client']);
+            if (request()->has('client_id')) {
+                if (count($project->client) == 0) {
+                    $project->members()->attach(request()->client_id, ['role' => 'Client']);
+                } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
+                    $project->members()->detach($project->client()->first()->id);
+                    $project->members()->attach(request()->client_id, ['role' => 'Client']);
+                }
             }
-        }
 
-        if (request()->has('managers')) {
-            foreach (request()->managers as $value) {
-                if (!$project->manager->contains($value))
-                    $project->manager()->attach($value, ['role' => 'Manager']);
+            if (request()->has('managers')) {
+                foreach (request()->managers as $value) {
+                    if (!$project->manager->contains($value))
+                        $project->manager()->attach($value, ['role' => 'Manager']);
+                }
             }
-        }
-        if (request()->has('members')) {
-            foreach (request()->members as $value) {
-                if ($value == request()->client_id)
-                    abort(422, "Client can't be a member");
+            if (request()->has('members')) {
+                foreach (request()->members as $value) {
+                    if ($value == request()->client_id)
+                        abort(422, "Client can't be a member");
 
-                if (!$project->members->contains($value))
-                    $project->members()->attach($value, ['role' => 'Members']);
+                    if (!$project->members->contains($value))
+                        $project->members()->attach($value, ['role' => 'Members']);
+                }
             }
+
+            $project->save();
+
+            if (request()->has('extra_fields') && !empty(request()->extra_fields)) {
+                $project->setMeta('extra_fields', request()->extra_fields);
+            }
+            DB::commit();
+            $proj = Project::where('projects.id', $project->id)
+                ->with(['manager', 'client', 'members'])
+                ->first();
+
+            $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
+            $proj->expand = false;
+            $proj->company_name = $clientCompany ? $clientCompany->name : "";
+            $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
+
+            return $proj;
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 433);
         }
-
-        $client = User::findOrFail(request()->client_id);
-
-        $project->save();
-
-        if (request()->has('extra_fields') && !empty(request()->extra_fields)) {
-            $project->setMeta('extra_fields', request()->extra_fields);
-        }
-
-        $proj = Project::where('projects.id', $project->id)
-            ->with(['manager', 'client', 'members'])
-            ->first();
-
-        $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
-        $proj->expand = false;
-        $proj->company_name = $clientCompany ? $clientCompany->name : "";
-        $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
-
-        return $proj;
     }
 
     /**
@@ -847,7 +855,6 @@ class ProjectController extends Controller
     public function members($project_id)
     {
         $project = Project::findOrFail($project_id);
-
 
         return $project->paginatedMembers();
     }

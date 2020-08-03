@@ -515,6 +515,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'services-list'], function
 
     Route::post('/', 'ServiceListController@store');
 
+    Route::post('/set-icon', 'ServiceListController@setIcon');
+
     Route::put('{id}', 'ServiceListController@update');
 
     Route::delete('{id}', 'ServiceListController@delete');

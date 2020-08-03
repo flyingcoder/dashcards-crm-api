@@ -267,8 +267,8 @@ class ClientController extends Controller
 
             $client->company = $client_company;
             $client->projects = 0;
-
-            event(new NewClientCreated($client));
+            //todo :kirby add handler or convert to job
+            //event(new NewClientCreated($client));
             return $client;
         } catch (Exception $e) {
             DB::rollback();

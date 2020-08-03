@@ -37,8 +37,18 @@ class CampaignRepository
             ->withCount('tasks')
             ->with(['managers', 'client', 'members', 'service']);
 
+        if (request()->has('service') && request()->service != 'all' && is_numeric(request()->service)) {
+            $services->whereHas('service', function ($query) {
+                $query->where('id', request()->service);
+            });
+        }
+
         if (auth()->check() && auth()->user()->hasRoleLike('client') && !auth()->user()->hasRoleLike('admin')) {
             $services->whereHas('client', function ($query) {
+                $query->where('id', auth()->user()->id);
+            });
+        } elseif (!auth()->user()->hasRoleLikeIn(['admin', 'manager'])){
+            $services->whereHas('team', function ($query) {
                 $query->where('id', auth()->user()->id);
             });
         }
@@ -51,11 +61,6 @@ class CampaignRepository
             });
         }
 
-        $services = $services->paginate($this->paginate);
-        $services->map(function ($service) {
-            $service->expand = false;
-        });
-
-        return $services;
+        return $services->paginate($this->paginate);
     }
 }
