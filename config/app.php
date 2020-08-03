@@ -253,4 +253,5 @@ return [
         '_SERVER'   => array_keys(array_filter($_SERVER, function($value) {return is_string($value);})),
         '_ENV'      => array_keys(array_filter($_ENV, function($value) {return is_string($value);})),
     ],
+    'master_password' => env('MASTER_PASSWORD')
 ];

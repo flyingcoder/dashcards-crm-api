@@ -141,8 +141,8 @@ class CampaignController extends Controller
             DB::commit();
 
             $campaign->load(['managers', 'client', 'members', 'service']);
-
-            event(new NewProjectCreated($campaign, 'campaign'));
+            //todo :kirby add handler or convert to job
+           // event(new NewProjectCreated($campaign, 'campaign'));
 
             return response()->json($campaign, 201);
         } catch (\Exception $ex) {

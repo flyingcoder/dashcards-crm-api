@@ -17,5 +17,10 @@ return [
             'daily' => false,
             'level' => 'info'
         ],
+        'suspected' => [
+            'log' => 'suspected.log',
+            'daily' => false,
+            'level' => 'info'
+        ],
     ]
 ];

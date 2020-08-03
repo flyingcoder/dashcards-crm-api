@@ -54,6 +54,10 @@ class Campaign extends Project
     protected $casts = [
         'props' => 'array'
     ];
+    /**
+     * @var array
+     */
+    protected $appends = ['expand'];
 
     /**
      * @param Activity $activity
@@ -74,6 +78,13 @@ class Campaign extends Project
         return "A campaign has been {$eventName}";
     }
 
+    /**
+     * @return bool
+     */
+    public function getExpandAttribute()
+    {
+        return false;
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

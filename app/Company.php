@@ -361,6 +361,9 @@ class Company extends Model implements HasMedia
         return $this->hasMany(Template::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function selectTemplate()
     {
         $type = "App\\" . ucfirst(request()->type);
@@ -368,33 +371,6 @@ class Company extends Model implements HasMedia
         return $this->templates()
             ->where('replica_type', $type)
             ->get();
-    }
-
-    public function paginatedTemplates()
-    {
-        list($sortName, $sortValue) = parseSearchParam(request());
-
-        $model = $this->templates()->withCount('milestones');
-        $table = 'templates';
-
-        if (request()->has('type'))
-            $model->where('replica_type', request()->type);
-
-        if (request()->has('sort') && !empty(request()->sort))
-            $model->orderBy($sortName, $sortValue);
-
-        if (request()->has('search')) {
-            $keyword = request()->search;
-            $model->where(function ($query) use ($keyword, $table) {
-                $query->where("{$table}.name", "like", "%{$keyword}%");
-                $query->where("{$table}.status", "like", "%{$keyword}%");
-            });
-        }
-
-        if (request()->has('per_page') && is_numeric(request()->per_page))
-            $this->paginate = request()->per_page;
-
-        return $model->paginate($this->paginate);
     }
 
     /**
@@ -573,6 +549,10 @@ class Company extends Model implements HasMedia
         return $this->hasMany(Campaign::class);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function paginatedCompanyServices(Request $request)
     {
         list($sortName, $sortValue) = parseSearchParam($request);
@@ -842,6 +822,9 @@ class Company extends Model implements HasMedia
 
     }
 
+    /**
+     * @return mixed
+     */
     public function timeline()
     {
         $members = $this->membersID();

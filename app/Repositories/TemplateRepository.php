@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Company;
 use App\Invoice;
 use App\Template;
+use App\User;
 use EZAMA\HtmlStrip;
 
 class TemplateRepository
@@ -14,9 +15,13 @@ class TemplateRepository
     ];
 
     public $allowed_attributes = [
-        'cellpadding', 'cellspacing', 'charset', 'class', 'colspan', 'content', 'data-hide-on-qoute', 'data-iterate', 'data-logo', 'dir', 'height', 'href', 'http-equiv', 'id', 'lang', 'name', 'rel', 'rowspan', 'src', 'style', 'title', 'type', 'width', 'html'
+        'cellpadding', 'cellspacing', 'charset', 'class', 'colspan', 'content', 'data-hide-on-quote', 'data-hide-on-qoute', 'data-iterate', 'data-logo', 'dir', 'height', 'href', 'http-equiv', 'id', 'lang', 'name', 'rel', 'rowspan', 'src', 'style', 'title', 'type', 'width', 'html'
     ];
 
+    /**
+     * @param null $limit
+     * @return mixed
+     */
     public function defaultInvoiceTemplates($limit = null)
     {
         if ($limit == 1) {
@@ -26,6 +31,9 @@ class TemplateRepository
         return $limit ? $templates->limit($limit)->get() : $templates->get();
     }
 
+    /**
+     * @return array
+     */
     public function getFields()
     {
         return [
@@ -206,6 +214,10 @@ class TemplateRepository
         ];
     }
 
+    /**
+     * @param $items
+     * @return string
+     */
     public function generateRowItem($items)
     {
         $items = gettype($items) == 'string' ? json_decode($items) : $items;
@@ -216,11 +228,20 @@ class TemplateRepository
         return $rows;
     }
 
+    /**
+     * @param $url
+     * @return string|string[]
+     */
     public function getImagePath($url)
     {
         return str_replace("\\", '/', str_replace(config('app.url') . '/storage', storage_path() . '/app/public', $url));
     }
 
+    /**
+     * @param Invoice $invoice
+     * @param bool $forPdf
+     * @return array
+     */
     protected function mapData(Invoice $invoice, $forPdf = false)
     {
         $fields = $this->getFields();
@@ -264,6 +285,11 @@ class TemplateRepository
         return $fields;
     }
 
+    /**
+     * @param Invoice $invoice
+     * @param bool $forPdf
+     * @return string|string[]|null
+     */
     public function parseInvoice(Invoice $invoice, $forPdf = false)
     {
         $template = Template::where('replica_type', 'App\\Invoice')->find($invoice->props['template'] ?? 0);
@@ -282,6 +308,10 @@ class TemplateRepository
         return str_replace('null', '', $html);
     }
 
+    /**
+     * @param $raw_html
+     * @return false|string
+     */
     public function cleanHtml($raw_html)
     {
         if (!$raw_html || trim($raw_html) == '') {
@@ -296,6 +326,10 @@ class TemplateRepository
         return $hstrip->go(HtmlStrip::TAGS_AND_ATTRIBUTES);
     }
 
+    /**
+     * @param Company $company
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasMany[]
+     */
     public function treeViewTemplates(Company $company)
     {
         $templates = $company->templates()
@@ -313,5 +347,57 @@ class TemplateRepository
         }
 
         return $templates;
+    }
+
+    /**
+     * @param Company $company
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginatedTemplates(Company $company)
+    {
+        list($sortName, $sortValue) = parseSearchParam(request());
+
+        $model = Template::whereIn('company_id', [$company->id, 0])
+            ->withCount('milestones')
+            ->whereNotIn('replica_type', ['App\\Template']);
+
+        if (request()->has('type') && request()->type != 'all') {
+            $type = "App\\" . ucwords(request()->type);
+            $model->where('replica_type', $type);
+        }
+
+        if (request()->has('sort') && !empty(request()->sort)) {
+            $model->orderBy($sortName, $sortValue);
+        } else {
+            $model->orderBy('id', 'ASC');
+        }
+
+        if (request()->has('search')) {
+            $keyword = request()->search;
+            $model->where(function ($query) use ($keyword, $table) {
+                $query->where("templates.name", "like", "%{$keyword}%");
+                $query->where("templates.status", "like", "%{$keyword}%");
+            });
+        }
+
+        if (request()->has('per_page') && is_numeric(request()->per_page))
+            $this->paginate = request()->per_page;
+
+        $result = $model->paginate($this->paginate);
+
+        $items = $result->getCollection();
+
+        $data = collect([]);
+        foreach ($items as $key => $template) {
+            $creator = $template->getMeta('creator', null);
+            if ($creator) {
+                $creator = User::withTrashed()->where('id', $creator)->first();
+            }
+            $templateMeta = $template->getMeta('template', null);
+            $data->push(array_merge($template->toArray(), ['creator' => $creator, 'template' => $templateMeta]));
+        }
+
+        $result->setCollection($data);
+        return $result;
     }
 }

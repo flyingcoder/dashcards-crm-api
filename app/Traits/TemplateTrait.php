@@ -115,7 +115,7 @@ trait TemplateTrait
             'for' => ['global', 'admin', 'client']
         ],
         'invoice_reminder' => [
-            'slots' => ['[invoice:billedFrom:first_name]','[invoice:billedFrom:last_name]','[invoice:billedTo:first_name]','[invoice:billedTo:last_name]','[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]'],
+            'slots' => ['[invoice:due_date]','[invoice:billedFrom:first_name]','[invoice:billedFrom:last_name]','[invoice:billedTo:first_name]','[invoice:billedTo:last_name]','[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]'],
             'description' => 'Will be sent to user the invoice intended to when reminding them',
             'title' => 'Invoice Reminder',
             'for' => ['global', 'admin', 'client']

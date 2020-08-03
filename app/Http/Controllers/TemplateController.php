@@ -42,7 +42,7 @@ class TemplateController extends Controller
         if (request()->has('all') && request()->all == true)
             return $company->selectTemplate();
 
-        return $company->paginatedTemplates();
+        return $this->repo->paginatedTemplates($company);
     }
 
     /**
@@ -90,6 +90,10 @@ class TemplateController extends Controller
             'replica_type' => $type
         ]);
         $template->tasks_count = 0;
+
+        $template->setMeta('creator', auth()->user()->id);
+        $template->creator = request()->user();
+
         return $template;
     }
 
@@ -164,14 +168,13 @@ class TemplateController extends Controller
             ->orderBy('company_id', 'ASC')
             ->orderBy('id', 'ASC')
             ->paginate(20);
+
         $templateItems = $templates->getCollection();
         $data = collect([]);
-
         foreach ($templateItems as $key => $template) {
             $user = User::withTrashed()->where('id', $template->getMeta('creator'))->first();
             $data->push(array_merge($template->toArray(), ['creator' => $user, 'template' => $template->getMeta('template', null)]));
         }
-
         $templates->setCollection($data);
         return $templates;
     }
