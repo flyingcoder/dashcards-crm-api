@@ -66,7 +66,7 @@ class DashboardController extends Controller
             $counts = [
                 'projects' => $company->projects()->ofType('project')->count(),
                 'tasks' => $company->tasks()->where('status', 'open')->count(),
-                'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
+                'campaigns' => $company->projects()->ofType('campaign')->count(),
                 'timer' => $company->allTimers()->count(),
                 'inbound' => $this->formRepo->getInboundCount($company), //this is about forms questionaires
                 'outbound' => $this->formRepo->getOutboundCount($company) //replied questionaires
@@ -75,7 +75,7 @@ class DashboardController extends Controller
             $counts = [
                 'projects' => auth()->user()->projects()->ofType('project')->count(),
                 'tasks' => auth()->user()->tasks()->where('status', 'open')->count(),
-                'calendars' => $this->cal_repo->upcomingEventsForUser(auth()->user(), true),
+                'campaigns' => auth()->user()->projects()->ofType('campaign')->count(),
                 'timer' => auth()->user()->timers()->count(),
                 'inbound' => $this->formRepo->getInboundCount($company), //this is about forms questionaires
                 'outbound' => $this->formRepo->getOutboundCount($company) //replied questionaires
