@@ -7,6 +7,7 @@ use App\Form;
 use App\Policies\FormPolicy;
 use App\Repositories\FormRepository;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class FormController extends Controller
 {
@@ -127,6 +128,7 @@ class FormController extends Controller
                 'questions' => request()->questions,
                 'title' => request()->title,
                 'status' => request()->status,
+                'slug' => uniqUuidFrom(),
                 'props' => [
                         'notif_email_receivers' => request()->notif_email_receivers ?? []
                     ]

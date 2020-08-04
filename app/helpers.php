@@ -4,6 +4,10 @@ use Illuminate\Http\Request;
 
 if (!function_exists('parseSearchParam')) {
 
+    /**
+     * @param Request $request
+     * @return array|bool
+     */
     function parseSearchParam(Request $request)
     {
 
@@ -23,6 +27,11 @@ if (!function_exists('parseSearchParam')) {
 
 if (!function_exists('secondsForHumans')) {
 
+    /**
+     * @param $seconds
+     * @param bool $display_sec
+     * @return string
+     */
     function secondsForHumans($seconds, $display_sec = false)
     {
 
@@ -42,6 +51,11 @@ if (!function_exists('secondsForHumans')) {
 
 }
 if (!function_exists('parseSeconds')) {
+    /**
+     * @param $given_seconds
+     * @param string $sep
+     * @return stdClass
+     */
     function parseSeconds($given_seconds, $sep = ":")
     {
         $hours = floor($given_seconds / 3600);
@@ -64,6 +78,11 @@ if (!function_exists('parseSeconds')) {
 }
 if (!function_exists('natural_language_join')) {
 
+    /**
+     * @param array $list
+     * @param string $conjunction
+     * @return mixed|string
+     */
     function natural_language_join(array $list, $conjunction = 'and')
     {
         $last = array_pop($list);
@@ -76,6 +95,10 @@ if (!function_exists('natural_language_join')) {
 
 if (!function_exists('random_avatar')) {
 
+    /**
+     * @param null $gender
+     * @return mixed
+     */
     function random_avatar($gender = null)
     {
         $avatar = [
@@ -91,6 +114,11 @@ if (!function_exists('random_avatar')) {
 }
 
 if (!function_exists('stripos_arr')) {
+    /**
+     * @param $haystack
+     * @param $needle
+     * @return array|bool
+     */
     function stripos_arr($haystack, $needle)
     {
         if (!is_array($haystack)) $haystack = array($haystack);
@@ -103,6 +131,10 @@ if (!function_exists('stripos_arr')) {
 }
 
 if (!function_exists('finalSql')) {
+    /**
+     * @param $query
+     * @return string
+     */
     function finalSql($query)
     {
         $sql_str = $query->toSql();
@@ -115,6 +147,10 @@ if (!function_exists('finalSql')) {
 }
 
 if (!function_exists('createLinks')) {
+    /**
+     * @param $content
+     * @return string|string[]
+     */
     function createLinks($content)
     {
         $link_regex = '/(http\:\/\/|https\:\/\/|www\.)([^\n\r\ ]+)/i';
@@ -131,6 +167,10 @@ if (!function_exists('createLinks')) {
 }
 
 if (!function_exists('createMentions')) {
+    /**
+     * @param $content
+     * @return array
+     */
     function createMentions($content)
     {
         $mention_regex = '/@([A-Za-z0-9_]+)/i';
@@ -156,6 +196,10 @@ if (!function_exists('createMentions')) {
 }
 
 if (!function_exists('getMentions')) {
+    /**
+     * @param $content
+     * @return string|string[]
+     */
     function getMentions($content)
     {
         $mention_regex = '/@\[([0-9]+)\]/i';
@@ -176,6 +220,10 @@ if (!function_exists('getMentions')) {
 }
 
 if (!function_exists('getFormattedContent')) {
+    /**
+     * @param $content
+     * @return string|string[]
+     */
     function getFormattedContent($content)
     {
         $content = createLinks($content);
@@ -185,10 +233,24 @@ if (!function_exists('getFormattedContent')) {
 }
 
 if (!function_exists('cleanHtml')) {
+    /**
+     * @param $content
+     * @return mixed
+     */
     function cleanHtml($content)
     {
         $cleaner = app(\App\Repositories\TemplateRepository::class);
         $content = $cleaner->cleanHtml($content);
         return $content;
+    }
+}
+
+if (!function_exists('uniqUuidFrom')) {
+    /**
+     * @return string
+     */
+    function uniqUuidFrom() {
+        $uuid  =  \Illuminate\Support\Str::uuid();
+        return $uuid.'-'.now()->format('YmdHis');
     }
 }
