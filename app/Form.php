@@ -12,7 +12,6 @@ use App\Events\ActivityEvent;
 class Form extends Model
 {
     use SoftDeletes,
-        Sluggable,
         LogsActivity;
 
     protected $fillable = ['title', 'status', 'questions', 'slug', 'user_id', 'company_id', 'props'];
@@ -44,18 +43,6 @@ class Form extends Model
     {
         $description = $this->getDescriptionForEvent($eventName);
         ActivityEvent::dispatch($activity, $description);
-    }
-
-    /**
-     * @return array
-     */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
     }
 
     /**
