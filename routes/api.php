@@ -164,7 +164,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'report'], function () {
 
     Route::post('/', 'ReportController@newReport');
 
+    Route::post('/via-template', 'ReportController@newReportViaTemplate');
+
     Route::put('{id}', 'ReportController@updateReport');
+
+    Route::put('{id}/via-template', 'ReportController@updateReportViaTemplate');
 
     Route::delete('{id}', 'ReportController@deleteReport');
 });
@@ -454,6 +458,16 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'template'], function () {
     Route::get('/', 'TemplateController@index');
 
     Route::post('/', 'TemplateController@store');
+
+    Route::get('reports', 'TemplateController@reports');
+
+    Route::get('reports/{id}', 'TemplateController@report');
+
+    Route::post('reports', 'TemplateController@storeReportTemplate');
+
+    Route::put('reports/{id}', 'TemplateController@updateReportTemplate');
+
+    Route::delete('reports/{id}', 'TemplateController@deleteReportTemplate');
 
     Route::get('invoices', 'TemplateController@invoices');
 

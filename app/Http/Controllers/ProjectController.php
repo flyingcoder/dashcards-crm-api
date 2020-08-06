@@ -175,13 +175,13 @@ class ProjectController extends Controller
         ]);
 
         $project = Project::findOrFail($id);
-
+        $props = ['creator' => request()->user()->id];
         return $project->reports()->create([
             'company_id' => auth()->user()->company()->id,
             'title' => request()->title,
             'description' => request()->description,
             'url' => request()->url,
-            'props' => $this->getPreviewArray(request()->url)
+            'props' => array_merge($this->getPreviewArray(request()->url), $props)
         ]);
 
     }
