@@ -7,6 +7,10 @@ use App\Template;
 use App\Traits\TemplateTrait;
 use App\User;
 
+/**
+ * Class TemplateController
+ * @package App\Http\Controllers
+ */
 class TemplateController extends Controller
 {
     use TemplateTrait;
@@ -354,5 +358,90 @@ class TemplateController extends Controller
         Template::whereIn('id', request()->ids)->delete();
 
         return response()->json(['message' => 'Successfully deleted.', 'ids' => request()->ids], 200);
+    }
+
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function report($id)
+    {
+        return Template::with('meta')
+            ->where('replica_type', 'App\\Report')
+            ->where('id', $id)
+            ->firstOrFail();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function reports()
+    {
+        $company = request()->user()->company();
+        return Template::where('replica_type', 'App\\Report')
+            ->with('meta')
+            ->whereIn('company_id', [$company->id, 0]) //0-defaults
+            ->orderBy('company_id', 'ASC')
+            ->orderBy('id', 'ASC')
+            ->get();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeReportTemplate()
+    {
+        request()->validate([
+            'data' => 'required|array',
+            'name' => 'required|string'
+        ]);
+        $user = request()->user();
+        $company = $user->company();
+        $template = $company->templates()->create([
+            'name' => request()->name,
+            'status' => 'active',
+            'replica_type' => 'App\\Report',
+            'created_at' => now()->format('Y-m-d H:i:s')
+        ]);
+        $template->setMeta('template', request()->data);
+        $template->setMeta('creator', $user->id);
+
+        return response()->json(['message' => 'Report template created.'], 201);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateReportTemplate($id)
+    {
+        request()->validate([
+            'data' => 'required|array',
+            'name' => 'required|string'
+        ]);
+        $company = request()->user()->company();
+        $template = $company->templates()->where('id', $id)->where('replica_type', 'App\\Report')->first();
+        if (!$template) {
+            abort(404, 'No report template found for id : ' . $id);
+        }
+        $template->name = request()->name;
+        $template->save();
+        $template->setMeta('template', request()->data);
+
+        return response()->json(['message' => 'Report template updated.'], 200);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function deleteReportTemplate($id)
+    {
+        $company = request()->user()->company();
+        $template = $company->templates()->where('id', $id)->firstOrFail();
+        $template->delete();
+
+        return $template;
     }
 }

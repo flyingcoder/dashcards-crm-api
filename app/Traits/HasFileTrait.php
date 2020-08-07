@@ -202,6 +202,20 @@ trait HasFileTrait
         }
         return $media;
     }
+
+    /**
+     * @param $file
+     * @return array|bool
+     */
+    public function fileMeta($file)
+    {
+        if (!is_file($file)) return false;
+        $mime_type = $file->getMimeType();
+        return [
+            'category' => $this->getFileCategoryByMimeType($mime_type) ?? null,
+            'mime_type' => $mime_type
+        ];
+    }
 }
 
 

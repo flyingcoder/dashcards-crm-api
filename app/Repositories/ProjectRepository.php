@@ -65,10 +65,10 @@ class ProjectRepository
             $projects->latest();
         }
 
-        if ($request->has('search') && !empty($request->search)) {
+        if ($request->has('search') && !empty(trim($request->search))) {
             $search = trim($request->search);
             $projects->where(function ($query) use ($search) {
-                $query->where('projects.name', 'like', "%$search%")
+                $query->where('projects.title', 'like', "%$search%")
                     ->orWhere('projects.description', 'like', "%$search%");
             });
         }

@@ -128,9 +128,7 @@ class Project extends Model implements HasMedia
         $model = $this->reports();
 
         if (request()->has('sort') && !empty(request()->sort)) {
-
             list($sortName, $sortValue) = parseSearchParam(request());
-
             $model->orderBy($sortName, $sortValue);
         }
 

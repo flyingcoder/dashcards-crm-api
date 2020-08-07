@@ -9,25 +9,70 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * Class Report
+ * @package App
+ */
 class Report extends Model
 {
     use SoftDeletes, LogsActivity, HasUrlTrait;
 
+    /**
+     * @var int
+     */
     protected $paginate = 10;
 
+    /**
+     * @var array
+     */
     protected $dates = ['deleted_at'];
 
+    /**
+     * @var array
+     */
     protected $casts = ['props' => 'array'];
 
+    /**
+     * @var array
+     */
     protected $fillable = [
-        'title', 'description', 'url', 'company_id', 'props'
+        'title', 'description', 'url', 'company_id', 'props', 'project_id'
     ];
 
+    /**
+     * @var array
+     */
+    public $appends = ['creator'];
+    /**
+     * @var string
+     */
     protected static $logName = 'system';
 
+    /**
+     * @var array
+     */
     protected static $logAttributes = [
         'title', 'description', 'url', 'company_id'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * @return User|\Illuminate\Database\Eloquent\Builder|Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    public function getCreatorAttribute()
+    {
+        if (isset($this->props['creator'])) {
+            return User::withTrashed()->where('id', $this->props['creator'])->first();
+        }
+        return null;
+    }
 
     /**
      * @param Activity $activity

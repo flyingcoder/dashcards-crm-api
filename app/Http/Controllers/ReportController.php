@@ -32,12 +32,38 @@ class ReportController extends Controller
         ]);
 
         $company = auth()->user()->company();
-
+        $props = ['creator' => request()->user()->id];
         return $company->reports()->create([
             'title' => request()->title,
             'description' => request()->description ?? null,
             'url' => request()->url,
-            'props' => $this->getPreviewArray(request()->url)
+            'props' => array_merge($this->getPreviewArray(request()->url), $props)
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function newReportViaTemplate()
+    {
+        request()->validate([
+            'title' => 'required',
+            'structures' => 'required|array',
+            'template' => 'required|exists:templates,id'
+        ]);
+
+        $company = auth()->user()->company();
+
+        return $company->reports()->create([
+            'title' => request()->title,
+            'description' => request()->description ?? null,
+            'url' => 'template',
+            'props' => [
+                'creator' => request()->user()->id,
+                'template' => request()->structures,
+                'template_id' => request()->template
+            ],
+            'project_id' => request()->project_id ?? null
         ]);
     }
 
@@ -55,6 +81,29 @@ class ReportController extends Controller
         }
 
         return response()->json(['message' => 'error'], 500);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function updateReportViaTemplate($id)
+    {
+        request()->validate([
+            'title' => 'required|min:1',
+            'structures' => 'required|array',
+            'template' => 'required|exists:templates,id'
+        ]);
+
+        $report = Report::findOrFail($id);
+        $report->title = request()->title;
+        $props = $report->props;
+        $props['template_id'] = request()->template;
+        $props['template'] = request()->structures;
+        $report->props = $props;
+        $report->save();
+
+        return $report->fresh();
     }
 
     /**

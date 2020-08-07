@@ -42,6 +42,13 @@ class TestController extends Controller
     }
 
     /**
+     *
+     */
+    public function phpinfo()
+    {
+        echo phpinfo();
+    }
+    /**
      * @param Request $req
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
