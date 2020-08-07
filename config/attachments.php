@@ -13,7 +13,7 @@ return [
     */
     'routes' => [
         'publish' => true,
-        'prefix' => 'attachments',
+        'prefix' => 'api/attachments',
         'middleware' => 'api',
         'pattern' => '/{id}/{name}',
         'shared_pattern' => '/shared/{token}',
