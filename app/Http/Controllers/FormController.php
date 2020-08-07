@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use App\Form;
 use App\Policies\FormPolicy;
 use App\Repositories\FormRepository;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
+    /**
+     * @var FormRepository
+     */
     protected $formRepo;
+    /**
+     * @var int|mixed
+     */
     protected $paginate = 12;
 
     /**
@@ -171,6 +178,10 @@ class FormController extends Controller
         return response()->json(['failed' => $failed], 200);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function saveFormResponse($id)
     {
         request()->validate(['data' => 'required']);
@@ -188,24 +199,20 @@ class FormController extends Controller
                 'ip_address' => request()->ip(),
                 'user_id' => request()->user_id ?? null
             ]);
-            $attachments = [];
+
             foreach ($data  as $key => $item) {
                 $file_upload = 'file_' . $key;
                 if (request()->hasFile($file_upload) && $item['type'] === 'file_upload'){
                     foreach (request()->file($file_upload) as $file) {
                         if (is_file($file))
-                            $attachments[] = $formResponse->attach($file, ['title' => $item['id']]);
+                            $formResponse->attach($file, ['title' => $item['id']]);
                     }
                 }
-            }
-            if (!empty($attachments)) {
-                $formResponse->props = ['attachments' => $attachments];
-                $formResponse->save();
             }
             //event(new QuestionnaireResponse($formResponse));
             DB::commit();
             return $formResponse;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 433);
         }
