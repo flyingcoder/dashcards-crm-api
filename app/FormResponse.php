@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Auth;
+use Bnb\Laravel\Attachments\HasAttachment;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Contracts\Activity;
@@ -10,7 +10,7 @@ use App\Events\ActivityEvent;
 
 class FormResponse extends Model
 {
-    use LogsActivity;
+    use LogsActivity, HasAttachment;
 
     protected $fillable = ['form_id', 'user_id', 'data', 'ip_address', 'props'];
 
@@ -63,4 +63,5 @@ class FormResponse extends Model
     {
         return config('app.frontend_url').'/dashboard/forms/'.$this->form_id.'/responses';
     }
+
 }

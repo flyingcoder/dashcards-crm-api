@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75398dd5b317175562989ddf3fd4ddc9",
+    "content-hash": "fa354e38ea9d56fdfe261f70a1a2f608",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -108,6 +108,107 @@
                 "stack"
             ],
             "time": "2020-05-31T07:17:05+00:00"
+        },
+        {
+            "name": "bnbwebexpertise/laravel-attachments",
+            "version": "1.0.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bnbwebexpertise/laravel-attachments.git",
+                "reference": "d3f4aa024449ad938d564aede64d05e19bfc5ff5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bnbwebexpertise/laravel-attachments/zipball/d3f4aa024449ad938d564aede64d05e19bfc5ff5",
+                "reference": "d3f4aa024449ad938d564aede64d05e19bfc5ff5",
+                "shasum": ""
+            },
+            "require": {
+                "bnbwebexpertise/php-uuid": ">=0.0.2",
+                "doctrine/dbal": "~2.5",
+                "illuminate/console": ">=5.5",
+                "illuminate/database": ">=5.5",
+                "illuminate/encryption": ">=5.5",
+                "illuminate/routing": ">=5.5",
+                "illuminate/support": ">=5.5",
+                "nesbot/carbon": "^1.20 || ^2.0",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "laravel/framework": ">=5.5"
+            },
+            "type": "package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev",
+                    "dev-L5.4": "0.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Bnb\\Laravel\\Attachments\\AttachmentsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bnb\\Laravel\\Attachments\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "B&B Web Expertise",
+                    "email": "support@bnb.re"
+                }
+            ],
+            "description": "Attach files to your models, retrievable by key, group name or using the Eloquent relationship.",
+            "time": "2020-06-24T15:19:20+00:00"
+        },
+        {
+            "name": "bnbwebexpertise/php-uuid",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bnbwebexpertise/php-uuid.git",
+                "reference": "d60bf8054db1d062f2fc79c43af0ff499a49fbfa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bnbwebexpertise/php-uuid/zipball/d60bf8054db1d062f2fc79c43af0ff499a49fbfa",
+                "reference": "d60bf8054db1d062f2fc79c43af0ff499a49fbfa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Bnb\\Uuid\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "B&B Web Expertise",
+                    "email": "support@bnb.re"
+                }
+            ],
+            "description": "UUID helpers",
+            "time": "2017-11-18T13:18:41+00:00"
         },
         {
             "name": "cloudcreativity/laravel-stripe",

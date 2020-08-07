@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\QuestionnaireResponse;
 use App\Form;
 use App\Policies\FormPolicy;
 use App\Repositories\FormRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class FormController extends Controller
 {
@@ -89,11 +88,11 @@ class FormController extends Controller
     public function update()
     {
         request()->validate([
-                'questions' => 'required|array',
-                'title' => 'required|string',
-                'id' => 'required|exists:forms,id',
-                'notif_email_receivers' => 'sometimes|array'
-            ]);
+            'questions' => 'required|array',
+            'title' => 'required|string',
+            'id' => 'required|exists:forms,id',
+            'notif_email_receivers' => 'sometimes|array'
+        ]);
         $form = auth()->user()->company()->forms()->findOrFail(request()->id);
 
         (new FormPolicy())->update($form);
@@ -115,24 +114,24 @@ class FormController extends Controller
     public function store()
     {
         request()->validate([
-                'questions' => 'required|array',
-                'title' => 'required|string',
-                'notif_email_receivers' => 'sometimes|array'
-            ]);
+            'questions' => 'required|array',
+            'title' => 'required|string',
+            'notif_email_receivers' => 'sometimes|array'
+        ]);
 
         (new FormPolicy())->create();
 
         $user = auth()->user();
         return $user->forms()->create([
-                'company_id' => $user->company()->id,
-                'questions' => request()->questions,
-                'title' => request()->title,
-                'status' => request()->status,
-                'slug' => uniqUuidFrom(),
-                'props' => [
-                        'notif_email_receivers' => request()->notif_email_receivers ?? []
-                    ]
-            ]);
+            'company_id' => $user->company()->id,
+            'questions' => request()->questions,
+            'title' => request()->title,
+            'status' => request()->status,
+            'slug' => uniqUuidFrom(),
+            'props' => [
+                'notif_email_receivers' => request()->notif_email_receivers ?? []
+            ]
+        ]);
     }
 
 
@@ -152,45 +151,64 @@ class FormController extends Controller
         $tos = request()->to_emails;
         $subject = request()->subject;
 
-        Mail::send('email.send-email-form', ['content' => request()->message ], function($message) use ($tos, $subject) {
+        Mail::send('email.send-email-form', ['content' => request()->message], function ($message) use ($tos, $subject) {
             $company = auth()->user()->company();
             $message->from(auth()->user()->email, $company->name);
             $message->to($tos)->subject($subject);
         });
 
         $failed = Mail:: failures();
-        
+
         if (empty($failed)) {
             $form->sents()->create([
-                    'user_id' => auth()->user()->id,
-                    'props' => [
-                            'destinations' => $tos
-                        ]
-                ]);
+                'user_id' => auth()->user()->id,
+                'props' => [
+                    'destinations' => $tos
+                ]
+            ]);
         }
 
-        return response()->json(['failed' => $failed ], 200);
+        return response()->json(['failed' => $failed], 200);
     }
 
     public function saveFormResponse($id)
     {
-        request()->validate(['data' => 'required|array']);
+        request()->validate(['data' => 'required']);
 
         $form = Form::findOrFail($id);
 
         if ($form->status != 'active') {
             abort(404, 'Form submission is no longer permitted');
         }
-
-        $formResponse = $form->responses()->create([
-                'data' => request()->data,
+        try {
+            DB::beginTransaction();
+            $data = json_decode(request()->data, true);
+            $formResponse = $form->responses()->create([
+                'data' => $data,
                 'ip_address' => request()->ip(),
                 'user_id' => request()->user_id ?? null
             ]);
-
-        event(new QuestionnaireResponse($formResponse));
-
-        return $formResponse;
+            $attachments = [];
+            foreach ($data  as $key => $item) {
+                $file_upload = 'file_' . $key;
+                if (request()->hasFile($file_upload) && $item['type'] === 'file_upload'){
+                    foreach (request()->file($file_upload) as $file) {
+                        if (is_file($file))
+                            $attachments[] = $formResponse->attach($file, ['title' => $item['id']]);
+                    }
+                }
+            }
+            if (!empty($attachments)) {
+                $formResponse->props = ['attachments' => $attachments];
+                $formResponse->save();
+            }
+            //event(new QuestionnaireResponse($formResponse));
+            DB::commit();
+            return $formResponse;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 433);
+        }
     }
 
     /**
@@ -201,7 +219,10 @@ class FormController extends Controller
     {
         $form = Form::findOrFail($id);
 
-        return $form->responses()->with('user')->latest()->paginate($this->paginate);
+        return $form->responses()
+            ->with(['user', 'attachments'])
+            ->latest()
+            ->paginate($this->paginate);
     }
 }
 
