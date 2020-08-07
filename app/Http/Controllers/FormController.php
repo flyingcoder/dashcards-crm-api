@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attachment;
 use App\Form;
 use App\Policies\FormPolicy;
 use App\Repositories\FormRepository;
@@ -184,7 +185,7 @@ class FormController extends Controller
      */
     public function saveFormResponse($id)
     {
-        request()->validate(['data' => 'required']);
+        request()->validate(['data' => 'required|array']);
 
         $form = Form::findOrFail($id);
 
@@ -193,7 +194,7 @@ class FormController extends Controller
         }
         try {
             DB::beginTransaction();
-            $data = json_decode(request()->data, true);
+            $data = request()->data;
             $formResponse = $form->responses()->create([
                 'data' => $data,
                 'ip_address' => request()->ip(),
@@ -201,11 +202,9 @@ class FormController extends Controller
             ]);
 
             foreach ($data  as $key => $item) {
-                $file_upload = 'file_' . $key;
-                if (request()->hasFile($file_upload) && $item['type'] === 'file_upload'){
-                    foreach (request()->file($file_upload) as $file) {
-                        if (is_file($file))
-                            $formResponse->attach($file, ['title' => $item['id']]);
+                if ($item['type'] === 'file_upload' && is_array($item['value']) && count($item['value']) > 0){
+                    foreach ($item['value'] as $file) {
+                        Attachment::attach($file['uuid'], $formResponse, ['title' => $item['id']]);
                     }
                 }
             }
