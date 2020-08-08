@@ -58,23 +58,23 @@ class Company extends Model implements HasMedia
         else
             $model->orderBy('created_at', 'desc');
 
-        if (request()->has('search') && !empty(request()->search)) {
+        if (request()->has('search') && !empty(trim(request()->search))) {
             $keyword = request()->search;
-
             $model->where(function ($query) use ($keyword) {
                 $query->where('title', 'like', '%' . $keyword . '%');
-                $query->orWhere('description', 'like', '%' . $keyword . '%');
-                $query->orWhere('create_at', 'like', '%' . $keyword . '%');
+                $query->orWhere('url', 'like', '%' . $keyword . '%');
+                $query->orWhere('props', 'like', '%' . $keyword . '%');
             });
         }
 
         if (request()->has('per_page'))
             $this->paginate = request()->per_page;
 
-        $data = $model->paginate($this->paginate);
-
-        if (request()->has('all') && requet()->all)
+        if (request()->has('all') && request()->all) {
             $data = $model->get();
+        } else {
+            $data = $model->paginate($this->paginate);
+        }
 
         return $data;
     }

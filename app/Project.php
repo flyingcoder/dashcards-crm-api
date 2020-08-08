@@ -135,10 +135,11 @@ class Project extends Model implements HasMedia
         if (request()->has('per_page') && is_numeric(request()->per_page))
             $this->paginate = request()->per_page;
 
-        $data = $model->paginate($this->paginate);
-
-        if (request()->has('all') && request()->all)
+        if (request()->has('all') && request()->all) {
             $data = $model->get();
+        } else {
+            $data = $model->paginate($this->paginate);
+        }
 
         return $data;
     }
