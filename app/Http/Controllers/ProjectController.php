@@ -12,6 +12,7 @@ use App\Project;
 use App\Report;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\ProjectRepository;
+use App\Repositories\TaskRepository;
 use App\Repositories\TimerRepository;
 use App\Traits\HasUrlTrait;
 use App\User;
@@ -31,19 +32,21 @@ class ProjectController extends Controller
     protected $projRepo;
     protected $invoiceRepo;
     protected $message_per_load = 10;
+    protected $taskRepository;
 
     /**
      * ProjectController constructor.
      * @param TimerRepository $timeRepo
      * @param ProjectRepository $projRepo
      * @param InvoiceRepository $invoiceRepo
+     * @param TaskRepository $taskRepository
      */
-    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo, InvoiceRepository $invoiceRepo)
+    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo, InvoiceRepository $invoiceRepo, TaskRepository $taskRepository)
     {
         $this->timeRepo = $timeRepo;
         $this->projRepo = $projRepo;
         $this->invoiceRepo = $invoiceRepo;
-
+        $this->taskRepository = $taskRepository;
         if (request()->has('per_page') && request()->per_page > 0) {
             $this->paginate = request()->per_page;
         }
@@ -801,38 +804,25 @@ class ProjectController extends Controller
      * @param $project_id
      * @return mixed
      */
-    public function tasks($project_id)
+    public function allProjectTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
-        $data = $project->tasks()
-            ->whereNull('deleted_at')
-            ->latest()
-            ->paginate(request()->per_page ?? 50);
-
-        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $this->taskRepository->projectTasks($project, request()->filter ?? 'all');
+        $counter = collect(['counter' => $this->taskRepository->taskCounts($project, false)]);
         $data = $counter->merge($data);
 
         return response()->json($data);
     }
 
-    //will return all task of the project
-
     /**
      * @param $project_id
      * @return mixed
      */
-    public function myTasks($project_id)
+    public function myProjectTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
-        $data = $project->tasks()
-            ->whereNull('deleted_at')
-            ->whereHas('assigned', function ($query) {
-                $query->where('id', auth()->user()->id);
-            })
-            ->latest()
-            ->paginate(request()->per_page ?? 50);
-
-        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $this->taskRepository->userProjectTasks($project, request()->user(),request()->filter ?? 'all');
+        $counter = collect(['counter' => $this->taskRepository->taskCounts($project, true)]);
         $data = $counter->merge($data);
 
         return response()->json($data);

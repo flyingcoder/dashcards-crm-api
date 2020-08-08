@@ -4,15 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Events\NewTaskCommentCreated;
-use App\Events\NewTaskCreated;
 use App\Events\ProjectTaskNotification;
 use App\Events\TaskUpdated;
 use App\Project;
+use App\Repositories\TaskRepository;
 use App\Task;
 
 
 class TaskController extends Controller
 {
+    /**
+     * @var TaskRepository
+     */
+    protected $repo;
+
+    /**
+     * TaskController constructor.
+     * @param TaskRepository $repo
+     */
+    public function __construct(TaskRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+
     /**
      * @return mixed
      */
@@ -31,7 +45,9 @@ class TaskController extends Controller
      */
     public function mine()
     {
-        return auth()->user()->paginatedTasks();
+        $tasks = $this->repo->userTasks(request()->user(), request()->filter ?? 'all')->toArray();
+        $tasks['counter'] = $this->repo->taskCounts(request()->user(), true);
+        return $tasks;
     }
 
 
@@ -133,8 +149,9 @@ class TaskController extends Controller
         $task = Task::findOrFail($task_id);
 
         // (new TaskPolicy())->delete($task);
+        $task->delete();
 
-        return $task->destroy($task_id);
+        return $task;
     }
 
     /**

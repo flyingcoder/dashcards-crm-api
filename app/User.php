@@ -631,39 +631,6 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @return array
-     */
-    public function paginatedTasks()
-    {
-        $tasks = $this->tasks();
-
-        if (request()->has('sort') && !empty(request()->sort)) {
-
-            list($sortName, $sortValue) = parseSearchParam(request());
-
-            $tasks->orderBy($sortName, $sortValue);
-        }
-
-        if (request()->has('per_page') && is_numeric(request()->per_page))
-            $this->paginate = request()->per_page;
-
-        if (request()->has('all') && request()->all)
-            $data = $tasks->get();
-        else
-            $data = $tasks->paginate($this->paginate);
-
-        $data->map(function ($model) {
-            $model['assignee_url'] = '';
-            if (is_object($model->assigned()->first()))
-                $model['assignee_url'] = $model->assigned()->first()->image_url;
-        });
-
-        $tasks = $data->toArray();
-        $tasks['counter'] = $this->taskCounters(true);
-        return $tasks;
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Illuminate\Database\Query\Builder
      */
     public function projectsCount()

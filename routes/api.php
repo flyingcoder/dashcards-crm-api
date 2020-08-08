@@ -570,9 +570,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
     Route::post('{id}/messages', 'ProjectController@sendMessages');
 
-    Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
+    Route::get('{id}/tasks/mine', 'ProjectController@myProjectTasks');// project-hq
 
-    Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
+    Route::get('{id}/tasks', 'ProjectController@allProjectTasks');// project-hq
 
     Route::get('{id}/tasks/search', 'ProjectController@searchTasks');
 
