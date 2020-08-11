@@ -9,9 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class InvoicePaidListener
+class InvoicePaidListener implements ShouldQueue
 {
-    use TemplateTrait;
+    use TemplateTrait, InteractsWithQueue;
     /**
      * Create the event listener.
      *

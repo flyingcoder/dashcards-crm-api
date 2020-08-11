@@ -5,11 +5,13 @@ namespace App\Listeners;
 use App\Events\QuestionnaireResponse;
 use App\Mail\DynamicEmail;
 use App\Traits\TemplateTrait;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class QuestionnaireResponseListener
+class QuestionnaireResponseListener implements ShouldQueue
 {
-    use TemplateTrait;
+    use TemplateTrait, InteractsWithQueue;
     /**
      * Create the event listener.
      *
