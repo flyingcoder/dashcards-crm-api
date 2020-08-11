@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Group;
 use App\Media;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
@@ -78,8 +80,8 @@ class TestController extends Controller
      */
     public function index()
     {
-        $s = Media::find(6);
-        dump($s->hasGeneratedConversion('thumb'));
+
+       dump(request()->get('samples', 'kkk'));
     }
 
 }

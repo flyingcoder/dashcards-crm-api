@@ -56,6 +56,8 @@ class TeamController extends Controller
                 ]
             ]);
 
+            $member->companies()->attach($company->id, ['type' => 'main']);
+
             $member->setMeta('address', request()->address ?? 'Unknown');
             $member->setMeta('rate', request()->rate ?? '');
 

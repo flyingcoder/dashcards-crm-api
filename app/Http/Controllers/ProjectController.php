@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Company;
-use App\Events\NewProjectCreated;
 use App\Message;
 use App\Milestone;
 use App\Policies\ProjectPolicy;
@@ -26,6 +25,9 @@ class ProjectController extends Controller
 {
     use HasUrlTrait;
 
+    /**
+     * @var int|mixed
+     */
     protected $paginate = 12;
 
     protected $timeRepo;
@@ -63,10 +65,8 @@ class ProjectController extends Controller
 
         if (request()->has('all') && request()->all)
             return $this->projRepo->getCompanyProjectsList($company);
-        // return $company->allCompanyProjects();
 
         return $this->projRepo->getCompanyProjects($company, request());
-        // return $company->paginatedCompanyProjects(request());
     }
 
     /**
@@ -522,7 +522,7 @@ class ProjectController extends Controller
 
             $proj = Project::with(['manager', 'client', 'members'])->find($project->id);
 
-            $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
+            $clientCompany =  $proj->client[0]->clientCompanies()->first() ?? null;
             $proj->expand = false;
             $proj->company_name = $clientCompany ? $clientCompany->name : "";
             $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
@@ -590,16 +590,16 @@ class ProjectController extends Controller
                 $project->setMeta('extra_fields', request()->extra_fields);
             }
             DB::commit();
-            $proj = Project::where('projects.id', $project->id)
+            $projectFresh = Project::where('projects.id', $project->id)
                 ->with(['manager', 'client', 'members'])
                 ->first();
 
-            $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
-            $proj->expand = false;
-            $proj->company_name = $clientCompany ? $clientCompany->name : "";
-            $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
+            $clientCompany = $projectFresh->client[0]->clientCompanies()->first() ?? null;
+            $projectFresh->expand = false;
+            $projectFresh->company_name = $clientCompany ? $clientCompany->name : "";
+            $projectFresh->location = $clientCompany ? $clientCompany->address : ($projectFresh->client[0]->location ?? '');
 
-            return $proj;
+            return $projectFresh;
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 433);
@@ -741,7 +741,7 @@ class ProjectController extends Controller
         });
 
         $project->location = $project->props['location'] ?? ($client->props['location'] ?? '');
-        $company = Company::find($client->props['company_id'] ?? null);
+        $company = $client->clientCompanies()->first() ?? null;
         $project->company_name = $company ? $company->name : '';
 
         return $project;
@@ -821,7 +821,7 @@ class ProjectController extends Controller
     public function myProjectTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
-        $data = $this->taskRepository->userProjectTasks($project, request()->user(),request()->filter ?? 'all');
+        $data = $this->taskRepository->userProjectTasks($project, request()->user(), request()->filter ?? 'all');
         $counter = collect(['counter' => $this->taskRepository->taskCounts($project, true)]);
         $data = $counter->merge($data);
 
@@ -894,15 +894,26 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $keyword = request()->keyword ?? '';
 
-        $tasks = $project->tasks()
+        return $project->tasks()
             ->where(function ($query) use ($keyword) {
                 $query->where('tasks.title', 'like', '%' . $keyword . '%')
                     ->orWhere('tasks.description', 'like', '%' . $keyword . '%');
             })
             ->select('tasks.*')
             ->paginate(10);
-
-        return $tasks;
     }
 
+    /**
+     * @param $user_id
+     * @return mixed
+     */
+    public function projectByUser($user_id)
+    {
+        $user = User::findOrFail($user_id);
+
+        return Project::whereHas('team', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->paginate(request()->per_page ?? 25);
+    }
 }

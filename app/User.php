@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App;
 
@@ -273,7 +273,7 @@ class User extends Authenticatable implements HasMedia
 
         $data = [
             'title' => request()->title,
-            'content' => request()->content,
+            'content' => request()->get('content'),
             'remind_date' => request()->remind_date
         ];
 
@@ -721,6 +721,35 @@ class User extends Authenticatable implements HasMedia
         return $this->teams()->first()->company;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_user')
+            ->withPivot('type')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function clientCompanies()
+    {
+        return $this->belongsToMany(Company::class, 'company_user')
+            ->wherePivot('type', '=', 'client')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMainCompanyAttribute()
+    {
+        return $this->belongsToMany(Company::class, 'company_user')
+            ->wherePivot('type', '=', 'main')
+            ->first();
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

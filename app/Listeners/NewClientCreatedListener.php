@@ -36,7 +36,8 @@ class NewClientCreatedListener
     {
         $client = $event->client;
         $company = $client->company();
-        $client->company_name = (Company::find($client->props['company_id']))->name ?? $company->name;
+        $clientCompany = $client->clientCompanies()->first() ?? null;
+        $client->company_name = $clientCompany ? $clientCompany->name : $company->name;
         $admins = $this->repository->getCompanyAdmins($company)->pluck('email')->toArray();
         $managers = $this->repository->getCompanyManagers($company)->pluck('email')->toArray();
         $admins_managers_emails = array_unique(array_merge($admins, $managers));
