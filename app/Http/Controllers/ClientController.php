@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
-use App\Events\NewClientCreated;
 use App\Events\NewUserCreated;
-use App\Invoice;
 use App\Mail\UserCredentials;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
@@ -16,11 +14,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class ClientController
+ * @package App\Http\Controllers
+ */
 class ClientController extends Controller
 {
+    /**
+     * @var int
+     */
     private $paginate = 10;
 
+    /**
+     * @var InvoiceRepository
+     */
     protected $invoiceRepo;
+    /**
+     * @var MembersRepository
+     */
     protected $memberRepo;
 
     /**
@@ -35,6 +46,16 @@ class ClientController extends Controller
     }
 
     /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function perCompany()
+    {
+        $company = Auth::user()->company();
+        $clientTeam = $company->clientTeam();
+        return $clientTeam->members()->with('clientCompanies')->get();
+    }
+
+    /**
      * @return mixed
      */
     public function index()
@@ -44,7 +65,7 @@ class ClientController extends Controller
         if (request()->has('all') && request()->all) {
             $clients = $this->memberRepo->getUsersByType('clients', [], false);
             foreach ($clients as $key => $client) {
-                $clients[$key]->company = Company::find($client->props['company_id'] ?? null);
+                $clients[$key]->company = $client->clientCompanies()->first() ?? null;
             }
             return $clients;
         }
@@ -56,7 +77,7 @@ class ClientController extends Controller
         foreach ($items as $key => $client) {
             $client->is_client = true;
             $client->projects = $client->projects()->count();
-            $company = Company::find($client->props['company_id'] ?? null);
+            $company = $client->clientCompanies()->first() ?? null;
             $data->push(array_merge($client->toArray(), ['company' => $company]));
         }
         $clients->setCollection($data);
@@ -72,7 +93,9 @@ class ClientController extends Controller
     {
         $client = User::findOrFail($id);
         $client->getAllMeta();
-        $client->company = Company::find($client->props['company_id']);
+        $client->company = $client->clientCompanies()->first();
+        $client->main_company = $client->mainCompany;
+        $client->companies = $client->clientCompanies;
         $client->no_invoices = $this->invoiceRepo->countInvoices($client, 'all');
         $client->total_amount_paid = $this->invoiceRepo->totalInvoices($client, 'billed_to', 'paid');
         $client->total_amount_unpaid = $this->invoiceRepo->totalInvoices($client, 'billed_to', 'pending');
@@ -150,12 +173,12 @@ class ClientController extends Controller
             $error_code = $e->getCode();
             switch ($error_code) {
                 case 1062:
-                    return response()->json([ 'message' => 'The company email you have entered is already registered.' ], 500);
+                    return response()->json(['message' => 'The company email you have entered is already registered.'], 500);
                     break;
                 case 1048:
-                    return response()->json([ 'message' => 'Some fields are missing.' ], 500);
+                    return response()->json(['message' => 'Some fields are missing.'], 500);
                 default:
-                    return response()->json([ 'message' => $e->getMessage() ], 500);
+                    return response()->json(['message' => $e->getMessage()], 500);
                     break;
             }
         }
@@ -217,6 +240,50 @@ class ClientController extends Controller
      */
     public function store()
     {
+        if (request()->has('client_id')) {
+            return $this->saveAsExistingClient();
+        }
+        return $this->saveAsNewClient();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveAsExistingClient()
+    {
+        request()->validate([
+            'client_id' => 'required|exists:users,id',
+            'company_name' => 'required|string|min:1'
+        ]);
+        try {
+            DB::beginTransaction();
+            $client = User::findOrFail(request()->client_id);
+
+            $client_company = Company::create([
+                'name' => request()->company_name,
+                'is_private' => 1,
+                'address' => request()->location ?? $client->location,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'others' => [
+                    'contact_name' => request()->contact_name ?? $client->fullname
+                ]
+            ]);
+            $client->companies()->attach($client_company->id, ['type' => 'client']);
+            $client->load('companies');
+            DB::commit();
+
+            return $client;
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveAsNewClient()
+    {
         request()->validate([
             'last_name' => 'required|string',
             'first_name' => 'required|string',
@@ -229,7 +296,7 @@ class ClientController extends Controller
         $username = explode('@', request()->email)[0];
         try {
             DB::beginTransaction();
-
+            $company = Auth::user()->company();
             $client_company = Company::create([
                 'name' => request()->company_name,
                 'is_private' => 1,
@@ -239,6 +306,7 @@ class ClientController extends Controller
                     'contact_name' => request()->contact_name ?? null
                 ]
             ]);
+
             $client = User::create([
                 'username' => $username,
                 'last_name' => request()->last_name,
@@ -250,12 +318,13 @@ class ClientController extends Controller
                 'image_url' => random_avatar('neutral'),
                 'created_by' => Auth::user()->id,
                 'props' => [
-                    'company_id' => $client_company->id,
+                    'company_id' => $company->id,
                     'status' => request()->status ?? 'Active'
                 ]
             ]);
 
-            $company = Auth::user()->company();
+            $client->companies()->attach($client_company->id, ['type' => 'client']);
+
             $team = $company->teams()->where('slug', 'client-' . $company->id)->first();
             if ($team) {
                 $team->members()->attach($client);
@@ -287,7 +356,7 @@ class ClientController extends Controller
             //'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
-            'email' => ['required','email', Rule::unique('users')->ignore($client->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($client->id)],
             'telephone' => 'required',
             'status' => 'required',
             'company_name' => 'required',
@@ -309,7 +378,7 @@ class ClientController extends Controller
             $client->props = $props;
             $client->save();
 
-            $company = Company::findOrFail($client->props['company_id'] ?? null);
+            $company = $client->clientCompanies()->first() ?? null;
             $company->name = request()->company_name;
             $company->address = request()->location ?? null;
             $props = $company->others;

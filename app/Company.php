@@ -425,6 +425,17 @@ class Company extends Model implements HasMedia
             })->where('users.deleted_at', null);
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function company_members()
+    {
+        return $this->belongsToMany(User::class, 'company_user')
+            ->withPivot('type')
+            ->withTimestamps();
+    }
+
     /**
      * @return User|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder
      */
@@ -645,65 +656,6 @@ class Company extends Model implements HasMedia
     }
 
     /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function paginatedCompanyProjects(Request $request)
-    {
-        list($sortName, $sortValue) = parseSearchParam($request);
-
-        $projects = $this->companyProjects();
-
-        if (auth()->check() && auth()->user()->hasRoleLikeIn('client') && !auth()->user()->hasRoleLike('admin')) {
-            $projects->whereHas('client', function ($query) {
-                $query->where('id', auth()->user()->id);
-            });
-        }
-
-        $projects->where('type', request()->has('type') ? request()->type : 'project');
-
-        $projects->with([
-            'projectManagers.user.meta',
-            'projectClient.user.meta',
-            'projectMembers.user.meta'
-        ]);
-
-        if ($request->has('status'))
-            $projects->where('status', $request->status);
-
-        if ($request->has('sort') && !empty($request->sort))
-            $projects->orderBy($sortName, $sortValue);
-        else
-            $projects->latest();
-
-        if (request()->has('search') && !empty($request->search)) {
-            $keyword = request()->search;
-            $projects->searchProjects($keyword);
-        }
-
-        if (request()->has('per_page') && is_numeric(request()->per_page)) {
-            $this->paginate = request()->per_page;
-        }
-
-        $data = $projects->paginate($this->paginate);
-
-        $data->map(function ($project) {
-            $clientCo = $this->find($project->projectClient->user->props['company_id'] ?? null);
-            $project['extra_fields'] = $project->getMeta('extra_fields');
-            $project['total_time'] = $project->totalTime();
-            $project['progress'] = $project->progress();
-            $project['tasks'] = $project->tasks()->count();
-            $project['company_name'] = $clientCo ? $clientCo->name : "";
-            $project['client_id'] = $project->projectClients->user->id ?? "";
-            $project['location'] = $clientCo ? $clientCo->address : "";
-            $project['expand'] = false;
-            return $project;
-        });
-
-        return $data;
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function allCompanyProjects()
@@ -815,11 +767,7 @@ class Company extends Model implements HasMedia
         if (!$client_group)
             abort(204, 'Team not found!');
 
-        return $client_group->members()
-            ->where('users.deleted_at', null)
-            ->with(['projectsCount'])
-            ->select('users.*');
-
+        return $client_group->members()->where('users.deleted_at', null)->with(['projectsCount'])->select('users.*');
     }
 
     /**

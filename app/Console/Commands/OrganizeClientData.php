@@ -2,10 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Company;
+use App\Group;
 use App\User;
 use Illuminate\Console\Command;
 
+/**
+ * Class OrganizeClientData
+ * @package App\Console\Commands
+ */
 class OrganizeClientData extends Command
 {
     /**
@@ -32,42 +36,50 @@ class OrganizeClientData extends Command
         parent::__construct();
     }
 
+
     /**
-     * Execute the console command.
      *
-     * @return mixed
      */
     public function handle()
     {
-        $users =  User::withTrashed()->whereHasMeta('company_name')->get();
+        $users = User::withTrashed()->get();
         foreach ($users as $key => $user) {
-            $metas = $user->getAllMeta();
-            if ($metas->get('company_name', false)) {
-                $company = Company::create([
-                    'name' => $metas->get('company_name'),
-                    'is_private' => 1,
-                    'address' => $metas->get('location', null),
-                    'email' => $metas->get('company_email', null),
-                    'created_at' => now()->format('Y-m-d H:i:s'),
-                    'others' => [
-                            'contact_name' => $metas->get('contact_name', null)
-                        ]
-                ]);
-                $props = $user->props;
-                $props['location'] = $metas->get('location', null);
-                $props['company_id'] = $company->id;
-                $props['status'] = $metas->get('status', 'Active');
-                $user->props = $props;
-                $user->created_by = $user->created_by ?? $metas->get('created_by', null);
-                if($user->save()){
-                    if($user->hasMeta('status')) $user->removeMeta('status');
-                    if($user->hasMeta('location')) $user->removeMeta('location');
-                    if($user->hasMeta('company_name')) $user->removeMeta('company_name');
-                    if($user->hasMeta('company_email')) $user->removeMeta('company_email');
-                    if($user->hasMeta('company_tel')) $user->removeMeta('company_tel');
-                }
+            $company = $user->company();
+            $user->companies()->attach($company->id, ['type' => 'main']);
+
+            $props = $user->props;
+            $company_id = $props['company_id'] ?? false;
+
+            if ($company_id && $company_id != $company->id) {
+                $user->companies()->attach($company_id, ['type' => 'client']);
             }
+            $props['company_id'] = $company->id;
+            $props['rate'] =  $props['rate'] ?? '';
+            $props['location'] = $props['location'] ?? '';
+            $user->props = $props;
+            $user->save();
         }
+
+        $this->updateRoleDescriptions();
         echo "done";
+    }
+
+    /**
+     *
+     */
+    public function updateRoleDescriptions()
+    {
+        $desc = [
+            'Admin' => 'Admin has the highest level of access of app permissions and privileges',
+            'Manager' => 'Role for those who handle managerial tasks',
+            'Client' => 'Role for those business owners, representatives or agents',
+            'Member' => 'Role for those company workers, guests or employees'
+        ];
+        $group = Group::whereIn('name', array_keys($desc))->get();
+        foreach ($group as $role) {
+            $role_desc = $desc[$role->name] ?? '';
+            $role->description = $role_desc;
+            $role->save();
+        }
     }
 }
