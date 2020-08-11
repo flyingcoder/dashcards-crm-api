@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Events\NewClientCreated;
 use App\Events\NewUserCreated;
 use App\Mail\UserCredentials;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
+use App\Traits\HasConfigTrait;
 use App\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,7 @@ use Illuminate\Validation\Rule;
  */
 class ClientController extends Controller
 {
+    use HasConfigTrait;
     /**
      * @var int
      */
@@ -336,8 +339,11 @@ class ClientController extends Controller
 
             $client->company = $client_company;
             $client->projects = 0;
-            //todo :kirby add handler or convert to job
-            //event(new NewClientCreated($client));
+
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->new_client)
+               event(new NewClientCreated($client));
+
             return $client;
         } catch (Exception $e) {
             DB::rollback();

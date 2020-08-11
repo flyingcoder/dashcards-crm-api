@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\Group;
-use App\Media;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
 use App\Repositories\TemplateRepository;
 use App\Repositories\TimerRepository;
+use App\Traits\HasConfigTrait;
 use App\Traits\HasUrlTrait;
 use App\Traits\StripeTrait;
 use App\Traits\TemplateTrait;
 use App\Traits\TimezoneTrait;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
-    use HasUrlTrait, StripeTrait, TemplateTrait, TimezoneTrait;
+    use HasUrlTrait, StripeTrait, TemplateTrait, TimezoneTrait, HasConfigTrait;
     protected $trepo;
     protected $mrepo;
     protected $crepo;
@@ -50,6 +47,7 @@ class TestController extends Controller
     {
         echo phpinfo();
     }
+
     /**
      * @param Request $req
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

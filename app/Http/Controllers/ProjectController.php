@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use App\Company;
+use App\Events\NewProjectCreated;
 use App\Message;
 use App\Milestone;
 use App\Policies\ProjectPolicy;
@@ -13,6 +13,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\TimerRepository;
+use App\Traits\HasConfigTrait;
 use App\Traits\HasUrlTrait;
 use App\User;
 use Chat;
@@ -23,7 +24,7 @@ use Kodeine\Acl\Models\Eloquent\Role;
 
 class ProjectController extends Controller
 {
-    use HasUrlTrait;
+    use HasUrlTrait, HasConfigTrait;
 
     /**
      * @var int|mixed
@@ -526,8 +527,10 @@ class ProjectController extends Controller
             $proj->expand = false;
             $proj->company_name = $clientCompany ? $clientCompany->name : "";
             $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
-            //todo :kirby add handler or convert to job
-            //event(new NewProjectCreated($proj, 'project'));
+
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->new_project)
+                event(new NewProjectCreated($proj, 'project'));
 
             return $proj;
         } catch (Exception $e) {
