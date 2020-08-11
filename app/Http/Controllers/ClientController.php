@@ -272,8 +272,9 @@ class ClientController extends Controller
                 ]
             ]);
             $client->companies()->attach($client_company->id, ['type' => 'client']);
-            $client->load('companies');
             DB::commit();
+
+            $client->load('companies');
 
             return $client;
         } catch (Exception $e) {

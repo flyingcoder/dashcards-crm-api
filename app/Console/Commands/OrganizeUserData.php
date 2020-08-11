@@ -6,25 +6,26 @@ use App\Group;
 use App\User;
 use Illuminate\Console\Command;
 
+
 /**
- * Class OrganizeClientData
+ * Class OrganizeUserData
  * @package App\Console\Commands
  */
-class OrganizeClientData extends Command
+class OrganizeUserData extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'clients:organize-data';
+    protected $signature = 'user:organize-data';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Reorganized client data (run one time only)';
+    protected $description = 'Reorganized user data';
 
     /**
      * Create a new command instance.
@@ -45,13 +46,15 @@ class OrganizeClientData extends Command
         $users = User::withTrashed()->get();
         foreach ($users as $key => $user) {
             $company = $user->company();
-            $user->companies()->attach($company->id, ['type' => 'main']);
+            if (!$user->companies()->where('id', $company->id)->exists())
+                $user->companies()->attach($company->id, ['type' => 'main']);
 
             $props = $user->props;
             $company_id = $props['company_id'] ?? false;
 
             if ($company_id && $company_id != $company->id) {
-                $user->companies()->attach($company_id, ['type' => 'client']);
+                if (!$user->companies()->where('id', $company_id)->exists())
+                    $user->companies()->attach($company_id, ['type' => 'client']);
             }
             $props['company_id'] = $company->id;
             $props['rate'] =  $props['rate'] ?? '';
