@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\NewUserCreated;
 use App\Mail\UserCredentials;
+use App\Traits\HasConfigTrait;
 use App\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Kodeine\Acl\Models\Eloquent\Role;
 
+/**
+ * Class TeamController
+ * @package App\Http\Controllers
+ */
 class TeamController extends Controller
 {
-
+    use  HasConfigTrait;
     /**
      * @return \Illuminate\Http\JsonResponse
      */
@@ -56,6 +61,8 @@ class TeamController extends Controller
                 ]
             ]);
 
+            $member->companies()->attach($company->id, ['type' => 'main']);
+
             $member->setMeta('address', request()->address ?? 'Unknown');
             $member->setMeta('rate', request()->rate ?? '');
 
@@ -76,8 +83,10 @@ class TeamController extends Controller
             DB::commit();
 
             Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
-            //todo :kirby add handler or convert to job
-            //broadcast(new NewUserCreated($member));
+
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->new_member)
+                broadcast(new NewUserCreated($member));
 
             return $member;
         } catch (Exception $e) {

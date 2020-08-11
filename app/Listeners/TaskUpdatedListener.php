@@ -9,9 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class TaskUpdatedListener
+class TaskUpdatedListener implements ShouldQueue
 {
-    use  TemplateTrait;
+    use  TemplateTrait, InteractsWithQueue;
     /**
      * Create the event listener.
      *

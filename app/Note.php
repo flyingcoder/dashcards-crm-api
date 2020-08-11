@@ -13,12 +13,24 @@ class Note extends Model
 {
     use SoftDeletes, LogsActivity;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['company_id', 'title', 'content', 'remind_date'];
 
+    /**
+     * @var array
+     */
     protected $date = ['deleted_at'];
 
+    /**
+     * @var string
+     */
     protected static $logName = 'system';
 
+    /**
+     * @var array
+     */
     protected static $logAttributes = ['company_id', 'title', 'content', 'remind_date'];
 
     /**
@@ -87,7 +99,7 @@ class Note extends Model
         request()->validate(['content' => 'required']);
 
         $this->title = request()->title;
-        $this->content = request()->content;
+        $this->content = request()->get('content');
         $this->remind_date = request()->remind_date;
         $this->save();
         $this->collaborators = $this->users;//collaborators();

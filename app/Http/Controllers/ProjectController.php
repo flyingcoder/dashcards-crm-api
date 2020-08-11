@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use App\Company;
 use App\Events\NewProjectCreated;
 use App\Message;
 use App\Milestone;
@@ -12,7 +11,9 @@ use App\Project;
 use App\Report;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\ProjectRepository;
+use App\Repositories\TaskRepository;
 use App\Repositories\TimerRepository;
+use App\Traits\HasConfigTrait;
 use App\Traits\HasUrlTrait;
 use App\User;
 use Chat;
@@ -23,27 +24,32 @@ use Kodeine\Acl\Models\Eloquent\Role;
 
 class ProjectController extends Controller
 {
-    use HasUrlTrait;
+    use HasUrlTrait, HasConfigTrait;
 
+    /**
+     * @var int|mixed
+     */
     protected $paginate = 12;
 
     protected $timeRepo;
     protected $projRepo;
     protected $invoiceRepo;
     protected $message_per_load = 10;
+    protected $taskRepository;
 
     /**
      * ProjectController constructor.
      * @param TimerRepository $timeRepo
      * @param ProjectRepository $projRepo
      * @param InvoiceRepository $invoiceRepo
+     * @param TaskRepository $taskRepository
      */
-    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo, InvoiceRepository $invoiceRepo)
+    public function __construct(TimerRepository $timeRepo, ProjectRepository $projRepo, InvoiceRepository $invoiceRepo, TaskRepository $taskRepository)
     {
         $this->timeRepo = $timeRepo;
         $this->projRepo = $projRepo;
         $this->invoiceRepo = $invoiceRepo;
-
+        $this->taskRepository = $taskRepository;
         if (request()->has('per_page') && request()->per_page > 0) {
             $this->paginate = request()->per_page;
         }
@@ -60,10 +66,8 @@ class ProjectController extends Controller
 
         if (request()->has('all') && request()->all)
             return $this->projRepo->getCompanyProjectsList($company);
-        // return $company->allCompanyProjects();
 
         return $this->projRepo->getCompanyProjects($company, request());
-        // return $company->paginatedCompanyProjects(request());
     }
 
     /**
@@ -519,12 +523,14 @@ class ProjectController extends Controller
 
             $proj = Project::with(['manager', 'client', 'members'])->find($project->id);
 
-            $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
+            $clientCompany =  $proj->client[0]->clientCompanies()->first() ?? null;
             $proj->expand = false;
             $proj->company_name = $clientCompany ? $clientCompany->name : "";
             $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
-            //todo :kirby add handler or convert to job
-            //event(new NewProjectCreated($proj, 'project'));
+
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->new_project)
+                event(new NewProjectCreated($proj, 'project'));
 
             return $proj;
         } catch (Exception $e) {
@@ -587,16 +593,16 @@ class ProjectController extends Controller
                 $project->setMeta('extra_fields', request()->extra_fields);
             }
             DB::commit();
-            $proj = Project::where('projects.id', $project->id)
+            $projectFresh = Project::where('projects.id', $project->id)
                 ->with(['manager', 'client', 'members'])
                 ->first();
 
-            $clientCompany = Company::find($proj->client[0]->props['company_id'] ?? null);
-            $proj->expand = false;
-            $proj->company_name = $clientCompany ? $clientCompany->name : "";
-            $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
+            $clientCompany = $projectFresh->client[0]->clientCompanies()->first() ?? null;
+            $projectFresh->expand = false;
+            $projectFresh->company_name = $clientCompany ? $clientCompany->name : "";
+            $projectFresh->location = $clientCompany ? $clientCompany->address : ($projectFresh->client[0]->location ?? '');
 
-            return $proj;
+            return $projectFresh;
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 433);
@@ -738,7 +744,7 @@ class ProjectController extends Controller
         });
 
         $project->location = $project->props['location'] ?? ($client->props['location'] ?? '');
-        $company = Company::find($client->props['company_id'] ?? null);
+        $company = $client->clientCompanies()->first() ?? null;
         $project->company_name = $company ? $company->name : '';
 
         return $project;
@@ -801,38 +807,25 @@ class ProjectController extends Controller
      * @param $project_id
      * @return mixed
      */
-    public function tasks($project_id)
+    public function allProjectTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
-        $data = $project->tasks()
-            ->whereNull('deleted_at')
-            ->latest()
-            ->paginate(request()->per_page ?? 50);
-
-        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $this->taskRepository->projectTasks($project, request()->filter ?? 'all');
+        $counter = collect(['counter' => $this->taskRepository->taskCounts($project, false)]);
         $data = $counter->merge($data);
 
         return response()->json($data);
     }
 
-    //will return all task of the project
-
     /**
      * @param $project_id
      * @return mixed
      */
-    public function myTasks($project_id)
+    public function myProjectTasks($project_id)
     {
         $project = Project::findOrFail($project_id);
-        $data = $project->tasks()
-            ->whereNull('deleted_at')
-            ->whereHas('assigned', function ($query) {
-                $query->where('id', auth()->user()->id);
-            })
-            ->latest()
-            ->paginate(request()->per_page ?? 50);
-
-        $counter = collect(['counter' => $project->taskCounters(false)]);
+        $data = $this->taskRepository->userProjectTasks($project, request()->user(), request()->filter ?? 'all');
+        $counter = collect(['counter' => $this->taskRepository->taskCounts($project, true)]);
         $data = $counter->merge($data);
 
         return response()->json($data);
@@ -904,15 +897,26 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $keyword = request()->keyword ?? '';
 
-        $tasks = $project->tasks()
+        return $project->tasks()
             ->where(function ($query) use ($keyword) {
                 $query->where('tasks.title', 'like', '%' . $keyword . '%')
                     ->orWhere('tasks.description', 'like', '%' . $keyword . '%');
             })
             ->select('tasks.*')
             ->paginate(10);
-
-        return $tasks;
     }
 
+    /**
+     * @param $user_id
+     * @return mixed
+     */
+    public function projectByUser($user_id)
+    {
+        $user = User::findOrFail($user_id);
+
+        return Project::whereHas('team', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->paginate(request()->per_page ?? 25);
+    }
 }

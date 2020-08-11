@@ -230,6 +230,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
 
     Route::put('teams/{id}', 'TeamController@update');
 
+    Route::get('clients', 'CompanyController@clients');
+
     Route::get('invoices/statistics', 'InvoiceController@statistics');
 
     Route::get('invoices/{id?}', 'InvoiceController@index');
@@ -556,6 +558,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
     Route::get('/', 'ProjectController@index');// project
 
+    Route::get('/user-projects/{user_id}', 'ProjectController@projectByUser');// project
+
     Route::delete('bulk-delete', 'ProjectController@bulkDelete');
 
     Route::delete('{id}', 'ProjectController@delete');
@@ -570,9 +574,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'projects'], function () {
 
     Route::post('{id}/messages', 'ProjectController@sendMessages');
 
-    Route::get('{id}/tasks/mine', 'ProjectController@myTasks');// project-hq
+    Route::get('{id}/tasks/mine', 'ProjectController@myProjectTasks');// project-hq
 
-    Route::get('{id}/tasks', 'ProjectController@tasks');// project-hq
+    Route::get('{id}/tasks', 'ProjectController@allProjectTasks');// project-hq
 
     Route::get('{id}/tasks/search', 'ProjectController@searchTasks');
 
@@ -668,6 +672,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'forms'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'clients'], function () {
 
     Route::get('/', 'ClientController@index'); // project
+
+    Route::get('/per-company', 'ClientController@perCompany'); // project
 
     Route::get('{id}', 'ClientController@client'); // project
 

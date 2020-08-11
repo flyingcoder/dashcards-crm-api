@@ -8,15 +8,29 @@ use App\Repositories\MembersRepository;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class CompanyController
+ * @package App\Http\Controllers
+ */
 class CompanyController extends Controller
 {
+    /**
+     * @var MembersRepository
+     */
     protected $repo;
 
+    /**
+     * CompanyController constructor.
+     * @param MembersRepository $repo
+     */
     public function __construct(MembersRepository $repo)
     {
         $this->repo = $repo;
     }
 
+    /**
+     * @var array
+     */
     protected  $types = [
             'manager',
             'client',
@@ -24,6 +38,9 @@ class CompanyController extends Controller
             'agent'
         ];
 
+    /**
+     * @return mixed
+     */
     public function subscribers()
     {
         $users = User::admins()->withTrashed()->paginate(request()->per_page);
@@ -33,12 +50,14 @@ class CompanyController extends Controller
         foreach ($items as $key => $user) {
             $data->push(array_merge($user->toArray(), ['company' =>  $user->company() ]));   
         }
-
         $users->setCollection($data);
 
         return $users;
     }
 
+    /**
+     * @return mixed
+     */
     public function members()
     {
         if (request()->has('type') && in_array(request()->type, $this->types)) {
@@ -55,6 +74,19 @@ class CompanyController extends Controller
     	return auth()->user()->company()->allCompanyMembers();
     }
 
+    /**
+     * @return mixed
+     */
+    public function clients()
+    {
+        $company = auth()->user()->company();
+        $clients = $company->clients();
+        return $clients->get();
+    }
+
+    /**
+     * @return User[]|\Illuminate\Contracts\Pagination\LengthAwarePaginator|Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Query\Builder[]|\Illuminate\Support\Collection
+     */
     public function teams()
     {
         if(auth()->user()->hasRole('client'))
@@ -68,6 +100,10 @@ class CompanyController extends Controller
         return auth()->user()->company()->paginatedCompanyMembers();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function member($id)
     {
     	$user = User::findOrFail($id);
@@ -85,11 +121,18 @@ class CompanyController extends Controller
         return $user;
     }
 
+    /**
+     * @return mixed
+     */
     public function invoices()
     {
         return auth()->user()->company()->invoices()->get();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function uploadLogo($id)
     {
         $file = request()->file('file');
@@ -106,11 +149,19 @@ class CompanyController extends Controller
         return $company;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function info($id)
     {
         return Company::findOrFail($id);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function updateInfo($id)
     {
         request()->validate(['name' => 'required|min:5']);
@@ -128,6 +179,10 @@ class CompanyController extends Controller
         return $company;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateSettings($id)
     {
         request()->validate([
@@ -169,6 +224,10 @@ class CompanyController extends Controller
         return response()->json($settings, 200);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function settings($id)
     {
         $company = Company::findOrFail($id);
@@ -185,6 +244,9 @@ class CompanyController extends Controller
         return response()->json($settings, 200);
     }
 
+    /**
+     * @return array
+     */
     public function defaultSettings()
     {
         return [
@@ -202,7 +264,10 @@ class CompanyController extends Controller
             'license_key' => null,
         ];
     }
-    
+
+    /**
+     * @return array
+     */
     public function subscribersStatistics()
     {
         return [
@@ -213,6 +278,9 @@ class CompanyController extends Controller
         ];
     }
 
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function companies()
     {
         $companies = Company::withTrashed()->where('is_private', 0)->latest()->paginate(40);
@@ -231,6 +299,11 @@ class CompanyController extends Controller
         return $companies;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function companyStatus($id)
     {
         $company = Company::withTrashed()->where('id', $id)->firstOrFail();

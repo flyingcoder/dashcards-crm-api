@@ -6,9 +6,19 @@ use App\Dashboard;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\FormRepository;
 
+/**
+ * Class DashboardController
+ * @package App\Http\Controllers
+ */
 class DashboardController extends Controller
 {
+    /**
+     * @var CalendarEventRepository
+     */
     protected $cal_repo;
+    /**
+     * @var FormRepository
+     */
     protected $formRepo;
 
     /**
@@ -57,15 +67,17 @@ class DashboardController extends Controller
             ->get();
     }
 
+    /**
+     * @return array
+     */
     public function counts()
     {
-
         $company = auth()->user()->company();
 
         if (auth()->user()->hasRole('admin|manager') || auth()->user()->can('view.all-tasks')) {
             $counts = [
                 'projects' => $company->projects()->ofType('project')->count(),
-                'tasks' => $company->tasks()->where('status', 'open')->count(),
+                'tasks' => $company->tasks()->count(),
                 'campaigns' => $company->projects()->ofType('campaign')->count(),
                 'timer' => $company->allTimers()->count(),
                 'inbound' => $this->formRepo->getInboundCount($company), //this is about forms questionaires
@@ -74,7 +86,7 @@ class DashboardController extends Controller
         } else {
             $counts = [
                 'projects' => auth()->user()->projects()->ofType('project')->count(),
-                'tasks' => auth()->user()->tasks()->where('status', 'open')->count(),
+                'tasks' => auth()->user()->tasks()->count(),
                 'campaigns' => auth()->user()->projects()->ofType('campaign')->count(),
                 'timer' => auth()->user()->timers()->count(),
                 'inbound' => $this->formRepo->getInboundCount($company), //this is about forms questionaires
@@ -100,6 +112,10 @@ class DashboardController extends Controller
         return $defaultDash->dashitems()->detach();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function hideDashitem($id)
     {
         $company = auth()->user()->company();

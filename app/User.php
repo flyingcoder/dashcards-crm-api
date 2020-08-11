@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App;
 
@@ -273,7 +273,7 @@ class User extends Authenticatable implements HasMedia
 
         $data = [
             'title' => request()->title,
-            'content' => request()->content,
+            'content' => request()->get('content'),
             'remind_date' => request()->remind_date
         ];
 
@@ -631,39 +631,6 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @return array
-     */
-    public function paginatedTasks()
-    {
-        $tasks = $this->tasks();
-
-        if (request()->has('sort') && !empty(request()->sort)) {
-
-            list($sortName, $sortValue) = parseSearchParam(request());
-
-            $tasks->orderBy($sortName, $sortValue);
-        }
-
-        if (request()->has('per_page') && is_numeric(request()->per_page))
-            $this->paginate = request()->per_page;
-
-        if (request()->has('all') && request()->all)
-            $data = $tasks->get();
-        else
-            $data = $tasks->paginate($this->paginate);
-
-        $data->map(function ($model) {
-            $model['assignee_url'] = '';
-            if (is_object($model->assigned()->first()))
-                $model['assignee_url'] = $model->assigned()->first()->image_url;
-        });
-
-        $tasks = $data->toArray();
-        $tasks['counter'] = $this->taskCounters(true);
-        return $tasks;
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Illuminate\Database\Query\Builder
      */
     public function projectsCount()
@@ -754,6 +721,35 @@ class User extends Authenticatable implements HasMedia
         return $this->teams()->first()->company;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_user')
+            ->withPivot('type')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function clientCompanies()
+    {
+        return $this->belongsToMany(Company::class, 'company_user')
+            ->wherePivot('type', '=', 'client')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMainCompanyAttribute()
+    {
+        return $this->belongsToMany(Company::class, 'company_user')
+            ->wherePivot('type', '=', 'main')
+            ->first();
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

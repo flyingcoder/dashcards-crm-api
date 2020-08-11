@@ -7,11 +7,14 @@ use App\Events\NewClientCreated;
 use App\Mail\DynamicEmail;
 use App\Repositories\MembersRepository;
 use App\Traits\TemplateTrait;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class NewClientCreatedListener
+class NewClientCreatedListener implements ShouldQueue
 {
-    use TemplateTrait;
+    use TemplateTrait, InteractsWithQueue;
+
     protected $template_name;
     protected $repository;
 
@@ -36,7 +39,8 @@ class NewClientCreatedListener
     {
         $client = $event->client;
         $company = $client->company();
-        $client->company_name = (Company::find($client->props['company_id']))->name ?? $company->name;
+        $clientCompany = $client->clientCompanies()->first() ?? null;
+        $client->company_name = $clientCompany ? $clientCompany->name : $company->name;
         $admins = $this->repository->getCompanyAdmins($company)->pluck('email')->toArray();
         $managers = $this->repository->getCompanyManagers($company)->pluck('email')->toArray();
         $admins_managers_emails = array_unique(array_merge($admins, $managers));

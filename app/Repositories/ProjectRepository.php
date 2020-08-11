@@ -79,7 +79,7 @@ class ProjectRepository
         $items = $projects->getCollection();
         $data = collect([]);
         foreach ($items as $key => $project) {
-            $clientCompany = Company::find($project->client[0]->props['company_id'] ?? null);
+            $clientCompany = $project->client[0]->clientCompanies()->first() ?? null;
             $data->push(array_merge($project->toArray(), [
                 'expand' => false,
                 'company_name' => $clientCompany ? $clientCompany->name : "",

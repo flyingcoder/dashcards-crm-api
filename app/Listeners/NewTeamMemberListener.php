@@ -6,11 +6,13 @@ use App\Events\NewUserCreated;
 use App\Mail\DynamicEmail;
 use App\Repositories\MembersRepository;
 use App\Traits\TemplateTrait;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class NewTeamMemberListener
+class NewTeamMemberListener implements ShouldQueue
 {
-    use TemplateTrait;
+    use TemplateTrait, InteractsWithQueue;
     protected $template_name;
     protected $repository;
 

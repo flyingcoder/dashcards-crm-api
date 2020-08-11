@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Permission;
 use Kodeine\Acl\Models\Eloquent\Role;
 
+/**
+ * Class RoleController
+ * @package App\Http\Controllers
+ */
 class RoleController extends Controller
 {
 
@@ -78,7 +82,6 @@ class RoleController extends Controller
      */
     public function updateRolePermissions($role_id)
     {
-        //todo policy
         request()->validate([
             'role_id' => 'required',
             'permissions' => 'required'

@@ -120,4 +120,23 @@ return [
         ],
     ],
 
+    'email_events' => [
+        'new_task' => true,
+        'task_updated' => true,
+        'new_project' => true,
+        'project_updated' => true,
+        'new_campaign' => true,
+        'campaign_updated' => true,
+        'new_service' => true,
+        'service_updated' => true,
+        'new_report' => true,
+        'report_updated' => true,
+        'new_client' => true,
+        'new_member' => true,
+        'invoice_paid' => true,
+        'invoice_reminder' => true,
+        'invoice_send' => true,
+        'new_comment' => true,
+        'new_message' => true
+    ],
 ];

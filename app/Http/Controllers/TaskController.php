@@ -8,11 +8,28 @@ use App\Events\NewTaskCreated;
 use App\Events\ProjectTaskNotification;
 use App\Events\TaskUpdated;
 use App\Project;
+use App\Repositories\TaskRepository;
 use App\Task;
+use App\Traits\HasConfigTrait;
 
 
 class TaskController extends Controller
 {
+    use HasConfigTrait;
+    /**
+     * @var TaskRepository
+     */
+    protected $repo;
+
+    /**
+     * TaskController constructor.
+     * @param TaskRepository $repo
+     */
+    public function __construct(TaskRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+
     /**
      * @return mixed
      */
@@ -31,7 +48,9 @@ class TaskController extends Controller
      */
     public function mine()
     {
-        return auth()->user()->paginatedTasks();
+        $tasks = $this->repo->userTasks(request()->user(), request()->filter ?? 'all')->toArray();
+        $tasks['counter'] = $this->repo->taskCounts(request()->user(), true);
+        return $tasks;
     }
 
 
@@ -77,8 +96,9 @@ class TaskController extends Controller
         }
 
         if ($task->project_id > 0) {
-            //todo :kirby add handler or convert to job
-            //event(new NewTaskCreated($task));
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->new_task)
+                event(new NewTaskCreated($task));
         }
 
         return $task;
@@ -96,8 +116,9 @@ class TaskController extends Controller
 
         $task = $task->fresh();
         if ($task->project_id > 0) {
-            //todo :kirby add handler or convert to job
-            //event(new TaskUpdated($task));
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->task_updated)
+                event(new TaskUpdated($task));
         }
 
         return $task->toArray();
@@ -133,8 +154,9 @@ class TaskController extends Controller
         $task = Task::findOrFail($task_id);
 
         // (new TaskPolicy())->delete($task);
+        $task->delete();
 
-        return $task->destroy($task_id);
+        return $task;
     }
 
     /**
@@ -331,8 +353,9 @@ class TaskController extends Controller
                 );
                 broadcast(new ProjectTaskNotification($user->company()->id, $data));
             }
-            //todo :kirby add handler or convert to job
-            //event(new TaskUpdated($task));
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->task_updated)
+                event(new TaskUpdated($task));
         }
 
         return $this->task($id);

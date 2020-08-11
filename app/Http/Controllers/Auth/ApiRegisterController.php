@@ -78,7 +78,9 @@ class ApiRegisterController extends Controller
                'password' => bcrypt($request->password),
                'is_online' => 1,
                'props' => [
-                        'company_id' => $company->id 
+                        'company_id' => $company->id,
+                        'rate' => '',
+                        'location' => ''
                     ]
             ]);
 

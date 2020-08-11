@@ -7,12 +7,14 @@ use App\Events\NewProjectCreated;
 use App\Policies\CampaignPolicy;
 use App\Repositories\CampaignRepository;
 use App\ServiceList;
+use App\Traits\HasConfigTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CampaignController extends Controller
 {
+    use HasConfigTrait;
     private $paginate = 20;
 
     protected $crepo;
@@ -141,8 +143,10 @@ class CampaignController extends Controller
             DB::commit();
 
             $campaign->load(['managers', 'client', 'members', 'service']);
-            //todo :kirby add handler or convert to job
-           // event(new NewProjectCreated($campaign, 'campaign'));
+
+            $config = $this->getConfigByKey('email_events', false);
+            if ($config && $config->new_campaign)
+                event(new NewProjectCreated($campaign, 'campaign'));
 
             return response()->json($campaign, 201);
         } catch (\Exception $ex) {
