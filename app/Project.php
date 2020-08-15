@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\ActivityEvent;
+use App\Traits\ConversableTrait;
 use App\Traits\HasMediaLink;
 use App\Traits\HasProjectScopes;
 use App\Traits\TaskTrait;
@@ -20,7 +21,7 @@ use Spatie\MediaLibrary\Models\Media;
 
 class Project extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes, Searchable, TaskTrait;
+    use SoftDeletes, HasMediaTrait, HasMediaLink, LogsActivity, Metable, HasProjectScopes, Searchable, TaskTrait, ConversableTrait;
 
     protected $paginate = 10;
 

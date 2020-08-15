@@ -84,6 +84,8 @@ class ApiRegisterController extends Controller
                     ]
             ]);
 
+            $user->companies()->attach($company->id, ['type' => 'main']);
+
             $default_team = $company->teams()->create([
                 'name' => $company->name.' Default Team',
                 'company_id' => $company->id,

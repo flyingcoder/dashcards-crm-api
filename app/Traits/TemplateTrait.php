@@ -103,19 +103,19 @@ trait TemplateTrait
             'for' => ['global', 'admin']
         ],
         'invoice_send' => [
-            'slots' => ['[invoice:billedFrom:first_name]','[invoice:billedFrom:last_name]','[invoice:billedTo:first_name]','[invoice:billedTo:last_name]','[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]'],
+            'slots' => ['[invoice:billedFrom:first_name]', '[invoice:billedFrom:last_name]', '[invoice:billedTo:first_name]', '[invoice:billedTo:last_name]', '[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]', '[invoice:due_date]'],
             'description' => 'Will be sent to user the invoice intended to',
             'title' => 'Invoice Created',
             'for' => ['global', 'admin', 'client']
         ],
         'invoice_paid' => [
-            'slots' => ['[invoice:billedFrom:first_name]','[invoice:billedFrom:last_name]','[invoice:billedTo:first_name]','[invoice:billedTo:last_name]','[invoice:title]', '[invoice:total_amount]', '[invoice:link]'],
+            'slots' => ['[invoice:billedFrom:first_name]', '[invoice:billedFrom:last_name]', '[invoice:billedTo:first_name]', '[invoice:billedTo:last_name]', '[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:due_date]'],
             'description' => 'Will be sent to "billed from user" when a payment is done to an invoice',
             'title' => 'Invoice Paid',
             'for' => ['global', 'admin', 'client']
         ],
         'invoice_reminder' => [
-            'slots' => ['[invoice:due_date]','[invoice:billedFrom:first_name]','[invoice:billedFrom:last_name]','[invoice:billedTo:first_name]','[invoice:billedTo:last_name]','[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]'],
+            'slots' => ['[invoice:due_date]', '[invoice:billedFrom:first_name]', '[invoice:billedFrom:last_name]', '[invoice:billedTo:first_name]', '[invoice:billedTo:last_name]', '[invoice:title]', '[invoice:total_amount]', '[invoice:link]', '[invoice:pdf]'],
             'description' => 'Will be sent to user the invoice intended to when reminding them',
             'title' => 'Invoice Reminder',
             'for' => ['global', 'admin', 'client']

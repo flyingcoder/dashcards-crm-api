@@ -4,12 +4,12 @@ namespace App;
 
 use App\Traits\HasFileTrait;
 use Illuminate\Support\Facades\URL;
-use Musonza\Chat\Models\Message as Msg;
+use Musonza\Chat\Models\Message as BaseMessage;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 
-class Message extends Msg implements HasMedia
+class Message extends BaseMessage implements HasMedia
 {
     use HasMediaTrait, HasFileTrait;
 

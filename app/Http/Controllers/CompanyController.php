@@ -60,18 +60,21 @@ class CompanyController extends Controller
      */
     public function members()
     {
+        $company = auth()->user()->company();
+        if (request()->has('for') && request()->for === 'store') {
+            return $company->company_members;
+        }
+
         if (request()->has('type') && in_array(request()->type, $this->types)) {
             $type = trim(request()->type);
-            return auth()->user()->company()
-                ->members()
-                ->select('users.*')
+            return  $company->company_members()
                 ->with('roles')
                 ->whereHas('roles', function (Builder $query) use ($type) {
                         $query->where('slug', 'like', "%{$type}%");
                 })->get();
             
         }
-    	return auth()->user()->company()->allCompanyMembers();
+    	return $company->allCompanyMembers();
     }
 
     /**
@@ -153,6 +156,27 @@ class CompanyController extends Controller
      * @param $id
      * @return mixed
      */
+    public function setLogoViaUrl($id)
+    {
+        request()->validate(['url' => 'required|string']);
+
+        $company = Company::findOrFail($id);
+        $company->company_logo = request()->url;
+        if (request()->has('logo_details')) {
+            $props = $company->others;
+            $props['logo'] = request()->logo_details;
+            $company->others = $props;
+        }
+        $company->save();
+
+        return $company->fresh();
+    }
+
+
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function info($id)
     {
         return Company::findOrFail($id);
@@ -186,7 +210,6 @@ class CompanyController extends Controller
     public function updateSettings($id)
     {
         request()->validate([
-                'title' => 'required|string',
                 'lang' => 'required|string',
                 'theme' => 'required|string',
                 'date_format' => 'required|string',
@@ -201,27 +224,28 @@ class CompanyController extends Controller
                 // 'long_logo'
                 // 'square_logo'
             ]);
+        $default = $this->defaultSettings();
 
         $company = Company::findOrFail($id);
         $settings = $company->others;
 
-        $settings['title'] = request()->title;
-        $settings['lang'] = request()->lang;
-        $settings['theme'] = request()->theme;
-        $settings['date_format'] = request()->date_format;
-        $settings['timeline_display_limits'] = request()->timeline_display_limits;
-        $settings['general_page_limits'] = request()->general_page_limits;
-        $settings['messages_page_limits'] = request()->messages_page_limits;
-        $settings['currency'] = request()->currency;
-        $settings['info_tips'] = request()->info_tips;
-        $settings['client_registration'] = request()->client_registration;
-        $settings['notif_duration'] = request()->notif_duration;
-        $settings['license_key'] = request()->license_key;
+        $settings['title'] = request()->title ?? $default['title'];
+        $settings['lang'] = request()->lang ?? $default['lang'];
+        $settings['theme'] = request()->theme ?? $default['theme'];
+        $settings['date_format'] = request()->date_format ?? $default['date_format'];
+        $settings['timeline_display_limits'] = request()->timeline_display_limits ?? $default['timeline_display_limits'];
+        $settings['general_page_limits'] = request()->general_page_limits ?? $default['general_page_limits'];
+        $settings['messages_page_limits'] = request()->messages_page_limits ?? $default['messages_page_limits'];
+        $settings['currency'] = request()->currency ?? $default['currency'];
+        $settings['info_tips'] = request()->info_tips ?? $default['info_tips'];
+        $settings['client_registration'] = request()->client_registration ?? $default['client_registration'];
+        $settings['notif_duration'] = request()->notif_duration ?? $default['notif_duration'];
+        $settings['license_key'] = request()->license_key ?? null;
 
         $company->others = $settings;
         $company->save();
 
-        return response()->json($settings, 200);
+        return $company->fresh();
     }
 
     /**
@@ -241,7 +265,10 @@ class CompanyController extends Controller
                 $settings[$key] = $defaultSettings[$key];
             }
         }
-        return response()->json($settings, 200);
+        $company->others = $settings;
+        $company->save();
+
+        return $company->fresh();
     }
 
     /**

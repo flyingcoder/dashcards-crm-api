@@ -5,10 +5,18 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\EventModel;
 use App\Repositories\CalendarEventRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class EventController
+ * @package App\Http\Controllers
+ */
 class EventController extends Controller
 {
+    /**
+     * @var CalendarEventRepository
+     */
     protected $repo;
 
     /**
@@ -50,7 +58,7 @@ class EventController extends Controller
             'notify' => 'boolean',
             'all_day' => 'boolean',
             'start_date' => 'required',
-            'end_date' => 'required',
+            'end_date' => 'sometimes',
             'title' => 'required|string|min:2',
             'descriptions' => 'string',
             'event_type' => 'required|exists:event_types,id'
@@ -58,36 +66,44 @@ class EventController extends Controller
 
         try {
             DB::beginTransaction();
-
+            $timezone = request()->has('timezone') ? request()->timezone : 'UTC';
+            $start_date = Carbon::createFromFormat('Y-m-d H:i', request()->start_date, $timezone);
+            $end_date = $start_date->copy()->endOfDay();
+            $utc_start_datetime = $start_date->copy()->setTimezone('UTC');
+            $utc_end_datetime = $end_date->copy()->setTimezone('UTC');
             $user = auth()->user();
 
             $event = EventModel::create([
                 'title' => request()->title,
                 'all_day' => request()->all_day,
-                'start' => request()->start_date,
-                'end' => request()->end_date,
+                'start' => $start_date->toDateTimeString(),
+                'end' => $end_date->toDateTimeString(),
+                'utc_start' => $utc_start_datetime->toDateTimeString(),
+                'utc_end' => $utc_end_datetime->toDateTimeString(),
+                'timezone' => $timezone,
                 'description' => request()->description,
                 'eventtypes_id' => request()->event_type,
                 'properties' => [
-                    'timezone' => request()->has('timezone') ? request()->timezone : 'UTC',
                     'send_notify' => request()->notify ?? 0,
                     'alarm' => request()->alarm ?? false,
                     'creator' => $user->id,
-                    'time' => request()->time ?? [],
                     'link' => request()->link ?? ''
                 ],
             ]);
 
-            $event->participants()->create(['user_id' => $user->id, 'added_by' => $user->id]);
+            $event->users()->attach($user->id, ['added_by' => $user->id]);
+
             if (request()->has('participants') && !empty(request()->participants)) {
                 foreach (request()->participants as $key => $participant) {
-                    $event->participants()->create(['user_id' => $participant, 'added_by' => $user->id]);
+                    if ($participant != $user->id) {
+                        $event->users()->attach($participant, ['added_by' => $user->id]);
+                    }
                 }
             }
 
             DB::commit();
 
-            $event->participants = $event->participants()->with(['user', 'addedBy'])->get()->toArray();
+            $event->load('users');
             $event->event_type = $event->eventType;
 
             return $event;
@@ -108,7 +124,7 @@ class EventController extends Controller
             'notify' => 'boolean',
             'all_day' => 'boolean',
             'start_date' => 'required',
-            'end_date' => 'required',
+            'end_date' => 'sometimes',
             'title' => 'required|string|min:2',
             'descriptions' => 'string',
             'event_type' => 'required|exists:event_types,id'
@@ -116,34 +132,41 @@ class EventController extends Controller
 
         try {
             DB::beginTransaction();
+            $timezone = request()->has('timezone') ? request()->timezone : 'UTC';
+            $start_date = Carbon::createFromFormat('Y-m-d H:i', request()->start_date, $timezone);
+            $end_date = $start_date->copy()->endOfDay();
+            $utc_start_datetime = $start_date->copy()->setTimezone('UTC');
+            $utc_end_datetime = $end_date->copy()->setTimezone('UTC');
+
             $user = auth()->user();
             $event = EventModel::findOrFail($id);
             $event->title = request()->title;
             $event->all_day = request()->all_day;
-            $event->start = request()->start_date;
-            $event->end = request()->end_date;
+            $event->start = $start_date->toDateTimeString();
+            $event->utc_start = $utc_start_datetime->toDateTimeString();
+            $event->end = $end_date->toDateTimeString();
+            $event->utc_end = $utc_end_datetime->toDateTimeString();
             $event->description = request()->description;
             $event->eventtypes_id = request()->event_type;
-            $event->properties = [
-                'timezone' => request()->has('timezone') ? request()->timezone : 'UTC',
-                'send_notify' => request()->notify ?? 0,
-                'creator' => $user->id,
-                'alarm' => request()->alarm ?? false,
-                'time' => request()->time ?? [],
-                'link' => request()->link ?? ''
-            ];
+
+            $props = $event->properties;
+            $props['send_notify'] = request()->alarm ?? 0;
+            $props['alarm'] = request()->alarm ?? false;
+            $props['link'] = request()->link ?? null;
+            $event->properties = $props;
             $event->save();
 
-            $event->participants()->delete();
+            $event->users()->detach();
 
             if (request()->has('participants') && !empty(request()->participants)) {
                 foreach (request()->participants as $key => $participant) {
-                    $event->participants()->create(['user_id' => $participant, 'added_by' => $user->id]);
+                    $event->users()->attach($participant, ['added_by' => $user->id]);
                 }
             }
             DB::commit();
 
-            $event->participants = $event->participants()->with(['user', 'addedBy'])->get()->toArray();
+            $event = $event->fresh();
+            $event->load('users');
             $event->event_type = $event->eventType;
 
             return $event;
@@ -180,11 +203,7 @@ class EventController extends Controller
 
         $event = EventModel::findOrFail($id);
 
-        if ($event->properties['creator'] === $user_id) {
-            return response()->json(['message' => 'Cannot remove self from own event'], 500);
-        }
-
-        $event->participants()->where('user_id', $user_id)->delete();
+        $event->users()->detach($user_id);
 
         return response()->json(['message' => 'Successfully remove from event', 'user_id' => $user_id], 200);
     }
@@ -201,13 +220,9 @@ class EventController extends Controller
 
         $event = EventModel::findOrFail($id);
 
-        if (request()->has('participants') && !empty(request()->participants)) {
-            foreach (request()->participants as $key => $participant) {
-                $event->participants()->create(['user_id' => $participant, 'added_by' => auth()->user()->id]);
-            }
-        }
+        $event->users()->sync(request()->participants);
 
-        return $event->participants()->with(['user', 'addedBy'])->get()->toArray();
+        return $event->users;
     }
 
     /**

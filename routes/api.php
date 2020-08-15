@@ -97,6 +97,16 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
     Route::get('list', 'MessageController@list');
 
+    Route::get('conversations/list', 'MessageController@conversationList');
+
+    Route::post('conversations', 'MessageController@newGroupConversation');
+
+    Route::post('conversations/{id}/messages', 'MessageController@sendConversationMessage');
+
+    Route::get('conversations/{id}/messages', 'MessageController@fetchConversationMessages');
+
+    Route::post('conversations/{id}/members', 'MessageController@manageConversatioMembers');
+
     Route::get('group/list', 'MessageController@groupList');
 
     Route::get('group/private/{convo_id}', 'MessageController@fetchGroupMessages');
@@ -239,6 +249,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'company'], function () {
     Route::get('{id}/info', 'CompanyController@info');
 
     Route::put('{id}/info', 'CompanyController@updateInfo');
+
+    Route::post('{id}/logo/via-url', 'CompanyController@setLogoViaUrl');
 
     Route::post('{id}/logo', 'CompanyController@uploadLogo');
 
@@ -385,6 +397,20 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () 
 
     Route::get('{id}/dashitems', 'DashboardController@dashitems');
 
+});
+
+//notifications
+Route::group(['middleware' => 'auth:api', 'prefix' => 'notifications'], function () {
+
+    Route::get('/', 'NotificationController@index');
+
+    Route::put('/chat/mark-as-read', 'NotificationController@markAllChatAsRead');
+
+    Route::put('/company/mark-as-read', 'NotificationController@markAllCompanyAsRead');
+
+    Route::put('/chat/{id}/mark-as-read', 'NotificationController@chatMarkAsRead');
+
+    Route::put('/company/{id}/mark-as-read', 'NotificationController@notificationMarkAsRead');
 });
 
 //users

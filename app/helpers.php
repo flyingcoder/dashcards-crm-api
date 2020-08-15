@@ -189,7 +189,7 @@ if (!function_exists('createMentions')) {
         }
 
         return array(
-            'content' => $content,
+            'content' => nl2br($content),
             'mentions' => array_unique($mentions)
         );
     }

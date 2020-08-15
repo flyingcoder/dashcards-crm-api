@@ -4,18 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Conversation;
 use App\Events\ChatNotification;
-use App\Events\GroupChatSent;
-use App\Events\PrivateChatSent;
 use App\Message;
 use App\MessageNotification;
 use App\Project;
 use App\Repositories\MembersRepository;
+use App\Traits\ConversableTrait;
 use App\User;
 use Chat;
 
+/**
+ * Class MessageController
+ * @package App\Http\Controllers
+ */
 class MessageController extends Controller
 {
+    use ConversableTrait;
+    /**
+     * @var MembersRepository
+     */
     protected $repo;
+    /**
+     * @var int
+     */
     protected $message_per_load = 10;
 
     /**
@@ -48,8 +58,8 @@ class MessageController extends Controller
 
         $members = $company->allCompanyMembers();
 
-        $members->map(function($user){
-            if(request()->has('has_msg_count') && request()->has_msg_count) {
+        $members->map(function ($user) {
+            if (request()->has('has_msg_count') && request()->has_msg_count) {
                 $counts = 0;
                 $conversation = Chat::conversations()->between(auth()->user(), $user);
                 if ($conversation) {
@@ -70,14 +80,14 @@ class MessageController extends Controller
     public function groupList()
     {
         $user_id = auth()->user()->id;
-        $conversations = Conversation::join('mc_conversation_user', function ($join) use ($user_id){
-                $join->on('mc_conversation_user.conversation_id', '=', 'mc_conversations.id')
-                    ->where('mc_conversation_user.user_id', '=', $user_id);
-            })->where('mc_conversations.type', '=', 'group')
+        $conversations = Conversation::join('mc_conversation_user', function ($join) use ($user_id) {
+            $join->on('mc_conversation_user.conversation_id', '=', 'mc_conversations.id')
+                ->where('mc_conversation_user.user_id', '=', $user_id);
+        })->where('mc_conversations.type', '=', 'group')
             ->get();
 
-        $conversations->map(function($conversation){
-            if(request()->has('has_msg_count') && request()->has_msg_count) {
+        $conversations->map(function ($conversation) {
+            if (request()->has('has_msg_count') && request()->has_msg_count) {
                 $counts = $this->getUnReadNotifCounts($conversation->id);
                 $conversation->message_count = $counts;
             }
@@ -94,12 +104,12 @@ class MessageController extends Controller
      * @return mixed
      */
     public function fetchPrivateMessages($friend_id)
-	{
+    {
         $friend = User::findOrFail($friend_id);
 
-		$conversation = Chat::conversations()->between(auth()->user(), $friend);
+        $conversation = Chat::conversations()->between(auth()->user(), $friend);
 
-        if(is_null($conversation))
+        if (is_null($conversation))
             $conversation = Chat::createConversation([auth()->user(), $friend]);
 
         $messages = $conversation->messages()->latest()->paginate($this->message_per_load);
@@ -109,16 +119,21 @@ class MessageController extends Controller
         foreach ($items as $key => $msg) {
             $msg->body = getFormattedContent($msg->body);
             $message = Message::findOrFail($msg->id);
-            $data->push(array_merge($msg->toArray(), ['media' => $message->getFile() ]));   
+            $data->push(array_merge($msg->toArray(), ['media' => $message->getFile()]));
         }
 
         $messages->setCollection($data);
         $this->markAllAsRead($conversation->id);
 
         return $messages;
-	}
+    }
 
-    public function fetchGroupMessages($convo_id) {
+    /**
+     * @param $convo_id
+     * @return mixed
+     */
+    public function fetchGroupMessages($convo_id)
+    {
         $conversation = Chat::conversations()->getById($convo_id);
 
         $messages = $conversation->messages()->latest()->paginate($this->message_per_load);
@@ -129,7 +144,7 @@ class MessageController extends Controller
         foreach ($items as $key => $msg) {
             $msg->body = getFormattedContent($msg->body);
             $message = Message::findOrFail($msg->id);
-            $data->push(array_merge($msg->toArray(), ['media' =>  $message->getFile() ]));   
+            $data->push(array_merge($msg->toArray(), ['media' => $message->getFile()]));
         }
 
         $messages->setCollection($data);
@@ -138,12 +153,15 @@ class MessageController extends Controller
         return $messages;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendPrivateMessage()
     {
-    	request()->validate([
-    		'from_id' => 'required|exists:users,id',
+        request()->validate([
+            'from_id' => 'required|exists:users,id',
             'to_id' => 'required|exists:users,id'
-    	]);
+        ]);
 
         $body = request()->has('message') && !empty(request()->message) ? request()->message : ' ';
         $mention = createMentions($body);
@@ -152,40 +170,37 @@ class MessageController extends Controller
         $from = User::findOrFail(request()->from_id);
         $to = User::findOrFail(request()->to_id);
 
-        $conversation = Chat::conversations()->between($from, $to);
-        
-        if(is_null($conversation))
-            $conversation = Chat::createConversation([auth()->user(), $from]);
-        
-    	$message = Chat::message($body)
-			           ->from($from)
-			           ->to($conversation)
-			           ->send();
+        $conversation = $from->privateRoom($to);
+
+        $message = $conversation->message($body)
+            ->from($from)
+            ->to($conversation)
+            ->send();
 
         $message->body = getFormattedContent($message->body);
         $media = null;
 
-        if (request()->has('file') && !is_null(request()->file) ) {
+        if (request()->has('file') && !is_null(request()->file)) {
             $file = request()->file('file');
             $msg = Message::findOrFail($message->id);
 
             $media = $msg->addMedia($file)
-                            ->preservingOriginal()
-                            ->withCustomProperties([
-                                'ext' => $file->extension(),
-                                'user' => $from
-                            ])
-                            ->toMediaCollection('chat.file');
+                ->preservingOriginal()
+                ->withCustomProperties([
+                    'ext' => $file->extension(),
+                    'user' => $from
+                ])
+                ->toMediaCollection('chat.file');
 
             $media = $msg->getFile();
         }
-        
-        $data = $message->toArray() + ['sender' => $from, 'media' => $media ];
 
-        PrivateChatSent::dispatch($data, $to);
+        $data = $message->toArray() + ['sender' => $from, 'media' => $media];
+
+        //PrivateChatSent::dispatch($data, $to);
         ChatNotification::dispatch($data, $to);
 
-		return response()->json($data, 201);
+        return response()->json($data, 201);
     }
 
     /**
@@ -203,34 +218,32 @@ class MessageController extends Controller
         $body = $mention['content'];
 
         $from = User::findOrFail(request()->from_id);
-        $conversation = Chat::conversations()->getById(request()->convo_id);
+        $conversation = $this->groupChat(request()->convo_id);
 
-        $message = Chat::message($body)
-                       ->from($from)
-                       ->to($conversation)
-                       ->send();
+        $message = Chat::message($body)->from($from)->to($conversation)->send();
 
         $message->body = getFormattedContent($message->body);
         $media = null;
 
-        if (request()->has('file') && !is_null(request()->file) ) {
+        if (request()->has('file') && !is_null(request()->file)) {
             $file = request()->file('file');
             $msg = Message::findOrFail($message->id);
 
             $media = $msg->addMedia($file)
-                            ->preservingOriginal()
-                            ->withCustomProperties([
-                                'ext' => $file->extension(),
-                                'user' => $from
-                            ])
-                            ->toMediaCollection('chat.file');
+                ->preservingOriginal()
+                ->withCustomProperties([
+                    'ext' => $file->extension(),
+                    'user' => $from->id
+                ])
+                ->toMediaCollection('chat.file');
 
             $media = $msg->getFile();
         }
 
-        $data = $message->toArray() + ['sender' => $from, 'media' => $media ];
+        $data = $message->toArray() + ['sender' => $from, 'media' => $media];
 
-        GroupChatSent::dispatch($data, $conversation);
+        //remove redundant broadcast
+        //GroupChatSent::dispatch($data, $conversation);
 
         return response()->json($data, 201);
     }
@@ -245,10 +258,26 @@ class MessageController extends Controller
             return 0;
         }
         return MessageNotification::where('user_id', '=', auth()->user()->id)
-                        ->where('is_sender', '=', 0)
-                        ->where('conversation_id', '=', $conversation_id)
-                        ->where('is_seen', '=', 0)
-                        ->count();
+            ->where('is_sender', '=', 0)
+            ->where('conversation_id', '=', $conversation_id)
+            ->where('is_seen', '=', 0)
+            ->count();
+    }
+
+    /**
+     * @param $conversation_id
+     * @return mixed
+     */
+    protected function mark_as_read($conversation_id)
+    {
+        $notificationQuery = MessageNotification::where('user_id', '=', auth()->user()->id)
+            ->where('is_sender', '=', 0);
+
+        if ($conversation_id > 0 && !is_null($conversation_id)) {
+            $notificationQuery = $notificationQuery->where('conversation_id', '=', $conversation_id);
+        }
+
+        return $notificationQuery->update(['is_seen' => 1]);
     }
 
     /**
@@ -257,17 +286,14 @@ class MessageController extends Controller
      */
     public function markAllAsRead($conversation_id = null)
     {
-        $notifQuery =  MessageNotification::where('user_id', '=', auth()->user()->id)
-                        ->where('is_sender', '=', 0);
-
-        if ($conversation_id > 0 && !is_null($conversation_id)) {
-            $notifQuery = $notifQuery->where('conversation_id', '=', $conversation_id);
-        }
-        $notifQuery->update(['is_seen' => 1]);
+        $this->mark_as_read($conversation_id);
 
         return response()->json(['message' => 'Success'], 200);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createGroupChat()
     {
         request()->validate([
@@ -279,19 +305,17 @@ class MessageController extends Controller
         $participants = $participants->pluck('id')->toArray();
 
         $data = array(
-                'type' => 'group',
-                'group_name' => request()->group_name,
-                'company_id' => $logged_user->company()->id,
-                'group_creator' => $logged_user
-            );
+            'group_name' => request()->group_name,
+            'company' => $logged_user->company()->id,
+            'group_creator' => $logged_user->id
+        );
 
-        $conversation = Chat::createConversation($participants,$data);
+        $conversation = Chat::createConversation($participants, $data);
         $conversation->type = 'group';
         $conversation->save();
 
-        $conversation->is_online = 1;
         $conversation->fullname = request()->group_name;
-        $conversation->members = $conversation->users()->get();
+        $conversation->members = $conversation->users;
 
         return response()->json($conversation->toArray(), 201);
     }
@@ -315,12 +339,16 @@ class MessageController extends Controller
         return response()->json($conversation->toArray(), 200);
     }
 
+    /**
+     * @param $conversation_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function groupChatMembers($conversation_id)
     {
         $conversation = Chat::conversations()->getById($conversation_id);
 
         if (!$conversation) {
-            return response()->json(['message' => 'Conversation not found!'], 522);    
+            return response()->json(['message' => 'Conversation not found!'], 522);
         }
 
         return response()->json($conversation->users()->get()->toArray(), 200);
@@ -335,15 +363,15 @@ class MessageController extends Controller
             'convo_id' => 'required|exists:mc_conversations,id',
             'users' => 'required|array'
         ]);
-        
+
         $conversation = Chat::conversations()->getById(request()->convo_id);
-        
+
         $convo_users = $conversation->users()->pluck('id')->toArray();
 
         $conversation->removeUsers($convo_users);
 
         $conversation->addParticipants(request()->users);
-        
+
         return response()->json($conversation->users()->get()->toArray(), 200);
     }
 
@@ -353,52 +381,169 @@ class MessageController extends Controller
      * @return mixed
      */
     public function getGroupInfo($type, $project_id)
-    {   
+    {
         if (!in_array($type, ['client', 'team'])) {
             abort(500, 'Invalid group type!');
         }
 
         $project = Project::findOrFail($project_id);
-        $project_company = $project->company;
-        
-        $conversation = $project->conversations()->where('type', $type)->first();
-        $participants1 = $conversation->users()->get()->toArray();
 
-        if (!$conversation || empty($participants1)) {
-            if ($type == 'client') {
-                $members = $this->repo->getProjectClientChatMembers($project);
-                $participants = array_unique($members->pluck('id')->toArray());
-            } else {
-                $members = $this->repo->getProjectTeamChatMembers($project);
-                $participants = $members->pluck('id')->toArray() ?? [];
-            }
-        }
+        $conversation = $type == 'client' ? $project->clientProjectRoom() : $project->teamProjectRoom();
 
         if (!$conversation) {
-            $data = array(
-                'type' => $type,
-                'group_name' => $project_company->name." ".ucwords($type)." Message Group",
-                'company_id' => $project_company->id,
-            );
-            
-            $conversation = Chat::createConversation($participants, $data);
-            $conversation->type = $type;
-            $conversation->project_id = $project_id;
-            $conversation->save();
+            abort(500, ucwords($type) . ' Conversation unavailable');
         }
 
-        if (empty($participants1)) {
-            $conversation->addParticipants($participants);
-        }
-        $members = $conversation->users()->get();
-        foreach ($members as $key => $member) {
-            $members[$key]->is_company_owner = $member->is_company_owner;
-        }
-        $conversation->members = $members->toArray();
+        $conversation->members = $conversation->users;
 
         return $conversation;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function conversationList()
+    {
+        $user = auth()->user();
+        $company = $user->company();
+        $members = $company->company_members()->where('id', '<>', $user->id)->get();
+        $user_list = collect([]);
+        foreach ($members as $member) {
+            $conversation = $user->privateRoom($member);
+            $conversation->user = $member->basics();
+            $member->conversation = $conversation;
+            if (request()->has('has_msg_count') && request()->has_msg_count) {
+                $member->message_count = $this->getUnReadNotifCounts($member->conversation->id);
+            }
+            $user_list->push($member);
+        }
 
+        $group_list = collect([]);
+        $groups = $user->conversations()->with('users')->where('type', 'group')->get();
+        foreach ($groups as $group) {
+            if (request()->has('has_msg_count') && request()->has_msg_count) {
+                $group->message_count = $this->getUnReadNotifCounts($group->id);
+            }
+            $group_list->push($group);
+        }
+
+        return response()->json(['user_list' => $user_list, 'group_list' => $group_list], 200);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function fetchConversationMessages($id)
+    {
+        $conversation = auth()->user()->conversations()->where('id', $id)->first();
+
+        if (!$conversation)
+            abort(404, 'No conversation found!');
+
+        $messages = $conversation->messages()
+            ->latest()
+            ->paginate($this->message_per_load);
+
+        $items = $messages->getCollection();
+        $data = collect([]);
+        foreach ($items as $key => $message) {
+            $message->body = getFormattedContent($message->body);
+            $data->push(array_merge($message->toArray(), ['media' => $message->getFile()]));
+        }
+        $messages->setCollection($data);
+
+        $this->markAllAsRead($conversation->id);
+
+        return $messages;
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendConversationMessage($id)
+    {
+        request()->validate(['conversation_id' => 'required|exists:mc_conversations,id']);
+        $body = ' ';
+        if (request()->has('message') && !empty(request()->message)) {
+            $mention = createMentions(request()->message);
+            $body = $mention['content'];
+        }
+
+        $from = request()->user();
+        $conversation = $from->conversations()->where('id', request()->id)->firstOrFail();
+        $message = Chat::message($body)->from($from)->to($conversation)->send();
+        $message->body = getFormattedContent($message->body);
+        $media = null;
+
+        if (request()->has('file') && !is_null(request()->file)) {
+            $file = request()->file('file');
+            $message = Message::findOrFail($message->id);
+            $message->addMedia($file)->preservingOriginal()
+                ->withCustomProperties(['ext' => $file->extension(), 'user' => $from->id])
+                ->toMediaCollection('chat.file');
+
+            $media = $message->getFile();
+        }
+
+        $data = $message->toArray() + ['sender' => $from, 'media' => $media];
+
+        //GroupChatSent::dispatch($data, $conversation);
+        return response()->json($data, 201);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function manageConversatioMembers($id)
+    {
+        request()->validate([
+            'conversation_id' => 'required|exists:mc_conversations,id',
+            'users' => 'required|array'
+        ]);
+        $user = auth()->user();
+        $conversation = $user->conversations()->where('id', request()->conversation_id)->firstOrFail();
+        $new_users = User::whereIn('id', request()->users)->get();
+
+        if ($new_users->isEmpty() || $new_users->count() < 2)
+            abort(500, 'Conversation must have atleast 2 members!');
+
+        Chat::conversation($conversation)->removeParticipants($conversation->users);
+
+        $conversation->addParticipants([$new_users]);
+
+        $conversation->load('users');
+
+        return $conversation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function newGroupConversation()
+    {
+        request()->validate([
+            'users' => 'required|array',
+            'group_name' => 'required|string|min:5'
+        ]);
+        $logged_user = auth()->user();
+        $participants = User::whereIn('id', request()->users)->orWhere('id', $logged_user->id)->get();
+
+        $data = array(
+            'group_name' => request()->group_name,
+            'company' => $logged_user->company()->id,
+            'group_creator' => $logged_user->id
+        );
+
+        $conversation = Chat::createConversation([$participants], $data);
+        $conversation->type = 'group';
+        $conversation->save();
+
+        $conversation->load('users');
+
+        return $conversation;
+    }
 }
     

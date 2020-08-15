@@ -2,41 +2,30 @@
 
 namespace App\Events;
 
-use App\User;
-use App\MessageNotification;
+use App\Traits\ConversableTrait;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Musonza\Chat\Models\Message;
 
 class ChatNotification implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels, ConversableTrait;
 
-    public $notification;
+    public $message;
+    public $sender;
+    public $receivers;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct($message, User $user)
+    public function __construct(Message $message)
     {
-        $notification = MessageNotification::where([
-                            ['message_id', '=', $message['id']],
-                            ['is_sender', '=', 0],
-                            ['is_seen', '=', 0]
-                        ])->first();
+        $this->message = $message;
+        $this->sender = $message->sender;
+        $this->receivers = $message->conversation->users;
 
-        $data = collect($notification);
-        $data->put('body', $message['body']);
-        $data->put('sender', $message['sender']);
-        $data->put('to_id', $user->id);
-
-        $this->notification = $data;
+        //$this->createNotifications($message);
     }
 
     /**
@@ -46,6 +35,6 @@ class ChatNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.notification.' . $this->notification['to_id']);
+        return new PresenceChannel('friend-list-' . $this->sender->company()->id);
     }
 }

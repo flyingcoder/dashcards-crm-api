@@ -13,7 +13,7 @@ class ActivityController extends Controller
     public function index()
     {
         $company = auth()->user()->company();
-        $per_page = request()->has('per_page') ? request()->per_page : 5;
+        $per_page = request()->has('per_page') ? (int) request()->per_page : 5;
 
         if (request()->has('page') && request()->page > 0) {
             $timelines = $company->timeline()

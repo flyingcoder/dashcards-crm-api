@@ -80,8 +80,8 @@ class ClientController extends Controller
         foreach ($items as $key => $client) {
             $client->is_client = true;
             $client->projects = $client->projects()->count();
-            $company = $client->clientCompanies()->first() ?? null;
-            $data->push(array_merge($client->toArray(), ['company' => $company]));
+            $companies = $client->clientCompanies;
+            $data->push(array_merge($client->toArray(), ['company' => $companies[0], 'companies' => $companies]));
         }
         $clients->setCollection($data);
 
@@ -96,8 +96,7 @@ class ClientController extends Controller
     {
         $client = User::findOrFail($id);
         $client->getAllMeta();
-        $client->company = $client->clientCompanies()->first();
-        $client->main_company = $client->mainCompany;
+        $client->company = $client->mainCompany;
         $client->companies = $client->clientCompanies;
         $client->no_invoices = $this->invoiceRepo->countInvoices($client, 'all');
         $client->total_amount_paid = $this->invoiceRepo->totalInvoices($client, 'billed_to', 'paid');
@@ -146,9 +145,6 @@ class ClientController extends Controller
                     'rate' => request()->rate ?? ''
                 ]
             ]);
-
-            $member->setMeta('address', request()->address ?? 'Unknown');
-            $member->setMeta('rate', request()->rate ?? '');
 
             $company = auth()->user()->company();
             $role = request()->group_name;
@@ -273,10 +269,11 @@ class ClientController extends Controller
             ]);
             $client->companies()->attach($client_company->id, ['type' => 'client']);
             DB::commit();
+            $client->is_client = true;
+            $client->companies = $client->clientCompanies;
+            $client->projects =  $client->projects()->count();
 
-            $client->load('companies');
-
-            return $client;
+            return  $client;
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 500);
@@ -327,6 +324,7 @@ class ClientController extends Controller
                 ]
             ]);
 
+            $client->companies()->attach($company->id, ['type' => 'main']);
             $client->companies()->attach($client_company->id, ['type' => 'client']);
 
             $team = $company->teams()->where('slug', 'client-' . $company->id)->first();
@@ -338,7 +336,8 @@ class ClientController extends Controller
 
             DB::commit();
 
-            $client->company = $client_company;
+            $client->companies = $client->clientCompanies;
+            $client->is_client = true;
             $client->projects = 0;
 
             $config = $this->getConfigByKey('email_events', false);
@@ -360,13 +359,11 @@ class ClientController extends Controller
     {
         $client = User::findOrFail($id);
         request()->validate([
-            //'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'email' => ['required', 'email', Rule::unique('users')->ignore($client->id)],
-            'telephone' => 'required',
+            'telephone' => 'sometimes',
             'status' => 'required',
-            'company_name' => 'required',
         ]);
 
         try {
@@ -385,16 +382,13 @@ class ClientController extends Controller
             $client->props = $props;
             $client->save();
 
-            $company = $client->clientCompanies()->first() ?? null;
-            $company->name = request()->company_name;
-            $company->address = request()->location ?? null;
-            $props = $company->others;
-            $props['contact_name'] = request()->contact_name ?? null;
-            $company->others = $props;
-            $company->save();
+            $companies = $client->clientCompanies;
+            $company = $companies[0] ?? null;
 
             DB::commit();
+            $client->is_client = true;
             $client->company = $company;
+            $client->companies = $companies;
             $client->projects = $client->projects()->count();
 
             return $client;

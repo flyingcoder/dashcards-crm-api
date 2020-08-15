@@ -57,15 +57,17 @@ class CalendarEventRepository
      */
     public function getPaginatedEvents(User $user)
     {
-        $per_page = request()->has('per_page') ? request()->per_page : $this->pagination;
+        $per_page = request()->has('per_page') ? (int) request()->per_page : $this->pagination;
 
-        $participation = $user->event_participations()->pluck('event_id')->toArray();
+        $events = EventModel::whereHas('users', function ($query) use ($user) {
+                    $query->where('users.id', $user->id);
+                })
+                ->with('users');
 
-        $events = EventModel::whereIn('id', $participation);
         if (request()->has('date') && !empty(request()->date)) {
             $date = request()->date;
 
-            $events = $events->whereRaw('? between date(`start`) and date(`end`)', array($date));
+            $events = $events->whereRaw('? between date(`events`.`start`) and date(`events`.`end`)', array($date));
         }
 
         if (request()->has('alarm') && request()->alarm) {
@@ -75,7 +77,6 @@ class CalendarEventRepository
         $events = $events->orderBy('start', 'ASC')->paginate($per_page);
 
         $events->map(function ($event) {
-            $event['participants'] = $event->participants()->with(['user', 'addedBy'])->get()->toArray();
             $event['event_type'] = $event->eventType;
         });
 

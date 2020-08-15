@@ -1,17 +1,15 @@
-<?php /** @noinspection ALL */
+<?php
 
 namespace App;
 
 use App\Events\ActivityEvent;
 use App\Notifications\PasswordResetNotification;
+use App\Traits\ConversableTrait;
 use App\Traits\HasTimers;
 use App\Traits\TaskTrait;
-use Chat;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Kodeine\Acl\Traits\HasRole;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
@@ -22,6 +20,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use App\Conversation;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -35,45 +34,85 @@ class User extends Authenticatable implements HasMedia
         LogsActivity,
         HasTimers,
         Searchable,
-        TaskTrait;
+        TaskTrait,
+        ConversableTrait;
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'username', 'first_name', 'last_name', 'email', 'is_online', 'telephone', 'job_title', 'password', 'image_url', 'created_by', 'props'
     ];
 
+    /**
+     * @var string
+     */
     protected static $logName = 'system.user';
 
+    /**
+     * @var array
+     */
     protected $appends = ['fullname', 'location', 'rate', 'user_roles'];
 
+    /**
+     * @var bool
+     */
     protected static $logOnlyDirty = true;
 
+    /**
+     * @var array
+     */
     protected static $logAttributes = [
         'username', 'first_name', 'last_name', 'email', 'telephone', 'job_title', 'password', 'image_url'
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'telephone' => 'array',
         'props' => 'array'
     ];
+    /**
+     * @var array
+     */
     protected $default_columns = [
         'email', 'first_name', 'id', 'image_url', 'job_title', 'last_name', 'telephone', 'trial_ends', 'username'
     ];
 
+    /**
+     * @var int
+     */
     protected $paginate = 10;
 
+    /**
+     * @var array
+     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    /**
+     * @var array
+     */
     protected $dates = ['deleted_at', 'trial_ends_at', 'subscription_ends_at'];
 
+    /**
+     * @return array
+     */
     public function basics()
     {
+        $company = $this->company() ?? null;
+        $basic_company = $company ? ['id' => $company->id, 'name' => $company->name] : [];
         return [
             'id' => $this->id,
+            'company' => $basic_company,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'username' => $this->username,
             'fullname' => $this->fullname,
+            'job_title' => $this->job_title,
+            'email' => $this->email,
             'image_url' => $this->image_url,
             'is_admin' => $this->hasRoleLike('admin'),
             'is_client' => $this->hasRoleLike('client'),
@@ -81,6 +120,14 @@ class User extends Authenticatable implements HasMedia
             'is_company_owner' => $this->is_company_owner ?? false,
             'is_buzzooka_super_admin' => in_array($this->email, config('telescope.allowed_emails'))
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getParticipantDetailsAttribute()
+    {
+        return $this->basics();
     }
 
     /**
@@ -106,7 +153,6 @@ class User extends Authenticatable implements HasMedia
     public function taskStatusCounter($status)
     {
         return $this->tasks()->where('status', $status)->count();
-
     }
 
     /**
@@ -474,29 +520,9 @@ class User extends Authenticatable implements HasMedia
      */
     public function scopeDefaultColumn()
     {
-        return $this->select(
-            'id',
-            'email',
-            'first_name',
-            'image_url',
-            'job_title',
-            'last_name',
-            'telephone',
-            'trial_ends_at',
-            'username')
+        return $this->select('id', 'email', 'first_name', 'image_url', 'job_title', 'last_name', 'telephone', 'trial_ends_at', 'username')
             ->where('id', $this->id)
             ->first();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function CountChats()
-    {
-        return Chat::conversations()
-            ->for(auth()->user())
-            ->get()
-            ->count();
     }
 
     /**
@@ -507,7 +533,6 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(OauthAccessToken::class);
     }
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -516,7 +541,6 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Invoice::class, 'billed_to', 'id');
     }
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -524,7 +548,6 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Invoice::class, 'billed_from', 'id');
     }
-
 
     /**
      * @return mixed
@@ -561,16 +584,6 @@ class User extends Authenticatable implements HasMedia
             ->whereNull('read_at')
             ->with('causer')
             ->get();
-    }
-
-    /**
-     * @return int
-     */
-    public function CountUnreadActivity()
-    {
-        return $this->acts()
-            ->whereNull('read_at')
-            ->count();
     }
 
     /**
@@ -669,51 +682,6 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function userPaginatedProject(Request $request)
-    {
-        list($sortName, $sortValue) = parseSearchParam($request);
-
-        $projects = $this->projects()
-            ->join('project_user as manager_pivot', function ($join) {
-                $join->on('manager_pivot.project_id', '=', 'projects.id')
-                    ->where('manager_pivot.role', '=', 'Manager');
-            })
-            ->join('users as manager', 'manager_pivot.user_id', '=', 'manager.id')
-            ->join('project_user as client_pivot', function ($join) {
-                $join->on('client_pivot.project_id', '=', 'projects.id')
-                    ->where('client_pivot.role', '=', 'Client');
-            })
-            ->join('users as client', 'client_pivot.user_id', '=', 'client.id')
-            ->select(
-                DB::raw('CONCAT(CONCAT(UCASE(LEFT(manager.last_name, 1)), SUBSTRING(manager.last_name, 2)), ", ", CONCAT(UCASE(LEFT(manager.first_name, 1)), SUBSTRING(manager.first_name, 2))) AS manager_name'),
-                'client.image_url as client_image_url',
-                DB::raw('CONCAT(CONCAT(UCASE(LEFT(client.last_name, 1)), SUBSTRING(client.last_name, 2)), ", ", CONCAT(UCASE(LEFT(client.first_name, 1)), SUBSTRING(client.first_name, 2))) AS client_name'),
-                'projects.*'
-            )->where('projects.deleted_at', null);
-
-        if ($request->has('status'))
-            $projects->where('status', $request->status);
-
-        if ($request->has('sort') && !empty(request()->sort))
-            $projects->orderBy($sortName, $sortValue);
-        else
-            $projects->latest();
-
-        if (request()->has('search') && !empty($request->search)) {
-            $keyword = request()->search;
-            $projects->searchProjects($keyword);
-        }
-
-        if (request()->has('per_page') && is_numeric(request()->per_page))
-            $this->paginate = request()->per_page;
-
-        return $projects->with('tasks')->paginate($this->paginate);
-    }
-
-    /**
      * @return mixed
      */
     public function company()
@@ -732,7 +700,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function clientCompanies()
     {
@@ -750,6 +718,7 @@ class User extends Authenticatable implements HasMedia
             ->wherePivot('type', '=', 'main')
             ->first();
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -775,6 +744,16 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function events()
+    {
+        return $this->belongsToMany(EventModel::class, 'event_participants', 'user_id', 'event_id')
+            ->withPivot('added_by')
+            ->withTimestamps();
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return array
@@ -790,5 +769,13 @@ class User extends Authenticatable implements HasMedia
     public function scheduleTasks()
     {
         return $this->hasMany(ScheduleTask::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function conversations()
+    {
+        return $this->belongsToMany(Conversation::class, 'mc_conversation_user', 'user_id', 'conversation_id')->withTimestamps();
     }
 }
