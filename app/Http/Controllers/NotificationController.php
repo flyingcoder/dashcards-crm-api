@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\User;
 use Chat;
 
+/**
+ * Class NotificationController
+ * @package App\Http\Controllers
+ */
 class NotificationController extends Controller
 {
 
@@ -101,8 +105,11 @@ class NotificationController extends Controller
      */
     public function chatMarkAsRead($id)
     {
-        $conversation = Chat::conversations()->getById($id);
-        Chat::conversation($conversation)->setParticipant(request()->user())->readAll();
+        $user = request()->user();
+        $user->messageNotification()
+            ->where('conversation_id', $id)
+            ->where('is_seen', 0)
+            ->update(['updated_at' => now(), 'is_seen' => 1]);
 
         return response()->json(['message' => 'Success'], 200);
     }
@@ -114,10 +121,12 @@ class NotificationController extends Controller
     public function markAllChatAsRead()
     {
         $user = request()->user();
-        $conversations = $user->conversations();
-
-        foreach ($conversations as $conversation) {
-            Chat::conversation($conversation)->setParticipant($user)->readAll();
+        $conversations = $user->conversations()->pluck('id')->toArray();
+        if (!empty($conversations)) {
+            $user->messageNotification()
+                ->whereIn('conversation_id', $conversations)
+                ->where('is_seen', 0)
+                ->update(['updated_at' => now(), 'is_seen' => 1]);
         }
 
         return response()->json(['message' => 'Success'], 200);
@@ -135,5 +144,27 @@ class NotificationController extends Controller
             ->update(['read_at' => now()]);
 
         return response()->json(['message' => 'Success'], 200);
+    }
+
+    /**
+     * @param $type
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function notificationCounts($type)
+    {
+        $counts = 0;
+        if ($type == 'company') {
+            $counts = request()->user()->unreadNotifications()
+                ->where('type', 'App\\Notifications\\CompanyNotification')
+                ->count();
+        } else {
+            $counts = request()->user()->messageNotification()
+                ->where('is_seen', 0)
+                ->where('is_sender', 0)
+                ->groupBy('conversation_id')
+                ->get()
+                ->count();
+        }
+        return response()->json(['count' => $counts], 200);
     }
 }

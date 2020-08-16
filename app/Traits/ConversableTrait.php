@@ -31,7 +31,7 @@ trait ConversableTrait
         if (!$conversation)
             $conversation = Chat::createConversation([$target, $self], ['group_name' => $self->fullname.' & '.$target->fullname ])->makePrivate();
 
-        return $conversation;
+        return $self->conversations()->where('id', $conversation->id)->first();
     }
 
     /**

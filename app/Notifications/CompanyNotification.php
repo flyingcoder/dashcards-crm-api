@@ -30,11 +30,16 @@ class CompanyNotification extends Notification implements ShouldBroadcast
      * Create a new notification instance.
      *
      * @param array $data
+     * @throws \Exception
      */
     public function __construct($data = [])
     {
+        if (!isset($data['company'])) {
+            throw new \Exception('Company id is required');
+        }
         $this->data = $data;
         $this->company_id = $data['company'];
+
     }
 
     /**
@@ -62,9 +67,10 @@ class CompanyNotification extends Notification implements ShouldBroadcast
             'title' => STRING,
             'image_url' => URL, //company image, attachments etc
             'message' => STRING,
-            'type' => STRING,
+            'type' => STRING, i.e task_updated
             'read_at' => null,
-            'url' => URL
+            'path' => URL Path, i.e. /dashboard/project/18,
+            'url' => URL ie. https://crm.buzzookalocal.net:8080/dashboard/clients
         ]*/
 
         return $this->data;
@@ -94,6 +100,6 @@ class CompanyNotification extends Notification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('friend-list-' . $this->company_id);
+        return new PresenceChannel('as-company.' . $this->company_id);
     }
 }

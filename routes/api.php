@@ -101,11 +101,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
     Route::post('conversations', 'MessageController@newGroupConversation');
 
+    Route::get('conversations/user/{id}', 'MessageController@conversationByUser');
+
     Route::post('conversations/{id}/messages', 'MessageController@sendConversationMessage');
 
     Route::get('conversations/{id}/messages', 'MessageController@fetchConversationMessages');
 
-    Route::post('conversations/{id}/members', 'MessageController@manageConversatioMembers');
+    Route::post('conversations/{id}/members', 'MessageController@manageConversationMembers');
+
+    Route::post('conversations/{id}/mark-as-read', 'MessageController@readConversation');
 
     Route::get('group/list', 'MessageController@groupList');
 
@@ -403,6 +407,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dashboard'], function () 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'notifications'], function () {
 
     Route::get('/', 'NotificationController@index');
+
+    Route::get('{type}/count', 'NotificationController@notificationCounts')->where('type', 'chat|company');
 
     Route::put('/chat/mark-as-read', 'NotificationController@markAllChatAsRead');
 

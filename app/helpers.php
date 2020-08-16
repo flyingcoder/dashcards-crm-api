@@ -1,5 +1,6 @@
 <?php
 
+use App\Company;
 use Illuminate\Http\Request;
 
 if (!function_exists('parseSearchParam')) {
@@ -252,5 +253,20 @@ if (!function_exists('uniqUuidFrom')) {
     function uniqUuidFrom() {
         $uuid  =  \Illuminate\Support\Str::uuid();
         return $uuid.'-'.now()->format('YmdHis');
+    }
+}
+
+
+if (!function_exists('company_logo')) {
+
+    /**
+     * @param Company|null $company
+     * @return mixed|string
+     */
+    function company_logo(Company $company = null) {
+        if ($company && $company->company_logo)
+            return $company->company_logo;
+
+        return config('app.url') . '/img/logo/invoice-logo.png';
     }
 }

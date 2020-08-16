@@ -11,7 +11,7 @@
 |
 */
 
-use App\Broadcasting\ChatChannel;
+use App\Broadcasting\UserChannel;
 
 Broadcast::channel('activity.log.{id}', function ($user, $id) {
     return $user->hasRole('admin') && (int)$user->id === (int)$id;
@@ -53,16 +53,14 @@ Broadcast::channel('comment.task.{taskId}', function ($comment, $taskId) {
     }
 });
 
-
-Broadcast::channel('chat-as-user.{id}', ChatChannel::class);
-
-Broadcast::channel('chat-as-conversation.{id}', ChatChannel::class);
-
-Broadcast::channel('friend-list-{company_id}', \App\Broadcasting\CompanyChannel::class);
+//Channel pertaining to user
+Broadcast::channel('as-user.{id}', UserChannel::class);
+//Channel for company events
+Broadcast::channel('as-company.{company_id}', \App\Broadcasting\CompanyChannel::class);
 
 Broadcast::channel('project.client-message.{projectId}', \App\Broadcasting\ProjectClientChannel::class);
 
 Broadcast::channel('project.team-message.{projectId}', \App\Broadcasting\ProjectTeamChannel::class);
-
-Broadcast::channel('apps', \App\Broadcasting\PublicChannel::class);
+//Channel for all/global events
+Broadcast::channel('as-apps', \App\Broadcasting\PublicChannel::class);
 

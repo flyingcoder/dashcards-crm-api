@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Conversation;
-use App\Events\ChatNotification;
+use App\Events\ChatMessageSent;
 use App\Message;
 use App\MessageNotification;
 use App\Project;
@@ -172,19 +172,20 @@ class MessageController extends Controller
 
         $conversation = $from->privateRoom($to);
 
-        $message = $conversation->message($body)
-            ->from($from)
-            ->to($conversation)
-            ->send();
+        $message = $conversation->messages()
+            ->create([
+                'body' => $body,
+                'user_id' => $from->id,
+                'type' => 'text',
+                'created_at' => now()
+            ]);
 
         $message->body = getFormattedContent($message->body);
         $media = null;
 
         if (request()->has('file') && !is_null(request()->file)) {
             $file = request()->file('file');
-            $msg = Message::findOrFail($message->id);
-
-            $media = $msg->addMedia($file)
+            $message->addMedia($file)
                 ->preservingOriginal()
                 ->withCustomProperties([
                     'ext' => $file->extension(),
@@ -192,14 +193,12 @@ class MessageController extends Controller
                 ])
                 ->toMediaCollection('chat.file');
 
-            $media = $msg->getFile();
+            $media = $message->getFile();
         }
 
         $data = $message->toArray() + ['sender' => $from, 'media' => $media];
 
-        //PrivateChatSent::dispatch($data, $to);
-        ChatNotification::dispatch($data, $to);
-
+        broadcast(new ChatMessageSent($message));
         return response()->json($data, 201);
     }
 
@@ -268,7 +267,7 @@ class MessageController extends Controller
      * @param $conversation_id
      * @return mixed
      */
-    protected function mark_as_read($conversation_id)
+    protected function readConversation($conversation_id)
     {
         $notificationQuery = MessageNotification::where('user_id', '=', auth()->user()->id)
             ->where('is_sender', '=', 0);
@@ -286,7 +285,7 @@ class MessageController extends Controller
      */
     public function markAllAsRead($conversation_id = null)
     {
-        $this->mark_as_read($conversation_id);
+        $this->readConversation($conversation_id);
 
         return response()->json(['message' => 'Success'], 200);
     }
@@ -486,10 +485,12 @@ class MessageController extends Controller
 
             $media = $message->getFile();
         }
+        $message->body = getFormattedContent($message->body);
 
         $data = $message->toArray() + ['sender' => $from, 'media' => $media];
 
-        //GroupChatSent::dispatch($data, $conversation);
+        broadcast(new ChatMessageSent($message));
+
         return response()->json($data, 201);
     }
 
@@ -497,7 +498,7 @@ class MessageController extends Controller
      * @param $id
      * @return mixed
      */
-    public function manageConversatioMembers($id)
+    public function manageConversationMembers($id)
     {
         request()->validate([
             'conversation_id' => 'required|exists:mc_conversations,id',
@@ -544,6 +545,30 @@ class MessageController extends Controller
         $conversation->load('users');
 
         return $conversation;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function conversationByUser($id)
+    {
+        $friend = User::findOrFail($id);
+
+        $conversation = request()->user()->privateRoom($friend);
+        $messages = $conversation->messages()->with('sender')->latest()->paginate($this->message_per_load);
+        $items = $messages->getCollection();
+        $data = collect([]);
+        foreach ($items as $key => $message) {
+            $message->body = getFormattedContent($message->body);
+            $message->setRelation('conversation', $conversation);
+            $data->push(array_merge($message->toArray(), ['media' => $message->getFile()]));
+        }
+        $messages->setCollection($data);
+
+        $this->markAllAsRead($conversation->id);
+
+        return $messages;
     }
 }
     

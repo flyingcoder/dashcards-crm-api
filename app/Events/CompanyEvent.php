@@ -35,6 +35,6 @@ class CompanyEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('friend-list-'.$this->companyId);
+        return new PrivateChannel('as-company.'.$this->companyId);
     }
 }

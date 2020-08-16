@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ChatNotification;
-use App\Events\GroupChatSent;
-use App\Media;
-use App\Message;
+use App\MessageNotification;
 use App\Notifications\CompanyNotification;
-use App\Project;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\MembersRepository;
@@ -23,7 +19,6 @@ use App\User;
 use Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
-use Musonza\Chat\Eventing\MessageWasSent;
 
 class TestController extends Controller
 {
@@ -87,8 +82,17 @@ class TestController extends Controller
      * @return mixed|void
      * @throws \Exception
      */
-    public function index()
+    public function sample()
     {
+       $x = (User::find(5))->messageNotification()
+            ->where('is_seen', 0)
+            //->where('is_sender', 0)
+            //->groupBy('conversation_id')
+            ->get()->toArray();
+        //->count();
+        dd($x );
+        //$message = Message::with(['sender', 'conversation'])->where('id',35)->first();
+        //broadcast(new ChatMessageSent($message));
         //broadcast(new GroupChatSent(Message::find(17)));
         /*$user = User::find(3);
         $chat = Chat::conversations()->getById(23);
@@ -142,16 +146,17 @@ class TestController extends Controller
         $group_list = $user->conversations()->where('type', 'group')->get();
 
         return response()->json(['user_list' => $user_list, 'group_list' => $group_list], 200);*/
-        $media = Media::find(23);
-        dump(url($media->getUrl('thumb')));
+        //$media = Media::find(23);
+        //dump(url($media->getUrl('thumb')));
     }
 
     /**
      * @return mixed|void
+     * @throws \Exception
      */
-    public function sample()
-    {
-        dd(request()->user());
+    public function index()
+        {
+
         $user = User::find(3);
         $company = $user->company();
 
@@ -162,25 +167,12 @@ class TestController extends Controller
             'image_url' => 'https://www.itsolutionstuff.com/frontTheme/images/logo.png', //company image, attachments etc
             'message' => " Avigan is a compassionate drug which meant that it was subject to trial. Do not really know the efficacy of the medicine,” she added.",
             'type' => 'task:update',
+            'path' => '/dashboard/clients',
             'url' => 'https://crm.buzzookalocal.net:8080/dashboard/clients',
         );
 
         Notification::send($user, new CompanyNotification($data));
 
-        $data = array(
-            'company' => $company->id,
-            'targets' => [],
-            'data' => [
-                'title' => 'Flying Kunai',
-                'image_url' => 'https://www.itsolutionstuff.com/frontTheme/images/logo.png', //company image, attachments etc
-                'message' => " Avigan is a compassionate drug which meant that it was subject to trial. Do not really know the efficacy of the medicine,” she added.",
-                'type' => 'task:update',
-                'url' => null,
-                'sender' => $user
-            ],
-            'read_at' => null,
-        );
-        //Notification::send($user, new ChatNotification($data));
     }
 
 }

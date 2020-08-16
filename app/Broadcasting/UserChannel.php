@@ -4,7 +4,7 @@ namespace App\Broadcasting;
 
 use App\User;
 
-class ChatChannel
+class UserChannel
 {
     /**
      * Authenticate the user's access to the channel.
