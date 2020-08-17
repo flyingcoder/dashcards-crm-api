@@ -103,6 +103,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'chat'], function () {
 
     Route::get('conversations/user/{id}', 'MessageController@conversationByUser');
 
+    Route::get('conversations/project/{id}/members', 'MessageController@projectAllChatMembers');
+
+    Route::get('conversations/project/{id}', 'MessageController@conversationByProject');
+
     Route::post('conversations/{id}/messages', 'MessageController@sendConversationMessage');
 
     Route::get('conversations/{id}/messages', 'MessageController@fetchConversationMessages');

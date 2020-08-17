@@ -13,6 +13,7 @@ use App\Repositories\InvoiceRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\TimerRepository;
+use App\Traits\ConversableTrait;
 use App\Traits\HasConfigTrait;
 use App\Traits\HasUrlTrait;
 use App\User;
@@ -24,7 +25,7 @@ use Kodeine\Acl\Models\Eloquent\Role;
 
 class ProjectController extends Controller
 {
-    use HasUrlTrait, HasConfigTrait;
+    use HasUrlTrait, HasConfigTrait, ConversableTrait;
 
     /**
      * @var int|mixed
@@ -275,7 +276,14 @@ class ProjectController extends Controller
             DB::beginTransaction();
             $project = Project::findOrFail($id);
             $existing_members_ids = $project->team()->pluck('id')->toArray();
+            $conversation = $project->teamProjectRoom();
+            $chat_members = $conversation->users;
             foreach (request()->members_id as $key => $user_id) {
+                if ($chat_members->search(function($item) use($user_id) {
+                    return $item->id == $user_id;
+                }) === false) {
+                    $conversation->addParticipants($user_id);
+                }
                 if (in_array($user_id, $existing_members_ids)) {
                     continue;
                 }
@@ -285,6 +293,7 @@ class ProjectController extends Controller
                 } else {
                     $project->members()->attach($user_id, ['role' => 'Members']);
                 }
+
             }
             DB::commit();
             return User::whereIn('id', request()->members_id)->with('tasks')->get();
@@ -301,19 +310,25 @@ class ProjectController extends Controller
      */
     public function removeMember($id, $member_id)
     {
-
         $project = Project::findOrFail($id);
+        $removeUser = User::findOrFail($member_id);
 
-        $client = $project->projectClient;
-        $manager = $project->projectManager;
+        $client = $project->client;
+        $manager = $project->manager;
+        $user_is_project_client = $client->search(function ($item) use($removeUser){
+            return $item->id  == $removeUser->id;
+        });
+        $user_is_project_manager = $manager->search(function ($item) use($removeUser){
+            return $item->id  == $removeUser->id;
+        });
+        if ($user_is_project_client !== false)
+            abort(500, "Can't remove client ".$removeUser->fullname." for this ".$project->type.'. To forcefully remove, update the '.$project->type.' instead');
+        if ($user_is_project_manager !== false && count($manager) == 1)
+            abort(500, "Can't remove manager ".$removeUser->fullname." for this ".$project->type.'. '.ucwords($project->type).' required atleast 1 manager.');
 
-        if (in_array($member_id, [$client->user_id, $manager->user_id])) {
-            $user = User::findOrFail($member_id);
-            $role = array_values($user->user_roles)[0] ?? 'user';
-            abort(500, "Can't remove $role " . $user->fullname);
-        } else {
-            $project->members()->detach($member_id);
-        }
+        $conversation = $project->teamProjectRoom();
+        $project->members()->detach($member_id);
+        $conversation->removeUsers($member_id);
 
         return $project->members;
     }
@@ -327,22 +342,30 @@ class ProjectController extends Controller
         request()->validate([
             'ids' => 'required|array'
         ]);
+        try {
+            DB::beginTransaction();
 
-        $project = Project::findOrFail($id);
+            $project = Project::findOrFail($id);
 
-        $remove_members = $project->projectMembers()->whereIn('user_id', request()->ids)->get();
+            $remove_members = $project->projectMembers()->whereIn('user_id', request()->ids)->get();
+            $conversation = $project->teamProjectRoom();
 
-        if (!$remove_members->isEmpty()) {
-            foreach ($remove_members as $key => $member) {
-                $project->members()->detach($member->user_id);
+            if (!$remove_members->isEmpty()) {
+                foreach ($remove_members as $key => $member) {
+                    $project->members()->detach($member->user_id);
+                    $conversation->removeUsers($member->user_id);
+                }
+                DB::commit();
+                $message = $remove_members->count() . " members successfully removed from ".$project->type;
+                return response()->json(['message' => $message, 'ids' => $remove_members], 200);
             }
 
-            $message = $remove_members->count() . " members successfully removed from project";
-            return response()->json(['message' => $message, 'ids' => $remove_members], 200);
+            $message = "Cannot remove member which are manager or client of the ".$project->type;
+            return response()->json(['message' => $message], 500);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 433);
         }
-
-        $message = "Cannot remove member which are project manager or client of the project";
-        return response()->json(['message' => $message], 500);
     }
 
 
@@ -395,7 +418,6 @@ class ProjectController extends Controller
         (new ProjectPolicy())->update($project);
 
         $project->status = request()->status;
-
         $project->save();
 
         return response($project, 200);
@@ -442,32 +464,13 @@ class ProjectController extends Controller
 
         $tasksItems = $tasks->getCollection();
         $data = collect([]);
-
         foreach ($tasksItems as $key => $task) {
             $timer = $this->timeRepo->getTimerForTask($task);
             $data->push(array_merge($task->toArray(), ['timer' => $timer, 'milestone' => $task->milestone]));
         }
-
         $tasks->setCollection($data);
 
         return $tasks;
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function save()
-    {
-        (new ProjectPolicy())->create();
-
-        $clients = Role::where('slug', 'client')->first()->users;
-
-        $company = Auth::user()->company();
-
-        return view('pages.projects-new', [
-            'clients' => $clients,
-            'action' => 'add'
-        ]);
     }
 
     /**
@@ -499,6 +502,7 @@ class ProjectController extends Controller
                 ]
             ]);
 
+
             if (request()->has('extra_fields') && !empty(request()->extra_fields)) {
                 $project->setMeta('extra_fields', request()->extra_fields);
             }
@@ -523,7 +527,7 @@ class ProjectController extends Controller
 
             $proj = Project::with(['manager', 'client', 'members'])->find($project->id);
 
-            $clientCompany =  $proj->client[0]->clientCompanies()->first() ?? null;
+            $clientCompany = $proj->client[0]->clientCompanies()->first() ?? null;
             $proj->expand = false;
             $proj->company_name = $clientCompany ? $clientCompany->name : "";
             $proj->location = $clientCompany ? $clientCompany->address : ($proj->client[0]->location ?? '');
@@ -548,7 +552,7 @@ class ProjectController extends Controller
         request()->validate([
             'title' => 'required',
             'start_at' => 'required',
-            'client_id' => 'required',
+            'client_id' => 'required|exists:users,id',
         ]);
         try {
             DB::beginTransaction();
@@ -560,30 +564,19 @@ class ProjectController extends Controller
             $project->started_at = request()->start_at;
             $project->end_at = request()->end_at ?? null;
 
-            $project->members()->detach();
-
-            if (request()->has('client_id')) {
-                if (count($project->client) == 0) {
-                    $project->members()->attach(request()->client_id, ['role' => 'Client']);
-                } else if (isset($project->client()->first()->id) && $project->client()->first()->id != request()->client_id) {
-                    $project->members()->detach($project->client()->first()->id);
-                    $project->members()->attach(request()->client_id, ['role' => 'Client']);
-                }
-            }
+            $project->team()->detach();
+            $project->team()->attach(request()->client_id, ['role' => 'Client']);
 
             if (request()->has('managers')) {
                 foreach (request()->managers as $value) {
-                    if (!$project->manager->contains($value))
-                        $project->manager()->attach($value, ['role' => 'Manager']);
+                    $project->team()->attach($value, ['role' => 'Manager']);
                 }
             }
             if (request()->has('members')) {
                 foreach (request()->members as $value) {
                     if ($value == request()->client_id)
-                        abort(422, "Client can't be a member");
-
-                    if (!$project->members->contains($value))
-                        $project->members()->attach($value, ['role' => 'Members']);
+                        continue;
+                    $project->team()->attach($value, ['role' => 'Members']);
                 }
             }
 
@@ -592,6 +585,7 @@ class ProjectController extends Controller
             if (request()->has('extra_fields') && !empty(request()->extra_fields)) {
                 $project->setMeta('extra_fields', request()->extra_fields);
             }
+
             DB::commit();
             $projectFresh = Project::where('projects.id', $project->id)
                 ->with(['manager', 'client', 'members'])

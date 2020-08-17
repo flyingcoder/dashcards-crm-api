@@ -58,17 +58,17 @@ class UserController extends Controller
     {
         //(new UserPolicy())->update($model);
 
-        $model = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        $media = $model->addMedia(request()->file('file'))
-            ->usingFileName('profile-' . $model->id . ".png")
+        $media = $user->addMedia(request()->file('file'))
+            ->usingFileName('profile-' . $user->id . ".png")
             ->toMediaCollection('avatars');
 
-        $model->image_url = url($media->getUrl('thumb'));
+        $user->image_url = url($media->getUrl('thumb'));
+        $user->save();
 
-        $model->save();
-
-        return $model;
+        $user->image_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
+        return $user;
     }
 
     /**

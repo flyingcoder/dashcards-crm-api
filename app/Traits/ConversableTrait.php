@@ -43,14 +43,32 @@ trait ConversableTrait
 
         if (!$conversation) {
             $company = $this->company;
-            $client = $this->client()->first();
-            $members = $this->team()->where('id', '<>', $client->id)->get();
-            $conversation = Chat::createConversation([$members, $client])->makePrivate();
+            $clients = $this->client()->pluck('id')->toArray();
+            $members = $this->team()->whereNotIn('id', $clients)->get();
+            $conversation = Chat::createConversation([$members])->makePrivate();
             $conversation->data = ['group_name' => $company->name . " Team Message Group", 'group_creator' => 'system', 'company' => $company->id];
             $conversation->type = 'team';
             $conversation->project_id = $this->id;
             $conversation->save();
         }
+        return $conversation;
+    }
+
+    /**
+     * @return Conversation
+     */
+    public function updateTeamProjectRoomUsers()
+    {
+        $project = $this;
+        $conversation = $project->teamProjectRoom();
+        $conversation->users()->detach();
+
+        $clients = $project->client()->pluck('id')->toArray();
+        $members = $project->team()->whereNotIn('id', $clients)->get();
+        foreach ($members as $member) {
+            $conversation->addParticipants($member->id);
+        }
+
         return $conversation;
     }
 
@@ -71,9 +89,29 @@ trait ConversableTrait
             $conversation->project_id = $this->id;
             $conversation->save();
         }
+
         return $conversation;
     }
+    /**
+     * @return Conversation
+     */
+    public function updateClientProjectRoomUsers()
+    {
+        $project = $this;
+        $conversation = $project->clientProjectRoom();
+        $conversation->users()->detach();
 
+        $client = $project->client;
+        $managers = $project->manager;
+        foreach ($managers as $member) {
+            $conversation->addParticipants($member->id);
+        }
+        foreach ($client as $member) {
+            $conversation->addParticipants($member->id);
+        }
+
+        return $conversation;
+    }
     /**
      * @param $id
      * @return Conversation

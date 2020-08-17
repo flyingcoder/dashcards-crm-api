@@ -146,6 +146,7 @@ class CompanyController extends Controller
 
         $company->company_logo = url($media->getUrl());
         $company->save();
+        $company->company_logo  = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
 
         broadcast(new CompanyEvent($company->id, array_merge(['type' => 'configs'], $company->toArray())));
 

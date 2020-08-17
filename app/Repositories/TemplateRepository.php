@@ -18,6 +18,16 @@ class TemplateRepository
         'cellpadding', 'cellspacing', 'charset', 'class', 'colspan', 'content', 'data-hide-on-quote', 'data-hide-on-qoute', 'data-iterate', 'data-logo', 'dir', 'height', 'href', 'http-equiv', 'id', 'lang', 'name', 'rel', 'rowspan', 'src', 'style', 'title', 'type', 'width', 'html'
     ];
 
+    protected $paginate = 15;
+
+    /**
+     * TemplateRepository constructor.
+     */
+    public function __construct()
+    {
+        $this->paginate = request()->has('per_page') ? request()->per_page : 15;
+    }
+
     /**
      * @param null $limit
      * @return mixed
@@ -374,7 +384,7 @@ class TemplateRepository
 
         if (request()->has('search')) {
             $keyword = request()->search;
-            $model->where(function ($query) use ($keyword, $table) {
+            $model->where(function ($query) use ($keyword) {
                 $query->where("templates.name", "like", "%{$keyword}%");
                 $query->where("templates.status", "like", "%{$keyword}%");
             });

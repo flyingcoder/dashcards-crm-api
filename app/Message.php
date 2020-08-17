@@ -33,7 +33,7 @@ class Message extends BaseMessage implements HasMedia
             foreach ($medias as $key => $media) {
                 $media->download_url = URL::signedRoute('download', ['media_id' => $media->id]);
                 $media->public_url = url($media->getUrl());
-                $media->thumb_url = url($media->getUrl('thumb'));
+                $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
                 $data->push($media);
             }
         }
@@ -50,7 +50,7 @@ class Message extends BaseMessage implements HasMedia
         if ($media) {
             $media->download_url = URL::signedRoute('download', ['media_id' => $media->id]);
             $media->public_url = url($media->getUrl());
-            $media->thumb_url = url($media->getUrl('thumb'));
+            $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
             $media->category = $this->getFileCategory($media);
         }
         return $media;

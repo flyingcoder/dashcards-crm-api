@@ -435,7 +435,7 @@ class MessageController extends Controller
      */
     public function fetchConversationMessages($id)
     {
-        $conversation = auth()->user()->conversations()->where('id', $id)->first();
+        $conversation = Conversation::where('id', $id)->first();
 
         if (!$conversation)
             abort(404, 'No conversation found!');
@@ -464,14 +464,25 @@ class MessageController extends Controller
     public function sendConversationMessage($id)
     {
         request()->validate(['conversation_id' => 'required|exists:mc_conversations,id']);
+
+        $from = request()->user();
+        $conversation = $from->conversations()->where('id', request()->id)->first();
+        if (!$conversation){
+            $conversation = Conversation::where('id', request()->id)->first();
+            if ($conversation && $from->is_admin && $from->company()->projects()->where('id', $conversation->project_id)->exists()) {
+                $conversation->addParticipants($from->id);
+            } else {
+                $conversation = false;
+            }
+        }
+        if (!$conversation) {
+            abort(404, 'You are not allowed on this conversation');
+        }
         $body = ' ';
         if (request()->has('message') && !empty(request()->message)) {
             $mention = createMentions(request()->message);
             $body = $mention['content'];
         }
-
-        $from = request()->user();
-        $conversation = $from->conversations()->where('id', request()->id)->firstOrFail();
         $message = Chat::message($body)->from($from)->to($conversation)->send();
         $message->body = getFormattedContent($message->body);
         $media = null;
@@ -569,6 +580,41 @@ class MessageController extends Controller
         $this->markAllAsRead($conversation->id);
 
         return $messages;
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function conversationByProject($id)
+    {
+        $project = Project::findOrFail($id);
+
+        $clientChat = $project->clientProjectRoom();
+        $clientChat->load('users');
+
+        $teamChat = $project->teamProjectRoom();
+        $teamChat->load('users');
+
+        return response()->json([
+            'team_conversation' => $teamChat,
+            'client_conversation' => $clientChat
+        ], 200);
+    }
+
+
+    /**
+     * @param $project_id
+     * @return \Illuminate\Support\Collection
+     */
+    public function projectAllChatMembers($project_id)
+    {
+        $project = Project::findOrFail($project_id);
+        $data = collect([]);
+        foreach ($project->team as $member) {
+            $data->push($member->basics());
+        }
+        return $data;
     }
 }
     

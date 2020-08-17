@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Events\ActivityEvent;
-use App\Notifications\PasswordResetNotification;
 use App\Traits\ConversableTrait;
 use App\Traits\HasTimers;
 use App\Traits\TaskTrait;
@@ -15,13 +13,15 @@ use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Plank\Metable\Metable;
-use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-use App\Conversation;
 
+/**
+ * Class User
+ * @package App
+ */
 class User extends Authenticatable implements HasMedia
 {
     use Notifiable,
@@ -52,7 +52,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @var array
      */
-    protected $appends = ['fullname', 'location', 'rate', 'user_roles'];
+    protected $appends = ['fullname', 'location', 'rate', 'user_roles', 'is_admin', 'is_client', 'is_manager', 'is_company_owner', 'is_buzzooka_super_admin'];
 
     /**
      * @var bool
@@ -131,6 +131,38 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this->hasRoleLike('admin') ?? false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsClientAttribute()
+    {
+        return $this->hasRoleLike('client') ?? false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsManagerAttribute()
+    {
+        return $this->hasRoleLike('manager') ?? false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsBuzzookaSuperAdminAttribute()
+    {
+        return in_array($this->email, config('telescope.allowed_emails')) ?? false;
+    }
+
+    /**
      * @return mixed
      */
     public function getPasswordResetToken()
@@ -153,16 +185,6 @@ class User extends Authenticatable implements HasMedia
     public function taskStatusCounter($status)
     {
         return $this->tasks()->where('status', $status)->count();
-    }
-
-    /**
-     * @param Activity $activity
-     * @param string $eventName
-     */
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $description = $this->getDescriptionForEvent($eventName);
-        ActivityEvent::dispatch($activity, $description);
     }
 
     /**
@@ -231,10 +253,8 @@ class User extends Authenticatable implements HasMedia
     {
         $company = $this->company();
         if ($company) {
-            $owner = TeamMember::join('teams', 'teams.id', '=', 'team_user.team_id')
-                ->where('teams.company_id', $company->id)
-                ->selectRaw('MIN(team_user.user_id) as id')->first();
-            return $this->id === $owner->id;
+            $owner = $company->company_members()->orderBy('id', 'asc')->first();
+            return (int)$this->id == (int)$owner->id;
         }
         return false;
     }

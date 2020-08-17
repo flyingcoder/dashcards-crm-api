@@ -212,6 +212,7 @@ class MediaController extends Controller
             }
 
             DB::commit();
+            $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
 
             return $media->toJson();
         } catch (Exception $e) {

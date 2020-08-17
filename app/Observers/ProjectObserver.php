@@ -3,12 +3,12 @@
 namespace App\Observers;
 
 use App\Project;
+use App\Traits\ConversableTrait;
 use App\Traits\TemplateTrait;
-use Chat;
 
 class ProjectObserver
 {
-    use TemplateTrait;
+    use TemplateTrait, ConversableTrait;
     /**
      * Handle the project "created" event.
      *
@@ -17,20 +17,8 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-
-        $participants = collect($project->members()->select('id')->get());
-        $participants->flatten();
-
-        $client_convo = Chat::createConversation($participants->all());
-        $client_convo->project_id = $project->id;
-        $client_convo->type = 'client';
-        $client_convo->save();
-
-        $team_convo = Chat::createConversation($participants->all());
-        $team_convo->project_id = $project->id;
-        $team_convo->type = 'team';
-        $team_convo->save();
-
+        $project->clientProjectRoom();
+        $project->teamProjectRoom();
     }
 
     /**
@@ -41,7 +29,8 @@ class ProjectObserver
      */
     public function updated(Project $project)
     {
-        //
+        $project->updateTeamProjectRoomUsers();
+        $project->updateClientProjectRoomUsers();
     }
 
     /**

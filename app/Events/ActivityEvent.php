@@ -2,28 +2,37 @@
 
 namespace App\Events;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * Class ActivityEvent
+ * @package App\Events
+ */
 class ActivityEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * @var
+     */
     public $cause_by;
 
+    /**
+     * @var
+     */
     public $description;
 
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param $activity
+     * @param $description
      */
     public function __construct($activity, $description)
     {
@@ -32,6 +41,16 @@ class ActivityEvent implements ShouldBroadcast
          $this->description = $description;
     }
 
+    /**
+     * Determine if this event should broadcast.
+     *
+     * @return bool
+     */
+    public function broadcastWhen()
+    {
+        return config('activitylog.broadcast_activity_event', false);
+    }
+    
     /**
      * Get the channels the event should broadcast on.
      *
