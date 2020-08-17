@@ -5,6 +5,7 @@ public/js/buzzooka.js
 public/css/buzzooka.css
 public/invoices
 /storage/*.key
+/storage/medialibrary/temp/*
 /vendor
 /.idea
 /.vscode
