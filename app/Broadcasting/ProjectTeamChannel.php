@@ -24,43 +24,46 @@ class ProjectTeamChannel
     /**
      * Authenticate the user's access to the channel.
      *
-     * @param  \App\User  $user
-     * @param  integer $projectId
+     * @param \App\User $user
+     * @param integer $projectId
      * @return array|bool
      */
     public function join(User $user, $projectId)
     {
         $project = Project::findOrFail($projectId);
-        
+
         $project_company = $project->company;
         $user_company = $user->company();
 
-        if ($user->hasRole('admin') && (int) $user_company->id === (int) $project_company->id) {
+        //user not belong to company
+        if ((int)$user_company->id !== (int)$project_company->id) {
+            return false;
+        }
+
+        $conversation = $project->teamProjectRoom();
+
+        //user is part of the conversation
+        if ($conversation->users()->where('id', $user->id)->exist())
+            return true;
+
+        //user has admin role
+        if ($user->hasRoleLike('admin')) {
+            $conversation->addParticipants([$user]);
             return true;
         }
 
-        $conversation = $project->conversations()->where('type', 'team')->first();
-
-        if (!$conversation) {
-            $data = array(
-                'type' => 'team',
-                'group_name' => $user_company->name." Team Message Group",
-                'company_id' => $user_company->id,
-            );
-            $admins = $this->repo->getCompanyAdmins($user_company)->pluck('id')->toArray() ?? [];
-            $members = $project->members->pluck('id')->toArray() ?? [];
-            $participants = array_unique(array_merge($admins, $managers));
-
-            $conversation = Chat::createConversation($participants, $data);
-            $conversation->type = 'team';
-            $conversation->project_id = $projectId;
-            $conversation->save();
+        //user has client role
+        if ($user->hasRoleLike('client')) {
+            return false;
         }
 
-        if ($project->members->contains($user->id)) {
-            return $user ? true : false;
+        //user is part of the project
+        if ($project->team()->where('id', $user->id)->exist()){
+            $conversation->addParticipants([$user]);
+            return true;
         }
 
         return false;
     }
+
 }

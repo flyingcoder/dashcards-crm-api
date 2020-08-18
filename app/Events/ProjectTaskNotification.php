@@ -34,6 +34,6 @@ class ProjectTaskNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('friend-list-' . $this->company_id);
+        return new PresenceChannel('as-company.' . $this->company_id);
     }
 }

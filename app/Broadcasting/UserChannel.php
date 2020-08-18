@@ -4,16 +4,16 @@ namespace App\Broadcasting;
 
 use App\User;
 
-class PublicChannel
+class UserChannel
 {
-	/**
+    /**
      * Authenticate the user's access to the channel.
      *
      * @param  \App\User  $user
      * @return array|bool
      */
-    public function join(User $user)
+    public function join(User $user, $id)
     {
-    	return $user->basics();
+        return $user->basics();
     }
 }

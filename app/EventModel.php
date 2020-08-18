@@ -5,9 +5,9 @@ namespace App;
 use App\Events\ActivityEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use MaddHatter\LaravelFullcalendar\Event;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
-use \MaddHatter\LaravelFullcalendar\Event;
 
 class EventModel extends Model implements Event
 {
@@ -17,6 +17,8 @@ class EventModel extends Model implements Event
 
     protected static $logName = 'system';
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'title',
         'all_day',
@@ -24,7 +26,11 @@ class EventModel extends Model implements Event
         'end',
         'description',
         'properties',
-        'eventtypes_id'
+        'eventtypes_id',
+        'utc_start',
+        'utc_end',
+        'timezone',
+        'remind_at'
     ];
 
     protected $dates = ['deleted_at'];
@@ -65,6 +71,16 @@ class EventModel extends Model implements Event
     public function participants()
     {
         return $this->hasMany(EventParticipant::class, 'event_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'event_participants', 'event_id')
+            ->withPivot('added_by')
+            ->withTimestamps();
     }
 
     /**

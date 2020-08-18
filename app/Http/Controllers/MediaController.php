@@ -212,6 +212,7 @@ class MediaController extends Controller
             }
 
             DB::commit();
+            $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
 
             return $media->toJson();
         } catch (Exception $e) {
@@ -244,22 +245,23 @@ class MediaController extends Controller
             'file' => 'required|image|mimes:jpeg,png,jpg,gif'
         ]);
         $file = request()->file('file');
-
+        $root_folder = request()->folder ?? 'uploads';
         try {
             $image = Image::make($file);
             $extension = $file->getClientOriginalExtension();
             $extension = trim($extension) == '' ? 'png' : $extension;
-            $file_name = $file->getClientOriginalName();
+            $file_name = request()->has('name') ? request()->name : $file->getClientOriginalName();
             $file_name = trim($file_name) == 'blob' ? now()->format('YmdHis') : $file_name . now()->format('-YmdHis');
 
             $fileName = Str::slug(preg_replace("/\.[^.]+$/", "", $file_name)) . '.' . $extension;
-            $folder = 'uploads/' . date('Y/m') . '/';
+            $folder = $root_folder.'/' . date('Y/m') . '/';
 
             $file->storeAs($folder, $fileName, "public");
             $filePath = $folder . $fileName;
 
             return response()->json([
                 'fileName' => $fileName,
+                'filepath' => $filePath,
                 'url' => url(Storage::url($filePath)),
                 'public_url' => url(Storage::url($filePath))
             ]);

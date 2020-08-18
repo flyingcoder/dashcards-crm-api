@@ -5,13 +5,15 @@ namespace App\Listeners;
 use App\Events\TaskUpdated;
 use App\Mail\DynamicEmail;
 use App\Traits\TemplateTrait;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
 class TaskUpdatedListener implements ShouldQueue
 {
     use  TemplateTrait, InteractsWithQueue;
+
+
     /**
      * Create the event listener.
      *
@@ -25,7 +27,7 @@ class TaskUpdatedListener implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  TaskUpdated  $event
+     * @param TaskUpdated $event
      * @return void
      */
     public function handle(TaskUpdated $event)

@@ -37,13 +37,12 @@ class CalendarEventRepository
      */
     public function getEventTypes(User $user)
     {
-        $event_types = collect([]);
-        // $default_event_types = EventType::whereNull('company_id')->where('is_public', 1);
+        $default_event_types = EventType::whereNull('company_id')->where('is_public', 1);
         $company_event_types = EventType::where('company_id', $user->company()->id)->where('created_by', '<>', $user->id)->where('is_public', 1);
         $personal_event_types = EventType::where('created_by', '=', $user->id);
 
         $event_types = $personal_event_types
-            // ->union($default_event_types)
+            ->union($default_event_types)
             ->union($company_event_types)
             ->orderBy('name', 'ASC')
             ->get();
@@ -57,15 +56,17 @@ class CalendarEventRepository
      */
     public function getPaginatedEvents(User $user)
     {
-        $per_page = request()->has('per_page') ? request()->per_page : $this->pagination;
+        $per_page = request()->has('per_page') ? (int)request()->per_page : $this->pagination;
 
-        $participation = $user->event_participations()->pluck('event_id')->toArray();
+        $events = EventModel::whereHas('users', function ($query) use ($user) {
+            $query->where('users.id', $user->id);
+        })
+            ->with('users');
 
-        $events = EventModel::whereIn('id', $participation);
         if (request()->has('date') && !empty(request()->date)) {
             $date = request()->date;
 
-            $events = $events->whereRaw('? between date(`start`) and date(`end`)', array($date));
+            $events = $events->whereRaw('? between date(`events`.`start`) and date(`events`.`end`)', array($date));
         }
 
         if (request()->has('alarm') && request()->alarm) {
@@ -75,7 +76,6 @@ class CalendarEventRepository
         $events = $events->orderBy('start', 'ASC')->paginate($per_page);
 
         $events->map(function ($event) {
-            $event['participants'] = $event->participants()->with(['user', 'addedBy'])->get()->toArray();
             $event['event_type'] = $event->eventType;
         });
 

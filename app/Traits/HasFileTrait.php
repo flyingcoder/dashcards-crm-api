@@ -195,7 +195,7 @@ trait HasFileTrait
             } else {
                 $media->download_url = URL::signedRoute('download', ['media_id' => $media->id]);
                 $media->public_url = url($media->getUrl());
-                $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : null;
+                $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
                 $media->category = $this->getFileCategory($media);
             }
             $media->image_exist = true;

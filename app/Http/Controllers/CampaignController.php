@@ -64,17 +64,6 @@ class CampaignController extends Controller
         return $this->crepo->getCompanyCampaigns($company);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function save()
-    {
-        (new CampaignPolicy())->create();
-
-        return view('includes.add-service-modal', [
-            'action' => 'add'
-        ]);
-    }
 
     /**
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -189,7 +178,6 @@ class CampaignController extends Controller
             $props['icon'] = request()->icon ?? null;
 
             $service->props = $props;
-            $service->save();
 
             if (request()->has('extra_fields') && !empty(request()->extra_fields)) {
                 $service->setMeta('extra_fields', request()->extra_fields);
@@ -210,9 +198,11 @@ class CampaignController extends Controller
                 }
             }
 
+            $service->save();
+
             DB::commit();
 
-            $service->load(['managers', 'client', 'members']);
+            $service->load(['managers', 'client', 'members', 'service']);
 
             return response()->json($service, 200);
         } catch (\Exception $ex) {

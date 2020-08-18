@@ -4,12 +4,12 @@ namespace App;
 
 use App\Traits\HasFileTrait;
 use Illuminate\Support\Facades\URL;
-use Musonza\Chat\Models\Message as Msg;
+use Musonza\Chat\Models\Message as BaseMessage;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 
-class Message extends Msg implements HasMedia
+class Message extends BaseMessage implements HasMedia
 {
     use HasMediaTrait, HasFileTrait;
 
@@ -33,7 +33,7 @@ class Message extends Msg implements HasMedia
             foreach ($medias as $key => $media) {
                 $media->download_url = URL::signedRoute('download', ['media_id' => $media->id]);
                 $media->public_url = url($media->getUrl());
-                $media->thumb_url = url($media->getUrl('thumb'));
+                $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
                 $data->push($media);
             }
         }
@@ -50,7 +50,7 @@ class Message extends Msg implements HasMedia
         if ($media) {
             $media->download_url = URL::signedRoute('download', ['media_id' => $media->id]);
             $media->public_url = url($media->getUrl());
-            $media->thumb_url = url($media->getUrl('thumb'));
+            $media->thumb_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
             $media->category = $this->getFileCategory($media);
         }
         return $media;

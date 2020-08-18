@@ -228,4 +228,5 @@ class MembersRepository
         $admins = $this->getCompanyAdmins($project->company);
         return $admins->merge($project->members);
     }
+
 }

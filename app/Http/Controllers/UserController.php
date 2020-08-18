@@ -58,17 +58,17 @@ class UserController extends Controller
     {
         //(new UserPolicy())->update($model);
 
-        $model = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        $media = $model->addMedia(request()->file('file'))
-            ->usingFileName('profile-' . $model->id . ".png")
+        $media = $user->addMedia(request()->file('file'))
+            ->usingFileName('profile-' . $user->id . ".png")
             ->toMediaCollection('avatars');
 
-        $model->image_url = url($media->getUrl('thumb'));
+        $user->image_url = url($media->getUrl('thumb'));
+        $user->save();
 
-        $model->save();
-
-        return $model;
+        $user->image_url = $media->hasGeneratedConversion('thumb') ? url($media->getUrl('thumb')) : url($media->getUrl());
+        return $user;
     }
 
     /**
@@ -219,7 +219,27 @@ class UserController extends Controller
      */
     public function projects()
     {
-        return auth()->user()->userPaginatedProject(request());
+        list($sortName, $sortValue) = parseSearchParam(request());
+        $projects = auth()->user()->projects()
+            ->with(['client', 'manager', 'members'])
+            ->withCount('tasks');
+
+        if (request()->has('search') && !empty(trim(request()->search))) {
+            $search = trim(request()->search);
+            $projects->where(function ($query) use ($search) {
+                $query->where('projects.title', 'like', "%$search%")
+                    ->orWhere('projects.description', 'like', "%$search%");
+            });
+        }
+        if (request()->has('status'))
+            $projects->where('status', ucwords(request()->status));
+
+        if (request()->has('sort') && !empty(request()->sort)) {
+            $projects->orderBy($sortName, $sortValue);
+        } else {
+            $projects->latest();
+        }
+        return $projects->paginate(request()->per_page ?? 15);
     }
 
     /**

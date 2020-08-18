@@ -9,7 +9,6 @@ class VerificationController extends Controller
      */
     public function isBelongToCompany()
 	{
-
 		request()->validate([
 			'type' => 'required|string',
 			'id' => 'required|numeric'

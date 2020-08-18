@@ -18,6 +18,7 @@ class Comment extends Model
 
     protected static $logName = 'system';
 
+    protected $appends = ['hover'];
     /**
      * @param Activity $activity
      * @param string $eventName
@@ -51,5 +52,10 @@ class Comment extends Model
     public function causer()
     {
     	return $this->morphTo();
+    }
+
+    public function getHoverAttribute()
+    {
+        return false;
     }
 }

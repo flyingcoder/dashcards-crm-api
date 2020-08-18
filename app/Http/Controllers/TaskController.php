@@ -7,10 +7,12 @@ use App\Events\NewTaskCommentCreated;
 use App\Events\NewTaskCreated;
 use App\Events\ProjectTaskNotification;
 use App\Events\TaskUpdated;
+use App\Notifications\CompanyNotification;
 use App\Project;
 use App\Repositories\TaskRepository;
 use App\Task;
 use App\Traits\HasConfigTrait;
+use Illuminate\Support\Facades\Notification;
 
 
 class TaskController extends Controller
@@ -210,6 +212,7 @@ class TaskController extends Controller
     /**
      * @param $id
      * @return mixed
+     * @throws \Exception
      */
     public function addComments($id)
     {
@@ -229,9 +232,19 @@ class TaskController extends Controller
         $new_comment->load('causer');
 
         NewTaskCommentCreated::dispatch($task, $new_comment);
+        $project = $task->project;
+        $assigned = $project->members()->where('id', '<>', auth()->user()->id)->pluck('id')->toArray();
+        if (!empty($assigned)) {
+            company_notification(array(
+                'targets' => $assigned,
+                'title' => $project->title,
+                'message' => auth()->user()->first_name . ' commented on task ' . $task->title,
+                'type' => 'task_updated',
+                'path' => "/dashboard/$project->type/preview/$project->id/tasks/$task->id",
+            ));
+        }
 
         return $new_comment;
-
     }
 
     /**
@@ -291,6 +304,7 @@ class TaskController extends Controller
     /**
      * @param $id
      * @return \Illuminate\Support\Collection
+     * @throws \Exception
      */
     public function markAsComplete($id)
     {
@@ -310,13 +324,13 @@ class TaskController extends Controller
             ->log($log);
 
         if (request()->has('notify_complete') && request()->notify_complete) {
-            $data = array(
-                'title' => 'Project Task updated!',
+            company_notification(array(
+                'targets' => $task->assigned->pluck('id')->toArray(),
+                'title' => 'Project task was set as completed!',
                 'message' => $log,
-                'receivers' => $project ? $project->members()->pluck('id')->toArray() : [],
-                'project' => $project
-            );
-            broadcast(new ProjectTaskNotification($user->company()->id, $data));
+                'type' => 'task_updated',
+                'path' => "/dashboard/$project->type/preview/$project->id/tasks/$task->id",
+            ));
         }
 
         return $this->task($id);
@@ -325,6 +339,7 @@ class TaskController extends Controller
     /**
      * @param $id
      * @return \Illuminate\Support\Collection
+     * @throws \Exception
      */
     public function markAsUrgent($id)
     {
@@ -342,16 +357,15 @@ class TaskController extends Controller
         $log = $user->first_name . ' marked as ' . $status . ' the task ' . $task->title;
         activity('system.task')->performedOn($project ?? $task)->causedBy($user)->log($log);
 
-
         if (!$task->assigned->isEmpty()) {
-            if ($status == 'Urgent') {
-                $data = array(
+            if (strtolower($status) == 'urgent') {
+                company_notification(array(
+                    'targets' => $task->assigned->pluck('id')->toArray(),
                     'title' => 'Project task was set as urgent!',
                     'message' => $log,
-                    'receivers' => $task->assigned->pluck('id')->toArray(),
-                    'project' => $project
-                );
-                broadcast(new ProjectTaskNotification($user->company()->id, $data));
+                    'type' => 'task_updated',
+                    'path' => "/dashboard/$project->type/preview/$project->id/tasks/$task->id"
+                ));
             }
             $config = $this->getConfigByKey('email_events', false);
             if ($config && $config->task_updated)

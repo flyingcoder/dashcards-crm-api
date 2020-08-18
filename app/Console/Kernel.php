@@ -2,11 +2,11 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CalendarNotifications;
 use App\Console\Commands\GenerateRecurringInvoices;
 use App\Console\Commands\RunScheduleEmails;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Tolawho\Loggy\Facades\Loggy;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,18 +17,21 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         GenerateRecurringInvoices::class,
-        RunScheduleEmails::class
+        RunScheduleEmails::class,
+        CalendarNotifications::class
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('generate-recurring-invoice')->dailyAt('10:00'); //everyMinute(); //
+        $schedule->command('calendar:events')->everyMinute()->withoutOverlapping();
+
+        $schedule->command('generate-recurring-invoice')->dailyAt('10:00');
 
         $schedule->command('telescope:prune --hours=24')->hourly();
 
@@ -42,7 +45,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

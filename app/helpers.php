@@ -1,6 +1,11 @@
 <?php
 
+use App\Company;
+use App\Notifications\CompanyNotification;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+use Tolawho\Loggy\Facades\Loggy;
 
 if (!function_exists('parseSearchParam')) {
 
@@ -189,7 +194,7 @@ if (!function_exists('createMentions')) {
         }
 
         return array(
-            'content' => $content,
+            'content' => nl2br($content),
             'mentions' => array_unique($mentions)
         );
     }
@@ -249,8 +254,60 @@ if (!function_exists('uniqUuidFrom')) {
     /**
      * @return string
      */
-    function uniqUuidFrom() {
-        $uuid  =  \Illuminate\Support\Str::uuid();
-        return $uuid.'-'.now()->format('YmdHis');
+    function uniqUuidFrom()
+    {
+        $uuid = \Illuminate\Support\Str::uuid();
+        return $uuid . '-' . now()->format('YmdHis');
+    }
+}
+
+
+if (!function_exists('company_logo')) {
+
+    /**
+     * @param Company|null $company
+     * @return mixed|string
+     */
+    function company_logo(Company $company = null)
+    {
+        if ($company && $company->company_logo)
+            return $company->company_logo;
+
+        return config('app.url') . '/img/logo/invoice-logo.png';
+    }
+}
+
+if (!function_exists('company_notification')) {
+
+    /**
+     * @param array $data
+     * @param User|null $user
+     * @return mixed|string
+     * @throws Exception
+     */
+    function company_notification($data = [], User $user = null)
+    {
+        try {
+            if (is_null($user) && auth()->check()) {
+                $user = auth()->user();
+            }
+            if ($user) {
+                $company = $user->company();
+                $formatted = array(
+                    'company' => $company->id,
+                    'targets' => $data['targets'] ?? [],
+                    'title' => $data['title'] ?? 'Event Notification',
+                    'image_url' => $data['image_url'] ?? company_logo($company),
+                    'message' => $data['message'] ?? '',
+                    'type' => $data['type'] ?? 'notification',
+                    'path' => $data['path'] ?? null,
+                    'url' => $data['url'] ?? null,
+                    'notif_only' => $data['notif_only'] ?? false
+                );
+                Notification::send($user, new CompanyNotification($formatted));
+            }
+        } catch (\Exception $e) {
+            Loggy::write('event',  $e->getMessage());
+        }
     }
 }

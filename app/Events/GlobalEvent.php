@@ -44,6 +44,6 @@ class GlobalEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('apps');
+        return new Channel('as-apps');
     }
 }
