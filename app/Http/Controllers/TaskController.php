@@ -5,14 +5,11 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Events\NewTaskCommentCreated;
 use App\Events\NewTaskCreated;
-use App\Events\ProjectTaskNotification;
 use App\Events\TaskUpdated;
-use App\Notifications\CompanyNotification;
 use App\Project;
 use App\Repositories\TaskRepository;
 use App\Task;
 use App\Traits\HasConfigTrait;
-use Illuminate\Support\Facades\Notification;
 
 
 class TaskController extends Controller
@@ -67,12 +64,13 @@ class TaskController extends Controller
         ]);
 
         if (request()->started_at != null) {
-            request()->validate([
-                'end_at' => 'after_or_equal:started_at',
-            ]);
+            $has_end_at = request()->has('end_at') && !is_null(request()->end_at);
+            if ($has_end_at)
+                request()->validate([ 'end_at' => 'after_or_equal:started_at']);
+
             $started_at = request()->started_at;
-            $end_at = request()->end_at;
-            $days = round((strtotime($end_at) - strtotime($started_at)) / (60 * 60 * 24));
+            $end_at = request()->end_at ?? null;
+            $days = $has_end_at ? round((strtotime($end_at) - strtotime($started_at)) / (60 * 60 * 24)) : null;
         } else {
             $started_at = date("Y-m-d", strtotime("now"));
             $end_at = date("Y-m-d", strtotime(request()->days . ' days'));
@@ -102,6 +100,7 @@ class TaskController extends Controller
             if ($config && $config->new_task)
                 event(new NewTaskCreated($task));
         }
+        $task->load('assigned');
 
         return $task;
     }
