@@ -27,13 +27,27 @@ trait ConversableTrait
             $target = User::find($target);
         }
         $self = $this;
-        $conversation = Chat::conversations()->between($self, $target);
+        $conversation = $this->getCommonPrivateConversation($self, $target);
+        if ($conversation !== false)
+            return $self->conversations()->whereNull('type')->where('id', $conversation)->first();
         if (!$conversation)
             $conversation = Chat::createConversation([$target, $self], ['group_name' => $self->fullname.' & '.$target->fullname ])->makePrivate();
 
         return $self->conversations()->where('id', $conversation->id)->first();
     }
 
+    /**
+     * @param $user1
+     * @param $user2
+     * @return bool|mixed
+     */
+    public function getCommonPrivateConversation($user1, $user2)
+    {
+        $conversation1 = collect($user1->conversations()->whereNull('type')->pluck('id')->toArray());
+        $conversation2 = collect($user2->conversations()->whereNull('type')->pluck('id')->toArray());
+        $intersect = $conversation1->intersect($conversation2);
+        return $intersect->isEmpty() ? false : $intersect->first();
+    }
     /**
      * @return Conversation
      */
