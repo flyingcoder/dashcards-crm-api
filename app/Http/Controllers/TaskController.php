@@ -212,6 +212,7 @@ class TaskController extends Controller
     /**
      * @param $id
      * @return mixed
+     * @throws \Exception
      */
     public function addComments($id)
     {
@@ -231,9 +232,19 @@ class TaskController extends Controller
         $new_comment->load('causer');
 
         NewTaskCommentCreated::dispatch($task, $new_comment);
+        $project = $task->project;
+        $assigned = $project->members()->where('id', '<>', auth()->user()->id)->pluck('id')->toArray();
+        if (!empty($assigned)) {
+            company_notification(array(
+                'targets' => $assigned,
+                'title' => $project->title,
+                'message' => auth()->user()->first_name . ' commented on task ' . $task->title,
+                'type' => 'task_updated',
+                'path' => "/dashboard/$project->type/preview/$project->id/tasks/$task->id",
+            ));
+        }
 
         return $new_comment;
-
     }
 
     /**
@@ -313,18 +324,13 @@ class TaskController extends Controller
             ->log($log);
 
         if (request()->has('notify_complete') && request()->notify_complete) {
-            $company = $user->company();
-            $data = array(
-                'company' => $company->id,
+            company_notification(array(
                 'targets' => $task->assigned->pluck('id')->toArray(),
                 'title' => 'Project task was set as completed!',
-                'image_url' => company_logo($company),
                 'message' => $log,
                 'type' => 'task_updated',
                 'path' => "/dashboard/$project->type/preview/$project->id/tasks/$task->id",
-                'url' => null,
-            );
-            Notification::send($user, new CompanyNotification($data));
+            ));
         }
 
         return $this->task($id);
@@ -353,18 +359,13 @@ class TaskController extends Controller
 
         if (!$task->assigned->isEmpty()) {
             if (strtolower($status) == 'urgent') {
-                $company = $user->company();
-                $data = array(
-                    'company' => $company->id,
+                company_notification(array(
                     'targets' => $task->assigned->pluck('id')->toArray(),
                     'title' => 'Project task was set as urgent!',
-                    'image_url' => company_logo($company),
                     'message' => $log,
                     'type' => 'task_updated',
-                    'path' => "/dashboard/$project->type/preview/$project->id/tasks/$task->id",
-                    'url' => null,
-                );
-                Notification::send($user, new CompanyNotification($data));
+                    'path' => "/dashboard/$project->type/preview/$project->id/tasks/$task->id"
+                ));
             }
             $config = $this->getConfigByKey('email_events', false);
             if ($config && $config->task_updated)

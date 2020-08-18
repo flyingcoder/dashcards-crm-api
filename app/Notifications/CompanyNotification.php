@@ -50,6 +50,8 @@ class CompanyNotification extends Notification implements ShouldBroadcast
      */
     public function via($notifiable)
     {
+        if ($this->data['notif_only'])
+            return ['broadcast'];
         return ['database', 'broadcast'];
     }
 
@@ -84,11 +86,15 @@ class CompanyNotification extends Notification implements ShouldBroadcast
      */
     public function toBroadcast($notifiable)
     {
-        $message = $notifiable->notifications()->latest()->first();
-        if (!$message) {
+        if ($this->data['notif_only']) {
             $message = $this->data;
         } else {
-            $message = $message->toArray();
+            $message = $notifiable->notifications()->latest()->first();
+            if (!$message) {
+                $message = $this->data;
+            } else {
+                $message = $message->toArray();
+            }
         }
         return new BroadcastMessage($message);
     }

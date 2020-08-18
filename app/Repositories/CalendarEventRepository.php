@@ -37,13 +37,12 @@ class CalendarEventRepository
      */
     public function getEventTypes(User $user)
     {
-        $event_types = collect([]);
-        // $default_event_types = EventType::whereNull('company_id')->where('is_public', 1);
+        $default_event_types = EventType::whereNull('company_id')->where('is_public', 1);
         $company_event_types = EventType::where('company_id', $user->company()->id)->where('created_by', '<>', $user->id)->where('is_public', 1);
         $personal_event_types = EventType::where('created_by', '=', $user->id);
 
         $event_types = $personal_event_types
-            // ->union($default_event_types)
+            ->union($default_event_types)
             ->union($company_event_types)
             ->orderBy('name', 'ASC')
             ->get();
@@ -57,12 +56,12 @@ class CalendarEventRepository
      */
     public function getPaginatedEvents(User $user)
     {
-        $per_page = request()->has('per_page') ? (int) request()->per_page : $this->pagination;
+        $per_page = request()->has('per_page') ? (int)request()->per_page : $this->pagination;
 
         $events = EventModel::whereHas('users', function ($query) use ($user) {
-                    $query->where('users.id', $user->id);
-                })
-                ->with('users');
+            $query->where('users.id', $user->id);
+        })
+            ->with('users');
 
         if (request()->has('date') && !empty(request()->date)) {
             $date = request()->date;

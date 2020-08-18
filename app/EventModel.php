@@ -29,7 +29,8 @@ class EventModel extends Model implements Event
         'eventtypes_id',
         'utc_start',
         'utc_end',
-        'timezone'
+        'timezone',
+        'remind_at'
     ];
 
     protected $dates = ['deleted_at'];

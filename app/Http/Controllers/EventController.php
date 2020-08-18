@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\EventModel;
+use App\Notifications\CompanyNotification;
 use App\Repositories\CalendarEventRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * Class EventController
@@ -18,7 +20,7 @@ class EventController extends Controller
      * @var CalendarEventRepository
      */
     protected $repo;
-
+    protected $alarm_before = 15; //in minutes
     /**
      * EventController constructor.
      * @param CalendarEventRepository $repo
@@ -78,6 +80,7 @@ class EventController extends Controller
                 'all_day' => request()->all_day,
                 'start' => $start_date->toDateTimeString(),
                 'end' => $end_date->toDateTimeString(),
+                'remind_at' => $utc_start_datetime->copy()->subMinutes($this->alarm_before)->toDateTimeString(),
                 'utc_start' => $utc_start_datetime->toDateTimeString(),
                 'utc_end' => $utc_end_datetime->toDateTimeString(),
                 'timezone' => $timezone,
@@ -92,10 +95,11 @@ class EventController extends Controller
             ]);
 
             $event->users()->attach($user->id, ['added_by' => $user->id]);
-
+            $invited = [];
             if (request()->has('participants') && !empty(request()->participants)) {
                 foreach (request()->participants as $key => $participant) {
                     if ($participant != $user->id) {
+                        $invited[] = $participant;
                         $event->users()->attach($participant, ['added_by' => $user->id]);
                     }
                 }
@@ -105,6 +109,16 @@ class EventController extends Controller
 
             $event->load('users');
             $event->event_type = $event->eventType;
+
+            if (!empty($invited)) {
+                company_notification(array(
+                    'targets' => $invited,
+                    'title' => 'Calendar event',
+                    'message' => 'You are invited by ' . $user->first_name . ' to join an event.',
+                    'type' => 'event_invitation',
+                    'path' => "/dashboard/calendar"
+                ));
+            }
 
             return $event;
         } catch (\Exception $e) {
@@ -142,6 +156,7 @@ class EventController extends Controller
             $event = EventModel::findOrFail($id);
             $event->title = request()->title;
             $event->all_day = request()->all_day;
+            $event->remind_at = $utc_start_datetime->copy()->subMinutes($this->alarm_before)->toDateTimeString();
             $event->start = $start_date->toDateTimeString();
             $event->utc_start = $utc_start_datetime->toDateTimeString();
             $event->end = $end_date->toDateTimeString();
@@ -157,10 +172,13 @@ class EventController extends Controller
             $event->save();
 
             $event->users()->detach();
-
+            $invited = [];
             if (request()->has('participants') && !empty(request()->participants)) {
                 foreach (request()->participants as $key => $participant) {
                     $event->users()->attach($participant, ['added_by' => $user->id]);
+                    if ($participant != $user->id) {
+                        $invited[] = $participant;
+                    }
                 }
             }
             DB::commit();
@@ -168,6 +186,16 @@ class EventController extends Controller
             $event = $event->fresh();
             $event->load('users');
             $event->event_type = $event->eventType;
+
+            if (!empty($invited)) {
+                company_notification(array(
+                    'targets' => $invited,
+                    'title' => 'Calendar event',
+                    'message' => 'The event you are invited at has been updated',
+                    'type' => 'event_invitation',
+                    'path' => "/dashboard/calendar"
+                ));
+            }
 
             return $event;
         } catch (\Exception $e) {
