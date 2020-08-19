@@ -10,6 +10,7 @@ use App\Project;
 use App\Repositories\TaskRepository;
 use App\Task;
 use App\Traits\HasConfigTrait;
+use App\User;
 
 
 class TaskController extends Controller
@@ -47,8 +48,9 @@ class TaskController extends Controller
      */
     public function mine()
     {
-        $tasks = $this->repo->userTasks(request()->user(), request()->filter ?? 'all')->toArray();
-        $tasks['counter'] = $this->repo->taskCounts(request()->user(), true);
+        $user = request()->has('for_user') ? User::findOrFail(request()->for_user) : request()->user();
+        $tasks = $this->repo->userTasks($user, request()->filter ?? 'all')->toArray();
+        $tasks['counter'] = $this->repo->taskCounts($user, true);
         return $tasks;
     }
 

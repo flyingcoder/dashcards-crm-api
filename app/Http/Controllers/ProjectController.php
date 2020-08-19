@@ -21,7 +21,6 @@ use Chat;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Kodeine\Acl\Models\Eloquent\Role;
 
 class ProjectController extends Controller
 {
@@ -817,8 +816,9 @@ class ProjectController extends Controller
      */
     public function myProjectTasks($project_id)
     {
+        $user = request()->has('for_user') ? User::findOrFail(request()->for_user) : request()->user();
         $project = Project::findOrFail($project_id);
-        $data = $this->taskRepository->userProjectTasks($project, request()->user(), request()->filter ?? 'all');
+        $data = $this->taskRepository->userProjectTasks($project, $user, request()->filter ?? 'all');
         $counter = collect(['counter' => $this->taskRepository->taskCounts($project, true)]);
         $data = $counter->merge($data);
 
