@@ -166,6 +166,14 @@ class Campaign extends Project
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class, 'project_id');
+    }
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
