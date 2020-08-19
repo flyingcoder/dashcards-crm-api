@@ -82,6 +82,7 @@ class TeamController extends Controller
 
             DB::commit();
 
+            //queued
             Mail::to($member->email)->send(new UserCredentials($member, request()->password ?? null));
 
             $config = $this->getConfigByKey('email_events', false);
@@ -255,8 +256,7 @@ class TeamController extends Controller
 
         try {
             DB::beginTransaction();
-            $perms = $role->permissions()->delete();
-
+            $role->permissions()->delete();
             $role->delete();
 
             DB::commit();
